@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.register.fees.loader.Category;
-import uk.gov.hmcts.register.fees.loader.Fee;
-import uk.gov.hmcts.register.fees.loader.FeesRegister;
+import uk.gov.hmcts.register.fees.model.Category;
+import uk.gov.hmcts.register.fees.model.Fee;
+import uk.gov.hmcts.register.fees.model.FeesRegister;
 import uk.gov.hmcts.register.fees.repository.FeesRegisterRepository;
 
 @Service
@@ -47,7 +47,7 @@ public class FeesRegisterServiceImpl implements FeesRegisterService {
         return fee;
     }
 
-    public Fee getFeeDetails(String eventId, BigDecimal claimAmount) {
+    public Fee getFeeDetails(String eventId, int claimAmount) {
         // Get fee details from fee register
         Fee fee = feesRegisterRepository.getFeeDetails(eventId);
         if (null == fee) {
@@ -62,7 +62,7 @@ public class FeesRegisterServiceImpl implements FeesRegisterService {
 
     }
 
-    public Fee getFeeDetailsForClaimAmountAndCategory(BigDecimal claimAmount, String categoryId) {
+    public Fee getFeeDetailsForClaimAmountAndCategory(int claimAmount, String categoryId) {
         // Get fee details from fee register
         Fee fee = feesRegisterRepository.getFeeDetailsForClaimAmountAndCategory(claimAmount, categoryId);
 

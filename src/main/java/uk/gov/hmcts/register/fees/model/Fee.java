@@ -1,9 +1,7 @@
-package uk.gov.hmcts.register.fees.loader;
+package uk.gov.hmcts.register.fees.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;

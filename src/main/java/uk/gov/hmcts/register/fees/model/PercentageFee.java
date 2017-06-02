@@ -1,4 +1,4 @@
-package uk.gov.hmcts.register.fees.loader;
+package uk.gov.hmcts.register.fees.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;

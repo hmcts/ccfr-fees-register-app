@@ -1,4 +1,4 @@
-package uk.gov.hmcts.register.fees.loader;
+package uk.gov.hmcts.register.fees.model;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,7 +15,7 @@ public class FeesRegister {
 	public Category getClaimCategory(String claimCategoryId) {
 
 		Category category = this.claimCategories.stream()
-				.filter(x -> claimCategoryId.equals(x.getClaimCategoryId())).findFirst().orElse(null);
+				.filter(x -> claimCategoryId.equals(x.getId())).findFirst().orElse(null);
 		
 		return category;
 
@@ -26,10 +26,10 @@ public class FeesRegister {
 		return flatFeeList.stream().filter(x -> eventId.equals(x.getId())).findAny().orElse(null);
 	}
 
-	public Fee getFeeDetailsForClaimAmountAndCategory(BigDecimal amount, String claimCategoryId) {
+	public Fee getFeeDetailsForClaimAmountAndCategory(int amount, String claimCategoryId) {
 
 		Category category = getClaimCategory(claimCategoryId);
-		Range range = category.getClaimRange(amount);
+		Range range = category.findRange(amount).get();
 		return range.getFee();
 
 	}

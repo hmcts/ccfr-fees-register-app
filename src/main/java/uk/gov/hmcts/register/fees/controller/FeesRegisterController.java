@@ -1,6 +1,5 @@
 package uk.gov.hmcts.register.fees.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.register.fees.loader.Category;
-import uk.gov.hmcts.register.fees.loader.Fee;
-import uk.gov.hmcts.register.fees.loader.FeesRegister;
+import uk.gov.hmcts.register.fees.model.Category;
+import uk.gov.hmcts.register.fees.model.Fee;
+import uk.gov.hmcts.register.fees.model.FeesRegister;
 import uk.gov.hmcts.register.fees.service.FeesNotFoundException;
 import uk.gov.hmcts.register.fees.service.FeesRegisterService;
 
@@ -42,7 +41,7 @@ public class FeesRegisterController {
 
     @GetMapping("/cmc/fees/{eventId}")
     public ResponseEntity<Fee> getFeeDetails(@PathVariable(value = "eventId") String eventId,
-                                             @RequestParam(value = "claimAmount", required = false) BigDecimal claimAmount) {
+                                             @RequestParam(value = "claimAmount", required = false) Integer claimAmount) {
         Fee fee = null;
         if (claimAmount != null) {
             fee = feeService.getFeeDetails(eventId, claimAmount);
@@ -54,11 +53,11 @@ public class FeesRegisterController {
 
     }
 
-    @GetMapping("/cmc/{claimCategoryId}/fees")
+    @GetMapping("/cmc/{categoryId}/fees")
     public ResponseEntity<Fee> getFeeDetailsForClaimAmountAndCategory(
-            @PathVariable(value = "claimCategoryId") String claimCategoryId,
-            @RequestParam(value = "claimAmount", required = true) BigDecimal claimAmount) {
-        return ResponseEntity.ok(feeService.getFeeDetailsForClaimAmountAndCategory(claimAmount, claimCategoryId));
+            @PathVariable(value = "categoryId") String categoryId,
+            @RequestParam(value = "claimAmount", required = true) int claimAmount) {
+        return ResponseEntity.ok(feeService.getFeeDetailsForClaimAmountAndCategory(claimAmount, categoryId));
     }
 
 

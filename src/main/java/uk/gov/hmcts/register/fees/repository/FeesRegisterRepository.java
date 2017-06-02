@@ -18,9 +18,9 @@ import org.springframework.stereotype.Repository;
 
 import com.google.gson.Gson;
 
-import uk.gov.hmcts.register.fees.loader.Category;
-import uk.gov.hmcts.register.fees.loader.Fee;
-import uk.gov.hmcts.register.fees.loader.FeesRegister;
+import uk.gov.hmcts.register.fees.model.Category;
+import uk.gov.hmcts.register.fees.model.Fee;
+import uk.gov.hmcts.register.fees.model.FeesRegister;
 
 @Repository
 public class FeesRegisterRepository {
@@ -70,7 +70,7 @@ public class FeesRegisterRepository {
 		return getFeesRegister().getFeeDetails(eventId);
 	}
 
-	public Fee getFeeDetailsForClaimAmountAndCategory(BigDecimal amount, String claimCategoryId) {
+	public Fee getFeeDetailsForClaimAmountAndCategory(int amount, String claimCategoryId) {
 				
 		return getFeesRegister().getFeeDetailsForClaimAmountAndCategory(amount, claimCategoryId);
 		
