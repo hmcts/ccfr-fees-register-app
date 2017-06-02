@@ -1,0 +1,175 @@
+{
+	"serviceName": "cmc",
+	"claimCategories": [
+		{
+			"claimCategoryId": "onlinefees",
+			"claimRanges": [
+				{
+					"startAmount": 0,
+					"uptoAmount": 300,
+					"fee": {
+						"eventId": "X0024",
+						"feeAmount": 25,
+						"description": "Civil Court fees - Money Claims Online - Claim Amount - 0 upto 300",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 300.01,
+					"uptoAmount": 500,
+					"fee": {
+						"eventId": "X0025",
+						"feeAmount": 35,
+						"description": "Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 500.01,
+					"uptoAmount": 1000,
+					"fee": {
+						"eventId": "X0026",
+						"feeAmount": 60,
+						"description": "Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 1000.01,
+					"uptoAmount": 1500,
+					"fee": {
+						"eventId": "X0027",
+						"feeAmount": 70,
+						"description": "Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 1500.01,
+					"uptoAmount": 3000,
+					"fee": {
+						"eventId": "X0028",
+						"feeAmount": 105,
+						"description": "Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 3000.01,
+					"uptoAmount": 5000,
+					"fee": {
+						"eventId": "X0029",
+						"feeAmount": 185,
+						"description": "Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 5000.01,
+					"uptoAmount": 10000,
+					"fee": {
+						"eventId": "X0433",
+						"feeAmount": 410,
+						"description": "Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 10000.01,
+					"uptoAmount": 15000,
+					"fee": {
+						"eventId": "X0434",
+						"feePercentage": 4.5,
+			            "description": "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000. Fees are 4.5% of the claim value",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				}
+			]
+		},
+		{
+			"claimCategoryId": "hearingfees",
+			"claimRanges": [
+				{
+					"startAmount": 0,
+					"uptoAmount": 300,
+					"fee": {
+						"eventId": "X0048",
+						"feeAmount": 25,
+						"description": "Civil Court fees - Hearing fees - Claim Amount - 0 upto 300",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 300.01,
+					"uptoAmount": 500,
+					"fee": {
+						"eventId": "X0049",
+						"feeAmount": 55,
+						"description": "Civil Court fees - Hearing fees - Claim Amount - 300.01 upto 500",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 500.01,
+					"uptoAmount": 1000,
+					"fee": {
+						"eventId": "X0050",
+						"feeAmount": 80,
+						"description": "Civil Court fees - Hearing fees - Claim Amount - 500.01 upto 1000",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 1000.01,
+					"uptoAmount": 1500,
+					"fee": {
+						"eventId": "X0051",
+						"feeAmount": 115,
+						"description": "Civil Court fees - Hearing fees - Claim Amount - 1000.01 upto 1500",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 1500.01,
+					"uptoAmount": 3000,
+					"fee": {
+						"eventId": "X0052",
+						"feeAmount": 170,
+						"description": "Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				},
+				{
+					"startAmount": 3000.01,
+					"uptoAmount": 5000,
+					"fee": {
+						"eventId": "X0053",
+						"feeAmount": 335,
+						"description": "Civil Court fees - Hearing fees - Claim Amount - 3000.01 upto 5000",
+						"startDate": "2017-03-06T00:00:00.000Z"
+					}
+				}
+			]
+		}
+	],
+	"flatFeeList": [
+		{
+			"eventId": "X0046",
+			"feeAmount": 1090,
+			"description": "Civil Court fees - Hearing fees - Multi track claim",
+			"startDate": "2017-03-06T00:00:00.000Z"
+		},
+		{
+			"eventId": "X0047",
+			"feeAmount": 545,
+			"description": "Civil Court fees - Hearing fees - Fast track claim",
+			"startDate": "2017-03-06T00:00:00.000Z"
+		},
+		{
+			"eventId": "X0435",
+			"feePercentage": 4.5,
+			"description": "4.5% of the claim value",
+			"startDate": "2017-03-06T00:00:00.000Z"
+		}
+	]
+}
