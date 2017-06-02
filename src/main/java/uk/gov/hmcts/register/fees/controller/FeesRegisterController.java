@@ -39,14 +39,14 @@ public class FeesRegisterController {
         return ResponseEntity.ok(feeService.getAllCategories());
     }
 
-    @GetMapping("/cmc/fees/{eventId}")
-    public ResponseEntity<Fee> getFeeDetails(@PathVariable(value = "eventId") String eventId,
+    @GetMapping("/cmc/fees/{id}")
+    public ResponseEntity<Fee> getFeeDetails(@PathVariable(value = "id") String id,
                                              @RequestParam(value = "claimAmount", required = false) Integer claimAmount) {
         Fee fee = null;
         if (claimAmount != null) {
-            fee = feeService.getFeeDetails(eventId, claimAmount);
+            fee = feeService.getFeeDetails(id, claimAmount);
         } else {
-            fee = feeService.getFeeDetails(eventId);
+            fee = feeService.getFeeDetails(id);
         }
 
         return ResponseEntity.ok(fee);

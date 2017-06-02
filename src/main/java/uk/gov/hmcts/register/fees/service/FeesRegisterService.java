@@ -11,9 +11,9 @@ public interface FeesRegisterService {
 
     List<Category> getAllCategories();
 
-    Fee getFeeDetails(String eventId);
+    Fee getFeeDetails(String id);
 
-    Fee getFeeDetails(String eventId, int claimAmount);
+    Fee getFeeDetails(String id, int claimAmount);
 
     Fee getFeeDetailsForClaimAmountAndCategory(int claimAmount, String categoryId);
 

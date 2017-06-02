@@ -1,6 +1,8 @@
 package uk.gov.hmcts.register.fees.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import lombok.Builder;
 import lombok.Data;
@@ -18,8 +20,11 @@ public class PercentageFee extends Fee implements SpecifiedFee {
     @NonNull
     private final BigDecimal percentage;
 
+    @JsonCreator
     @Builder(builderMethodName = "percentageFeeWith")
-    public PercentageFee(String id, String description, BigDecimal percentage) {
+    public PercentageFee(@JsonProperty("id") String id,
+                         @JsonProperty("description") String description,
+                         @JsonProperty("percentage") BigDecimal percentage) {
         super(id, description);
         this.percentage = percentage;
     }

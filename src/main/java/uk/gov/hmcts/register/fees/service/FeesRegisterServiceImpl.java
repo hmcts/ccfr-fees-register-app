@@ -1,6 +1,5 @@
 package uk.gov.hmcts.register.fees.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,28 +29,28 @@ public class FeesRegisterServiceImpl implements FeesRegisterService {
         List<Category> categories = feesRegisterRepository.getAllCategories();
 
         if (null == categories) {
-            throw new ClaimCategoriesNotFoundException("Claim categories not found for the service : " + getFeesRegister().getServiceName());
+            throw new CategoriesNotFoundException("Claim categories not found for the service : " + getFeesRegister().getServiceName());
         }
 
         return categories;
 
     }
 
-    public Fee getFeeDetails(String eventId) {
+    public Fee getFeeDetails(String id) {
 
-        Fee fee = feesRegisterRepository.getFeeDetails(eventId);
+        Fee fee = feesRegisterRepository.getFeeDetails(id);
 
         if (null == fee) {
-            throw new FeesNotFoundException("Fees not found for the eventid : " + eventId);
+            throw new FeesNotFoundException("Fees not found for the id : " + id);
         }
         return fee;
     }
 
-    public Fee getFeeDetails(String eventId, int claimAmount) {
+    public Fee getFeeDetails(String id, int claimAmount) {
         // Get fee details from fee register
-        Fee fee = feesRegisterRepository.getFeeDetails(eventId);
+        Fee fee = feesRegisterRepository.getFeeDetails(id);
         if (null == fee) {
-            throw new FeesNotFoundException("Fees not found for the eventid : " + eventId + " and claim amount : " + claimAmount);
+            throw new FeesNotFoundException("Fees not found for the id : " + id + " and claim amount : " + claimAmount);
         }
 
         // calculate percentage fees
