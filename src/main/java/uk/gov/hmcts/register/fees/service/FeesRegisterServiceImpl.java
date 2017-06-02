@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.register.fees.loader.ClaimCategory;
+import uk.gov.hmcts.register.fees.loader.Category;
 import uk.gov.hmcts.register.fees.loader.Fee;
 import uk.gov.hmcts.register.fees.loader.FeesRegister;
 import uk.gov.hmcts.register.fees.repository.FeesRegisterRepository;
@@ -26,8 +26,8 @@ public class FeesRegisterServiceImpl implements FeesRegisterService {
     }
 
     // Ranges
-    public List<ClaimCategory> getAllCategories() {
-        List<ClaimCategory> categories = feesRegisterRepository.getAllCategories();
+    public List<Category> getAllCategories() {
+        List<Category> categories = feesRegisterRepository.getAllCategories();
 
         if (null == categories) {
             throw new ClaimCategoriesNotFoundException("Claim categories not found for the service : " + getFeesRegister().getServiceName());

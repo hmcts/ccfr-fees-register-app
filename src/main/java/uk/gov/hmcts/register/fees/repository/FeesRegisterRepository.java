@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.google.gson.Gson;
 
-import uk.gov.hmcts.register.fees.loader.ClaimCategory;
+import uk.gov.hmcts.register.fees.loader.Category;
 import uk.gov.hmcts.register.fees.loader.Fee;
 import uk.gov.hmcts.register.fees.loader.FeesRegister;
 
@@ -61,7 +61,7 @@ public class FeesRegisterRepository {
 		return feesRegister;
 	}
 
-	public List<ClaimCategory> getAllCategories() {
+	public List<Category> getAllCategories() {
 		return getFeesRegister().getClaimCategories();
 	}
 
