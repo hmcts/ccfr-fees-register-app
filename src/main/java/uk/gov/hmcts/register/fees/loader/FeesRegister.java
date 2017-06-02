@@ -24,8 +24,7 @@ public class FeesRegister {
 	
 
 	public Fee getFeeDetails(String eventId) {
-		return flatFeeList.stream().filter(x -> eventId.equals(x.getEventId())).findAny().orElse(null);
-
+		return flatFeeList.stream().filter(x -> eventId.equals(x.getId())).findAny().orElse(null);
 	}
 
 	public Fee getFeeDetailsForClaimAmountAndCategory(BigDecimal amount, String claimCategoryId) {
