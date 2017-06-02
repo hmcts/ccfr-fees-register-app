@@ -15,13 +15,10 @@ public class Category {
         Range requiredRange = null;
 
         for (Range range : ranges) {
-
             if ((claimAmount.compareTo(range.getUptoAmount()) == -1) || (claimAmount.compareTo(range.getUptoAmount()) == 0)) {
                 requiredRange = range;
                 break;
             }
-
-
         }
 
         return requiredRange;
