@@ -5,7 +5,7 @@
       "id": "onlinefees",
       "ranges": [
         {
-          "startAmount": 0,
+          "startAmount": 1,
           "uptoAmount": 30000,
           "fee": {
             "id": "X0024",

@@ -14,7 +14,4 @@ public interface FeesRegisterService {
     Fee getFeeDetails(String id);
 
     Fee getFeeDetails(String id, int claimAmount);
-
-    Fee getFeeDetailsForClaimAmountAndCategory(int claimAmount, String categoryId);
-
 }

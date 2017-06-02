@@ -41,7 +41,7 @@ public class FeesRegisterServiceImpl implements FeesRegisterService {
         Fee fee = feesRegisterRepository.getFeeDetails(id);
 
         if (null == fee) {
-            throw new FeesNotFoundException("Fees not found for the id : " + id);
+            throw new EntityNotFoundException("Fees not found for the id : " + id);
         }
         return fee;
     }
@@ -50,7 +50,7 @@ public class FeesRegisterServiceImpl implements FeesRegisterService {
         // Get fee details from fee register
         Fee fee = feesRegisterRepository.getFeeDetails(id);
         if (null == fee) {
-            throw new FeesNotFoundException("Fees not found for the id : " + id + " and claim amount : " + claimAmount);
+            throw new EntityNotFoundException("Fees not found for the id : " + id + " and claim amount : " + claimAmount);
         }
 
         // calculate percentage fees
@@ -60,17 +60,4 @@ public class FeesRegisterServiceImpl implements FeesRegisterService {
         return fee;
 
     }
-
-    public Fee getFeeDetailsForClaimAmountAndCategory(int claimAmount, String categoryId) {
-        // Get fee details from fee register
-        Fee fee = feesRegisterRepository.getFeeDetailsForClaimAmountAndCategory(claimAmount, categoryId);
-
-        if (null == fee) {
-            throw new FeesNotFoundException("Fees not found for the categoryId : " + categoryId + " and claim amount : " + claimAmount);
-        }
-        // calculate percentage fees
-
-        return fee;
-    }
-
 }

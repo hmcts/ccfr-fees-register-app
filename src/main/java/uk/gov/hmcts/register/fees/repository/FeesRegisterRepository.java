@@ -56,8 +56,4 @@ public class FeesRegisterRepository {
     public Fee getFeeDetails(String eventId) {
         return getFeesRegister().getFeeDetails(eventId);
     }
-
-    public Fee getFeeDetailsForClaimAmountAndCategory(int amount, String claimCategoryId) {
-        return getFeesRegister().getFeeDetailsForClaimAmountAndCategory(amount, claimCategoryId);
-    }
 }
