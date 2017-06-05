@@ -95,7 +95,7 @@
           "fee": {
             "id": "X0048",
             "type": "fixed",
-            "amount": 25,
+            "amount": 2500,
             "description": "Civil Court fees - Hearing fees - Claim Amount - 0 upto 300"
           }
         },

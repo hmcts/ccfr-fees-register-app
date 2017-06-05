@@ -17,6 +17,6 @@ public class FeesRegister {
     }
 
     public Fee getFeeDetails(String id) {
-        return flatFees.stream().filter(x -> id.equals(x.getId())).findAny().orElse(null);
+        return flatFees.stream().filter(x -> id.equals(x.getId())).findFirst().orElse(null);
     }
 }

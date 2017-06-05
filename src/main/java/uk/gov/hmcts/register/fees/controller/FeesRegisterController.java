@@ -17,6 +17,8 @@ import uk.gov.hmcts.register.fees.model.Fee;
 import uk.gov.hmcts.register.fees.model.FeesRegister;
 import uk.gov.hmcts.register.fees.repository.FeesRegisterRepository;
 import uk.gov.hmcts.register.fees.service.EntityNotFoundException;
+import uk.gov.hmcts.register.fees.service.FeesDto;
+import uk.gov.hmcts.register.fees.service.FeesDtoFactory;
 import uk.gov.hmcts.register.fees.service.FeesRegisterService;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -27,50 +29,58 @@ public class FeesRegisterController {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeesRegisterController.class);
 
-    @Autowired
-    private FeesRegisterService feeService;
 
-    @Autowired
+    private FeesRegisterService feesService;
+
     private FeesRegisterRepository feesRegisterRepository;
 
+    private final FeesDtoFactory feesDtoFactory;
 
+
+    @Autowired
+    public FeesRegisterController(FeesRegisterService feesService, FeesDtoFactory feesDtoFactory,FeesRegisterRepository feesRegisterRepository ) {
+        this.feesService = feesService;
+        this.feesDtoFactory = feesDtoFactory;
+        this.feesRegisterRepository= feesRegisterRepository;
+
+    }
     @GetMapping("/cmc")
     public ResponseEntity<FeesRegister> getFeesRegister() {
-        return ResponseEntity.ok(feeService.getFeesRegister());
+        return ResponseEntity.ok(feesService.getFeesRegister());
     }
 
     // ranges
     @GetMapping("/cmc/claimCategories")
     public ResponseEntity<List<Category>> getAllCategories() {
-        return ResponseEntity.ok(feeService.getAllCategories());
+        return ResponseEntity.ok(feesService.getAllCategories());
     }
 
     @GetMapping("/cmc/fees/{id}")
-    public ResponseEntity<Fee> getFeeDetails(@PathVariable(value = "id") String id,
-                                             @RequestParam(value = "claimAmount", required = false) Integer claimAmount) {
+    public ResponseEntity<FeesDto> getFeeDetails(@PathVariable(value = "id") String id,
+                                                 @RequestParam(value = "claimAmount", required = false) Integer claimAmount) {
         Fee fee = null;
         if (claimAmount != null) {
-            fee = feeService.getFeeDetails(id, claimAmount);
+            fee = feesService.getFeeDetails(id, claimAmount);
         } else {
-            fee = feeService.getFeeDetails(id);
+            fee = feesService.getFeeDetails(id);
         }
 
-        return ResponseEntity.ok(fee);
+        return ResponseEntity.ok(feesDtoFactory.toFeeDto(fee,claimAmount));
 
     }
 
     @GetMapping("/cmc/{categoryId}/fees")
-    public ResponseEntity<Fee> getFeeDetailsForClaimAmountAndCategory(@PathVariable(value = "categoryId") String categoryId,
-                                                                      @RequestParam(value = "amount") int amount) {
+    public ResponseEntity<FeesDto> getFeeDetailsForClaimAmountAndCategory(@PathVariable(value = "categoryId") String categoryId,
+                                                                      @RequestParam(value = "claimAmount") int claimAmount) {
         FeesRegister feesRegister = feesRegisterRepository.getFeesRegister();
 
         Fee fee = feesRegister.getClaimCategory(categoryId)
                 .orElseThrow(() -> new EntityNotFoundException("Category not found, id: " + categoryId))
-                .findRange(amount)
-                .orElseThrow(() -> new EntityNotFoundException("Range not found, amount: " + amount))
+                .findRange(claimAmount)
+                .orElseThrow(() -> new EntityNotFoundException("Range not found, claim amount: " + claimAmount))
                 .getFee();
 
-        return ResponseEntity.ok(fee);
+        return ResponseEntity.ok(feesDtoFactory.toFeeDto(fee,claimAmount));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
