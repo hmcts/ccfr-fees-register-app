@@ -42,5 +42,23 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
                 .andExpect(status().isOk())
                 .andExpect(body().isEqualTo(new FixedFee("X0024", "Civil Court fees - Money Claims Online - Claim Amount - 0 upto 300", 2500)));
     }
+
+    @Test
+    public void validFlatShouldResultIn200() throws Exception {
+        restActions
+                .get("/fees-register/cmc/flat/X0046")
+                .andExpect(status().isOk())
+                .andExpect(body().isEqualTo(new FixedFee("X0046", "Civil Court fees - Hearing fees - Multi track claim", 109000)));
+    }
+
+    @Test
+    public void invalidFlatShouldResultIn404() throws Exception {
+        restActions
+                .get("/fees-register/cmc/flat/X0000")
+                .andExpect(status().isNotFound());
+
+    }
+
+
 }
 
