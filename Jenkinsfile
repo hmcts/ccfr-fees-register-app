@@ -12,7 +12,7 @@ def rtMaven = Artifactory.newMavenBuild()
 def buildInfo = Artifactory.newBuildInfo()
 
 properties(
-    [[$class: 'GithubProjectProperty', displayName: 'Fees Register API', projectUrlStr: 'https://git.reform.hmcts.net/fees-register/fees-register-app/tree/'],
+    [[$class: 'GithubProjectProperty', displayName: 'Fees Register API', projectUrlStr: 'https://git.reform.hmcts.net/fees-register/fees-register-app'],
     pipelineTriggers([[$class: 'GitHubPushTrigger']])]
 )
 
@@ -26,7 +26,7 @@ stageWithNotification('Build') {
     rtMaven.tool = 'apache-maven-3.3.9'
     rtMaven.deployer releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
     rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-    archiveArtifacts 'api/target/*.jar'
+    archiveArtifacts 'target/*.jar'
 }
 
 
@@ -38,7 +38,7 @@ ifMaster {
     }
 
     stageWithNotification("Publish RPM") {
-        rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls api/target/fees-register-api-*.jar)', 'springboot', 'api/src/main/resources/application.properties')
+        rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls target/fees-register-api-*.jar)', 'springboot', 'api/src/main/resources/application.properties')
         packager.publishJavaRPM('fees-register-api')
     }
 

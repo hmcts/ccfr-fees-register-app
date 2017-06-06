@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>uk.gov.hmcts.fees-service</groupId>
-	<artifactId>fees-register-service</artifactId>
+	<groupId>uk.gov.hmcts.fees.register</groupId>
+	<artifactId>fees-register-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>fess-register-service</name>
+	<name>fees-register-api</name>
 	<description>fees register microservice</description>
 
 	<parent>
@@ -77,6 +77,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
