@@ -9,8 +9,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FeesRegisterServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FeesRegisterServiceApplication.class, args);
-
 	}
-
-
 }

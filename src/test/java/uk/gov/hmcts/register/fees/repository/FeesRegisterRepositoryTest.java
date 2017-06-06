@@ -30,7 +30,7 @@ public class FeesRegisterRepositoryTest {
     public void shouldLoadBuiltInFeesRegisterJson() {
         assertThat(loadedRegister.getServiceName()).isEqualTo("cmc");
         assertThat(loadedRegister.getCategories()).hasSize(2);
-        assertThat(loadedRegister.getFlatFees()).hasSize(3);
+        assertThat(loadedRegister.getFlatFees()).hasSize(2);
     }
 
     @Test
@@ -40,17 +40,6 @@ public class FeesRegisterRepositoryTest {
                         .id("X0046")
                         .amount(109000)
                         .description("Civil Court fees - Hearing fees - Multi track claim")
-                        .build()
-        );
-    }
-
-    @Test
-    public void percentageAmountShouldBeLoaded() {
-        assertThat(loadedRegister.getFlatFees().get(2)).isEqualTo(
-                percentageFeeWith()
-                        .id("X0435")
-                        .percentage(new BigDecimal("4.5"))
-                        .description("4.5% of the claim value")
                         .build()
         );
     }

@@ -164,12 +164,6 @@
       "type": "fixed",
       "amount": 54500,
       "description": "Civil Court fees - Hearing fees - Fast track claim"
-    },
-    {
-      "id": "X0435",
-      "type": "percentage",
-      "percentage": 4.5,
-      "description": "4.5% of the claim value"
     }
   ]
 }

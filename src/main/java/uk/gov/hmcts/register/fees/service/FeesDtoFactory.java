@@ -5,16 +5,13 @@ import uk.gov.hmcts.register.fees.model.Fee;
 import uk.gov.hmcts.register.fees.model.FixedFee;
 import uk.gov.hmcts.register.fees.model.PercentageFee;
 
-/**
- * Created by sacs on 05/06/2017.
- */
 @Component
 public class FeesDtoFactory {
 
 
     public FeesDto toFeeDto(Fee fee, int claimAmount) {
 
-        FeesDto feeDto =null;
+        FeesDto feeDto = null;
 
         if (fee instanceof PercentageFee) {
             PercentageFee percentageFee = (PercentageFee) fee;
