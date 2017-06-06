@@ -1,8 +1,9 @@
 package uk.gov.hmcts.fees.register.model;
 
+import lombok.Data;
+
 import java.util.List;
 import java.util.Optional;
-import lombok.Data;
 
 @Data
 public class FeesRegister {
@@ -16,7 +17,7 @@ public class FeesRegister {
                 .filter(x -> claimCategoryId.equals(x.getId())).findFirst();
     }
 
-    public Fee getFeeDetails(String id) {
-        return flatFees.stream().filter(x -> id.equals(x.getId())).findFirst().orElse(null);
+    public Optional<Fee> getFeeDetails(String id) {
+        return flatFees.stream().filter(x -> id.equals(x.getId())).findFirst();
     }
 }
