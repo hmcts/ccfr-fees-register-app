@@ -8,7 +8,7 @@ import uk.gov.hmcts.fees.register.model.Category;
 import uk.gov.hmcts.fees.register.model.Fee;
 import uk.gov.hmcts.fees.register.model.FeesRegister;
 import uk.gov.hmcts.fees.register.repository.FeesRegisterRepository;
-import uk.gov.hmcts.fees.register.service.EntityNotFoundException;
+import uk.gov.hmcts.fees.register.model.EntityNotFoundException;
 
 import java.util.List;
 
