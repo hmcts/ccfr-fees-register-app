@@ -42,9 +42,8 @@ ifMaster {
         packager.publishJavaRPM('fees-register-api')
     }
 
-    stageWithNotification('Deploy') {
-        def version = "{fees_register_api_version: ${rpmVersion}}"
-        ansible.runDeployPlaybook(version, 'dev')
+    stage("Trigger acceptance tests") {
+        build job: '/fees-register/fees-register-app-acceptance-tests/master', parameters: [[$class: 'StringParameterValue', name: 'rpmVersion', value: rpmVersion]]
     }
 }
 
