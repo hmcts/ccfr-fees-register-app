@@ -26,7 +26,7 @@ stageWithNotification('Build') {
     rtMaven.tool = 'apache-maven-3.3.9'
     rtMaven.deployer releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
     rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-    archiveArtifacts 'target/*.jar'
+    archiveArtifacts 'api/target/*.jar'
 }
 
 
