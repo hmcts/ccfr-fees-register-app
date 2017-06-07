@@ -38,7 +38,7 @@ ifMaster {
     }
 
     stageWithNotification("Publish RPM") {
-        rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls target/fees-register-api-*.jar)', 'springboot', 'src/main/resources/application.properties')
+        rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls api/target/fees-register-api-*.jar)', 'springboot', 'api/src/main/resources/application.properties')
         packager.publishJavaRPM('fees-register-api')
     }
 
