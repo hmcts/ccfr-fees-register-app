@@ -29,6 +29,9 @@ stageWithNotification('Build') {
     archiveArtifacts 'api/target/*.jar'
 }
 
+stageWithNotification('Build docker') {
+    dockerImage imageName: 'fees-register/fees-api'
+}
 
 ifMaster {
     def rpmVersion

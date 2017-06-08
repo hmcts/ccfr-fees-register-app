@@ -1,0 +1,14 @@
+version: '2.1'
+
+services:
+  fees-api:
+    build:
+      context: .
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    image: docker.artifactory.reform.hmcts.net/fees-register/fees-api
+    command: --wait-for-database 30
+    ports:
+     - 8182:8080
