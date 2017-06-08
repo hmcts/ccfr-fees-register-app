@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
+    <suppress>
+        <notes>Does not apply as tomcat is not installed as a service</notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
+        <cve>CVE-2016-6325</cve>
+    </suppress>
+    <suppress>
+        <notes>Does not apply as tomcat is not installed as a service</notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
+        <cve>CVE-2016-5425</cve>
+    </suppress>
+    <suppress>
+        <notes>Does not apply as tomcat is configured to run as HTTP only</notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
+        <cve>CVE-2017-6056</cve>
+    </suppress>
+    <suppress>
+        <notes>Does not apply as we don't use Jackson XmlMapper</notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-.*:.*$</gav>
+        <cve>CVE-2016-7051</cve>
+    </suppress>
+</suppressions>

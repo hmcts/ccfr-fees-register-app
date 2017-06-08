@@ -16,38 +16,43 @@ properties(
     pipelineTriggers([[$class: 'GitHubPushTrigger']])]
 )
 
+milestone()
+lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) {
 
-stageWithNotification('Checkout') {
-    deleteDir()
-    checkout scm
-}
-
-stageWithNotification('Build') {
-    rtMaven.tool = 'apache-maven-3.3.9'
-    rtMaven.deployer releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
-    rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-    archiveArtifacts 'api/target/*.jar'
-}
-
-stageWithNotification('Build docker') {
-    dockerImage imageName: 'fees-register/fees-api'
-}
-
-ifMaster {
-    def rpmVersion
-
-    stageWithNotification('Publish JAR') {
-        server.publishBuildInfo buildInfo
+    stageWithNotification('Checkout') {
+        deleteDir()
+        checkout scm
     }
 
-    stageWithNotification("Publish RPM") {
-        rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls api/target/fees-register-api-*.jar)', 'springboot', 'api/src/main/resources/application.properties')
-        packager.publishJavaRPM('fees-register-api')
+    stageWithNotification('Build') {
+        rtMaven.tool = 'apache-maven-3.3.9'
+        rtMaven.deployer releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
+        rtMaven.run pom: 'pom.xml', goals: 'clean install sonar:sonar', buildInfo: buildInfo
+        archiveArtifacts 'api/target/*.jar'
     }
 
-    stage("Trigger acceptance tests") {
-        build job: '/fees-register/fees-register-app-acceptance-tests/master', parameters: [[$class: 'StringParameterValue', name: 'rpmVersion', value: rpmVersion]]
+    stageWithNotification('Build docker') {
+        dockerImage imageName: 'fees-register/fees-api'
     }
+
+    ifMaster {
+        def rpmVersion
+
+        stageWithNotification('Publish JAR') {
+            server.publishBuildInfo buildInfo
+        }
+
+        stageWithNotification("Publish RPM") {
+            rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls api/target/fees-register-api-*.jar)', 'springboot', 'api/src/main/resources/application.properties')
+            packager.publishJavaRPM('fees-register-api')
+        }
+
+        stage("Trigger acceptance tests") {
+            build job: '/fees-register/fees-register-app-acceptance-tests/master', parameters: [[$class: 'StringParameterValue', name: 'rpmVersion', value: rpmVersion]]
+        }
+    }
+
+    milestone()
 }
 
 private ifMaster(Closure body) {
