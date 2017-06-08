@@ -11,3 +11,6 @@ buildNumber.properties
 .mvn/timing.properties
 .idea
 .idea/*
+*.iml
+*.ipr
+*.iws
