@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Optional;
+
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -13,6 +15,7 @@ public class Category {
     private final List<Range> ranges;
 
     @JsonCreator
+    @Builder(builderMethodName = "categoryWith")
     public Category(@JsonProperty("id") String id,
                     @JsonProperty("ranges") List<Range> ranges) {
         this.id = id;
