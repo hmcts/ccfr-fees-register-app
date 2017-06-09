@@ -1,11 +1,13 @@
 package uk.gov.hmcts.fees.register.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 import java.util.Optional;
 
 @Data
+@Builder(builderMethodName = "feeRegisterWith")
 public class FeesRegister {
 
     private String serviceName;
