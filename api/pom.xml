@@ -6,9 +6,9 @@
     <parent>
         <artifactId>fees-register-app</artifactId>
         <groupId>uk.gov.hmcts.fees.register</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
-
+ß
     <artifactId>fees-register-api</artifactId>
 
     <dependencies>

@@ -7,7 +7,7 @@
     <parent>
         <groupId>uk.gov.hmcts.fees.register</groupId>
         <artifactId>fees-register-app</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>fees-register-model</artifactId>
