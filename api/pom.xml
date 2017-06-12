@@ -8,7 +8,6 @@
         <groupId>uk.gov.hmcts.fees.register</groupId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
-ß
     <artifactId>fees-register-api</artifactId>
 
     <dependencies>
