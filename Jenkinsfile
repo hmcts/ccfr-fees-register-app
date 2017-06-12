@@ -8,12 +8,11 @@ def packager = new Packager(this, 'cc')
 def ansible = new Ansible(this, 'ccfr')
 
 def server = Artifactory.server 'artifactory.reform'
-def rtMaven = Artifactory.newMavenBuild()
 def buildInfo = Artifactory.newBuildInfo()
 
 properties(
     [[$class: 'GithubProjectProperty', displayName: 'Fees Register API', projectUrlStr: 'https://git.reform.hmcts.net/fees-register/fees-register-app'],
-    pipelineTriggers([[$class: 'GitHubPushTrigger']])]
+     pipelineTriggers([[$class: 'GitHubPushTrigger']])]
 )
 
 milestone()
@@ -25,6 +24,11 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
     }
 
     stageWithNotification('Build') {
+        def descriptor = Artifactory.mavenDescriptor()
+        descriptor.version = "1.0.0.${env.BUILD_NUMBER}"
+        descriptor.transform()
+
+        def rtMaven = Artifactory.newMavenBuild()
         rtMaven.tool = 'apache-maven-3.3.9'
         rtMaven.deployer releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
         rtMaven.run pom: 'pom.xml', goals: 'clean install sonar:sonar', buildInfo: buildInfo
@@ -67,7 +71,6 @@ private stageWithNotification(String name, Closure body) {
             try {
                 body()
             } catch (err) {
-                notifyBuildFailure channel: '#cc_tech'
                 throw err
             }
         }
