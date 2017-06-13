@@ -49,7 +49,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
         restActions
                 .get("/fees-register/cmc/categories/onlinefees/ranges/1/fees")
                 .andExpect(status().isOk())
-                .andExpect(body().isEqualTo(new FixedFee("X0024", "Civil Court fees - Money Claims Online - Claim Amount - 0 upto 300", 2500)));
+                .andExpect(body().isEqualTo(new FixedFee("X0024", "Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300", 2500)));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
         restActions
             .get("/fees-register/cmc/categories/hearingfees/ranges/300001/fees")
             .andExpect(status().isOk())
-            .andExpect(body().isEqualTo(new FixedFee("X0053", "Civil Court fees - Hearing fees - Claim Amount from 3000.01", 33500)));
+            .andExpect(body().isEqualTo(new FixedFee("X0053", "Civil Court fees - Hearing fees - Claim Amount more than 3000", 33500)));
     }
 
     @Test
