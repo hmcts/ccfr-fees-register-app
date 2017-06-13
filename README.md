@@ -4,12 +4,11 @@ This project provides REST based web services for exposing fees related informat
 
 ## Getting Started
 
-This is SpringBoot+maven based java application. Please see the Jenkinsfile to see the build and deployment pipeline.
+This is SpringBoot+maven based java application. Please see the Jenkinsfile in root folder to see the build and deployment pipeline.
 
 ### Prerequisites
 
 You will need jdk and maven installed on your machine or use mvnw to install the prerequisites
-
 
 ### Installing
 1. Clone the repo to your machine using git clone git@git.reform.hmcts.net:fees-register/fees-register-app.git
@@ -24,14 +23,29 @@ You can run the tests using 'mvn test'
 
 See Jenkinsfile for the deployment details
 
+## Run the application
+To run the application at local developer machine use following command
+
+$ mvn clean install spring-boot:run
+
+Once application server is started use swagger ui to find the endpoints and test these. 
+http://localhost:8080/swagger-ui.html
+
+
+## Service Endpoints
+Some of the end points are as below. These might be out of date. Please look at the swagger-ui to be sure. 
+
+- GET /fees-register/cmc
+- GET /fees-register/cmc/categories
+- GET /fees-register/cmc/categories/{id}/ranges/{amount}/fees
+- GET /fees-register/cmc/flat
+- GET /fees-register/cmc/flat/{id}
+
 ## Built With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
 
 ## Service Versioning
 
-@TODO services versioning related stuff here
+We use [SemVer](http://semver.org/) for versioning.
 
-
-## Service Endpoints
-Please see service endpoints in swagger
