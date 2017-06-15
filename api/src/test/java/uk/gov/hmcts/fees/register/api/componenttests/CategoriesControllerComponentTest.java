@@ -86,7 +86,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void validFlatShouldResultIn200() throws Exception {
         restActions
-                .get("/fees-register/cmc/flat/X0046")
+                .get("/fees-register/cmc/categories/hearingfees/flat/X0046")
                 .andExpect(status().isOk())
                 .andExpect(body().isEqualTo(new FixedFee("X0046", "Civil Court fees - Hearing fees - Multi track claim", 109000)));
     }
@@ -94,7 +94,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void invalidFlatShouldResultIn404() throws Exception {
         restActions
-                .get("/fees-register/cmc/flat/X0000")
+                .get("/fees-register/cmc/categories/hearingfees/flat/X0000")
                 .andExpect(status().isNotFound());
 
     }
