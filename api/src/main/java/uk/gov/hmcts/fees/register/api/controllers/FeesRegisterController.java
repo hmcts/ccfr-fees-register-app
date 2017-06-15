@@ -32,20 +32,6 @@ public class FeesRegisterController {
         return getFeesRegister();
     }
 
-    @ApiOperation(value = "Find flat fee",
-        notes = "Find flat fee objects e.g. fees for fast track and multi track cases.", response = Fee.class)
-
-    @GetMapping("/cmc/flat")
-    public List<Fee> getFlatFees() {
-        return getFeesRegister().getFlatFees();
-    }
-
-    @GetMapping("/cmc/flat/{id}")
-    public Fee getFlatFee(@PathVariable(value = "id") String id) {
-        return getFeesRegister()
-            .getFeeDetails(id)
-            .orElseThrow(() -> new EntityNotFoundException("Flat fee not found, id: " + id));
-    }
 
     @GetMapping("/cmc/categories")
     public List<Category> getCategories() {
@@ -73,6 +59,35 @@ public class FeesRegisterController {
             .orElseThrow(() -> new EntityNotFoundException("Range not found, amount: " + amount))
             .getFee();
     }
+
+
+    @ApiOperation(value = "Find appropriate flat fees for given fee id.",
+        notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees) and flat fee id. ", response = Fee.class)
+    @GetMapping("/cmc/categories/{id}/flat/{feeId}")
+    public Fee getFlatFeeInACategory(
+        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
+        @ApiParam(value = "This is flat fee in a category", required = true) @PathVariable(value = "feeId") String feeId) {
+
+        return getCategory(id)
+            .findFlatFee(feeId)
+            .orElseThrow(() -> new EntityNotFoundException("Flat fees not found, feeId: " + feeId));
+    }
+
+    @ApiOperation(value = "Find all flat fees for given category.",
+        notes = "This endpoint returns all flat fees for given category(e.g. onlinefees or hearingfees). ", response = Fee.class)
+    @GetMapping("/cmc/categories/{id}/flat")
+    public List<Fee> getAllFlatFeesInACategory(
+        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id) {
+
+        List<Fee> flatFees = getCategory(id).getFlatFees();
+
+        if(null == flatFees)
+            throw new EntityNotFoundException("Flat fees not found, category: " + id);
+
+        return flatFees;
+
+    }
+
 
     private FeesRegister getFeesRegister() {
         return feesRegisterRepository.getFeesRegister();
