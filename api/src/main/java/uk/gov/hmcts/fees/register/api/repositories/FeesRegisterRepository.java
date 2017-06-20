@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import javax.annotation.PostConstruct;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,8 @@ public class FeesRegisterRepository {
     public void init() {
         BufferedReader reader = null;
         try {
-            if (null != dbFilePath && !dbFilePath.trim().equals("")) {
-                loadDBFromEnv();
-            } else {
+
+            if (!loadDBFromEnv(dbFilePath)) {
                 loadEmbeddedJson();
             }
         } catch (IOException | NullPointerException e) {
@@ -57,9 +57,17 @@ public class FeesRegisterRepository {
 
     }
 
-    private void loadDBFromEnv() throws IOException {
+    @SuppressFBWarnings(
+        value = "",
+        justification = "There is a business requirements to load the json from local drive.")
+    private boolean loadDBFromEnv(String fileName) throws IOException {
 
-        feesRegister = objectMapper.readValue(new File(dbFilePath), FeesRegister.class);
+        if (null != dbFilePath && !(dbFilePath.trim().equals(""))) {
+            feesRegister = objectMapper.readValue(new File(fileName), FeesRegister.class);
+            return true;
+        }
+
+        return false;
     }
 
     public FeesRegister getFeesRegister() {
