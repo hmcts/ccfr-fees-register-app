@@ -19,6 +19,7 @@
     <modules>
         <module>model</module>
         <module>api</module>
+        <module>client</module>
     </modules>
 
     <properties>
