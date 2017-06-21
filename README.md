@@ -31,6 +31,9 @@ $ mvn clean install spring-boot:run
 Once application server is started use swagger ui to find the endpoints and test these. 
 http://localhost:8080/swagger-ui.html
 
+or in dev environment you can use this link
+http://fees-register-dev.reform.hmcts.net/swagger-ui.html 
+
 
 ## Service Endpoints
 Some of the end points are as below. These might be out of date. Please look at the swagger-ui to be sure. 
