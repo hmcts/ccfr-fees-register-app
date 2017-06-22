@@ -2,71 +2,53 @@ package uk.gov.hmcts.fees.register.api.client;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.SocketUtils;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TestContext.class})
 public class FeesRegisterClientTest {
 
-    static final int PORT = SocketUtils.findAvailableTcpPort();
-
-
     @Rule
-    public WireMockRule wireMockRule = new WireMockRule(PORT);
-    public FeesRegisterClient client;
-    @Autowired
-    public RestTemplateBuilder templateBuilder;
-
-    public String feesAsString;
-
-    @Before
-    public void init() {
-        client = new FeesRegisterClient(templateBuilder, getBaseUrl(PORT));
-    }
+    public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().dynamicPort());
+    private FeesRegisterClient client;
+    private String feesAsString;
 
 
     @Before
     public void setUp() throws Exception {
 
+        client = new FeesRegisterClient(
+            HttpClients.createMinimal(),
+            "http://localhost:" + wireMockRule.port()
+        );
         FeesDto fees = createFees();
         ObjectMapper mapper = new ObjectMapper();
         feesAsString = mapper.writeValueAsString(fees);
-        WireMock.reset();
-        stubFor(get(urlMatching("/cmc/categories/hearingfees/flat/X0046"))
-            .willReturn(aResponse().withStatus(200)
-                .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                .withBody(feesAsString)));
+
     }
 
-    private String getBaseUrl(int port) {
-        return String.format("http://localhost:%d/fees-register", port);
-    }
-
-    public FeesDto createFees() throws Exception {
+    private FeesDto createFees() throws Exception {
         FeesDto fees = FeesDto.feesDtoWith().id("X0046").type("fixed").amount(109000).description("Civil Court fees - Hearing fees - Multi track claim").build();
 
         return fees;
     }
 
     @Test
-    public void getFlatFeesForFeeIdInACategory() throws Exception {
-        //Torevisit later
-        //FeesDto fetchedFees = client.getFlatFeesForFeeIdInACategory("hearingfees","X0046");
-        //assertEquals(createFees().getId(), fetchedFees.getId());
+    public void getFeesByCategoryAndFeeId() throws Exception {
 
+        stubFor(get(urlEqualTo("/fees-register/cmc/categories/hearingfees/flat/X0046"))
+            .willReturn(aResponse().
+                withStatus(200)
+                .withBody(feesAsString)));
+
+        FeesDto fetchedFees = client.getFeesByCategoryAndFeeId("hearingfees", "X0046");
+        assertEquals(createFees(), fetchedFees);
 
     }
 
