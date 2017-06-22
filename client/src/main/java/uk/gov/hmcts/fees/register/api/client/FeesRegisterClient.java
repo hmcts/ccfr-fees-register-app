@@ -10,8 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import java.io.IOException;
 import java.util.List;
 
-//import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 @SuppressFBWarnings("HTTP_PARAMETER_POLLUTION")
 public class FeesRegisterClient implements FeesRegister {
 
@@ -29,13 +27,13 @@ public class FeesRegisterClient implements FeesRegister {
     public FeesRegisterDto getFeesRegister() {
 
         try {
-            HttpGet request = new HttpGet(baseUrl + "/fees-register/cmc");
+            HttpGet request = new HttpGet(baseUrl + "/fees-register");
             return httpClient.execute(request, httpResponse -> {
                 checkStatusIs2xx(httpResponse);
                 return objectMapper.readValue(httpResponse.getEntity().getContent(), FeesRegisterDto.class);
             });
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new FeesRegisterClientException(e);
         }
 
 
@@ -44,65 +42,65 @@ public class FeesRegisterClient implements FeesRegister {
     @Override
     public List<CategoryDto> getCategories() {
         try {
-            HttpGet request = new HttpGet(baseUrl + "/fees-register/cmc/categories");
+            HttpGet request = new HttpGet(baseUrl + "/fees-register/categories");
             return httpClient.execute(request, httpResponse -> {
                 checkStatusIs2xx(httpResponse);
                 return objectMapper.readValue(httpResponse.getEntity().getContent(), List.class);
             });
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new FeesRegisterClientException(e);
         }
     }
 
     @Override
     public CategoryDto getCategory(String categoryId) {
         try {
-            HttpGet request = new HttpGet(baseUrl + "/fees-register/cmc/categories/" + categoryId);
+            HttpGet request = new HttpGet(baseUrl + "/fees-register/categories/" + categoryId);
             return httpClient.execute(request, httpResponse -> {
                 checkStatusIs2xx(httpResponse);
                 return objectMapper.readValue(httpResponse.getEntity().getContent(), CategoryDto.class);
             });
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new FeesRegisterClientException(e);
         }
     }
 
     @Override
     public FeesDto getFeesByCategoryAndAmount(String categoryId, int amount) {
         try {
-            HttpGet request = new HttpGet(baseUrl + "/fees-register/cmc/categories/" + categoryId + "/range/" + amount);
+            HttpGet request = new HttpGet(baseUrl + "/fees-register/categories/" + categoryId + "/range/" + amount);
             return httpClient.execute(request, httpResponse -> {
                 checkStatusIs2xx(httpResponse);
                 return objectMapper.readValue(httpResponse.getEntity().getContent(), FeesDto.class);
             });
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new FeesRegisterClientException(e);
         }
     }
 
     @Override
     public FeesDto getFeesByCategoryAndFeeId(String categoryId, String feeId) {
         try {
-            HttpGet request = new HttpGet(baseUrl + "/fees-register/cmc/categories/" + categoryId + "/flat/" + feeId);
+            HttpGet request = new HttpGet(baseUrl + "/fees-register/categories/" + categoryId + "/flat/" + feeId);
             return httpClient.execute(request, httpResponse -> {
                 checkStatusIs2xx(httpResponse);
                 return objectMapper.readValue(httpResponse.getEntity().getContent(), FeesDto.class);
             });
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new FeesRegisterClientException(e);
         }
     }
 
     @Override
     public List<FeesDto> getFlatFeesByCategory(String categoryId) {
         try {
-            HttpGet request = new HttpGet(baseUrl + "/fees-register/cmc/categories/" + categoryId + "/flat");
+            HttpGet request = new HttpGet(baseUrl + "/fees-register/categories/" + categoryId + "/flat");
             return httpClient.execute(request, httpResponse -> {
                 checkStatusIs2xx(httpResponse);
                 return objectMapper.readValue(httpResponse.getEntity().getContent(), List.class);
             });
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new FeesRegisterClientException(e);
         }
     }
 
