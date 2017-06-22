@@ -1,0 +1,166 @@
+[
+  {
+    "id": "onlinefees",
+    "ranges": [
+      {
+        "startAmount": 1,
+        "uptoAmount": 30000,
+        "fee": {
+          "id": "X0024",
+          "type": "fixed",
+          "amount": 2500,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP"
+        }
+      },
+      {
+        "startAmount": 30001,
+        "uptoAmount": 50000,
+        "fee": {
+          "id": "X0025",
+          "type": "fixed",
+          "amount": 3500,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP"
+        }
+      },
+      {
+        "startAmount": 50001,
+        "uptoAmount": 100000,
+        "fee": {
+          "id": "X0026",
+          "type": "fixed",
+          "amount": 6000,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP"
+        }
+      },
+      {
+        "startAmount": 100001,
+        "uptoAmount": 150000,
+        "fee": {
+          "id": "X0027",
+          "type": "fixed",
+          "amount": 7000,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP"
+        }
+      },
+      {
+        "startAmount": 150001,
+        "uptoAmount": 300000,
+        "fee": {
+          "id": "X0028",
+          "type": "fixed",
+          "amount": 10500,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP"
+        }
+      },
+      {
+        "startAmount": 300001,
+        "uptoAmount": 500000,
+        "fee": {
+          "id": "X0029",
+          "type": "fixed",
+          "amount": 18500,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP"
+        }
+      },
+      {
+        "startAmount": 500001,
+        "uptoAmount": 1000000,
+        "fee": {
+          "id": "X0433",
+          "type": "fixed",
+          "amount": 41000,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP"
+        }
+      },
+      {
+        "startAmount": 1000001,
+        "uptoAmount": 1500000,
+        "fee": {
+          "id": "X0434",
+          "type": "percentage",
+          "percentage": 4.5,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value"
+        }
+      }
+    ]
+  },
+  {
+    "id": "hearingfees",
+    "ranges": [
+      {
+        "startAmount": 1,
+        "uptoAmount": 30000,
+        "fee": {
+          "id": "X0048",
+          "type": "fixed",
+          "amount": 2500,
+          "description": "Civil Court fees - Hearing fees - Claimant Amount - 0.01 upto 300 GBP"
+        }
+      },
+      {
+        "startAmount": 30001,
+        "uptoAmount": 50000,
+        "fee": {
+          "id": "X0049",
+          "type": "fixed",
+          "amount": 5500,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 300.01 upto 500 GBP"
+        }
+      },
+      {
+        "startAmount": 50001,
+        "uptoAmount": 100000,
+        "fee": {
+          "id": "X0050",
+          "type": "fixed",
+          "amount": 8000,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 500.01 upto 1000 GBP"
+        }
+      },
+      {
+        "startAmount": 100001,
+        "uptoAmount": 150000,
+        "fee": {
+          "id": "X0051",
+          "type": "fixed",
+          "amount": 11500,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 1000.01 upto 1500 GBP"
+        }
+      },
+      {
+        "startAmount": 150001,
+        "uptoAmount": 300000,
+        "fee": {
+          "id": "X0052",
+          "type": "fixed",
+          "amount": 17000,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP"
+        }
+      },
+      {
+        "startAmount": 300001,
+        "uptoAmount": 10000000,
+        "fee": {
+          "id": "X0053",
+          "type": "fixed",
+          "amount": 33500,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 3000.01 upto 100000 GBP"
+        }
+      }
+    ],
+    "flatFees": [
+      {
+        "id": "X0046",
+        "type": "fixed",
+        "amount": 109000,
+        "description": "Civil Court fees - Hearing fees - Multi track claim"
+      },
+      {
+        "id": "X0047",
+        "type": "fixed",
+        "amount": 54500,
+        "description": "Civil Court fees - Hearing fees - Fast track claim"
+      }
+    ]
+  }
+]

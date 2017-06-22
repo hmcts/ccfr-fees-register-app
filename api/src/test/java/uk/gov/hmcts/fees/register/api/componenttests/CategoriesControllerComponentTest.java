@@ -10,34 +10,34 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void categoriesShouldResultIn200() throws Exception {
         restActions
-                .get("/fees-register/cmc/categories")
+                .get("/fees-register/categories")
                 .andExpect(status().isOk());
     }
 
     @Test
     public void unknownCategoryShouldResultIn404() throws Exception {
         restActions
-                .get("/fees-register/cmc/categories/unknown")
+                .get("/fees-register/categories/unknown")
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void knownCategoryShouldResultIn200() throws Exception {
         restActions
-                .get("/fees-register/cmc/categories/onlinefees")
+                .get("/fees-register/categories/onlinefees")
                 .andExpect(status().isOk());
     }
 
     @Test
     public void invalidRangeOnlineFeesShouldResultIn404() throws Exception {
         restActions
-                .get("/fees-register/cmc/categories/onlinefees/ranges/-1/fees")
+                .get("/fees-register/categories/onlinefees/ranges/-1/fees")
                 .andExpect(status().isNotFound());
     }
     @Test
     public void invalidRangeOnlineFeesClaimAmountZeroShouldResultIn404() throws Exception {
         restActions
-            .get("/fees-register/cmc/categories/onlinefees/ranges/0/fees")
+            .get("/fees-register/categories/onlinefees/ranges/0/fees")
             .andExpect(status().isNotFound());
     }
 
@@ -47,7 +47,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void validRangeOnlineFeesShouldResultIn200() throws Exception {
         restActions
-                .get("/fees-register/cmc/categories/onlinefees/ranges/1/fees")
+                .get("/fees-register/categories/onlinefees/ranges/1/fees")
                 .andExpect(status().isOk())
                 .andExpect(body().isEqualTo(new FixedFee("X0024", "Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP", 2500)));
     }
@@ -55,7 +55,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void invalidRangeHearingFeesClaimAmountZeroShouldResultIn404() throws Exception {
         restActions
-            .get("/fees-register/cmc/categories/hearingfees/ranges/0/fees")
+            .get("/fees-register/categories/hearingfees/ranges/0/fees")
             .andExpect(status().isNotFound());
     }
 
@@ -63,14 +63,14 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void validRangeHearingFeesForClaimAmount3000PoundsShouldResultIn200() throws Exception {
         restActions
-            .get("/fees-register/cmc/categories/hearingfees/ranges/300000/fees")
+            .get("/fees-register/categories/hearingfees/ranges/300000/fees")
             .andExpect(status().isOk())
             .andExpect(body().isEqualTo(new FixedFee("X0052", "Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP", 17000)));
     }
     @Test
     public void validRangeHearingFeesForClaimAmountAbove3000PoundsShouldResultIn200() throws Exception {
         restActions
-            .get("/fees-register/cmc/categories/hearingfees/ranges/300001/fees")
+            .get("/fees-register/categories/hearingfees/ranges/300001/fees")
             .andExpect(status().isOk())
             .andExpect(body().isEqualTo(new FixedFee("X0053", "Civil Court fees - Hearing fees - Claim Amount - 3000.01 upto 100000 GBP", 33500)));
     }
@@ -78,7 +78,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void invalidRangeHearingFeesShouldResultIn404() throws Exception {
         restActions
-            .get("/fees-register/cmc/categories/hearingfees/ranges/-1/fees")
+            .get("/fees-register/categories/hearingfees/ranges/-1/fees")
             .andExpect(status().isNotFound());
     }
 
@@ -86,7 +86,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void validFlatShouldResultIn200() throws Exception {
         restActions
-                .get("/fees-register/cmc/categories/hearingfees/flat/X0046")
+                .get("/fees-register/categories/hearingfees/flat/X0046")
                 .andExpect(status().isOk())
                 .andExpect(body().isEqualTo(new FixedFee("X0046", "Civil Court fees - Hearing fees - Multi track claim", 109000)));
     }
@@ -94,7 +94,7 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
     @Test
     public void invalidFlatShouldResultIn404() throws Exception {
         restActions
-                .get("/fees-register/cmc/categories/hearingfees/flat/X0000")
+                .get("/fees-register/categories/hearingfees/flat/X0000")
                 .andExpect(status().isNotFound());
 
     }

@@ -12,7 +12,6 @@ import java.util.Optional;
 @Builder(builderMethodName = "feeRegisterWith")
 public class FeesRegister {
 
-    private String serviceName;
     private List<Category> categories;
     private List<Fee> flatFees;
 

@@ -26,7 +26,6 @@ public class FeesRegisterRepositoryTest {
 
     @Test
     public void shouldLoadBuiltInFeesRegisterJson() {
-        assertThat(loadedRegister.getServiceName()).isEqualTo("cmc");
         assertThat(loadedRegister.getCategories()).hasSize(2);
         assertThat(loadedRegister.getClaimCategory("hearingfees").get().getFlatFees()).hasSize(2);
     }

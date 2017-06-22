@@ -27,18 +27,18 @@ public class FeesRegisterController {
         this.feesRegisterRepository = feesRegisterRepository;
     }
 
-    @GetMapping("/cmc")
+    @GetMapping("/")
     public FeesRegister getAllFees() {
         return getFeesRegister();
     }
 
 
-    @GetMapping("/cmc/categories")
+    @GetMapping("/categories")
     public List<Category> getCategories() {
         return getFeesRegister().getCategories();
     }
 
-    @GetMapping("/cmc/categories/{id}")
+    @GetMapping("/categories/{id}")
     @ResponseBody
     public Category getCategory(@PathVariable(value = "id") String categoryId) {
 
@@ -49,7 +49,7 @@ public class FeesRegisterController {
 
     @ApiOperation(value = "Find appropriate fees amount for given claim.",
         notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees). All input and output amounts are in pence.  ", response = Fee.class)
-    @GetMapping("/cmc/categories/{id}/ranges/{amount}/fees")
+    @GetMapping("/categories/{id}/ranges/{amount}/fees")
     public Fee getCategoryRange(
         @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
         @ApiParam(value = "This is claim amount in pence", required = true) @PathVariable(value = "amount") int amount) {
@@ -63,7 +63,7 @@ public class FeesRegisterController {
 
     @ApiOperation(value = "Find appropriate flat fees for given fee id.",
         notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees) and flat fee id. ", response = Fee.class)
-    @GetMapping("/cmc/categories/{id}/flat/{feeId}")
+    @GetMapping("/categories/{id}/flat/{feeId}")
     public Fee getFlatFeeInACategory(
         @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
         @ApiParam(value = "This is flat fee in a category", required = true) @PathVariable(value = "feeId") String feeId) {
@@ -75,7 +75,7 @@ public class FeesRegisterController {
 
     @ApiOperation(value = "Find all flat fees for given category.",
         notes = "This endpoint returns all flat fees for given category(e.g. onlinefees or hearingfees). ", response = Fee.class)
-    @GetMapping("/cmc/categories/{id}/flat")
+    @GetMapping("/categories/{id}/flat")
     public List<Fee> getAllFlatFeesInACategory(
         @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id) {
 

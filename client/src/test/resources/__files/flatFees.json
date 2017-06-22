@@ -1,0 +1,14 @@
+[
+  {
+    "id": "X0046",
+    "type": "fixed",
+    "amount": 109000,
+    "description": "Civil Court fees - Hearing fees - Multi track claim"
+  },
+  {
+    "id": "X0047",
+    "type": "fixed",
+    "amount": 54500,
+    "description": "Civil Court fees - Hearing fees - Fast track claim"
+  }
+]
