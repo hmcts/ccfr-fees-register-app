@@ -27,7 +27,7 @@ public class FeesRegisterController {
         this.feesRegisterRepository = feesRegisterRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public FeesRegister getAllFees() {
         return getFeesRegister();
     }

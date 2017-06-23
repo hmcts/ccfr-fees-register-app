@@ -13,8 +13,8 @@ public class Range {
 
     @JsonCreator
     @Builder(builderMethodName = "rangeWith")
-    public Range(@JsonProperty("startAmount") int startAmount,
-                 @JsonProperty("uptoAmount") int uptoAmount,
+    public Range(@JsonProperty("start") int startAmount,
+                 @JsonProperty("upto") int uptoAmount,
                  @JsonProperty("fee") Fee fee) {
         this.startAmount = startAmount;
         this.uptoAmount = uptoAmount;

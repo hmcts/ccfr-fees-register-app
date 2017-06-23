@@ -35,7 +35,7 @@ public class FeesRegisterRepositoryFromEnvTest {
 
     @Test
     public void shouldLoadFeesRegisterJson() {
-        assertThat(loadedRegister.getCategories()).hasSize(2);
+        assertThat(loadedRegister.getCategories()).hasSize(3);
         assertThat(loadedRegister.getClaimCategory("hearingfees").get().getFlatFees()).hasSize(2);
     }
 
