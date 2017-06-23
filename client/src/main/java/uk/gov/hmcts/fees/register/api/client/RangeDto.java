@@ -12,8 +12,8 @@ import lombok.Data;
 public class RangeDto {
 
     @JsonProperty("start")
-    private final int startAmount;
+    private final Integer startAmount;
     @JsonProperty("upto")
-    private final int uptoAmount;
+    private final Integer uptoAmount;
     private final FeesDto fee;
 }

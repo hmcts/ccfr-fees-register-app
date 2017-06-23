@@ -164,13 +164,13 @@
     ]
   },
   {
-    "id": "probate",
+    "id": "probatefees",
     "ranges": [
       {
         "start": 0,
         "upto": 499999,
         "fee": {
-          "id": "X0048",
+          "id": "X0249",
           "type": "fixed",
           "amount": 0,
           "description": "If the net estate as above is under £5,000"
@@ -178,19 +178,31 @@
       },
       {
         "start": 500000,
-
         "fee": {
-          "id": "X0049",
+          "id": "X0250",
           "type": "fixed",
           "amount": 21500,
           "description": "In all cases where the net estate (ie the amount remaining in the deceased’s sole name after funeral expenses and debts owing have been deducted) is over £5,000. Note: Joint assets passing automatically"
         }
-      },
+      }
+    ],
+    "flatFees": [
+      {
+        "id": "X0251",
+        "type": "fixed",
+        "amount": 2000,
+        "description": "Application for a second grant in an estate where a previous grant has been issued."
+      }
+    ]
+  },
+  {
+    "id": "probate-copies",
+    "ranges": [
       {
         "start": 0,
         "upto": 1,
         "fee": {
-          "id": "X0050",
+          "id": "X0252",
           "type": "fixed",
           "amount": 1000,
           "description": "First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued."
@@ -199,7 +211,7 @@
       {
         "start": 2,
         "fee": {
-          "id": "X0051",
+          "id": "X0253",
           "type": "fixed",
           "amount": 50,
           "description": "Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued."
@@ -208,19 +220,13 @@
     ],
     "flatFees": [
       {
-        "id": "X0052",
-        "type": "fixed",
-        "amount": 2000,
-        "description": "Application for a second grant in an estate where a previous grant has been issued."
-      },
-      {
-        "id": "X0053",
+        "id": "X0254",
         "type": "fixed",
         "amount": 50,
         "description": "Additional Copies -Official (sealed) copies of the Grant of Representation if ordered when you lodge your application for a Grant of Representation. Note: You should decide how many copies you will need and add the cost to your application fee – this will give you the total amount payable. See examples below. It can save you a lot of time when collecting in the deceased’s assets if you have a few extra copies of the grant to produce to the organisations holding the assets."
       },
       {
-        "id": "X0054",
+        "id": "X0256",
         "type": "fixed",
         "amount": 50,
         "description": "‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering."

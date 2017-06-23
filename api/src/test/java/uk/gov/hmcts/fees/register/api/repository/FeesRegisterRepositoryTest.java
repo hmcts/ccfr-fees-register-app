@@ -26,7 +26,7 @@ public class FeesRegisterRepositoryTest {
 
     @Test
     public void shouldLoadBuiltInFeesRegisterJson() {
-        assertThat(loadedRegister.getCategories()).hasSize(3);
+        assertThat(loadedRegister.getCategories()).hasSize(4);
         assertThat(loadedRegister.getClaimCategory("hearingfees").get().getFlatFees()).hasSize(2);
     }
 
