@@ -3,8 +3,8 @@
     "id": "onlinefees",
     "ranges": [
       {
-        "startAmount": 1,
-        "uptoAmount": 30000,
+        "start": 1,
+        "upto": 30000,
         "fee": {
           "id": "X0024",
           "type": "fixed",
@@ -13,8 +13,8 @@
         }
       },
       {
-        "startAmount": 30001,
-        "uptoAmount": 50000,
+        "start": 30001,
+        "upto": 50000,
         "fee": {
           "id": "X0025",
           "type": "fixed",
@@ -23,8 +23,8 @@
         }
       },
       {
-        "startAmount": 50001,
-        "uptoAmount": 100000,
+        "start": 50001,
+        "upto": 100000,
         "fee": {
           "id": "X0026",
           "type": "fixed",
@@ -33,8 +33,8 @@
         }
       },
       {
-        "startAmount": 100001,
-        "uptoAmount": 150000,
+        "start": 100001,
+        "upto": 150000,
         "fee": {
           "id": "X0027",
           "type": "fixed",
@@ -43,8 +43,8 @@
         }
       },
       {
-        "startAmount": 150001,
-        "uptoAmount": 300000,
+        "start": 150001,
+        "upto": 300000,
         "fee": {
           "id": "X0028",
           "type": "fixed",
@@ -53,8 +53,8 @@
         }
       },
       {
-        "startAmount": 300001,
-        "uptoAmount": 500000,
+        "start": 300001,
+        "upto": 500000,
         "fee": {
           "id": "X0029",
           "type": "fixed",
@@ -63,8 +63,8 @@
         }
       },
       {
-        "startAmount": 500001,
-        "uptoAmount": 1000000,
+        "start": 500001,
+        "upto": 1000000,
         "fee": {
           "id": "X0433",
           "type": "fixed",
@@ -73,8 +73,8 @@
         }
       },
       {
-        "startAmount": 1000001,
-        "uptoAmount": 1500000,
+        "start": 1000001,
+        "upto": 1500000,
         "fee": {
           "id": "X0434",
           "type": "percentage",
@@ -88,18 +88,18 @@
     "id": "hearingfees",
     "ranges": [
       {
-        "startAmount": 1,
-        "uptoAmount": 30000,
+        "start": 1,
+        "upto": 30000,
         "fee": {
           "id": "X0048",
           "type": "fixed",
           "amount": 2500,
-          "description": "Civil Court fees - Hearing fees - Claimant Amount - 0.01 upto 300 GBP"
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 0.01 upto 300 GBP"
         }
       },
       {
-        "startAmount": 30001,
-        "uptoAmount": 50000,
+        "start": 30001,
+        "upto": 50000,
         "fee": {
           "id": "X0049",
           "type": "fixed",
@@ -108,8 +108,8 @@
         }
       },
       {
-        "startAmount": 50001,
-        "uptoAmount": 100000,
+        "start": 50001,
+        "upto": 100000,
         "fee": {
           "id": "X0050",
           "type": "fixed",
@@ -118,8 +118,8 @@
         }
       },
       {
-        "startAmount": 100001,
-        "uptoAmount": 150000,
+        "start": 100001,
+        "upto": 150000,
         "fee": {
           "id": "X0051",
           "type": "fixed",
@@ -128,8 +128,8 @@
         }
       },
       {
-        "startAmount": 150001,
-        "uptoAmount": 300000,
+        "start": 150001,
+        "upto": 300000,
         "fee": {
           "id": "X0052",
           "type": "fixed",
@@ -138,8 +138,8 @@
         }
       },
       {
-        "startAmount": 300001,
-        "uptoAmount": 10000000,
+        "start": 300001,
+        "upto": 10000000,
         "fee": {
           "id": "X0053",
           "type": "fixed",
@@ -160,6 +160,76 @@
         "type": "fixed",
         "amount": 54500,
         "description": "Civil Court fees - Hearing fees - Fast track claim"
+      }
+    ]
+  },
+  {
+    "id": "probatefees",
+    "ranges": [
+      {
+        "start": 0,
+        "upto": 499999,
+        "fee": {
+          "id": "X0249",
+          "type": "fixed",
+          "amount": 0,
+          "description": "If the net estate as above is under £5,000"
+        }
+      },
+      {
+        "start": 500000,
+        "fee": {
+          "id": "X0250",
+          "type": "fixed",
+          "amount": 21500,
+          "description": "In all cases where the net estate (ie the amount remaining in the deceased’s sole name after funeral expenses and debts owing have been deducted) is over £5,000. Note: Joint assets passing automatically"
+        }
+      }
+    ],
+    "flatFees": [
+      {
+        "id": "X0251",
+        "type": "fixed",
+        "amount": 2000,
+        "description": "Application for a second grant in an estate where a previous grant has been issued."
+      }
+    ]
+  },
+  {
+    "id": "probate-copies",
+    "ranges": [
+      {
+        "start": 0,
+        "upto": 1,
+        "fee": {
+          "id": "X0252",
+          "type": "fixed",
+          "amount": 1000,
+          "description": "First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued."
+        }
+      },
+      {
+        "start": 2,
+        "fee": {
+          "id": "X0253",
+          "type": "fixed",
+          "amount": 50,
+          "description": "Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued."
+        }
+      }
+    ],
+    "flatFees": [
+      {
+        "id": "X0254",
+        "type": "fixed",
+        "amount": 50,
+        "description": "Additional Copies -Official (sealed) copies of the Grant of Representation if ordered when you lodge your application for a Grant of Representation. Note: You should decide how many copies you will need and add the cost to your application fee – this will give you the total amount payable. See examples below. It can save you a lot of time when collecting in the deceased’s assets if you have a few extra copies of the grant to produce to the organisations holding the assets."
+      },
+      {
+        "id": "X0255",
+        "type": "fixed",
+        "amount": 50,
+        "description": "‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering."
       }
     ]
   }
