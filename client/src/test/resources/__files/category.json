@@ -2,8 +2,8 @@
   "id": "onlinefees",
   "ranges": [
     {
-      "startAmount": 1,
-      "uptoAmount": 30000,
+      "start": 1,
+      "upto": 30000,
       "fee": {
         "id": "X0024",
         "type": "fixed",
@@ -12,8 +12,8 @@
       }
     },
     {
-      "startAmount": 30001,
-      "uptoAmount": 50000,
+      "start": 30001,
+      "upto": 50000,
       "fee": {
         "id": "X0025",
         "type": "fixed",
@@ -22,8 +22,8 @@
       }
     },
     {
-      "startAmount": 50001,
-      "uptoAmount": 100000,
+      "start": 50001,
+      "upto": 100000,
       "fee": {
         "id": "X0026",
         "type": "fixed",
@@ -32,8 +32,8 @@
       }
     },
     {
-      "startAmount": 100001,
-      "uptoAmount": 150000,
+      "start": 100001,
+      "upto": 150000,
       "fee": {
         "id": "X0027",
         "type": "fixed",
@@ -42,8 +42,8 @@
       }
     },
     {
-      "startAmount": 150001,
-      "uptoAmount": 300000,
+      "start": 150001,
+      "upto": 300000,
       "fee": {
         "id": "X0028",
         "type": "fixed",
@@ -52,8 +52,8 @@
       }
     },
     {
-      "startAmount": 300001,
-      "uptoAmount": 500000,
+      "start": 300001,
+      "upto": 500000,
       "fee": {
         "id": "X0029",
         "type": "fixed",
@@ -62,8 +62,8 @@
       }
     },
     {
-      "startAmount": 500001,
-      "uptoAmount": 1000000,
+      "start": 500001,
+      "upto": 1000000,
       "fee": {
         "id": "X0433",
         "type": "fixed",
@@ -72,8 +72,8 @@
       }
     },
     {
-      "startAmount": 1000001,
-      "uptoAmount": 1500000,
+      "start": 1000001,
+      "upto": 1500000,
       "fee": {
         "id": "X0434",
         "type": "percentage",
