@@ -203,7 +203,7 @@
           "start": 0,
           "upto": 1,
           "fee": {
-            "id": "X0252",
+            "id": "X0251-1",
             "type": "fixed",
             "amount": 1000,
             "description": "First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued."
@@ -212,7 +212,7 @@
         {
           "start": 2,
           "fee": {
-            "id": "X0253",
+            "id": "X0251-2",
             "type": "fixed",
             "amount": 50,
             "description": "Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued."
@@ -221,16 +221,96 @@
       ],
       "flatFees": [
         {
-          "id": "X0254",
+          "id": "X0251-3",
           "type": "fixed",
           "amount": 50,
           "description": "Additional Copies -Official (sealed) copies of the Grant of Representation if ordered when you lodge your application for a Grant of Representation. Note: You should decide how many copies you will need and add the cost to your application fee – this will give you the total amount payable. See examples below. It can save you a lot of time when collecting in the deceased’s assets if you have a few extra copies of the grant to produce to the organisations holding the assets."
         },
         {
-          "id": "X0255",
+          "id": "X0251-4",
           "type": "fixed",
           "amount": 50,
           "description": "‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering."
+        }
+      ]
+    },
+    {
+      "id": "divorce",
+      "flatFees": [
+        {
+          "id": "X0165",
+          "type": "fixed",
+          "amount": 55000,
+          "description": "Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2."
+        },{
+          "id": "X0165-1",
+          "type": "fixed",
+          "amount": 24500,
+          "description": "Filing an application to start proceedings where no other fee is specified e.g. Application to transfer a tenancy - fees order 1.1."
+        },
+        {
+          "id": "X0165-2",
+          "type": "fixed",
+          "amount": 5000,
+          "description": "Application by consent for a financial order – fees order 5.1."
+        },
+        {
+          "id": "X0165-3",
+          "type": "fixed",
+          "amount": 25500,
+          "description": "Application for a financial order, other than by consent – fees order 5.4."
+        },{
+          "id": "X0165-4",
+          "type": "fixed",
+          "amount": 0,
+          "description": "Application for an occupation order."
+        },
+        {
+          "id": "X0165-5",
+          "type": "fixed",
+          "amount": 0,
+          "description": "Application for a non-molestation order. First attempt is free."
+        },
+        {
+          "id": "X0165-6",
+          "type": "fixed",
+          "amount": 9500,
+          "description": "Application for a non-molestation order - Second or subsequent attempt."
+        },
+        {
+          "id": "X0166",
+          "type": "fixed",
+          "amount": 36500,
+          "description": "Filing an application for judicial separation – fees order 1.3."
+        },{
+          "id": "X0166-1",
+          "type": "fixed",
+          "amount": 36500,
+          "description": "Filing a Declaration as to marital status, parentage, legitimacy or adoptions effected overseas – fees order 1.3."
+        },
+        {
+          "id": "X0168",
+          "type": "fixed",
+          "amount": 9500,
+          "description": "Filing an amended application for a matrimonial or civil partnership order – fees order 1.5."
+        },
+        {
+          "id": "X0168-1",
+          "type": "fixed",
+          "amount": 9500,
+          "description": "Filing an application for a second or subsequent matrimonial or civil partnership order with permission granted under Family Procedure Rules 2010 rule 7.7 (1)(b) – fees order 1.5."
+        },
+        {
+          "id": "X0169",
+          "type": "fixed",
+          "amount": 24500,
+          "description": "Filing an answer to an application for a matrimonial or civil partnership order – fees order 1.6."
+        },
+        {
+          "id": "X0206",
+          "type": "fixed",
+          "amount": 5000,
+          "description": "Filing an application to make a decree nisi, absolute (divorce), or a conditional order, final (dissolution) - only payable if the original application for divorce, nullity or civil partnership dissolution was filed before 1 July 2013 – fees order 5.1."
         }
       ]
     }
