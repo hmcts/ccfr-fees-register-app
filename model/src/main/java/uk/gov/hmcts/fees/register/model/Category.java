@@ -26,7 +26,7 @@ public class Category {
                     @JsonProperty("flatFees") List<Fee> flatFees) {
         this.id = id;
         this.ranges = (null == ranges ? Collections.emptyList() : ranges);
-        this.flatFees = flatFees;
+        this.flatFees = (null == flatFees ? Collections.emptyList() : flatFees);
     }
 
     public Optional<Range> findRange(int amount) {
@@ -42,10 +42,10 @@ public class Category {
 
     public Optional<Fee> findFlatFee(String feeId) {
 
-        if (null != flatFees)
-            return flatFees.stream().filter(x -> feeId.equals(x.getId())).findFirst();
+        if (flatFees.isEmpty())
+            return Optional.empty();
 
-        return Optional.empty();
+        return flatFees.stream().filter(x -> feeId.equals(x.getId())).findFirst();
 
     }
 
