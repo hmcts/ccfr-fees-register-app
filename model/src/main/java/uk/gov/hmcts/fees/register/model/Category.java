@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,23 +18,24 @@ public class Category {
     private final List<Range> ranges;
     private final List<Fee> flatFees;
 
+
     @JsonCreator
     @Builder(builderMethodName = "categoryWith")
     public Category(@JsonProperty("id") String id,
                     @JsonProperty("ranges") List<Range> ranges,
                     @JsonProperty("flatFees") List<Fee> flatFees) {
         this.id = id;
-        this.ranges = ranges;
+        this.ranges = (null == ranges ? Collections.emptyList() : ranges);
         this.flatFees = flatFees;
     }
 
     public Optional<Range> findRange(int amount) {
-        if(null != ranges) {
-            for (Range range : ranges) {
-                if ((null == range.getUptoAmount()) || (range.getStartAmount() <= amount && amount <= range.getUptoAmount())) {
-                    return Optional.of(range);
-                }
+
+        for (Range range : ranges) {
+            if ((null == range.getUptoAmount()) || (range.getStartAmount() <= amount && amount <= range.getUptoAmount())) {
+                return Optional.of(range);
             }
+
         }
         return Optional.empty();
     }
