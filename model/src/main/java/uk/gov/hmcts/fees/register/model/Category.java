@@ -28,12 +28,13 @@ public class Category {
     }
 
     public Optional<Range> findRange(int amount) {
-        for (Range range : ranges) {
-            if ((null == range.getUptoAmount()) || (range.getStartAmount() <= amount && amount <= range.getUptoAmount())) {
-                return Optional.of(range);
+        if(null != ranges) {
+            for (Range range : ranges) {
+                if ((null == range.getUptoAmount()) || (range.getStartAmount() <= amount && amount <= range.getUptoAmount())) {
+                    return Optional.of(range);
+                }
             }
         }
-
         return Optional.empty();
     }
 
