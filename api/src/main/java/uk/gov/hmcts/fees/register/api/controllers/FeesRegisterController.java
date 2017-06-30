@@ -81,8 +81,9 @@ public class FeesRegisterController {
 
         List<Fee> flatFees = getCategory(id).getFlatFees();
 
-        if(flatFees.isEmpty())
+        if (flatFees.isEmpty()) {
             throw new EntityNotFoundException("Flat fees not found, category: " + id);
+        }
 
         return flatFees;
 
