@@ -24,7 +24,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
 
             stage('Build') {
                 def descriptor = Artifactory.mavenDescriptor()
-                descriptor.version = "1.0.2.${env.BUILD_NUMBER}"
+                descriptor.version = readFile('version.txt').trim()
                 descriptor.transform()
 
                 def rtMaven = Artifactory.newMavenBuild()
@@ -56,7 +56,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
 
             milestone()
         } catch (err) {
-            notifyBuildFailure channel: '#cc_tech'
+            notifyBuildFailure channel: '#cc-payments-tech'
             throw err
         }
     }
