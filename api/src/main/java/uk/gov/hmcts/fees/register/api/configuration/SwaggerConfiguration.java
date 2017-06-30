@@ -22,8 +22,6 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo apiInfo() {
-
-        new ApiInfoBuilder();
         return new ApiInfoBuilder()
             .title("Fee Register API")
             .description("Fee Register API to retrieve the correct fee.")
