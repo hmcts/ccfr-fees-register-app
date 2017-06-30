@@ -24,7 +24,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
 
             stage('Build') {
                 def descriptor = Artifactory.mavenDescriptor()
-                descriptor.version = "1.0.2.${env.BUILD_NUMBER}"
+                descriptor.version = new File('version.txt').text
                 descriptor.transform()
 
                 def rtMaven = Artifactory.newMavenBuild()
