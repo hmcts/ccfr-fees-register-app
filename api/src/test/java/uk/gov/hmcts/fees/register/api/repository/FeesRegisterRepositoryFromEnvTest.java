@@ -1,13 +1,14 @@
 package uk.gov.hmcts.fees.register.api.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.FileNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.fees.register.api.repositories.FeesRegisterRepository;
 import uk.gov.hmcts.fees.register.model.FeesRegister;
 
@@ -17,18 +18,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = {FeesRegisterRepository.class, ObjectMapper.class})
 public class FeesRegisterRepositoryFromEnvTest {
     @Autowired
-    private DefaultResourceLoader defaultResourceLoader;
-
-    @Autowired
     private FeesRegisterRepository feesRegisterRepository;
     private FeesRegister loadedRegister;
 
+    static {
+        try {
+            String path = ResourceUtils.getFile("classpath:FeesRegister.json").getAbsolutePath();
+            System.setProperty("FEE_REGISTER_DB", "file:" + path);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Before
     public void setUp() throws Exception {
-        String path = defaultResourceLoader.getResource("classpath:FeesRegister.json").getURL().getFile();
-
-        System.setProperty("FEE_REGISTER_DB", path);
-
         feesRegisterRepository.init();
         loadedRegister = feesRegisterRepository.getFeesRegister();
     }
