@@ -56,7 +56,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
 
             milestone()
         } catch (err) {
-            notifyBuildFailure channel: '#cc_tech'
+            notifyBuildFailure channel: '#cc-payments-tech'
             throw err
         }
     }
