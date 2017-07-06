@@ -37,7 +37,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
                 dockerImage imageName: 'fees-register/fees-api'
             }
 
-            ifMaster {
+            onMaster {
                 def rpmVersion
 
                 stage('Publish JAR') {
@@ -59,11 +59,5 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
             notifyBuildFailure channel: '#cc-payments-tech'
             throw err
         }
-    }
-}
-
-private ifMaster(Closure body) {
-    if ("master" == "${env.BRANCH_NAME}") {
-        body()
     }
 }
