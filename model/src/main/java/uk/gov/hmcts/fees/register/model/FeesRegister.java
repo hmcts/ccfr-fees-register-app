@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Builder(builderMethodName = "feeRegisterWith")
 public class FeesRegister {
 
