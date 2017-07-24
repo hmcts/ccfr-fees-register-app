@@ -30,6 +30,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
                 def rtMaven = Artifactory.newMavenBuild()
                 rtMaven.tool = 'apache-maven-3.3.9'
                 rtMaven.deployer releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
+                rtMaven.deployer.deployArtifacts = (env.BRANCH_NAME == 'master')
                 rtMaven.run pom: 'pom.xml', goals: 'clean install sonar:sonar', buildInfo: buildInfo
             }
 
