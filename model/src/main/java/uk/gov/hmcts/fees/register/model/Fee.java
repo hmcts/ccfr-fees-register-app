@@ -15,7 +15,7 @@ import lombok.NonNull;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = FixedFee.class, name = "fixed"),
     @JsonSubTypes.Type(value = PercentageFee.class, name = "percentage")})
-public abstract class Fee implements CalculatedFee {
+public abstract class Fee implements CalculateableFee {
     @NonNull
     private final String id;
     @NonNull
