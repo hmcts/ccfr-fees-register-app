@@ -1,6 +1,8 @@
 package uk.gov.hmcts.fees.register.api.componenttests.sugar;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.test.web.servlet.MvcResult;
@@ -20,6 +22,15 @@ public class CustomResultMatcher implements ResultMatcher {
     public CustomResultMatcher isEqualTo(Object expected) {
         matchers.add(result -> {
             Object actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), expected.getClass());
+            assertThat(actual).isEqualTo(expected);
+        });
+        return this;
+    }
+
+    public ResultMatcher isEqualTo(Object expected, Class parameterizedType) {
+        matchers.add(result -> {
+            JavaType javaType = TypeFactory.defaultInstance().constructParametricType(expected.getClass(), parameterizedType);
+            Object actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), javaType);
             assertThat(actual).isEqualTo(expected);
         });
         return this;
