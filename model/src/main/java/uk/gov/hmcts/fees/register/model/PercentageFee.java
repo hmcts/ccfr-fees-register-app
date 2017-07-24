@@ -10,13 +10,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PercentageFee extends Fee implements SpecifiedFee {
+public class PercentageFee extends Fee {
     @NonNull
     private final BigDecimal percentage;
 
@@ -30,7 +28,11 @@ public class PercentageFee extends Fee implements SpecifiedFee {
     }
 
     @Override
-    public int calculate(int amount) {
-        return new BigDecimal(amount).multiply(percentage).divide(BigDecimal.valueOf(100)).intValue();
+    public int calculate(int value) {
+        return new BigDecimal(value).multiply(percentage).divide(BigDecimal.valueOf(100)).intValue();
+    }
+
+    public String  getType() {
+        return "percentage";
     }
 }

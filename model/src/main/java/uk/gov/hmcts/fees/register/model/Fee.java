@@ -10,12 +10,12 @@ import lombok.NonNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
     property = "type")
 @JsonSubTypes({
     @JsonSubTypes.Type(value = FixedFee.class, name = "fixed"),
     @JsonSubTypes.Type(value = PercentageFee.class, name = "percentage")})
-public class Fee {
+public abstract class Fee implements CalculatedFee {
     @NonNull
     private final String id;
     @NonNull

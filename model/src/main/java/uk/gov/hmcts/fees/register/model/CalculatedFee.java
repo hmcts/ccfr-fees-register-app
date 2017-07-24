@@ -1,6 +1,6 @@
 package uk.gov.hmcts.fees.register.model;
 
 @FunctionalInterface
-public interface SpecifiedFee {
-    int calculate(int amount);
+public interface CalculatedFee {
+    int calculate(int value);
 }

@@ -2,17 +2,21 @@ package uk.gov.hmcts.fees.register.api.controllers;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees.register.api.repositories.FeesRegisterRepository;
 import uk.gov.hmcts.fees.register.model.Category;
 import uk.gov.hmcts.fees.register.model.EntityNotFoundException;
 import uk.gov.hmcts.fees.register.model.Fee;
 import uk.gov.hmcts.fees.register.model.FeesRegister;
-
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -50,14 +54,16 @@ public class FeesRegisterController {
     @ApiOperation(value = "Find appropriate fees amount for given claim.",
         notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees). All input and output amounts are in pence.  ", response = Fee.class)
     @GetMapping("/categories/{id}/ranges/{amount}/fees")
-    public Fee getCategoryRange(
+    public CalculatedFeeDto getCategoryRange(
         @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
         @ApiParam(value = "This is claim amount in pence", required = true) @PathVariable(value = "amount") int amount) {
 
-        return getCategory(id)
+        Fee fee = getCategory(id)
             .findRange(amount)
             .orElseThrow(() -> new EntityNotFoundException("Range not found, amount: " + amount))
             .getFee();
+
+        return new CalculatedFeeDto(fee, fee.calculate(amount));
     }
 
 

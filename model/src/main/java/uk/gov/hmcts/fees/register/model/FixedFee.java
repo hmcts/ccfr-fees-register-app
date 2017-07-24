@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FixedFee extends Fee implements SpecifiedFee {
+public class FixedFee extends Fee {
     private final int amount;
 
     @JsonCreator
@@ -25,7 +25,11 @@ public class FixedFee extends Fee implements SpecifiedFee {
     }
 
     @Override
-    public int calculate(int amount) { // TODO: think about getting rid of parameter
+    public int calculate(int value) {
         return this.amount;
+    }
+
+    public String  getType() {
+        return "fixed";
     }
 }
