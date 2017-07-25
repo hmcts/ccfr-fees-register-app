@@ -54,7 +54,7 @@ public class FeesRegisterController {
     @ApiOperation(value = "Find appropriate fees amount for given claim.",
         notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees). All input and output amounts are in pence.  ", response = Fee.class)
     @GetMapping("/categories/{id}/ranges/{amount}/fees")
-    public ChargedFeeWrapperDto getCategoryRange(
+    public ChargeableFeeWrapperDto getCategoryRange(
         @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
         @ApiParam(value = "This is claim amount in pence", required = true) @PathVariable(value = "amount") int amount) {
 
@@ -63,7 +63,7 @@ public class FeesRegisterController {
             .orElseThrow(() -> new EntityNotFoundException("Range not found, amount: " + amount))
             .getFee();
 
-        return new ChargedFeeWrapperDto(fee, fee.calculate(amount));
+        return new ChargeableFeeWrapperDto(fee, fee.calculate(amount));
     }
 
 

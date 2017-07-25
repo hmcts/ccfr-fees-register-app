@@ -10,17 +10,17 @@ import uk.gov.hmcts.fees.register.model.Fee;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ChargedFeeWrapperDto<F extends Fee> {
+public class ChargeableFeeWrapperDto<F extends Fee> {
     @JsonUnwrapped
     private final F fee;
 
-    private final int chargedFee;
+    private final int chargeableFee;
 
     @JsonCreator
-    @Builder(builderMethodName = "calculatedFeeDtoWith")
-    public ChargedFeeWrapperDto(@JsonProperty("fee") F fee,
-                                @JsonProperty("chargedFee") int chargedFee) {
+    @Builder(builderMethodName = "chargeableFeeDtoWith")
+    public ChargeableFeeWrapperDto(@JsonProperty("fee") F fee,
+                                   @JsonProperty("chargeableFee") int chargeableFee) {
         this.fee = fee;
-        this.chargedFee = chargedFee;
+        this.chargeableFee = chargeableFee;
     }
 }

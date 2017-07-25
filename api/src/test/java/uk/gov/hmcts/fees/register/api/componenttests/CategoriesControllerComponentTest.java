@@ -6,7 +6,7 @@ import uk.gov.hmcts.fees.register.model.FixedFee;
 import uk.gov.hmcts.fees.register.model.PercentageFee;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees.register.api.controllers.ChargedFeeWrapperDto.calculatedFeeDtoWith;
+import static uk.gov.hmcts.fees.register.api.controllers.ChargeableFeeWrapperDto.chargeableFeeDtoWith;
 
 public class CategoriesControllerComponentTest extends ComponentTestBase {
 
@@ -66,9 +66,9 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
             .get("/fees-register/categories/hearingfees/ranges/300000/fees")
             .andExpect(status().isOk())
             .andExpect(body().isEqualTo(
-                calculatedFeeDtoWith()
+                chargeableFeeDtoWith()
                     .fee(new FixedFee("X0052", "Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP", 17000))
-                    .chargedFee(17000)
+                    .chargeableFee(17000)
                     .build(),
                 FixedFee.class
             ));
@@ -80,9 +80,9 @@ public class CategoriesControllerComponentTest extends ComponentTestBase {
             .get("/fees-register/categories/onlinefees/ranges/1500000/fees")
             .andExpect(status().isOk())
             .andExpect(body().isEqualTo(
-                calculatedFeeDtoWith()
+                chargeableFeeDtoWith()
                     .fee(new PercentageFee("X0434", "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value", BigDecimal.valueOf(4.5)))
-                    .chargedFee(67500)
+                    .chargeableFee(67500)
                     .build(),
                 PercentageFee.class
             ));
