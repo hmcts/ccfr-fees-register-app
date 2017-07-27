@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees.register.model;
+package uk.gov.hmcts.fees.register.legacymodel;
 
 @FunctionalInterface
 public interface CalculateableFee {

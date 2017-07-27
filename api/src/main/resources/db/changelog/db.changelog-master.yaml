@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: jalald
+      changes:
+        - createTable:
+            tableName: fee
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(2000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: int
+              - column:
+                  name: percentage
+                  type: decimal(3,2)
+
+  - changeSet:
+      id: 2
+      author: kazyss
+      changes:
+      - sql:
+          splitStatements: true
+          sql: >
+            INSERT INTO fee (id, code, description, type, amount, percentage) VALUES
+            (1, 'X0024', 'Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP', 'fixed', 2500, null),
+            (2, 'X0025', 'Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP', 'fixed', 3500, null),
+            (3, 'X0026', 'Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP', 'fixed', 6000, null),
+            (4, 'X0027', 'Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP', 'fixed', 7000, null),
+            (5, 'X0028', 'Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP', 'fixed', 10500, null),
+            (6, 'X0029', 'Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP', 'fixed', 18500, null),
+            (7, 'X0433', 'Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP', 'fixed', 41000, null),
+            (8, 'X0434', 'Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value', 'percentage', null, 4.5);

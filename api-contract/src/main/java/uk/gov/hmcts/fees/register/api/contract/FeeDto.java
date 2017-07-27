@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees.register.model;
+package uk.gov.hmcts.fees.register.api.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -13,11 +13,13 @@ import lombok.NonNull;
     include = JsonTypeInfo.As.EXISTING_PROPERTY,
     property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = FixedFee.class, name = "fixed"),
-    @JsonSubTypes.Type(value = PercentageFee.class, name = "percentage")})
-public abstract class Fee implements CalculateableFee {
+    @JsonSubTypes.Type(value = FixedFeeDto.class, name = "fixed"),
+    @JsonSubTypes.Type(value = PercentageFeeDto.class, name = "percentage")})
+public class FeeDto {
     @NonNull
-    private final String id;
+    private final Integer id;
+    @NonNull
+    private final String code;
     @NonNull
     private final String description;
 }
