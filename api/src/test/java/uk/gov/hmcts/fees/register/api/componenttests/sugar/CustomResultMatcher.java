@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -32,6 +33,15 @@ public class CustomResultMatcher implements ResultMatcher {
             JavaType javaType = TypeFactory.defaultInstance().constructParametricType(expected.getClass(), parameterizedType);
             Object actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), javaType);
             assertThat(actual).isEqualTo(expected);
+        });
+        return this;
+    }
+
+    public ResultMatcher isListContaining(Class collectionType, Object... expectedItems) {
+        matchers.add(result -> {
+            JavaType javaType = TypeFactory.defaultInstance().constructCollectionType(List.class, collectionType);
+            List actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), javaType);
+            assertThat(actual).contains(expectedItems);
         });
         return this;
     }

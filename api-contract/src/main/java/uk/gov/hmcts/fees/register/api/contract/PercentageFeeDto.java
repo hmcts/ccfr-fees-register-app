@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees.register.model;
+package uk.gov.hmcts.fees.register.api.contract;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,25 +14,21 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PercentageFee extends Fee {
+public class PercentageFeeDto extends FeeDto {
     @NonNull
     private final BigDecimal percentage;
 
     @JsonCreator
-    @Builder(builderMethodName = "percentageFeeWith")
-    public PercentageFee(@JsonProperty("id") String id,
-                         @JsonProperty("description") String description,
-                         @JsonProperty("percentage") BigDecimal percentage) {
-        super(id, description);
+    @Builder(builderMethodName = "percentageFeeDtoWith")
+    public PercentageFeeDto(@JsonProperty("id") Integer id,
+                            @JsonProperty("code") String code,
+                            @JsonProperty("description") String description,
+                            @JsonProperty("percentage") BigDecimal percentage) {
+        super(id, code, description);
         this.percentage = percentage;
     }
 
-    @Override
-    public int calculate(int value) {
-        return new BigDecimal(value).multiply(percentage).divide(BigDecimal.valueOf(100)).intValue();
-    }
-
-    public String  getType() {
+    public String getType() {
         return "percentage";
     }
 }

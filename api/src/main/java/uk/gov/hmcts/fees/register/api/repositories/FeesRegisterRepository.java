@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
-import uk.gov.hmcts.fees.register.model.FeesRegister;
-import uk.gov.hmcts.fees.register.model.FeesRegisterNotLoadedException;
+import uk.gov.hmcts.fees.register.legacymodel.FeesRegister;
+import uk.gov.hmcts.fees.register.legacymodel.FeesRegisterNotLoadedException;
 
 @Repository
 public class FeesRegisterRepository {

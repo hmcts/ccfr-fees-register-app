@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Builder;
 import lombok.Data;
-import uk.gov.hmcts.fees.register.model.Fee;
+import uk.gov.hmcts.fees.register.legacymodel.Fee;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

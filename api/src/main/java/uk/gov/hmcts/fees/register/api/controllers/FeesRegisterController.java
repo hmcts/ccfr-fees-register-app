@@ -1,107 +1,43 @@
 package uk.gov.hmcts.fees.register.api.controllers;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.fees.register.api.repositories.FeesRegisterRepository;
-import uk.gov.hmcts.fees.register.model.Category;
-import uk.gov.hmcts.fees.register.model.EntityNotFoundException;
-import uk.gov.hmcts.fees.register.model.Fee;
-import uk.gov.hmcts.fees.register.model.FeesRegister;
+import uk.gov.hmcts.fees.register.api.contract.FeeDto;
+import uk.gov.hmcts.fees.register.api.model.Fee;
+import uk.gov.hmcts.fees.register.api.model.FeeRepository;
+import uk.gov.hmcts.fees.register.legacymodel.EntityNotFoundException;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static java.util.stream.Collectors.toList;
 
 @RestController()
 @RequestMapping("/fees-register")
 public class FeesRegisterController {
 
-    private FeesRegisterRepository feesRegisterRepository;
+    private final FeeDtoMapper feeDtoMapper;
+    private final FeeRepository feeRepository;
 
     @Autowired
-    public FeesRegisterController(FeesRegisterRepository feesRegisterRepository) {
-        this.feesRegisterRepository = feesRegisterRepository;
+    public FeesRegisterController(FeeDtoMapper feeDtoMapper, FeeRepository feeRepository) {
+        this.feeDtoMapper = feeDtoMapper;
+        this.feeRepository = feeRepository;
     }
 
-    @GetMapping()
-    public FeesRegister getAllFees() {
-        return getFeesRegister();
+    @GetMapping("/fees")
+    public List<FeeDto> getFees() {
+        return feeRepository.findAll().stream().map(feeDtoMapper::toFeeDto).collect(toList());
     }
 
+    @GetMapping("/fees/{id}")
+    public FeeDto getFee(@PathVariable("id") Integer id) {
+        Fee fee = feeRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Fee not found. Id: " + id));
 
-    @GetMapping("/categories")
-    public List<Category> getCategories() {
-        return getFeesRegister().getCategories();
+        return feeDtoMapper.toFeeDto(fee);
     }
 
-    @GetMapping("/categories/{id}")
-    @ResponseBody
-    public Category getCategory(@PathVariable(value = "id") String categoryId) {
-
-        return getFeesRegister()
-            .getClaimCategory(categoryId)
-            .orElseThrow(() -> new EntityNotFoundException("Category not found, id: " + categoryId));
-    }
-
-    @ApiOperation(value = "Find appropriate fees amount for given claim.",
-        notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees). All input and output amounts are in pence.  ", response = Fee.class)
-    @GetMapping("/categories/{id}/ranges/{amount}/fees")
-    public ChargeableFeeWrapperDto getCategoryRange(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
-        @ApiParam(value = "This is claim amount in pence", required = true) @PathVariable(value = "amount") int amount) {
-
-        Fee fee = getCategory(id)
-            .findRange(amount)
-            .orElseThrow(() -> new EntityNotFoundException("Range not found, amount: " + amount))
-            .getFee();
-
-        return new ChargeableFeeWrapperDto(fee, fee.calculate(amount));
-    }
-
-
-    @ApiOperation(value = "Find appropriate flat fees for given fee id.",
-        notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees) and flat fee id. ", response = Fee.class)
-    @GetMapping("/categories/{id}/flat/{feeId}")
-    public Fee getFlatFeeInACategory(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
-        @ApiParam(value = "This is flat fee in a category", required = true) @PathVariable(value = "feeId") String feeId) {
-
-        return getCategory(id)
-            .findFlatFee(feeId)
-            .orElseThrow(() -> new EntityNotFoundException("Flat fees not found, feeId: " + feeId));
-    }
-
-    @ApiOperation(value = "Find all flat fees for given category.",
-        notes = "This endpoint returns all flat fees for given category(e.g. onlinefees or hearingfees). ", response = Fee.class)
-    @GetMapping("/categories/{id}/flat")
-    public List<Fee> getAllFlatFeesInACategory(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id) {
-
-        List<Fee> flatFees = getCategory(id).getFlatFees();
-
-        if (flatFees.isEmpty()) {
-            throw new EntityNotFoundException("Flat fees not found, category: " + id);
-        }
-
-        return flatFees;
-
-    }
-
-
-    private FeesRegister getFeesRegister() {
-        return feesRegisterRepository.getFeesRegister();
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<HttpStatus> handleEntityNotFoundException() {
-        return new ResponseEntity<>(NOT_FOUND);
-    }
 }

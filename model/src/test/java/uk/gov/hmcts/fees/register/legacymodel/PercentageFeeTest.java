@@ -1,10 +1,10 @@
-package uk.gov.hmcts.fees.register.model;
+package uk.gov.hmcts.fees.register.legacymodel;
 
 import java.math.BigDecimal;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static uk.gov.hmcts.fees.register.model.PercentageFee.percentageFeeWith;
+import static uk.gov.hmcts.fees.register.legacymodel.PercentageFee.percentageFeeWith;
 
 public class PercentageFeeTest {
 

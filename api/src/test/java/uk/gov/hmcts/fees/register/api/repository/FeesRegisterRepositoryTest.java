@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.fees.register.api.repositories.FeesRegisterRepository;
-import uk.gov.hmcts.fees.register.model.FeesRegister;
+import uk.gov.hmcts.fees.register.legacymodel.FeesRegister;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

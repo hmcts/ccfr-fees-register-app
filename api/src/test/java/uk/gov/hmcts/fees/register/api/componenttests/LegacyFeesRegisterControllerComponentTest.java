@@ -2,13 +2,13 @@ package uk.gov.hmcts.fees.register.api.componenttests;
 
 import java.math.BigDecimal;
 import org.junit.Test;
-import uk.gov.hmcts.fees.register.model.FixedFee;
-import uk.gov.hmcts.fees.register.model.PercentageFee;
+import uk.gov.hmcts.fees.register.legacymodel.FixedFee;
+import uk.gov.hmcts.fees.register.legacymodel.PercentageFee;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.controllers.ChargeableFeeWrapperDto.chargeableFeeDtoWith;
 
-public class CategoriesControllerComponentTest extends ComponentTestBase {
+public class LegacyFeesRegisterControllerComponentTest extends ComponentTestBase {
 
     @Test
     public void categoriesShouldResultIn200() throws Exception {
