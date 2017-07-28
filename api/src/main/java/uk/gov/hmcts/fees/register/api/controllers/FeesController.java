@@ -15,20 +15,20 @@ import static java.util.stream.Collectors.toList;
 
 @RestController()
 @RequestMapping("/fees-register")
-public class FeesRegisterController {
+public class FeesController {
 
-    private final FeeDtoMapper feeDtoMapper;
+    private final FeesDtoMapper feesDtoMapper;
     private final FeeRepository feeRepository;
 
     @Autowired
-    public FeesRegisterController(FeeDtoMapper feeDtoMapper, FeeRepository feeRepository) {
-        this.feeDtoMapper = feeDtoMapper;
+    public FeesController(FeesDtoMapper feesDtoMapper, FeeRepository feeRepository) {
+        this.feesDtoMapper = feesDtoMapper;
         this.feeRepository = feeRepository;
     }
 
     @GetMapping("/fees")
     public List<FeeDto> getFees() {
-        return feeRepository.findAll().stream().map(feeDtoMapper::toFeeDto).collect(toList());
+        return feeRepository.findAll().stream().map(feesDtoMapper::toFeeDto).collect(toList());
     }
 
     @GetMapping("/fees/{id}")
@@ -37,7 +37,7 @@ public class FeesRegisterController {
             .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Fee not found. Id: " + id));
 
-        return feeDtoMapper.toFeeDto(fee);
+        return feesDtoMapper.toFeeDto(fee);
     }
 
 }

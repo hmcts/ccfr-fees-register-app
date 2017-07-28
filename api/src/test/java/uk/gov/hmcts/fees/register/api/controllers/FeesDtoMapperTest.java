@@ -10,9 +10,9 @@ import uk.gov.hmcts.fees.register.api.model.PercentageFee;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FeeDtoMapperTest {
+public class FeesDtoMapperTest {
 
-    private final FeeDtoMapper mapper = new FeeDtoMapper();
+    private final FeesDtoMapper mapper = new FeesDtoMapper();
 
     @Test
     public void convertsFixedFee() {

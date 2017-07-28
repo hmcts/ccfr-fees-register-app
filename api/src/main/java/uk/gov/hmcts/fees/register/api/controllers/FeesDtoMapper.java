@@ -9,7 +9,7 @@ import uk.gov.hmcts.fees.register.api.model.FixedFee;
 import uk.gov.hmcts.fees.register.api.model.PercentageFee;
 
 @Component
-public class FeeDtoMapper {
+public class FeesDtoMapper {
 
     public FeeDto toFeeDto(Fee fee) {
         if (fee instanceof FixedFee) {
