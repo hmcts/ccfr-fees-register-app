@@ -42,15 +42,16 @@ databaseChangeLog:
       - sql:
           splitStatements: true
           sql: >
-            INSERT INTO fee (id, code, description, type, amount, percentage) VALUES
-            (1, 'X0024', 'Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP', 'fixed', 2500, null),
-            (2, 'X0025', 'Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP', 'fixed', 3500, null),
-            (3, 'X0026', 'Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP', 'fixed', 6000, null),
-            (4, 'X0027', 'Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP', 'fixed', 7000, null),
-            (5, 'X0028', 'Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP', 'fixed', 10500, null),
-            (6, 'X0029', 'Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP', 'fixed', 18500, null),
-            (7, 'X0433', 'Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP', 'fixed', 41000, null),
-            (8, 'X0434', 'Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value', 'percentage', null, 4.5);
+            INSERT INTO fee (id, code, description, type, amount, percentage)
+            VALUES
+              (1, 'X0024', 'Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP', 'fixed', 2500, null),
+              (2, 'X0025', 'Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP', 'fixed', 3500, null),
+              (3, 'X0026', 'Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP', 'fixed', 6000, null),
+              (4, 'X0027', 'Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP', 'fixed', 7000, null),
+              (5, 'X0028', 'Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP', 'fixed', 10500, null),
+              (6, 'X0029', 'Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP', 'fixed', 18500, null),
+              (7, 'X0433', 'Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP', 'fixed', 41000, null),
+              (8, 'X0434', 'Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value', 'percentage', null, 4.5);
 
   - changeSet:
       id: 3
@@ -58,32 +59,112 @@ databaseChangeLog:
       changes:
       - sql:
           sql: >
-            INSERT INTO fee (id, code, description, type, amount, percentage) VALUES
-            (9, 'X0048', 'Civil Court fees - Hearing fees - Claim Amount - 0.01 upto 300 GBP', 'fixed', 2500, null),
-            (10, 'X0049', 'Civil Court fees - Hearing fees - Claim Amount - 300.01 upto 500 GBP', 'fixed', 5500, null),
-            (11, 'X0050', 'Civil Court fees - Hearing fees - Claim Amount - 500.01 upto 1000 GBP', 'fixed', 8000, null),
-            (12, 'X0051', 'Civil Court fees - Hearing fees - Claim Amount - 1000.01 upto 1500 GBP', 'fixed', 11500, null),
-            (13, 'X0052', 'Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP', 'fixed', 17000, null),
-            (14, 'X0053', 'Civil Court fees - Hearing fees - Claim Amount - 3000.01 upto 100000 GBP', 'fixed', 33500, null),
-            (15, 'X0046', 'Civil Court fees - Hearing fees - Multi track claim', 'fixed', 109000, null),
-            (16, 'X0047', 'Civil Court fees - Hearing fees - Fast track claim', 'fixed', 54500, null),
-            (17, 'X0249', 'If the net estate as above is under £5,000', 'fixed', 0, null),
-            (18, 'X0250', 'In all cases where the net estate (ie the amount remaining in the deceased’s sole name after funeral expenses and debts owing have been deducted) is over £5,000. Note: Joint assets passing automatically', 'fixed', 21500, null),
-            (19, 'X0251', 'Application for a second grant in an estate where a previous grant has been issued.', 'fixed', 2000, null),
-            (20, 'X0251-1', 'First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.', 'fixed', 1000, null),
-            (21, 'X0251-2', 'Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.', 'fixed', 50, null),
-            (22, 'X0251-3', 'Additional Copies -Official (sealed) copies of the Grant of Representation if ordered when you lodge your application for a Grant of Representation. Note: You should decide how many copies you will need and add the cost to your application fee – this will give you the total amount payable. See examples below. It can save you a lot of time when collecting in the deceased’s assets if you have a few extra copies of the grant to produce to the organisations holding the assets.', 'fixed', 50, null),
-            (23, 'X0251-4', '‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering.', 'fixed', 50, null),
-            (24, 'X0165', 'Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.', 'fixed', 55000, null),
-            (25, 'X0165-1', 'Filing an application to start proceedings where no other fee is specified e.g. Application to transfer a tenancy - fees order 1.1.', 'fixed', 24500, null),
-            (26, 'X0165-2', 'Application by consent for a financial order – fees order 5.1.', 'fixed', 5000, null),
-            (27, 'X0165-3', 'Application for a financial order, other than by consent – fees order 5.4.', 'fixed', 25500, null),
-            (28, 'X0165-4', 'Application for an occupation order.', 'fixed', 0, null),
-            (29, 'X0165-5', 'Application for a non-molestation order. First attempt is free.', 'fixed', 0, null),
-            (30, 'X0165-6', 'Application for a non-molestation order - Second or subsequent attempt.', 'fixed', 9500, null),
-            (31, 'X0166', 'Filing an application for judicial separation – fees order 1.3.', 'fixed', 36500, null),
-            (32, 'X0166-1', 'Filing a Declaration as to marital status, parentage, legitimacy or adoptions effected overseas – fees order 1.3.', 'fixed', 36500, null),
-            (33, 'X0168', 'Filing an amended application for a matrimonial or civil partnership order – fees order 1.5.', 'fixed', 9500, null),
-            (34, 'X0168-1', 'Filing an application for a second or subsequent matrimonial or civil partnership order with permission granted under Family Procedure Rules 2010 rule 7.7 (1)(b) – fees order 1.5.', 'fixed', 9500, null),
-            (35, 'X0169', 'Filing an answer to an application for a matrimonial or civil partnership order – fees order 1.6.', 'fixed', 24500, null),
-            (36, 'X0206', 'Filing an application to make a decree nisi, absolute (divorce), or a conditional order, final (dissolution) - only payable if the original application for divorce, nullity or civil partnership dissolution was filed before 1 July 2013 – fees order 5.1.', 'fixed', 5000, null);
+            INSERT INTO fee (id, code, description, type, amount, percentage)
+            VALUES
+              (9, 'X0048', 'Civil Court fees - Hearing fees - Claim Amount - 0.01 upto 300 GBP', 'fixed', 2500, null),
+              (10, 'X0049', 'Civil Court fees - Hearing fees - Claim Amount - 300.01 upto 500 GBP', 'fixed', 5500, null),
+              (11, 'X0050', 'Civil Court fees - Hearing fees - Claim Amount - 500.01 upto 1000 GBP', 'fixed', 8000, null),
+              (12, 'X0051', 'Civil Court fees - Hearing fees - Claim Amount - 1000.01 upto 1500 GBP', 'fixed', 11500, null),
+              (13, 'X0052', 'Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP', 'fixed', 17000, null),
+              (14, 'X0053', 'Civil Court fees - Hearing fees - Claim Amount - 3000.01 upto 100000 GBP', 'fixed', 33500, null),
+              (15, 'X0046', 'Civil Court fees - Hearing fees - Multi track claim', 'fixed', 109000, null),
+              (16, 'X0047', 'Civil Court fees - Hearing fees - Fast track claim', 'fixed', 54500, null),
+              (17, 'X0249', 'If the net estate as above is under £5,000', 'fixed', 0, null),
+              (18, 'X0250', 'In all cases where the net estate (ie the amount remaining in the deceased’s sole name after funeral expenses and debts owing have been deducted) is over £5,000. Note: Joint assets passing automatically', 'fixed', 21500, null),
+              (19, 'X0251', 'Application for a second grant in an estate where a previous grant has been issued.', 'fixed', 2000, null),
+              (20, 'X0251-1', 'First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.', 'fixed', 1000, null),
+              (21, 'X0251-2', 'Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.', 'fixed', 50, null),
+              (22, 'X0251-3', 'Additional Copies -Official (sealed) copies of the Grant of Representation if ordered when you lodge your application for a Grant of Representation. Note: You should decide how many copies you will need and add the cost to your application fee – this will give you the total amount payable. See examples below. It can save you a lot of time when collecting in the deceased’s assets if you have a few extra copies of the grant to produce to the organisations holding the assets.', 'fixed', 50, null),
+              (23, 'X0251-4', '‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering.', 'fixed', 50, null),
+              (24, 'X0165', 'Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.', 'fixed', 55000, null),
+              (25, 'X0165-1', 'Filing an application to start proceedings where no other fee is specified e.g. Application to transfer a tenancy - fees order 1.1.', 'fixed', 24500, null),
+              (26, 'X0165-2', 'Application by consent for a financial order – fees order 5.1.', 'fixed', 5000, null),
+              (27, 'X0165-3', 'Application for a financial order, other than by consent – fees order 5.4.', 'fixed', 25500, null),
+              (28, 'X0165-4', 'Application for an occupation order.', 'fixed', 0, null),
+              (29, 'X0165-5', 'Application for a non-molestation order. First attempt is free.', 'fixed', 0, null),
+              (30, 'X0165-6', 'Application for a non-molestation order - Second or subsequent attempt.', 'fixed', 9500, null),
+              (31, 'X0166', 'Filing an application for judicial separation – fees order 1.3.', 'fixed', 36500, null),
+              (32, 'X0166-1', 'Filing a Declaration as to marital status, parentage, legitimacy or adoptions effected overseas – fees order 1.3.', 'fixed', 36500, null),
+              (33, 'X0168', 'Filing an amended application for a matrimonial or civil partnership order – fees order 1.5.', 'fixed', 9500, null),
+              (34, 'X0168-1', 'Filing an application for a second or subsequent matrimonial or civil partnership order with permission granted under Family Procedure Rules 2010 rule 7.7 (1)(b) – fees order 1.5.', 'fixed', 9500, null),
+              (35, 'X0169', 'Filing an answer to an application for a matrimonial or civil partnership order – fees order 1.6.', 'fixed', 24500, null),
+              (36, 'X0206', 'Filing an application to make a decree nisi, absolute (divorce), or a conditional order, final (dissolution) - only payable if the original application for divorce, nullity or civil partnership dissolution was filed before 1 July 2013 – fees order 5.1.', 'fixed', 5000, null);
+
+  - changeSet:
+      id: 4
+      author: kazyss
+      changes:
+        - createTable:
+            tableName: range_group
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(2000)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: range
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: range_group_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_range_group_id
+                    references: range_group(id)
+              - column:
+                  name: from
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to
+                  type: int
+              - column:
+                  name: fee_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_range_fee_id
+                    references: fee(id)
+        - sql: >
+            INSERT INTO range_group (id, description)
+            VALUES
+              (1, 'CMC - Online'),
+              (2, 'CMC - Hearing'),
+              (3, 'Probate - Estate'),
+              (4, 'Probate - Copies');
+        - sql: >
+            INSERT INTO range (range_group_id, from, to, fee_id)
+            VALUES
+              (1, 1, 30000, 1),
+              (1, 30001, 50000, 2),
+              (1, 50001, 100000, 3),
+              (1, 100001, 150000, 4),
+              (1, 150001, 300000, 5),
+              (1, 300001, 500000, 6),
+              (1, 500001, 1000000, 7),
+              (1, 1000001, 1500000, 8),
+              (2, 1, 30000, 9),
+              (2, 30001, 50000, 10),
+              (2, 50001, 100000, 11),
+              (2, 100001, 150000, 12),
+              (2, 150001, 300000, 13),
+              (2, 300001, 10000000, 14),
+              (3, 0, 499999, 17),
+              (3, 500000, null, 18),
+              (4, 0, 1, 20),
+              (4, 2, null, 21);
+

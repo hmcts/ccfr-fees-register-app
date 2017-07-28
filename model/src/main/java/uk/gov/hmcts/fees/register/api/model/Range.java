@@ -1,10 +1,10 @@
 package uk.gov.hmcts.fees.register.api.model;
 
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -13,12 +13,16 @@ import lombok.NonNull;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@DiscriminatorColumn(name = "type")
-public abstract class Fee {
+@Builder(builderMethodName = "rangeWith")
+public class Range {
     @Id
     private Integer id;
     @NonNull
-    private String code;
+    private Integer rangeGroupId;
     @NonNull
-    private String description;
+    private Integer from;
+    private Integer to;
+    @NonNull
+    @ManyToOne
+    private Fee fee;
 }
