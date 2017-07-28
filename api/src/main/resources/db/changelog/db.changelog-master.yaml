@@ -126,12 +126,12 @@ databaseChangeLog:
                     foreignKeyName: fk_range_group_id
                     references: range_group(id)
               - column:
-                  name: from
+                  name: value_from
                   type: int
                   constraints:
                     nullable: false
               - column:
-                  name: to
+                  name: value_to
                   type: int
               - column:
                   name: fee_id
@@ -147,7 +147,7 @@ databaseChangeLog:
               (3, 'Probate - Estate'),
               (4, 'Probate - Copies');
         - sql: >
-            INSERT INTO range (range_group_id, from, to, fee_id)
+            INSERT INTO range (range_group_id, value_from, value_to, fee_id)
             VALUES
               (1, 1, 30000, 1),
               (1, 30001, 50000, 2),

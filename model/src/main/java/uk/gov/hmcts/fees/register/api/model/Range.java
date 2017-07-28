@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees.register.api.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -20,7 +21,9 @@ public class Range {
     @NonNull
     private Integer rangeGroupId;
     @NonNull
+    @Column(name = "value_from")
     private Integer from;
+    @Column(name = "value_to")
     private Integer to;
     @NonNull
     @ManyToOne
