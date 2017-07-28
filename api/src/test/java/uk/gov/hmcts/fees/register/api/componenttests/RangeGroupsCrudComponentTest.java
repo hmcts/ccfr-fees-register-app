@@ -1,8 +1,9 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
-import java.util.Arrays;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
+
+import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
@@ -41,7 +42,7 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
     @Test
     public void retrieveAll() throws Exception {
         restActions
-            .get("/fees-register/range-groups")
+            .get("/range-groups")
             .andExpect(status().isOk())
             .andExpect(body().isListContaining(RangeGroupDto.class, RANGE_GROUP_PROBATE_COPIES));
     }
@@ -50,7 +51,7 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
     @Test
     public void retrieveById() throws Exception {
         restActions
-            .get("/fees-register/range-groups/4")
+            .get("/range-groups/4")
             .andExpect(status().isOk())
             .andExpect(body().isEqualTo(RANGE_GROUP_PROBATE_COPIES));
     }
@@ -58,7 +59,7 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
     @Test
     public void retrieveByUnknownId() throws Exception {
         restActions
-            .get("/fees-register/range-groups/-1")
+            .get("/range-groups/-1")
             .andExpect(status().isNotFound());
     }
 }

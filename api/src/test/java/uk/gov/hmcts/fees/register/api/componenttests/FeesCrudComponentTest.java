@@ -1,8 +1,9 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
-import java.math.BigDecimal;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
+
+import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
@@ -13,7 +14,7 @@ public class FeesCrudComponentTest extends ComponentTestBase {
     @Test
     public void retrieveAllFees() throws Exception {
         restActions
-            .get("/fees-register/fees")
+            .get("/fees")
             .andExpect(status().isOk())
             .andExpect(body().isListContaining(
                 FeeDto.class,
@@ -37,7 +38,7 @@ public class FeesCrudComponentTest extends ComponentTestBase {
     @Test
     public void retrieveById() throws Exception {
         restActions
-            .get("/fees-register/fees/8")
+            .get("/fees/8")
             .andExpect(status().isOk())
             .andExpect(body().isEqualTo(
                 percentageFeeDtoWith()
@@ -52,7 +53,7 @@ public class FeesCrudComponentTest extends ComponentTestBase {
     @Test
     public void retrieveByUnknownId() throws Exception {
         restActions
-            .get("/fees-register/fees/-1")
+            .get("/fees/-1")
             .andExpect(status().isNotFound());
     }
 }

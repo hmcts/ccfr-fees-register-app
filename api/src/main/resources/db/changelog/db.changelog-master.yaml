@@ -168,3 +168,56 @@ databaseChangeLog:
               (4, 0, 1, 20),
               (4, 2, null, 21);
 
+  - changeSet:
+      id: 5
+      author: sachi
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: range_group_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_cat_range_group_id
+                    references: range_group(id)
+                    nullable: true
+        - sql: >
+            INSERT INTO category (id, title, range_group_id)
+            VALUES
+              (1, 'onlinefees', 1),
+              (2, 'hearingfees', 2),
+              (3, 'probatefees', 3),
+              (4, 'probate-copies', 4),
+              (5, 'divorce', null);
+
+        - createTable:
+            tableName: category_fee
+            columns:
+              - column:
+                  name: category_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_category_id
+                    references: category(id)
+              - column:
+                  name: fee_id
+                  type: int
+                  constraints:
+                     foreignKeyName: fk_fee_id
+                     references: fee(id)
+              - addUniqueConstraint:
+                  columnNames: category_id, fee_id
+                  constraintName: category_fee

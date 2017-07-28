@@ -1,6 +1,5 @@
 package uk.gov.hmcts.fees.register.api.controllers;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +10,12 @@ import uk.gov.hmcts.fees.register.api.model.Fee;
 import uk.gov.hmcts.fees.register.api.model.FeeRepository;
 import uk.gov.hmcts.fees.register.legacymodel.EntityNotFoundException;
 
+import java.util.List;
+
 import static java.util.stream.Collectors.toList;
 
 @RestController()
-@RequestMapping("/fees-register")
+@RequestMapping()
 public class FeesController {
 
     private final FeesDtoMapper feesDtoMapper;
