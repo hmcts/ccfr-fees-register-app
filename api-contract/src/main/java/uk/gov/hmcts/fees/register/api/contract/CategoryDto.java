@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees.register.api.contract;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 
@@ -17,8 +18,8 @@ public class CategoryDto {
     private  Integer id;
     @NonNull
     private  String title;
-
-    private  Integer rangeGroupId;
+    @JsonProperty("rangeGroup")
+    private RangeGroupDto rangeGroupDto;
 
 
 

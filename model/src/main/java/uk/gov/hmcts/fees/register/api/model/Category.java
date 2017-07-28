@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Data
 @Entity
@@ -21,9 +22,9 @@ public class Category {
     private Integer id;
     @NonNull
     private String title;
-    @NonNull
-    @Column(name = "range_group_id")
-    private Integer rangeGroupId;
+    @ManyToOne
+    @JoinColumn(name = "range_group_id")
+    private RangeGroup rangeGroup;
 
 
 }

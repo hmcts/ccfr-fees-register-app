@@ -31,12 +31,12 @@ public class CategoriesController {
     }
 
     @GetMapping("/categories")
-    public List<CategoryDto> getCategories1() {
+    public List<CategoryDto> getCategories() {
         return categoryRepository.findAll().stream().map(categoryDtoMapper::toCategoryDto).collect(toList());
     }
 
     @GetMapping("/categories/{id}")
-    public CategoryDto getCategory1(@PathVariable("id") Integer id) {
+    public CategoryDto getCategory(@PathVariable("id") Integer id) {
         Category category = categoryRepository
             .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Category not found. Id: " + id));

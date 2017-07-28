@@ -20,6 +20,10 @@ public class RangeGroupsDtoMapper {
     }
 
     public RangeGroupDto toRangeGroupDto(RangeGroup rangeGroup) {
+
+        if (null == rangeGroup)
+            return null;
+
         return RangeGroupDto.rangeGroupDtoWith()
             .id(rangeGroup.getId())
             .description(rangeGroup.getDescription())

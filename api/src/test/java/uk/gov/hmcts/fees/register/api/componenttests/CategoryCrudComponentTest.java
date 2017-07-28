@@ -3,12 +3,46 @@ package uk.gov.hmcts.fees.register.api.componenttests;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
+import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
+
+import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.CategoryDto.categoryDtoWith;
+import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
+import static uk.gov.hmcts.fees.register.api.contract.RangeDto.rangeDtoWith;
+import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
 
 
-public class CategoryCrudComponentTest extends ComponentTestBase{
+public class CategoryCrudComponentTest extends ComponentTestBase {
+
+
+    private static final RangeGroupDto RANGE_GROUP_PROBATE_COPIES = rangeGroupDtoWith()
+        .id(4)
+        .description("Probate - Copies")
+        .ranges(Arrays.asList(
+            rangeDtoWith()
+                .from(0)
+                .to(1)
+                .fee(fixedFeeDtoWith()
+                    .id(20)
+                    .code("X0251-1")
+                    .description("First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.")
+                    .amount(1000)
+                    .build())
+                .build(),
+
+            rangeDtoWith()
+                .from(2)
+                .fee(fixedFeeDtoWith()
+                    .id(21)
+                    .code("X0251-2")
+                    .description("Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.")
+                    .amount(50)
+                    .build())
+                .build()
+        ))
+        .build();
 
 
     @Test
@@ -19,9 +53,9 @@ public class CategoryCrudComponentTest extends ComponentTestBase{
             .andExpect(body().isListContaining(
                 CategoryDto.class,
                 categoryDtoWith()
-                    .id(1)
-                    .title("onlinefees")
-                    .rangeGroupId(1)
+                    .id(4)
+                    .title("probate-copies")
+                    .rangeGroupDto(RANGE_GROUP_PROBATE_COPIES)
                     .build()
 
             ));
@@ -29,14 +63,14 @@ public class CategoryCrudComponentTest extends ComponentTestBase{
 
     @Test
     public void retrieveById() throws Exception {
-       restActions
-            .get("/categories/1")
+        restActions
+            .get("/categories/4")
             .andExpect(status().isOk())
             .andExpect(body().isEqualTo(
                 categoryDtoWith()
-                    .id(1)
-                    .title("onlinefees")
-                    .rangeGroupId(1)
+                    .id(4)
+                    .title("probate-copies")
+                    .rangeGroupDto(RANGE_GROUP_PROBATE_COPIES)
                     .build()
             ));
     }
