@@ -6,6 +6,7 @@ import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
 
 
 public class CategoryCrudComponentTest extends ComponentTestBase {
@@ -22,6 +23,13 @@ public class CategoryCrudComponentTest extends ComponentTestBase {
                     assertThat(category.getDescription()).isEqualTo("Probate - Copies");
                     assertThat(category.getRangeGroup().getId()).isEqualTo(4);
                     assertThat(category.getRangeGroup().getRanges()).hasSize(2);
+                    assertThat(category.getFees()).hasSize(2);
+                    assertThat(category.getFees()).contains(fixedFeeDtoWith()
+                        .id(23)
+                        .code("X0251-4")
+                        .description("‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering.")
+                        .amount(50)
+                        .build());
                 });
             }));
     }
@@ -37,6 +45,7 @@ public class CategoryCrudComponentTest extends ComponentTestBase {
                 assertThat(category.getDescription()).isEqualTo("CMC - Online fees");
                 assertThat(category.getRangeGroup().getId()).isEqualTo(1);
                 assertThat(category.getRangeGroup().getRanges()).hasSize(8);
+                assertThat(category.getFees()).isEmpty();
             }));
     }
 
