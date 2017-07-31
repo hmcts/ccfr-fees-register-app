@@ -1,6 +1,9 @@
 package uk.gov.hmcts.fees.register.api.model;
 
 
+import java.util.List;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +30,11 @@ public class Category {
     private String description;
     @ManyToOne
     private RangeGroup rangeGroup;
+    @ManyToMany
+    @JoinTable(
+        name = "category_fee",
+        joinColumns = @JoinColumn(name = "category_id"),
+        inverseJoinColumns = @JoinColumn(name = "fee_id")
+    )
+    private List<Fee> fees;
 }

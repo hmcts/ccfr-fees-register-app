@@ -1,10 +1,10 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
+import java.math.BigDecimal;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
 
-import java.math.BigDecimal;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.percentageFeeDtoWith;
@@ -16,23 +16,23 @@ public class FeesCrudComponentTest extends ComponentTestBase {
         restActions
             .get("/fees")
             .andExpect(status().isOk())
-            .andExpect(body().isListContaining(
-                FeeDto.class,
+            .andExpect(body().asListOf(FeeDto.class, fees -> {
+                assertThat(fees).contains(
+                    fixedFeeDtoWith()
+                        .id(7)
+                        .code("X0433")
+                        .description("Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP")
+                        .amount(41000)
+                        .build(),
 
-                fixedFeeDtoWith()
-                    .id(7)
-                    .code("X0433")
-                    .description("Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP")
-                    .amount(41000)
-                    .build(),
-
-                percentageFeeDtoWith()
-                    .id(8)
-                    .code("X0434")
-                    .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
-                    .percentage(BigDecimal.valueOf(4.5))
-                    .build()
-            ));
+                    percentageFeeDtoWith()
+                        .id(8)
+                        .code("X0434")
+                        .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
+                        .percentage(BigDecimal.valueOf(4.5))
+                        .build()
+                );
+            }));
     }
 
     @Test
@@ -40,14 +40,16 @@ public class FeesCrudComponentTest extends ComponentTestBase {
         restActions
             .get("/fees/8")
             .andExpect(status().isOk())
-            .andExpect(body().isEqualTo(
-                percentageFeeDtoWith()
-                    .id(8)
-                    .code("X0434")
-                    .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
-                    .percentage(BigDecimal.valueOf(4.5))
-                    .build()
-            ));
+            .andExpect(body().as(FeeDto.class, fee -> {
+                assertThat(fee).isEqualTo(
+                    percentageFeeDtoWith()
+                        .id(8)
+                        .code("X0434")
+                        .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
+                        .percentage(BigDecimal.valueOf(4.5))
+                        .build()
+                );
+            }));
     }
 
     @Test

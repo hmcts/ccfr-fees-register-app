@@ -1,10 +1,10 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
+import java.util.Arrays;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 
-import java.util.Arrays;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeDto.rangeDtoWith;
@@ -44,16 +44,19 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
         restActions
             .get("/range-groups")
             .andExpect(status().isOk())
-            .andExpect(body().isListContaining(RangeGroupDto.class, RANGE_GROUP_PROBATE_COPIES));
+            .andExpect(body().asListOf(RangeGroupDto.class, rangeGroups -> {
+                assertThat(rangeGroups).contains(RANGE_GROUP_PROBATE_COPIES);
+            }));
     }
-
 
     @Test
     public void retrieveById() throws Exception {
         restActions
             .get("/range-groups/4")
             .andExpect(status().isOk())
-            .andExpect(body().isEqualTo(RANGE_GROUP_PROBATE_COPIES));
+            .andExpect(body().as(RangeGroupDto.class, rangeGroup -> {
+                assertThat(rangeGroup).isEqualTo(RANGE_GROUP_PROBATE_COPIES);
+            }));
     }
 
     @Test

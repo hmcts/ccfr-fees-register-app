@@ -3,77 +3,41 @@ package uk.gov.hmcts.fees.register.api.componenttests;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
-import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 
-import java.util.Arrays;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees.register.api.contract.CategoryDto.categoryDtoWith;
-import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
-import static uk.gov.hmcts.fees.register.api.contract.RangeDto.rangeDtoWith;
-import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
 
 
 public class CategoryCrudComponentTest extends ComponentTestBase {
-
-
-    private static final RangeGroupDto RANGE_GROUP_PROBATE_COPIES = rangeGroupDtoWith()
-        .id(4)
-        .description("Probate - Copies")
-        .ranges(Arrays.asList(
-            rangeDtoWith()
-                .from(0)
-                .to(1)
-                .fee(fixedFeeDtoWith()
-                    .id(20)
-                    .code("X0251-1")
-                    .description("First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.")
-                    .amount(1000)
-                    .build())
-                .build(),
-
-            rangeDtoWith()
-                .from(2)
-                .fee(fixedFeeDtoWith()
-                    .id(21)
-                    .code("X0251-2")
-                    .description("Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.")
-                    .amount(50)
-                    .build())
-                .build()
-        ))
-        .build();
-
 
     @Test
     public void retrieveAllCategories() throws Exception {
         restActions
             .get("/categories")
             .andExpect(status().isOk())
-            .andExpect(body().isListContaining(
-                CategoryDto.class,
-                categoryDtoWith()
-                    .id(4)
-                    .code("probate-copies")
-                    .description("Probate - Copies")
-                    .rangeGroupDto(RANGE_GROUP_PROBATE_COPIES)
-                    .build()
-            ));
+            .andExpect(body().asListOf(CategoryDto.class, (categories) -> {
+                assertThat(categories).anySatisfy(category -> {
+                    assertThat(category.getId()).isEqualTo(4);
+                    assertThat(category.getCode()).isEqualTo("probate-copies");
+                    assertThat(category.getDescription()).isEqualTo("Probate - Copies");
+                    assertThat(category.getRangeGroup().getId()).isEqualTo(4);
+                    assertThat(category.getRangeGroup().getRanges()).hasSize(2);
+                });
+            }));
     }
 
     @Test
     public void retrieveById() throws Exception {
         restActions
-            .get("/categories/4")
+            .get("/categories/1")
             .andExpect(status().isOk())
-            .andExpect(body().isEqualTo(
-                categoryDtoWith()
-                    .id(4)
-                    .code("probate-copies")
-                    .description("Probate - Copies")
-                    .rangeGroupDto(RANGE_GROUP_PROBATE_COPIES)
-                    .build()
-            ));
+            .andExpect(body().as(CategoryDto.class, (category) -> {
+                assertThat(category.getId()).isEqualTo(1);
+                assertThat(category.getCode()).isEqualTo("cmc-online");
+                assertThat(category.getDescription()).isEqualTo("CMC - Online fees");
+                assertThat(category.getRangeGroup().getId()).isEqualTo(1);
+                assertThat(category.getRangeGroup().getRanges()).hasSize(8);
+            }));
     }
 
     @Test
