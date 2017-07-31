@@ -1,10 +1,9 @@
-package uk.gov.hmcts.fees.register.api.controllers;
+package uk.gov.hmcts.fees.register.api.controllers.categories;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
 import uk.gov.hmcts.fees.register.api.model.Category;
@@ -16,10 +15,8 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 
-@RestController()
-@RequestMapping()
+@RestController
 public class CategoriesController {
-
 
     private final CategoryDtoMapper categoryDtoMapper;
     private final CategoryRepository categoryRepository;

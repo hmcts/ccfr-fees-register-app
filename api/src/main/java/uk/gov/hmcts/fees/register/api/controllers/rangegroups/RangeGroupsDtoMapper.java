@@ -1,9 +1,10 @@
-package uk.gov.hmcts.fees.register.api.controllers;
+package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees.register.api.contract.RangeDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
+import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
 import uk.gov.hmcts.fees.register.api.model.Range;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 
@@ -20,9 +21,9 @@ public class RangeGroupsDtoMapper {
     }
 
     public RangeGroupDto toRangeGroupDto(RangeGroup rangeGroup) {
-
-        if (null == rangeGroup)
+        if (rangeGroup == null) {
             return null;
+        }
 
         return RangeGroupDto.rangeGroupDtoWith()
             .id(rangeGroup.getId())

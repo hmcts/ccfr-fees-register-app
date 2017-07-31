@@ -54,10 +54,10 @@ public class CategoryCrudComponentTest extends ComponentTestBase {
                 CategoryDto.class,
                 categoryDtoWith()
                     .id(4)
-                    .title("probate-copies")
+                    .code("probate-copies")
+                    .description("Probate - Copies")
                     .rangeGroupDto(RANGE_GROUP_PROBATE_COPIES)
                     .build()
-
             ));
     }
 
@@ -69,7 +69,8 @@ public class CategoryCrudComponentTest extends ComponentTestBase {
             .andExpect(body().isEqualTo(
                 categoryDtoWith()
                     .id(4)
-                    .title("probate-copies")
+                    .code("probate-copies")
+                    .description("Probate - Copies")
                     .rangeGroupDto(RANGE_GROUP_PROBATE_COPIES)
                     .build()
             ));

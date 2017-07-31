@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto;
+import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
 import uk.gov.hmcts.fees.register.api.model.Fee;
 import uk.gov.hmcts.fees.register.api.model.FixedFee;
 import uk.gov.hmcts.fees.register.api.model.PercentageFee;

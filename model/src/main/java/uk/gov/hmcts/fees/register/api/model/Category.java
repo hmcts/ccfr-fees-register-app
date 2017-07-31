@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees.register.api.model;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -15,16 +16,15 @@ import javax.persistence.ManyToOne;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(builderMethodName = "categoryWith")
 public class Category {
-
     @Id
     @NonNull
     private Integer id;
     @NonNull
-    private String title;
+    private String code;
+    @NonNull
+    private String description;
     @ManyToOne
-    @JoinColumn(name = "range_group_id")
     private RangeGroup rangeGroup;
-
-
 }

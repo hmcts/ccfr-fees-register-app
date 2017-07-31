@@ -3,7 +3,12 @@ package uk.gov.hmcts.fees.register.api.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.ToString;
 
 
 @Data
@@ -11,16 +16,13 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-@Builder(builderMethodName="categoryDtoWith")
+@Builder(builderMethodName = "categoryDtoWith")
 public class CategoryDto {
-
+    private Integer id;
     @NonNull
-    private  Integer id;
+    private String code;
     @NonNull
-    private  String title;
+    private String description;
     @JsonProperty("rangeGroup")
     private RangeGroupDto rangeGroupDto;
-
-
-
 }
