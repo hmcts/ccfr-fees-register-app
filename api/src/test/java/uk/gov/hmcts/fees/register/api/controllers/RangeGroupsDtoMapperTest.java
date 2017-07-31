@@ -3,6 +3,8 @@ package uk.gov.hmcts.fees.register.api.controllers;
 import java.util.Arrays;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
+import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
+import uk.gov.hmcts.fees.register.api.controllers.rangegroups.RangeGroupsDtoMapper;
 import uk.gov.hmcts.fees.register.api.model.Fee;
 import uk.gov.hmcts.fees.register.api.model.FixedFee;
 
@@ -43,5 +45,10 @@ public class RangeGroupsDtoMapperTest {
                     rangeDtoWith().from(1001).fee(MAPPED_FEE_DTO).build())
                 )
                 .build());
+    }
+
+    @Test
+    public void nullConvertsToNull() {
+        assertThat(rangeGroupsDtoMapper.toRangeGroupDto(null)).isNull();
     }
 }

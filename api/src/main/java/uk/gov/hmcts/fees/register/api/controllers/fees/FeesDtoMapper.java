@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees.register.api.controllers;
+package uk.gov.hmcts.fees.register.api.controllers.fees;
 
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
