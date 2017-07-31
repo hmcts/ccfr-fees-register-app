@@ -202,9 +202,9 @@ databaseChangeLog:
         - sql: >
             INSERT INTO category (id, code, description, range_group_id)
             VALUES
-              (1, 'onlinefees', 'CMC - Online fees', 1),
-              (2, 'hearingfees', 'CMC - Hearing fees', 2),
-              (3, 'probatefees', 'Probate - Estate', 3),
+              (1, 'cmc-online', 'CMC - Online fees', 1),
+              (2, 'cmc-hearing', 'CMC - Hearing fees', 2),
+              (3, 'probate-estate', 'Probate - Estate', 3),
               (4, 'probate-copies', 'Probate - Copies', 4),
               (5, 'divorce', 'Divorce', null);
 
