@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees.register.api.controllers.fees;
 
 import java.util.List;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,11 +30,11 @@ public class FeesController {
         return feeRepository.findAll().stream().map(feesDtoMapper::toFeeDto).collect(toList());
     }
 
-    @GetMapping("/fees/{id}")
-    public FeeDto getFee(@PathVariable("id") Integer id) {
+    @GetMapping("/fees/{code}")
+    public FeeDto getFee(@NotEmpty @PathVariable("code") String code) {
         Fee fee = feeRepository
-            .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Fee not found. Id: " + id));
+            .findByCode(code)
+            .orElseThrow(() -> new EntityNotFoundException("Fee not found. Code: " + code));
 
         return feesDtoMapper.toFeeDto(fee);
     }

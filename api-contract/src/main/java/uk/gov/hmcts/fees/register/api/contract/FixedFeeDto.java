@@ -17,11 +17,10 @@ public class FixedFeeDto extends FeeDto {
 
     @JsonCreator
     @Builder(builderMethodName = "fixedFeeDtoWith")
-    public FixedFeeDto(@JsonProperty("id") Integer id,
-                       @JsonProperty("code") String code,
+    public FixedFeeDto(@JsonProperty("code") String code,
                        @JsonProperty("description") String description,
                        @JsonProperty("amount") int amount) {
-        super(id, code, description);
+        super(code, description);
         this.amount = amount;
     }
 

@@ -17,7 +17,7 @@ import static uk.gov.hmcts.fees.register.api.model.RangeGroup.rangeGroupWith;
 public class RangeGroupsDtoMapperTest {
 
     private static final Fee ANY_FEE = new FixedFee();
-    private static final FeeDto MAPPED_FEE_DTO = new FeeDto(1, "ANY", "ANY");
+    private static final FeeDto MAPPED_FEE_DTO = new FeeDto("ANY", "ANY");
     private RangeGroupsDtoMapper rangeGroupsDtoMapper = new RangeGroupsDtoMapper(new FeesDtoMapper() {
         @Override
         public FeeDto toFeeDto(Fee fee) {

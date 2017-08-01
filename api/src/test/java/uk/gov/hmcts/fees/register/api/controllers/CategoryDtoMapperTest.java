@@ -24,8 +24,8 @@ public class CategoryDtoMapperTest {
 
     private static final RangeGroup SOME_RANGE_GROUP = RangeGroup.rangeGroupWith().id(123).build();
     private static final RangeGroupDto MAPPED_RANGE_GROUP_DTO = rangeGroupDtoWith().id(123).build();
-    private static final FixedFee SOME_FEE = fixedFeeWith().id(789).code("any").description("any").build();
-    private static final FixedFeeDto MAPPED_FEE_DTO = fixedFeeDtoWith().id(789).code("any").description("any").build();
+    private static final FixedFee SOME_FEE = fixedFeeWith().code("any").description("any").build();
+    private static final FixedFeeDto MAPPED_FEE_DTO = fixedFeeDtoWith().code("any").description("any").build();
 
     private final CategoryDtoMapper categoryDtoMapper = new CategoryDtoMapper(
         new RangeGroupsDtoMapper(null) {

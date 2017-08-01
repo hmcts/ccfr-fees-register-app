@@ -18,13 +18,13 @@ public class FeesDtoMapperTest {
     @Test
     public void convertsFixedFee() {
         assertThat(mapper.toFeeDto(new FixedFee(1, "code", "description", 999)))
-            .isEqualTo(new FixedFeeDto(1, "code", "description", 999));
+            .isEqualTo(new FixedFeeDto("code", "description", 999));
     }
 
     @Test
     public void convertsPercentageFee() {
         assertThat(mapper.toFeeDto(new PercentageFee(1, "code", "description", BigDecimal.valueOf(4.5))))
-            .isEqualTo(new PercentageFeeDto(1, "code", "description", BigDecimal.valueOf(4.5)));
+            .isEqualTo(new PercentageFeeDto("code", "description", BigDecimal.valueOf(4.5)));
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -13,9 +13,9 @@ public class FeesDtoMapper {
 
     public FeeDto toFeeDto(Fee fee) {
         if (fee instanceof FixedFee) {
-            return new FixedFeeDto(fee.getId(), fee.getCode(), fee.getDescription(), ((FixedFee) fee).getAmount());
+            return new FixedFeeDto(fee.getCode(), fee.getDescription(), ((FixedFee) fee).getAmount());
         } else if (fee instanceof PercentageFee) {
-            return new PercentageFeeDto(fee.getId(), fee.getCode(), fee.getDescription(), ((PercentageFee) fee).getPercentage());
+            return new PercentageFeeDto(fee.getCode(), fee.getDescription(), ((PercentageFee) fee).getPercentage());
         } else {
             throw new IllegalArgumentException("Unknown fee type: " + fee.getClass());
         }

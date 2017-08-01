@@ -20,11 +20,10 @@ public class PercentageFeeDto extends FeeDto {
 
     @JsonCreator
     @Builder(builderMethodName = "percentageFeeDtoWith")
-    public PercentageFeeDto(@JsonProperty("id") Integer id,
-                            @JsonProperty("code") String code,
+    public PercentageFeeDto(@JsonProperty("code") String code,
                             @JsonProperty("description") String description,
                             @JsonProperty("percentage") BigDecimal percentage) {
-        super(id, code, description);
+        super(code, description);
         this.percentage = percentage;
     }
 

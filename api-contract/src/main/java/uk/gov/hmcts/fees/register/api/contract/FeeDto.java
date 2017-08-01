@@ -16,7 +16,6 @@ import lombok.NonNull;
     @JsonSubTypes.Type(value = FixedFeeDto.class, name = "fixed"),
     @JsonSubTypes.Type(value = PercentageFeeDto.class, name = "percentage")})
 public class FeeDto {
-    private final Integer id;
     @NonNull
     private final String code;
     @NonNull
