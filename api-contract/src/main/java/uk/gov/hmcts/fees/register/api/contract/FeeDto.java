@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
-import lombok.NonNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,8 +16,7 @@ import lombok.NonNull;
     @JsonSubTypes.Type(value = FixedFeeDto.class, name = "fixed"),
     @JsonSubTypes.Type(value = PercentageFeeDto.class, name = "percentage")})
 public class FeeDto {
-    @NonNull
     private final String code;
-    @NonNull
+    @NotEmpty
     private final String description;
 }

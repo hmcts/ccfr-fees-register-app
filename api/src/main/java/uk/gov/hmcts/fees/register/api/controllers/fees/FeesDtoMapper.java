@@ -20,4 +20,15 @@ public class FeesDtoMapper {
             throw new IllegalArgumentException("Unknown fee type: " + fee.getClass());
         }
     }
+
+    public Fee toFee(String code, FeeDto dto) {
+        if (dto instanceof FixedFeeDto) {
+            return new FixedFee(null, code, dto.getDescription(), ((FixedFeeDto) dto).getAmount());
+        } else if (dto instanceof PercentageFeeDto) {
+            return new PercentageFee(null, code, dto.getDescription(), ((PercentageFeeDto) dto).getPercentage());
+        } else {
+            throw new IllegalArgumentException("Unknown fee dto type: " + dto.getClass());
+        }
+    }
+
 }
