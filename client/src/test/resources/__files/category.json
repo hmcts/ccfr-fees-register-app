@@ -1,0 +1,85 @@
+{
+  "id": "onlinefees",
+  "ranges": [
+    {
+      "start": 1,
+      "upto": 30000,
+      "fee": {
+        "id": "X0024",
+        "type": "fixed",
+        "amount": 2500,
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP"
+      }
+    },
+    {
+      "start": 30001,
+      "upto": 50000,
+      "fee": {
+        "id": "X0025",
+        "type": "fixed",
+        "amount": 3500,
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP"
+      }
+    },
+    {
+      "start": 50001,
+      "upto": 100000,
+      "fee": {
+        "id": "X0026",
+        "type": "fixed",
+        "amount": 6000,
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP"
+      }
+    },
+    {
+      "start": 100001,
+      "upto": 150000,
+      "fee": {
+        "id": "X0027",
+        "type": "fixed",
+        "amount": 7000,
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP"
+      }
+    },
+    {
+      "start": 150001,
+      "upto": 300000,
+      "fee": {
+        "id": "X0028",
+        "type": "fixed",
+        "amount": 10500,
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP"
+      }
+    },
+    {
+      "start": 300001,
+      "upto": 500000,
+      "fee": {
+        "id": "X0029",
+        "type": "fixed",
+        "amount": 18500,
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP"
+      }
+    },
+    {
+      "start": 500001,
+      "upto": 1000000,
+      "fee": {
+        "id": "X0433",
+        "type": "fixed",
+        "amount": 41000,
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP"
+      }
+    },
+    {
+      "start": 1000001,
+      "upto": 1500000,
+      "fee": {
+        "id": "X0434",
+        "type": "percentage",
+        "percentage": 4.5,
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value"
+      }
+    }
+  ]
+}

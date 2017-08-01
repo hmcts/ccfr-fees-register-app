@@ -1,38 +1,23 @@
 package uk.gov.hmcts.fees.register.api.componenttests.sugar;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
-
-import static java.util.stream.Collectors.toList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CustomResultMatcher implements ResultMatcher {
 
     private final ObjectMapper objectMapper;
-    private final Class expectedClass;
     private final List<ResultMatcher> matchers = new ArrayList<>();
 
     public CustomResultMatcher(ObjectMapper objectMapper) {
-        this(objectMapper, null);
-    }
-
-    public CustomResultMatcher(ObjectMapper objectMapper, Class expectedClass) {
         this.objectMapper = objectMapper;
-        this.expectedClass = expectedClass;
-    }
-
-    public CustomResultMatcher hasPropertyEqualTo(String name, Object value) {
-        matchers.add(result -> {
-            Object actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), expectedClass);
-            assertThat(actual).hasFieldOrPropertyWithValue(name, value);
-        });
-        return this;
     }
 
     public CustomResultMatcher isEqualTo(Object expected) {
@@ -43,20 +28,28 @@ public class CustomResultMatcher implements ResultMatcher {
         return this;
     }
 
-    public CustomResultMatcher containsExactly(Object... expected) {
+    public ResultMatcher isEqualTo(Object expected, Class parameterizedType) {
         matchers.add(result -> {
-            CollectionType valueType = objectMapper.getTypeFactory().constructCollectionType(List.class, expectedClass);
-            List actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), valueType);
-            assertThat(actual).containsExactly(expected);
+            JavaType javaType = TypeFactory.defaultInstance().constructParametricType(expected.getClass(), parameterizedType);
+            Object actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), javaType);
+            assertThat(actual).isEqualTo(expected);
         });
         return this;
     }
 
-    public <I, O> CustomResultMatcher containsExactly(Function<I, O> mapper, O... expected) {
+    public <T> ResultMatcher as(Class<T> bodyType, Consumer<T> assertions) {
         matchers.add(result -> {
-            CollectionType valueType = objectMapper.getTypeFactory().constructCollectionType(List.class, expectedClass);
-            List<I> actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), valueType);
-            assertThat(actual.stream().map(mapper).collect(toList())).containsExactly(expected);
+            T actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), bodyType);
+            assertions.accept(actual);
+        });
+        return this;
+    }
+
+    public <T> ResultMatcher asListOf(Class<T> collectionType, Consumer<List<T>> assertions) {
+        matchers.add(result -> {
+            JavaType javaType = TypeFactory.defaultInstance().constructCollectionType(List.class, collectionType);
+            List actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), javaType);
+            assertions.accept(actual);
         });
         return this;
     }

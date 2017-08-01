@@ -1,0 +1,236 @@
+[
+  {
+    "id": "onlinefees",
+    "ranges": [
+      {
+        "start": 1,
+        "upto": 30000,
+        "fee": {
+          "id": "X0024",
+          "type": "fixed",
+          "amount": 2500,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP"
+        }
+      },
+      {
+        "start": 30001,
+        "upto": 50000,
+        "fee": {
+          "id": "X0025",
+          "type": "fixed",
+          "amount": 3500,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP"
+        }
+      },
+      {
+        "start": 50001,
+        "upto": 100000,
+        "fee": {
+          "id": "X0026",
+          "type": "fixed",
+          "amount": 6000,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP"
+        }
+      },
+      {
+        "start": 100001,
+        "upto": 150000,
+        "fee": {
+          "id": "X0027",
+          "type": "fixed",
+          "amount": 7000,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP"
+        }
+      },
+      {
+        "start": 150001,
+        "upto": 300000,
+        "fee": {
+          "id": "X0028",
+          "type": "fixed",
+          "amount": 10500,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP"
+        }
+      },
+      {
+        "start": 300001,
+        "upto": 500000,
+        "fee": {
+          "id": "X0029",
+          "type": "fixed",
+          "amount": 18500,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP"
+        }
+      },
+      {
+        "start": 500001,
+        "upto": 1000000,
+        "fee": {
+          "id": "X0433",
+          "type": "fixed",
+          "amount": 41000,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP"
+        }
+      },
+      {
+        "start": 1000001,
+        "upto": 1500000,
+        "fee": {
+          "id": "X0434",
+          "type": "percentage",
+          "percentage": 4.5,
+          "description": "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value"
+        }
+      }
+    ]
+  },
+  {
+    "id": "hearingfees",
+    "ranges": [
+      {
+        "start": 1,
+        "upto": 30000,
+        "fee": {
+          "id": "X0048",
+          "type": "fixed",
+          "amount": 2500,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 0.01 upto 300 GBP"
+        }
+      },
+      {
+        "start": 30001,
+        "upto": 50000,
+        "fee": {
+          "id": "X0049",
+          "type": "fixed",
+          "amount": 5500,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 300.01 upto 500 GBP"
+        }
+      },
+      {
+        "start": 50001,
+        "upto": 100000,
+        "fee": {
+          "id": "X0050",
+          "type": "fixed",
+          "amount": 8000,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 500.01 upto 1000 GBP"
+        }
+      },
+      {
+        "start": 100001,
+        "upto": 150000,
+        "fee": {
+          "id": "X0051",
+          "type": "fixed",
+          "amount": 11500,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 1000.01 upto 1500 GBP"
+        }
+      },
+      {
+        "start": 150001,
+        "upto": 300000,
+        "fee": {
+          "id": "X0052",
+          "type": "fixed",
+          "amount": 17000,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP"
+        }
+      },
+      {
+        "start": 300001,
+        "upto": 10000000,
+        "fee": {
+          "id": "X0053",
+          "type": "fixed",
+          "amount": 33500,
+          "description": "Civil Court fees - Hearing fees - Claim Amount - 3000.01 upto 100000 GBP"
+        }
+      }
+    ],
+    "flatFees": [
+      {
+        "id": "X0046",
+        "type": "fixed",
+        "amount": 109000,
+        "description": "Civil Court fees - Hearing fees - Multi track claim"
+      },
+      {
+        "id": "X0047",
+        "type": "fixed",
+        "amount": 54500,
+        "description": "Civil Court fees - Hearing fees - Fast track claim"
+      }
+    ]
+  },
+  {
+    "id": "probatefees",
+    "ranges": [
+      {
+        "start": 0,
+        "upto": 499999,
+        "fee": {
+          "id": "X0249",
+          "type": "fixed",
+          "amount": 0,
+          "description": "If the net estate as above is under £5,000"
+        }
+      },
+      {
+        "start": 500000,
+        "fee": {
+          "id": "X0250",
+          "type": "fixed",
+          "amount": 21500,
+          "description": "In all cases where the net estate (ie the amount remaining in the deceased’s sole name after funeral expenses and debts owing have been deducted) is over £5,000. Note: Joint assets passing automatically"
+        }
+      }
+    ],
+    "flatFees": [
+      {
+        "id": "X0251",
+        "type": "fixed",
+        "amount": 2000,
+        "description": "Application for a second grant in an estate where a previous grant has been issued."
+      }
+    ]
+  },
+  {
+    "id": "probate-copies",
+    "ranges": [
+      {
+        "start": 0,
+        "upto": 1,
+        "fee": {
+          "id": "X0252",
+          "type": "fixed",
+          "amount": 1000,
+          "description": "First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued."
+        }
+      },
+      {
+        "start": 2,
+        "fee": {
+          "id": "X0253",
+          "type": "fixed",
+          "amount": 50,
+          "description": "Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued."
+        }
+      }
+    ],
+    "flatFees": [
+      {
+        "id": "X0254",
+        "type": "fixed",
+        "amount": 50,
+        "description": "Additional Copies -Official (sealed) copies of the Grant of Representation if ordered when you lodge your application for a Grant of Representation. Note: You should decide how many copies you will need and add the cost to your application fee – this will give you the total amount payable. See examples below. It can save you a lot of time when collecting in the deceased’s assets if you have a few extra copies of the grant to produce to the organisations holding the assets."
+      },
+      {
+        "id": "X0255",
+        "type": "fixed",
+        "amount": 50,
+        "description": "‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering."
+      }
+    ]
+  }
+]

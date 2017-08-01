@@ -1,19 +1,17 @@
 package uk.gov.hmcts.fees.register.api.repositories;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.annotation.PostConstruct;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
-import uk.gov.hmcts.fees.register.model.FeesRegister;
-import uk.gov.hmcts.fees.register.model.FeesRegisterNotLoadedException;
+import uk.gov.hmcts.fees.register.legacymodel.FeesRegister;
+import uk.gov.hmcts.fees.register.legacymodel.FeesRegisterNotLoadedException;
 
 @Repository
 public class FeesRegisterRepository {
@@ -25,7 +23,7 @@ public class FeesRegisterRepository {
 
     private FeesRegister feesRegister = null;
 
-    @Value("${FEE_REGISTER_DB:}")
+    @Value("${FEE_REGISTER_DB:classpath:FeesRegister.json}")
     private String dbFilePath;
 
     @Autowired
@@ -36,38 +34,19 @@ public class FeesRegisterRepository {
 
     @PostConstruct
     public void init() {
-        BufferedReader reader = null;
         try {
-
-            if (!loadDBFromEnv(dbFilePath)) {
-                loadEmbeddedJson();
-            }
+            LOG.info("Loading fees register from {}", dbFilePath);
+            feesRegister = loadFromResource(dbFilePath);
+            LOG.info("Fees register loaded from {}", dbFilePath);
         } catch (IOException | NullPointerException e) {
             LOG.error("Loading of FeesRegister.json file failed");
             throw new FeesRegisterNotLoadedException("Loading of FeesRegister.json file failed", e);
         }
     }
 
-    private void loadEmbeddedJson() throws IOException {
-        InputStream fileAsStream = resourceLoader.getResource("classpath:FeesRegister.json").getInputStream();
-
-        BufferedReader reader1 = null;
-        reader1 = new BufferedReader(new InputStreamReader(fileAsStream, "UTF-8"));
-        feesRegister = objectMapper.readValue(reader1, FeesRegister.class);
-
-    }
-
-    @SuppressFBWarnings(
-        value = "",
-        justification = "There is a business requirements to load the json from local drive.")
-    private boolean loadDBFromEnv(String fileName) throws IOException {
-
-        if (null != dbFilePath && !(dbFilePath.trim().equals(""))) {
-            feesRegister = objectMapper.readValue(new File(fileName), FeesRegister.class);
-            return true;
-        }
-
-        return false;
+    private FeesRegister loadFromResource(String location) throws IOException {
+        InputStream fileAsStream = resourceLoader.getResource(location).getInputStream();
+        return objectMapper.readValue(fileAsStream, FeesRegister.class);
     }
 
     public FeesRegister getFeesRegister() {
