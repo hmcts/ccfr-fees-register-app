@@ -3,6 +3,10 @@ package uk.gov.hmcts.fees.register.api.componenttests;
 import java.math.BigDecimal;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
+import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto;
+import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.FixedFeeDtoBuilder;
+import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto;
+import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.PercentageFeeDtoBuilder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,21 +16,19 @@ import static uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.percentag
 public class FeesCrudComponentTest extends ComponentTestBase {
 
     @Test
-    public void retrieveAllFees() throws Exception {
+    public void retrieveAll() throws Exception {
         restActions
             .get("/fees")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(FeeDto.class, fees -> {
                 assertThat(fees).contains(
                     fixedFeeDtoWith()
-                        .id(7)
                         .code("X0433")
                         .description("Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP")
                         .amount(41000)
                         .build(),
 
                     percentageFeeDtoWith()
-                        .id(8)
                         .code("X0434")
                         .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
                         .percentage(BigDecimal.valueOf(4.5))
@@ -36,14 +38,13 @@ public class FeesCrudComponentTest extends ComponentTestBase {
     }
 
     @Test
-    public void retrieveById() throws Exception {
+    public void retrieveOne() throws Exception {
         restActions
-            .get("/fees/8")
+            .get("/fees/X0434")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeDto.class, fee -> {
                 assertThat(fee).isEqualTo(
                     percentageFeeDtoWith()
-                        .id(8)
                         .code("X0434")
                         .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
                         .percentage(BigDecimal.valueOf(4.5))
@@ -53,9 +54,81 @@ public class FeesCrudComponentTest extends ComponentTestBase {
     }
 
     @Test
-    public void retrieveByUnknownId() throws Exception {
+    public void retrieveNonExisting() throws Exception {
         restActions
             .get("/fees/-1")
             .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void updatePercentageFee() throws Exception {
+        PercentageFeeDtoBuilder proposedFee = percentageFeeDtoWith()
+            .code("ignored")
+            .percentage(BigDecimal.valueOf(10.15))
+            .description("New Description");
+
+        restActions
+            .put("/fees/X0434", proposedFee.build())
+            .andExpect(status().isOk())
+            .andExpect(body().as(PercentageFeeDto.class, fee -> {
+                assertThat(fee).isEqualTo(proposedFee.code("X0434").build());
+            }));
+    }
+
+    @Test
+    public void updateFixedFee() throws Exception {
+        FixedFeeDtoBuilder proposedFee = fixedFeeDtoWith()
+            .code("ignored")
+            .amount(10000)
+            .description("New Description");
+
+        restActions
+            .put("/fees/X0433", proposedFee.build())
+            .andExpect(status().isOk())
+            .andExpect(body().as(FixedFeeDto.class, fee -> {
+                assertThat(fee).isEqualTo(proposedFee.code("X0433").build());
+            }));
+    }
+
+    @Test
+    public void prohibitTypeChange() throws Exception {
+        FixedFeeDtoBuilder proposedFee = fixedFeeDtoWith().code("ignored").amount(10000).description("any");
+        assertValidationMessage("/fees/X0434", proposedFee.build(), "Fee type can't be changed");
+    }
+
+    @Test
+    public void validateDescription() throws Exception {
+        assertValidationMessage("/fees/X0433", validFixedFeeDto().description(null).build(), "description: may not be empty");
+        assertValidationMessage("/fees/X0433", validFixedFeeDto().description("").build(), "description: may not be empty");
+    }
+
+    @Test
+    public void validateAmount() throws Exception {
+        assertValidationMessage("/fees/X0433", validFixedFeeDto().amount(null).build(), "amount: may not be null");
+        assertValidationMessage("/fees/X0433", validFixedFeeDto().amount(-1).build(), "amount: must be greater than or equal to 0");
+    }
+
+    @Test
+    public void validatePercentage() throws Exception {
+        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(null).build(), "percentage: may not be null");
+        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(-1)).build(), "percentage: must be greater than or equal to 0.01");
+        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(0)).build(), "percentage: must be greater than or equal to 0.01");
+        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(100.01)).build(), "percentage: must be less than or equal to 100.00");
+    }
+
+    private PercentageFeeDtoBuilder validPercentageFeeDto() {
+        return percentageFeeDtoWith().percentage(BigDecimal.valueOf(1.01)).description("any");
+    }
+
+    private FixedFeeDtoBuilder validFixedFeeDto() {
+        return fixedFeeDtoWith().amount(10).description("any");
+    }
+
+    private void assertValidationMessage(String urlTemplate, FeeDto feeDto, String message) throws Exception {
+        restActions
+            .put(urlTemplate, feeDto)
+            .andExpect(status().isBadRequest())
+            .andExpect(body().isErrorWithMessage(message));
+    }
+
 }

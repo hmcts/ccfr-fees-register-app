@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -50,6 +51,14 @@ public class CustomResultMatcher implements ResultMatcher {
             JavaType javaType = TypeFactory.defaultInstance().constructCollectionType(List.class, collectionType);
             List actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), javaType);
             assertions.accept(actual);
+        });
+        return this;
+    }
+
+    public ResultMatcher isErrorWithMessage(String message) {
+        matchers.add(result -> {
+            Map actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), Map.class);
+            assertThat(actual.get("message")).isEqualTo(message);
         });
         return this;
     }

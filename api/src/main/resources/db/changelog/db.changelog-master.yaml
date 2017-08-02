@@ -239,3 +239,12 @@ databaseChangeLog:
               (3, 19),
               (4, 22), (4, 23),
               (5, 24), (5, 25), (5, 26), (5, 27), (5, 28), (5, 29), (5, 30), (5, 31), (5, 32), (5, 33), (5, 34), (5, 35), (5, 36);
+
+  - changeSet:
+      id: 6
+      author: kazyss
+      changes:
+        - modifyDataType:
+            tableName: fee
+            columnName: percentage
+            newDataType: decimal(5,2)

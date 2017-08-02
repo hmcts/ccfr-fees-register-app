@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FeeRepository extends JpaRepository<Fee, Integer> {
-    Optional<Fee> findById(Integer integer);
+    Optional<Fee> findByCode(String code);
 }

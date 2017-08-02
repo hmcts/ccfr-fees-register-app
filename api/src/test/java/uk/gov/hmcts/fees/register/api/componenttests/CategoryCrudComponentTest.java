@@ -25,7 +25,6 @@ public class CategoryCrudComponentTest extends ComponentTestBase {
                     assertThat(category.getRangeGroup().getRanges()).hasSize(2);
                     assertThat(category.getFees()).hasSize(2);
                     assertThat(category.getFees()).contains(fixedFeeDtoWith()
-                        .id(23)
                         .code("X0251-4")
                         .description("‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering.")
                         .amount(50)
