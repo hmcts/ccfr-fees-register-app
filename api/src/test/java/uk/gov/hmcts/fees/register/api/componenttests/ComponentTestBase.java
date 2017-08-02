@@ -35,7 +35,7 @@ public class ComponentTestBase {
     @Before
     public void setUp() {
         MockMvc mvc = webAppContextSetup(webApplicationContext).build();
-        this.restActions = new RestActions(mvc);
+        this.restActions = new RestActions(mvc, objectMapper);
     }
 
     CustomResultMatcher body() {

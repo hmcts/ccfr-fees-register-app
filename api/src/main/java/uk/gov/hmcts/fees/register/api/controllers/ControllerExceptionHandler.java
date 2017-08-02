@@ -35,7 +35,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(FeeTypeUnchangeableException.class)
-    public ResponseEntity<Map> feeTypeUnchangeableException(MethodArgumentNotValidException e) {
+    public ResponseEntity<Map> feeTypeUnchangeableException() {
         return new ResponseEntity<>(errorWithMessage("Fee type can't be changed"), BAD_REQUEST);
     }
 

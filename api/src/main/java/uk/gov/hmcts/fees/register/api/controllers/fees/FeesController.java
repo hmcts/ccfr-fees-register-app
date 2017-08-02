@@ -38,7 +38,6 @@ public class FeesController {
     @GetMapping("/fees/{code}")
     public FeeDto getFee(@NotEmpty @PathVariable("code") String code) {
         Fee fee = findByCode(code);
-
         return feesDtoMapper.toFeeDto(fee);
     }
 
