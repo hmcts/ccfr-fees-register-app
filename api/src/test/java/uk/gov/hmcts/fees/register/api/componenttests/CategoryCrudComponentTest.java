@@ -21,7 +21,7 @@ public class CategoryCrudComponentTest extends ComponentTestBase {
                     assertThat(category.getId()).isEqualTo(4);
                     assertThat(category.getCode()).isEqualTo("probate-copies");
                     assertThat(category.getDescription()).isEqualTo("Probate - Copies");
-                    assertThat(category.getRangeGroup().getId()).isEqualTo(4);
+                    assertThat(category.getRangeGroup().getCode()).isEqualTo("probate-copies");
                     assertThat(category.getRangeGroup().getRanges()).hasSize(2);
                     assertThat(category.getFees()).hasSize(2);
                     assertThat(category.getFees()).contains(fixedFeeDtoWith()
@@ -42,7 +42,7 @@ public class CategoryCrudComponentTest extends ComponentTestBase {
                 assertThat(category.getId()).isEqualTo(1);
                 assertThat(category.getCode()).isEqualTo("cmc-online");
                 assertThat(category.getDescription()).isEqualTo("CMC - Online fees");
-                assertThat(category.getRangeGroup().getId()).isEqualTo(1);
+                assertThat(category.getRangeGroup().getCode()).isEqualTo("cmc-online");
                 assertThat(category.getRangeGroup().getRanges()).hasSize(8);
                 assertThat(category.getFees()).isEmpty();
             }));

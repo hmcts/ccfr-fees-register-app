@@ -13,7 +13,7 @@ import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDt
 public class RangeGroupsCrudComponentTest extends ComponentTestBase {
 
     private static final RangeGroupDto RANGE_GROUP_PROBATE_COPIES = rangeGroupDtoWith()
-        .id(4)
+        .code("probate-copies")
         .description("Probate - Copies")
         .ranges(Arrays.asList(
             rangeDtoWith()
@@ -48,9 +48,9 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
     }
 
     @Test
-    public void retrieveById() throws Exception {
+    public void retrieveOne() throws Exception {
         restActions
-            .get("/range-groups/4")
+            .get("/range-groups/probate-copies")
             .andExpect(status().isOk())
             .andExpect(body().as(RangeGroupDto.class, rangeGroup -> {
                 assertThat(rangeGroup).isEqualTo(RANGE_GROUP_PROBATE_COPIES);
@@ -58,7 +58,7 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
     }
 
     @Test
-    public void retrieveByUnknownId() throws Exception {
+    public void retrieveNonExisting() throws Exception {
         restActions
             .get("/range-groups/-1")
             .andExpect(status().isNotFound());

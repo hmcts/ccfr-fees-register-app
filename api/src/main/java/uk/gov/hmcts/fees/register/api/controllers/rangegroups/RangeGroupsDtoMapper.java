@@ -26,7 +26,7 @@ public class RangeGroupsDtoMapper {
         }
 
         return RangeGroupDto.rangeGroupDtoWith()
-            .id(rangeGroup.getId())
+            .code(rangeGroup.getCode())
             .description(rangeGroup.getDescription())
             .ranges(rangeGroup.getRanges().stream().map(this::toRangeDto).collect(toList()))
             .build();

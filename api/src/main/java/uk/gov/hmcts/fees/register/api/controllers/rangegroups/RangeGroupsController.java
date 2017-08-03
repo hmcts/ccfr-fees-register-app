@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,8 +9,6 @@ import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 import uk.gov.hmcts.fees.register.api.model.RangeGroupRepository;
 import uk.gov.hmcts.fees.register.legacymodel.EntityNotFoundException;
-
-import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
@@ -30,11 +29,11 @@ public class RangeGroupsController {
         return rangeGroupRepository.findAll().stream().map(rangeGroupsDtoMapper::toRangeGroupDto).collect(toList());
     }
 
-    @GetMapping("/range-groups/{id}")
-    public RangeGroupDto getRangeGroup(@PathVariable("id") Integer id) {
+    @GetMapping("/range-groups/{code}")
+    public RangeGroupDto getRangeGroup(@PathVariable("code") String code) {
         RangeGroup rangeGroup = rangeGroupRepository
-            .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Range group not found. Id: " + id));
+            .findByCode(code)
+            .orElseThrow(() -> new EntityNotFoundException("Range group not found. Code: " + code));
 
         return rangeGroupsDtoMapper.toRangeGroupDto(rangeGroup);
     }

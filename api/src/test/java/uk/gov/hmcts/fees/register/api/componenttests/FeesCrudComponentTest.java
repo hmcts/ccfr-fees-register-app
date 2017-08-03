@@ -8,6 +8,9 @@ import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.FixedFeeDtoBuilder;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.PercentageFeeDtoBuilder;
 
+import static java.lang.String.join;
+import static java.util.Collections.nCopies;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
@@ -97,9 +100,15 @@ public class FeesCrudComponentTest extends ComponentTestBase {
     }
 
     @Test
+    public void validateCode() throws Exception {
+        assertValidationMessage("/fees/" + join("", nCopies(51, "A")), validFixedFeeDto().build(), "code: length must be between 0 and 50");
+    }
+
+    @Test
     public void validateDescription() throws Exception {
         assertValidationMessage("/fees/X0433", validFixedFeeDto().description(null).build(), "description: may not be empty");
         assertValidationMessage("/fees/X0433", validFixedFeeDto().description("").build(), "description: may not be empty");
+        assertValidationMessage("/fees/X0433", validFixedFeeDto().description(join("", nCopies(2001, "A"))).build(), "description: length must be between 0 and 2000");
     }
 
     @Test

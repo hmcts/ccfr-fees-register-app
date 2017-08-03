@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @Entity
@@ -18,6 +19,10 @@ public class RangeGroup {
     @Id
     private Integer id;
 
+    @NonNull
+    private String code;
+
+    @NonNull
     private String description;
 
     @OneToMany(mappedBy = "rangeGroupId")

@@ -30,6 +30,7 @@ public class RangeGroupsDtoMapperTest {
         assertThat(rangeGroupsDtoMapper.toRangeGroupDto(
             rangeGroupWith()
                 .id(9)
+                .code("range code")
                 .description("range description")
                 .ranges(Arrays.asList(
                     rangeWith().rangeGroupId(123).from(0).to(1000).fee(ANY_FEE).build(),
@@ -38,7 +39,7 @@ public class RangeGroupsDtoMapperTest {
                 .build())
         ).isEqualTo(
             rangeGroupDtoWith()
-                .id(9)
+                .code("range code")
                 .description("range description")
                 .ranges(Arrays.asList(
                     rangeDtoWith().from(0).to(1000).fee(MAPPED_FEE_DTO).build(),

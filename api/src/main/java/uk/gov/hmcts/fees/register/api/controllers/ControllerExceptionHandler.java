@@ -2,8 +2,11 @@ package uk.gov.hmcts.fees.register.api.controllers;
 
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterators;
 import java.util.Locale;
 import java.util.Map;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +40,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(FeeTypeUnchangeableException.class)
     public ResponseEntity<Map> feeTypeUnchangeableException() {
         return new ResponseEntity<>(errorWithMessage("Fee type can't be changed"), BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    public ResponseEntity<Map> handleResourceNotFoundException(ConstraintViolationException e) {
+        ConstraintViolation<?> violation = e.getConstraintViolations().iterator().next();
+        String parameterName = Iterators.getLast(violation.getPropertyPath().iterator()).getName();
+        return new ResponseEntity<>(errorWithMessage(parameterName + ": " + violation.getMessage()), BAD_REQUEST);
     }
 
     private ImmutableMap<String, String> errorWithMessage(String message) {

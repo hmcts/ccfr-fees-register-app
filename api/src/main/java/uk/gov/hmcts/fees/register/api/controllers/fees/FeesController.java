@@ -2,8 +2,10 @@ package uk.gov.hmcts.fees.register.api.controllers.fees;
 
 import java.util.List;
 import javax.validation.Valid;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 @RestController
+@Validated
 public class FeesController {
 
     private final FeesDtoMapper feesDtoMapper;
@@ -42,7 +45,8 @@ public class FeesController {
     }
 
     @PutMapping("/fees/{code}")
-    public FeeDto updateFee(@NotEmpty @PathVariable("code") String code, @Valid @RequestBody FeeDto feeDto) {
+    public FeeDto updateFee(@Length(max = 50) @PathVariable("code") String code,
+                            @RequestBody FeeDto feeDto) {
         Fee newFeeModel = feesDtoMapper.toFee(code, feeDto);
         Fee existingFee = findByCode(code);
 
