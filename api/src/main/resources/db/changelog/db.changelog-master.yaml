@@ -248,3 +248,19 @@ databaseChangeLog:
             tableName: fee
             columnName: percentage
             newDataType: decimal(5,2)
+
+  - changeSet:
+      id: 7
+      author: kazyss
+      changes:
+        - addColumn:
+            columns:
+            - column:
+                name: code
+                type: varchar(50)
+            tableName: range_group
+        - sql: >
+            UPDATE range_group SET code = 'cmc-online' WHERE id = 1;
+            UPDATE range_group SET code = 'cmc-hearing' WHERE id = 2;
+            UPDATE range_group SET code = 'probate-estate' WHERE id = 3;
+            UPDATE range_group SET code = 'probate-copies' WHERE id = 4;

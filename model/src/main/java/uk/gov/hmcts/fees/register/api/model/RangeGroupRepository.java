@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RangeGroupRepository extends JpaRepository<RangeGroup, Integer> {
-    Optional<RangeGroup> findById(Integer integer);
+    Optional<RangeGroup> findByCode(String code);
 }

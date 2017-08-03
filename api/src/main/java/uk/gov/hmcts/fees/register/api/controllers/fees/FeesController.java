@@ -2,23 +2,29 @@ package uk.gov.hmcts.fees.register.api.controllers.fees;
 
 import java.util.List;
 import javax.validation.Valid;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
 import uk.gov.hmcts.fees.register.api.model.Fee;
 import uk.gov.hmcts.fees.register.api.model.FeeRepository;
-import uk.gov.hmcts.fees.register.legacymodel.EntityNotFoundException;
 
 import static java.util.stream.Collectors.toList;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
+@Validated
 public class FeesController {
 
     private final FeesDtoMapper feesDtoMapper;
@@ -37,14 +43,15 @@ public class FeesController {
 
     @GetMapping("/fees/{code}")
     public FeeDto getFee(@NotEmpty @PathVariable("code") String code) {
-        Fee fee = findByCode(code);
+        Fee fee = feeRepository.findByCodeOrThrow(code);
         return feesDtoMapper.toFeeDto(fee);
     }
 
     @PutMapping("/fees/{code}")
-    public FeeDto updateFee(@NotEmpty @PathVariable("code") String code, @Valid @RequestBody FeeDto feeDto) {
+    public FeeDto updateFee(@Length(max = 50) @PathVariable("code") String code,
+                            @Valid @RequestBody FeeDto feeDto) {
         Fee newFeeModel = feesDtoMapper.toFee(code, feeDto);
-        Fee existingFee = findByCode(code);
+        Fee existingFee = feeRepository.findByCodeOrThrow(code);
 
         if (!existingFee.getClass().equals(newFeeModel.getClass())) {
             throw new FeeTypeUnchangeableException();
@@ -57,10 +64,8 @@ public class FeesController {
         return feesDtoMapper.toFeeDto(existingFee);
     }
 
-    private Fee findByCode(@NotEmpty @PathVariable("code") String code) {
-        return feeRepository
-            .findByCode(code)
-            .orElseThrow(() -> new EntityNotFoundException("Fee not found. Code: " + code));
+    @ExceptionHandler(FeeTypeUnchangeableException.class)
+    public ResponseEntity<ErrorDto> feeTypeUnchangeableException() {
+        return new ResponseEntity<>(new ErrorDto("Fee type can't be changed"), BAD_REQUEST);
     }
-
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Data
@@ -18,5 +19,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class FeeDto {
     private final String code;
     @NotEmpty
+    @Length(max = 2000)
     private final String description;
 }
