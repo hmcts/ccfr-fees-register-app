@@ -100,25 +100,33 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
 
     @Test
     public void validateCode() throws Exception {
-        assertValidationMessage("/range-groups/" + join("", nCopies(51, "A")), validRangeGroupDto().build(), "code: length must be between 0 and 50");
+        assertValidationMessage("/range-groups/" + join("", nCopies(51, "A")), validRangeGroupUpdateDto().build(), "code: length must be between 0 and 50");
     }
 
     @Test
     public void validateDescription() throws Exception {
-        assertValidationMessage("/range-groups/cmc-online", validRangeGroupDto().description(null).build(), "description: may not be empty");
-        assertValidationMessage("/range-groups/cmc-online", validRangeGroupDto().description("").build(), "description: may not be empty");
-        assertValidationMessage("/range-groups/cmc-online", validRangeGroupDto().description(join("", nCopies(2001, "A"))).build(), "description: length must be between 0 and 2000");
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description(null).build(), "description: may not be empty");
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description("").build(), "description: may not be empty");
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description(join("", nCopies(2001, "A"))).build(), "description: length must be between 0 and 2000");
     }
 
     @Test
     public void validateFeeExists() throws Exception {
-        RangeGroupUpdateDto rangeGroupWithNonExistingFee = validRangeGroupDto()
-            .ranges(singletonList(rangeUpdateDtoWith().from(100).to(1000).feeCode("non-existing").build()))
-            .build();
+        RangeGroupUpdateDto rangeGroupWithNonExistingFee = rangeGroupWithRange(rangeUpdateDtoWith().from(100).to(1000).feeCode("non-existing").build());
         assertValidationMessage("/range-groups/cmc-online", rangeGroupWithNonExistingFee, "ranges.feeCode: unknown fee code provided");
     }
 
-    private RangeGroupUpdateDto.RangeGroupUpdateDtoBuilder validRangeGroupDto() {
+    @Test
+    public void validateRangeFrom() throws Exception {
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(null).to(1000).feeCode("X0047").build()), "ranges[0].from: may not be null");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(-1).to(1000).feeCode("X0047").build()), "ranges[0].from: must be greater than or equal to 0");
+    }
+
+    private RangeGroupUpdateDto rangeGroupWithRange(RangeUpdateDto rangeDto) {
+        return validRangeGroupUpdateDto().ranges(singletonList(rangeDto)).build();
+    }
+
+    private RangeGroupUpdateDto.RangeGroupUpdateDtoBuilder validRangeGroupUpdateDto() {
         return rangeGroupUpdateDtoWith().description("any").ranges(emptyList());
     }
 

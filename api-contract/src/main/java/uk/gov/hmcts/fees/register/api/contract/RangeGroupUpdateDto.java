@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +22,7 @@ public class RangeGroupUpdateDto {
     private final String description;
 
     @NotNull
+    @Valid
     private final List<RangeUpdateDto> ranges;
 
     @JsonCreator
@@ -36,9 +39,10 @@ public class RangeGroupUpdateDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class RangeUpdateDto {
         @NotNull
+        @Min(0)
         private Integer from;
         private Integer to;
-        @NotNull
+        @NotEmpty
         private String feeCode;
 
         @JsonCreator
