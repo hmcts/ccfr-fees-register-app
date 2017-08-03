@@ -46,7 +46,7 @@ public class FeesController {
 
     @PutMapping("/fees/{code}")
     public FeeDto updateFee(@Length(max = 50) @PathVariable("code") String code,
-                            @RequestBody FeeDto feeDto) {
+                            @Valid @RequestBody FeeDto feeDto) {
         Fee newFeeModel = feesDtoMapper.toFee(code, feeDto);
         Fee existingFee = findByCode(code);
 

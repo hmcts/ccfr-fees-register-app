@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees.register.api.contract.RangeDto;
@@ -37,6 +38,14 @@ public class RangeGroupsDtoMapper {
             .from(range.getFrom())
             .to(range.getTo())
             .fee(feesDtoMapper.toFeeDto(range.getFee()))
+            .build();
+    }
+
+    public RangeGroup toRangeGroup(String code, RangeGroupDto rangeGroupDto) {
+        return RangeGroup.rangeGroupWith()
+            .code(code)
+            .description(rangeGroupDto.getDescription())
+            .ranges(Collections.emptyList())
             .build();
     }
 }

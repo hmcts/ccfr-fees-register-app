@@ -1,8 +1,12 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
 import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
+
+import static java.lang.String.join;
+import static java.util.Collections.nCopies;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,5 +66,45 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
         restActions
             .get("/range-groups/-1")
             .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void updatePercentageFee() throws Exception {
+        RangeGroupDto.RangeGroupDtoBuilder proposeRangeGroup = rangeGroupDtoWith()
+            .code("ignored")
+            .description("New Description")
+            .ranges(Collections.emptyList());
+
+        restActions
+            .put("/range-groups/cmc-online", proposeRangeGroup.build())
+            .andExpect(status().isOk())
+            .andExpect(body().as(RangeGroupDto.class, rangeGroupDto -> {
+                assertThat(rangeGroupDto.getCode()).isEqualTo("cmc-online");
+                assertThat(rangeGroupDto.getDescription()).isEqualTo("New Description");
+            }));
+    }
+
+    @Test
+    public void validateCode() throws Exception {
+        assertValidationMessage("/range-groups/" + join("", nCopies(51, "A")), validRangeGroupDto().build(), "code: length must be between 0 and 50");
+    }
+
+    @Test
+    public void validateDescription() throws Exception {
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupDto().description(null).build(), "description: may not be empty");
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupDto().description("").build(), "description: may not be empty");
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupDto().description(join("", nCopies(2001, "A"))).build(), "description: length must be between 0 and 2000");
+    }
+
+    private RangeGroupDto.RangeGroupDtoBuilder validRangeGroupDto() {
+        return rangeGroupDtoWith().description("any").ranges(Collections.emptyList());
+    }
+
+
+    private void assertValidationMessage(String urlTemplate, RangeGroupDto rangeGroupDto, String message) throws Exception {
+        restActions
+            .put(urlTemplate, rangeGroupDto)
+            .andExpect(status().isBadRequest())
+            .andExpect(body().isErrorWithMessage(message));
     }
 }

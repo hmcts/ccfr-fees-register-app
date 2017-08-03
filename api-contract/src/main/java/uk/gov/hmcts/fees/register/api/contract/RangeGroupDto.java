@@ -14,9 +14,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RangeGroupDto {
     private final String code;
+
     @NotEmpty
     @Length(max = 2000)
     private final String description;
+
     @NotNull
     private final List<RangeDto> ranges;
 
