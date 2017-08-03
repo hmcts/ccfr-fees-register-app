@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees.register.api.controllers;
 
 
 import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
@@ -22,7 +23,7 @@ import static uk.gov.hmcts.fees.register.api.model.FixedFee.fixedFeeWith;
 
 public class CategoryDtoMapperTest {
 
-    private static final RangeGroup SOME_RANGE_GROUP = RangeGroup.rangeGroupWith().code("any").description("any").build();
+    private static final RangeGroup SOME_RANGE_GROUP = RangeGroup.rangeGroupWith().code("any").description("any").ranges(Collections.emptyList()).build();
     private static final RangeGroupDto MAPPED_RANGE_GROUP_DTO = rangeGroupDtoWith().code("any").description("any").build();
     private static final FixedFee SOME_FEE = fixedFeeWith().code("any").description("any").build();
     private static final FixedFeeDto MAPPED_FEE_DTO = fixedFeeDtoWith().code("any").description("any").build();
