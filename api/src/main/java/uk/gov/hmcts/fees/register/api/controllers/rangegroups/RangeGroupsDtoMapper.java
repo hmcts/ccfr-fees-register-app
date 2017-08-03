@@ -1,11 +1,12 @@
 package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
-import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.fees.register.api.contract.RangeDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
+import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.RangeDto;
+import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
 import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
+import uk.gov.hmcts.fees.register.api.model.FeeRepository;
 import uk.gov.hmcts.fees.register.api.model.Range;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 
@@ -15,10 +16,12 @@ import static java.util.stream.Collectors.toList;
 public class RangeGroupsDtoMapper {
 
     private final FeesDtoMapper feesDtoMapper;
+    private final FeeRepository feeRepository;
 
     @Autowired
-    public RangeGroupsDtoMapper(FeesDtoMapper feesDtoMapper) {
+    public RangeGroupsDtoMapper(FeesDtoMapper feesDtoMapper, FeeRepository feeRepository) {
         this.feesDtoMapper = feesDtoMapper;
+        this.feeRepository = feeRepository;
     }
 
     public RangeGroupDto toRangeGroupDto(RangeGroup rangeGroup) {
@@ -41,11 +44,19 @@ public class RangeGroupsDtoMapper {
             .build();
     }
 
-    public RangeGroup toRangeGroup(String code, RangeGroupDto rangeGroupDto) {
+    public RangeGroup toRangeGroup(String code, RangeGroupUpdateDto dto) {
         return RangeGroup.rangeGroupWith()
             .code(code)
-            .description(rangeGroupDto.getDescription())
-            .ranges(Collections.emptyList())
+            .description(dto.getDescription())
+            .ranges(dto.getRanges().stream().map(this::toRange).collect(toList()))
+            .build();
+    }
+
+    private Range toRange(RangeGroupUpdateDto.RangeUpdateDto dto) {
+        return Range.rangeWith()
+            .from(dto.getFrom())
+            .to(dto.getTo())
+            .fee(feeRepository.findByCodeOrThrow(dto.getFeeCode()))
             .build();
     }
 }

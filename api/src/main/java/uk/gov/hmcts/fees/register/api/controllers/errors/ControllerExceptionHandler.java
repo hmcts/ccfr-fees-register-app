@@ -1,10 +1,8 @@
-package uk.gov.hmcts.fees.register.api.controllers;
+package uk.gov.hmcts.fees.register.api.controllers.errors;
 
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterators;
 import java.util.Locale;
-import java.util.Map;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import uk.gov.hmcts.fees.register.api.controllers.fees.FeeTypeUnchangeableException;
-import uk.gov.hmcts.fees.register.legacymodel.EntityNotFoundException;
+import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
+import uk.gov.hmcts.fees.register.api.model.exceptions.EntityNotFoundException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -31,27 +29,16 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map> methodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorDto> methodArgumentNotValidException(MethodArgumentNotValidException e) {
         FieldError firstFieldError = e.getBindingResult().getFieldErrors().get(0);
         String message = firstFieldError.getField() + ": " + messageSource.getMessage(firstFieldError, Locale.getDefault());
-        return new ResponseEntity<>(errorWithMessage(message), BAD_REQUEST);
-    }
-
-    @ExceptionHandler(FeeTypeUnchangeableException.class)
-    public ResponseEntity<Map> feeTypeUnchangeableException() {
-        return new ResponseEntity<>(errorWithMessage("Fee type can't be changed"), BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorDto(message), BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {ConstraintViolationException.class})
-    public ResponseEntity<Map> handleResourceNotFoundException(ConstraintViolationException e) {
+    public ResponseEntity<ErrorDto> handleResourceNotFoundException(ConstraintViolationException e) {
         ConstraintViolation<?> violation = e.getConstraintViolations().iterator().next();
         String parameterName = Iterators.getLast(violation.getPropertyPath().iterator()).getName();
-        return new ResponseEntity<>(errorWithMessage(parameterName + ": " + violation.getMessage()), BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorDto(parameterName + ": " + violation.getMessage()), BAD_REQUEST);
     }
-
-    private ImmutableMap<String, String> errorWithMessage(String message) {
-        return ImmutableMap.of("message", message);
-    }
-
-
 }

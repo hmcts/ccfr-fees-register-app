@@ -4,20 +4,26 @@ import java.util.List;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
+import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 import uk.gov.hmcts.fees.register.api.model.RangeGroupRepository;
-import uk.gov.hmcts.fees.register.legacymodel.EntityNotFoundException;
+import uk.gov.hmcts.fees.register.api.model.exceptions.EntityNotFoundException;
+import uk.gov.hmcts.fees.register.api.model.exceptions.FeeNotFoundException;
 
 import static java.util.stream.Collectors.toList;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
 @Validated
@@ -45,11 +51,11 @@ public class RangeGroupsController {
 
     @PutMapping("/range-groups/{code}")
     public RangeGroupDto updateRangeGroup(@Length(max = 50) @PathVariable("code") String code,
-                                          @Valid @RequestBody RangeGroupDto rangeGroupDto) {
+                                          @Valid @RequestBody RangeGroupUpdateDto rangeGroupDto) {
         RangeGroup newRangeGroupModel = rangeGroupsDtoMapper.toRangeGroup(code, rangeGroupDto);
         RangeGroup existingRangeGroup = findByCode(code);
 
-        copyProperties(newRangeGroupModel, existingRangeGroup, "id", "ranges");
+        copyProperties(newRangeGroupModel, existingRangeGroup, "id");
 
         rangeGroupRepository.save(existingRangeGroup);
 
@@ -60,6 +66,11 @@ public class RangeGroupsController {
         return rangeGroupRepository
             .findByCode(code)
             .orElseThrow(() -> new EntityNotFoundException("Range group not found. Code: " + code));
+    }
+
+    @ExceptionHandler(FeeNotFoundException.class)
+    public ResponseEntity rangeFeeNotFound() {
+        return new ResponseEntity<>(new ErrorDto("ranges.feeCode: unknown fee code provided"), BAD_REQUEST);
     }
 
 }

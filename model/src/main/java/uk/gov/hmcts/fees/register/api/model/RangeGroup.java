@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Data
 @Entity
@@ -26,5 +28,6 @@ public class RangeGroup {
     private String description;
 
     @OneToMany(mappedBy = "rangeGroupId")
+    @Cascade(CascadeType.ALL)
     private List<Range> ranges;
 }

@@ -9,7 +9,7 @@ import uk.gov.hmcts.fees.register.api.model.Fee;
 import uk.gov.hmcts.fees.register.api.model.FixedFee;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static uk.gov.hmcts.fees.register.api.contract.RangeDto.rangeDtoWith;
+import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.RangeDto.rangeDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
 import static uk.gov.hmcts.fees.register.api.model.Range.rangeWith;
 import static uk.gov.hmcts.fees.register.api.model.RangeGroup.rangeGroupWith;
@@ -23,7 +23,7 @@ public class RangeGroupsDtoMapperTest {
         public FeeDto toFeeDto(Fee fee) {
             return MAPPED_FEE_DTO;
         }
-    });
+    }, null);
 
     @Test
     public void convertsToRangeGroupDto() {

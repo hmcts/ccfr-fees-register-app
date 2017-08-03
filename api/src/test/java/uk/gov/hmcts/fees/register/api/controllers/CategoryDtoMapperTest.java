@@ -28,7 +28,7 @@ public class CategoryDtoMapperTest {
     private static final FixedFeeDto MAPPED_FEE_DTO = fixedFeeDtoWith().code("any").description("any").build();
 
     private final CategoryDtoMapper categoryDtoMapper = new CategoryDtoMapper(
-        new RangeGroupsDtoMapper(null) {
+        new RangeGroupsDtoMapper(null, null) {
             @Override
             public RangeGroupDto toRangeGroupDto(RangeGroup rangeGroup) {
                 return MAPPED_RANGE_GROUP_DTO;

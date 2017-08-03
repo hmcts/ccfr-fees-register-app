@@ -12,16 +12,21 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RangeGroupDto {
+public class RangeGroupUpdateDto {
     private final String code;
+
+    @NotEmpty
+    @Length(max = 2000)
     private final String description;
-    private final List<RangeDto> ranges;
+
+    @NotNull
+    private final List<RangeUpdateDto> ranges;
 
     @JsonCreator
-    @Builder(builderMethodName = "rangeGroupDtoWith")
-    public RangeGroupDto(@JsonProperty("code") String code,
-                         @JsonProperty("description") String description,
-                         @JsonProperty("ranges") List<RangeDto> ranges) {
+    @Builder(builderMethodName = "rangeGroupUpdateDtoWith")
+    public RangeGroupUpdateDto(@JsonProperty("code") String code,
+                               @JsonProperty("description") String description,
+                               @JsonProperty("ranges") List<RangeUpdateDto> ranges) {
         this.code = code;
         this.description = description;
         this.ranges = ranges;
@@ -29,19 +34,21 @@ public class RangeGroupDto {
 
     @Data
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class RangeDto {
+    public static class RangeUpdateDto {
+        @NotNull
         private Integer from;
         private Integer to;
-        private FeeDto fee;
+        @NotNull
+        private String feeCode;
 
         @JsonCreator
-        @Builder(builderMethodName = "rangeDtoWith")
-        public RangeDto(@JsonProperty("from") Integer from,
-                        @JsonProperty("to") Integer to,
-                        @JsonProperty("fee") FeeDto fee) {
+        @Builder(builderMethodName = "rangeUpdateDtoWith")
+        public RangeUpdateDto(@JsonProperty("from") Integer from,
+                              @JsonProperty("to") Integer to,
+                              @JsonProperty("feeCode") String feeCode) {
             this.from = from;
             this.to = to;
-            this.fee = fee;
+            this.feeCode = feeCode;
         }
     }
 }
