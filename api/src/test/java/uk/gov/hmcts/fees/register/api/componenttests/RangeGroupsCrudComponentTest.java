@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
+import java.util.Arrays;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
@@ -113,13 +114,30 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
     @Test
     public void validateFeeExists() throws Exception {
         RangeGroupUpdateDto rangeGroupWithNonExistingFee = rangeGroupWithRange(rangeUpdateDtoWith().from(100).to(1000).feeCode("non-existing").build());
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithNonExistingFee, "ranges.feeCode: unknown fee code provided");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithNonExistingFee, "ranges: one of the ranges contains unknown fee code");
     }
 
     @Test
     public void validateRangeFrom() throws Exception {
         assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(null).to(1000).feeCode("X0047").build()), "ranges[0].from: may not be null");
         assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(-1).to(1000).feeCode("X0047").build()), "ranges[0].from: must be greater than or equal to 0");
+    }
+
+    @Test
+    public void validateEmptyRange() throws Exception {
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(0).to(0).feeCode("X0047").build()), "ranges: one of the ranges is empty");
+    }
+
+    @Test
+    public void validateContinuousRanges() throws Exception {
+        RangeGroupUpdateDto nonContinuousRangeGroup = validRangeGroupUpdateDto()
+            .ranges(Arrays.asList(
+                rangeUpdateDtoWith().from(0).to(1000).feeCode("X0047").build(),
+                rangeUpdateDtoWith().from(1002).to(null).feeCode("X0048").build()
+            ))
+            .build();
+
+        assertValidationMessage("/range-groups/cmc-online", nonContinuousRangeGroup, "ranges: provides set of ranges contains gaps or overlaps");
     }
 
     private RangeGroupUpdateDto rangeGroupWithRange(RangeUpdateDto rangeDto) {

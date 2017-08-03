@@ -16,7 +16,6 @@ import lombok.NonNull;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(builderMethodName = "rangeWith")
 public class Range {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +30,32 @@ public class Range {
     @NonNull
     @ManyToOne
     private Fee fee;
+
+    @Builder(builderMethodName = "rangeWith")
+    public Range(Integer from, Integer to, Fee fee) {
+        checkFromLowerThanTo(from, to);
+        this.from = from;
+        this.to = to;
+        this.fee = fee;
+    }
+
+    public void setFrom(Integer from) {
+        checkFromLowerThanTo(from, to);
+        this.from = from;
+    }
+
+    public void setTo(Integer to) {
+        checkFromLowerThanTo(from, to);
+        this.to = to;
+    }
+
+    private void checkFromLowerThanTo(Integer from, Integer to) {
+        if (to != null && from >= to) {
+            throw new RangeEmptyException();
+        }
+    }
+
+    public boolean follows(Range previous) {
+        return (previous.to != null) && (this.from == previous.to + 1);
+    }
 }

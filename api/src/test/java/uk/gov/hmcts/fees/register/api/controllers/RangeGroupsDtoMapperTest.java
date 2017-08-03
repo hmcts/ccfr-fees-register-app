@@ -33,8 +33,8 @@ public class RangeGroupsDtoMapperTest {
                 .code("range code")
                 .description("range description")
                 .ranges(Arrays.asList(
-                    rangeWith().rangeGroupId(123).from(0).to(1000).fee(ANY_FEE).build(),
-                    rangeWith().rangeGroupId(456).from(1001).fee(ANY_FEE).build())
+                    rangeWith().from(0).to(1000).fee(ANY_FEE).build(),
+                    rangeWith().from(1001).fee(ANY_FEE).build())
                 )
                 .build())
         ).isEqualTo(

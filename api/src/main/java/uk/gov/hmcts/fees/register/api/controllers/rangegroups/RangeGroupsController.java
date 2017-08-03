@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
+import uk.gov.hmcts.fees.register.api.model.RangeEmptyException;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
+import uk.gov.hmcts.fees.register.api.model.RangeGroupNotContinuousException;
 import uk.gov.hmcts.fees.register.api.model.RangeGroupRepository;
 import uk.gov.hmcts.fees.register.api.model.exceptions.EntityNotFoundException;
 import uk.gov.hmcts.fees.register.api.model.exceptions.FeeNotFoundException;
@@ -70,7 +72,16 @@ public class RangeGroupsController {
 
     @ExceptionHandler(FeeNotFoundException.class)
     public ResponseEntity rangeFeeNotFound() {
-        return new ResponseEntity<>(new ErrorDto("ranges.feeCode: unknown fee code provided"), BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorDto("ranges: one of the ranges contains unknown fee code"), BAD_REQUEST);
     }
 
+    @ExceptionHandler(RangeEmptyException.class)
+    public ResponseEntity rangeEmpty() {
+        return new ResponseEntity<>(new ErrorDto("ranges: one of the ranges is empty"), BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RangeGroupNotContinuousException.class)
+    public ResponseEntity rangeGroupNotContinuous() {
+        return new ResponseEntity<>(new ErrorDto("ranges: provides set of ranges contains gaps or overlaps"), BAD_REQUEST);
+    }
 }
