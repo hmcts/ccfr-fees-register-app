@@ -269,8 +269,8 @@ databaseChangeLog:
       author: jalaldeen
       changes:
         - sql: >
-          INSERT INTO fee (id, code, description, type, amount, percentage)
-          VALUES
+            INSERT INTO fee (id, code, description, type, amount, percentage)
+            VALUES
               (101, 'X0001', 'Civil Court fees - Money Claims - Claim Amount - 0.01 up to 300 GBP', 'fixed', 3500, null),
               (102, 'X0002', 'Civil Court fees - Money Claims - Claim Amount - 300.01 up to 500 GBP', 'fixed', 5000, null),
               (103, 'X0003', 'Civil Court fees - Money Claims - Claim Amount - 500.01 up to 1000 GBP', 'fixed', 7000, null),
@@ -281,11 +281,11 @@ databaseChangeLog:
               (108, 'X0008-1', 'Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP. Fees are 5% of the claim value', 'percentage', null, 5.0),
               (109, 'X0012', 'Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more', 'fixed', 1000000, null);
         - sql: >
-          INSERT INTO range_group (id, description)
-          VALUES (101, 'CMC - Paper');
+            INSERT INTO range_group (id, description)
+            VALUES (101, 'CMC - Paper');
         - sql: >
-          INSERT INTO range (range_group_id, value_from, value_to, fee_id)
-          VALUES
+            INSERT INTO range (range_group_id, value_from, value_to, fee_id)
+            VALUES
              (101, 1, 30000, 101),
              (101, 30001, 50000, 102),
              (101, 50001, 100000, 103),
@@ -296,6 +296,6 @@ databaseChangeLog:
              (101, 1000001, 20000000, 108),
              (101, 20000001, null,  109);
         - sql: >
-          INSERT INTO category (id, code, description, range_group_id)
-          VALUES
+            INSERT INTO category (id, code, description, range_group_id)
+            VALUES
              (6, 'cmc-paper', 'CMC - Paper fees', 101);
