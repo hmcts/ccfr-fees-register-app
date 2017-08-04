@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
 import uk.gov.hmcts.fees.register.api.model.Category;
 import uk.gov.hmcts.fees.register.api.model.CategoryRepository;
-import uk.gov.hmcts.fees.register.api.model.exceptions.EntityNotFoundException;
+import uk.gov.hmcts.fees.register.api.model.exceptions.CategoryNotFoundException;
 
 import static java.util.stream.Collectors.toList;
 
@@ -35,7 +35,7 @@ public class CategoriesController {
     public CategoryDto getCategory(@PathVariable("id") Integer id) {
         Category category = categoryRepository
             .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(id.toString()));
+            .orElseThrow(() -> new CategoryNotFoundException(id.toString()));
 
         return categoryDtoMapper.toCategoryDto(category);
     }

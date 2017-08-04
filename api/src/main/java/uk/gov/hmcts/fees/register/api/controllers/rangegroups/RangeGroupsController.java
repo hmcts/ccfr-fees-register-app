@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.fees.register.api.contract.CalculationDto;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
@@ -19,7 +21,8 @@ import uk.gov.hmcts.fees.register.api.model.RangeEmptyException;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 import uk.gov.hmcts.fees.register.api.model.RangeGroupNotContinuousException;
 import uk.gov.hmcts.fees.register.api.model.RangeGroupRepository;
-import uk.gov.hmcts.fees.register.api.model.exceptions.EntityNotFoundException;
+import uk.gov.hmcts.fees.register.api.model.exceptions.RangeGroupNotFoundException;
+import uk.gov.hmcts.fees.register.api.model.exceptions.ResourceNotFoundException;
 import uk.gov.hmcts.fees.register.api.model.exceptions.FeeNotFoundException;
 
 import static java.util.stream.Collectors.toList;
@@ -64,10 +67,18 @@ public class RangeGroupsController {
         return rangeGroupsDtoMapper.toRangeGroupDto(existingRangeGroup);
     }
 
+    @GetMapping("/range-groups/{code}/calculations")
+    public CalculationDto getCategoryRange(@PathVariable("code") String code,
+                                           @RequestParam("value") int value) {
+        RangeGroup rangeGroup = findByCode(code);
+        int amount = rangeGroup.calculate(value);
+        return new CalculationDto(amount);
+    }
+
     private RangeGroup findByCode(@PathVariable("code") String code) {
         return rangeGroupRepository
             .findByCode(code)
-            .orElseThrow(() -> new EntityNotFoundException("Range group not found. Code: " + code));
+            .orElseThrow(() -> new RangeGroupNotFoundException(code));
     }
 
     @ExceptionHandler(FeeNotFoundException.class)

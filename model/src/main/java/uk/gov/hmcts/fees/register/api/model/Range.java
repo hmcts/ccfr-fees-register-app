@@ -58,4 +58,9 @@ public class Range {
     public boolean follows(Range previous) {
         return (previous.to != null) && (this.from == previous.to + 1);
     }
+
+    public boolean containsValue(int value) {
+        return from <= value && (to == null || value <= to);
+    }
+
 }

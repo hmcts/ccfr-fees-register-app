@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees.register.api.repositories.FeesRegisterRepository;
 import uk.gov.hmcts.fees.register.legacymodel.Category;
-import uk.gov.hmcts.fees.register.api.model.exceptions.EntityNotFoundException;
+import uk.gov.hmcts.fees.register.legacymodel.EntityNotFoundException;
 import uk.gov.hmcts.fees.register.legacymodel.Fee;
 import uk.gov.hmcts.fees.register.legacymodel.FeesRegister;
 

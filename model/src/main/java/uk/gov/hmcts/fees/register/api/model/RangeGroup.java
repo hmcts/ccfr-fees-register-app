@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees.register.api.model;
 import com.google.common.collect.Ordering;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -13,11 +14,12 @@ import lombok.NonNull;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Immutable;
+import uk.gov.hmcts.fees.register.api.model.exceptions.RangeNotFoundException;
 
 @Data
 @Entity
 @NoArgsConstructor
-public class RangeGroup {
+public class RangeGroup implements Calculateable {
     @Id
     private Integer id;
 
@@ -54,5 +56,12 @@ public class RangeGroup {
                 throw new RangeGroupNotContinuousException();
             }
         }
+    }
+
+    @Override
+    public int calculate(int value) {
+        Optional<Range> first = ranges.stream().filter(range -> range.containsValue(value)).findFirst();
+        Range range = first.orElseThrow(() -> new RangeNotFoundException(value));
+        return range.getFee().calculate(value);
     }
 }
