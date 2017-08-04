@@ -15,8 +15,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RangeGroupUpdateDto {
-    private final String code;
-
     @NotEmpty
     @Length(max = 2000)
     private final String description;
@@ -27,10 +25,8 @@ public class RangeGroupUpdateDto {
 
     @JsonCreator
     @Builder(builderMethodName = "rangeGroupUpdateDtoWith")
-    public RangeGroupUpdateDto(@JsonProperty("code") String code,
-                               @JsonProperty("description") String description,
+    public RangeGroupUpdateDto(@JsonProperty("description") String description,
                                @JsonProperty("ranges") List<RangeUpdateDto> ranges) {
-        this.code = code;
         this.description = description;
         this.ranges = ranges;
     }
