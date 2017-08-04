@@ -11,6 +11,8 @@ services:
     image: docker.artifactory.reform.hmcts.net/fees-register/fees-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
+      - SPRING_DATASOURCE_USERNAME=fees_register
+      - SPRING_DATASOURCE_PASSWORD=fees_register
     ports:
      - 8182:8080
     depends_on:
