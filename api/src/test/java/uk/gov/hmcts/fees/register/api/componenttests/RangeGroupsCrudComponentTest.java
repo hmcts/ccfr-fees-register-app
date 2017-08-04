@@ -76,7 +76,6 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
     @Test
     public void updateRangeGroup() throws Exception {
         RangeGroupUpdateDtoBuilder proposeRangeGroup = rangeGroupUpdateDtoWith()
-            .code("ignored")
             .description("New Description")
             .ranges(asList(
                 new RangeUpdateDto(0, 1000, "X0046"),

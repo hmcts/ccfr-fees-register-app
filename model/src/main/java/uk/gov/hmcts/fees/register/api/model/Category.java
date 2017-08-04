@@ -22,7 +22,6 @@ import javax.persistence.ManyToOne;
 @Builder(builderMethodName = "categoryWith")
 public class Category {
     @Id
-    @NonNull
     private Integer id;
     @NonNull
     private String code;
