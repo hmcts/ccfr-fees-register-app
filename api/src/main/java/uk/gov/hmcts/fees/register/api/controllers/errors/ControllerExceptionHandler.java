@@ -13,7 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
-import uk.gov.hmcts.fees.register.api.model.exceptions.EntityNotFoundException;
+import uk.gov.hmcts.fees.register.api.model.exceptions.ResourceNotFoundException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -23,9 +23,10 @@ public class ControllerExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity entityNotFoundException() {
-        return new ResponseEntity<>(NOT_FOUND);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity entityNotFoundException(ResourceNotFoundException e) {
+        String message = String.format("%s for %s=%s was not found", e.getResourceName(), e.getIdName(), e.getIdValue());
+        return new ResponseEntity<>(new ErrorDto(message), NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

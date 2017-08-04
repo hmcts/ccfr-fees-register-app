@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.fees.register.api.contract.CalculationDto;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
 import uk.gov.hmcts.fees.register.api.model.Fee;
@@ -62,6 +64,14 @@ public class FeesController {
         feeRepository.save(existingFee);
 
         return feesDtoMapper.toFeeDto(existingFee);
+    }
+
+    @GetMapping("/fees/{code}/calculations")
+    public CalculationDto getCategoryRange(@PathVariable("code") String code,
+                                           @RequestParam("value") int value) {
+        Fee fee = feeRepository.findByCodeOrThrow(code);
+        int amount = fee.calculate(value);
+        return new CalculationDto(amount);
     }
 
     @ExceptionHandler(FeeTypeUnchangeableException.class)

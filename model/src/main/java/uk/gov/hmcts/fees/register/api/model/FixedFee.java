@@ -23,4 +23,9 @@ public class FixedFee extends Fee {
         super(id, code, description);
         this.amount = amount;
     }
+
+    @Override
+    public int calculate(int value) {
+        return amount;
+    }
 }

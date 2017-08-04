@@ -36,6 +36,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
 
             stage('Build docker') {
                 dockerImage imageName: 'fees-register/fees-api'
+                dockerImage imageName: 'fees-register/fees-database', context: 'docker/database'
             }
 
             onMaster {

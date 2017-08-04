@@ -26,4 +26,9 @@ public class PercentageFee extends Fee {
         super(id, code, description);
         this.percentage = percentage;
     }
+
+    @Override
+    public int calculate(int value) {
+        return new BigDecimal(value).multiply(percentage).divide(BigDecimal.valueOf(100)).intValue();
+    }
 }

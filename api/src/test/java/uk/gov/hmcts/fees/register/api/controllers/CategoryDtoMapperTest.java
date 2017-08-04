@@ -35,18 +35,17 @@ public class CategoryDtoMapperTest {
                 return MAPPED_RANGE_GROUP_DTO;
             }
         },
-        new FeesDtoMapper() {
+        null, new FeesDtoMapper() {
             @Override
             public FeeDto toFeeDto(Fee fee) {
                 return MAPPED_FEE_DTO;
             }
-        });
+        }, null);
 
     @Test
     public void convertsToCategoryDto() {
         assertThat(categoryDtoMapper.toCategoryDto(
             Category.categoryWith()
-                .id(1)
                 .code("code")
                 .description("description")
                 .rangeGroup(SOME_RANGE_GROUP)
@@ -55,7 +54,6 @@ public class CategoryDtoMapperTest {
             )
         ).isEqualTo(
             CategoryDto.categoryDtoWith()
-                .id(1)
                 .code("code")
                 .description("description")
                 .rangeGroup(MAPPED_RANGE_GROUP_DTO)
