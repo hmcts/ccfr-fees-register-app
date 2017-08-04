@@ -10,5 +10,26 @@ services:
         - no_proxy
     image: docker.artifactory.reform.hmcts.net/fees-register/fees-api
     command: --wait-for-database 30
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
     ports:
      - 8182:8080
+
+  fees-database:
+    build:
+      context: docker/database
+    image: docker.artifactory.reform.hmcts.net/fees-register/fees-database
+    healthcheck:
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    environment:
+      - FEES_REGISTER_DB_USERNAME=fees_register
+      - FEES_REGISTER_DB_PASSWORD=fees_register
+    ports:
+      - 5182:5432
+    volumes:
+      - fees-database-data:/var/lib/postgresql/data
+
+volumes:
+  fees-database-data:
