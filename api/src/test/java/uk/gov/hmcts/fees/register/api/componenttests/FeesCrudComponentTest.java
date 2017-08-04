@@ -94,6 +94,20 @@ public class FeesCrudComponentTest extends ComponentTestBase {
     }
 
     @Test
+    public void createFee() throws Exception {
+        FixedFeeDtoBuilder proposedFee = fixedFeeDtoWith()
+            .amount(10000)
+            .description("New Description");
+
+        restActions
+            .put("/fees/X9999", proposedFee.build())
+            .andExpect(status().isOk())
+            .andExpect(body().as(FixedFeeDto.class, fee -> {
+                assertThat(fee).isEqualTo(proposedFee.code("X9999").build());
+            }));
+    }
+
+    @Test
     public void prohibitTypeChange() throws Exception {
         FixedFeeDtoBuilder proposedFee = fixedFeeDtoWith().code("ignored").amount(10000).description("any");
         assertValidationMessage("/fees/X0434", proposedFee.build(), "Fee type can't be changed");

@@ -81,6 +81,23 @@ public class CategoryCrudComponentTest extends ComponentTestBase {
             }));
     }
 
+    @Test
+    public void create() throws Exception {
+        CategoryUpdateDto.CategoryUpdateDtoBuilder proposeCategory = categoryUpdateDtoWith()
+            .description("New Description")
+            .rangeGroupCode("probate-copies")
+            .feeCodes(asList("X0046", "X0047"));
+
+        restActions
+            .put("/categories/new-category", proposeCategory.build())
+            .andExpect(status().isOk())
+            .andExpect(body().as(CategoryDto.class, categoryDto -> {
+                assertThat(categoryDto.getCode()).isEqualTo("new-category");
+                assertThat(categoryDto.getDescription()).isEqualTo("New Description");
+                assertThat(categoryDto.getRangeGroup().getCode()).isEqualTo("probate-copies");
+                assertThat(categoryDto.getFees()).hasSize(2);
+            }));
+    }
 
     @Test
     public void validateCode() throws Exception {
