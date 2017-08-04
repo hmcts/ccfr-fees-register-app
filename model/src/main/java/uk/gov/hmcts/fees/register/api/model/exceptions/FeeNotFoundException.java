@@ -1,7 +1,7 @@
 package uk.gov.hmcts.fees.register.api.model.exceptions;
 
-public class FeeNotFoundException extends EntityNotFoundException {
+public class FeeNotFoundException extends ResourceNotFoundException {
     public FeeNotFoundException(String code) {
-        super(code);
+        super("fee", "code", code);
     }
 }

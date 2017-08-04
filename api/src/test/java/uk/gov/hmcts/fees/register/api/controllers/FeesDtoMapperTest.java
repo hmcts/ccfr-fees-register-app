@@ -31,6 +31,10 @@ public class FeesDtoMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void failsOnUnknownFee() {
         mapper.toFeeDto(new Fee() {
+            @Override
+            public int calculate(int value) {
+                return 0;
+            }
         });
     }
 
