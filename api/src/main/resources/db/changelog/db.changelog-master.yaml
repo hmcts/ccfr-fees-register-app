@@ -299,3 +299,13 @@ databaseChangeLog:
             INSERT INTO category (id, code, description, range_group_id)
             VALUES
              (6, 'cmc-paper', 'CMC - Paper fees', 101);
+
+  - changeSet:
+      id: 9
+      author: kazyss
+      changes:
+        - sql: >
+            UPDATE range_group SET code = 'cmc-paper' WHERE id = 101;
+        - addNotNullConstraint:
+            tableName: range_group
+            columnName: code
