@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.transaction.Transactional;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
 @ActiveProfiles("embedded")
+@Transactional
 public class ComponentTestBase {
 
     @Autowired
