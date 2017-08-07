@@ -48,28 +48,24 @@ public class CategoriesController {
 
     @GetMapping("/categories/{code}")
     public CategoryDto getCategory(@PathVariable("code") String code) {
-        Category category = findByCode(code);
+        Category category = categoryRepository
+            .findByCode(code)
+            .orElseThrow(() -> new CategoryNotFoundException(code));
 
         return categoryDtoMapper.toCategoryDto(category);
     }
 
     @PutMapping("/categories/{code}")
-    public CategoryDto updateCategory(@Length(max = 50) @PathVariable("code") String code,
+    public CategoryDto createOrUpdateCategory(@Length(max = 50) @PathVariable("code") String code,
                                       @Valid @RequestBody CategoryUpdateDto categoryUpdateDto) {
         Category newCategoryModel = categoryDtoMapper.toCategory(code, categoryUpdateDto);
-        Category existingCategory = findByCode(code);
+        Category existingCategory = categoryRepository.findByCode(code).orElse(new Category());
 
         copyProperties(newCategoryModel, existingCategory, "id");
 
         categoryRepository.save(existingCategory);
 
         return categoryDtoMapper.toCategoryDto(existingCategory);
-    }
-
-    private Category findByCode(@PathVariable("code") String code) {
-        return categoryRepository
-            .findByCode(code)
-            .orElseThrow(() -> new CategoryNotFoundException(code));
     }
 
     @ExceptionHandler(FeeNotFoundException.class)

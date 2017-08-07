@@ -83,6 +83,7 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
             ));
 
         restActions
+            .withUser("admin")
             .put("/range-groups/cmc-online", proposeRangeGroup.build())
             .andExpect(status().isOk())
             .andExpect(body().as(RangeGroupDto.class, rangeGroupDto -> {
@@ -95,6 +96,26 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
                     .fee(fixedFeeDtoWith().code("X0047").amount(54500).description("Civil Court fees - Hearing fees - Fast track claim").build())
                     .build()
                 );
+            }));
+    }
+
+    @Test
+    public void createRangeGroup() throws Exception {
+        RangeGroupUpdateDtoBuilder proposeRangeGroup = rangeGroupUpdateDtoWith()
+            .description("New Description")
+            .ranges(asList(
+                new RangeUpdateDto(0, 1000, "X0046"),
+                new RangeUpdateDto(1001, null, "X0047")
+            ));
+
+        restActions
+            .withUser("admin")
+            .put("/range-groups/new-group", proposeRangeGroup.build())
+            .andExpect(status().isOk())
+            .andExpect(body().as(RangeGroupDto.class, rangeGroupDto -> {
+                assertThat(rangeGroupDto.getCode()).isEqualTo("new-group");
+                assertThat(rangeGroupDto.getDescription()).isEqualTo("New Description");
+                assertThat(rangeGroupDto.getRanges()).hasSize(2);
             }));
     }
 
@@ -149,6 +170,7 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
 
     private void assertValidationMessage(String urlTemplate, RangeGroupUpdateDto dto, String message) throws Exception {
         restActions
+            .withUser("admin")
             .put(urlTemplate, dto)
             .andExpect(status().isBadRequest())
             .andExpect(body().isErrorWithMessage(message));

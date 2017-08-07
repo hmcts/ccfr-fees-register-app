@@ -50,10 +50,10 @@ public class FeesController {
     }
 
     @PutMapping("/fees/{code}")
-    public FeeDto updateFee(@Length(max = 50) @PathVariable("code") String code,
-                            @Valid @RequestBody FeeDto feeDto) {
+    public FeeDto createOrUpdateFee(@Length(max = 50) @PathVariable("code") String code,
+                            @Valid @RequestBody FeeDto feeDto) throws IllegalAccessException, InstantiationException {
         Fee newFeeModel = feesDtoMapper.toFee(code, feeDto);
-        Fee existingFee = feeRepository.findByCodeOrThrow(code);
+        Fee existingFee = feeRepository.findByCode(code).orElse(newFeeModel.getClass().newInstance());
 
         if (!existingFee.getClass().equals(newFeeModel.getClass())) {
             throw new FeeTypeUnchangeableException();
