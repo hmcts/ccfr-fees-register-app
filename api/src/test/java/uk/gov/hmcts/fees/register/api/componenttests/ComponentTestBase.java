@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
-@ActiveProfiles("embedded")
+@ActiveProfiles({"embedded", "idam-backdoor"})
 @Transactional
 public class ComponentTestBase {
 

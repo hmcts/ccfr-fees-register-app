@@ -8,7 +8,7 @@ public class EmbeddedFeesRegisterServiceApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder()
             .sources(FeesRegisterServiceApplication.class)
-            .profiles("embedded")
+            .profiles("embedded", "idam-test")
             .run();
     }
 }
