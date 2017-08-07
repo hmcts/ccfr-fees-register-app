@@ -25,4 +25,9 @@
         <gav regex="true">^org\.springframework\.boot:spring-boot-starter-data-jpa:.*$</gav>
         <cpe>cpe:/a:pivotal_software:spring_data_jpa</cpe>
     </suppress>
+    <suppress>
+        <notes>Incorrect library matched</notes>
+        <gav regex="true">^io\.jsonwebtoken:jjwt:.*$</gav>
+        <cpe>cpe:/a:sonatype:nexus</cpe>
+    </suppress>
 </suppressions>
