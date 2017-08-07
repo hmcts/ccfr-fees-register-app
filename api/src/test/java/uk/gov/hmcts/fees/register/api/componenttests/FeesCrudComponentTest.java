@@ -71,6 +71,7 @@ public class FeesCrudComponentTest extends ComponentTestBase {
             .description("New Description");
 
         restActions
+            .withUser("admin")
             .put("/fees/X0434", proposedFee.build())
             .andExpect(status().isOk())
             .andExpect(body().as(PercentageFeeDto.class, fee -> {
@@ -86,6 +87,7 @@ public class FeesCrudComponentTest extends ComponentTestBase {
             .description("New Description");
 
         restActions
+            .withUser("admin")
             .put("/fees/X0433", proposedFee.build())
             .andExpect(status().isOk())
             .andExpect(body().as(FixedFeeDto.class, fee -> {
@@ -100,6 +102,7 @@ public class FeesCrudComponentTest extends ComponentTestBase {
             .description("New Description");
 
         restActions
+            .withUser("admin")
             .put("/fees/X9999", proposedFee.build())
             .andExpect(status().isOk())
             .andExpect(body().as(FixedFeeDto.class, fee -> {
@@ -149,6 +152,7 @@ public class FeesCrudComponentTest extends ComponentTestBase {
 
     private void assertValidationMessage(String urlTemplate, FeeDto feeDto, String message) throws Exception {
         restActions
+            .withUser("admin")
             .put(urlTemplate, feeDto)
             .andExpect(status().isBadRequest())
             .andExpect(body().isErrorWithMessage(message));
