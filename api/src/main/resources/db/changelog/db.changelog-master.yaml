@@ -309,3 +309,9 @@ databaseChangeLog:
         - addNotNullConstraint:
             tableName: range_group
             columnName: code
+  - changeSet:
+      id: 10
+      author: jalaldeen
+      changes:
+        - sql: >
+            UPDATE fee SET amount = 45500 WHERE id = 107;
