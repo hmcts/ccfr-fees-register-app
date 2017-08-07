@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Builder;
@@ -21,6 +23,7 @@ import uk.gov.hmcts.fees.register.api.model.exceptions.RangeNotFoundException;
 @NoArgsConstructor
 public class RangeGroup implements Calculateable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NonNull

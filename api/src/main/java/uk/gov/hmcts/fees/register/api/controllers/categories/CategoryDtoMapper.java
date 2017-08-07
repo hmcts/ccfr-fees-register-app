@@ -42,7 +42,7 @@ public class CategoryDtoMapper {
             .code(code)
             .description(dto.getDescription())
             .fees(dto.getFeeCodes().stream().map(feeRepository::findByCodeOrThrow).collect(toList()))
-            .rangeGroup(rangeGroupRepository.findByCodeOrThrow(dto.getRangeGroupCode()))
+            .rangeGroup(dto.getRangeGroupCode() == null ? null : rangeGroupRepository.findByCodeOrThrow(dto.getRangeGroupCode()))
             .build();
     }
 }

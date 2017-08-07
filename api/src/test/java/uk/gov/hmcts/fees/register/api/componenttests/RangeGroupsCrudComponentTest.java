@@ -99,6 +99,25 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
     }
 
     @Test
+    public void createRangeGroup() throws Exception {
+        RangeGroupUpdateDtoBuilder proposeRangeGroup = rangeGroupUpdateDtoWith()
+            .description("New Description")
+            .ranges(asList(
+                new RangeUpdateDto(0, 1000, "X0046"),
+                new RangeUpdateDto(1001, null, "X0047")
+            ));
+
+        restActions
+            .put("/range-groups/new-group", proposeRangeGroup.build())
+            .andExpect(status().isOk())
+            .andExpect(body().as(RangeGroupDto.class, rangeGroupDto -> {
+                assertThat(rangeGroupDto.getCode()).isEqualTo("new-group");
+                assertThat(rangeGroupDto.getDescription()).isEqualTo("New Description");
+                assertThat(rangeGroupDto.getRanges()).hasSize(2);
+            }));
+    }
+
+    @Test
     public void validateCode() throws Exception {
         assertValidationMessage("/range-groups/" + join("", nCopies(51, "A")), validRangeGroupUpdateDto().build(), "code: length must be between 0 and 50");
     }

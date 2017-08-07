@@ -21,8 +21,6 @@ import uk.gov.hmcts.fees.register.api.model.RangeEmptyException;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 import uk.gov.hmcts.fees.register.api.model.RangeGroupNotContinuousException;
 import uk.gov.hmcts.fees.register.api.model.RangeGroupRepository;
-import uk.gov.hmcts.fees.register.api.model.exceptions.RangeGroupNotFoundException;
-import uk.gov.hmcts.fees.register.api.model.exceptions.ResourceNotFoundException;
 import uk.gov.hmcts.fees.register.api.model.exceptions.FeeNotFoundException;
 
 import static java.util.stream.Collectors.toList;
@@ -50,15 +48,15 @@ public class RangeGroupsController {
 
     @GetMapping("/range-groups/{code}")
     public RangeGroupDto getRangeGroup(@PathVariable("code") String code) {
-        RangeGroup rangeGroup = findByCode(code);
+        RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
         return rangeGroupsDtoMapper.toRangeGroupDto(rangeGroup);
     }
 
     @PutMapping("/range-groups/{code}")
-    public RangeGroupDto updateRangeGroup(@Length(max = 50) @PathVariable("code") String code,
-                                          @Valid @RequestBody RangeGroupUpdateDto rangeGroupDto) {
+    public RangeGroupDto createOrUpdateRangeGroup(@Length(max = 50) @PathVariable("code") String code,
+                                                  @Valid @RequestBody RangeGroupUpdateDto rangeGroupDto) {
         RangeGroup newRangeGroupModel = rangeGroupsDtoMapper.toRangeGroup(code, rangeGroupDto);
-        RangeGroup existingRangeGroup = findByCode(code);
+        RangeGroup existingRangeGroup = rangeGroupRepository.findByCode(code).orElse(new RangeGroup());
 
         copyProperties(newRangeGroupModel, existingRangeGroup, "id");
 
@@ -70,15 +68,9 @@ public class RangeGroupsController {
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
                                            @RequestParam("value") int value) {
-        RangeGroup rangeGroup = findByCode(code);
+        RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
         int amount = rangeGroup.calculate(value);
         return new CalculationDto(amount);
-    }
-
-    private RangeGroup findByCode(@PathVariable("code") String code) {
-        return rangeGroupRepository
-            .findByCode(code)
-            .orElseThrow(() -> new RangeGroupNotFoundException(code));
     }
 
     @ExceptionHandler(FeeNotFoundException.class)
