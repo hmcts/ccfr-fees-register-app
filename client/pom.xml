@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>fees-register-app</artifactId>
-        <groupId>uk.gov.hmcts.fees.register</groupId>
+        <groupId>uk.gov.hmcts.reform.fees-register</groupId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
