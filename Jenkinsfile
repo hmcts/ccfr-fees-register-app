@@ -24,7 +24,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
             }
 
             def artifactVersion = readFile('version.txt').trim()
-            def versionAlreadyPublished = checkJavaVersionPublished group: 'uk.gov.hmcts.fees.register', artifact: 'fees-register-app', version: artifactVersion
+            def versionAlreadyPublished = checkJavaVersionPublished group: 'fees-register', artifact: 'fees-register-app', version: artifactVersion
 
             onPR {
                 if (versionAlreadyPublished) {
