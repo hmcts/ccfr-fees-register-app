@@ -28,6 +28,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
 
             onPR {
                 if (versionAlreadyPublished) {
+                    print "Artifact version already exists. Please bump it."
                     error "Artifact version already exists. Please bump it."
                 }
             }
