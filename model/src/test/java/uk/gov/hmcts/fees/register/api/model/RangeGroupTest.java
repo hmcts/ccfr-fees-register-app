@@ -47,24 +47,24 @@ public class RangeGroupTest {
     }
 
     @Test
-    public void calculateFindsMatchingFee() {
+    public void findMatchingFee() {
         RangeGroup rangeGroup = validRangeGroup().ranges(asList(
-            Range.rangeWith().from(0).to(100).fee(fixedFeeWith().amount(100).code("any").description("any").build()).build(),
-            Range.rangeWith().from(101).to(200).fee(fixedFeeWith().amount(200).code("any").description("any").build()).build()
+            Range.rangeWith().from(0).to(100).fee(fixedFeeWith().amount(100).code("1").description("any").build()).build(),
+            Range.rangeWith().from(101).to(200).fee(fixedFeeWith().amount(200).code("2").description("any").build()).build()
         )).build();
 
-        assertThat(rangeGroup.calculate(99)).isEqualTo(100);
-        assertThat(rangeGroup.calculate(150)).isEqualTo(200);
+        assertThat(rangeGroup.findFeeForValue(99).getCode()).isEqualTo("1");
+        assertThat(rangeGroup.findFeeForValue(150).getCode()).isEqualTo("2");
     }
 
     @Test(expected = RangeNotFoundException.class)
-    public void calculateThrowsRangeNotFoundException() {
+    public void findThrowsRangeNotFoundException() {
         RangeGroup rangeGroup = validRangeGroup().ranges(asList(
             Range.rangeWith().from(0).to(100).fee(fixedFeeWith().amount(100).code("any").description("any").build()).build(),
             Range.rangeWith().from(101).to(200).fee(fixedFeeWith().amount(200).code("any").description("any").build()).build()
         )).build();
 
-        rangeGroup.calculate(201);
+        rangeGroup.findFeeForValue(201);
     }
 
     private RangeGroup.RangeGroupBuilder validRangeGroup() {

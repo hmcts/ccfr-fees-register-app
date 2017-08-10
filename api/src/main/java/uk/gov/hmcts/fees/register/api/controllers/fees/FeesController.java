@@ -51,7 +51,7 @@ public class FeesController {
 
     @PutMapping("/fees/{code}")
     public FeeDto createOrUpdateFee(@Length(max = 50) @PathVariable("code") String code,
-                            @Valid @RequestBody FeeDto feeDto) throws IllegalAccessException, InstantiationException {
+                                    @Valid @RequestBody FeeDto feeDto) throws IllegalAccessException, InstantiationException {
         Fee newFeeModel = feesDtoMapper.toFee(code, feeDto);
         Fee existingFee = feeRepository.findByCode(code).orElse(newFeeModel.getClass().newInstance());
 
@@ -71,7 +71,7 @@ public class FeesController {
                                            @RequestParam("value") int value) {
         Fee fee = feeRepository.findByCodeOrThrow(code);
         int amount = fee.calculate(value);
-        return new CalculationDto(amount);
+        return new CalculationDto(amount, feesDtoMapper.toFeeDto(fee));
     }
 
     @ExceptionHandler(FeeTypeUnchangeableException.class)

@@ -16,6 +16,7 @@ public class FeesCalculationsComponentTest extends ComponentTestBase {
             .andExpect(status().isOk())
             .andExpect(body().as(CalculationDto.class, dto -> {
                 assertThat(dto.getAmount()).isEqualTo(41000);
+                assertThat(dto.getFee().getCode()).isEqualTo("X0433");
             }));
     }
 
@@ -26,6 +27,7 @@ public class FeesCalculationsComponentTest extends ComponentTestBase {
             .andExpect(status().isOk())
             .andExpect(body().as(CalculationDto.class, dto -> {
                 assertThat(dto.getAmount()).isEqualTo(45);
+                assertThat(dto.getFee().getCode()).isEqualTo("X0434");
             }));
     }
 }
