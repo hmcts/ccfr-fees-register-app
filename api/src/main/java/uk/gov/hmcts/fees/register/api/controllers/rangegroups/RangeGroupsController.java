@@ -17,6 +17,8 @@ import uk.gov.hmcts.fees.register.api.contract.CalculationDto;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
+import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
+import uk.gov.hmcts.fees.register.api.model.Fee;
 import uk.gov.hmcts.fees.register.api.model.RangeEmptyException;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 import uk.gov.hmcts.fees.register.api.model.RangeGroupNotContinuousException;
@@ -32,11 +34,13 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @Validated
 public class RangeGroupsController {
 
+    private final FeesDtoMapper feesDtoMapper;
     private final RangeGroupsDtoMapper rangeGroupsDtoMapper;
     private final RangeGroupRepository rangeGroupRepository;
 
     @Autowired
-    public RangeGroupsController(RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository) {
+    public RangeGroupsController(FeesDtoMapper feesDtoMapper, RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository) {
+        this.feesDtoMapper = feesDtoMapper;
         this.rangeGroupsDtoMapper = rangeGroupsDtoMapper;
         this.rangeGroupRepository = rangeGroupRepository;
     }
@@ -69,8 +73,8 @@ public class RangeGroupsController {
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
                                            @RequestParam("value") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
-        int amount = rangeGroup.calculate(value);
-        return new CalculationDto(amount);
+        Fee fee = rangeGroup.findFeeForValue(value);
+        return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
     }
 
     @ExceptionHandler(FeeNotFoundException.class)

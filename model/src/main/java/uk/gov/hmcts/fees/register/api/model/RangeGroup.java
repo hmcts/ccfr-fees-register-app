@@ -21,7 +21,7 @@ import uk.gov.hmcts.fees.register.api.model.exceptions.RangeNotFoundException;
 @Data
 @Entity
 @NoArgsConstructor
-public class RangeGroup implements Calculateable {
+public class RangeGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -61,10 +61,9 @@ public class RangeGroup implements Calculateable {
         }
     }
 
-    @Override
-    public int calculate(int value) {
+    public Fee findFeeForValue(int value) {
         Optional<Range> first = ranges.stream().filter(range -> range.containsValue(value)).findFirst();
         Range range = first.orElseThrow(() -> new RangeNotFoundException(value));
-        return range.getFee().calculate(value);
+        return range.getFee();
     }
 }

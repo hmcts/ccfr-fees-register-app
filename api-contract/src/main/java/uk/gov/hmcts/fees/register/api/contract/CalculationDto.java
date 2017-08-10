@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class CalculationDto {
     private final int amount;
+    private final FeeDto fee;
 }

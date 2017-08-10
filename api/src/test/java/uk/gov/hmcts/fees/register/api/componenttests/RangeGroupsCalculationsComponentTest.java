@@ -16,6 +16,7 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
             .andExpect(status().isOk())
             .andExpect(body().as(CalculationDto.class, dto -> {
                 assertThat(dto.getAmount()).isEqualTo(3500);
+                assertThat(dto.getFee().getCode()).isEqualTo("X0025");
             }));
 
         restActions
@@ -23,6 +24,7 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
             .andExpect(status().isOk())
             .andExpect(body().as(CalculationDto.class, dto -> {
                 assertThat(dto.getAmount()).isEqualTo(6000);
+                assertThat(dto.getFee().getCode()).isEqualTo("X0026");
             }));
     }
 
