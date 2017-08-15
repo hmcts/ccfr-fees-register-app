@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees.register.api.model;
 
 import com.google.common.collect.Ordering;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +16,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Immutable;
 import uk.gov.hmcts.fees.register.api.model.exceptions.RangeNotFoundException;
+
+import static com.google.common.base.MoreObjects.firstNonNull;
 
 @Data
 @Entity
@@ -32,24 +34,24 @@ public class RangeGroup {
     @NonNull
     private String description;
 
-    @OneToMany(mappedBy = "rangeGroupId")
+    @OneToMany(mappedBy = "rangeGroup", orphanRemoval = true)
     @Cascade(CascadeType.ALL)
-    @Immutable
     private List<Range> ranges;
 
     @Builder(builderMethodName = "rangeGroupWith")
     public RangeGroup(Integer id, String code, String description, List<Range> ranges) {
-        checkRangeIsContinuous(ranges);
-
         this.id = id;
         this.code = code;
         this.description = description;
-        this.ranges = ranges;
+        setRanges(ranges);
     }
 
     public void setRanges(List<Range> ranges) {
         checkRangeIsContinuous(ranges);
-        this.ranges = ranges;
+        this.ranges = firstNonNull(this.ranges, new ArrayList<>());
+        this.ranges.clear();
+        this.ranges.addAll(ranges);
+        this.ranges.forEach(range -> range.setRangeGroup(this));
     }
 
     private void checkRangeIsContinuous(List<Range> ranges) {
