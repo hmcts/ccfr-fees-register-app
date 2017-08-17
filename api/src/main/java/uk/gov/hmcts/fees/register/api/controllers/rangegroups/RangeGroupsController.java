@@ -89,6 +89,6 @@ public class RangeGroupsController {
 
     @ExceptionHandler(RangeGroupNotContinuousException.class)
     public ResponseEntity rangeGroupNotContinuous() {
-        return new ResponseEntity<>(new ErrorDto("ranges: provides set of ranges contains gaps or overlaps"), BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorDto("ranges: provided set of ranges contains gaps or overlaps"), BAD_REQUEST);
     }
 }
