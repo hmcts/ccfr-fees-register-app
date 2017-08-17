@@ -157,7 +157,7 @@ public class RangeGroupsCrudComponentTest extends ComponentTestBase {
             ))
             .build();
 
-        assertValidationMessage("/range-groups/cmc-online", nonContinuousRangeGroup, "ranges: provides set of ranges contains gaps or overlaps");
+        assertValidationMessage("/range-groups/cmc-online", nonContinuousRangeGroup, "ranges: provided set of ranges contains gaps or overlaps");
     }
 
     private RangeGroupUpdateDto rangeGroupWithRange(RangeUpdateDto rangeDto) {
