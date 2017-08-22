@@ -1,10 +1,12 @@
 #!groovy
 @Library("Reform")
+import uk.gov.hmcts.Ansible
 import uk.gov.hmcts.Packager
-@Library("Reform")
-import uk.gov.hmcts.Packager
+import uk.gov.hmcts.RPMTagger
 
 def packager = new Packager(this, 'cc')
+def ansible = new Ansible(this, 'ccfr')
+RPMTagger rpmTagger = new RPMTagger(this, 'fees-register-api', packager.rpmName('fees-register-api', params.rpmVersion), 'cc-local')
 
 def server = Artifactory.server 'artifactory.reform'
 def buildInfo = Artifactory.newBuildInfo()
@@ -45,25 +47,37 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
                 rtMaven.run pom: 'pom.xml', goals: 'clean install sonar:sonar', buildInfo: buildInfo
             }
 
+            def feesApiDockerVersion
+            def feesDatabaseDockerVersion
+
             stage('Build docker') {
-                dockerImage imageName: 'fees-register/fees-api'
-                dockerImage imageName: 'fees-register/fees-database', context: 'docker/database'
+                feesApiDockerVersion = dockerImage imageName: 'fees-register/fees-api'
+                feesDatabaseDockerVersion = dockerImage imageName: 'fees-register/fees-database', context: 'docker/database'
+            }
+
+            stage("Trigger acceptance tests") {
+                build job: '/fees-register/fees-register-app-acceptance-tests/master', parameters: [
+                    [$class: 'StringParameterValue', name: 'feesApiDockerVersion', value: feesApiDockerVersion],
+                    [$class: 'StringParameterValue', name: 'feesDatabaseDockerVersion', value: feesDatabaseDockerVersion]
+                ]
             }
 
             onMaster {
-                def rpmVersion
-
                 stage('Publish JAR') {
                     server.publishBuildInfo buildInfo
                 }
+
+                def rpmVersion
 
                 stage("Publish RPM") {
                     rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls api/target/fees-register-api-*.jar)', 'springboot', 'api/src/main/resources/application.properties')
                     packager.publishJavaRPM('fees-register-api')
                 }
 
-                stage("Trigger acceptance tests") {
-                    build job: '/fees-register/fees-register-app-acceptance-tests/master', parameters: [[$class: 'StringParameterValue', name: 'rpmVersion', value: rpmVersion]]
+                stage('Deploy to Dev') {
+                    ansible.runDeployPlaybook("{fees_register_api_version: ${rpmVersion}}", 'dev')
+                    rpmTagger.tagDeploymentSuccessfulOn('dev')
+                    rpmTagger.tagTestingPassedOn('dev')
                 }
             }
 
