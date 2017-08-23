@@ -20,8 +20,8 @@ public class Range {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private Integer rangeGroupId;
+    @ManyToOne
+    private RangeGroup rangeGroup;
     @NonNull
     @Column(name = "value_from")
     private Integer from;
