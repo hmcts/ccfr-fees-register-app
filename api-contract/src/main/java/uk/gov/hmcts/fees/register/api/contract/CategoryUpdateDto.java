@@ -2,15 +2,11 @@ package uk.gov.hmcts.fees.register.api.contract;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.List;
-import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.List;
 
 
 @Data
@@ -24,6 +20,5 @@ public class CategoryUpdateDto {
     @Length(max = 2000)
     private String description;
     private String rangeGroupCode;
-    @NotNull
     private List<String> feeCodes;
 }
