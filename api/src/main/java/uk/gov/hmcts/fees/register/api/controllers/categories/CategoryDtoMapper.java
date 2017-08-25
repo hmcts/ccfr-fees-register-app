@@ -33,7 +33,7 @@ public class CategoryDtoMapper {
             .code(category.getCode())
             .description(category.getDescription())
             .rangeGroup(rangeGroupsDtoMapper.toRangeGroupDto(category.getRangeGroup()))
-            .fees(category.getFees().stream().map(feesDtoMapper::toFeeDto).collect(toList()))
+            .fees(category.getFees() == null ? null : category.getFees().stream().map(feesDtoMapper::toFeeDto).collect(toList()))
             .build();
     }
 
@@ -41,7 +41,7 @@ public class CategoryDtoMapper {
         return Category.categoryWith()
             .code(code)
             .description(dto.getDescription())
-            .fees(dto.getFeeCodes().stream().map(feeRepository::findByCodeOrThrow).collect(toList()))
+            .fees(dto.getFeeCodes() == null ? null : dto.getFeeCodes().stream().map(feeRepository::findByCodeOrThrow).collect(toList()))
             .rangeGroup(dto.getRangeGroupCode() == null ? null : rangeGroupRepository.findByCodeOrThrow(dto.getRangeGroupCode()))
             .build();
     }
