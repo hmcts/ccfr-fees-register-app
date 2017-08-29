@@ -77,7 +77,21 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
                 stage('Deploy to Dev') {
                     ansible.runDeployPlaybook("{fees_register_api_version: ${rpmVersion}}", 'dev')
                     rpmTagger.tagDeploymentSuccessfulOn('dev')
+                }
+
+                stage("Trigger smoke tests in Dev") {
+                    sh 'curl -f https://dev.fees-register.reform.hmcts.net:4411/health'
                     rpmTagger.tagTestingPassedOn('dev')
+                }
+
+                stage('Deploy to Test') {
+                    ansible.runDeployPlaybook("{fees_register_api_version: ${rpmVersion}}", 'test')
+                    rpmTagger.tagDeploymentSuccessfulOn('test')
+                }
+
+                stage("Trigger smoke tests in Test") {
+                    sh 'curl -f https://test.fees-register.reform.hmcts.net:4431/health'
+                    rpmTagger.tagTestingPassedOn('test')
                 }
             }
 
