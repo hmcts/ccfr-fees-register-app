@@ -315,3 +315,16 @@ databaseChangeLog:
       changes:
         - sql: >
             UPDATE fee SET amount = 45500 WHERE id = 107;
+
+  - changeSet:
+      id: 11
+      author: kazyss
+      changes:
+        - sql:
+           dbms: postgresql
+           sql: >
+             SELECT setval('fee_id_seq', max(id)) FROM fee;
+             SELECT setval('category_id_seq', max(id)) FROM category;
+             SELECT setval('category_fee_id_seq', max(id)) FROM category_fee;
+             SELECT setval('range_id_seq', max(id)) FROM range;
+             SELECT setval('range_group_id_seq', max(id)) FROM range_group;
