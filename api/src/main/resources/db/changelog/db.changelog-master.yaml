@@ -328,3 +328,49 @@ databaseChangeLog:
              SELECT setval('category_fee_id_seq', max(id)) FROM category_fee;
              SELECT setval('range_id_seq', max(id)) FROM range;
              SELECT setval('range_group_id_seq', max(id)) FROM range_group;
+  - changeSet:
+      id: 12
+      author: sachi
+      changes:
+        - sql: >
+            INSERT INTO fee (id, code, description, type, amount, percentage)
+            VALUES
+              (201, 'X0201', 'Solicitor fixed fees - claim form served by court - Claim Amount - 0.01 up to 25 GBP', 'fixed', 0, null),
+              (202, 'X0202', 'Solicitor fixed fees - claim form served by court - Claim Amount - 25.01 up to 500 GBP', 'fixed', 5000, null),
+              (203, 'X0203', 'Solicitor fixed fees - claim form served by court - Claim Amount - 500.01 up to 1000 GBP', 'fixed', 7000, null),
+              (204, 'X0204', 'Solicitor fixed fees - claim form served by court - Claim Amount - 1000.01 up to 5000 GBP', 'fixed', 8000, null),
+              (205, 'X0205', 'Solicitor fixed fees - claim form served by court - Claim Amount - 5000.01 GBP or more', 'fixed', 10000, null),
+              (206, 'X0206', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 0.01 up to 25 GBP', 'fixed', 0, null),
+              (207, 'X0207', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 25.01 up to 500 GBP', 'fixed', 6000, null),
+              (208, 'X0208', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 500.01 up to 1000 GBP', 'fixed', 8000, null),
+              (209, 'X0209', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 1000.01 up to 5000 GBP', 'fixed', 9000, null),
+              (210, 'X0210', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 5000.01 GBP or more', 'fixed', 11000, null),
+              (211, 'X0211', 'Solicitor fixed fees - claim form served by claimant, multiple defendant - Claim Amount - 0.01 up to 25 GBP', 'fixed', 0, null),
+              (212, 'X0212', 'Solicitor fixed fees - claim form served by claimant, multiple defendant - Claim Amount - 25.01 GBP or more', 'fixed', 1500, null);
+        - sql: >
+            INSERT INTO range_group (id, code, description)
+            VALUES
+            (201, 'cmc-sfc-court', 'CMC - Solicitor fixed cost - Claim form served by court'),
+            (202, 'cmc-sfc-single-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - single defendant'),
+            (203, 'cmc-sfc-multiple-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - multiple defendant');
+        - sql: >
+            INSERT INTO range (range_group_id, value_from, value_to, fee_id)
+            VALUES
+             (201, 1, 2500, 201),
+             (201, 2501, 50000, 202),
+             (201, 50001, 100000, 203),
+             (201, 100001, 500000, 204),
+             (201, 500001, null, 205),
+             (202, 1, 2500, 206),
+             (202, 2501, 50000, 207),
+             (202, 50001, 100000, 208),
+             (202, 100001, 500000, 209),
+             (202, 500001, null, 210),
+             (203, 1, 2500, 211),
+             (203, 2501, null, 212);
+        - sql: >
+            INSERT INTO category (id, code, description, range_group_id)
+            VALUES
+             (7, 'cmc-sfc-court', 'CMC - Solicitor fixed cost - claim form served by court', 201),
+             (8, 'cmc-sfc-single-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - single defendant', 202),
+             (9, 'cmc-sfc-multiple-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - multiple defendant', 203);
