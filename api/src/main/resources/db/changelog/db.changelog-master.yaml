@@ -389,3 +389,9 @@ databaseChangeLog:
              SELECT setval('range_id_seq', max(id)) FROM range;
              SELECT setval('range_group_id_seq', max(id)) FROM range_group;
 
+  - changeSet:
+      id: 14
+      author: sachi
+      changes:
+        - sql: >
+           UPDATE fee SET code = 'X0206-1' WHERE id = 206
