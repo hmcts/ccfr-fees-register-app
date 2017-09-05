@@ -328,6 +328,7 @@ databaseChangeLog:
              SELECT setval('category_fee_id_seq', max(id)) FROM category_fee;
              SELECT setval('range_id_seq', max(id)) FROM range;
              SELECT setval('range_group_id_seq', max(id)) FROM range_group;
+
   - changeSet:
       id: 12
       author: sachi
@@ -374,3 +375,17 @@ databaseChangeLog:
              (7, 'cmc-sfc-court', 'CMC - Solicitor fixed cost - claim form served by court', 201),
              (8, 'cmc-sfc-single-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - single defendant', 202),
              (9, 'cmc-sfc-multiple-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - multiple defendant', 203);
+
+  - changeSet:
+      id: 13
+      author: kazyss
+      changes:
+        - sql:
+           dbms: postgresql
+           sql: >
+             SELECT setval('fee_id_seq', max(id)) FROM fee;
+             SELECT setval('category_id_seq', max(id)) FROM category;
+             SELECT setval('category_fee_id_seq', max(id)) FROM category_fee;
+             SELECT setval('range_id_seq', max(id)) FROM range;
+             SELECT setval('range_group_id_seq', max(id)) FROM range_group;
+
