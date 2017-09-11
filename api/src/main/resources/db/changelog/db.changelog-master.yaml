@@ -395,3 +395,12 @@ databaseChangeLog:
       changes:
         - sql: >
            UPDATE fee SET code = 'X0206-1' WHERE id = 206
+
+  - changeSet:
+      id: 15
+      author: sachi
+      changes:
+        - sql: >
+            UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served by court or claimant.' WHERE id = 7;
+            UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - single defendant.' WHERE id = 8;
+            UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - multiple defendant.' WHERE id = 9;
