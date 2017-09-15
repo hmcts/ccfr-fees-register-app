@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
+import lombok.ToString;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.CalculationDto;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
@@ -25,6 +26,16 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
             .andExpect(body().as(CalculationDto.class, dto -> {
                 assertThat(dto.getAmount()).isEqualTo(6000);
                 assertThat(dto.getFee().getCode()).isEqualTo("X0026");
+            }));
+    }
+
+    @Test
+    public void maxFeesForUnspecifiedClaimAmount() throws Exception {
+        restActions
+            .get("/range-groups/cmc-paper/calculations")
+            .andExpect(status().isOk())
+            .andExpect(body().as(CalculationDto.class, dto -> {
+                assertThat(dto.getAmount()).isEqualTo(1000000);
             }));
     }
 

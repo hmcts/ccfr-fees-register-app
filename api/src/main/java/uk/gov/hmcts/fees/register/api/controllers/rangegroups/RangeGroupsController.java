@@ -4,6 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,6 +39,9 @@ public class RangeGroupsController {
     private final RangeGroupsDtoMapper rangeGroupsDtoMapper;
     private final RangeGroupRepository rangeGroupRepository;
 
+    @Value("${fees.range_group.code}")
+    private String rangeGroupCode;
+
     @Autowired
     public RangeGroupsController(FeesDtoMapper feesDtoMapper, RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository) {
         this.feesDtoMapper = feesDtoMapper;
@@ -71,9 +75,13 @@ public class RangeGroupsController {
 
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
-                                           @RequestParam("value") int value) {
+                                           @RequestParam(value = "value", required = false, defaultValue = "0") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
-        Fee fee = rangeGroup.findFeeForValue(value);
+
+        Fee fee = rangeGroupCode.equals(code) ?
+                    rangeGroup.findFeeForValue(value > 0 ? value : rangeGroup.findMaxRangeValue()) :
+                    rangeGroup.findFeeForValue(value);
+
         return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
     }
 

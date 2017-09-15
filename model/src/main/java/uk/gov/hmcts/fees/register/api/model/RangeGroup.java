@@ -68,4 +68,8 @@ public class RangeGroup {
         Range range = first.orElseThrow(() -> new RangeNotFoundException(value));
         return range.getFee();
     }
+
+    public int findMaxRangeValue() {
+        return ranges.stream().map(range -> range.getTo() != null ? range.getTo() :range.getFrom()).max(Integer::compare).get();
+    }
 }
