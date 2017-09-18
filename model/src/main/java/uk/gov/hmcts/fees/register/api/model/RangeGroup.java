@@ -70,6 +70,6 @@ public class RangeGroup {
     }
 
     public int findMaxRangeValue() {
-        return ranges.stream().map(range -> range.getTo() != null ? range.getTo() :range.getFrom()).max(Integer::compare).get();
+        return ranges.stream().map(range -> range.getTo() != null ? range.getTo() : range.getFrom()).max(Integer::compare).get();
     }
 }
