@@ -40,6 +40,13 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
     }
 
     @Test
+    public void rangeNotFoundForValueZero() throws Exception {
+        restActions
+            .get("/range-groups/cmc-online/calculations")
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void calculateOutOfRange() throws Exception {
         restActions
             .get("/range-groups/cmc-online/calculations?value=999999999")
