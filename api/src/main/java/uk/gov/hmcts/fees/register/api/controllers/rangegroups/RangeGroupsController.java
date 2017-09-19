@@ -2,6 +2,8 @@ package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
 import java.util.List;
 import javax.validation.Valid;
+
+import io.swagger.annotations.ApiOperation;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,6 +72,8 @@ public class RangeGroupsController {
         return rangeGroupsDtoMapper.toRangeGroupDto(existingRangeGroup);
     }
 
+    @ApiOperation(value = "Find appropriate fees amount for given claim.",
+                    notes="The endpoint returns the fee for specified amount and max fee/percentage for the unclaimed amount", response = CalculationDto.class)
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
                                            @RequestParam(value = "value", required = false, defaultValue = "0") int value) {
