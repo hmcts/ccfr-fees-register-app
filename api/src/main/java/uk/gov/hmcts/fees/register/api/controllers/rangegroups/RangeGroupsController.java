@@ -39,9 +39,6 @@ public class RangeGroupsController {
     private final RangeGroupsDtoMapper rangeGroupsDtoMapper;
     private final RangeGroupRepository rangeGroupRepository;
 
-    @Value("${fees.range_group.code}")
-    private String rangeGroupCode;
-
     @Autowired
     public RangeGroupsController(FeesDtoMapper feesDtoMapper, RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository) {
         this.feesDtoMapper = feesDtoMapper;
