@@ -52,23 +52,6 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
     }
 
 
-    @Test
-    public void maxPercentageForUnspecifiedClaimAmount() throws Exception {
-        restActions
-            .get("/range-groups/cmc-online/calculations")
-            .andExpect(status().isOk())
-            .andExpect(body().as(CalculationDto.class, dto -> {
-                assertThat(dto.getFee()).isEqualTo(
-                    percentageFeeDtoWith()
-                        .code("X0434")
-                        .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
-                        .percentage(BigDecimal.valueOf(4.5))
-                        .build()
-                );
-            }));
-    }
-
-
 
     @Test
     public void calculateOutOfRange() throws Exception {
