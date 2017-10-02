@@ -44,6 +44,13 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
             }));
     }
 
+    @Test
+    public void unknownFeesForIncorrectRangeGroupCode() throws Exception {
+        restActions
+            .get("/range-groups/cmc-online/calculations")
+            .andExpect(status().isNotFound());
+    }
+
 
     @Test
     public void maxPercentageForUnspecifiedClaimAmount() throws Exception {
