@@ -41,8 +41,8 @@ public class RangeGroupsController {
     private final RangeGroupsDtoMapper rangeGroupsDtoMapper;
     private final RangeGroupRepository rangeGroupRepository;
 
-    @Value("${fees.range_group.code}")
-    private String rangeGroupCode;
+    @Value("${fees.range_group.max.fee.code}")
+    private String rangeGroupMaxFeeCode;
 
     @Autowired
     public RangeGroupsController(FeesDtoMapper feesDtoMapper, RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository) {
@@ -81,8 +81,8 @@ public class RangeGroupsController {
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
                                            @RequestParam(value = "value", required = false, defaultValue = "0") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
-        Fee fee = rangeGroupCode.equals(code) ?
-                    rangeGroup.findFeeForValue(value > 0 ? value : rangeGroup.findMaxRangeValue()) : rangeGroup.findFeeForValue(value);
+        Fee fee = code.equals(rangeGroupMaxFeeCode) ?
+                    rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue()) : rangeGroup.findFeeForValue(value);
 
         return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
     }
