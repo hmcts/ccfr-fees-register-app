@@ -441,5 +441,3 @@ databaseChangeLog:
             INSERT INTO category_fee (id, category_id, fee_id)
             VALUES
             (20, 10, 214);
-
-
