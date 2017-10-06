@@ -414,14 +414,14 @@ databaseChangeLog:
         - sql: >
             INSERT INTO fee (id, code, description, type, amount, percentage)
             VALUES
-            (213, 'X0250-1', 'Personal application where the net estate value is under £5,000.00', 'fixed', 0, null);
+            (213, 'X0250-1', 'Personal application where the net estate value is under 5000.00 GBP', 'fixed', 0, null);
             INSERT INTO fee (id, code, description, type, amount, percentage)
             VALUES
-            (214, 'X0250-2', 'Personal application where the net estate value is greater than £5,000.00', 'fixed', 60, null);
+            (214, 'X0250-2', 'Personal application where the net estate value is greater than 5000.00 GBP', 'fixed', 60, null);
         - sql: >
             INSERT INTO range_group (id, code, description)
             VALUES
-            (204, 'probate-personal', 'Probate - personal application cost');
+            (204, 'probate-personal', 'Probate-personal application cost');
         - sql: >
             INSERT INTO range (range_group_id, value_from, value_to, fee_id)
             VALUES
@@ -432,7 +432,7 @@ databaseChangeLog:
         - sql: >
             INSERT INTO category (id, code, description, range_group_id)
             VALUES
-            (10, 'probate-personal', 'Probate - personal application cost', 204);
+            (10, 'probate-personal', 'Probate-personal application cost', 204);
         - sql: >
             INSERT INTO category_fee (id, category_id, fee_id)
             VALUES
