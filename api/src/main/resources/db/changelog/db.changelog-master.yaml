@@ -404,3 +404,39 @@ databaseChangeLog:
             UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served by court or claimant.' WHERE id = 7;
             UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - single defendant.' WHERE id = 8;
             UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - multiple defendant.' WHERE id = 9;
+
+  - changeSet:
+        id: 16
+        author: tarun
+        changes:
+          - sql: >
+              UPDATE fee SET amount = 15500 WHERE id = 18;
+          - sql: >
+              INSERT INTO fee (id, code, description, type, amount, percentage)
+              VALUES
+              (213, 'X0250-1', 'Personal application where the net estate value is under 5000.00 GBP', 'fixed', 0, null);
+              INSERT INTO fee (id, code, description, type, amount, percentage)
+              VALUES
+              (214, 'X0250-2', 'Personal application where the net estate value is greater than 5000.00 GBP', 'fixed', 6000, null);
+          - sql: >
+              INSERT INTO range_group (id, code, description)
+              VALUES
+              (204, 'probate-personal', 'Probate - personal application cost');
+          - sql: >
+              INSERT INTO range (range_group_id, value_from, value_to, fee_id)
+              VALUES
+              (204, 0, 499999, 213);
+              INSERT INTO range (range_group_id, value_from, value_to, fee_id)
+              VALUES
+              (204, 500000, null, 214);
+          - sql: >
+              INSERT INTO category (id, code, description, range_group_id)
+              VALUES
+              (10, 'probate-personal', 'Probate - personal application cost', 204);
+          - sql: >
+              INSERT INTO category_fee (id, category_id, fee_id)
+              VALUES
+              (19, 10, 213);
+              INSERT INTO category_fee (id, category_id, fee_id)
+              VALUES
+              (20, 10, 214);
