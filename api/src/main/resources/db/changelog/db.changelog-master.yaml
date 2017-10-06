@@ -417,7 +417,7 @@ databaseChangeLog:
               (213, 'X0250-1', 'Personal application where the net estate value is under 5000.00 GBP', 'fixed', 0, null);
               INSERT INTO fee (id, code, description, type, amount, percentage)
               VALUES
-              (214, 'X0250-2', 'Personal application where the net estate value is greater than 5000.00 GBP', 'fixed', 60, null);
+              (214, 'X0250-2', 'Personal application where the net estate value is greater than 5000.00 GBP', 'fixed', 6000, null);
           - sql: >
               INSERT INTO range_group (id, code, description)
               VALUES
