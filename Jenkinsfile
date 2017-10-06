@@ -55,12 +55,12 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
                 feesDatabaseDockerVersion = dockerImage imageName: 'fees-register/fees-database', context: 'docker/database'
             }
 
-//            stage("Trigger acceptance tests") {
-//                build job: '/fees-register/fees-register-app-acceptance-tests/master', parameters: [
-//                    [$class: 'StringParameterValue', name: 'feesApiDockerVersion', value: feesApiDockerVersion],
-//                    [$class: 'StringParameterValue', name: 'feesDatabaseDockerVersion', value: feesDatabaseDockerVersion]
-//                ]
-//            }
+            stage("Trigger acceptance tests") {
+                build job: '/fees-register/fees-register-app-acceptance-tests/master', parameters: [
+                    [$class: 'StringParameterValue', name: 'feesApiDockerVersion', value: feesApiDockerVersion],
+                    [$class: 'StringParameterValue', name: 'feesDatabaseDockerVersion', value: feesDatabaseDockerVersion]
+                ]
+            }
 
             onMaster {
                 stage('Publish JAR') {
