@@ -1,6 +1,9 @@
 package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiOperation;
@@ -81,7 +84,7 @@ public class RangeGroupsController {
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
                                            @RequestParam(value = "value", required = false, defaultValue = "0") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
-        Fee fee = code.equals(rangeGroupMaxFeeCode) ?
+        Fee fee = code.equals(rangeGroupMaxFeeCode) && value == 0 ?
                     rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue()) : rangeGroup.findFeeForValue(value);
 
         return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));

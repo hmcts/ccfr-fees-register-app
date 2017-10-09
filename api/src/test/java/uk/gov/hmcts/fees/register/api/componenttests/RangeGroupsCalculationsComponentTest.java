@@ -45,6 +45,16 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
     }
 
     @Test
+    public void returnCorrectFeeForCMCPaperWithSpecifiedAmount() throws Exception {
+        restActions
+            .get("/range-groups/cmc-paper/calculations?value=500")
+            .andExpect(status().isOk())
+            .andExpect(body().as(CalculationDto.class, dto -> {
+                assertThat(dto.getAmount()).isEqualTo(3500);
+            }));
+    }
+
+    @Test
     public void unknownFeesForIncorrectRangeGroupCode() throws Exception {
         restActions
             .get("/range-groups/cmc-online/calculations")
