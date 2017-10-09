@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
+import java.math.BigInteger;
 import java.util.List;
 import javax.validation.Valid;
 
@@ -79,12 +80,12 @@ public class RangeGroupsController {
                     notes="The endpoint returns the fee for specified amount and max fee/percentage for the unclaimed amount", response = CalculationDto.class)
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
-                                           @RequestParam(value = "value", required = false, defaultValue = "0") int value) {
+                                           @RequestParam(value = "value", required = false) BigInteger value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
-        Fee fee = code.equals(rangeGroupMaxFeeCode) && value == 0 ?
-                    rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue()) : rangeGroup.findFeeForValue(value);
+        Fee fee = code.equals(rangeGroupMaxFeeCode) && value == null ?
+                    rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue()) : rangeGroup.findFeeForValue(value.intValue());
 
-        return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
+        return new CalculationDto(fee.calculate(value.intValue()), feesDtoMapper.toFeeDto(fee));
     }
 
     @ExceptionHandler(FeeNotFoundException.class)
