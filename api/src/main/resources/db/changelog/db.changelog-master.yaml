@@ -404,3 +404,11 @@ databaseChangeLog:
             UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served by court or claimant.' WHERE id = 7;
             UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - single defendant.' WHERE id = 8;
             UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - multiple defendant.' WHERE id = 9;
+
+
+  - changeSet:
+      id: 16
+      author: tarun
+      changes:
+        - sql: >
+            UPDATE fee SET amount = 15500 WHERE id = 18;
