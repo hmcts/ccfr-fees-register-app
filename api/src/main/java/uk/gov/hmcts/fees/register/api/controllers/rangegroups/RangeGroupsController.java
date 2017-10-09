@@ -81,7 +81,7 @@ public class RangeGroupsController {
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
                                            @RequestParam(value = "value", required = false, defaultValue = "0") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
-        Fee fee = code.equals(rangeGroupMaxFeeCode) ?
+        Fee fee = code.equals(rangeGroupMaxFeeCode) && value == 0 ?
                     rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue()) : rangeGroup.findFeeForValue(value);
 
         return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
