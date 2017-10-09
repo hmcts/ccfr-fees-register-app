@@ -52,7 +52,7 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
             .andExpect(body().as(CalculationDto.class, dto -> {
                 assertThat(dto.getAmount()).isEqualTo(3500);
             }));
-    }
+        }
 
     @Test
     public void unknownFeesForIncorrectRangeGroupCode() throws Exception {

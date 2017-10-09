@@ -1,9 +1,6 @@
 package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiOperation;
