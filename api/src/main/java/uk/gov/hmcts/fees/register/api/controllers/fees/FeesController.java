@@ -19,7 +19,6 @@ import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
 import uk.gov.hmcts.fees.register.api.model.Fee;
 import uk.gov.hmcts.fees.register.api.model.FeeRepository;
-
 import static java.util.stream.Collectors.toList;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
