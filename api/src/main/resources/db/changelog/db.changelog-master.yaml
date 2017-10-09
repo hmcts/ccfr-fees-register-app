@@ -416,32 +416,39 @@ databaseChangeLog:
       id: 17
       author: tarun
       changes:
+        - sql:
+            dbms: postgresql
+            sql: >
+               SELECT setval('fee_id_seq', max(id)) FROM fee;
+               SELECT setval('category_id_seq', max(id)) FROM category;
+               SELECT setval('category_fee_id_seq', max(id)) FROM category_fee;
+               SELECT setval('range_id_seq', max(id)) FROM range;
+               SELECT setval('range_group_id_seq', max(id)) FROM range_group;
+
+  - changeSet:
+      id: 18
+      author: tarun
+      changes:
         - sql: >
             INSERT INTO fee (id, code, description, type, amount, percentage)
             VALUES
-            (213, 'X0250-1', 'Personal application where the net estate value is under 5000.00 GBP', 'fixed', 0, null);
-            INSERT INTO fee (id, code, description, type, amount, percentage)
-            VALUES
-            (214, 'X0250-2', 'Personal application where the net estate value is greater than 5000.00 GBP', 'fixed', 6000, null);
+              (213, 'X0250-1', 'Personal application where the net estate value is under 5000.00 GBP', 'fixed', 0, null),
+              (214, 'X0250-2', 'Personal application where the net estate value is greater than 5000.00 GBP', 'fixed', 6000, null);
         - sql: >
             INSERT INTO range_group (id, code, description)
             VALUES
-            (204, 'probate-personal', 'Probate - personal application cost');
+              (204, 'probate-personal', 'Probate - personal application cost');
         - sql: >
             INSERT INTO range (range_group_id, value_from, value_to, fee_id)
             VALUES
-            (204, 0, 499999, 213);
-            INSERT INTO range (range_group_id, value_from, value_to, fee_id)
-            VALUES
-            (204, 500000, null, 214);
+              (204, 0, 499999, 213),
+              (204, 500000, null, 214);
         - sql: >
             INSERT INTO category (id, code, description, range_group_id)
             VALUES
-            (10, 'probate-personal', 'Probate - personal application cost', 204);
+              (10, 'probate-personal', 'Probate - personal application cost', 204);
         - sql: >
             INSERT INTO category_fee (id, category_id, fee_id)
             VALUES
-            (19, 10, 213);
-            INSERT INTO category_fee (id, category_id, fee_id)
-            VALUES
-            (20, 10, 214);
+              (19, 10, 213),
+              (20, 10, 214);
