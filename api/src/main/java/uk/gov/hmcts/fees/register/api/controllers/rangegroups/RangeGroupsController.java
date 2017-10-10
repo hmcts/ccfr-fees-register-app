@@ -37,8 +37,8 @@ public class RangeGroupsController {
     private final RangeGroupsDtoMapper rangeGroupsDtoMapper;
     private final RangeGroupRepository rangeGroupRepository;
 
-    @Value("${fees.unspecified.range_group.code}")
-    private String unspecifiedRangeGroupCode;
+    /** Constant for rangeGroupCode cmc-paper */
+    private static final String CMC_PAPER = "cmc-paper";
 
     @Autowired
     public RangeGroupsController(FeesDtoMapper feesDtoMapper, RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository) {
@@ -72,7 +72,7 @@ public class RangeGroupsController {
     }
 
     @ApiOperation(value = "Find appropriate fees amount for given claim.",
-                    notes="The endpoint returns the fee for specified amount and max fee/percentage for the unclaimed amount", response = CalculationDto.class)
+                    notes="The endpoint returns the fee for specified amount", response = CalculationDto.class)
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code, @RequestParam(value = "value") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
@@ -85,7 +85,7 @@ public class RangeGroupsController {
         notes="The endpoint returns the max fee for the unspecified amount", response = CalculationDto.class)
     @GetMapping("/range-groups/cmc-paper/calculations/unspecified")
     public CalculationDto getMaxFeeForUnspecifiedRange() {
-        RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(unspecifiedRangeGroupCode);
+        RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(CMC_PAPER);
         Fee fee = rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue());
 
         return new CalculationDto(fee.calculate(0), feesDtoMapper.toFeeDto(fee));
