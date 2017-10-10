@@ -21,11 +21,7 @@ import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
 import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
-import uk.gov.hmcts.fees.register.api.model.Fee;
-import uk.gov.hmcts.fees.register.api.model.RangeEmptyException;
-import uk.gov.hmcts.fees.register.api.model.RangeGroup;
-import uk.gov.hmcts.fees.register.api.model.RangeGroupNotContinuousException;
-import uk.gov.hmcts.fees.register.api.model.RangeGroupRepository;
+import uk.gov.hmcts.fees.register.api.model.*;
 import uk.gov.hmcts.fees.register.api.model.exceptions.FeeNotFoundException;
 
 import static java.util.stream.Collectors.toList;
@@ -41,8 +37,8 @@ public class RangeGroupsController {
     private final RangeGroupsDtoMapper rangeGroupsDtoMapper;
     private final RangeGroupRepository rangeGroupRepository;
 
-    @Value("${fees.range_group.max.fee.code}")
-    private String rangeGroupMaxFeeCode;
+    @Value("${fees.range_group.unspecified.claim}")
+    private String unspecifiedRangeGroupCode;
 
     @Autowired
     public RangeGroupsController(FeesDtoMapper feesDtoMapper, RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository) {
@@ -76,15 +72,23 @@ public class RangeGroupsController {
     }
 
     @ApiOperation(value = "Find appropriate fees amount for given claim.",
-                    notes="The endpoint returns the fee for specified amount and max fee/percentage for the unclaimed amount and also unspecified amount", response = CalculationDto.class)
+                    notes="The endpoint returns the fee for specified amount and max fee/percentage for the unclaimed amount", response = CalculationDto.class)
     @GetMapping("/range-groups/{code}/calculations")
-    public CalculationDto getCategoryRange(@PathVariable("code") String code,
-                                           @RequestParam(value = "value", required = false, defaultValue = "0") int value) {
+    public CalculationDto getCategoryRange(@PathVariable("code") String code, @RequestParam(value = "value") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
-        Fee fee = code.equals(rangeGroupMaxFeeCode) && value == 0 ?
-                    rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue()) : rangeGroup.findFeeForValue(value);
+        Fee fee = rangeGroup.findFeeForValue(value);
 
         return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
+    }
+
+    @ApiOperation(value = "Find appropriate fees amount for an unspecified claim.",
+        notes="The endpoint returns the fee for specified amount and max fee for the unspecified amount", response = CalculationDto.class)
+    @GetMapping("/range-groups/cmc-paper/calculations/unspecified")
+    public CalculationDto getMaxFeeForUnspecifiedRange() {
+        RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(unspecifiedRangeGroupCode);
+        Fee fee = rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue());
+
+        return new CalculationDto(fee.calculate(0), feesDtoMapper.toFeeDto(fee));
     }
 
     @ExceptionHandler(FeeNotFoundException.class)
