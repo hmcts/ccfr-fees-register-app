@@ -37,7 +37,7 @@ public class RangeGroupsController {
     private final RangeGroupsDtoMapper rangeGroupsDtoMapper;
     private final RangeGroupRepository rangeGroupRepository;
 
-    @Value("${fees.range_group.unspecified.claim}")
+    @Value("${fees.unspecified.range_group.code}")
     private String unspecifiedRangeGroupCode;
 
     @Autowired
