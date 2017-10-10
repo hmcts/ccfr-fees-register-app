@@ -76,7 +76,7 @@ public class RangeGroupsController {
     }
 
     @ApiOperation(value = "Find appropriate fees amount for given claim.",
-                    notes="The endpoint returns the fee for specified amount and max fee/percentage for the unclaimed amount", response = CalculationDto.class)
+                    notes="The endpoint returns the fee for specified amount and max fee/percentage for the unclaimed amount and also unspecified amount", response = CalculationDto.class)
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
                                            @RequestParam(value = "value", required = false, defaultValue = "0") int value) {
