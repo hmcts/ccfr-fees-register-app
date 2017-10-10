@@ -81,8 +81,8 @@ public class RangeGroupsController {
         return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
     }
 
-    @ApiOperation(value = "Find appropriate fees amount for an unspecified claim.",
-        notes="The endpoint returns the fee for specified amount and max fee for the unspecified amount", response = CalculationDto.class)
+    @ApiOperation(value = "Find max fees amount for an unspecified value.",
+        notes="The endpoint returns the max fee for the unspecified amount", response = CalculationDto.class)
     @GetMapping("/range-groups/cmc-paper/calculations/unspecified")
     public CalculationDto getMaxFeeForUnspecifiedRange() {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(unspecifiedRangeGroupCode);
