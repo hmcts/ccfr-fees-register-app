@@ -426,11 +426,11 @@ databaseChangeLog:
               (204, 1, 499999, 213),
               (204, 500000, null, 214);
         - sql: >
-            INSERT INTO category (id, code, description, range_group_id)
+            INSERT INTO category (code, description, range_group_id)
             VALUES
-              (10, 'probate-personal', 'Probate - personal application cost', 204);
+              ('probate-personal', 'Probate - personal application cost', 204);
         - sql: >
-            INSERT INTO category_fee (id, category_id, fee_id)
+            INSERT INTO category_fee (category_id, fee_id)
             VALUES
-              (19, 10, 213),
-              (20, 10, 214);
+              ((select id from category where code='probate-personal'), 213),
+              ((select id from category where code='probate-personal'), 214);
