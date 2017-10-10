@@ -37,28 +37,11 @@ public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
     @Test
     public void maxFeesForUnspecifiedClaimAmount() throws Exception {
         restActions
-            .get("/range-groups/cmc-paper/calculations")
+            .get("/range-groups/cmc-paper/calculations/unspecified")
             .andExpect(status().isOk())
             .andExpect(body().as(CalculationDto.class, dto -> {
-                assertThat(dto.getAmount()).isGreaterThan(0);
+                assertThat(dto.getAmount()).isEqualTo(1000000);
             }));
-    }
-
-    @Test
-    public void returnCorrectFeeForCMCPaperWithSpecifiedAmount() throws Exception {
-        restActions
-            .get("/range-groups/cmc-paper/calculations?value=500")
-            .andExpect(status().isOk())
-            .andExpect(body().as(CalculationDto.class, dto -> {
-                assertThat(dto.getAmount()).isEqualTo(3500);
-            }));
-        }
-
-    @Test
-    public void unknownFeesForIncorrectRangeGroupCode() throws Exception {
-        restActions
-            .get("/range-groups/cmc-online/calculations")
-            .andExpect(status().isNotFound());
     }
 
 
