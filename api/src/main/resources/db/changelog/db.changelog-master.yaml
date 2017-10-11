@@ -429,8 +429,3 @@ databaseChangeLog:
             INSERT INTO category (code, description, range_group_id)
             VALUES
               ('probate-personal', 'Probate - personal application cost', 204);
-        - sql: >
-            INSERT INTO category_fee (category_id, fee_id)
-            VALUES
-              ((select id from category where code='probate-personal'), 213),
-              ((select id from category where code='probate-personal'), 214);
