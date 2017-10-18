@@ -429,3 +429,365 @@ databaseChangeLog:
             INSERT INTO category (code, description, range_group_id)
             VALUES
               ('probate-personal', 'Probate - personal application cost', 204);
+
+  - changeSet:
+      id: 17
+      author: tarunp
+      changes:
+        - createTable:
+            tableName: amount_type
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_time
+                  type: timestamp
+                  defaultValue: now()
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  defaultValue: now()
+
+  - changeSet:
+      id: 18
+      author: tarunp
+      changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO amount_type (id, name)
+              VALUES
+                (1, 'flat'),
+                (2, 'percentage'),
+                (3, 'rateable');
+
+  - changeSet:
+      id: 19
+      author: tarunp
+      changes:
+        - createTable:
+            tableName: channel_type
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_time
+                  type: timestamp
+                  defaultValue: now()
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  defaultValue: now()
+
+  - changeSet:
+      id: 20
+      author: tarunp
+      changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO channel_type (id, name)
+              VALUES
+                (1, 'online'),
+                (2, 'bulk'),
+                (3, 'default');
+
+  - changeSet:
+        id: 21
+        author: tarunp
+        changes:
+          - createTable:
+              tableName: direction_type
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+
+  - changeSet:
+      id: 22
+      author: tarunp
+      changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO direction_type (id, name)
+              VALUES
+                (1, 'cost recovery'),
+                (2, 'enhanced'),
+                (3, 'license'),
+                (4, 'partial cost recovery'),
+                (5, 'pre cost recovery'),
+                (6, 'reduced churn'),
+                (7, 'simplified');
+
+  - changeSet:
+      id: 23
+      author: tarunp
+      changes:
+        - createTable:
+            tableName: event_type
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_time
+                  type: timestamp
+                  defaultValue: now()
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  defaultValue: now()
+
+  - changeSet:
+      id: 24
+      author: tarunp
+      changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO event_type (id, name)
+              VALUES
+                (1, 'enforcement'),
+                (2, 'judicial review'),
+                (3, 'appeal'),
+                (4, 'search'),
+                (5, 'issue'),
+                (6, 'general application'),
+                (7, 'copies'),
+                (8, 'hearing'),
+                (9, 'miscellaneous'),
+                (10, 'cost assessment');
+
+  - changeSet:
+      id: 25
+      author: tarunp
+      changes:
+        - createTable:
+            tableName: fee_type
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_time
+                  type: timestamp
+                  defaultValue: now()
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  defaultValue: now()
+
+  - changeSet:
+      id: 26
+      author: tarunp
+      changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO fee_type (id, name)
+              VALUES
+                (1, 'fixed fee'),
+                (2, 'range fee');
+
+  - changeSet:
+      id: 27
+      author: tarunp
+      changes:
+        - createTable:
+            tableName: jurisdiction1
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_time
+                  type: timestamp
+                  defaultValue: now()
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  defaultValue: now()
+
+  - changeSet:
+      id: 28
+      author: tarunp
+      changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO jurisdiction1 (id, name)
+              VALUES
+                (1, 'civil'),
+                (2, 'family'),
+                (3, 'tribunal');
+
+  - changeSet:
+      id: 29
+      author: tarunp
+      changes:
+        - createTable:
+            tableName: jurisdiction2
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_time
+                  type: timestamp
+                  defaultValue: now()
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  defaultValue: now()
+
+  - changeSet:
+      id: 30
+      author: tarunp
+      changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO jurisdiction2 (id, name)
+              VALUES
+                (1, 'county court'),
+                (2, 'high court'),
+                (3, 'magistrates court'),
+                (4, 'court of protection'),
+                (5, 'family court'),
+                (6, 'probate registry'),
+                (7, 'employment appeals tribunal'),
+                (8, 'employment tribunal'),
+                (9, 'gambling tribunal'),
+                (10, 'gender recognition panel'),
+                (11, 'immigration and asylum chamber'),
+                (12, 'property chamber'),
+                (13, 'tax chamber');
+
+  - changeSet:
+      id: 31
+      author: tarunp
+      changes:
+        - createTable:
+            tableName: service_type
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_time
+                  type: timestamp
+                  defaultValue: now()
+              - column:
+                  name: last_updated
+                  type: timestamp
+                  defaultValue: now()
+
+  - changeSet:
+      id: 32
+      author: tarunp
+      changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO service_type (id, name)
+              VALUES
+                (1, 'civil money claims'),
+                (2, 'possession claim'),
+                (3, 'insolvency'),
+                (4, 'private law'),
+                (5, 'public law'),
+                (6, 'divorce'),
+                (7, 'adoption'),
+                (8, 'employment appeals tribunal'),
+                (9, 'employment tribunal'),
+                (10, 'gambling tribunal'),
+                (11, 'gender recognition tribunal'),
+                (12, 'immigration and asylum chamber tribunal'),
+                (13, 'property chamber'),
+                (14, 'tax chamber'),
+                (15, 'probate'),
+                (16, 'general'),
+                (17, 'magistrates');
