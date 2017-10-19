@@ -26,6 +26,6 @@ public class AbstractEntity implements Serializable {
     //private String uuid = UUID.randomUUID().toString();
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 }
