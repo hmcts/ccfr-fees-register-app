@@ -37,16 +37,6 @@ public abstract class AbstractServiceImpl<T> implements AbstractService<T> {
 
     /**
      *
-     * @param name
-     * @return
-     */
-    @Override
-    public Optional<T> findByName(String name) {
-        return abstractRepository.findByName(name);
-    }
-
-    /**
-     *
      * @return
      */
     @Override
