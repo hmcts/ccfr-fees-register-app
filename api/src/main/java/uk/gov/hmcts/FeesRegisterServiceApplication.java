@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees.register.api;
+package uk.gov.hmcts;
 
 
 import org.springframework.boot.SpringApplication;
