@@ -1,12 +1,13 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees2.register.data.repository.AbstractRepository;
 import uk.gov.hmcts.fees2.register.data.service.AbstractService;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 public abstract class AbstractServiceImpl<T> implements AbstractService<T> {
 
-    private AbstractRepository<T, ID> abstractRepository;
+    private AbstractRepository<T, Long> abstractRepository;
 
     @Autowired
     public AbstractServiceImpl(AbstractRepository abstractRepository) {
@@ -32,6 +33,16 @@ public abstract class AbstractServiceImpl<T> implements AbstractService<T> {
     @Override
     public T findByNameOrThrow(String name) {
         return abstractRepository.findByNameOrThrow(name);
+    }
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    public Optional<T> findByName(String name) {
+        return abstractRepository.findByName(name);
     }
 
     /**
