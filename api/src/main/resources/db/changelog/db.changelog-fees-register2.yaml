@@ -1,0 +1,294 @@
+databaseChangeLog:
+    - changeSet:
+        id: 17
+        author: tarunp
+        changes:
+          - createTable:
+              tableName: amount_type
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO amount_type (id, name)
+                VALUES
+                  (1, 'flat'),
+                  (2, 'percentage'),
+                  (3, 'rateable');
+          - createTable:
+              tableName: channel_type
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO channel_type (id, name)
+                VALUES
+                  (1, 'online'),
+                  (2, 'bulk'),
+                  (3, 'default');
+          - createTable:
+              tableName: direction_type
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO direction_type (id, name)
+                VALUES
+                  (1, 'cost recovery'),
+                  (2, 'enhanced'),
+                  (3, 'license'),
+                  (4, 'partial cost recovery'),
+                  (5, 'pre cost recovery'),
+                  (6, 'reduced churn'),
+                  (7, 'simplified');
+          - createTable:
+              tableName: event_type
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO event_type (id, name)
+                VALUES
+                  (1, 'enforcement'),
+                  (2, 'judicial review'),
+                  (3, 'appeal'),
+                  (4, 'search'),
+                  (5, 'issue'),
+                  (6, 'general application'),
+                  (7, 'copies'),
+                  (8, 'hearing'),
+                  (9, 'miscellaneous'),
+                  (10, 'cost assessment');
+          - createTable:
+              tableName: fee_type
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO fee_type (id, name)
+                VALUES
+                  (1, 'fixed fee'),
+                  (2, 'range fee');
+          - createTable:
+              tableName: jurisdiction1
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO jurisdiction1 (id, name)
+                VALUES
+                  (1, 'civil'),
+                  (2, 'family'),
+                  (3, 'tribunal');
+          - createTable:
+              tableName: jurisdiction2
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO jurisdiction2 (id, name)
+                VALUES
+                  (1, 'county court'),
+                  (2, 'high court'),
+                  (3, 'magistrates court'),
+                  (4, 'court of protection'),
+                  (5, 'family court'),
+                  (6, 'probate registry'),
+                  (7, 'gambling tribunal'),
+                  (8, 'gender recognition panel'),
+                  (9, 'immigration and asylum chamber'),
+                  (10, 'property chamber'),
+                  (11, 'tax chamber');
+          - createTable:
+              tableName: service_type
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO service_type (id, name)
+                VALUES
+                  (1, 'civil money claims'),
+                  (2, 'possession claim'),
+                  (3, 'insolvency'),
+                  (4, 'private law'),
+                  (5, 'public law'),
+                  (6, 'divorce'),
+                  (7, 'adoption'),
+                  (8, 'gambling tribunal'),
+                  (9, 'gender recognition tribunal'),
+                  (10, 'immigration and asylum chamber tribunal'),
+                  (11, 'property chamber'),
+                  (12, 'tax chamber'),
+                  (13, 'probate'),
+                  (14, 'general'),
+                  (15, 'magistrates');
+          - sql:
+              dbms: postgresql
+              sql: >
+                SELECT setval('amount_type_id_seq', max(id)) FROM amount_type;
+                SELECT setval('channel_type_id_seq', max(id)) FROM channel_type;
+                SELECT setval('direction_type_id_seq', max(id)) FROM direction_type;
+                SELECT setval('event_type_id_seq', max(id)) FROM event_type;
+                SELECT setval('fee_type_id_seq', max(id)) FROM fee_type;
+                SELECT setval('jurisdiction1_id_seq', max(id)) FROM jurisdiction1;
+                SELECT setval('jurisdiction2_id_seq', max(id)) FROM jurisdiction2;
+                SELECT setval('service_type_id_seq', max(id)) FROM service_type;
