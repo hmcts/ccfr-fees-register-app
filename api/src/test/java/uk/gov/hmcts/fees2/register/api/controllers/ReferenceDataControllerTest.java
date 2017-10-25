@@ -71,7 +71,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetAmountTypes() throws Exception {
         when(amountTypeService.findAll()).thenReturn(getAmountTypes());
 
-        this.mockMvc.perform(get("/amount-types"))
+        this.mockMvc.perform(get("/amounttypes"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$", hasSize(3)))
@@ -87,7 +87,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetAmountTypeByName() throws Exception {
         when(amountTypeService.findByNameOrThrow("flat")).thenReturn(getAmountTypes().get(0));
 
-        this.mockMvc.perform(get("/amount-type/flat"))
+        this.mockMvc.perform(get("/amounttypes/flat"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.name", is("flat")));
@@ -100,7 +100,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetAmountTypeNameNotFound() throws Exception {
         when(amountTypeService.findByNameOrThrow("demo")).thenThrow(new ReferenceDataNotFoundException("AmountType", "test"));
 
-        this.mockMvc.perform(get("/amount-type/test"))
+        this.mockMvc.perform(get("/amounttypes/test"))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.message", is("Reference data for AmountType=demo was not found")));
 
@@ -112,7 +112,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetChannelTypes() throws Exception {
         when(channelTypeService.findAll()).thenReturn(getChannelTypes());
 
-        this.mockMvc.perform(get("/channel-types"))
+        this.mockMvc.perform(get("/channeltypes"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(2)))
             .andExpect(jsonPath("$[0].name", is("online")))
@@ -126,7 +126,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetChannelTypeByName() throws Exception {
         when(channelTypeService.findByNameOrThrow("online")).thenReturn(getChannelTypes().get(0));
 
-        this.mockMvc.perform(get("/channel-type/online"))
+        this.mockMvc.perform(get("/channeltypes/online"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.name", is("online")));
@@ -139,7 +139,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetChannelTypeNameNotFound() throws Exception {
         when(channelTypeService.findByNameOrThrow("demo1")).thenThrow(new ReferenceDataNotFoundException("Channeltype", "demo"));
 
-        this.mockMvc.perform(get("/channel-type/demo"))
+        this.mockMvc.perform(get("/channeltypes/demo"))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.message", is("Reference data for ChannelType=demofdf was not found")));
 
@@ -151,7 +151,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetDirectionTypes() throws Exception {
         when(directionTypeService.findAll()).thenReturn(getDirectionTypes());
 
-        this.mockMvc.perform(get("/direction-types"))
+        this.mockMvc.perform(get("/directiontypes"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(7)))
             .andExpect(jsonPath("$[0].name", is("cost recovery")))
@@ -170,7 +170,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetDirectionTypeByName() throws Exception {
         when(directionTypeService.findByNameOrThrow("cost recovery")).thenReturn(getDirectionTypes().get(0));
 
-        this.mockMvc.perform(get("/direction-type/cost recovery"))
+        this.mockMvc.perform(get("/directiontypes/cost recovery"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.name", is("cost recovery")));
@@ -183,7 +183,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetFeeTypes() throws Exception {
         when(feeTypeService.findAll()).thenReturn(getFeeTyes());
 
-        this.mockMvc.perform(get("/fee-types"))
+        this.mockMvc.perform(get("/feetypes"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(2)))
             .andExpect(jsonPath("$[0].name", is("fixed fee")))
@@ -197,7 +197,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetFeeTypeByName() throws Exception {
         when(feeTypeService.findByNameOrThrow("fixed fee")).thenReturn(getFeeTyes().get(0));
 
-        this.mockMvc.perform(get("/fee-type/fixed fee"))
+        this.mockMvc.perform(get("/feetypes/fixed fee"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.name", is("fixed fee")));
@@ -210,7 +210,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetServiceTypes() throws Exception {
         when(serviceTypeService.findAll()).thenReturn(getServiceTypes());
 
-        this.mockMvc.perform(get("/service-types"))
+        this.mockMvc.perform(get("/servicetypes"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(18)))
             .andExpect(jsonPath("$[0].name", is("civil money claims")))
@@ -240,7 +240,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetServiceTypeByName() throws Exception {
         when(serviceTypeService.findByNameOrThrow("divorce")).thenReturn(getServiceTypes().get(5));
 
-        this.mockMvc.perform(get("/service-type/divorce"))
+        this.mockMvc.perform(get("/servicetypes/divorce"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.name", is("divorce")));
@@ -253,7 +253,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetEventTypes() throws Exception {
         when(eventTypeService.findAll()).thenReturn(getEventTypes());
 
-        this.mockMvc.perform(get("/event-types"))
+        this.mockMvc.perform(get("/eventtypes"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(10)))
             .andExpect(jsonPath("$[0].name", is("enforcement")))
@@ -275,7 +275,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetEventTypeByName() throws Exception {
         when(eventTypeService.findByNameOrThrow("search")).thenReturn(getEventTypes().get(3));
 
-        this.mockMvc.perform(get("/event-type/search"))
+        this.mockMvc.perform(get("/eventtypes/search"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.name", is("search")));
@@ -303,7 +303,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetJurisdictions1ByName() throws Exception {
         when(jurisdiction1Service.findByNameOrThrow("civil")).thenReturn(getJurisdictions1().get(0));
 
-        this.mockMvc.perform(get("/jurisdiction1/civil"))
+        this.mockMvc.perform(get("/jurisdictions1/civil"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.name", is("civil")));
@@ -332,7 +332,7 @@ public class ReferenceDataControllerTest extends BaseTest{
     public void testGetJurisdictions2ByName() throws Exception {
         when(jurisdiction2Service.findByNameOrThrow("magistrates court")).thenReturn(getJurisdiction2().get(2));
 
-        this.mockMvc.perform(get("/jurisdiction2/magistrates court"))
+        this.mockMvc.perform(get("/jurisdictions2/magistrates court"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.name", is("magistrates court")));

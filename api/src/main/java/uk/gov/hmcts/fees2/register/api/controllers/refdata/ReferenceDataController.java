@@ -58,66 +58,71 @@ public class ReferenceDataController {
         this.referenceDataDtoMapper = referenceDataDtoMapper;
     }
 
-    @GetMapping("/amount-types")
+    @GetMapping("/amounttypes")
     @ResponseStatus(HttpStatus.OK)
     public List<AmountTypeDto> getAllAmountTypes() {
         return amountTypeService.findAll().stream().map(referenceDataDtoMapper::toAmountTypeDto).collect(toList());
     }
 
-    @GetMapping("/amount-type/{name}")
+    @GetMapping("/amounttypes/{name}")
     @ResponseStatus(HttpStatus.OK)
+    @Deprecated
     public AmountTypeDto getAmountTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
         AmountType amountType = amountTypeService.findByNameOrThrow(name);
         return referenceDataDtoMapper.toAmountTypeDto(amountType);
     }
 
-    @GetMapping("/channel-types")
+    @GetMapping("/channeltypes")
     @ResponseStatus(HttpStatus.OK)
     public List<ChannelTypeDto> getAllChannelTypes() {
         return channelTypeService.findAll().stream().map(referenceDataDtoMapper::toChannelTypeDto).collect(toList());
     }
 
-    @GetMapping("/channel-type/{name}")
+    @GetMapping("/channeltypes/{name}")
     @ResponseStatus(HttpStatus.OK)
+    @Deprecated
     public ChannelTypeDto getChannelTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
         ChannelType channelType = channelTypeService.findByNameOrThrow(name);
         return referenceDataDtoMapper.toChannelTypeDto(channelType);
     }
 
-    @GetMapping("/direction-types")
+    @GetMapping("/directiontypes")
     @ResponseStatus(HttpStatus.OK)
     public List<DirectionTypeDto> getAllDirectionTypes() {
         return directionTypeService.findAll().stream().map(referenceDataDtoMapper::toDirectionTypeDto).collect(toList());
     }
 
-    @GetMapping("/direction-type/{name}")
+    @GetMapping("/directiontypes/{name}")
     @ResponseStatus(HttpStatus.OK)
+    @Deprecated
     public DirectionTypeDto getDirectionTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
         DirectionType directionType = directionTypeService.findByNameOrThrow(name);
         return referenceDataDtoMapper.toDirectionTypeDto(directionType);
     }
 
-    @GetMapping("/event-types")
+    @GetMapping("/eventtypes")
     @ResponseStatus(HttpStatus.OK)
     public List<EventTypeDto> getAllEventTypes() {
         return eventTypeService.findAll().stream().map(referenceDataDtoMapper::toEventTypeDto).collect(toList());
     }
 
-    @GetMapping("/event-type/{name}")
+    @GetMapping("/eventtypes/{name}")
     @ResponseStatus(HttpStatus.OK)
+    @Deprecated
     public EventTypeDto getEventTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
         EventType eventType = eventTypeService.findByNameOrThrow(name);
         return referenceDataDtoMapper.toEventTypeDto(eventType);
     }
 
-    @GetMapping("/fee-types")
+    @GetMapping("/feetypes")
     @ResponseStatus(HttpStatus.OK)
     public List<FeeTypeDto> getAllFeeTypes() {
         return feeTypeService.findAll().stream().map(referenceDataDtoMapper::toFeeTypeDto).collect(toList());
     }
 
-    @GetMapping("/fee-type/{name}")
+    @GetMapping("/feetypes/{name}")
     @ResponseStatus(HttpStatus.OK)
+    @Deprecated
     public FeeTypeDto getFeeTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
         FeeType feeType = feeTypeService.findByNameOrThrow(name);
         return referenceDataDtoMapper.toFeeTypeDto(feeType);
@@ -129,8 +134,9 @@ public class ReferenceDataController {
         return jurisdiction1Service.findAll().stream().map(referenceDataDtoMapper::toJuridiction1Dto).collect(toList());
     }
 
-    @GetMapping("/jurisdiction1/{name}")
+    @GetMapping("/jurisdictions1/{name}")
     @ResponseStatus(HttpStatus.OK)
+    @Deprecated
     public Jurisdiction1Dto getJurisdiction1ByName(@NotEmpty @PathVariable(name = "name") String name) {
         Jurisdiction1 jurisdiction1 = jurisdiction1Service.findByNameOrThrow(name);
         return referenceDataDtoMapper.toJuridiction1Dto(jurisdiction1);
@@ -142,21 +148,23 @@ public class ReferenceDataController {
         return jurisdiction2Service.findAll().stream().map(referenceDataDtoMapper::toJurisdiction2Dto).collect(toList());
     }
 
-    @GetMapping("/jurisdiction2/{name}")
+    @GetMapping("/jurisdictions2/{name}")
     @ResponseStatus(HttpStatus.OK)
+    @Deprecated
     public Jurisdiction2Dto getJurisdiction2ByName(@NotEmpty @PathVariable(name = "name") String name) {
         Jurisdiction2 jurisdiction2 = jurisdiction2Service.findByNameOrThrow(name);
         return referenceDataDtoMapper.toJurisdiction2Dto(jurisdiction2);
     }
 
-    @GetMapping("/service-types")
+    @GetMapping("/servicetypes")
     @ResponseStatus(HttpStatus.OK)
     public List<ServiceTypeDto> getAllServiceTypes() {
         return serviceTypeService.findAll().stream().map(referenceDataDtoMapper::toServiceTypeDto).collect(toList());
     }
 
-    @GetMapping("/service-type/{name}")
+    @GetMapping("/servicetypes/{name}")
     @ResponseStatus(HttpStatus.OK)
+    @Deprecated
     public ServiceTypeDto getServiceTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
         ServiceType serviceType = serviceTypeService.findByNameOrThrow(name);
         return referenceDataDtoMapper.toServiceTypeDto(serviceType);
