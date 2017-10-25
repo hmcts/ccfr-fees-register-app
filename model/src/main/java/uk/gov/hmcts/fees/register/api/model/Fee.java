@@ -1,10 +1,7 @@
 package uk.gov.hmcts.fees.register.api.model;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +12,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @DiscriminatorColumn(name = "type")
+@Table(name = "fee_old")
 public abstract class Fee implements Calculateable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

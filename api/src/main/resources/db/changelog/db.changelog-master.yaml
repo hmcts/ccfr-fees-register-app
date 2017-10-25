@@ -430,5 +430,13 @@ databaseChangeLog:
               VALUES
                 ('probate-personal', 'Probate - personal application cost', 204);
 
+    - changeSet:
+        id: 18
+        author: tarunp
+        changes:
+          - renameTable:
+              newTableName: fee_old
+              oldTableName: fee
+
     - include:
         file: db/changelog/db.changelog-fees-register2.yaml

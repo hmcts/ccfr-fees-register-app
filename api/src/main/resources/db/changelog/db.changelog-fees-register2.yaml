@@ -292,3 +292,4 @@ databaseChangeLog:
                 SELECT setval('jurisdiction1_id_seq', max(id)) FROM jurisdiction1;
                 SELECT setval('jurisdiction2_id_seq', max(id)) FROM jurisdiction2;
                 SELECT setval('service_type_id_seq', max(id)) FROM service_type;
+
