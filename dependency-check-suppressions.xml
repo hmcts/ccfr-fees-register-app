@@ -21,6 +21,11 @@
         <cve>CVE-2016-7051</cve>
     </suppress>
     <suppress>
+        <notes>Does not apply as tomcat is configured to run as HTTP only</notes>
+        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
+        <cve>CVE-2017-12617</cve>
+    </suppress>
+    <suppress>
         <notes>Suppress spring-boot-starter-data-jpa being matched as spring-data-jpa</notes>
         <gav regex="true">^org\.springframework\.boot:spring-boot-starter-data-jpa:.*$</gav>
         <cpe>cpe:/a:pivotal_software:spring_data_jpa</cpe>
