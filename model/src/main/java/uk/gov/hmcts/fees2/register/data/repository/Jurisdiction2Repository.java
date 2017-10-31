@@ -14,7 +14,7 @@ import uk.gov.hmcts.fees2.register.data.model.Jurisdiction2;
 
 @Repository
 @Transactional(readOnly = true)
-public interface Jurisdiction2Repository extends AbstractRepository<Jurisdiction2, Long> {
+public interface Jurisdiction2Repository extends AbstractRepository<Jurisdiction2, String> {
 
     @Override
     default String getEntityName() {

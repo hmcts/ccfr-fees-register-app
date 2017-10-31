@@ -20,4 +20,8 @@ public class AmountTypeDto {
 
     private String name;
 
+    private Date creationTime;
+
+    private Date lastUpdated;
+
 }

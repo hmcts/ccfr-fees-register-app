@@ -15,7 +15,7 @@ import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 
 @Repository
 @Transactional(readOnly = true)
-public interface DirectionTypeRepository extends AbstractRepository<DirectionType, Long> {
+public interface DirectionTypeRepository extends AbstractRepository<DirectionType, String> {
 
     @Override
     default String getEntityName() {

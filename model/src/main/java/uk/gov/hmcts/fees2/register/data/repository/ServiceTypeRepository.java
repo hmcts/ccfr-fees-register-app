@@ -17,7 +17,7 @@ import uk.gov.hmcts.fees2.register.data.model.ServiceType;
 
 @Repository
 @Transactional(readOnly = true)
-public interface ServiceTypeRepository extends AbstractRepository<ServiceType, Long> {
+public interface ServiceTypeRepository extends AbstractRepository<ServiceType, String> {
 
     @Override
     default String getEntityName() {

@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * ReferenceData entity to DTO mapper
  *

@@ -16,7 +16,7 @@ import uk.gov.hmcts.fees2.register.data.model.EventType;
 
 @Repository
 @Transactional(readOnly = true)
-public interface EventTypeRepository extends AbstractRepository<EventType, Long> {
+public interface EventTypeRepository extends AbstractRepository<EventType, String> {
 
     @Override
     default String getEntityName() {
