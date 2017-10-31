@@ -7,16 +7,10 @@ databaseChangeLog:
               tableName: amount_type
               columns:
                 - column:
-                    name: id
-                    type: bigint
-                    autoIncrement: true
-                    constraints:
-                      primaryKey: true
-                      nullable: false
-                - column:
                     name: name
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: creation_time
@@ -29,25 +23,19 @@ databaseChangeLog:
           - sql:
               splitStatements: true
               sql: >
-                INSERT INTO amount_type (id, name)
+                INSERT INTO amount_type (name)
                 VALUES
-                  (1, 'flat'),
-                  (2, 'percentage'),
-                  (3, 'rateable');
+                  ('flat'),
+                  ('percentage'),
+                  ('rateable');
           - createTable:
               tableName: channel_type
               columns:
                 - column:
-                    name: id
-                    type: bigint
-                    autoIncrement: true
-                    constraints:
-                      primaryKey: true
-                      nullable: false
-                - column:
                     name: name
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: creation_time
@@ -60,25 +48,19 @@ databaseChangeLog:
           - sql:
               splitStatements: true
               sql: >
-                INSERT INTO channel_type (id, name)
+                INSERT INTO channel_type (name)
                 VALUES
-                  (1, 'online'),
-                  (2, 'bulk'),
-                  (3, 'default');
+                  ('online'),
+                  ('bulk'),
+                  ('default');
           - createTable:
               tableName: direction_type
               columns:
                 - column:
-                    name: id
-                    type: bigint
-                    autoIncrement: true
-                    constraints:
-                      primaryKey: true
-                      nullable: false
-                - column:
                     name: name
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: creation_time
@@ -91,29 +73,23 @@ databaseChangeLog:
           - sql:
               splitStatements: true
               sql: >
-                INSERT INTO direction_type (id, name)
+                INSERT INTO direction_type (name)
                 VALUES
-                  (1, 'cost recovery'),
-                  (2, 'enhanced'),
-                  (3, 'license'),
-                  (4, 'partial cost recovery'),
-                  (5, 'pre cost recovery'),
-                  (6, 'reduced churn'),
-                  (7, 'simplified');
+                  ('cost recovery'),
+                  ('enhanced'),
+                  ('license'),
+                  ('partial cost recovery'),
+                  ('pre cost recovery'),
+                  ('reduced churn'),
+                  ('simplified');
           - createTable:
               tableName: event_type
               columns:
                 - column:
-                    name: id
-                    type: bigint
-                    autoIncrement: true
-                    constraints:
-                      primaryKey: true
-                      nullable: false
-                - column:
                     name: name
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: creation_time
@@ -126,32 +102,26 @@ databaseChangeLog:
           - sql:
               splitStatements: true
               sql: >
-                INSERT INTO event_type (id, name)
+                INSERT INTO event_type (name)
                 VALUES
-                  (1, 'enforcement'),
-                  (2, 'judicial review'),
-                  (3, 'appeal'),
-                  (4, 'search'),
-                  (5, 'issue'),
-                  (6, 'general application'),
-                  (7, 'copies'),
-                  (8, 'hearing'),
-                  (9, 'miscellaneous'),
-                  (10, 'cost assessment');
+                  ('enforcement'),
+                  ('judicial review'),
+                  ('appeal'),
+                  ('search'),
+                  ('issue'),
+                  ('general application'),
+                  ('copies'),
+                  ('hearing'),
+                  ('miscellaneous'),
+                  ('cost assessment');
           - createTable:
               tableName: fee_type
               columns:
                 - column:
-                    name: id
-                    type: bigint
-                    autoIncrement: true
-                    constraints:
-                      primaryKey: true
-                      nullable: false
-                - column:
                     name: name
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: creation_time
@@ -164,24 +134,18 @@ databaseChangeLog:
           - sql:
               splitStatements: true
               sql: >
-                INSERT INTO fee_type (id, name)
+                INSERT INTO fee_type (name)
                 VALUES
-                  (1, 'fixed fee'),
-                  (2, 'range fee');
+                  ('fixed fee'),
+                  ('range fee');
           - createTable:
               tableName: jurisdiction1
               columns:
                 - column:
-                    name: id
-                    type: bigint
-                    autoIncrement: true
-                    constraints:
-                      primaryKey: true
-                      nullable: false
-                - column:
                     name: name
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: creation_time
@@ -194,25 +158,19 @@ databaseChangeLog:
           - sql:
               splitStatements: true
               sql: >
-                INSERT INTO jurisdiction1 (id, name)
+                INSERT INTO jurisdiction1 (name)
                 VALUES
-                  (1, 'civil'),
-                  (2, 'family'),
-                  (3, 'tribunal');
+                  ('civil'),
+                  ('family'),
+                  ('tribunal');
           - createTable:
               tableName: jurisdiction2
               columns:
                 - column:
-                    name: id
-                    type: bigint
-                    autoIncrement: true
-                    constraints:
-                      primaryKey: true
-                      nullable: false
-                - column:
                     name: name
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: creation_time
@@ -225,33 +183,27 @@ databaseChangeLog:
           - sql:
               splitStatements: true
               sql: >
-                INSERT INTO jurisdiction2 (id, name)
+                INSERT INTO jurisdiction2 (name)
                 VALUES
-                  (1, 'county court'),
-                  (2, 'high court'),
-                  (3, 'magistrates court'),
-                  (4, 'court of protection'),
-                  (5, 'family court'),
-                  (6, 'probate registry'),
-                  (7, 'gambling tribunal'),
-                  (8, 'gender recognition panel'),
-                  (9, 'immigration and asylum chamber'),
-                  (10, 'property chamber'),
-                  (11, 'tax chamber');
+                  ('county court'),
+                  ('high court'),
+                  ('magistrates court'),
+                  ('court of protection'),
+                  ('family court'),
+                  ('probate registry'),
+                  ('gambling tribunal'),
+                  ('gender recognition panel'),
+                  ('immigration and asylum chamber'),
+                  ('property chamber'),
+                  ('tax chamber');
           - createTable:
               tableName: service_type
               columns:
                 - column:
-                    name: id
-                    type: bigint
-                    autoIncrement: true
-                    constraints:
-                      primaryKey: true
-                      nullable: false
-                - column:
                     name: name
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: creation_time
@@ -264,34 +216,24 @@ databaseChangeLog:
           - sql:
               splitStatements: true
               sql: >
-                INSERT INTO service_type (id, name)
+                INSERT INTO service_type (name)
                 VALUES
-                  (1, 'civil money claims'),
-                  (2, 'possession claim'),
-                  (3, 'insolvency'),
-                  (4, 'private law'),
-                  (5, 'public law'),
-                  (6, 'divorce'),
-                  (7, 'adoption'),
-                  (8, 'gambling tribunal'),
-                  (9, 'gender recognition tribunal'),
-                  (10, 'immigration and asylum chamber tribunal'),
-                  (11, 'property chamber'),
-                  (12, 'tax chamber'),
-                  (13, 'probate'),
-                  (14, 'general'),
-                  (15, 'magistrates');
-          - sql:
-              dbms: postgresql
-              sql: >
-                SELECT setval('amount_type_id_seq', max(id)) FROM amount_type;
-                SELECT setval('channel_type_id_seq', max(id)) FROM channel_type;
-                SELECT setval('direction_type_id_seq', max(id)) FROM direction_type;
-                SELECT setval('event_type_id_seq', max(id)) FROM event_type;
-                SELECT setval('fee_type_id_seq', max(id)) FROM fee_type;
-                SELECT setval('jurisdiction1_id_seq', max(id)) FROM jurisdiction1;
-                SELECT setval('jurisdiction2_id_seq', max(id)) FROM jurisdiction2;
-                SELECT setval('service_type_id_seq', max(id)) FROM service_type;
+                  ('civil money claims'),
+                  ('possession claim'),
+                  ('insolvency'),
+                  ('private law'),
+                  ('public law'),
+                  ('divorce'),
+                  ('adoption'),
+                  ('gambling tribunal'),
+                  ('gender recognition tribunal'),
+                  ('immigration and asylum chamber tribunal'),
+                  ('property chamber'),
+                  ('tax chamber'),
+                  ('probate'),
+                  ('general'),
+                  ('magistrates');
+
     - changeSet:
         id: 19
         author: tarunp
@@ -324,53 +266,53 @@ databaseChangeLog:
                     name: memo_line
                     type: varchar(100)
                 - column:
-                    name: amount_type_id
-                    type: bigint
+                    name: amount_type
+                    type: varchar(50)
                     constraints:
-                      foreignKeyName: fk_amount_type_id
-                      references: amount_type(id)
+                      foreignKeyName: fk_amount_type
+                      references: amount_type(name)
                 - column:
-                    name: channel_type_id
-                    type: bigint
+                    name: channel_type
+                    type: varchar(50)
                     constraints:
-                      foreignKeyName: fk_channel_type_id
-                      references: channel_type(id)
+                      foreignKeyName: fk_channel_type
+                      references: channel_type(name)
                 - column:
-                    name: direction_type_id
-                    type: bigint
+                    name: direction_type
+                    type: varchar(50)
                     constraints:
-                      foreignKeyName: fk_direction_type_id
-                      references: direction_type(id)
+                      foreignKeyName: fk_direction_type
+                      references: direction_type(name)
                 - column:
-                    name: event_type_id
-                    type: bigint
+                    name: event_type
+                    type: varchar(50)
                     constraints:
-                      foreignKeyName: fk_event_type_id
-                      references: event_type(id)
+                      foreignKeyName: fk_event_type
+                      references: event_type(name)
                 - column:
-                    name: fee_type_id
-                    type: bigint
+                    name: fee_type
+                    type: varchar(50)
                     constraints:
-                      foreignKeyName: fk_fee_type_id
-                      references: fee_type(id)
+                      foreignKeyName: fk_fee_type
+                      references: fee_type(name)
                 - column:
-                    name: jurisdiction1_id
-                    type: bigint
+                    name: jurisdiction1
+                    type: varchar(50)
                     constraints:
-                      foreignKeyName: fk_jurisdiction1_id
-                      references: jurisdiction1(id)
+                      foreignKeyName: fk_jurisdiction1
+                      references: jurisdiction1(name)
                 - column:
-                    name: jurisdiction2_id
-                    type: bigint
+                    name: jurisdiction2_name
+                    type: varchar(50)
                     constraints:
-                      foreignKeyName: fk_jurisdiction2_id
-                      references: jurisdiction2(id)
+                      foreignKeyName: fk_jurisdiction2
+                      references: jurisdiction2(name)
                 - column:
-                    name: service_type_id
-                    type: bigint
+                    name: service_type_name
+                    type: varchar(50)
                     constraints:
-                      foreignKeyName: fk_service_type_id
-                      references: service_type(id)
+                      foreignKeyName: fk_service_type
+                      references: service_type(name)
 
     - changeSet:
         id: 20
