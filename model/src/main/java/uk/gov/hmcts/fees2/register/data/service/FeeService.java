@@ -1,7 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.service;
 
-import org.springframework.stereotype.Service;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.Fee2;
 
 /**
  * Created by tarun on 30/10/2017.
@@ -9,6 +8,6 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 
 public interface FeeService  {
 
-    public Fee save(Fee fee);
+    public Fee2 save(Fee2 fee);
 
 }

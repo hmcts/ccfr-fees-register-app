@@ -3,7 +3,7 @@ package uk.gov.hmcts.fees2.register.data.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.Fee2;
 
 import java.util.Optional;
 
@@ -12,11 +12,11 @@ import java.util.Optional;
  */
 
 @Repository
-public interface Fee2Repository extends JpaRepository<Fee, Long> {
+public interface Fee2Repository extends JpaRepository<Fee2, Long> {
 
-    Optional<Fee> findByCode(String code);
+    Optional<Fee2> findByCode(String code);
 
-    default Fee findByCodeOrThrow(String code) {
+    default Fee2 findByCodeOrThrow(String code) {
         return findByCode(code).orElseThrow(() -> new FeeNotFoundException(code));
     }
 }
