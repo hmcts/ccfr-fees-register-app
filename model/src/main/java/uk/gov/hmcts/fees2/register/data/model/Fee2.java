@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "fee")
 public class Fee2 extends AbstractEntity{
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "memo_line")
@@ -58,6 +58,10 @@ public class Fee2 extends AbstractEntity{
     @JoinColumn(name = "channel_type_id")
     private ChannelType channelType;
 
+    @OneToMany(mappedBy = "fee", orphanRemoval = true)
+    @Cascade(CascadeType.ALL)
+    private List<FeeVersion> feeVersions;
+
     /* --- */
 
     @Column(name = "creation_time", nullable = false)
@@ -65,10 +69,6 @@ public class Fee2 extends AbstractEntity{
 
     @Column(name = "last_updated", nullable = false)
     private Date lastUpdated;
-
-    @OneToMany(mappedBy = "fee", orphanRemoval = true)
-    @Cascade(CascadeType.ALL)
-    private List<FeeVersion> feeVersions;
 
     @PreUpdate
     public void preUpdate() {
