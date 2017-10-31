@@ -293,50 +293,151 @@ databaseChangeLog:
                 SELECT setval('jurisdiction2_id_seq', max(id)) FROM jurisdiction2;
                 SELECT setval('service_type_id_seq', max(id)) FROM service_type;
     - changeSet:
-        id: 18
-        author: eduardo
+        id: 19
+        author: tarunp
         changes:
-          -sql:
-            dbms: postgresql
-            sql: >
-                CREATE TABLE fee
-                (
-                    id bigint NOT NULL,
-                    code character varying(255),
-                    creation_time timestamp without time zone NOT NULL,
-                    description character varying(4000),
-                    last_updated timestamp without time zone NOT NULL,
-                    memo character varying(4000),
-                    amount_type bigint,
-                    event_id bigint,
-                    fee_type bigint,
-                    jurisdiction1 bigint,
-                    jurisdiction2_id bigint,
-                    service_id bigint,
-                    CONSTRAINT fee_pkey PRIMARY KEY (id),
-                    CONSTRAINT fk_fee_event FOREIGN KEY (event_id)
-                        REFERENCES event_type (id) MATCH SIMPLE
-                        ON UPDATE NO ACTION
-                        ON DELETE NO ACTION,
-                    CONSTRAINT fk_fee_amount FOREIGN KEY (amount_type)
-                        REFERENCES amount_type (id) MATCH SIMPLE
-                        ON UPDATE NO ACTION
-                        ON DELETE NO ACTION,
-                    CONSTRAINT fk_fee_type FOREIGN KEY (fee_type)
-                        REFERENCES fee_type (id) MATCH SIMPLE
-                        ON UPDATE NO ACTION
-                        ON DELETE NO ACTION,
-                    CONSTRAINT fk_fee_jur1 FOREIGN KEY (jurisdiction1)
-                        REFERENCES jurisdiction1 (id) MATCH SIMPLE
-                        ON UPDATE NO ACTION
-                        ON DELETE NO ACTION,
-                    CONSTRAINT fk_fee_jur2 FOREIGN KEY (jurisdiction2_id)
-                        REFERENCES jurisdiction2 (id) MATCH SIMPLE
-                        ON UPDATE NO ACTION
-                        ON DELETE NO ACTION,
-                    CONSTRAINT fk_fee_service FOREIGN KEY (service_id)
-                        REFERENCES public.service_type (id) MATCH SIMPLE
-                        ON UPDATE NO ACTION
-                        ON DELETE NO ACTION
-                )
+          - createTable:
+              tableName: fee
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      primaryKeyName: pk_fee2_id
+                      nullable: false
+                - column:
+                    name: code
+                    type: varchar(10)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: memo_line
+                    type: varchar(100)
+                - column:
+                    name: amount_type_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_amount_type_id
+                      references: amount_type(id)
+                - column:
+                    name: channel_type_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_channel_type_id
+                      references: channel_type(id)
+                - column:
+                    name: direction_type_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_direction_type_id
+                      references: direction_type(id)
+                - column:
+                    name: event_type_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_event_type_id
+                      references: event_type(id)
+                - column:
+                    name: fee_type_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_fee_type_id
+                      references: fee_type(id)
+                - column:
+                    name: jurisdiction1_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_jurisdiction1_id
+                      references: jurisdiction1(id)
+                - column:
+                    name: jurisdiction2_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_jurisdiction2_id
+                      references: jurisdiction2(id)
+                - column:
+                    name: service_type_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_service_type_id
+                      references: service_type(id)
+
+    - changeSet:
+        id: 20
+        author: tarunp
+        changes:
+          - createTable:
+              tableName: fee_version
+              columns:
+                - column:
+                    name: id
+                    type: bigint
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: fee_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_fee2_id
+                      references: fee(id)
+                - column:
+                    name: description
+                    type: varchar(1000)
+                - column:
+                    name: version
+                    type: int
+                - column:
+                    name: status
+                    type: varchar(50)
+                - column:
+                    name: valid_from
+                    type: timestamp
+                - column:
+                    name: valid_to
+                    type: timestamp
+                - column:
+                    name: min_range
+                    type: bigint
+                - column:
+                    name: max_range
+                    type: bigint
+                - column:
+                    name: fee_amount
+                    type: bigint
+                - column:
+                    name: min_fee_amount
+                    type: bigint
+                - column:
+                    name: max_fee_amount
+                    type: bigint
+                - column:
+                    name: percentage
+                    type: decimal(3,2)
+                - column:
+                    name: creation_time
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: last_updated
+                    type: timestamp
+                    defaultValue: now()
+                - column:
+                    name: created_by
+                    type: varchar(50)
+                - column:
+                    name: updated_by
+                    type: varchar(50)
+
 
