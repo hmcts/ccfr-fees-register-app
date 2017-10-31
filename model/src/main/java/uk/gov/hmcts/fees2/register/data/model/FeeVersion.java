@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ public class FeeVersion extends AbstractEntity{
 
     @ManyToOne
     @JoinColumn(name = "fee_id")
-    @JsonManagedReference
+    @JsonIgnore
     private Fee fee;
 
     @Column(name = "description")
