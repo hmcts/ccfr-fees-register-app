@@ -17,8 +17,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder(builderMethodName = "directionWith")
 @Table(name = "direction_type")
-public class DirectionType extends AbstractEntity {
+public class DirectionType {
 
+    @Id
     @Column(name = "name", nullable = false)
     private String name;
 

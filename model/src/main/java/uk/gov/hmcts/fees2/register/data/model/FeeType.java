@@ -15,8 +15,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder(builderMethodName = "feeTypeWith")
 @Table(name = "fee_type")
-public class FeeType extends AbstractEntity {
+public class FeeType {
 
+    @Id
     @Column(name = "name", nullable = false)
     private String name;
 

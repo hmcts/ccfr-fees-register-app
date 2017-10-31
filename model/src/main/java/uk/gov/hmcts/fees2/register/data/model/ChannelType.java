@@ -15,8 +15,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder(builderMethodName = "channelWith")
 @Table(name = "channel_type")
-public class ChannelType extends AbstractEntity {
+public class ChannelType {
 
+    @Id
     @Column(name = "name", nullable = false)
     private String name;
 

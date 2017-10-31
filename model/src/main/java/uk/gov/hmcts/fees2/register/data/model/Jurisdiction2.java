@@ -15,8 +15,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder(builderMethodName = "jurisdiction2With")
 @Table(name = "jurisdiction2")
-public class Jurisdiction2 extends AbstractEntity {
+public class Jurisdiction2 {
 
+    @Id
     @Column(name = "name", nullable = false)
     private String name;
 

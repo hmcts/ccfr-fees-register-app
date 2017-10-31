@@ -15,8 +15,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder(builderMethodName = "eventWith")
 @Table(name = "event_type")
-public class EventType extends AbstractEntity {
+public class EventType {
 
+    @Id
     @Column(name = "name", nullable = false)
     private String name;
 

@@ -16,8 +16,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder(builderMethodName = "serviceWith")
 @Table(name = "service_type")
-public class ServiceType extends AbstractEntity {
+public class ServiceType {
 
+    @Id
     @Column(name = "name", nullable = false)
     private String name;
 
