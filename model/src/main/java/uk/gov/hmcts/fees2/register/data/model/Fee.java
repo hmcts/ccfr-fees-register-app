@@ -1,12 +1,18 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,34 +22,43 @@ import java.util.Date;
 @Table(name = "fee")
 public class Fee extends AbstractEntity{
 
+    @Column(name = "code")
     private String code;
 
-    @ManyToOne
-    @JoinColumn(name = "jurisdiction1")
+    @Column(name = "memo_line")
+    private String memoLine;
+
+    @OneToOne
+    @JoinColumn(name = "jurisdiction1_id")
     private Jurisdiction1 jurisdiction1;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "jurisdiction2_id")
     private Jurisdiction2 jurisdiction2;
 
-    @ManyToOne
-    private EventType event;
+    @OneToOne
+    @JoinColumn(name = "event_type_id")
+    private EventType eventType;
 
-    @ManyToOne
-    @JoinColumn(name = "fee_type")
+    @OneToOne
+    @JoinColumn(name = "fee_type_id")
     private FeeType feeType;
 
-    @ManyToOne
-    @JoinColumn(name = "amount_type")
+    @OneToOne
+    @JoinColumn(name = "amount_type_id")
     private AmountType amountType;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "service_type_id")
     private ServiceType service;
 
-    @Column(length = 4000)
-    private String description;
+    @OneToOne
+    @JoinColumn(name = "direction_type_id")
+    private DirectionType directionType;
 
-    @Column(length = 4000)
-    private String memo;
+    @OneToOne
+    @JoinColumn(name = "channel_type_id")
+    private ChannelType channelType;
 
     /* --- */
 
@@ -52,6 +67,11 @@ public class Fee extends AbstractEntity{
 
     @Column(name = "last_updated", nullable = false)
     private Date lastUpdated;
+
+    @OneToMany(mappedBy = "fee", orphanRemoval = true)
+    @Cascade(CascadeType.ALL)
+    @JsonManagedReference
+    private List<FeeVersion> feeVersions;
 
     @PreUpdate
     public void preUpdate() {
