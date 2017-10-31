@@ -26,35 +26,35 @@ public class Fee2 extends AbstractEntity{
     @Column(name = "memo_line")
     private String memoLine;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "jurisdiction1_id")
     private Jurisdiction1 jurisdiction1;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "jurisdiction2_id")
     private Jurisdiction2 jurisdiction2;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "event_type_id")
     private EventType eventType;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fee_type_id")
     private FeeType feeType;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "amount_type_id")
     private AmountType amountType;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "service_type_id")
     private ServiceType service;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "direction_type_id")
     private DirectionType directionType;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "channel_type_id")
     private ChannelType channelType;
 
