@@ -98,11 +98,11 @@ public class ReferenceDataControllerTest extends BaseTest{
 
     @Test(expected = NestedServletException.class)
     public void testGetAmountTypeNameNotFound() throws Exception {
-        when(amountTypeService.findByNameOrThrow("demo")).thenThrow(new ReferenceDataNotFoundException("AmountType", "test"));
+        when(amountTypeService.findByNameOrThrow("demo")).thenThrow(new ReferenceDataNotFoundException("Amount", "test"));
 
         this.mockMvc.perform(get("/amounttypes/test"))
             .andExpect(status().isNotFound())
-            .andExpect(jsonPath("$.message", is("Reference data for AmountType=demo was not found")));
+            .andExpect(jsonPath("$.message", is("Reference data for Amount=demo was not found")));
 
         verify(amountTypeService, times(1)).findByNameOrThrow("test");
         verifyNoMoreInteractions(amountTypeService);

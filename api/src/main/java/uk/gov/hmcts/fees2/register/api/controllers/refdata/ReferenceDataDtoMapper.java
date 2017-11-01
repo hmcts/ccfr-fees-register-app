@@ -3,9 +3,7 @@ package uk.gov.hmcts.fees2.register.api.controllers.refdata;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
 /**
  * ReferenceData entity to DTO mapper
@@ -15,19 +13,6 @@ import java.util.Calendar;
 
 @Component
 public class ReferenceDataDtoMapper {
-
-
-    /**
-     *
-     * AmountType to AmountTypeDto
-     * @param amountType
-     * @return
-     */
-    public AmountTypeDto toAmountTypeDto(AmountType amountType) {
-        return AmountTypeDto.amountTypeDtoWith()
-                .name(amountType.getName())
-                .build();
-    }
 
     /**
      *

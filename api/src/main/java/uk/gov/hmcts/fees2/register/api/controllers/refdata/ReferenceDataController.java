@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
 import java.util.List;
@@ -56,20 +57,6 @@ public class ReferenceDataController {
         this.jurisdiction2Service = jurisdiction2Service;
         this.serviceTypeService = serviceTypeService;
         this.referenceDataDtoMapper = referenceDataDtoMapper;
-    }
-
-    @GetMapping("/amounttypes")
-    @ResponseStatus(HttpStatus.OK)
-    public List<AmountTypeDto> getAllAmountTypes() {
-        return amountTypeService.findAll().stream().map(referenceDataDtoMapper::toAmountTypeDto).collect(toList());
-    }
-
-    @GetMapping("/amounttypes/{name}")
-    @ResponseStatus(HttpStatus.OK)
-    @Deprecated
-    public AmountTypeDto getAmountTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
-        AmountType amountType = amountTypeService.findByNameOrThrow(name);
-        return referenceDataDtoMapper.toAmountTypeDto(amountType);
     }
 
     @GetMapping("/channeltypes")

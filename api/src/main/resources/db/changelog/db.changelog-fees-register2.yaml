@@ -288,7 +288,7 @@ databaseChangeLog:
                     type: varchar(50)
                     constraints:
                       foreignKeyName: fk_event_type
-                      references: event_type(name)
+                      references: evenSt_type(name)
                 - column:
                     name: fee_type
                     type: varchar(50)
@@ -302,13 +302,13 @@ databaseChangeLog:
                       foreignKeyName: fk_jurisdiction1
                       references: jurisdiction1(name)
                 - column:
-                    name: jurisdiction2_name
+                    name: jurisdiction2
                     type: varchar(50)
                     constraints:
                       foreignKeyName: fk_jurisdiction2
                       references: jurisdiction2(name)
                 - column:
-                    name: service_type_name
+                    name: service_type
                     type: varchar(50)
                     constraints:
                       foreignKeyName: fk_service_type

@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,11 +17,11 @@ public abstract class BaseTest {
      *
      * @return
      */
-    public List<AmountType> getAmountTypes() {
-        return new ArrayList<AmountType>(){{
-            add(new AmountType("flat", new Date(), new Date()));
-            add(new AmountType("percentage", new Date(), new Date()));
-            add(new AmountType("rateable", new Date(), new Date()));
+    public List<Amount> getAmountTypes() {
+        return new ArrayList<Amount>(){{
+            add(new Amount("flat", new Date(), new Date()));
+            add(new Amount("percentage", new Date(), new Date()));
+            add(new Amount("rateable", new Date(), new Date()));
         }};
 
     }

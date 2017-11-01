@@ -65,6 +65,10 @@
                 <version>3.5.3</version>
             </dependency>
             <dependency>
+                <groupId>org.liquibase.ext</groupId>
+                <artifactId>liquibase-hibernate-4</artifactId>
+            </dependency>
+            <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>2.6.0</version>

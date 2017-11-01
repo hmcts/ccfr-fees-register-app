@@ -1,7 +1,5 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.GeneratedValue;
@@ -9,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * An entity class which contains used of entity Id generation
@@ -19,7 +16,7 @@ import java.util.UUID;
 
 @Getter
 @MappedSuperclass
-public class AbstractEntity implements Serializable {
+public class AbstractEntity extends Object implements Serializable {
 
     private static final Long servialVersionUID = 1L;
 

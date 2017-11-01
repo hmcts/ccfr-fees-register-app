@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,7 +26,11 @@ public class FeeVersion extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "fee_id")
     @JsonIgnore
-    private Fee2 fee;
+    private Fee fee;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Amount amount;
 
     @Column(name = "description")
     private String description;
@@ -42,11 +47,7 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "valid_to")
     private Date validTo;
 
-    @Column(name = "min_range")
-    private Long minRange;
 
-    @Column(name = "max_range")
-    private Long maxRange;
 
     @Column(name = "fee_amount")
     private Long feeAmount;

@@ -17,8 +17,9 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "fee")
-public class Fee2 extends AbstractEntity{
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "fee_type")
+public abstract class Fee extends AbstractEntity{
 
     @Column(name = "code", unique = true)
     private String code;
@@ -27,35 +28,31 @@ public class Fee2 extends AbstractEntity{
     private String memoLine;
 
     @ManyToOne
-    @JoinColumn(name = "jurisdiction1_id")
+    @JoinColumn(name = "jurisdiction1")
     private Jurisdiction1 jurisdiction1;
 
     @ManyToOne
-    @JoinColumn(name = "jurisdiction2_id")
+    @JoinColumn(name = "jurisdiction2")
     private Jurisdiction2 jurisdiction2;
 
     @ManyToOne
-    @JoinColumn(name = "event_type_id")
+    @JoinColumn(name = "event_type")
     private EventType eventType;
 
     @ManyToOne
-    @JoinColumn(name = "fee_type_id")
+    @JoinColumn(name = "fee_type")
     private FeeType feeType;
 
     @ManyToOne
-    @JoinColumn(name = "amount_type_id")
-    private AmountType amountType;
-
-    @ManyToOne
-    @JoinColumn(name = "service_type_id")
+    @JoinColumn(name = "service_type")
     private ServiceType service;
 
     @ManyToOne
-    @JoinColumn(name = "direction_type_id")
+    @JoinColumn(name = "direction_type")
     private DirectionType directionType;
 
     @ManyToOne
-    @JoinColumn(name = "channel_type_id")
+    @JoinColumn(name = "channel_type")
     private ChannelType channelType;
 
     @OneToMany(mappedBy = "fee", orphanRemoval = true)
