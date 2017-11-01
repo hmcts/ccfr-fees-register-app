@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.NestedServletException;
 import uk.gov.hmcts.fees2.register.api.controllers.refdata.ReferenceDataController;
-import uk.gov.hmcts.fees2.register.api.controllers.refdata.ReferenceDataDtoMapper;
+import uk.gov.hmcts.fees2.register.api.controllers.mapper.ReferenceDataDtoMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.ReferenceDataNotFoundException;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
