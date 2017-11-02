@@ -40,10 +40,6 @@ public abstract class Fee extends AbstractEntity{
     private EventType eventType;
 
     @ManyToOne
-    @JoinColumn(name = "fee_type")
-    private FeeType feeType;
-
-    @ManyToOne
     @JoinColumn(name = "service_type")
     private ServiceType service;
 

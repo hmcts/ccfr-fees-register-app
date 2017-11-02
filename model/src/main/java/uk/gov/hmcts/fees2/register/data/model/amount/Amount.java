@@ -22,11 +22,6 @@ import java.util.Date;
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "amount_type")
 public abstract class Amount extends AbstractEntity{
 
-    @OneToOne(mappedBy = "amount")
-    @MapsId
-    @JoinColumn(name = "id")
-    private FeeVersion feeVersion;
-
     @Column(name = "creation_time", nullable = false)
     private Date creationTime;
 

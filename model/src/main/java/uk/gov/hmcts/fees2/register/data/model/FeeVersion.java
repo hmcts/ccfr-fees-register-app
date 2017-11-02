@@ -20,12 +20,10 @@ import java.util.Date;
 public class FeeVersion extends AbstractEntity{
 
     @ManyToOne
-    @JoinColumn(name = "fee_id")
     @JsonIgnore
     private Fee fee;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private Amount amount;
 
     @Column(name = "description")
@@ -42,17 +40,5 @@ public class FeeVersion extends AbstractEntity{
 
     @Column(name = "valid_to")
     private Date validTo;
-
-    @Column(name = "fee_amount")
-    private Long feeAmount;
-
-    @Column(name = "min_fee_amount")
-    private Long minFeeAmount;
-
-    @Column(name = "max_fee_amount")
-    private Long maxFeeAmount;
-
-    @Column(name = "percentage")
-    private BigDecimal percentage;
 
 }

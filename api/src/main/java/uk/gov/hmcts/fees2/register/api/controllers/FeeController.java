@@ -16,8 +16,8 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 @Validated
 public class FeeController {
 
-    private FeeService feeService;
-    private FeeDtoMapper feeDtoMapper;
+    private final FeeService feeService;
+    private final FeeDtoMapper feeDtoMapper;
 
     @Autowired
     public FeeController(FeeService feeService, FeeDtoMapper feeDtoMapper) {

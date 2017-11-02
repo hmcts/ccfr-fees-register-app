@@ -21,8 +21,6 @@ public class Fee2Dto {
 
     private String memoLine;
 
-    private AmountTypeDto amountTypeDto;
-
     private ChannelTypeDto channelTypeDto;
 
     private DirectionTypeDto directionTypeDto;

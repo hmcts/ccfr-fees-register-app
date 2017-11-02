@@ -288,7 +288,7 @@ databaseChangeLog:
                     type: varchar(50)
                     constraints:
                       foreignKeyName: fk_event_type
-                      references: evenSt_type(name)
+                      references: event_type(name)
                 - column:
                     name: fee_type
                     type: varchar(50)

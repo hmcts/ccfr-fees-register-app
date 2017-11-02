@@ -32,9 +32,6 @@ public class ReferenceDataControllerTest extends BaseTest{
     private MockMvc mockMvc;
 
     @Mock
-    private AmountTypeService amountTypeService;
-
-    @Mock
     private ChannelTypeService channelTypeService;
 
     @Mock
@@ -67,46 +64,35 @@ public class ReferenceDataControllerTest extends BaseTest{
         this.mockMvc = MockMvcBuilders.standaloneSetup(referenceDataController).build();
     }
 
-    @Test
-    public void testGetAmountTypes() throws Exception {
-        when(amountTypeService.findAll()).thenReturn(getAmountTypes());
+//    @Test
+//    public void testGetAmountTypes() throws Exception {
+//        when(amountTypeService.findAll()).thenReturn(getAmountTypes());
+//
+//        this.mockMvc.perform(get("/amounttypes"))
+//            .andExpect(status().isOk())
+//            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+//            .andExpect(jsonPath("$", hasSize(3)))
+//            .andExpect(jsonPath("$[0].name", is("flat")))
+//            .andExpect(jsonPath("$[1].name", is("percentage")))
+//            .andExpect(jsonPath("$[2].name", is("rateable")));
+//
+//        verify(amountTypeService, times(1)).findAll();
+//        verifyNoMoreInteractions(amountTypeService);
+//    }
+//
+//    @Test
+//    public void testGetAmountTypeByName() throws Exception {
+//        when(amountTypeService.findByNameOrThrow("flat")).thenReturn(getAmountTypes().get(0));
+//
+//        this.mockMvc.perform(get("/amounttypes/flat"))
+//            .andExpect(status().isOk())
+//            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+//            .andExpect(jsonPath("$.name", is("flat")));
+//
+//        verify(amountTypeService, times(1)).findByNameOrThrow("flat");
+//        verifyNoMoreInteractions(amountTypeService);
+//    }
 
-        this.mockMvc.perform(get("/amounttypes"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$", hasSize(3)))
-            .andExpect(jsonPath("$[0].name", is("flat")))
-            .andExpect(jsonPath("$[1].name", is("percentage")))
-            .andExpect(jsonPath("$[2].name", is("rateable")));
-
-        verify(amountTypeService, times(1)).findAll();
-        verifyNoMoreInteractions(amountTypeService);
-    }
-
-    @Test
-    public void testGetAmountTypeByName() throws Exception {
-        when(amountTypeService.findByNameOrThrow("flat")).thenReturn(getAmountTypes().get(0));
-
-        this.mockMvc.perform(get("/amounttypes/flat"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.name", is("flat")));
-
-        verify(amountTypeService, times(1)).findByNameOrThrow("flat");
-        verifyNoMoreInteractions(amountTypeService);
-    }
-
-    @Test(expected = NestedServletException.class)
-    public void testGetAmountTypeNameNotFound() throws Exception {
-        when(amountTypeService.findByNameOrThrow("demo")).thenThrow(new ReferenceDataNotFoundException("Amount", "test"));
-
-        this.mockMvc.perform(get("/amounttypes/test"))
-            .andExpect(status().isNotFound())
-            .andExpect(jsonPath("$.message", is("Reference data for Amount=demo was not found")));
-
-        verify(amountTypeService, times(1)).findByNameOrThrow("test");
-        verifyNoMoreInteractions(amountTypeService);
-    }
 
     @Test
     public void testGetChannelTypes() throws Exception {

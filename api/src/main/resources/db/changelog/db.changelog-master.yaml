@@ -438,5 +438,4 @@ databaseChangeLog:
               newTableName: fee_old
               oldTableName: fee
 
-    - include:
-        file: db/changelog/db.changelog-fees-register2.yaml
+

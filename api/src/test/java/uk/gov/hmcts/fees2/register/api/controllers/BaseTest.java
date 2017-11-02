@@ -1,11 +1,13 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Created by tarun on 18/10/2017.
@@ -17,14 +19,14 @@ public abstract class BaseTest {
      *
      * @return
      */
-    public List<Amount> getAmountTypes() {
-        return new ArrayList<Amount>(){{
-            add(new Amount("flat", new Date(), new Date()));
-            add(new Amount("percentage", new Date(), new Date()));
-            add(new Amount("rateable", new Date(), new Date()));
-        }};
-
-    }
+//    public List<Amount> getAmountTypes() {
+//        return new ArrayList<Amount>(){{
+//            add(new Amount("flat", new Date(), new Date()));
+//            add(new Amount("percentage", new Date(), new Date()));
+//            add(new Amount("rateable", new Date(), new Date()));
+//        }};
+//
+//    }
 
     /**
      *
@@ -123,4 +125,24 @@ public abstract class BaseTest {
         }};
     }
 
+    public RangedFeeDto getRangedFeeDto() {
+        return new RangedFeeDto(new BigDecimal(1), new BigDecimal(3000), "X0024", getFeeVersionDto(),
+            null, null, null,
+            null, null, "Test");
+    }
+
+    public FeeVersionDto getFeeVersionDto() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, 90);
+        return new FeeVersionDto(1, new Date(), cal.getTime(), "First version description", FeeVersionStatus.approved, getFlatAmountDto(), null);
+    }
+
+    public FlatAmountDto getFlatAmountDto() {
+        return new FlatAmountDto(new BigDecimal(2500), Unit.POUNDS);
+    }
+
+    public PercentageAmountDto getPercentageAmountDto() {
+        return new PercentageAmountDto(new BigDecimal(4.5));
+    }
 }

@@ -24,8 +24,6 @@ import static java.util.stream.Collectors.toList;
 @Validated
 public class ReferenceDataController {
 
-    private final AmountTypeService amountTypeService;
-
     private final ChannelTypeService channelTypeService;
 
     private final DirectionTypeService directionTypeService;
@@ -43,12 +41,11 @@ public class ReferenceDataController {
     private ReferenceDataDtoMapper referenceDataDtoMapper;
 
     @Autowired
-    public ReferenceDataController(AmountTypeService amountTypeService, ChannelTypeService channelTypeService,
+    public ReferenceDataController(ChannelTypeService channelTypeService,
                                    DirectionTypeService directionTypeService, EventTypeService eventTypeService,
                                    FeeTypeService feeTypeService, Jurisdiction1Service jurisdiction1Service,
                                    Jurisdiction2Service jurisdiction2Service, ServiceTypeService serviceTypeService,
                                    ReferenceDataDtoMapper referenceDataDtoMapper) {
-        this.amountTypeService = amountTypeService;
         this.channelTypeService = channelTypeService;
         this.directionTypeService = directionTypeService;
         this.eventTypeService = eventTypeService;

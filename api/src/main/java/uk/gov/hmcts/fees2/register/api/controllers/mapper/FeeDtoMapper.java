@@ -2,7 +2,6 @@ package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.fees.register.api.model.FeeRepository;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
@@ -22,7 +21,7 @@ public class FeeDtoMapper {
     private Jurisdiction1Repository jurisdiction1Repository;
 
     private Jurisdiction2Repository jurisdiction2Repository;
-    private FeeRepository feeRepository;
+    private Fee2Repository fee2Repository;
     private ServiceTypeRepository serviceTypeRepository;
     private ChannelTypeRepository channelTypeRepository;
     private EventTypeRepository eventTypeRepository;
@@ -32,14 +31,14 @@ public class FeeDtoMapper {
     public FeeDtoMapper(
         Jurisdiction1Repository jurisdiction1Repository,
         Jurisdiction2Repository jurisdiction2Repository,
-        FeeRepository feeRepository,
+        Fee2Repository fee2Repository,
         ServiceTypeRepository serviceTypeRepository,
         ChannelTypeRepository channelTypeRepository,
         EventTypeRepository eventTypeRepository) {
 
         this.jurisdiction1Repository = jurisdiction1Repository;
         this.jurisdiction2Repository = jurisdiction2Repository;
-        this.feeRepository = feeRepository;
+        this.fee2Repository = fee2Repository;
         this.serviceTypeRepository = serviceTypeRepository;
         this.channelTypeRepository = channelTypeRepository;
         this.eventTypeRepository = eventTypeRepository;
@@ -103,7 +102,7 @@ public class FeeDtoMapper {
     private FlatAmount toFlatAmount(FlatAmountDto dto) {
         FlatAmount amount = new FlatAmount();
         amount.setAmount(dto.getAmount());
-        amount.setUnit(Unit.valueOf(dto.getUnit()));
+        amount.setUnit(dto.getUnit());
         return amount;
     }
 
@@ -176,7 +175,7 @@ public class FeeDtoMapper {
             throw new BadRequestException("Code is required");
         }
 
-        if(feeRepository.findByCode(code) != null) {
+        if(fee2Repository.findByCode(code).isPresent()) {
             throw new BadRequestException("Code is already in use");
         }
 
