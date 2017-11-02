@@ -127,11 +127,9 @@ public class FeeDtoMapper {
 
     private void fillChannelType(RangedFee fee, String channel) {
 
-        if(channel == null){
-            return;
-        }
-
-        ChannelType channelType = channelTypeRepository.findOne(channel);
+        ChannelType channelType = channel == null ?
+            channelTypeRepository.findOne(ChannelType.DEFAULT) :
+            channelTypeRepository.findOne(channel);
 
         if(channelType == null){
             throw new BadRequestException("Unknow channel type " + channel);

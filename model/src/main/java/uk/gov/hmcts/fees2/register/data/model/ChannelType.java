@@ -17,6 +17,8 @@ import java.util.Date;
 @Table(name = "channel_type")
 public class ChannelType {
 
+    public final static String DEFAULT = "DEFAULT";
+
     @Id
     @Column(name = "name", nullable = false)
     private String name;
