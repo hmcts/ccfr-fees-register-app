@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "percentage_amount")
-public class PercentageAmount {
+public class PercentageAmount extends Amount{
 
     private BigDecimal percentage;
 

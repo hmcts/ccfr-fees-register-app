@@ -11,10 +11,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by tarun on 30/10/2017.
- */
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -39,15 +35,13 @@ public class FeeVersion extends AbstractEntity{
     private int version;
 
     @Column(name = "status")
-    private String status;
+    private FeeVersionStatus status;
 
     @Column(name = "valid_from")
     private Date validFrom;
 
     @Column(name = "valid_to")
     private Date validTo;
-
-
 
     @Column(name = "fee_amount")
     private Long feeAmount;

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -16,9 +17,9 @@ import javax.persistence.Table;
 public class RangedFee extends Fee{
 
     @Column(name = "min_range")
-    private Long minRange;
+    private BigDecimal minRange;
 
     @Column(name = "max_range")
-    private Long maxRange;
+    private BigDecimal maxRange;
 
 }
