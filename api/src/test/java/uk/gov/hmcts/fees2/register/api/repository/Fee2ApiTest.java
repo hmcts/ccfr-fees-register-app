@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees2.register.api.controllers;
+package uk.gov.hmcts.fees2.register.api.repository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.FeesRegisterServiceApplication;
 import uk.gov.hmcts.fees2.register.api.contract.ChannelTypeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.controllers.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
@@ -26,7 +27,7 @@ import java.util.Date;
 @RunWith(SpringRunner.class)
 @ActiveProfiles("embedded")
 @SpringBootTest(classes = FeesRegisterServiceApplication.class)
-public class FeeControllerTest extends BaseTest {
+public class Fee2ApiTest extends BaseTest {
 
     @Autowired
     private FeeService feeService;

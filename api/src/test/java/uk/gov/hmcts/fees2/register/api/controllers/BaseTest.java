@@ -1,10 +1,13 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.junit.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -15,18 +18,6 @@ import java.util.*;
 
 public abstract class BaseTest {
 
-    /**
-     *
-     * @return
-     */
-//    public List<Amount> getAmountTypes() {
-//        return new ArrayList<Amount>(){{
-//            add(new Amount("flat", new Date(), new Date()));
-//            add(new Amount("percentage", new Date(), new Date()));
-//            add(new Amount("rateable", new Date(), new Date()));
-//        }};
-//
-//    }
 
     /**
      *
