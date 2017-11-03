@@ -19,6 +19,8 @@ import java.util.Date;
 @Table(name = "direction_type")
 public class DirectionType {
 
+    public final static String DEFAULT = "DEFAULT";
+
     @Id
     @Column(name = "name", nullable = false)
     private String name;

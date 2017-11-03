@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
-import uk.gov.hmcts.fees2.register.data.service.ChannelTypeService;
+import uk.gov.hmcts.fees2.register.data.repository.*;
+import uk.gov.hmcts.fees2.register.data.service.*;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -52,6 +53,42 @@ public abstract class BaseTest {
     @Autowired
     private ChannelTypeService channelTypeService;
 
+    @Autowired
+    private DirectionTypeRepository directionTypeRepository;
+
+    @Autowired
+    private DirectionTypeService directionTypeService;
+
+    @Autowired
+    private EventTypeRepository eventTypeRepository;
+
+    @Autowired
+    private EventTypeService eventTypeService;
+
+    @Autowired
+    private FeeTypeRepository feeTypeRepository;
+
+    @Autowired
+    private FeeTypeService feeTypeService;
+
+    @Autowired
+    private Jurisdiction1Repository jurisdiction1Repository;
+
+    @Autowired
+    private Jurisdiction1Service jurisdiction1Service;
+
+    @Autowired
+    private Jurisdiction2Repository jurisdiction2Repository;
+
+    @Autowired
+    private Jurisdiction2Service jurisdiction2Service;
+
+    @Autowired
+    private ServiceTypeRepository serviceTypeRepository;
+
+    @Autowired
+    private ServiceTypeService serviceTypeService;
+
     RestActions restActions;
 
     @Before
@@ -61,6 +98,12 @@ public abstract class BaseTest {
 
         // Save Channel reference data
         channelTypeRepository.save(getChannelTypes());
+        directionTypeRepository.save(getDirectionTypes());
+        eventTypeRepository.save(getEventTypes());
+        feeTypeRepository.save(getFeeTyes());
+        jurisdiction1Repository.save(getJurisdictions1());
+        jurisdiction2Repository.save(getJurisdictions2());
+        serviceTypeRepository.save(getServiceTypes());
     }
 
     CustomResultMatcher body() {
@@ -157,7 +200,7 @@ public abstract class BaseTest {
         }};
     }
 
-    public List<Jurisdiction2> getJurisdiction2() {
+    public List<Jurisdiction2> getJurisdictions2() {
         return new ArrayList<Jurisdiction2>(){{
             add(new Jurisdiction2("county court", new Date(), new Date()));
             add(new Jurisdiction2("high court", new Date(), new Date()));
@@ -167,16 +210,57 @@ public abstract class BaseTest {
     }
 
     public RangedFeeDto getRangedFeeDto() {
-        return new RangedFeeDto(new BigDecimal(1), new BigDecimal(3000), "X0024", getFeeVersionDto(),
-            null, null, null,
-            channelTypeService.findByNameOrThrow("online").getName(), null, "Test", "CMC-Online fee", "NautralCode001");
+
+
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+
+        rangedFeeDto.setMinRange(new BigDecimal(1));
+        rangedFeeDto.setMaxRange(new BigDecimal(3000));
+        rangedFeeDto.setCode("X0024");
+        rangedFeeDto.setVersion(getFeeVersionDto());
+        rangedFeeDto.setJurisdiction1(null);
+        rangedFeeDto.setJurisdiction2(null);
+        rangedFeeDto.setDirection(null);
+        rangedFeeDto.setEvent(null);
+        rangedFeeDto.setService(null);
+        rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+        rangedFeeDto.setMemoLine("Test memo line");
+        rangedFeeDto.setFeeOrderName("CMC online fee order name");
+        rangedFeeDto.setNaturalAccountCode("Natural code 001");
+
+
+        return rangedFeeDto;
+    }
+
+    public RangedFeeDto getRangedFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
+
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+        rangedFeeDto.setMinRange(new BigDecimal(minRange));
+        rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
+        rangedFeeDto.setCode(feeCode);
+        rangedFeeDto.setVersion(getFeeVersionDto());
+        rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
+        rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
+        rangedFeeDto.setDirection(directionTypeService.findByNameOrThrow("enhanced").getName());
+        rangedFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
+        rangedFeeDto.setService(serviceTypeService.findByNameOrThrow("civil money claims").getName());
+        rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+        rangedFeeDto.setMemoLine("Test memo line");
+        rangedFeeDto.setFeeOrderName("CMC online fee order name");
+        rangedFeeDto.setNaturalAccountCode("Natural code 001");
+
+        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
+        feeVersionDtos.add(getFeeVersionDto());
+        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
+
+        return rangedFeeDto;
     }
 
     public FeeVersionDto getFeeVersionDto() {
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        cal.add(Calendar.DATE, 90);
-        return new FeeVersionDto(1, new Date(), cal.getTime(), "First version description", FeeVersionStatus.approved, getFlatAmountDto(), null);
+        DateTime toDate = new DateTime(new Date());
+        toDate.plus(90);
+
+        return new FeeVersionDto(1, new Date(), toDate.toDate(), "First version description", FeeVersionStatus.approved, getFlatAmountDto(), null);
     }
 
     public FlatAmountDto getFlatAmountDto() {
@@ -186,4 +270,5 @@ public abstract class BaseTest {
     public PercentageAmountDto getPercentageAmountDto() {
         return new PercentageAmountDto(new BigDecimal(4.5));
     }
+
 }

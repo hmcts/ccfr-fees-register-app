@@ -8,6 +8,7 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -33,6 +34,8 @@ public class RangedFeeDto {
 
     private String channel;
 
+    private String direction;
+
     private String event;
 
     private String memoLine;
@@ -40,5 +43,7 @@ public class RangedFeeDto {
     private String feeOrderName;
 
     private String naturalAccountCode;
+
+    private List<FeeVersionDto> feeVersionDtos;
 
 }

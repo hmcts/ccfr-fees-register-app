@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
@@ -13,7 +14,12 @@ import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 
+import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Component
 public class FeeDtoMapper {
@@ -24,11 +30,13 @@ public class FeeDtoMapper {
     private ServiceTypeRepository serviceTypeRepository;
     private ChannelTypeRepository channelTypeRepository;
     private EventTypeRepository eventTypeRepository;
+    private DirectionTypeRepository directionTypeRepository;
 
     @Autowired
     public FeeDtoMapper(
         Jurisdiction1Repository jurisdiction1Repository,
         Jurisdiction2Repository jurisdiction2Repository,
+        DirectionTypeRepository directionTypeRepository,
         Fee2Repository fee2Repository,
         ServiceTypeRepository serviceTypeRepository,
         ChannelTypeRepository channelTypeRepository,
@@ -40,6 +48,7 @@ public class FeeDtoMapper {
         this.serviceTypeRepository = serviceTypeRepository;
         this.channelTypeRepository = channelTypeRepository;
         this.eventTypeRepository = eventTypeRepository;
+        this.directionTypeRepository = directionTypeRepository;
     }
 
     public Fee toFee(RangedFeeDto request) {
@@ -57,6 +66,7 @@ public class FeeDtoMapper {
         fillServiceType(fee, request.getService());
         fillEventType(fee, request.getEvent());
         fillChannelType(fee, request.getChannel());
+        fillDirectionType(fee, request.getDirection());
 
         fee.setMemoLine(request.getMemoLine());
         fee.setFeeOrderName(request.getFeeOrderName());
@@ -67,6 +77,32 @@ public class FeeDtoMapper {
         fee.setFeeVersions(Arrays.asList(version));
 
         return fee;
+    }
+
+    @Transactional
+    public RangedFeeDto toFeeDto(Fee fee) {
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+
+        rangedFeeDto.setCode(fee.getCode());
+//        rangedFeeDto.setMinRange(fee.getMinRange());
+//        rangedFeeDto.setMaxRange(rangedFee.getMaxRange());
+
+        rangedFeeDto.setChannel(fee.getChannelType().getName());
+        rangedFeeDto.setDirection(fee.getDirectionType().getName());
+        rangedFeeDto.setEvent(fee.getEventType().getName());
+        rangedFeeDto.setJurisdiction1(fee.getJurisdiction1().getName());
+        rangedFeeDto.setJurisdiction2(fee.getJurisdiction2().getName());
+        rangedFeeDto.setService(fee.getService().getName());
+
+        rangedFeeDto.setMemoLine(fee.getMemoLine());
+        rangedFeeDto.setFeeOrderName(fee.getFeeOrderName());
+        rangedFeeDto.setNaturalAccountCode(fee.getNaturalAccountCode());
+
+        List<FeeVersionDto> feeVersionsDtos = fee.getFeeVersions().stream().map(v -> toFeeVersionDto(v)).collect(Collectors.toList());
+        rangedFeeDto.setFeeVersionDtos(feeVersionsDtos);
+
+        return rangedFeeDto;
+
     }
 
     public FeeVersion toFeeVersion(FeeVersionDto versionDto) {
@@ -92,6 +128,21 @@ public class FeeDtoMapper {
         }
 
         return version;
+    }
+
+    public FeeVersionDto toFeeVersionDto(FeeVersion feeVersion) {
+
+        FeeVersionDto feeVersionDto = new FeeVersionDto();
+
+        feeVersionDto.setValidFrom(feeVersion.getValidFrom());
+        feeVersionDto.setValidTo(feeVersion.getValidTo());
+
+        feeVersionDto.setVersion(feeVersion.getVersion());
+        feeVersionDto.setStatus(feeVersion.getStatus());
+        feeVersionDto.setDescription(feeVersion.getDescription());
+
+        return feeVersionDto;
+
     }
 
     private Amount toPercentageAmount(PercentageAmountDto percentageAmount) {
@@ -135,6 +186,22 @@ public class FeeDtoMapper {
         }
 
         fee.setChannelType(channelType);
+
+    }
+
+    private void fillDirectionType(RangedFee fee, String direction) {
+
+        if(direction == null) {
+            return;
+        }
+
+        DirectionType directionType = directionTypeRepository.findOne(direction);
+
+        if(directionType == null) {
+            throw new BadRequestException("Unknown directionType " + direction);
+        }
+
+        fee.setDirectionType(directionType);
 
     }
 

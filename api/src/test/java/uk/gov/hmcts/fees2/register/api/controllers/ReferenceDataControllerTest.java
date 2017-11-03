@@ -300,7 +300,7 @@ public class ReferenceDataControllerTest extends BaseTest{
 
     @Test
     public void testGetJurisdiction2() throws Exception {
-        when(jurisdiction2Service.findAll()).thenReturn(getJurisdiction2());
+        when(jurisdiction2Service.findAll()).thenReturn(getJurisdictions2());
 
         this.mockMvc.perform(get("/jurisdictions2"))
             .andExpect(status().isOk())
@@ -316,7 +316,7 @@ public class ReferenceDataControllerTest extends BaseTest{
 
     @Test
     public void testGetJurisdictions2ByName() throws Exception {
-        when(jurisdiction2Service.findByNameOrThrow("magistrates court")).thenReturn(getJurisdiction2().get(2));
+        when(jurisdiction2Service.findByNameOrThrow("magistrates court")).thenReturn(getJurisdictions2().get(2));
 
         this.mockMvc.perform(get("/jurisdictions2/magistrates court"))
             .andExpect(status().isOk())
