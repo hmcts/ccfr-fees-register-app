@@ -79,7 +79,6 @@ public class FeeDtoMapper {
         return fee;
     }
 
-    @Transactional
     public RangedFeeDto toFeeDto(Fee fee) {
         RangedFeeDto rangedFeeDto = new RangedFeeDto();
 
