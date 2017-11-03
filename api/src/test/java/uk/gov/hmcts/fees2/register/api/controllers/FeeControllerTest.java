@@ -21,7 +21,7 @@ public class FeeControllerTest extends BaseTest {
 
         restActions
             .withUser("admin")
-            .post("/fee", getRangedFeeDto())
+            .post("/ranged-fee", getRangedFeeDto())
             .andExpect(status().isCreated());
 
     }

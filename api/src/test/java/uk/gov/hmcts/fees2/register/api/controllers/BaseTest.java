@@ -169,7 +169,7 @@ public abstract class BaseTest {
     public RangedFeeDto getRangedFeeDto() {
         return new RangedFeeDto(new BigDecimal(1), new BigDecimal(3000), "X0024", getFeeVersionDto(),
             null, null, null,
-            channelTypeService.findByNameOrThrow("online").getName(), null, "Test");
+            channelTypeService.findByNameOrThrow("online").getName(), null, "Test", "CMC-Online fee", "NautralCode001");
     }
 
     public FeeVersionDto getFeeVersionDto() {
@@ -180,7 +180,7 @@ public abstract class BaseTest {
     }
 
     public FlatAmountDto getFlatAmountDto() {
-        return new FlatAmountDto(new BigDecimal(2500), Unit.POUNDS);
+        return new FlatAmountDto(new BigDecimal(2500));
     }
 
     public PercentageAmountDto getPercentageAmountDto() {
