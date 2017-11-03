@@ -1,22 +1,72 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
+import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
+import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
+import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
+import uk.gov.hmcts.fees2.register.data.service.ChannelTypeService;
 
 import java.math.BigDecimal;
 import java.util.*;
+
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 /**
  * Created by tarun on 18/10/2017.
  */
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = MOCK)
+@ActiveProfiles({"embedded", "idam-backdoor"})
 public abstract class BaseTest {
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    protected UserResolverBackdoor userRequestAuthorizer;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @Autowired
+    private ChannelTypeRepository channelTypeRepository;
+
+    @Autowired
+    private ChannelTypeService channelTypeService;
+
+    RestActions restActions;
+
+    @Before
+    public void setUp() {
+        MockMvc mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
+
+        // Save Channel reference data
+        channelTypeRepository.save(getChannelTypes());
+    }
+
+    CustomResultMatcher body() {
+        return new CustomResultMatcher(objectMapper);
+    }
+
 
 
     /**
@@ -119,7 +169,7 @@ public abstract class BaseTest {
     public RangedFeeDto getRangedFeeDto() {
         return new RangedFeeDto(new BigDecimal(1), new BigDecimal(3000), "X0024", getFeeVersionDto(),
             null, null, null,
-            null, null, "Test");
+            channelTypeService.findByNameOrThrow("online").getName(), null, "Test");
     }
 
     public FeeVersionDto getFeeVersionDto() {
