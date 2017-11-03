@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
@@ -23,7 +24,7 @@ public class FeeController {
         this.feeDtoMapper = feeDtoMapper;
     }
 
-    @PostMapping("/ranged-fee")
+    @PostMapping("/rangedfees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRangedFee(@RequestBody final RangedFeeDto request){
         feeService.save(feeDtoMapper.toFee(request));
@@ -34,9 +35,9 @@ public class FeeController {
         return feeService.get(code);
     }
 
-    @PatchMapping("/fee/{code}/version/{version}/approve")
-    public void approve(@PathVariable("code") String code, @PathVariable("version") Integer version){
-        feeService.approve(code, version);
+    @PatchMapping("/fees/approve")
+    public void approve(@RequestBody ApproveFeeDto dto){
+        feeService.approve(dto.getFeeCode(), dto.getFeeVersion());
     }
 
 }
