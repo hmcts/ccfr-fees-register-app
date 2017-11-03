@@ -16,6 +16,4 @@ public class FlatAmountDto {
 
     private BigDecimal amount;
 
-    private Unit unit;
-
 }

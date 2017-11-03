@@ -51,6 +51,10 @@ public abstract class Fee extends AbstractEntity{
     @JoinColumn(name = "channel_type")
     private ChannelType channelType;
 
+    private String feeOrderName;
+
+    private String naturalAccountCode;
+
     @OneToMany(mappedBy = "fee", orphanRemoval = true)
     @Cascade(CascadeType.ALL)
     private List<FeeVersion> feeVersions;

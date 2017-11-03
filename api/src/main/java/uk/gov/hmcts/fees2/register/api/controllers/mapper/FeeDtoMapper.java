@@ -19,13 +19,11 @@ import java.util.Arrays;
 public class FeeDtoMapper {
 
     private Jurisdiction1Repository jurisdiction1Repository;
-
     private Jurisdiction2Repository jurisdiction2Repository;
     private Fee2Repository fee2Repository;
     private ServiceTypeRepository serviceTypeRepository;
     private ChannelTypeRepository channelTypeRepository;
     private EventTypeRepository eventTypeRepository;
-
 
     @Autowired
     public FeeDtoMapper(
@@ -59,7 +57,10 @@ public class FeeDtoMapper {
         fillServiceType(fee, request.getService());
         fillEventType(fee, request.getEvent());
         fillChannelType(fee, request.getChannel());
+
         fee.setMemoLine(request.getMemoLine());
+        fee.setFeeOrderName(request.getFeeOrderName());
+        fee.setNaturalAccountCode(request.getNaturalAccountCode());
 
         FeeVersion version = toFeeVersion(request.getVersion());
         version.setFee(fee);
@@ -102,7 +103,6 @@ public class FeeDtoMapper {
     private FlatAmount toFlatAmount(FlatAmountDto dto) {
         FlatAmount amount = new FlatAmount();
         amount.setAmount(dto.getAmount());
-        amount.setUnit(dto.getUnit());
         return amount;
     }
 

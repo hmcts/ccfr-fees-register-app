@@ -4,12 +4,10 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 
 @RestController
@@ -25,12 +23,20 @@ public class FeeController {
         this.feeDtoMapper = feeDtoMapper;
     }
 
-    @PostMapping("/fee")
+    @PostMapping("/ranged-fee")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createFee(@RequestBody final RangedFeeDto request){
-
+    public void createRangedFee(@RequestBody final RangedFeeDto request){
         feeService.save(feeDtoMapper.toFee(request));
+    }
 
+    @GetMapping("/fee/{code}")
+    public Fee getFee(@PathVariable("code") String code) {
+        return feeService.get(code);
+    }
+
+    @PutMapping("/fee/{code}/version/{version}/approve")
+    public void approve(@PathVariable("code") String code, @PathVariable("version") Integer version){
+        feeService.approve(code, version);
     }
 
 }

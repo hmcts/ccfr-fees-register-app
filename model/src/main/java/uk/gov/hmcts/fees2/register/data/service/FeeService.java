@@ -5,14 +5,14 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 
 import java.util.List;
 
-/**
- * Created by tarun on 30/10/2017.
- */
-
 public interface FeeService  {
 
-    public Fee save(Fee fee);
+    Fee save(Fee fee);
 
-    public List<Fee> lookup(LookupFeeDto dto);
+    List<Fee> lookup(LookupFeeDto dto);
+
+    Fee get(String code);
+
+    boolean approve(String code, Integer version);
 
 }

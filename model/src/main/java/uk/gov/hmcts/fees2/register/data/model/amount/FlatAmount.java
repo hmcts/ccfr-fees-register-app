@@ -18,6 +18,4 @@ public class FlatAmount extends Amount {
 
     private BigDecimal amount;
 
-    private Unit unit;
-
 }

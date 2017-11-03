@@ -37,8 +37,8 @@ public class RangedFeeDto {
 
     private String memoLine;
 
-    // private String feeOrderName; Whats this ??
+    private String feeOrderName;
 
-    // private String naturalAccountCode; Whats this ??
+    private String naturalAccountCode;
 
 }
