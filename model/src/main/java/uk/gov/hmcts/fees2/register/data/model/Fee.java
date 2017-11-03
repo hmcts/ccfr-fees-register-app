@@ -10,6 +10,7 @@ import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 

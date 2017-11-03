@@ -78,8 +78,5 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
-        assertEquals(feeVersionDtoResult.getFlatAmount(), new BigDecimal(2500));
-
-
     }
 }
