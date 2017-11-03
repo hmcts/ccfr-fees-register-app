@@ -34,7 +34,7 @@ public class FeeController {
         return feeService.get(code);
     }
 
-    @PutMapping("/fee/{code}/version/{version}/approve")
+    @PatchMapping("/fee/{code}/version/{version}/approve")
     public void approve(@PathVariable("code") String code, @PathVariable("version") Integer version){
         feeService.approve(code, version);
     }

@@ -58,8 +58,6 @@ public class FeeServiceImpl implements FeeService {
     /** Magic method that "googles" fees */
     public List<Fee> lookup(LookupFeeDto dto) {
 
-
-
         return fee2Repository.findAll(
             (rootFee, criteriaQuery, criteriaBuilder) ->
                 buildFirstLevelPredicate(rootFee)
