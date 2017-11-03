@@ -77,7 +77,7 @@ public class FeeServiceImpl implements FeeService {
 
         EntityType<Fee> Fee_ = feeRoot.getModel();
 
-        Predicate p = feeRoot.
+       // Predicate p = feeRoot.
         return null;
     }
 
