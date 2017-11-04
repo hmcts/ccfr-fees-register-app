@@ -217,7 +217,7 @@ public abstract class BaseTest {
         rangedFeeDto.setMinRange(new BigDecimal(1));
         rangedFeeDto.setMaxRange(new BigDecimal(3000));
         rangedFeeDto.setCode("X0024");
-        rangedFeeDto.setVersion(getFeeVersionDto());
+        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved));
         rangedFeeDto.setJurisdiction1(null);
         rangedFeeDto.setJurisdiction2(null);
         rangedFeeDto.setDirection(null);
@@ -238,7 +238,7 @@ public abstract class BaseTest {
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
         rangedFeeDto.setCode(feeCode);
-        rangedFeeDto.setVersion(getFeeVersionDto());
+        rangedFeeDto.setVersion(getFeeVersionDto(status));
         rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
         rangedFeeDto.setDirection(directionTypeService.findByNameOrThrow("enhanced").getName());
@@ -250,17 +250,17 @@ public abstract class BaseTest {
         rangedFeeDto.setNaturalAccountCode("Natural code 001");
 
         List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
-        feeVersionDtos.add(getFeeVersionDto());
+        feeVersionDtos.add(getFeeVersionDto(status));
         rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
 
         return rangedFeeDto;
     }
 
-    public FeeVersionDto getFeeVersionDto() {
+    public FeeVersionDto getFeeVersionDto(FeeVersionStatus status) {
         DateTime toDate = new DateTime(new Date());
         toDate.plus(90);
 
-        return new FeeVersionDto(1, new Date(), toDate.toDate(), "First version description", FeeVersionStatus.approved, getFlatAmountDto(), null);
+        return new FeeVersionDto(1, new Date(), toDate.toDate(), "First version description", status, getFlatAmountDto(), null);
     }
 
     public FlatAmountDto getFlatAmountDto() {
