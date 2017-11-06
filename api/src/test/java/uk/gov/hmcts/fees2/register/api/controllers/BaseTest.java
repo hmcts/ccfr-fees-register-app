@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -282,10 +283,10 @@ public abstract class BaseTest {
     }
 
     public FeeVersionDto getFeeVersionDto(FeeVersionStatus status) {
-        DateTime toDate = new DateTime(new Date());
-        toDate.plus(90);
+        MutableDateTime validTo = new MutableDateTime(new Date());
+        validTo.addDays(90);
 
-        return new FeeVersionDto(1, new Date(), toDate.toDate(), "First version description", status, getFlatAmountDto(), null);
+        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, getFlatAmountDto(), null);
     }
 
     public FlatAmountDto getFlatAmountDto() {

@@ -1,16 +1,22 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.api.contract.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 
 
 import javax.transaction.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +45,7 @@ public class FeeControllerTest extends BaseTest {
 
     @Test
     public void readFeeTest() throws Exception {
-        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0002", FeeVersionStatus.approved);
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 999, "X0002", FeeVersionStatus.approved);
 
         restActions
             .withUser("admin")
@@ -73,6 +79,38 @@ public class FeeControllerTest extends BaseTest {
             .patch("/fees/approve", approveFeeDto)
             .andExpect(status().isOk());
     }
+
+    @Test
+    public void feesLookupTest() throws Exception {
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "X0004", FeeVersionStatus.approved);
+
+        restActions
+            .withUser("admin")
+            .post("/rangedfees", rangedFeeDto)
+            .andExpect(status().isCreated());
+
+
+        restActions
+            .get("/fee/X0004")
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
+                assertThat(feeDto.getCode().equals("X0004"));
+                assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
+                assertThat(feeDto.getChannelTypeDto().getName().equals("online"));
+            }));
+
+//        restActions
+//            .get("/fees/lookup?channel=online")
+//            .andExpect(status().isOk())
+//            .andExpect(body().as(FeeLookupResponseDto.class, (result) -> {
+//                assertThat(result.getCode().equals("X0004"));
+//            }));
+
+
+
+    }
+
+
 
 
 }
