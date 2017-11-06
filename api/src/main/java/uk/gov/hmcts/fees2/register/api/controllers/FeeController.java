@@ -31,8 +31,9 @@ public class FeeController {
     }
 
     @GetMapping("/fee/{code}")
-    public Fee getFee(@PathVariable("code") String code) {
-        return feeService.get(code);
+    public RangedFeeDto getFee(@PathVariable("code") String code) {
+        Fee fee = feeService.get(code);
+        return feeDtoMapper.toFeeDto(fee);
     }
 
     @PatchMapping("/fees/approve")

@@ -140,6 +140,9 @@ public class FeeDtoMapper {
         feeVersionDto.setStatus(feeVersion.getStatus());
         feeVersionDto.setDescription(feeVersion.getDescription());
 
+        // how map the amount
+
+
         return feeVersionDto;
 
     }

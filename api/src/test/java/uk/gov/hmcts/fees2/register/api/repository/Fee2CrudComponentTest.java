@@ -1,14 +1,15 @@
 package uk.gov.hmcts.fees2.register.api.repository;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.advice.exception.BadRequestException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.ChannelTypeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
@@ -55,8 +56,8 @@ public class Fee2CrudComponentTest extends BaseTest {
     }
 
     @Test
-    public void createRangedFeeWithAllReferenceData() {
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, "X0025", FeeVersionStatus.draft);
+    public void createRangedFeeWithAllReferenceDataTest() {
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, "X0025", FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
 
         RangedFeeDto rangedFeeDto = feeDtoMapper.toFeeDto(savedFee);
@@ -66,17 +67,40 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
+
+        // could not map entity to Dto
+        //assertEquals(feeVersionDtoResult.getFlatAmount(), new BigDecimal(2500));
     }
 
     @Test
-    public void lookUpTheCreatedRangedFeeWithAllReferenceData() {
-        Fee lookUpFee = feeService.get("X0025");
+    @Transactional
+    public void ReadRangedFeeWithAllReferenceDataTest() {
+        // Insert a new ranged fee
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, "X0026", FeeVersionStatus.approved);
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
+
+        Fee lookUpFee = feeService.get("X0026");
 
         RangedFeeDto rangedFeeDto = feeDtoMapper.toFeeDto(lookUpFee);
-        assertEquals(rangedFeeDto.getCode(), "X0025");
+        assertEquals(rangedFeeDto.getCode(), "X0026");
         FeeVersionDto feeVersionDtoResult = rangedFeeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
     }
+
+
+    @Test
+    public void createDraftFeeAndApproveTheFeeTest() {
+        // Insert a new ranged fee
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "X0027", FeeVersionStatus.draft);
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
+
+        Fee lookUpFee = feeService.get("X0027");
+
+        boolean result = feeService.approve(lookUpFee.getCode(), 1);
+        assertTrue(result);
+    }
+
+
 }
