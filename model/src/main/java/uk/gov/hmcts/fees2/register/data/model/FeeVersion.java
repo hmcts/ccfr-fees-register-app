@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Date;
 
