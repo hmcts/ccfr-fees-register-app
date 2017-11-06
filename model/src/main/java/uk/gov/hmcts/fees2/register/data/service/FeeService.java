@@ -9,7 +9,9 @@ public interface FeeService  {
 
     Fee save(Fee fee);
 
-    List<Fee> lookup(LookupFeeDto dto);
+    Fee lookup(LookupFeeDto dto);
+
+    List<Fee> search(LookupFeeDto dto);
 
     Fee get(String code);
 

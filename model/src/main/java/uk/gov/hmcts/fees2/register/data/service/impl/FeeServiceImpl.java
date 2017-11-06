@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
+import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
+import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
@@ -61,9 +63,25 @@ public class FeeServiceImpl implements FeeService {
         return true;
     }
 
+    public Fee lookup(LookupFeeDto dto) {
+
+        List<Fee> fees = search(dto);
+
+        if(fees.isEmpty()) {
+            throw new FeeNotFoundException(dto);
+        }
+
+        if(fees.size() > 1) {
+            throw new TooManyResultsException();
+        }
+
+        return fees.get(0);
+
+    }
+
     @Override
     /** Magic method that "googles" fees */
-    public List<Fee> lookup(LookupFeeDto dto) {
+    public List<Fee> search(LookupFeeDto dto) {
 
         defaults(dto);
 

@@ -1,7 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
@@ -9,11 +8,11 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.transaction.Transactional;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
 
 @Data
 @Entity
