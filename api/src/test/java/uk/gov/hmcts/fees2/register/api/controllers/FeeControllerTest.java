@@ -54,25 +54,24 @@ public class FeeControllerTest extends BaseTest {
             }));
     }
 
-//    @Test
-//    public void approveFeeTest() throws Exception {
-//        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0003", FeeVersionStatus.draft);
-//
-//        restActions
-//            .withUser("admin")
-//            .post("/rangedfees", rangedFeeDto)
-//            .andExpect(status().isCreated());
-//
-//        ApproveFeeDto approveFeeDto = new ApproveFeeDto();
-//        approveFeeDto.setFeeCode("X0003");
-//        approveFeeDto.setFeeVersion(1);
-//
-//        restActions
-//            .withUser("admin")
-//            .patch("/fee/approve", approveFeeDto)
-//            .andExpect(status().isOk())
-//            .andExpect(body().as(boolean.class, (result) -> {
-//                assertThat(result.booleanValue());
-//            }));
-//    }
+    @Test
+    public void approveFeeTest() throws Exception {
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0021", FeeVersionStatus.draft);
+
+        restActions
+            .withUser("admin")
+            .post("/rangedfees", rangedFeeDto)
+            .andExpect(status().isCreated());
+
+        ApproveFeeDto approveFeeDto = new ApproveFeeDto();
+        approveFeeDto.setFeeCode("X0021");
+        approveFeeDto.setFeeVersion(1);
+
+        restActions
+            .withUser("admin")
+            .patch("/fees/approve", approveFeeDto)
+            .andExpect(status().isOk());
+    }
+
+
 }
