@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import uk.gov.hmcts.fees2.register.api.controllers.advice.exception.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.ReferenceDataNotFoundException;
 
 import java.util.Collections;
 
@@ -17,6 +18,11 @@ public class FeesControllerAdvice {
 
     @ExceptionHandler({BadRequestException.class})
     public ResponseEntity<?> badRequest(BadRequestException e){
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ReferenceDataNotFoundException.class})
+    public ResponseEntity<?> badRequest(ReferenceDataNotFoundException e){
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 

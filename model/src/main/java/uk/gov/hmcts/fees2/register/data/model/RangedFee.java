@@ -22,4 +22,10 @@ public class RangedFee extends Fee{
     @Column(name = "max_range")
     private BigDecimal maxRange;
 
+    @Override
+    public boolean isInRange(BigDecimal amount) {
+        return amount != null &&
+            (minRange == null || amount.compareTo(minRange) > 0)
+            && (maxRange == null || amount.compareTo(maxRange) <= 0);
+    }
 }

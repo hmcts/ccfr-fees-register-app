@@ -42,4 +42,13 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "valid_to")
     private Date validTo;
 
+    public boolean isInRange(Date date) {
+        return (validFrom == null || date.compareTo(validFrom) >= 0)
+            && (validTo == null || date.compareTo(validTo) < 0);
+    }
+
+    public BigDecimal calculateFee(BigDecimal amount) {
+        return this.amount.calculateFee(amount);
+    }
+
 }

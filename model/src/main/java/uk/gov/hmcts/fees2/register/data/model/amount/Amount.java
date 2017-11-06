@@ -5,6 +5,7 @@ import uk.gov.hmcts.fees2.register.data.model.AbstractEntity;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -21,6 +22,8 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "amount_type")
 public abstract class Amount extends AbstractEntity{
+
+    public abstract BigDecimal calculateFee(BigDecimal amount);
 
     @Column(name = "creation_time", nullable = false)
     private Date creationTime;

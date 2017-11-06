@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +63,27 @@ public abstract class Fee extends AbstractEntity{
 
     /* --- */
 
+    public abstract boolean isInRange(BigDecimal amount);
+
+    private transient FeeVersion currentVersion = null;
+
+    public FeeVersion getCurrentVersion() {
+
+        if(currentVersion != null) {
+            return currentVersion;
+        }
+
+        final Date date = new Date();
+
+        return getFeeVersions()
+            .stream()
+            .filter(v -> v.isInRange(date))
+            .findFirst().get();
+
+    }
+
+    /* --- */
+
     @Column(name = "creation_time", nullable = false)
     private Date creationTime;
 
@@ -80,6 +102,5 @@ public abstract class Fee extends AbstractEntity{
         creationTime = now;
         lastUpdated = now;
     }
-
 
 }

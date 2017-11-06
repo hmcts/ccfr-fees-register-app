@@ -21,4 +21,8 @@ public class RateableAmount extends Amount {
 
     private BigDecimal rateableValue;
 
+    @Override
+    public BigDecimal calculateFee(BigDecimal amount) {
+        return null;
+    }
 }

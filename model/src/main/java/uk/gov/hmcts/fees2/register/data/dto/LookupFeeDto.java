@@ -23,6 +23,8 @@ public class LookupFeeDto {
 
     private String event;
 
+    private String direction;
+
     private BigDecimal amount;
 
 }

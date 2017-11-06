@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 @Data
 @Entity
@@ -18,4 +19,8 @@ public class PercentageAmount extends Amount{
 
     private BigDecimal percentage;
 
+    @Override
+    public BigDecimal calculateFee(BigDecimal amount) {
+        return amount.multiply(percentage, MathContext.DECIMAL32).setScale(2);
+    }
 }

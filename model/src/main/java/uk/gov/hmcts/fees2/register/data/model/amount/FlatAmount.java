@@ -18,4 +18,8 @@ public class FlatAmount extends Amount {
 
     private BigDecimal amount;
 
+    @Override
+    public BigDecimal calculateFee(BigDecimal amount) {
+        return this.amount;
+    }
 }

@@ -177,61 +177,11 @@ public class FeeDtoMapper {
     private void fillChannelType(RangedFee fee, String channel) {
 
         ChannelType channelType = channel == null ?
-            channelTypeRepository.findOne(ChannelType.DEFAULT) :
-            channelTypeRepository.findOne(channel);
-
-        if(channelType == null){
-            throw new BadRequestException("Unknow channel type " + channel);
-        }
+            channelTypeRepository.findByNameOrThrow(ChannelType.DEFAULT) :
+            channelTypeRepository.findByNameOrThrow(channel);
 
         fee.setChannelType(channelType);
 
-    }
-
-    private void fillDirectionType(RangedFee fee, String direction) {
-
-        if(direction == null) {
-            return;
-        }
-
-        DirectionType directionType = directionTypeRepository.findOne(direction);
-
-        if(directionType == null) {
-            throw new BadRequestException("Unknown directionType " + direction);
-        }
-
-        fee.setDirectionType(directionType);
-
-    }
-
-    private void fillServiceType(RangedFee fee, String service) {
-
-        if(service == null) {
-            return;
-        }
-
-        ServiceType serviceType = serviceTypeRepository.findOne(service);
-
-        if(serviceType == null) {
-            throw new BadRequestException("Unknown service " + service);
-        }
-
-        fee.setService(serviceType);
-    }
-
-    private void fillEventType(RangedFee fee, String event) {
-
-        if(event == null) {
-            return;
-        }
-
-        EventType eventType = eventTypeRepository.findOne(event);
-
-        if(eventType == null) {
-            throw new BadRequestException("Unknown event type " + event);
-        }
-
-        fee.setEventType(eventType);
     }
 
     /* --- */
@@ -249,32 +199,42 @@ public class FeeDtoMapper {
     }
 
     private void fillJuridistiction1(Fee fee, String jurisdiction1) {
-
         if(jurisdiction1 != null) {
-            Jurisdiction1 jur1 = jurisdiction1Repository.findOne(jurisdiction1);
-
-            if(jur1 == null) {
-                throw new BadRequestException("Unknown jurisdisction1 " + jurisdiction1);
-            }
-
-            fee.setJurisdiction1(jur1);
-
+            fee.setJurisdiction1(jurisdiction1Repository.findByNameOrThrow(jurisdiction1));
         }
     }
 
     private void fillJuridistiction2(Fee fee, String jurisdiction2) {
-
         if(jurisdiction2 != null) {
-            Jurisdiction2 jur2 = jurisdiction2Repository.findOne(jurisdiction2);
-
-            if(jur2 == null) {
-                throw new BadRequestException("Unknown jurisdisction1 " + jurisdiction2);
-            }
-
-            fee.setJurisdiction2(jur2);
-
+            fee.setJurisdiction2(jurisdiction2Repository.findByNameOrThrow(jurisdiction2));
         }
     }
 
+    private void fillEventType(RangedFee fee, String event) {
 
+        if(event == null) {
+            return;
+        }
+
+        fee.setEventType(eventTypeRepository.findByNameOrThrow(event));
+    }
+
+    private void fillDirectionType(RangedFee fee, String direction) {
+
+        if(direction == null) {
+            return;
+        }
+
+        fee.setDirectionType(directionTypeRepository.findByNameOrThrow(direction));
+
+    }
+
+    private void fillServiceType(RangedFee fee, String service) {
+
+        if(service == null) {
+            return;
+        }
+
+        fee.setService(serviceTypeRepository.findByNameOrThrow(service));
+    }
 }
