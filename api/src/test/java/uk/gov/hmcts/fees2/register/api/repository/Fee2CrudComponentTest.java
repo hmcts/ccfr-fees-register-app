@@ -57,12 +57,12 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Test
     public void createRangedFeeWithAllReferenceDataTest() {
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, "X0025", FeeVersionStatus.approved);
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, "X0011", FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
 
         RangedFeeDto rangedFeeDto = feeDtoMapper.toFeeDto(savedFee);
 
-        assertEquals(rangedFeeDto.getCode(), "X0025");
+        assertEquals(rangedFeeDto.getCode(), "X0011");
         FeeVersionDto feeVersionDtoResult = rangedFeeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
@@ -76,13 +76,13 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Transactional
     public void ReadRangedFeeWithAllReferenceDataTest() {
         // Insert a new ranged fee
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, "X0026", FeeVersionStatus.approved);
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, "X0012", FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
 
-        Fee lookUpFee = feeService.get("X0026");
+        Fee fee = feeService.get("X0012");
 
-        RangedFeeDto rangedFeeDto = feeDtoMapper.toFeeDto(lookUpFee);
-        assertEquals(rangedFeeDto.getCode(), "X0026");
+        RangedFeeDto rangedFeeDto = feeDtoMapper.toFeeDto(fee);
+        assertEquals(rangedFeeDto.getCode(), "X0012");
         FeeVersionDto feeVersionDtoResult = rangedFeeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
@@ -93,12 +93,12 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test
     public void createDraftFeeAndApproveTheFeeTest() {
         // Insert a new ranged fee
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "X0027", FeeVersionStatus.draft);
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "X0013", FeeVersionStatus.draft);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
 
-        Fee lookUpFee = feeService.get("X0027");
+        Fee fee = feeService.get("X0013");
 
-        boolean result = feeService.approve(lookUpFee.getCode(), 1);
+        boolean result = feeService.approve(fee.getCode(), 1);
         assertTrue(result);
     }
 
