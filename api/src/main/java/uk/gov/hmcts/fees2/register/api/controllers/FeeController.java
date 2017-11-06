@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
@@ -17,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -44,14 +46,18 @@ public class FeeController {
     }
 
     @GetMapping("/fees/search")
-    public List<Fee> search(@RequestParam String service,
-                            @RequestParam String jurisdiction1,
-                            @RequestParam String jurisdiction2,
-                            @RequestParam String channel,
-                            @RequestParam String event,
-                            @RequestParam String direction,
-                            BigDecimal amount) {
-        return feeService.search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount));
+    public List<Fee2Dto> search(@RequestParam String service,
+                               @RequestParam String jurisdiction1,
+                               @RequestParam String jurisdiction2,
+                               @RequestParam String channel,
+                               @RequestParam String event,
+                               @RequestParam String direction,
+                               BigDecimal amount) {
+        return feeService
+            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount))
+            .stream()
+            .map(feeDtoMapper::toFeeDto)
+            .collect(Collectors.toList());
     }
 
     @GetMapping("/fees/lookup")
