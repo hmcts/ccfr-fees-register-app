@@ -14,6 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
@@ -249,11 +250,35 @@ public abstract class BaseTest {
         rangedFeeDto.setFeeOrderName("CMC online fee order name");
         rangedFeeDto.setNaturalAccountCode("Natural code 001");
 
-        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
-        feeVersionDtos.add(getFeeVersionDto(status));
-        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
+//        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
+//        feeVersionDtos.add(getFeeVersionDto(status));
+//        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
 
         return rangedFeeDto;
+    }
+
+    public Fee2Dto getFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
+
+        Fee2Dto feeDto = new Fee2Dto();
+        feeDto.setMinRange(new BigDecimal(minRange));
+        feeDto.setMaxRange(new BigDecimal(maxRange));
+        feeDto.setCode(feeCode);
+        //feeDto.setVersion(getFeeVersionDto(status));
+        feeDto.setJurisdiction1Dto(jurisdiction1Service.findByNameOrThrow("civil"));
+        feeDto.setJurisdiction2Dto(jurisdiction2Service.findByNameOrThrow("county court"));
+        feeDto.setDirectionTypeDto(directionTypeService.findByNameOrThrow("enhanced"));
+        feeDto.setEventTypeDto(eventTypeService.findByNameOrThrow("issue"));
+        feeDto.setServiceTypeDto(serviceTypeService.findByNameOrThrow("civil money claims"));
+        feeDto.setChannelTypeDto(channelTypeService.findByNameOrThrow("online"));
+        feeDto.setMemoLine("Test memo line");
+        feeDto.setFeeOrderName("CMC online fee order name");
+        feeDto.setNaturalAccountCode("Natural code 001");
+
+//        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
+//        feeVersionDtos.add(getFeeVersionDto(status));
+//        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
+
+        return feeDto;
     }
 
     public FeeVersionDto getFeeVersionDto(FeeVersionStatus status) {

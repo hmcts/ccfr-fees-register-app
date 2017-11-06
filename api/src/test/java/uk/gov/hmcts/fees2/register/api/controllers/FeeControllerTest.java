@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
@@ -48,9 +49,9 @@ public class FeeControllerTest extends BaseTest {
         restActions
             .get("/fee/X0002")
             .andExpect(status().isOk())
-            .andExpect(body().as(RangedFeeDto.class, (fee) -> {
-                assertThat(fee.getCode().equals("X0002"));
-                assertThat(fee.getJurisdiction1().equals("civil"));
+            .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
+                assertThat(feeDto.getCode().equals("X0002"));
+                assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
             }));
     }
 

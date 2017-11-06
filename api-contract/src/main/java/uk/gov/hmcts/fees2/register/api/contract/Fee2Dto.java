@@ -2,7 +2,9 @@ package uk.gov.hmcts.fees2.register.api.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import uk.gov.hmcts.fees2.register.data.model.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -10,29 +12,40 @@ import java.util.List;
  *
  */
 
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(callSuper = true)
-@Builder(builderMethodName = "feeDtoWith")
 public class Fee2Dto {
 
     private String code;
 
     private String memoLine;
 
-    private ChannelTypeDto channelTypeDto;
+    private ChannelType channelTypeDto;
 
-    private DirectionTypeDto directionTypeDto;
+    private DirectionType directionTypeDto;
 
-    private EventTypeDto eventTypeDto;
+    private EventType eventTypeDto;
 
-    private FeeTypeDto feeTypeDto;
+    private FeeType feeTypeDto;
 
-    private Jurisdiction1Dto jurisdiction1Dto;
+    private Jurisdiction1 jurisdiction1Dto;
 
-    private Jurisdiction2Dto jurisdiction2Dto;
+    private Jurisdiction2 jurisdiction2Dto;
 
-    private ServiceTypeDto serviceTypeDto;
+    private ServiceType serviceTypeDto;
+
+    private String naturalAccountCode;
+
+    private String feeOrderName;
+
+    private List<FeeVersionDto> feeVersionDtos;
+
+    // only ranged fee
+    private BigDecimal minRange;
+
+    private BigDecimal maxRange;
+
 
 }

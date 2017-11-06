@@ -79,12 +79,10 @@ public class FeeDtoMapper {
         return fee;
     }
 
-    public RangedFeeDto toFeeDto(Fee fee) {
+    public RangedFeeDto toRangedFeeDto(Fee fee) {
         RangedFeeDto rangedFeeDto = new RangedFeeDto();
 
         rangedFeeDto.setCode(fee.getCode());
-//        rangedFeeDto.setMinRange(fee.getMinRange());
-//        rangedFeeDto.setMaxRange(rangedFee.getMaxRange());
 
         rangedFeeDto.setChannel(fee.getChannelType().getName());
         rangedFeeDto.setDirection(fee.getDirectionType().getName());
@@ -97,11 +95,39 @@ public class FeeDtoMapper {
         rangedFeeDto.setFeeOrderName(fee.getFeeOrderName());
         rangedFeeDto.setNaturalAccountCode(fee.getNaturalAccountCode());
 
-        List<FeeVersionDto> feeVersionsDtos = fee.getFeeVersions().stream().map(v -> toFeeVersionDto(v)).collect(Collectors.toList());
-        rangedFeeDto.setFeeVersionDtos(feeVersionsDtos);
+        //List<FeeVersionDto> feeVersionsDtos = fee.getFeeVersions().stream().map(v -> toFeeVersionDto(v)).collect(Collectors.toList());
+        //rangedFeeDto.setFeeVersionDtos(feeVersionsDtos);
 
         return rangedFeeDto;
 
+    }
+
+    public Fee2Dto toFeeDto(Fee fee) {
+        Fee2Dto fee2Dto = new Fee2Dto();
+
+        fee2Dto.setCode(fee.getCode());
+        fee2Dto.setMemoLine(fee.getMemoLine());
+
+        fee2Dto.setChannelTypeDto(fee.getChannelType());
+        fee2Dto.setDirectionTypeDto(fee.getDirectionType());
+        fee2Dto.setEventTypeDto(fee.getEventType());
+        fee2Dto.setJurisdiction1Dto(fee.getJurisdiction1());
+        fee2Dto.setJurisdiction2Dto(fee.getJurisdiction2());
+        fee2Dto.setServiceTypeDto(fee.getService());
+
+        fee2Dto.setNaturalAccountCode(fee.getNaturalAccountCode());
+        fee2Dto.setFeeOrderName(fee.getFeeOrderName());
+
+
+        if (fee instanceof RangedFee) {
+            fee2Dto.setMinRange(((RangedFee) fee).getMinRange());
+            fee2Dto.setMaxRange(((RangedFee) fee).getMaxRange());
+        }
+
+        List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(v -> toFeeVersionDto(v)).collect(Collectors.toList());
+        fee2Dto.setFeeVersionDtos(feeVersionDtos);
+
+        return fee2Dto;
     }
 
     public FeeVersion toFeeVersion(FeeVersionDto versionDto) {
@@ -140,8 +166,18 @@ public class FeeDtoMapper {
         feeVersionDto.setStatus(feeVersion.getStatus());
         feeVersionDto.setDescription(feeVersion.getDescription());
 
-        // how map the amount
+        // map the amount
+        if (feeVersion.getAmount() instanceof FlatAmount) {
+            FlatAmountDto flatAmountDto = new FlatAmountDto();
+            flatAmountDto.setAmount(((FlatAmount) feeVersion.getAmount()).getAmount());
+            feeVersionDto.setFlatAmount(flatAmountDto);
+        }
 
+        if (feeVersion.getAmount() instanceof PercentageAmount) {
+            PercentageAmountDto percentageAmountDto = new PercentageAmountDto();
+            percentageAmountDto.setPercentage(((PercentageAmount) feeVersion.getAmount()).getPercentage());
+            feeVersionDto.setPercentageAmount(percentageAmountDto);
+        }
 
         return feeVersionDto;
 

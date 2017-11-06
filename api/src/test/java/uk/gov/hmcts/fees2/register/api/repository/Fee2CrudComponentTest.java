@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees2.register.api.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
@@ -60,16 +61,14 @@ public class Fee2CrudComponentTest extends BaseTest {
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, "X0011", FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
 
-        RangedFeeDto rangedFeeDto = feeDtoMapper.toFeeDto(savedFee);
+        Fee2Dto feeDto = feeDtoMapper.toFeeDto(savedFee);
 
         assertEquals(rangedFeeDto.getCode(), "X0011");
-        FeeVersionDto feeVersionDtoResult = rangedFeeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
+        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
-
-        // could not map entity to Dto
-        //assertEquals(feeVersionDtoResult.getFlatAmount(), new BigDecimal(2500));
+        assertEquals(feeVersionDtoResult.getFlatAmount().getAmount(), new BigDecimal(2500));
     }
 
     @Test
@@ -81,9 +80,9 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         Fee fee = feeService.get("X0012");
 
-        RangedFeeDto rangedFeeDto = feeDtoMapper.toFeeDto(fee);
+        Fee2Dto feeDto = feeDtoMapper.toFeeDto(fee);
         assertEquals(rangedFeeDto.getCode(), "X0012");
-        FeeVersionDto feeVersionDtoResult = rangedFeeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
+        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");

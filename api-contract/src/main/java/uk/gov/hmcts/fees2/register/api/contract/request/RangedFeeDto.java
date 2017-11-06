@@ -44,6 +44,6 @@ public class RangedFeeDto {
 
     private String naturalAccountCode;
 
-    private List<FeeVersionDto> feeVersionDtos;
+    //private List<FeeVersionDto> feeVersionDtos;
 
 }

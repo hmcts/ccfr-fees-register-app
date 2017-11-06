@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -31,7 +32,7 @@ public class FeeController {
     }
 
     @GetMapping("/fee/{code}")
-    public RangedFeeDto getFee(@PathVariable("code") String code) {
+    public Fee2Dto getFee(@PathVariable("code") String code) {
         Fee fee = feeService.get(code);
         return feeDtoMapper.toFeeDto(fee);
     }
