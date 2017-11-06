@@ -56,7 +56,7 @@ public class FeeControllerTest extends BaseTest {
 
     @Test
     public void approveFeeTest() throws Exception {
-        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0021", FeeVersionStatus.draft);
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0003", FeeVersionStatus.draft);
 
         restActions
             .withUser("admin")
@@ -64,7 +64,7 @@ public class FeeControllerTest extends BaseTest {
             .andExpect(status().isCreated());
 
         ApproveFeeDto approveFeeDto = new ApproveFeeDto();
-        approveFeeDto.setFeeCode("X0021");
+        approveFeeDto.setFeeCode("X0003");
         approveFeeDto.setFeeVersion(1);
 
         restActions
