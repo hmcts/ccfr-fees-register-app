@@ -151,7 +151,7 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.3</version>
                 <configuration>
                     <changeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed.yaml</changeLogFile>
                     <diffChangeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed.yaml</diffChangeLogFile>
@@ -161,6 +161,7 @@
                     <password>fees_register</password>
                     <referenceUrl>hibernate:spring:uk.gov.hmcts.fees2.register.data.model?dialect=org.hibernate.dialect.PostgreSQL82Dialect</referenceUrl>
                     <verbose>true</verbose>
+                    <diffExcludeObjects>table:range, table:range_group, table:fixed_fee_old, table:category, table:fee_old</diffExcludeObjects>
                 </configuration>
 
                 <dependencies>
@@ -172,7 +173,7 @@
                     <dependency>
                         <groupId>org.liquibase.ext</groupId>
                         <artifactId>liquibase-hibernate4</artifactId>
-                        <version>3.5</version>
+                        <version>3.6</version>
                     </dependency>
 
                     <dependency>
