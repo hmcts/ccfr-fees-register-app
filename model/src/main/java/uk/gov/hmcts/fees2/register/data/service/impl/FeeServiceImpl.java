@@ -1,9 +1,9 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
@@ -65,6 +65,8 @@ public class FeeServiceImpl implements FeeService {
 
     public Fee lookup(LookupFeeDto dto) {
 
+        defaults(dto);
+
         List<Fee> fees = search(dto);
 
         if(fees.isEmpty()) {
@@ -82,8 +84,6 @@ public class FeeServiceImpl implements FeeService {
     @Override
     /** Magic method that "googles" fees */
     public List<Fee> search(LookupFeeDto dto) {
-
-        defaults(dto);
 
         return fee2Repository
             .findAll(
@@ -107,12 +107,14 @@ public class FeeServiceImpl implements FeeService {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(
-            builder.equal(
-                fee.get(Fee_.getSingularAttribute("channelType")),
-                channelTypeRepository.findByNameOrThrow(dto.getChannel())
-            )
-        );
+        if(dto.getChannel() != null){
+            predicates.add(
+                builder.equal(
+                    fee.get(Fee_.getSingularAttribute("channelType")),
+                    channelTypeRepository.findByNameOrThrow(dto.getChannel())
+                )
+            );
+        }
 
         if (dto.getJurisdiction1() != null) {
             predicates.add(
@@ -144,7 +146,7 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getDirection() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(Fee_.getSingularAttribute("direction")),
+                    fee.get(Fee_.getSingularAttribute("directionType")),
                     directionTypeRepository.findByNameOrThrow(dto.getDirection())
                 )
             );
@@ -153,7 +155,7 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getEvent() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(Fee_.getSingularAttribute("event")),
+                    fee.get(Fee_.getSingularAttribute("eventType")),
                     eventTypeRepository.findByNameOrThrow(dto.getEvent())
                 )
             );

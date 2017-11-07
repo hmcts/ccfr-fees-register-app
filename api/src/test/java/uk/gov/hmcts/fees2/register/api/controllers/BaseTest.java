@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public abstract class BaseTest {
 
     @Autowired
-    private ObjectMapper objectMapper;
+    protected ObjectMapper objectMapper;
 
     @Autowired
     protected UserResolverBackdoor userRequestAuthorizer;

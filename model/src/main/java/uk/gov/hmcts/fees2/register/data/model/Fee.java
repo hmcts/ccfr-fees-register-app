@@ -41,7 +41,7 @@ public abstract class Fee extends AbstractEntity{
     private EventType eventType;
 
     @ManyToOne
-    @JoinColumn(name = "service_type")
+    @JoinColumn(name = "service")
     private ServiceType service;
 
     @ManyToOne
@@ -76,9 +76,8 @@ public abstract class Fee extends AbstractEntity{
 
         return getFeeVersions()
             .stream()
-            .filter(v -> v.isInRange(date))
+            .filter(v -> v.getStatus() == FeeVersionStatus.approved && v.isInRange(date))
             .findFirst().get();
-
     }
 
     /* --- */

@@ -16,6 +16,7 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,6 @@ public class FeeController {
 
     private final FeeService feeService;
     private final FeeDtoMapper feeDtoMapper;
-
     @Autowired
     public FeeController(FeeService feeService, FeeDtoMapper feeDtoMapper) {
         this.feeService = feeService;
@@ -35,8 +35,9 @@ public class FeeController {
 
     @PostMapping("/rangedfees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRangedFee(@RequestBody final RangedFeeDto request) {
-        feeService.save(feeDtoMapper.toFee(request));
+    public void createRangedFee(@RequestBody final RangedFeeDto request, HttpServletResponse response) {
+        Fee fee = feeService.save(feeDtoMapper.toFee(request));
+        response.setHeader("Location", "/fee/" + fee.getCode());
     }
 
     @GetMapping("/fee/{code}")
@@ -47,12 +48,12 @@ public class FeeController {
 
     @GetMapping("/fees/search")
     public List<Fee2Dto> search(@RequestParam String service,
-                               @RequestParam String jurisdiction1,
-                               @RequestParam String jurisdiction2,
-                               @RequestParam String channel,
-                               @RequestParam String event,
-                               @RequestParam String direction,
-                               BigDecimal amount) {
+                                @RequestParam String jurisdiction1,
+                                @RequestParam String jurisdiction2,
+                                @RequestParam String channel,
+                                @RequestParam String event,
+                                @RequestParam String direction,
+                                @RequestParam BigDecimal amount) {
         return feeService
             .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount))
             .stream()
