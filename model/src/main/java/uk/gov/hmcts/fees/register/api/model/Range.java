@@ -29,10 +29,10 @@ public class Range {
     private Integer to;
     @NonNull
     @ManyToOne
-    private Fee fee;
+    private FeeOld fee;
 
     @Builder(builderMethodName = "rangeWith")
-    public Range(Integer from, Integer to, Fee fee) {
+    public Range(Integer from, Integer to, FeeOld fee) {
         checkFromLowerThanTo(from, to);
         this.from = from;
         this.to = to;

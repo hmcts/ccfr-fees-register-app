@@ -13,7 +13,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 @DiscriminatorColumn(name = "type")
 @Table(name = "fee_old")
-public abstract class Fee implements Calculateable {
+public abstract class FeeOld implements Calculateable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

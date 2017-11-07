@@ -12,7 +12,7 @@ import uk.gov.hmcts.fees.register.api.controllers.categories.CategoryDtoMapper;
 import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
 import uk.gov.hmcts.fees.register.api.controllers.rangegroups.RangeGroupsDtoMapper;
 import uk.gov.hmcts.fees.register.api.model.Category;
-import uk.gov.hmcts.fees.register.api.model.Fee;
+import uk.gov.hmcts.fees.register.api.model.FeeOld;
 import uk.gov.hmcts.fees.register.api.model.FixedFee;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 
@@ -37,7 +37,7 @@ public class CategoryDtoMapperTest {
         },
         null, new FeesDtoMapper() {
             @Override
-            public FeeDto toFeeDto(Fee fee) {
+            public FeeDto toFeeDto(FeeOld fee) {
                 return MAPPED_FEE_DTO;
             }
         }, null);

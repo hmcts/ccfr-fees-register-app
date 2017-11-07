@@ -6,7 +6,7 @@ import uk.gov.hmcts.fees.register.api.contract.FeeDto;
 import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto;
 import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
-import uk.gov.hmcts.fees.register.api.model.Fee;
+import uk.gov.hmcts.fees.register.api.model.FeeOld;
 import uk.gov.hmcts.fees.register.api.model.FixedFee;
 import uk.gov.hmcts.fees.register.api.model.PercentageFee;
 
@@ -30,7 +30,7 @@ public class FeesDtoMapperTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void failsOnUnknownFee() {
-        mapper.toFeeDto(new Fee() {
+        mapper.toFeeDto(new FeeOld() {
             @Override
             public int calculate(int value) {
                 return 0;

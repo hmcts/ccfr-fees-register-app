@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("fixed")
-public class FixedFee extends Fee {
+public class FixedFee extends FeeOld {
     private int amount;
 
     public FixedFee() {

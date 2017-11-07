@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import uk.gov.hmcts.fees.register.api.model.exceptions.FeeNotFoundException;
 
 @Repository
-public interface FeeRepository extends JpaRepository<Fee, Integer> {
-    Optional<Fee> findByCode(String code);
+public interface FeeRepository extends JpaRepository<FeeOld, Integer> {
+    Optional<FeeOld> findByCode(String code);
 
-    default Fee findByCodeOrThrow(String code) {
+    default FeeOld findByCodeOrThrow(String code) {
         return findByCode(code).orElseThrow(() -> new FeeNotFoundException(code));
     }
 }
