@@ -1,13 +1,11 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,7 +35,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
-@ActiveProfiles({"embedded", "idam-backdoor"})
+@ActiveProfiles({"fee2test", "idam-backdoor"})
 public abstract class BaseTest {
 
     @Autowired
@@ -69,9 +67,6 @@ public abstract class BaseTest {
 
     @Autowired
     private FeeTypeRepository feeTypeRepository;
-
-    @Autowired
-    private FeeTypeService feeTypeService;
 
     @Autowired
     private Jurisdiction1Repository jurisdiction1Repository;
