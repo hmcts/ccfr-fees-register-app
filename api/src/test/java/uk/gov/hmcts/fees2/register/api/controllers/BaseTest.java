@@ -97,7 +97,6 @@ public abstract class BaseTest {
         channelTypeRepository.save(getChannelTypes());
         directionTypeRepository.save(getDirectionTypes());
         eventTypeRepository.save(getEventTypes());
-        feeTypeRepository.save(getFeeTyes());
         jurisdiction1Repository.save(getJurisdictions1());
         jurisdiction2Repository.save(getJurisdictions2());
         serviceTypeRepository.save(getServiceTypes());
