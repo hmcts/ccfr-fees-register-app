@@ -1,2 +1,16 @@
 <FindBugsFilter>
+
+
+    <Match>
+        <Class name="uk.gov.hmcts.fees2.register.api.controllers.FeeController" />
+        <Method name="createFixedFee" />
+        <Bug pattern="UNVALIDATED_REDIRECT" />
+    </Match>
+
+    <Match>
+        <Class name="uk.gov.hmcts.fees2.register.api.controllers.FeeController" />
+        <Method name="createRangedFee" />
+        <Bug pattern="UNVALIDATED_REDIRECT" />
+    </Match>
+
 </FindBugsFilter>

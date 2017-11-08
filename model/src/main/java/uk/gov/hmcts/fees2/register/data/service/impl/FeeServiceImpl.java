@@ -37,6 +37,17 @@ public class FeeServiceImpl implements FeeService {
             fee.setChannelType(channelTypeRepository.findOne(ChannelType.DEFAULT));
         }
 
+        /* If no status was specified, set it to draft */
+        fee.getFeeVersions().stream().filter(v -> v.getStatus() == null).forEach(v -> v.setStatus(FeeVersionStatus.draft));
+
+        /* If no version number was specified, and its only one, set it to 1 */
+        if(fee.getFeeVersions().size() == 1){
+            FeeVersion v = fee.getFeeVersions().get(0);
+            if(v.getVersion() == null){
+                v.setVersion(1);
+            }
+        }
+
         return fee2Repository.save(fee);
 
     }

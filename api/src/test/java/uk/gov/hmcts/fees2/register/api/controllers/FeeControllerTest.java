@@ -3,10 +3,11 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,7 +25,7 @@ public class FeeControllerTest extends BaseTest {
      */
     @Test
     public void createFeeTest() throws Exception{
-        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, "X0001", FeeVersionStatus.approved);
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, "X0001", FeeVersionStatus.approved);
 
         restActions
             .withUser("admin")
@@ -35,7 +36,7 @@ public class FeeControllerTest extends BaseTest {
 
     @Test
     public void readFeeTest() throws Exception {
-        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 999, "X0002", FeeVersionStatus.approved);
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 999, "X0002", FeeVersionStatus.approved);
 
         restActions
             .withUser("admin")
@@ -53,7 +54,7 @@ public class FeeControllerTest extends BaseTest {
 
     @Test
     public void approveFeeTest() throws Exception {
-        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0003", FeeVersionStatus.draft);
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0003", FeeVersionStatus.draft);
 
         restActions
             .withUser("admin")
@@ -72,13 +73,12 @@ public class FeeControllerTest extends BaseTest {
 
     @Test
     public void feesLookupTest() throws Exception {
-        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "X0004", FeeVersionStatus.approved);
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "X0004", FeeVersionStatus.approved);
 
         restActions
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto)
             .andExpect(status().isCreated());
-
 
         restActions
             .get("/fees-register/fees/X0004")

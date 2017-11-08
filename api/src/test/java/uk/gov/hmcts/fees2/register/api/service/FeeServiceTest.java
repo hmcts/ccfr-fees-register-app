@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
@@ -89,6 +89,23 @@ public class FeeServiceTest extends BaseTest{
 
     }
 
+    @Test
+    public void testCreateFeeWithoutVersionOrStatus(){
+
+        Fee fee = new FixedFee();
+
+        fee.setCode(String.valueOf(System.currentTimeMillis()));
+
+        FeeVersion feeVersion = new FeeVersion();
+        feeVersion.setAmount(new FlatAmount(BigDecimal.ONE));
+        fee.setFeeVersions(Arrays.asList(feeVersion));
+
+        feeService.save(fee);
+
+        assertEquals(Integer.valueOf(1), fee.getFeeVersions().get(0).getVersion());
+        assertEquals(FeeVersionStatus.draft, fee.getFeeVersions().get(0).getStatus());
+    }
+
 
     /* --- */
 
@@ -113,7 +130,7 @@ public class FeeServiceTest extends BaseTest{
 
     private String createDetailedFee(String service) {
 
-        RangedFeeDto dto = new RangedFeeDto();
+        CreateRangedFeeDto dto = new CreateRangedFeeDto();
 
         dto.setChannel("online");
         dto.setCode(String.valueOf(System.currentTimeMillis()));

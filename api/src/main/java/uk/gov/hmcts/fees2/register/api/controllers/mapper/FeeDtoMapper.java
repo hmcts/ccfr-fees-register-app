@@ -6,7 +6,9 @@ import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.advice.exception.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
@@ -14,11 +16,8 @@ import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 
-import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Component
@@ -51,15 +50,8 @@ public class FeeDtoMapper {
         this.directionTypeRepository = directionTypeRepository;
     }
 
-    public Fee toFee(RangedFeeDto request) {
-
-        RangedFee fee = new RangedFee();
-
+    private void fillFee(CreateFeeDto request, Fee fee) {
         fillCode(fee, request.getCode());
-
-        fee.setMaxRange(request.getMaxRange());
-        fee.setMinRange(request.getMinRange());
-
         fillJuridistiction1(fee, request.getJurisdiction1());
         fillJuridistiction2(fee, request.getJurisdiction2());
 
@@ -75,28 +67,21 @@ public class FeeDtoMapper {
         FeeVersion version = toFeeVersion(request.getVersion());
         version.setFee(fee);
         fee.setFeeVersions(Arrays.asList(version));
+    }
 
+    public Fee toFee(CreateFixedFeeDto request) {
+        FixedFee fee = new FixedFee();
+        fillFee(request, fee);
         return fee;
     }
 
-    public RangedFeeDto toRangedFeeDto(Fee fee) {
-        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+    public Fee toFee(CreateRangedFeeDto request) {
 
-        rangedFeeDto.setCode(fee.getCode());
-
-        rangedFeeDto.setChannel(fee.getChannelType().getName());
-        rangedFeeDto.setDirection(fee.getDirectionType().getName());
-        rangedFeeDto.setEvent(fee.getEventType().getName());
-        rangedFeeDto.setJurisdiction1(fee.getJurisdiction1().getName());
-        rangedFeeDto.setJurisdiction2(fee.getJurisdiction2().getName());
-        rangedFeeDto.setService(fee.getService().getName());
-
-        rangedFeeDto.setMemoLine(fee.getMemoLine());
-        rangedFeeDto.setFeeOrderName(fee.getFeeOrderName());
-        rangedFeeDto.setNaturalAccountCode(fee.getNaturalAccountCode());
-
-        return rangedFeeDto;
-
+        RangedFee fee = new RangedFee();
+        fillFee(request, fee);
+        fee.setMaxRange(request.getMaxRange());
+        fee.setMinRange(request.getMinRange());
+        return fee;
     }
 
     public Fee2Dto toFeeDto(Fee fee) {
@@ -213,7 +198,7 @@ public class FeeDtoMapper {
         version.setStatus(status);
     }
 
-    private void fillChannelType(RangedFee fee, String channel) {
+    private void fillChannelType(Fee fee, String channel) {
 
         ChannelType channelType = channel == null ?
             channelTypeRepository.findByNameOrThrow(ChannelType.DEFAULT) :
@@ -249,7 +234,7 @@ public class FeeDtoMapper {
         }
     }
 
-    private void fillEventType(RangedFee fee, String event) {
+    private void fillEventType(Fee fee, String event) {
 
         if(event == null) {
             return;
@@ -258,7 +243,7 @@ public class FeeDtoMapper {
         fee.setEventType(eventTypeRepository.findByNameOrThrow(event));
     }
 
-    private void fillDirectionType(RangedFee fee, String direction) {
+    private void fillDirectionType(Fee fee, String direction) {
 
         if(direction == null) {
             return;
@@ -268,7 +253,7 @@ public class FeeDtoMapper {
 
     }
 
-    private void fillServiceType(RangedFee fee, String service) {
+    private void fillServiceType(Fee fee, String service) {
 
         if(service == null) {
             return;
@@ -276,4 +261,5 @@ public class FeeDtoMapper {
 
         fee.setService(serviceTypeRepository.findByNameOrThrow(service));
     }
+
 }

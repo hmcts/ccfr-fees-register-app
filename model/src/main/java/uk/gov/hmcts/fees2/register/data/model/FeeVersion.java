@@ -30,7 +30,7 @@ public class FeeVersion extends AbstractEntity{
     private String description;
 
     @Column(name = "version")
-    private int version;
+    private Integer version;
 
     @Column(name = "status")
     private FeeVersionStatus status;

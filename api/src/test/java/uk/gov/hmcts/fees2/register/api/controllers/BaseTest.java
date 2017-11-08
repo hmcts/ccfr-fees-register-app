@@ -9,6 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
@@ -17,7 +21,7 @@ import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
@@ -83,7 +87,7 @@ public abstract class BaseTest {
     @Autowired
     private ServiceTypeService serviceTypeService;
 
-    RestActions restActions;
+    protected RestActions restActions;
 
     @Before
     public void setUp() {
@@ -104,20 +108,17 @@ public abstract class BaseTest {
     }
 
 
-
     /**
-     *
      * @return
      */
     public List<ChannelType> getChannelTypes() {
-        return new ArrayList<ChannelType>(){{
+        return new ArrayList<ChannelType>() {{
             add(new ChannelType("online", new Date(), new Date()));
             add(new ChannelType("bulk", new Date(), new Date()));
         }};
     }
 
     /**
-     *
      * @return
      */
     public List<DirectionType> getDirectionTypes() {
@@ -133,8 +134,7 @@ public abstract class BaseTest {
     }
 
     /**
-
-    /**
+     * /**
      *
      * @return
      */
@@ -185,7 +185,7 @@ public abstract class BaseTest {
     }
 
     public List<Jurisdiction2> getJurisdictions2() {
-        return new ArrayList<Jurisdiction2>(){{
+        return new ArrayList<Jurisdiction2>() {{
             add(new Jurisdiction2("county court", new Date(), new Date()));
             add(new Jurisdiction2("high court", new Date(), new Date()));
             add(new Jurisdiction2("magistrates court", new Date(), new Date()));
@@ -193,10 +193,10 @@ public abstract class BaseTest {
         }};
     }
 
-    public RangedFeeDto getRangedFeeDto() {
+    public CreateRangedFeeDto getRangedFeeDto() {
 
 
-        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+        CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
 
         rangedFeeDto.setMinRange(new BigDecimal(1));
         rangedFeeDto.setMaxRange(new BigDecimal(3000));
@@ -216,9 +216,9 @@ public abstract class BaseTest {
         return rangedFeeDto;
     }
 
-    public RangedFeeDto getRangedFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
+    public CreateRangedFeeDto getRangedFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
 
-        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+        CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
         rangedFeeDto.setCode(feeCode);

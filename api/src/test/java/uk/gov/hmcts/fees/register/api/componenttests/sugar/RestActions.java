@@ -30,10 +30,10 @@ public class RestActions {
         return this;
     }
 
-    public ResultActions get(String urlTemplate) {
+    public ResultActions get(String urlTemplate, Object... uriVars) {
         try {
             return mvc.perform(MockMvcRequestBuilders
-                .get(urlTemplate)
+                .get(urlTemplate, uriVars)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .headers(httpHeaders));
