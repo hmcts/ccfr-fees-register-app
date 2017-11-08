@@ -30,8 +30,6 @@ public class ReferenceDataController {
 
     private final EventTypeService eventTypeService;
 
-    private final FeeTypeService feeTypeService;
-
     private final Jurisdiction1Service jurisdiction1Service;
 
     private final Jurisdiction2Service jurisdiction2Service;
@@ -43,13 +41,12 @@ public class ReferenceDataController {
     @Autowired
     public ReferenceDataController(ChannelTypeService channelTypeService,
                                    DirectionTypeService directionTypeService, EventTypeService eventTypeService,
-                                   FeeTypeService feeTypeService, Jurisdiction1Service jurisdiction1Service,
+                                   Jurisdiction1Service jurisdiction1Service,
                                    Jurisdiction2Service jurisdiction2Service, ServiceTypeService serviceTypeService,
                                    ReferenceDataDtoMapper referenceDataDtoMapper) {
         this.channelTypeService = channelTypeService;
         this.directionTypeService = directionTypeService;
         this.eventTypeService = eventTypeService;
-        this.feeTypeService = feeTypeService;
         this.jurisdiction1Service = jurisdiction1Service;
         this.jurisdiction2Service = jurisdiction2Service;
         this.serviceTypeService = serviceTypeService;
@@ -96,20 +93,6 @@ public class ReferenceDataController {
     public EventTypeDto getEventTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
         EventType eventType = eventTypeService.findByNameOrThrow(name);
         return referenceDataDtoMapper.toEventTypeDto(eventType);
-    }
-
-    @GetMapping("/feetypes")
-    @ResponseStatus(HttpStatus.OK)
-    public List<FeeTypeDto> getAllFeeTypes() {
-        return feeTypeService.findAll().stream().map(referenceDataDtoMapper::toFeeTypeDto).collect(toList());
-    }
-
-    @GetMapping("/feetypes/{name}")
-    @ResponseStatus(HttpStatus.OK)
-    @Deprecated
-    public FeeTypeDto getFeeTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
-        FeeType feeType = feeTypeService.findByNameOrThrow(name);
-        return referenceDataDtoMapper.toFeeTypeDto(feeType);
     }
 
     @GetMapping(path = "/jurisdictions1")

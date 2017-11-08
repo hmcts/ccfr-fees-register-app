@@ -49,17 +49,6 @@ public class ReferenceDataDtoMapper {
 
     /**
      *
-     * @param feeType
-     * @return
-     */
-    public FeeTypeDto toFeeTypeDto(FeeType feeType) {
-        return FeeTypeDto.feeTypeDtoWith()
-                .name(feeType.getName())
-                .build();
-    }
-
-    /**
-     *
      * @param jurisdiction1
      * @return
      */

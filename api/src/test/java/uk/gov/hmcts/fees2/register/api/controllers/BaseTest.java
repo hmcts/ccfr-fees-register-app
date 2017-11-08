@@ -66,9 +66,6 @@ public abstract class BaseTest {
     private EventTypeService eventTypeService;
 
     @Autowired
-    private FeeTypeRepository feeTypeRepository;
-
-    @Autowired
     private Jurisdiction1Repository jurisdiction1Repository;
 
     @Autowired
@@ -136,15 +133,6 @@ public abstract class BaseTest {
     }
 
     /**
-     *
-     * @return
-     */
-    public List<FeeType> getFeeTyes() {
-        return new ArrayList<FeeType>() {{
-            add(new FeeType("fixed fee", new Date(), new Date()));
-            add(new FeeType("range fee", new Date(), new Date()));
-        }};
-    }
 
     /**
      *
