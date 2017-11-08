@@ -47,13 +47,13 @@ public class FeeController {
     }
 
     @GetMapping("/fees/search")
-    public List<Fee2Dto> search(@RequestParam String service,
-                                @RequestParam String jurisdiction1,
-                                @RequestParam String jurisdiction2,
-                                @RequestParam String channel,
-                                @RequestParam String event,
-                                @RequestParam String direction,
-                                @RequestParam BigDecimal amount) {
+    public List<Fee2Dto> search(@RequestParam(required = false) String service,
+                                @RequestParam(required = false) String jurisdiction1,
+                                @RequestParam(required = false) String jurisdiction2,
+                                @RequestParam(required = false) String channel,
+                                @RequestParam(required = false) String event,
+                                @RequestParam(required = false) String direction,
+                                @RequestParam(required = false) BigDecimal amount) {
         return feeService
             .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount))
             .stream()
@@ -62,13 +62,13 @@ public class FeeController {
     }
 
     @GetMapping("/fees/lookup")
-    public FeeLookupResponseDto lookup(@RequestParam String service,
-                                       @RequestParam String jurisdiction1,
-                                       @RequestParam String jurisdiction2,
-                                       @RequestParam String channel,
-                                       @RequestParam String event,
-                                       @RequestParam String direction,
-                                       @RequestParam BigDecimal amount) {
+    public FeeLookupResponseDto lookup(@RequestParam(required = false) String service,
+                                       @RequestParam(required = false) String jurisdiction1,
+                                       @RequestParam(required = false) String jurisdiction2,
+                                       @RequestParam(required = false) String channel,
+                                       @RequestParam(required = false) String event,
+                                       @RequestParam(required = false) String direction,
+                                       @RequestParam(required = false) BigDecimal amount) {
 
         Fee fee = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount));
 
