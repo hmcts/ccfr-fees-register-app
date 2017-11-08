@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @Validated
+@RequestMapping("/fees-register")
 public class ReferenceDataController {
 
     private final ChannelTypeService channelTypeService;
