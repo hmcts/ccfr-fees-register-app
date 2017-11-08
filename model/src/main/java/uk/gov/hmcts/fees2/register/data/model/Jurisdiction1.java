@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,9 +23,11 @@ public class Jurisdiction1 {
     private String name;
 
     @Column(name = "creation_time", nullable = false)
+    @JsonIgnore
     private Date creationTime;
 
     @Column(name = "last_updated", nullable = false)
+    @JsonIgnore
     private Date lastUpdated;
 
     @PreUpdate
