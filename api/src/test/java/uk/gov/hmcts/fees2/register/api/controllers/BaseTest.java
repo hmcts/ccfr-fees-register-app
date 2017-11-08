@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
-@ActiveProfiles({"fee2test", "idam-backdoor"})
+@ActiveProfiles({"embedded", "idam-backdoor"})
 public abstract class BaseTest {
 
     @Autowired
