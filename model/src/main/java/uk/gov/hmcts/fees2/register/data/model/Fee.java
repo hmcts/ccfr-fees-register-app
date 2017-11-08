@@ -8,6 +8,7 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "fee_type")
+@Table(name = "fee")
 public abstract class Fee extends AbstractEntity{
 
     @Column(name = "code", unique = true)
@@ -52,8 +54,10 @@ public abstract class Fee extends AbstractEntity{
     @JoinColumn(name = "channel_type")
     private ChannelType channelType;
 
+    @Column(name="fee_order_name")
     private String feeOrderName;
 
+    @Column(name = "natural_account_code")
     private String naturalAccountCode;
 
     @OneToMany(mappedBy = "fee", orphanRemoval = true)
