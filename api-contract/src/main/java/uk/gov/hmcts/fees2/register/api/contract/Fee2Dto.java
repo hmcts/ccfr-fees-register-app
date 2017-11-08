@@ -28,8 +28,6 @@ public class Fee2Dto {
 
     private EventType eventTypeDto;
 
-    private FeeType feeTypeDto;
-
     private Jurisdiction1 jurisdiction1Dto;
 
     private Jurisdiction2 jurisdiction2Dto;
