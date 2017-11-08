@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -15,10 +16,13 @@ import java.math.BigDecimal;
 @Table(name = "rateable_amount")
 public class RateableAmount extends Amount {
 
-    private BigDecimal min;
+    @Column(name = "min_value")
+    private BigDecimal minValue;
 
-    private BigDecimal max;
+    @Column(name = "max_value")
+    private BigDecimal maxValue;
 
+    @Column(name = "rateable_value")
     private BigDecimal rateableValue;
 
     @Override
