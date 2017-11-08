@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Validated
+@RequestMapping("/fees-register")
 public class FeeController {
 
     private final FeeService feeService;
@@ -37,16 +38,16 @@ public class FeeController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createRangedFee(@RequestBody final RangedFeeDto request, HttpServletResponse response) {
         Fee fee = feeService.save(feeDtoMapper.toFee(request));
-        response.setHeader("Location", "/fee/" + fee.getCode());
+        response.setHeader("Location", "/fees/" + fee.getCode());
     }
 
-    @GetMapping("/fee/{code}")
+    @GetMapping("/fees/{code}")
     public Fee2Dto getFee(@PathVariable("code") String code) {
         Fee fee = feeService.get(code);
         return feeDtoMapper.toFeeDto(fee);
     }
 
-    @GetMapping("/fees/search")
+    @GetMapping("/fees")
     public List<Fee2Dto> search(@RequestParam(required = false) String service,
                                 @RequestParam(required = false) String jurisdiction1,
                                 @RequestParam(required = false) String jurisdiction2,
@@ -61,7 +62,7 @@ public class FeeController {
             .collect(Collectors.toList());
     }
 
-    @GetMapping("/fees/lookup")
+    @GetMapping("/lookup")
     public FeeLookupResponseDto lookup(@RequestParam String service,
                                        @RequestParam String jurisdiction1,
                                        @RequestParam String jurisdiction2,

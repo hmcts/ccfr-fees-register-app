@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,16 +20,17 @@ import java.util.Date;
 @Table(name = "direction_type")
 public class DirectionType {
 
-    public final static String DEFAULT = "DEFAULT";
 
     @Id
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "creation_time", nullable = false)
+    @JsonIgnore
     private Date creationTime;
 
     @Column(name = "last_updated", nullable = false)
+    @JsonIgnore
     private Date lastUpdated;
 
     @PreUpdate

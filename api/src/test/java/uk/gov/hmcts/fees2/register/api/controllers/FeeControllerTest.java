@@ -28,7 +28,7 @@ public class FeeControllerTest extends BaseTest {
 
         restActions
             .withUser("admin")
-            .post("/rangedfees", rangedFeeDto)
+            .post("/fees-register/rangedfees", rangedFeeDto)
             .andExpect(status().isCreated());
 
     }
@@ -39,11 +39,11 @@ public class FeeControllerTest extends BaseTest {
 
         restActions
             .withUser("admin")
-            .post("/rangedfees", rangedFeeDto)
+            .post("/fees-register/rangedfees", rangedFeeDto)
             .andExpect(status().isCreated());
 
         restActions
-            .get("/fee/X0002")
+            .get("/fees-register/fees/X0002")
             .andExpect(status().isOk())
             .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
                 assertThat(feeDto.getCode().equals("X0002"));
@@ -57,7 +57,7 @@ public class FeeControllerTest extends BaseTest {
 
         restActions
             .withUser("admin")
-            .post("/rangedfees", rangedFeeDto)
+            .post("/fees-register/rangedfees", rangedFeeDto)
             .andExpect(status().isCreated());
 
         ApproveFeeDto approveFeeDto = new ApproveFeeDto();
@@ -66,7 +66,7 @@ public class FeeControllerTest extends BaseTest {
 
         restActions
             .withUser("admin")
-            .patch("/fees/approve", approveFeeDto)
+            .patch("/fees-register/fees/approve", approveFeeDto)
             .andExpect(status().isOk());
     }
 
@@ -76,25 +76,18 @@ public class FeeControllerTest extends BaseTest {
 
         restActions
             .withUser("admin")
-            .post("/rangedfees", rangedFeeDto)
+            .post("/fees-register/rangedfees", rangedFeeDto)
             .andExpect(status().isCreated());
 
 
         restActions
-            .get("/fee/X0004")
+            .get("/fees-register/fees/X0004")
             .andExpect(status().isOk())
             .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
                 assertThat(feeDto.getCode().equals("X0004"));
                 assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
                 assertThat(feeDto.getChannelTypeDto().getName().equals("online"));
             }));
-
-//        restActions
-//            .get("/fees/lookup?channel=online")
-//            .andExpect(status().isOk())
-//            .andExpect(body().as(FeeLookupResponseDto.class, (result) -> {
-//                assertThat(result.getCode().equals("X0004"));
-//            }));
 
 
 

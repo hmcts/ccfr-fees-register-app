@@ -257,10 +257,6 @@ public abstract class BaseTest {
         feeDto.setFeeOrderName("CMC online fee order name");
         feeDto.setNaturalAccountCode("Natural code 001");
 
-//        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
-//        feeVersionDtos.add(getFeeVersionDto(status));
-//        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
-
         return feeDto;
     }
 

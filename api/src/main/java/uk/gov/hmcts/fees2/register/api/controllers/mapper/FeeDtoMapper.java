@@ -95,9 +95,6 @@ public class FeeDtoMapper {
         rangedFeeDto.setFeeOrderName(fee.getFeeOrderName());
         rangedFeeDto.setNaturalAccountCode(fee.getNaturalAccountCode());
 
-        //List<FeeVersionDto> feeVersionsDtos = fee.getFeeVersions().stream().map(v -> toFeeVersionDto(v)).collect(Collectors.toList());
-        //rangedFeeDto.setFeeVersionDtos(feeVersionsDtos);
-
         return rangedFeeDto;
 
     }
@@ -178,6 +175,9 @@ public class FeeDtoMapper {
             percentageAmountDto.setPercentage(((PercentageAmount) feeVersion.getAmount()).getPercentage());
             feeVersionDto.setPercentageAmount(percentageAmountDto);
         }
+
+//        feeVersionDto.setAmountType(feeVersion.getAmount().getClass().getSimpleName());
+//        feeVersionDto.setAmount(feeVersion.getAmount());
 
         return feeVersionDto;
 
