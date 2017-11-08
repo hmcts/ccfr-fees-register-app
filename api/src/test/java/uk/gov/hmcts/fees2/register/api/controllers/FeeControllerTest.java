@@ -89,13 +89,6 @@ public class FeeControllerTest extends BaseTest {
                 assertThat(feeDto.getChannelTypeDto().getName().equals("online"));
             }));
 
-//        restActions
-//            .get("/fees/lookup?channel=online")
-//            .andExpect(status().isOk())
-//            .andExpect(body().as(FeeLookupResponseDto.class, (result) -> {
-//                assertThat(result.getCode().equals("X0004"));
-//            }));
-
 
 
     }

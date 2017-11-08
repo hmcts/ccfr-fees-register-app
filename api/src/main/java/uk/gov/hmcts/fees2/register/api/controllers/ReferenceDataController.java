@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees2.register.api.controllers.refdata;
+package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -257,10 +257,6 @@ public abstract class BaseTest {
         feeDto.setFeeOrderName("CMC online fee order name");
         feeDto.setNaturalAccountCode("Natural code 001");
 
-//        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
-//        feeVersionDtos.add(getFeeVersionDto(status));
-//        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
-
         return feeDto;
     }
 
@@ -268,7 +264,7 @@ public abstract class BaseTest {
         MutableDateTime validTo = new MutableDateTime(new Date());
         validTo.addDays(90);
 
-        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, null, null, getFlatAmountDto(), null);
+        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, getFlatAmountDto(), null);
     }
 
     public FlatAmountDto getFlatAmountDto() {

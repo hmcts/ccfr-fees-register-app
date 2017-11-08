@@ -29,10 +29,6 @@ public class FeeVersionDto {
 
     // Is there a better way to specify this ?
 
-    private String amountType;
-
-    private Amount amount;
-
     private FlatAmountDto flatAmount;
 
     private PercentageAmountDto percentageAmount;
