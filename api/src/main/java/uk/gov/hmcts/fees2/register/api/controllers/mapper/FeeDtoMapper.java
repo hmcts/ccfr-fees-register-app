@@ -167,17 +167,20 @@ public class FeeDtoMapper {
         feeVersionDto.setDescription(feeVersion.getDescription());
 
         // map the amount
-        if (feeVersion.getAmount() instanceof FlatAmount) {
-            FlatAmountDto flatAmountDto = new FlatAmountDto();
-            flatAmountDto.setAmount(((FlatAmount) feeVersion.getAmount()).getAmount());
-            feeVersionDto.setFlatAmount(flatAmountDto);
-        }
+//        if (feeVersion.getAmount() instanceof FlatAmount) {
+//            FlatAmountDto flatAmountDto = new FlatAmountDto();
+//            flatAmountDto.setAmount(((FlatAmount) feeVersion.getAmount()).getAmount());
+//            feeVersionDto.setFlatAmount(flatAmountDto);
+//        }
+//
+//        if (feeVersion.getAmount() instanceof PercentageAmount) {
+//            PercentageAmountDto percentageAmountDto = new PercentageAmountDto();
+//            percentageAmountDto.setPercentage(((PercentageAmount) feeVersion.getAmount()).getPercentage());
+//            feeVersionDto.setPercentageAmount(percentageAmountDto);
+//        }
 
-        if (feeVersion.getAmount() instanceof PercentageAmount) {
-            PercentageAmountDto percentageAmountDto = new PercentageAmountDto();
-            percentageAmountDto.setPercentage(((PercentageAmount) feeVersion.getAmount()).getPercentage());
-            feeVersionDto.setPercentageAmount(percentageAmountDto);
-        }
+        feeVersionDto.setAmountType(feeVersion.getAmount().getClass().getSimpleName());
+        feeVersionDto.setAmount(feeVersion.getAmount());
 
         return feeVersionDto;
 

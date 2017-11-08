@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.model.amount;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import uk.gov.hmcts.fees2.register.data.model.AbstractEntity;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
@@ -26,9 +27,11 @@ public abstract class Amount extends AbstractEntity{
     public abstract BigDecimal calculateFee(BigDecimal amount);
 
     @Column(name = "creation_time", nullable = false)
+    @JsonIgnore
     private Date creationTime;
 
     @Column(name = "last_updated", nullable = false)
+    @JsonIgnore
     private Date lastUpdated;
 
     @PreUpdate

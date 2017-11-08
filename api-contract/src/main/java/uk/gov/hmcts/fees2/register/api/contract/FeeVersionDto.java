@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
 import java.util.Date;
 
@@ -27,6 +28,10 @@ public class FeeVersionDto {
     private FeeVersionStatus status;
 
     // Is there a better way to specify this ?
+
+    private String amountType;
+
+    private Amount amount;
 
     private FlatAmountDto flatAmount;
 

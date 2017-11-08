@@ -11,7 +11,7 @@ public class EmbeddedFees2RegisterServiceApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder()
             .sources(FeesRegisterServiceApplication.class)
-            .profiles("embedded")
+            .profiles("embedded", "idam-backdoor")
             .run();
     }
 }

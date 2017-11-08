@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import javax.persistence.GeneratedValue;
@@ -24,5 +25,6 @@ public class AbstractEntity extends Object implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 }
