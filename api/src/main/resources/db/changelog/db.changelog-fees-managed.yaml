@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1510138881537-1
+    id: 1510142816420-1
     author: tarun (generated)
     changes:
     - createTable:
@@ -29,7 +29,7 @@ databaseChangeLog:
             type: TIMESTAMP WITHOUT TIME ZONE
         tableName: amount
 - changeSet:
-    id: 1510138881537-2
+    id: 1510142816420-2
     author: tarun (generated)
     changes:
     - createTable:
@@ -88,7 +88,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: fee
 - changeSet:
-    id: 1510138881537-3
+    id: 1510142816420-3
     author: tarun (generated)
     changes:
     - createTable:
@@ -123,7 +123,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: fee_version
 - changeSet:
-    id: 1510138881537-4
+    id: 1510142816420-4
     author: tarun (generated)
     changes:
     - createTable:
@@ -135,7 +135,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: fixed_fee
 - changeSet:
-    id: 1510138881537-5
+    id: 1510142816420-5
     author: tarun (generated)
     changes:
     - createTable:
@@ -150,7 +150,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: flat_amount
 - changeSet:
-    id: 1510138881537-6
+    id: 1510142816420-6
     author: tarun (generated)
     changes:
     - createTable:
@@ -165,7 +165,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: percentage_amount
 - changeSet:
-    id: 1510138881537-7
+    id: 1510142816420-7
     author: tarun (generated)
     changes:
     - createTable:
@@ -183,7 +183,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: ranged_fee
 - changeSet:
-    id: 1510138881537-8
+    id: 1510142816420-8
     author: tarun (generated)
     changes:
     - createTable:
@@ -204,7 +204,7 @@ databaseChangeLog:
             type: BIGINT
         tableName: rateable_amount
 - changeSet:
-    id: 1510138881537-9
+    id: 1510142816420-9
     author: tarun (generated)
     changes:
     - addPrimaryKey:
@@ -212,7 +212,7 @@ databaseChangeLog:
         constraintName: fixed_feePK
         tableName: fixed_fee
 - changeSet:
-    id: 1510138881537-10
+    id: 1510142816420-10
     author: tarun (generated)
     changes:
     - addPrimaryKey:
@@ -220,7 +220,7 @@ databaseChangeLog:
         constraintName: flat_amountPK
         tableName: flat_amount
 - changeSet:
-    id: 1510138881537-11
+    id: 1510142816420-11
     author: tarun (generated)
     changes:
     - addPrimaryKey:
@@ -228,7 +228,7 @@ databaseChangeLog:
         constraintName: percentage_amountPK
         tableName: percentage_amount
 - changeSet:
-    id: 1510138881537-12
+    id: 1510142816420-12
     author: tarun (generated)
     changes:
     - addPrimaryKey:
@@ -236,7 +236,7 @@ databaseChangeLog:
         constraintName: ranged_feePK
         tableName: ranged_fee
 - changeSet:
-    id: 1510138881537-13
+    id: 1510142816420-13
     author: tarun (generated)
     changes:
     - addPrimaryKey:
@@ -244,7 +244,7 @@ databaseChangeLog:
         constraintName: rateable_amountPK
         tableName: rateable_amount
 - changeSet:
-    id: 1510138881537-14
+    id: 1510142816420-14
     author: tarun (generated)
     changes:
     - addUniqueConstraint:
@@ -252,7 +252,7 @@ databaseChangeLog:
         constraintName: UC_FEECODE_COL
         tableName: fee
 - changeSet:
-    id: 1510138881537-15
+    id: 1510142816420-15
     author: tarun (generated)
     changes:
     - addUniqueConstraint:
@@ -260,7 +260,7 @@ databaseChangeLog:
         constraintName: uk_fee_version
         tableName: fee_version
 - changeSet:
-    id: 1510138881537-16
+    id: 1510142816420-16
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -272,7 +272,7 @@ databaseChangeLog:
         referencedColumnNames: name
         referencedTableName: jurisdiction2
 - changeSet:
-    id: 1510138881537-17
+    id: 1510142816420-17
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -284,7 +284,7 @@ databaseChangeLog:
         referencedColumnNames: name
         referencedTableName: channel_type
 - changeSet:
-    id: 1510138881537-18
+    id: 1510142816420-18
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -296,7 +296,7 @@ databaseChangeLog:
         referencedColumnNames: name
         referencedTableName: event_type
 - changeSet:
-    id: 1510138881537-19
+    id: 1510142816420-19
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -308,7 +308,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: amount
 - changeSet:
-    id: 1510138881537-20
+    id: 1510142816420-20
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -320,7 +320,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: fee
 - changeSet:
-    id: 1510138881537-21
+    id: 1510142816420-21
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -332,7 +332,7 @@ databaseChangeLog:
         referencedColumnNames: name
         referencedTableName: direction_type
 - changeSet:
-    id: 1510138881537-22
+    id: 1510142816420-22
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -344,7 +344,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: fee
 - changeSet:
-    id: 1510138881537-23
+    id: 1510142816420-23
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -356,7 +356,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: fee
 - changeSet:
-    id: 1510138881537-24
+    id: 1510142816420-24
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -368,7 +368,7 @@ databaseChangeLog:
         referencedColumnNames: name
         referencedTableName: service_type
 - changeSet:
-    id: 1510138881537-25
+    id: 1510142816420-25
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -380,7 +380,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: amount
 - changeSet:
-    id: 1510138881537-26
+    id: 1510142816420-26
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -392,7 +392,7 @@ databaseChangeLog:
         referencedColumnNames: name
         referencedTableName: jurisdiction1
 - changeSet:
-    id: 1510138881537-27
+    id: 1510142816420-27
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -404,7 +404,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: amount
 - changeSet:
-    id: 1510138881537-28
+    id: 1510142816420-28
     author: tarun (generated)
     changes:
     - addForeignKeyConstraint:
@@ -416,27 +416,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: amount
 - changeSet:
-    id: 1510138881537-29
-    author: tarun (generated)
-    changes:
-    - dropForeignKeyConstraint:
-        baseTableName: category_fee
-        constraintName: fk_category_id
-- changeSet:
-    id: 1510138881537-30
-    author: tarun (generated)
-    changes:
-    - dropForeignKeyConstraint:
-        baseTableName: category_fee
-        constraintName: fk_fee_id
-- changeSet:
-    id: 1510138881537-31
-    author: tarun (generated)
-    changes:
-    - dropTable:
-        tableName: category_fee
-- changeSet:
-    id: 1510138881537-32
+    id: 1510142816420-29
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -448,7 +428,7 @@ databaseChangeLog:
         columnName: creation_time
         tableName: channel_type
 - changeSet:
-    id: 1510138881537-33
+    id: 1510142816420-30
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -460,7 +440,7 @@ databaseChangeLog:
         columnName: creation_time
         tableName: direction_type
 - changeSet:
-    id: 1510138881537-34
+    id: 1510142816420-31
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -472,7 +452,7 @@ databaseChangeLog:
         columnName: creation_time
         tableName: event_type
 - changeSet:
-    id: 1510138881537-35
+    id: 1510142816420-32
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -484,7 +464,7 @@ databaseChangeLog:
         columnName: creation_time
         tableName: jurisdiction1
 - changeSet:
-    id: 1510138881537-36
+    id: 1510142816420-33
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -496,7 +476,7 @@ databaseChangeLog:
         columnName: creation_time
         tableName: jurisdiction2
 - changeSet:
-    id: 1510138881537-37
+    id: 1510142816420-34
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -508,7 +488,7 @@ databaseChangeLog:
         columnName: creation_time
         tableName: service_type
 - changeSet:
-    id: 1510138881537-38
+    id: 1510142816420-35
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -520,7 +500,7 @@ databaseChangeLog:
         columnName: last_updated
         tableName: channel_type
 - changeSet:
-    id: 1510138881537-39
+    id: 1510142816420-36
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -532,7 +512,7 @@ databaseChangeLog:
         columnName: last_updated
         tableName: direction_type
 - changeSet:
-    id: 1510138881537-40
+    id: 1510142816420-37
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -544,7 +524,7 @@ databaseChangeLog:
         columnName: last_updated
         tableName: event_type
 - changeSet:
-    id: 1510138881537-41
+    id: 1510142816420-38
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -556,7 +536,7 @@ databaseChangeLog:
         columnName: last_updated
         tableName: jurisdiction1
 - changeSet:
-    id: 1510138881537-42
+    id: 1510142816420-39
     author: tarun (generated)
     changes:
     - addNotNullConstraint:
@@ -568,7 +548,7 @@ databaseChangeLog:
         columnName: last_updated
         tableName: jurisdiction2
 - changeSet:
-    id: 1510138881537-43
+    id: 1510142816420-40
     author: tarun (generated)
     changes:
     - addNotNullConstraint:

@@ -73,9 +73,9 @@ public class SwaggerConfiguration {
 
     private ApiInfo newFeesApiInfo() {
         return new ApiInfoBuilder()
-            .title("New FeeOld API")
-            .description("New FeeOld API to retrieve the correct fee.")
-            .contact(new Contact("Tarun Palisetty", "", "tarun.palisetty@hmcts.net"))
+            .title("New Fee API")
+            .description("New Fee API to retrieve the correct fee.")
+            .contact(new Contact("Eduardo Magdalena, Tarun Palisetty", "", "eduardo.magdalena@hmcts.net, tarun.palisetty@hmcts.net"))
             .version("1.0")
             .build();
     }
