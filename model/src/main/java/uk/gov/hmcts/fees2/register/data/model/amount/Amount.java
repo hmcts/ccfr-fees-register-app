@@ -1,13 +1,16 @@
-package uk.gov.hmcts.fees2.register.data.model;
+package uk.gov.hmcts.fees2.register.data.model.amount;
 
 import lombok.*;
+import uk.gov.hmcts.fees2.register.data.model.AbstractEntity;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  *
- * An entity class which contains the information of a AmountType
+ * An entity class which contains the information of a Amount
  *
  */
 
@@ -15,12 +18,12 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(builderMethodName = "amountTypeWith")
-@Table(name = "amount_type")
-public class AmountType extends AbstractEntity {
+@Table(name = "amount")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "amount_type")
+public abstract class Amount extends AbstractEntity{
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    public abstract BigDecimal calculateFee(BigDecimal amount);
 
     @Column(name = "creation_time", nullable = false)
     private Date creationTime;

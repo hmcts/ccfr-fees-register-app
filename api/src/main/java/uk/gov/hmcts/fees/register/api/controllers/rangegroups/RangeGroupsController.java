@@ -6,7 +6,6 @@ import javax.validation.Valid;
 import io.swagger.annotations.ApiOperation;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -76,7 +75,7 @@ public class RangeGroupsController {
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code, @RequestParam(value = "value") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
-        Fee fee = rangeGroup.findFeeForValue(value);
+        FeeOld fee = rangeGroup.findFeeForValue(value);
 
         return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
     }
@@ -86,7 +85,7 @@ public class RangeGroupsController {
     @GetMapping("/range-groups/cmc-paper/calculations/unspecified")
     public CalculationDto getMaxFeeForUnspecifiedRange() {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(CMC_PAPER);
-        Fee fee = rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue());
+        FeeOld fee = rangeGroup.findFeeForValue(rangeGroup.findMaxRangeValue());
 
         return new CalculationDto(fee.calculate(0), feesDtoMapper.toFeeDto(fee));
     }

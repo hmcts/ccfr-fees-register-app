@@ -138,10 +138,52 @@
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.9</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.5.3</version>
+                <configuration>
+                    <changeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed.yaml</changeLogFile>
+                    <diffChangeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed.yaml</diffChangeLogFile>
+                    <url>jdbc:postgresql://localhost:5432/fees_register</url>
+                    <driver>org.postgresql.Driver</driver>
+                    <username>fees_register</username>
+                    <password>fees_register</password>
+                    <referenceUrl>hibernate:spring:uk.gov.hmcts.fees2.register.data.model?dialect=org.hibernate.dialect.PostgreSQL82Dialect</referenceUrl>
+                    <verbose>true</verbose>
+                    <diffExcludeObjects>table:range, table:range_group, table:fixed_fee_old, table:category, table:category_fee, table:fee_old</diffExcludeObjects>
+                </configuration>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>9.4.1212</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.liquibase.ext</groupId>
+                        <artifactId>liquibase-hibernate4</artifactId>
+                        <version>3.6</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-data-jpa</artifactId>
+                        <version>1.5.6.RELEASE</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

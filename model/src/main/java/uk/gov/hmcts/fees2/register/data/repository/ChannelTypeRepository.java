@@ -15,7 +15,7 @@ import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 
 @Repository
 @Transactional(readOnly = true)
-public interface ChannelTypeRepository extends AbstractRepository<ChannelType, Long> {
+public interface ChannelTypeRepository extends AbstractRepository<ChannelType, String> {
 
     @Override
     default String getEntityName() {

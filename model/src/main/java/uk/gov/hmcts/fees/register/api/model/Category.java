@@ -37,5 +37,5 @@ public class Category {
         joinColumns = @JoinColumn(name = "category_id"),
         inverseJoinColumns = @JoinColumn(name = "fee_id")
     )
-    private List<Fee> fees;
+    private List<FeeOld> fees;
 }

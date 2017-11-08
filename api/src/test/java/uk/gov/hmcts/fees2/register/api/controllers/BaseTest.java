@@ -1,29 +1,109 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.joda.time.MutableDateTime;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
+import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
+import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
+import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.repository.*;
+import uk.gov.hmcts.fees2.register.data.service.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
+
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 /**
  * Created by tarun on 18/10/2017.
  */
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = MOCK)
+@ActiveProfiles({"embedded", "idam-backdoor"})
 public abstract class BaseTest {
 
-    /**
-     *
-     * @return
-     */
-    public List<AmountType> getAmountTypes() {
-        return new ArrayList<AmountType>(){{
-            add(new AmountType("flat", new Date(), new Date()));
-            add(new AmountType("percentage", new Date(), new Date()));
-            add(new AmountType("rateable", new Date(), new Date()));
-        }};
+    @Autowired
+    protected ObjectMapper objectMapper;
 
+    @Autowired
+    protected UserResolverBackdoor userRequestAuthorizer;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @Autowired
+    private ChannelTypeRepository channelTypeRepository;
+
+    @Autowired
+    private ChannelTypeService channelTypeService;
+
+    @Autowired
+    private DirectionTypeRepository directionTypeRepository;
+
+    @Autowired
+    private DirectionTypeService directionTypeService;
+
+    @Autowired
+    private EventTypeRepository eventTypeRepository;
+
+    @Autowired
+    private EventTypeService eventTypeService;
+
+    @Autowired
+    private Jurisdiction1Repository jurisdiction1Repository;
+
+    @Autowired
+    private Jurisdiction1Service jurisdiction1Service;
+
+    @Autowired
+    private Jurisdiction2Repository jurisdiction2Repository;
+
+    @Autowired
+    private Jurisdiction2Service jurisdiction2Service;
+
+    @Autowired
+    private ServiceTypeRepository serviceTypeRepository;
+
+    @Autowired
+    private ServiceTypeService serviceTypeService;
+
+    RestActions restActions;
+
+    @Before
+    public void setUp() {
+        MockMvc mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
+
+        // Save Channel reference data
+        channelTypeRepository.save(getChannelTypes());
+        directionTypeRepository.save(getDirectionTypes());
+        eventTypeRepository.save(getEventTypes());
+        jurisdiction1Repository.save(getJurisdictions1());
+        jurisdiction2Repository.save(getJurisdictions2());
+        serviceTypeRepository.save(getServiceTypes());
     }
+
+    CustomResultMatcher body() {
+        return new CustomResultMatcher(objectMapper);
+    }
+
+
 
     /**
      *
@@ -53,15 +133,6 @@ public abstract class BaseTest {
     }
 
     /**
-     *
-     * @return
-     */
-    public List<FeeType> getFeeTyes() {
-        return new ArrayList<FeeType>() {{
-            add(new FeeType("fixed fee", new Date(), new Date()));
-            add(new FeeType("range fee", new Date(), new Date()));
-        }};
-    }
 
     /**
      *
@@ -113,13 +184,99 @@ public abstract class BaseTest {
         }};
     }
 
-    public List<Jurisdiction2> getJurisdiction2() {
+    public List<Jurisdiction2> getJurisdictions2() {
         return new ArrayList<Jurisdiction2>(){{
             add(new Jurisdiction2("county court", new Date(), new Date()));
             add(new Jurisdiction2("high court", new Date(), new Date()));
             add(new Jurisdiction2("magistrates court", new Date(), new Date()));
             add(new Jurisdiction2("court of protection", new Date(), new Date()));
         }};
+    }
+
+    public RangedFeeDto getRangedFeeDto() {
+
+
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+
+        rangedFeeDto.setMinRange(new BigDecimal(1));
+        rangedFeeDto.setMaxRange(new BigDecimal(3000));
+        rangedFeeDto.setCode("X0024");
+        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved));
+        rangedFeeDto.setJurisdiction1(null);
+        rangedFeeDto.setJurisdiction2(null);
+        rangedFeeDto.setDirection(null);
+        rangedFeeDto.setEvent(null);
+        rangedFeeDto.setService(null);
+        rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+        rangedFeeDto.setMemoLine("Test memo line");
+        rangedFeeDto.setFeeOrderName("CMC online fee order name");
+        rangedFeeDto.setNaturalAccountCode("Natural code 001");
+
+
+        return rangedFeeDto;
+    }
+
+    public RangedFeeDto getRangedFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
+
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+        rangedFeeDto.setMinRange(new BigDecimal(minRange));
+        rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
+        rangedFeeDto.setCode(feeCode);
+        rangedFeeDto.setVersion(getFeeVersionDto(status));
+        rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
+        rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
+        rangedFeeDto.setDirection(directionTypeService.findByNameOrThrow("enhanced").getName());
+        rangedFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
+        rangedFeeDto.setService(serviceTypeService.findByNameOrThrow("civil money claims").getName());
+        rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+        rangedFeeDto.setMemoLine("Test memo line");
+        rangedFeeDto.setFeeOrderName("CMC online fee order name");
+        rangedFeeDto.setNaturalAccountCode("Natural code 001");
+
+//        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
+//        feeVersionDtos.add(getFeeVersionDto(status));
+//        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
+
+        return rangedFeeDto;
+    }
+
+    public Fee2Dto getFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
+
+        Fee2Dto feeDto = new Fee2Dto();
+        feeDto.setMinRange(new BigDecimal(minRange));
+        feeDto.setMaxRange(new BigDecimal(maxRange));
+        feeDto.setCode(feeCode);
+        //feeDto.setVersion(getFeeVersionDto(status));
+        feeDto.setJurisdiction1Dto(jurisdiction1Service.findByNameOrThrow("civil"));
+        feeDto.setJurisdiction2Dto(jurisdiction2Service.findByNameOrThrow("county court"));
+        feeDto.setDirectionTypeDto(directionTypeService.findByNameOrThrow("enhanced"));
+        feeDto.setEventTypeDto(eventTypeService.findByNameOrThrow("issue"));
+        feeDto.setServiceTypeDto(serviceTypeService.findByNameOrThrow("civil money claims"));
+        feeDto.setChannelTypeDto(channelTypeService.findByNameOrThrow("online"));
+        feeDto.setMemoLine("Test memo line");
+        feeDto.setFeeOrderName("CMC online fee order name");
+        feeDto.setNaturalAccountCode("Natural code 001");
+
+//        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
+//        feeVersionDtos.add(getFeeVersionDto(status));
+//        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
+
+        return feeDto;
+    }
+
+    public FeeVersionDto getFeeVersionDto(FeeVersionStatus status) {
+        MutableDateTime validTo = new MutableDateTime(new Date());
+        validTo.addDays(90);
+
+        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, getFlatAmountDto(), null);
+    }
+
+    public FlatAmountDto getFlatAmountDto() {
+        return new FlatAmountDto(new BigDecimal(2500));
+    }
+
+    public PercentageAmountDto getPercentageAmountDto() {
+        return new PercentageAmountDto(new BigDecimal(4.5));
     }
 
 }

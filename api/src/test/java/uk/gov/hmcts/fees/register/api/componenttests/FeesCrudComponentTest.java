@@ -113,7 +113,7 @@ public class FeesCrudComponentTest extends ComponentTestBase {
     @Test
     public void prohibitTypeChange() throws Exception {
         FixedFeeDtoBuilder proposedFee = fixedFeeDtoWith().code("ignored").amount(10000).description("any");
-        assertValidationMessage("/fees/X0434", proposedFee.build(), "Fee type can't be changed");
+        assertValidationMessage("/fees/X0434", proposedFee.build(), "FeeOld type can't be changed");
     }
 
     @Test

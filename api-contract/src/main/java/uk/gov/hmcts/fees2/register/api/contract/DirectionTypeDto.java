@@ -3,6 +3,8 @@ package uk.gov.hmcts.fees2.register.api.contract;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.util.Date;
+
 /**
  * A Dto class which contains the information about DirectionType entity.
  */
@@ -16,4 +18,8 @@ import lombok.*;
 public class DirectionTypeDto {
 
     private String name;
+
+    private Date creationTime;
+
+    private Date lastUpdated;
 }

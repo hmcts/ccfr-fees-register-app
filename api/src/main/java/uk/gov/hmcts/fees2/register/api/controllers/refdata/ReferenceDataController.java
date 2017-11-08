@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.*;
+import uk.gov.hmcts.fees2.register.api.controllers.mapper.ReferenceDataDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
@@ -23,15 +24,11 @@ import static java.util.stream.Collectors.toList;
 @Validated
 public class ReferenceDataController {
 
-    private final AmountTypeService amountTypeService;
-
     private final ChannelTypeService channelTypeService;
 
     private final DirectionTypeService directionTypeService;
 
     private final EventTypeService eventTypeService;
-
-    private final FeeTypeService feeTypeService;
 
     private final Jurisdiction1Service jurisdiction1Service;
 
@@ -42,34 +39,18 @@ public class ReferenceDataController {
     private ReferenceDataDtoMapper referenceDataDtoMapper;
 
     @Autowired
-    public ReferenceDataController(AmountTypeService amountTypeService, ChannelTypeService channelTypeService,
+    public ReferenceDataController(ChannelTypeService channelTypeService,
                                    DirectionTypeService directionTypeService, EventTypeService eventTypeService,
-                                   FeeTypeService feeTypeService, Jurisdiction1Service jurisdiction1Service,
+                                   Jurisdiction1Service jurisdiction1Service,
                                    Jurisdiction2Service jurisdiction2Service, ServiceTypeService serviceTypeService,
                                    ReferenceDataDtoMapper referenceDataDtoMapper) {
-        this.amountTypeService = amountTypeService;
         this.channelTypeService = channelTypeService;
         this.directionTypeService = directionTypeService;
         this.eventTypeService = eventTypeService;
-        this.feeTypeService = feeTypeService;
         this.jurisdiction1Service = jurisdiction1Service;
         this.jurisdiction2Service = jurisdiction2Service;
         this.serviceTypeService = serviceTypeService;
         this.referenceDataDtoMapper = referenceDataDtoMapper;
-    }
-
-    @GetMapping("/amounttypes")
-    @ResponseStatus(HttpStatus.OK)
-    public List<AmountTypeDto> getAllAmountTypes() {
-        return amountTypeService.findAll().stream().map(referenceDataDtoMapper::toAmountTypeDto).collect(toList());
-    }
-
-    @GetMapping("/amounttypes/{name}")
-    @ResponseStatus(HttpStatus.OK)
-    @Deprecated
-    public AmountTypeDto getAmountTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
-        AmountType amountType = amountTypeService.findByNameOrThrow(name);
-        return referenceDataDtoMapper.toAmountTypeDto(amountType);
     }
 
     @GetMapping("/channeltypes")
@@ -112,20 +93,6 @@ public class ReferenceDataController {
     public EventTypeDto getEventTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
         EventType eventType = eventTypeService.findByNameOrThrow(name);
         return referenceDataDtoMapper.toEventTypeDto(eventType);
-    }
-
-    @GetMapping("/feetypes")
-    @ResponseStatus(HttpStatus.OK)
-    public List<FeeTypeDto> getAllFeeTypes() {
-        return feeTypeService.findAll().stream().map(referenceDataDtoMapper::toFeeTypeDto).collect(toList());
-    }
-
-    @GetMapping("/feetypes/{name}")
-    @ResponseStatus(HttpStatus.OK)
-    @Deprecated
-    public FeeTypeDto getFeeTypeByName(@NotEmpty @PathVariable(name = "name") String name) {
-        FeeType feeType = feeTypeService.findByNameOrThrow(name);
-        return referenceDataDtoMapper.toFeeTypeDto(feeType);
     }
 
     @GetMapping(path = "/jurisdictions1")

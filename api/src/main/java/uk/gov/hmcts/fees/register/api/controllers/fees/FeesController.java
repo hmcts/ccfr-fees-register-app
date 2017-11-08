@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees.register.api.contract.CalculationDto;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
-import uk.gov.hmcts.fees.register.api.model.Fee;
+import uk.gov.hmcts.fees.register.api.model.FeeOld;
 import uk.gov.hmcts.fees.register.api.model.FeeRepository;
 import static java.util.stream.Collectors.toList;
 
@@ -44,15 +44,15 @@ public class FeesController {
 
     @GetMapping("/fees/{code}")
     public FeeDto getFee(@NotEmpty @PathVariable("code") String code) {
-        Fee fee = feeRepository.findByCodeOrThrow(code);
+        FeeOld fee = feeRepository.findByCodeOrThrow(code);
         return feesDtoMapper.toFeeDto(fee);
     }
 
     @PutMapping("/fees/{code}")
     public FeeDto createOrUpdateFee(@Length(max = 50) @PathVariable("code") String code,
                                     @Valid @RequestBody FeeDto feeDto) throws IllegalAccessException, InstantiationException {
-        Fee newFeeModel = feesDtoMapper.toFee(code, feeDto);
-        Fee existingFee = feeRepository.findByCode(code).orElse(newFeeModel.getClass().newInstance());
+        FeeOld newFeeModel = feesDtoMapper.toFee(code, feeDto);
+        FeeOld existingFee = feeRepository.findByCode(code).orElse(newFeeModel.getClass().newInstance());
 
         if (!existingFee.getClass().equals(newFeeModel.getClass())) {
             throw new FeeTypeUnchangeableException();
@@ -68,13 +68,13 @@ public class FeesController {
     @GetMapping("/fees/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code,
                                            @RequestParam("value") int value) {
-        Fee fee = feeRepository.findByCodeOrThrow(code);
+        FeeOld fee = feeRepository.findByCodeOrThrow(code);
         int amount = fee.calculate(value);
         return new CalculationDto(amount, feesDtoMapper.toFeeDto(fee));
     }
 
     @ExceptionHandler(FeeTypeUnchangeableException.class)
     public ResponseEntity<ErrorDto> feeTypeUnchangeableException() {
-        return new ResponseEntity<>(new ErrorDto("Fee type can't be changed"), BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorDto("FeeOld type can't be changed"), BAD_REQUEST);
     }
 }

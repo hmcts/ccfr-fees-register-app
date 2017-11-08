@@ -1,14 +1,14 @@
 package uk.gov.hmcts.fees2.register.data.service;
 
-import uk.gov.hmcts.fees2.register.data.model.AmountType;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
 /**
  *
- * AmountType service interface
+ * Amount service interface
  *
  * @author Tarun Palisetty
  */
 
-public interface AmountTypeService extends AbstractService<AmountType> {
+public interface AmountTypeService extends AbstractService<Amount> {
 
 }

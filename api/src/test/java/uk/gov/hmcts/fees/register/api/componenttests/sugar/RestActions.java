@@ -55,4 +55,33 @@ public class RestActions {
             throw new RuntimeException(e);
         }
     }
+
+    public ResultActions post(String urlTemplate, Object dto) {
+        try {
+            return mvc.perform(MockMvcRequestBuilders
+                .post(urlTemplate)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .headers(httpHeaders)
+                .content(objectMapper.writeValueAsString(dto))
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public ResultActions patch(String urlTemplate, Object dto) {
+        try {
+            return mvc.perform(MockMvcRequestBuilders
+                .patch(urlTemplate)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .headers(httpHeaders)
+                .content(objectMapper.writeValueAsString(dto))
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

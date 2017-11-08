@@ -14,7 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @DiscriminatorValue("percentage")
-public class PercentageFee extends Fee {
+public class PercentageFee extends FeeOld {
     @NonNull
     private BigDecimal percentage;
 

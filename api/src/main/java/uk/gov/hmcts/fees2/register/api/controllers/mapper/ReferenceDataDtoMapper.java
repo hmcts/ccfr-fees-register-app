@@ -1,8 +1,9 @@
-package uk.gov.hmcts.fees2.register.api.controllers.refdata;
+package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
 /**
  * ReferenceData entity to DTO mapper
@@ -12,19 +13,6 @@ import uk.gov.hmcts.fees2.register.data.model.*;
 
 @Component
 public class ReferenceDataDtoMapper {
-
-
-    /**
-     *
-     * AmountType to AmountTypeDto
-     * @param amountType
-     * @return
-     */
-    public AmountTypeDto toAmountTypeDto(AmountType amountType) {
-        return AmountTypeDto.amountTypeDtoWith()
-                .name(amountType.getName())
-                .build();
-    }
 
     /**
      *
@@ -56,17 +44,6 @@ public class ReferenceDataDtoMapper {
     public EventTypeDto toEventTypeDto(EventType eventType) {
         return EventTypeDto.eventTypeDtoWith()
                 .name(eventType.getName())
-                .build();
-    }
-
-    /**
-     *
-     * @param feeType
-     * @return
-     */
-    public FeeTypeDto toFeeTypeDto(FeeType feeType) {
-        return FeeTypeDto.feeTypeDtoWith()
-                .name(feeType.getName())
                 .build();
     }
 

@@ -63,7 +63,7 @@ public class RangeGroup {
         }
     }
 
-    public Fee findFeeForValue(int value) {
+    public FeeOld findFeeForValue(int value) {
         Optional<Range> first = ranges.stream().filter(range -> range.containsValue(value)).findFirst();
         Range range = first.orElseThrow(() -> new RangeNotFoundException(value));
         return range.getFee();

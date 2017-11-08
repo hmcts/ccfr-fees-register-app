@@ -12,7 +12,7 @@ import java.util.Optional;
 
 /**
  *
- * Specifies methods used to obtain and modify AmountType related information
+ * Specifies methods used to obtain and modify Amount related information
  * which is stored in the database.
  *
  * @author Tarun Palisetty
