@@ -62,15 +62,14 @@ public class FeeController {
     }
 
     @GetMapping("/fees/lookup")
-    public FeeLookupResponseDto lookup(@RequestParam(required = false) String service,
-                                       @RequestParam(required = false) String jurisdiction1,
-                                       @RequestParam(required = false) String jurisdiction2,
+    public FeeLookupResponseDto lookup(@RequestParam String service,
+                                       @RequestParam String jurisdiction1,
+                                       @RequestParam String jurisdiction2,
                                        @RequestParam(required = false) String channel,
-                                       @RequestParam(required = false) String event,
-                                       @RequestParam(required = false) String direction,
+                                       @RequestParam String event,
                                        @RequestParam(required = false) BigDecimal amount) {
 
-        Fee fee = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount));
+        Fee fee = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount));
 
         FeeVersion version = fee.getCurrentVersion();
 
