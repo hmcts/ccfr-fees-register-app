@@ -12,7 +12,7 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class BaseIntegrationTest extends BaseTest{
+public abstract class BaseIntegrationTest extends BaseTest{
 
     protected ResultActions getFeeAndExpectStatusIsOk(String code) throws Exception {
         return restActions
