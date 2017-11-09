@@ -5,7 +5,6 @@ import lombok.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 /**
