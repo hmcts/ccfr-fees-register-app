@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 @Data
 @Entity
@@ -21,6 +22,6 @@ public class PercentageAmount extends Amount{
 
     @Override
     public BigDecimal calculateFee(BigDecimal amount) {
-        return amount.multiply(percentage, MathContext.DECIMAL32).setScale(2);
+        return amount.multiply(percentage).setScale(2, RoundingMode.DOWN);
     }
 }
