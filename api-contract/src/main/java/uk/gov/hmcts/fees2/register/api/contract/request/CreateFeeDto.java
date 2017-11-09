@@ -10,28 +10,28 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateFeeDto {
+public abstract  class CreateFeeDto {
 
-    private String code;
+    protected String code;
 
-    private FeeVersionDto version;
+    protected FeeVersionDto version;
 
-    private String jurisdiction1;
+    protected String jurisdiction1;
 
-    private String jurisdiction2;
+    protected String jurisdiction2;
 
-    private String service;
+    protected String service;
 
-    private String channel;
+    protected String channel;
 
-    private String direction;
+    protected String direction;
 
-    private String event;
+    protected String event;
 
-    private String memoLine;
+    protected String memoLine;
 
-    private String feeOrderName;
+    protected String feeOrderName;
 
-    private String naturalAccountCode;
+    protected String naturalAccountCode;
 
 }
