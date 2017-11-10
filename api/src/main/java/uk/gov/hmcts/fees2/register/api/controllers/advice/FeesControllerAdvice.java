@@ -1,5 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers.advice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -17,13 +19,17 @@ import java.util.Collections;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class FeesControllerAdvice {
 
+    private static final Logger LOG = LoggerFactory.getLogger(FeesControllerAdvice.class);
+
     @ExceptionHandler({BadRequestException.class})
     public ResponseEntity<?> badRequest(BadRequestException e){
+        LOG.error("Bad request: " + e.getMessage());
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({ReferenceDataNotFoundException.class})
-    public ResponseEntity<?> badRequest(ReferenceDataNotFoundException e){
+    public ResponseEntity<?> referenceDataNotFound(ReferenceDataNotFoundException e){
+        LOG.error(e.toString());
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
@@ -31,6 +37,5 @@ public class FeesControllerAdvice {
     public ResponseEntity<?> tooManyResults(TooManyResultsException e) {
         return new ResponseEntity<Object>(HttpStatus.MULTIPLE_CHOICES);
     }
-
 
 }

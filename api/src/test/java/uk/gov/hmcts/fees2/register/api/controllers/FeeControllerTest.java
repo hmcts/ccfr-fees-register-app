@@ -17,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 
 
-public class FeeControllerTest extends BaseTest {
+public class FeeControllerTest extends BaseIntegrationTest {
 
     /**
      *
      * @throws Exception
      */
     @Test
-    public void createFeeTest() throws Exception{
+    public synchronized void createFeeTest() throws Exception{
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, "X0001", FeeVersionStatus.approved);
 
         restActions
@@ -32,10 +32,12 @@ public class FeeControllerTest extends BaseTest {
             .post("/fees-register/rangedfees", rangedFeeDto)
             .andExpect(status().isCreated());
 
+        deleteFee("X0001");
+
     }
 
     @Test
-    public void readFeeTest() throws Exception {
+    public synchronized void readFeeTest() throws Exception {
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 999, "X0002", FeeVersionStatus.approved);
 
         restActions
@@ -50,10 +52,12 @@ public class FeeControllerTest extends BaseTest {
                 assertThat(feeDto.getCode().equals("X0002"));
                 assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
             }));
+
+        deleteFee("X0002");
     }
 
     @Test
-    public void approveFeeTest() throws Exception {
+    public synchronized void approveFeeTest() throws Exception {
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0003", FeeVersionStatus.draft);
 
         restActions
@@ -69,10 +73,12 @@ public class FeeControllerTest extends BaseTest {
             .withUser("admin")
             .patch("/fees-register/fees/approve", approveFeeDto)
             .andExpect(status().isOk());
+
+        deleteFee("X0003");
     }
 
     @Test
-    public void feesLookupTest() throws Exception {
+    public synchronized void feesLookupTest() throws Exception {
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "X0004", FeeVersionStatus.approved);
 
         restActions
@@ -89,11 +95,8 @@ public class FeeControllerTest extends BaseTest {
                 assertThat(feeDto.getChannelTypeDto().getName().equals("online"));
             }));
 
-
+        deleteFee("X0004");
 
     }
-
-
-
 
 }

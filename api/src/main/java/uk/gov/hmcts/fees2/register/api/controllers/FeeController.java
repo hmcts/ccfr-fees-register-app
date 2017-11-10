@@ -9,9 +9,10 @@ import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.response.FeeLookupResponseDto;
+
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
@@ -59,6 +60,12 @@ public class FeeController {
         return feeDtoMapper.toFeeDto(fee);
     }
 
+    @DeleteMapping("/fees/{code}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFee(@PathVariable("code") String code) {
+        feeService.delete(code);
+    }
+
     @GetMapping("/fees")
     public List<Fee2Dto> search(@RequestParam(required = false) String service,
                                 @RequestParam(required = false) String jurisdiction1,
@@ -82,11 +89,7 @@ public class FeeController {
                                        @RequestParam String event,
                                        @RequestParam(required = false) BigDecimal amount) {
 
-        Fee fee = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount));
-
-        FeeVersion version = fee.getCurrentVersion();
-
-        return new FeeLookupResponseDto(fee.getCode(), version.getVersion(), version.calculateFee(amount));
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount));
     }
 
 

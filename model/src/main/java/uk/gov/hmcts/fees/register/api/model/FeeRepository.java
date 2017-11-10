@@ -13,4 +13,5 @@ public interface FeeRepository extends JpaRepository<FeeOld, Integer> {
     default FeeOld findByCodeOrThrow(String code) {
         return findByCode(code).orElseThrow(() -> new FeeNotFoundException(code));
     }
+
 }

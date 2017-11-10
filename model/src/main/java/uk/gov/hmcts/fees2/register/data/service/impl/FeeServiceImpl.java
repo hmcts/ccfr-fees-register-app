@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
@@ -52,6 +53,11 @@ public class FeeServiceImpl implements FeeService {
 
     }
 
+    @Transactional
+    public void delete(String code) {
+        fee2Repository.deleteFeeByCode(code);
+    }
+
     @Override
     public Fee get(String code) {
         return fee2Repository.findByCodeOrThrow(code);
@@ -74,7 +80,7 @@ public class FeeServiceImpl implements FeeService {
         return true;
     }
 
-    public Fee lookup(LookupFeeDto dto) {
+    public FeeLookupResponseDto lookup(LookupFeeDto dto) {
 
         defaults(dto);
 
@@ -88,7 +94,19 @@ public class FeeServiceImpl implements FeeService {
             throw new TooManyResultsException();
         }
 
-        return fees.get(0);
+        Fee fee = fees.get(0);
+
+        FeeVersion version = fee.getCurrentVersion();
+
+        if(version == null) {
+            throw new FeeNotFoundException(dto);
+        }
+
+        return new FeeLookupResponseDto(
+            fee.getCode(),
+            fee.getMemoLine(),
+            version.getVersion(),
+            version.calculateFee(dto.getAmount()));
 
     }
 
