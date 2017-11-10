@@ -34,7 +34,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
         dto.setService("divorce");
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
-        dto.setJurisdiction2("family court");
+        dto.setJurisdiction2("high court");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setMemoLine("description");
 
@@ -48,6 +48,8 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
 
         getFeeAndExpectStatusIsOk(dto.getCode())
             .andExpect(versionIsOneAndStatusIsDraft());
+
+        deleteFee(dto.getCode());
 
     }
 

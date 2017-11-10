@@ -3,14 +3,15 @@ package uk.gov.hmcts.fees2.register.api.contract.request;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
-@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract  class CreateFeeDto {
+@Getter
+public abstract class CreateFeeDto {
 
     protected String code;
 

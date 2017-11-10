@@ -125,16 +125,24 @@ public abstract class BaseIntegrationTest extends BaseTest{
     /* --- DTO BUILDERS --- */
 
     protected CreateFixedFeeDto createCMCIssueCivilCountyFixedFee() {
-        CreateFixedFeeDto dto = new CreateFixedFeeDto();
-        dto.setService("civil money claims");
-        dto.setEvent("issue");
-        dto.setJurisdiction1("civil");
-        dto.setJurisdiction2("county court");
+        return new CreateFixedFeeDto()
+        .setService("civil money claims")
+        .setEvent("issue")
+        .setJurisdiction1("civil")
+        .setJurisdiction2("county court")
+        .setCode(String.valueOf(System.currentTimeMillis()))
+        .setMemoLine("description");
+    }
 
-        dto.setCode(String.valueOf(System.currentTimeMillis()));
-        dto.setMemoLine("description");
+    protected CreateFixedFeeDto createDivorceIssueFamilyFixedFee() {
+        return new CreateFixedFeeDto()
+        .setService("divorce")
+        .setEvent("issue")
+        .setJurisdiction1("family")
+        .setJurisdiction2("family court")
+        .setCode(String.valueOf(System.currentTimeMillis()))
+        .setMemoLine("description");
 
-        return dto;
     }
 
 }

@@ -35,6 +35,7 @@ public class FeeServiceTest extends BaseTest{
     private FeeDtoMapper dtoMapper;
 
     @Test
+    @Transactional
     public void testBasicSearch() {
 
         createDefaultChannelType();
@@ -48,6 +49,7 @@ public class FeeServiceTest extends BaseTest{
     }
 
     @Test
+    @Transactional
     public void testRefinedSearch() {
 
         String code = createDetailedFee("divorce");
@@ -96,6 +98,7 @@ public class FeeServiceTest extends BaseTest{
     }
 
     @Test
+    @Transactional
     public void testCreateFeeWithoutVersionOrStatus(){
 
         Fee fee = new FixedFee();
@@ -133,8 +136,6 @@ public class FeeServiceTest extends BaseTest{
         fee = feeService.get(fee.getCode());
 
         assertEquals(ChannelType.DEFAULT, fee.getChannelType().getName());
-
-        feeService.delete(fee.getCode());
 
         return fee.getCode();
 

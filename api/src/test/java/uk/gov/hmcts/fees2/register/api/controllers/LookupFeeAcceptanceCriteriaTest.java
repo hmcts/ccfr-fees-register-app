@@ -210,4 +210,80 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
         deleteFee(dto.getCode());
     }
 
+    /* --- PAY-457 --- */
+
+    /* Scenario 1: Looking up a FLAT fee with DEFAULT channel
+
+    Given a "citizen" wants to apply for a divorce using the "Divorce" service
+    And the case will be IN the "family" jurisdiction
+    And the case will be FOR a "family" jurisdiction
+    And the case is made through "default" channel
+    When the fee for this case is being looked up through the API
+    And the fee amount is a "flat amount"
+    And there exists an "Approved" version of the fee which is valid as of today
+    Then the API response will have the FeeCode, FeeVersion, FeeDescription and the FeeAmount
+
+    */
+
+    @Test
+    public synchronized void testLookupFlatFeeWithDefaultChannelSpecified() throws Exception{
+
+        BigDecimal claimValue = new BigDecimal(5);
+
+        CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
+        dto.setChannel("default");
+
+        FeeVersionDto versionDto = new FeeVersionDto();
+        versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
+        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setStatus(FeeVersionStatus.approved);
+
+        dto.setVersion(versionDto);
+
+        saveFeeAndCheckStatusIsCreated(dto);
+
+        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+            .andExpect(status().isOk())
+            .andExpect(lookupResultMatchesFee(dto))
+            .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
+
+        deleteFee(dto.getCode());
+
+    }
+
+    /* Scenario 2: Looking up fees where no approved fee exists
+
+    Given a "citizen" wants to apply for a divorce using the "Divorce" service
+    And the case will be IN the "family" jurisdiction
+    And the case will be FOR a "family" jurisdiction
+    And the case is made through "default" channel
+    When the fee for this case is being looked up through the API
+    And the fee amount is a "flat amount"
+    And there is NO "Approved" version of the fee which is valid as of today
+    Then the API response will return an error
+
+    */
+
+    @Test
+    public synchronized void testLookupFeeWhereNoApprovedDivorceDefaultChannel() throws Exception{
+
+        BigDecimal claimValue = new BigDecimal(5);
+
+        CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
+        dto.setChannel("default");
+
+        FeeVersionDto versionDto = new FeeVersionDto();
+
+        versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
+        versionDto.setDescription(dto.getMemoLine());
+        dto.setVersion(versionDto);
+
+        saveFeeAndCheckStatusIsCreated(dto);
+
+        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+            .andExpect(status().isNotFound());
+
+        deleteFee(dto.getCode());
+    }
+
 }
