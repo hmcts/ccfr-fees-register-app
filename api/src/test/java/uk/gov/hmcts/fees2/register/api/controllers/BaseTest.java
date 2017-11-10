@@ -89,14 +89,6 @@ public abstract class BaseTest {
     public void setUp() {
         MockMvc mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
-
-        // Save Channel reference data
-        channelTypeRepository.save(getChannelTypes());
-        directionTypeRepository.save(getDirectionTypes());
-        eventTypeRepository.save(getEventTypes());
-        jurisdiction1Repository.save(getJurisdictions1());
-        jurisdiction2Repository.save(getJurisdictions2());
-        serviceTypeRepository.save(getServiceTypes());
     }
 
     CustomResultMatcher body() {
@@ -229,9 +221,25 @@ public abstract class BaseTest {
         rangedFeeDto.setFeeOrderName("CMC online fee order name");
         rangedFeeDto.setNaturalAccountCode("Natural code 001");
 
-//        List<FeeVersionDto> feeVersionDtos = new ArrayList<>();
-//        feeVersionDtos.add(getFeeVersionDto(status));
-//        rangedFeeDto.setFeeVersionDtos(feeVersionDtos);
+        return rangedFeeDto;
+    }
+
+    public CreateRangedFeeDto getRangedFeeDtoForLookup(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
+
+        CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
+        rangedFeeDto.setMinRange(new BigDecimal(minRange));
+        rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
+        rangedFeeDto.setCode(feeCode);
+        rangedFeeDto.setVersion(getFeeVersionDto(status));
+        rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("family").getName());
+        rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("high court").getName());
+        rangedFeeDto.setDirection(directionTypeService.findByNameOrThrow("license").getName());
+        rangedFeeDto.setEvent(eventTypeService.findByNameOrThrow("copies").getName());
+        rangedFeeDto.setService(serviceTypeService.findByNameOrThrow("divorce").getName());
+        rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+        rangedFeeDto.setMemoLine("Test lookup fee");
+        rangedFeeDto.setFeeOrderName("Divorce online fee order name");
+        rangedFeeDto.setNaturalAccountCode("Natural code for lookup");
 
         return rangedFeeDto;
     }
