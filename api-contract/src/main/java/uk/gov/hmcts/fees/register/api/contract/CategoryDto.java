@@ -2,13 +2,9 @@ package uk.gov.hmcts.fees.register.api.contract;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.ToString;
 
 
 @Data

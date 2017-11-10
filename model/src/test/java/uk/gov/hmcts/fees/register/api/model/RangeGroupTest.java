@@ -5,7 +5,6 @@ import uk.gov.hmcts.fees.register.api.model.exceptions.RangeNotFoundException;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.fees.register.api.model.FixedFee.fixedFeeWith;
 

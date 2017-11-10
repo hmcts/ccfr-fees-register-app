@@ -1,17 +1,11 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
-import lombok.ToString;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.CalculationDto;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
-import uk.gov.hmcts.fees.register.api.contract.FeeDto;
-import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto;
-
-import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.percentageFeeDtoWith;
 
 public class RangeGroupsCalculationsComponentTest extends ComponentTestBase {
 

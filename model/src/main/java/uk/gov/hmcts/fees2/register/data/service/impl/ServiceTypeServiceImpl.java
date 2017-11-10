@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees2.register.data.model.ServiceType;
 import uk.gov.hmcts.fees2.register.data.repository.ServiceTypeRepository;
 import uk.gov.hmcts.fees2.register.data.service.ServiceTypeService;
-import uk.gov.hmcts.fees2.register.data.service.impl.AbstractServiceImpl;
 
 /**
  *

@@ -1,6 +1,5 @@
 package uk.gov.hmcts.fees.register.api.controllers;
 
-import java.math.BigDecimal;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
 import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto;
@@ -9,6 +8,8 @@ import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
 import uk.gov.hmcts.fees.register.api.model.FeeOld;
 import uk.gov.hmcts.fees.register.api.model.FixedFee;
 import uk.gov.hmcts.fees.register.api.model.PercentageFee;
+
+import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

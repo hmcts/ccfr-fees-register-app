@@ -5,7 +5,8 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class FeeVersionTest {

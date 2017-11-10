@@ -1,16 +1,16 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
-import java.util.Arrays;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.RangeGroupUpdateDtoBuilder;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.RangeUpdateDto;
 
+import java.util.Arrays;
+
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
 import static java.util.Collections.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;

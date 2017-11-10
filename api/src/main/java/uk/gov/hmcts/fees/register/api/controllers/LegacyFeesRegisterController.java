@@ -2,20 +2,16 @@ package uk.gov.hmcts.fees.register.api.controllers;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees.register.api.repositories.FeesRegisterRepository;
 import uk.gov.hmcts.fees.register.legacymodel.Category;
 import uk.gov.hmcts.fees.register.legacymodel.EntityNotFoundException;
 import uk.gov.hmcts.fees.register.legacymodel.Fee;
 import uk.gov.hmcts.fees.register.legacymodel.FeesRegister;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 

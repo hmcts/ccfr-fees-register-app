@@ -2,7 +2,6 @@ package uk.gov.hmcts.fees.register.api.componenttests;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.CalculationDto;
-import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

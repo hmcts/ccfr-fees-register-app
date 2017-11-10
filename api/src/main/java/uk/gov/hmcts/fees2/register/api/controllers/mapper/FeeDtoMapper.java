@@ -106,7 +106,7 @@ public class FeeDtoMapper {
             fee2Dto.setMaxRange(((RangedFee) fee).getMaxRange());
         }
 
-        List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(v -> toFeeVersionDto(v)).collect(Collectors.toList());
+        List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(this::toFeeVersionDto).collect(Collectors.toList());
         fee2Dto.setFeeVersionDtos(feeVersionDtos);
 
         return fee2Dto;
@@ -192,10 +192,10 @@ public class FeeDtoMapper {
     private void fillVersionStatus(FeeVersion version, FeeVersionStatus status) {
 
         if(status == null) {
-            status = FeeVersionStatus.draft;
+            version.setStatus(FeeVersionStatus.draft);
+        }else{
+            version.setStatus(status);
         }
-
-        version.setStatus(status);
     }
 
     private void fillChannelType(Fee fee, String channel) {

@@ -1,8 +1,6 @@
 package uk.gov.hmcts.fees.register.api.controllers;
 
 
-import java.util.Arrays;
-import java.util.Collections;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
@@ -15,6 +13,9 @@ import uk.gov.hmcts.fees.register.api.model.Category;
 import uk.gov.hmcts.fees.register.api.model.FeeOld;
 import uk.gov.hmcts.fees.register.api.model.FixedFee;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;

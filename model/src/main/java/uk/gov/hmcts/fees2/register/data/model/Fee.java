@@ -3,13 +3,10 @@ package uk.gov.hmcts.fees2.register.data.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -67,9 +64,17 @@ public abstract class Fee extends AbstractEntity{
 
     /* --- */
 
-    public abstract boolean isInRange(BigDecimal amount);
+    @Column(name = "creation_time", nullable = false)
+    private Date creationTime;
+
+    @Column(name = "last_updated", nullable = false)
+    private Date lastUpdated;
 
     private transient FeeVersion currentVersion = null;
+
+    /* --- */
+
+    public abstract boolean isInRange(BigDecimal amount);
 
     public FeeVersion getCurrentVersion() {
 
@@ -86,12 +91,6 @@ public abstract class Fee extends AbstractEntity{
     }
 
     /* --- */
-
-    @Column(name = "creation_time", nullable = false)
-    private Date creationTime;
-
-    @Column(name = "last_updated", nullable = false)
-    private Date lastUpdated;
 
     @PreUpdate
     public void preUpdate() {

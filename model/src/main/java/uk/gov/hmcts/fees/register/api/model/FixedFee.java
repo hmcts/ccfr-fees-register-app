@@ -1,11 +1,12 @@
 package uk.gov.hmcts.fees.register.api.model;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @Data
 @Entity

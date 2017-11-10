@@ -3,7 +3,6 @@ package uk.gov.hmcts.fees2.register.data.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
@@ -21,7 +20,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +28,30 @@ import java.util.stream.Collectors;
 public class FeeServiceImpl implements FeeService {
 
     @Autowired
+    private FeeVersionRepository feeVersionRepository;
+
+    @Autowired
+    private ChannelTypeRepository channelTypeRepository;
+
+    @Autowired
+    private Jurisdiction1Repository jurisdiction1Repository;
+
+    @Autowired
+    private Jurisdiction2Repository jurisdiction2Repository;
+
+    @Autowired
+    private DirectionTypeRepository directionTypeRepository;
+
+    @Autowired
+    private EventTypeRepository eventTypeRepository;
+
+    @Autowired
+    private ServiceTypeRepository serviceTypeRepository;
+
+    @Autowired
     private Fee2Repository fee2Repository;
+
+    /* --- */
 
     public Fee save(Fee fee) {
 
@@ -116,7 +137,7 @@ public class FeeServiceImpl implements FeeService {
 
         return fee2Repository
             .findAll(
-                (rootFee, criteriaQuery, criteriaBuilder) -> buildFirstLevelPredicate(rootFee, criteriaQuery, criteriaBuilder, dto)
+                (rootFee, criteriaQuery, criteriaBuilder) -> buildFirstLevelPredicate(rootFee, criteriaBuilder, dto)
             )
             .stream()
             .filter(fee -> dto.getAmount() == null || fee.isInRange(dto.getAmount()))
@@ -130,7 +151,9 @@ public class FeeServiceImpl implements FeeService {
         }
     }
 
-    private Predicate buildFirstLevelPredicate(Root<Fee> fee, CriteriaQuery<?> cq, CriteriaBuilder builder, LookupFeeDto dto) {
+    private static final Predicate[] REF = new Predicate[0];
+
+    private Predicate buildFirstLevelPredicate(Root<Fee> fee, CriteriaBuilder builder, LookupFeeDto dto) {
 
         EntityType<Fee> Fee_ = fee.getModel();
 
@@ -194,28 +217,4 @@ public class FeeServiceImpl implements FeeService {
 
     }
 
-    private final static Predicate[] REF = new Predicate[0];
-
-    /* --- */
-
-    @Autowired
-    private FeeVersionRepository feeVersionRepository;
-
-    @Autowired
-    private ChannelTypeRepository channelTypeRepository;
-
-    @Autowired
-    private Jurisdiction1Repository jurisdiction1Repository;
-
-    @Autowired
-    private Jurisdiction2Repository jurisdiction2Repository;
-
-    @Autowired
-    private DirectionTypeRepository directionTypeRepository;
-
-    @Autowired
-    private EventTypeRepository eventTypeRepository;
-
-    @Autowired
-    private ServiceTypeRepository serviceTypeRepository;
 }

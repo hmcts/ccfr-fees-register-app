@@ -1,7 +1,6 @@
 package uk.gov.hmcts.fees.register.api.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.FileNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.fees.register.api.repositories.FeesRegisterRepository;
 import uk.gov.hmcts.fees.register.legacymodel.FeesRegister;
+
+import java.io.FileNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

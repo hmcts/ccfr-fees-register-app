@@ -1,15 +1,15 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
 
-import java.util.Collections;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
 import uk.gov.hmcts.fees.register.api.contract.CategoryUpdateDto;
 
+import java.util.Collections;
+
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
 import static java.util.Collections.nCopies;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.CategoryUpdateDto.categoryUpdateDtoWith;

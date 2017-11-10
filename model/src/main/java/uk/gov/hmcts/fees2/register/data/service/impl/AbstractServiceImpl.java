@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees2.register.data.repository.AbstractRepository;
 import uk.gov.hmcts.fees2.register.data.service.AbstractService;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 /**
  *

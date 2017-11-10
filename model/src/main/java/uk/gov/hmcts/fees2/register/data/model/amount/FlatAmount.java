@@ -3,7 +3,6 @@ package uk.gov.hmcts.fees2.register.data.model.amount;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uk.gov.hmcts.fees2.register.data.model.Unit;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

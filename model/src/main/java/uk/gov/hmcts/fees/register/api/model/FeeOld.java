@@ -1,11 +1,11 @@
 package uk.gov.hmcts.fees.register.api.model;
 
-import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import javax.persistence.*;
 
 @Data
 @Entity

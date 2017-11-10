@@ -1,9 +1,13 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,7 +20,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder(builderMethodName = "channelWith")
 @Table(name = "channel_type")
-public class ChannelType {
+public class ChannelType implements Serializable{
 
     public final static String DEFAULT = "default";
 

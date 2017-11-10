@@ -1,7 +1,8 @@
 package uk.gov.hmcts.fees.register.api.model;
 
-import java.math.BigDecimal;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

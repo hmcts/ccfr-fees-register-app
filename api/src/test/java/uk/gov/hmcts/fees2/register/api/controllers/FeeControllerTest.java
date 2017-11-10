@@ -8,13 +8,10 @@ import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
-
 import java.math.BigDecimal;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 /**
  * Created by tarun on 02/11/2017.
@@ -24,11 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FeeControllerTest extends BaseIntegrationTest {
 
     /**
-     *
      * @throws Exception
      */
     @Test
-    public synchronized void createFeeTest() throws Exception{
+    public synchronized void createFeeTest() throws Exception {
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, "X0001", FeeVersionStatus.approved);
 
         restActions
@@ -84,7 +80,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
 
     /**
-     *
      * @throws Exception
      */
     @Test
@@ -114,15 +109,16 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 assertThat(lookupDto.getFeeAmount().equals(new BigDecimal(2500)));
             }));
 
+        deleteFee(rangedFeeDto.getCode());
+
     }
 
 
     /**
-     *
      * @throws Exception
      */
     @Test
-    public void feesLookupNotFoundTest() throws Exception {
+    public synchronized void feesLookupNotFoundTest() throws Exception {
         restActions
             .get("/fees-register/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies")
             .andExpect(status().isNotFound());
@@ -130,11 +126,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     /**
-     *
      * @throws Exception
      */
     @Test
-    public void searchFeeTest() throws Exception{
+    public synchronized void searchFeeTest() throws Exception {
         CreateRangedFeeDto rangedFeeDto1 = getRangedFeeDtoWithReferenceData(500, 599, "X0006", FeeVersionStatus.approved);
         restActions
             .withUser("admin")
@@ -146,7 +141,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto2)
             .andExpect(status().isCreated());
-
 
         restActions
             .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"))
@@ -162,6 +156,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
                     });
                 });
             }));
+
+        deleteFee(rangedFeeDto1.getCode());
+        deleteFee(rangedFeeDto2.getCode());
+
     }
 
 }

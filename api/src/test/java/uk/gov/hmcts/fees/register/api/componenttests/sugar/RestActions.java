@@ -1,13 +1,14 @@
 package uk.gov.hmcts.fees.register.api.componenttests.sugar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.UUID;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.hmcts.auth.checker.user.UserRequestAuthorizer;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
+
+import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

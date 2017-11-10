@@ -33,7 +33,7 @@ public class URIUtils {
             .filter(a -> a != null)
             .map(PostMapping::value)
             .findFirst()
-            .get();
+            .orElse(null);
 
         if (str == null || str.length == 0) {
             return url;
@@ -54,7 +54,7 @@ public class URIUtils {
             .filter(a -> a != null)
             .map(GetMapping::value)
             .findFirst()
-            .get();
+            .orElse(null);
 
         if (str == null || str.length == 0) {
             return url;
@@ -73,8 +73,7 @@ public class URIUtils {
             .map(method -> method.getAnnotation(DeleteMapping.class))
             .filter(a -> a != null)
             .map(DeleteMapping::value)
-            .findFirst()
-            .get();
+            .findFirst().orElse(null);
 
         if (str == null || str.length == 0) {
             return url;

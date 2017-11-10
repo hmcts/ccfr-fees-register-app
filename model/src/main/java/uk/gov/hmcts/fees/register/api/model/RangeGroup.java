@@ -1,15 +1,6 @@
 package uk.gov.hmcts.fees.register.api.model;
 
 import com.google.common.collect.Ordering;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +8,12 @@ import lombok.NonNull;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import uk.gov.hmcts.fees.register.api.model.exceptions.RangeNotFoundException;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 

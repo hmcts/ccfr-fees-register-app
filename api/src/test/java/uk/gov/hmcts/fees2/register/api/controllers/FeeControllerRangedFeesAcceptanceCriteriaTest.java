@@ -9,8 +9,6 @@ import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrationTest {
 
     /* PAY-449 */

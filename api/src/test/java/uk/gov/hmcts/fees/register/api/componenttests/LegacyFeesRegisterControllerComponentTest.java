@@ -1,9 +1,10 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
-import java.math.BigDecimal;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.legacymodel.FixedFee;
 import uk.gov.hmcts.fees.register.legacymodel.PercentageFee;
+
+import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.controllers.ChargeableFeeWrapperDto.chargeableFeeDtoWith;

@@ -1,6 +1,5 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
-import java.math.BigDecimal;
 import org.junit.Test;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
 import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto;
@@ -8,9 +7,10 @@ import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.FixedFeeDtoBuilder;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.PercentageFeeDtoBuilder;
 
+import java.math.BigDecimal;
+
 import static java.lang.String.join;
 import static java.util.Collections.nCopies;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
