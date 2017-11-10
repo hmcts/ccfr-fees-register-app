@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class ResourceNotFoundException extends RuntimeException {
-    private final String resourceName;
-    private final String idName;
-    private final Object idValue;
+    protected final String resourceName;
+    protected final String idName;
+    protected final Object idValue;
 
     public ResourceNotFoundException(String resourceName, String idName, Object idValue) {
         this.resourceName = resourceName;

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees2.register.api.contract.response;
+package uk.gov.hmcts.fees2.register.data.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 public class FeeLookupResponseDto {
 
     private String code;
+
+    private String description;
 
     private Integer version;
 

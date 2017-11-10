@@ -13,4 +13,12 @@ public class ReferenceDataNotFoundException extends ResourceNotFoundException{
         super("Reference data", msg1, msg2);
     }
 
+    @Override
+    public String toString() {
+        return "ReferenceDataNotFoundException{" +
+            "resourceName='" + resourceName + '\'' +
+            ", idName='" + idName + '\'' +
+            ", idValue=" + idValue +
+            '}';
+    }
 }

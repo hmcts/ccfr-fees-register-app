@@ -85,9 +85,12 @@ public abstract class BaseTest {
 
     protected RestActions restActions;
 
+    protected MockMvc mvc;
+
     @Before
     public void setUp() {
-        MockMvc mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        this.mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+
         this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
     }
 

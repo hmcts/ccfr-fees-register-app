@@ -17,6 +17,6 @@ public interface Fee2Repository extends JpaRepository<Fee, Long>, JpaSpecificati
         return findByCode(code).orElseThrow(() -> new FeeNotFoundException(code));
     }
 
-
+    void deleteFeeByCode(String code);
 
 }

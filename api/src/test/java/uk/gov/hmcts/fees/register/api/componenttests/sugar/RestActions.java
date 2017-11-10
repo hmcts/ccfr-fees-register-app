@@ -10,6 +10,7 @@ import uk.gov.hmcts.auth.checker.user.UserRequestAuthorizer;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class RestActions {
     private final HttpHeaders httpHeaders = new HttpHeaders();
@@ -37,6 +38,19 @@ public class RestActions {
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .headers(httpHeaders));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultActions delete(String urlTemplate, Object... uriVars) {
+        try {
+            return mvc.perform(MockMvcRequestBuilders
+                .delete(urlTemplate, uriVars)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .headers(httpHeaders))
+                .andExpect(status().isNoContent());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -84,4 +98,5 @@ public class RestActions {
             throw new RuntimeException(e);
         }
     }
+
 }

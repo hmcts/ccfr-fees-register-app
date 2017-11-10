@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Data
@@ -76,12 +77,12 @@ public abstract class Fee extends AbstractEntity{
             return currentVersion;
         }
 
-        final Date date = new Date();
-
-        return getFeeVersions()
+        Optional<FeeVersion> opt = getFeeVersions()
             .stream()
-            .filter(v -> v.getStatus() == FeeVersionStatus.approved && v.isInRange(date))
-            .findFirst().get();
+            .filter(v -> v.getStatus() == FeeVersionStatus.approved && v.isInRange(new Date()))
+            .findFirst();
+
+        return opt.isPresent() ? opt.get() : null;
     }
 
     /* --- */

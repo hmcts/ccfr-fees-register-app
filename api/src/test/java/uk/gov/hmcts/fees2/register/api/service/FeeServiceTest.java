@@ -11,6 +11,7 @@ import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
@@ -37,18 +38,19 @@ public class FeeServiceTest extends BaseTest{
     public void testBasicSearch() {
 
         createDefaultChannelType();
-        createSimplestFee();
+        String code = createSimplestFee();
 
         List<Fee> res = feeService.search(new LookupFeeDto());
 
         assertTrue(res.size() > 0);
 
+        feeService.delete(code);
     }
 
     @Test
     public void testRefinedSearch() {
 
-        createDetailedFee("divorce");
+        String code = createDetailedFee("divorce");
 
         LookupFeeDto dto = new LookupFeeDto();
 
@@ -64,6 +66,7 @@ public class FeeServiceTest extends BaseTest{
 
         assertTrue(res.size() == 1);
 
+        feeService.delete(code);
     }
 
 
@@ -71,7 +74,7 @@ public class FeeServiceTest extends BaseTest{
     @Transactional
     public void testRefinedLookup() {
 
-        createDetailedFee("civil money claims");
+        String code = createDetailedFee("civil money claims");
 
         LookupFeeDto dto = new LookupFeeDto();
 
@@ -82,10 +85,13 @@ public class FeeServiceTest extends BaseTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("high court");
+        dto.setAmount(new BigDecimal(5));
 
-        Fee fee = feeService.lookup(dto);
+        FeeLookupResponseDto fee = feeService.lookup(dto);
 
-        assertEquals( BigDecimal.TEN, fee.getCurrentVersion().calculateFee(new BigDecimal(5)));
+        assertEquals( BigDecimal.TEN, fee.getFeeAmount());
+
+        feeService.delete(code);
 
     }
 
@@ -104,12 +110,14 @@ public class FeeServiceTest extends BaseTest{
 
         assertEquals(Integer.valueOf(1), fee.getFeeVersions().get(0).getVersion());
         assertEquals(FeeVersionStatus.draft, fee.getFeeVersions().get(0).getStatus());
+
+        feeService.delete(fee.getCode());
     }
 
 
     /* --- */
 
-    protected void createSimplestFee() {
+    protected String createSimplestFee() {
 
         Fee fee = new FixedFee();
 
@@ -125,6 +133,10 @@ public class FeeServiceTest extends BaseTest{
         fee = feeService.get(fee.getCode());
 
         assertEquals(ChannelType.DEFAULT, fee.getChannelType().getName());
+
+        feeService.delete(fee.getCode());
+
+        return fee.getCode();
 
     }
 

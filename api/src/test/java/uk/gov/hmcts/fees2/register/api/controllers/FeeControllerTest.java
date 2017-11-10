@@ -4,7 +4,7 @@ import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
@@ -21,14 +21,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 
 
-public class FeeControllerTest extends BaseTest {
+public class FeeControllerTest extends BaseIntegrationTest {
 
     /**
      *
      * @throws Exception
      */
     @Test
-    public void createFeeTest() throws Exception{
+    public synchronized void createFeeTest() throws Exception{
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, "X0001", FeeVersionStatus.approved);
 
         restActions
@@ -36,10 +36,12 @@ public class FeeControllerTest extends BaseTest {
             .post("/fees-register/rangedfees", rangedFeeDto)
             .andExpect(status().isCreated());
 
+        deleteFee("X0001");
+
     }
 
     @Test
-    public void readFeeTest() throws Exception {
+    public synchronized void readFeeTest() throws Exception {
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, "X0002", FeeVersionStatus.approved);
 
         restActions
@@ -54,10 +56,13 @@ public class FeeControllerTest extends BaseTest {
                 assertThat(feeDto.getCode().equals("X0002"));
                 assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
             }));
+
+        deleteFee("X0002");
     }
 
     @Test
-    public void approveFeeTest() throws Exception {
+    public synchronized void approveFeeTest() throws Exception {
+
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(200, 299, "X0003", FeeVersionStatus.draft);
 
         restActions
@@ -73,6 +78,8 @@ public class FeeControllerTest extends BaseTest {
             .withUser("admin")
             .patch("/fees-register/fees/approve", approveFeeDto)
             .andExpect(status().isOk());
+
+        deleteFee("X0003");
     }
 
 
@@ -81,8 +88,9 @@ public class FeeControllerTest extends BaseTest {
      * @throws Exception
      */
     @Test
-    public void feesLookupTest() throws Exception {
+    public synchronized void feesLookupTest() throws Exception {
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoForLookup(300, 399, "X0004", FeeVersionStatus.approved);
+
 
         restActions
             .withUser("admin")
@@ -154,10 +162,6 @@ public class FeeControllerTest extends BaseTest {
                     });
                 });
             }));
-
     }
-
-
-
 
 }
