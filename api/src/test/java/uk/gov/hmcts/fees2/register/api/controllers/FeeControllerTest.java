@@ -4,8 +4,12 @@ import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.util.URIUtils;
 
+
+import java.math.BigDecimal;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,7 +29,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
      */
     @Test
     public synchronized void createFeeTest() throws Exception{
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, "X0001", FeeVersionStatus.approved);
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, "X0001", FeeVersionStatus.approved);
 
         restActions
             .withUser("admin")
@@ -38,7 +42,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void readFeeTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 999, "X0002", FeeVersionStatus.approved);
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, "X0002", FeeVersionStatus.approved);
 
         restActions
             .withUser("admin")
@@ -58,7 +62,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void approveFeeTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 1999, "X0003", FeeVersionStatus.draft);
+
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(200, 299, "X0003", FeeVersionStatus.draft);
 
         restActions
             .withUser("admin")
@@ -77,9 +82,15 @@ public class FeeControllerTest extends BaseIntegrationTest {
         deleteFee("X0003");
     }
 
+
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public synchronized void feesLookupTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "X0004", FeeVersionStatus.approved);
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoForLookup(300, 399, "X0004", FeeVersionStatus.approved);
+
 
         restActions
             .withUser("admin")
@@ -95,8 +106,62 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 assertThat(feeDto.getChannelTypeDto().getName().equals("online"));
             }));
 
-        deleteFee("X0004");
+        restActions
+            .get("/fees-register/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online")
+            .andExpect(status().isOk())
+            .andExpect(body().as(FeeLookupResponseDto.class, (lookupDto) -> {
+                assertThat(lookupDto.getCode().equals("X0004"));
+                assertThat(lookupDto.getFeeAmount().equals(new BigDecimal(2500)));
+            }));
 
+    }
+
+
+    /**
+     *
+     * @throws Exception
+     */
+    @Test
+    public void feesLookupNotFoundTest() throws Exception {
+        restActions
+            .get("/fees-register/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies")
+            .andExpect(status().isNotFound());
+
+    }
+
+    /**
+     *
+     * @throws Exception
+     */
+    @Test
+    public void searchFeeTest() throws Exception{
+        CreateRangedFeeDto rangedFeeDto1 = getRangedFeeDtoWithReferenceData(500, 599, "X0006", FeeVersionStatus.approved);
+        restActions
+            .withUser("admin")
+            .post("/fees-register/rangedfees", rangedFeeDto1)
+            .andExpect(status().isCreated());
+
+        CreateRangedFeeDto rangedFeeDto2 = getRangedFeeDtoWithReferenceData(600, 699, "X0007", FeeVersionStatus.draft);
+        restActions
+            .withUser("admin")
+            .post("/fees-register/rangedfees", rangedFeeDto2)
+            .andExpect(status().isCreated());
+
+
+        restActions
+            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"))
+            .andExpect(status().isOk())
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+                assertThat(fee2Dtos.size() == 2);
+                assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
+                    assertThat(fee2Dto.getCode().equals("X0005"));
+                    assertThat(fee2Dto.getMinRange().equals(new BigDecimal(1)));
+                    assertThat(fee2Dto.getMaxRange().equals(new BigDecimal(999)));
+                    assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
+                        assertThat(feeVersionDto.getStatus().equals(FeeVersionStatus.approved));
+                    });
+                });
+            }));
     }
 
 }
