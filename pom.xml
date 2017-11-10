@@ -27,7 +27,12 @@
         <sonar.host.url>https://sonar.reform.hmcts.net/</sonar.host.url>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.exclusions>uk.gov.hmcts.fees.*</sonar.exclusions>
+        <sonar.coverage.exclusions>
+            **/fees/**
+        </sonar.coverage.exclusions>
+        <sonar.exclusions>
+            **/fees/**
+        </sonar.exclusions>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.dependencyCheck.reportPath>${project.basedir}/target/dependency-check-report.xml
         </sonar.dependencyCheck.reportPath>
