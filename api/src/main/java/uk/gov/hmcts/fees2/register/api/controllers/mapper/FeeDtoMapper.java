@@ -31,6 +31,8 @@ public class FeeDtoMapper {
     private EventTypeRepository eventTypeRepository;
     private DirectionTypeRepository directionTypeRepository;
 
+    public static final String CODE_ALREADY_IN_USE  = "Code is already in use";
+
     @Autowired
     public FeeDtoMapper(
         Jurisdiction1Repository jurisdiction1Repository,
@@ -216,7 +218,7 @@ public class FeeDtoMapper {
         }
 
         if(fee2Repository.findByCode(code).isPresent()) {
-            throw new BadRequestException("Code is already in use");
+            throw new BadRequestException(CODE_ALREADY_IN_USE);
         }
 
         fee.setCode(code);
