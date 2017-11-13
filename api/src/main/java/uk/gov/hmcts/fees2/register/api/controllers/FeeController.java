@@ -41,14 +41,20 @@ public class FeeController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createRangedFee(@RequestBody final CreateRangedFeeDto request, HttpServletResponse response) {
         Fee fee = feeService.save(feeDtoMapper.toFee(request));
-        response.setHeader(LOCATION, getResourceLocation(fee));
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
     }
 
     @PostMapping("/fixedfees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFee(@RequestBody final CreateFixedFeeDto request, HttpServletResponse response) {
         Fee fee = feeService.save(feeDtoMapper.toFee(request));
-        response.setHeader(LOCATION, getResourceLocation(fee));
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
     }
 
     @GetMapping("/fees/{code}")
