@@ -26,8 +26,8 @@ import java.util.List;
 public class FeeLoader implements ApplicationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(FeeLoader.class);
 
-    @Value("classpath:${json.cmc.fees.loader}")
-    private String cmcFeeJsonFileLocation;
+    @Value("classpath:${ranged.fees.loader}")
+    private String rangedFeesJsonInputFile;
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -44,7 +44,7 @@ public class FeeLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         try {
-            List<CreateRangedFeeDto> feeDtos = loadFromResource(cmcFeeJsonFileLocation);
+            List<CreateRangedFeeDto> feeDtos = loadFromResource(rangedFeesJsonInputFile);
 
             feeDtos.forEach(fee -> {
                try {
