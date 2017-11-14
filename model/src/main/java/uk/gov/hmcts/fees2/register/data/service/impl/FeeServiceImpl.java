@@ -14,18 +14,20 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class FeeServiceImpl implements FeeService {
+
+    private static final Predicate[] REF = new Predicate[0];
 
     @Autowired
     private FeeVersionRepository feeVersionRepository;
@@ -51,24 +53,15 @@ public class FeeServiceImpl implements FeeService {
     @Autowired
     private Fee2Repository fee2Repository;
 
+    @Autowired
+    private FeeValidator feeValidator;
+
+
     /* --- */
 
     public Fee save(Fee fee) {
 
-        if (fee.getChannelType() == null) {
-            fee.setChannelType(channelTypeRepository.findOne(ChannelType.DEFAULT));
-        }
-
-        /* If no status was specified, set it to draft */
-        fee.getFeeVersions().stream().filter(v -> v.getStatus() == null).forEach(v -> v.setStatus(FeeVersionStatus.draft));
-
-        /* If no version number was specified, and its only one, set it to 1 */
-        if(fee.getFeeVersions().size() == 1){
-            FeeVersion v = fee.getFeeVersions().get(0);
-            if(v.getVersion() == null){
-                v.setVersion(1);
-            }
-        }
+        feeValidator.validateAndDefaultNewFee(fee);
 
         return fee2Repository.save(fee);
 
@@ -107,11 +100,11 @@ public class FeeServiceImpl implements FeeService {
 
         List<Fee> fees = search(dto);
 
-        if(fees.isEmpty()) {
+        if (fees.isEmpty()) {
             throw new FeeNotFoundException(dto);
         }
 
-        if(fees.size() > 1) {
+        if (fees.size() > 1) {
             throw new TooManyResultsException();
         }
 
@@ -119,7 +112,7 @@ public class FeeServiceImpl implements FeeService {
 
         FeeVersion version = fee.getCurrentVersion();
 
-        if(version == null) {
+        if (version == null) {
             throw new FeeNotFoundException(dto);
         }
 
@@ -151,18 +144,14 @@ public class FeeServiceImpl implements FeeService {
         }
     }
 
-    private static final Predicate[] REF = new Predicate[0];
-
     private Predicate buildFirstLevelPredicate(Root<Fee> fee, CriteriaBuilder builder, LookupFeeDto dto) {
-
-        EntityType<Fee> Fee_ = fee.getModel();
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if(dto.getChannel() != null){
+        if (dto.getChannel() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(Fee_.getSingularAttribute("channelType")),
+                    fee.get(fee.getModel().getSingularAttribute("channelType")),
                     channelTypeRepository.findByNameOrThrow(dto.getChannel())
                 )
             );
@@ -171,7 +160,7 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getJurisdiction1() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(Fee_.getSingularAttribute("jurisdiction1")),
+                    fee.get(fee.getModel().getSingularAttribute("jurisdiction1")),
                     jurisdiction1Repository.findByNameOrThrow(dto.getJurisdiction1())
                 )
             );
@@ -180,7 +169,7 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getJurisdiction2() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(Fee_.getSingularAttribute("jurisdiction2")),
+                    fee.get(fee.getModel().getSingularAttribute("jurisdiction2")),
                     jurisdiction2Repository.findByNameOrThrow(dto.getJurisdiction2())
                 )
             );
@@ -189,7 +178,7 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getService() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(Fee_.getSingularAttribute("service")),
+                    fee.get(fee.getModel().getSingularAttribute("service")),
                     serviceTypeRepository.findByNameOrThrow(dto.getService())
                 )
             );
@@ -198,7 +187,7 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getDirection() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(Fee_.getSingularAttribute("directionType")),
+                    fee.get(fee.getModel().getSingularAttribute("directionType")),
                     directionTypeRepository.findByNameOrThrow(dto.getDirection())
                 )
             );
@@ -207,8 +196,16 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getEvent() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(Fee_.getSingularAttribute("eventType")),
+                    fee.get(fee.getModel().getSingularAttribute("eventType")),
                     eventTypeRepository.findByNameOrThrow(dto.getEvent())
+                )
+            );
+        }
+
+        if (dto.getUnspecifiedClaimAmount() != null) {
+            predicates.add(
+                builder.equal(
+                    fee.get(fee.getModel().getSingularAttribute("unspecifiedClaimAmount")), dto.getUnspecifiedClaimAmount()
                 )
             );
         }

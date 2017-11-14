@@ -11,7 +11,7 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 public class CreateFixedFeeDto extends CreateFeeDto{
 
     public CreateFixedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String direction, String event, String memoLine, String feeOrderName, String naturalAccountCode) {
-        super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode);
+        super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode, false);
     }
 
     public CreateFixedFeeDto setCode(String code) {
@@ -68,5 +68,16 @@ public class CreateFixedFeeDto extends CreateFeeDto{
         this.naturalAccountCode = naturalAccountCode;
         return this;
     }
+
+    public Boolean getUnspecifiedClaimAmount() {
+        return unspecifiedClaimAmount;
+    }
+
+    public CreateFixedFeeDto setUnspecifiedClaimAmount(Boolean unspecifiedClaimAmount) {
+        this.unspecifiedClaimAmount = unspecifiedClaimAmount;
+        return this;
+    }
+
+
 
 }

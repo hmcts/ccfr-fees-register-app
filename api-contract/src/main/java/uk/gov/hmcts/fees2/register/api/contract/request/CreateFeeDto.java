@@ -34,4 +34,6 @@ public abstract class CreateFeeDto {
 
     protected String naturalAccountCode;
 
+    protected Boolean unspecifiedClaimAmount;
+
 }

@@ -23,4 +23,9 @@ public class PercentageAmount extends Amount{
     public BigDecimal calculateFee(BigDecimal amount) {
         return amount.multiply(percentage).setScale(2, RoundingMode.DOWN);
     }
+
+    @Override
+    public boolean acceptsUnspecifiedFees() {
+        return false;
+    }
 }

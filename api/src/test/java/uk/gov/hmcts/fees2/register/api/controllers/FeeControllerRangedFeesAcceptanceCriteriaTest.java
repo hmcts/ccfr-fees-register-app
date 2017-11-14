@@ -33,7 +33,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     */
 
     @Test
-    public void testCreateRangedFeeWithPercentAmount() throws Exception {
+    public synchronized void testCreateRangedFeeWithPercentAmount() throws Exception {
 
         CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
         dto.setChannel("online");
@@ -74,7 +74,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     */
 
     @Test
-    public void testCreateRangedFeeWithPercentAmountAndDefaultChannel() throws Exception {
+    public synchronized void testCreateRangedFeeWithPercentAmountAndDefaultChannel() throws Exception {
 
         CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
 
@@ -117,7 +117,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     */
 
     @Test
-    public void testCreateRangedFeeWithFlatAmount() throws Exception {
+    public synchronized void testCreateRangedFeeWithFlatAmount() throws Exception {
 
         CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
         dto.setChannel("online");
@@ -155,7 +155,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     */
 
     @Test
-    public void testCreateRangedFeeWithFlatAmountAndDefaultChannel() throws Exception {
+    public synchronized void testCreateRangedFeeWithFlatAmountAndDefaultChannel() throws Exception {
 
         CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
         dto.setChannel("online");

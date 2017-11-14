@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class URIUtils {
 
@@ -15,9 +16,11 @@ public class URIUtils {
             return "";
         }
 
-        String reqMap[] = clazz.getAnnotation(RequestMapping.class).value();
+        String[] reqMap = clazz.getAnnotation(RequestMapping.class).value();
 
-        if (reqMap.length == 0) return "";
+        if (reqMap.length == 0){
+            return "";
+        }
 
         return reqMap[0];
 
@@ -30,7 +33,7 @@ public class URIUtils {
         String[] str = Arrays.stream(clazz.getMethods())
             .filter(method -> method.getName().equalsIgnoreCase(methodName))
             .map(method -> method.getAnnotation(PostMapping.class))
-            .filter(a -> a != null)
+            .filter(Objects::nonNull)
             .map(PostMapping::value)
             .findFirst()
             .orElse(null);
@@ -51,7 +54,7 @@ public class URIUtils {
         String[] str = Arrays.stream(clazz.getMethods())
             .filter(method -> method.getName().equalsIgnoreCase(methodName))
             .map(method -> method.getAnnotation(GetMapping.class))
-            .filter(a -> a != null)
+            .filter(Objects::nonNull)
             .map(GetMapping::value)
             .findFirst()
             .orElse(null);
@@ -71,7 +74,7 @@ public class URIUtils {
         String[] str = Arrays.stream(clazz.getMethods())
             .filter(method -> method.getName().equalsIgnoreCase(methodName))
             .map(method -> method.getAnnotation(DeleteMapping.class))
-            .filter(a -> a != null)
+            .filter(Objects::nonNull)
             .map(DeleteMapping::value)
             .findFirst().orElse(null);
 

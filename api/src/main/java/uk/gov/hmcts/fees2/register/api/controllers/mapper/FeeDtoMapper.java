@@ -9,7 +9,7 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.controllers.advice.exception.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
@@ -71,14 +71,19 @@ public class FeeDtoMapper {
 
     public Fee toFee(CreateFixedFeeDto request) {
         FixedFee fee = new FixedFee();
+
+        fee.setUnspecifiedClaimAmount(
+            request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
+        );
+
         fillFee(request, fee);
         return fee;
     }
 
     public Fee toFee(CreateRangedFeeDto request) {
-
         RangedFee fee = new RangedFee();
         fillFee(request, fee);
+        fee.setUnspecifiedClaimAmount(false);
         fee.setMaxRange(request.getMaxRange());
         fee.setMinRange(request.getMinRange());
         return fee;
@@ -99,7 +104,7 @@ public class FeeDtoMapper {
 
         fee2Dto.setNaturalAccountCode(fee.getNaturalAccountCode());
         fee2Dto.setFeeOrderName(fee.getFeeOrderName());
-
+        fee2Dto.setUnspecifiedClaimAmount(fee.isUnspecifiedClaimAmount());
 
         if (fee instanceof RangedFee) {
             fee2Dto.setMinRange(((RangedFee) fee).getMinRange());
