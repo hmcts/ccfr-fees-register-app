@@ -18,7 +18,7 @@ import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.*;
  * Created by tarun on 18/10/2017.
  */
 
-public class ReferenceDataControllerTest extends BaseTest{
+public class ReferenceDataComponentTest extends BaseTest{
 
 
     @Test
