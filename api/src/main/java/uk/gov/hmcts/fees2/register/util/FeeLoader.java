@@ -48,7 +48,7 @@ public class FeeLoader implements ApplicationRunner {
                    feeController.createRangedFee(fee, null);
                    LOG.info("Fee with code " + fee.getCode() + " inserted into database.");
                } catch (BadRequestException be) {
-                   LOG.info(FeeDtoMapper.CODE_ALREADY_IN_USE + " : " + fee.getCode());
+                   LOG.info("Fee code " + fee.getCode() + " already in use");
                }
 
             });

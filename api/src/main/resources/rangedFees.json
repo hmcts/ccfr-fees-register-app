@@ -162,7 +162,7 @@
       "description": "Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP. Fees are 5% of the claim value",
       "status": "approved",
       "percentageAmount": {
-        "amount": 5
+        "percentage": 5
       }
     },
     "jurisdiction1": "civil",
@@ -361,7 +361,7 @@
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value",
       "status": "approved",
       "percentageAmount": {
-        "amount": 4.5
+        "percentage": 4.5
       }
     },
     "jurisdiction1": "civil",
