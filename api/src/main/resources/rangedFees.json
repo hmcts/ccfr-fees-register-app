@@ -16,10 +16,7 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 300.01,
@@ -38,10 +35,7 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 500.01,
@@ -60,10 +54,7 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 1000.01,
@@ -82,10 +73,7 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 1500.01,
@@ -104,10 +92,7 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 3000.01,
@@ -126,10 +111,7 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 5000.01,
@@ -148,10 +130,7 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 10000.01,
@@ -170,18 +149,13 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 200000.01,
     "code": "X0012",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more",
       "status": "approved",
       "flatAmount": {
@@ -193,10 +167,7 @@
     "service": "civil money claims",
     "channel": "default",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 1,
@@ -215,10 +186,7 @@
     "service": "civil money claims",
     "channel": "online",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 300.01,
@@ -237,10 +205,7 @@
     "service": "civil money claims",
     "channel": "online",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 500.01,
@@ -259,10 +224,7 @@
     "service": "civil money claims",
     "channel": "online",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 1000.01,
@@ -281,10 +243,7 @@
     "service": "civil money claims",
     "channel": "online",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 1500.01,
@@ -303,10 +262,7 @@
     "service": "civil money claims",
     "channel": "online",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 3000.01,
@@ -325,10 +281,7 @@
     "service": "civil money claims",
     "channel": "online",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 5000.01,
@@ -347,10 +300,7 @@
     "service": "civil money claims",
     "channel": "online",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   },
   {
     "minRange": 10000.01,
@@ -369,10 +319,7 @@
     "service": "civil money claims",
     "channel": "online",
     "direction": "enhanced",
-    "event": "issue",
-    "memoLine": "Memo line",
-    "feeOrderName": "Fee order name",
-    "naturalAccountCode": "Natural account code"
+    "event": "issue"
   }
 ]
 
