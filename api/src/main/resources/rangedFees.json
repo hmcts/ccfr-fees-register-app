@@ -320,6 +320,23 @@
     "channel": "online",
     "direction": "enhanced",
     "event": "issue"
+  },
+  {
+    "code": "X0165",
+    "version": {
+      "version": 1,
+      "description": "Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.",
+      "status": "approved",
+      "flatAmount": {
+        "amount": 550.00
+      }
+    },
+    "jurisdiction1": "family",
+    "jurisdiction2": "family court",
+    "service": "divorce",
+    "channel": "default",
+    "event": "issue"
+
   }
 ]
 
