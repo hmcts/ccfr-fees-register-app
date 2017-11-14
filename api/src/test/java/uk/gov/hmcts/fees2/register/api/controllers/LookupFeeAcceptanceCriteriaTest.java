@@ -225,7 +225,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
         BigDecimal claimValue = new BigDecimal(5);
 
         CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
-        dto.setChannel("default");
+        dto.setChannel("online");
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
@@ -264,7 +264,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
         BigDecimal claimValue = new BigDecimal(5);
 
         CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
-        dto.setChannel("default");
+        dto.setChannel("online");
 
         FeeVersionDto versionDto = new FeeVersionDto();
 

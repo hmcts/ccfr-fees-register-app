@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.gov.hmcts.fees2.register.api.contract.ChannelTypeDto.*;
 import static uk.gov.hmcts.fees2.register.api.contract.DirectionTypeDto.*;
 import static uk.gov.hmcts.fees2.register.api.contract.EventTypeDto.*;
-import static uk.gov.hmcts.fees2.register.api.contract.Jurisdiction1Dto.*;
 import static uk.gov.hmcts.fees2.register.api.contract.Jurisdiction2Dto.*;
 import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.*;
 
@@ -18,7 +17,7 @@ import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.*;
  * Created by tarun on 18/10/2017.
  */
 
-public class ReferenceDataControllerTest extends BaseTest{
+public class ReferenceDataComponentTest extends BaseTest{
 
 
     @Test

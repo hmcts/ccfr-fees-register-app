@@ -9,6 +9,7 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,25 +21,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class FeeControllerTest extends BaseIntegrationTest {
 
+    private String feeCode;
+
     /**
      * @throws Exception
      */
     @Test
     public synchronized void createFeeTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, "X0001", FeeVersionStatus.approved);
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, feeCode, FeeVersionStatus.approved);
 
         restActions
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto)
             .andExpect(status().isCreated());
 
-        deleteFee("X0001");
+        deleteFee(feeCode);
 
     }
 
     @Test
     public synchronized void readFeeTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, "X0002", FeeVersionStatus.approved);
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, feeCode, FeeVersionStatus.approved);
 
         restActions
             .withUser("admin")
@@ -46,20 +51,20 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isCreated());
 
         restActions
-            .get("/fees-register/fees/X0002")
+            .get("/fees-register/fees/" + feeCode)
             .andExpect(status().isOk())
             .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
-                assertThat(feeDto.getCode().equals("X0002"));
+                assertThat(feeDto.getCode().equals(feeCode));
                 assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
             }));
 
-        deleteFee("X0002");
+        deleteFee(feeCode);
     }
 
     @Test
     public synchronized void approveFeeTest() throws Exception {
-
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(200, 299, "X0003", FeeVersionStatus.draft);
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(200, 299, feeCode, FeeVersionStatus.draft);
 
         restActions
             .withUser("admin")
@@ -67,7 +72,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isCreated());
 
         ApproveFeeDto approveFeeDto = new ApproveFeeDto();
-        approveFeeDto.setFeeCode("X0003");
+        approveFeeDto.setFeeCode(feeCode);
         approveFeeDto.setFeeVersion(1);
 
         restActions
@@ -75,7 +80,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .patch("/fees-register/fees/approve", approveFeeDto)
             .andExpect(status().isOk());
 
-        deleteFee("X0003");
+        deleteFee(feeCode);
     }
 
 
@@ -84,7 +89,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
      */
     @Test
     public synchronized void feesLookupTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoForLookup(300, 399, "X0004", FeeVersionStatus.approved);
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoForLookup(300, 399, feeCode, FeeVersionStatus.approved);
 
 
         restActions
@@ -93,10 +99,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isCreated());
 
         restActions
-            .get("/fees-register/fees/X0004")
+            .get("/fees-register/fees/" + feeCode)
             .andExpect(status().isOk())
             .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
-                assertThat(feeDto.getCode().equals("X0004"));
+                assertThat(feeDto.getCode().equals(feeCode));
                 assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
                 assertThat(feeDto.getChannelTypeDto().getName().equals("online"));
             }));
@@ -105,7 +111,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .get("/fees-register/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, (lookupDto) -> {
-                assertThat(lookupDto.getCode().equals("X0004"));
+                assertThat(lookupDto.getCode().equals(feeCode));
                 assertThat(lookupDto.getFeeAmount().equals(new BigDecimal(2500)));
             }));
 
@@ -130,13 +136,15 @@ public class FeeControllerTest extends BaseIntegrationTest {
      */
     @Test
     public synchronized void searchFeeTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto1 = getRangedFeeDtoWithReferenceData(500, 599, "X0006", FeeVersionStatus.approved);
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto1 = getRangedFeeDtoWithReferenceData(500, 599, feeCode, FeeVersionStatus.approved);
         restActions
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto1)
             .andExpect(status().isCreated());
 
-        CreateRangedFeeDto rangedFeeDto2 = getRangedFeeDtoWithReferenceData(600, 699, "X0007", FeeVersionStatus.draft);
+        String newFeeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto2 = getRangedFeeDtoWithReferenceData(600, 699, newFeeCode, FeeVersionStatus.draft);
         restActions
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto2)
@@ -148,17 +156,17 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
                 assertThat(fee2Dtos.size() == 2);
                 assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
-                    assertThat(fee2Dto.getCode().equals("X0005"));
-                    assertThat(fee2Dto.getMinRange().equals(new BigDecimal(1)));
-                    assertThat(fee2Dto.getMaxRange().equals(new BigDecimal(999)));
+                    assertThat(fee2Dto.getCode().equals(feeCode));
+                    assertThat(fee2Dto.getMinRange().equals(new BigDecimal(500)));
+                    assertThat(fee2Dto.getMaxRange().equals(new BigDecimal(599)));
                     assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
                         assertThat(feeVersionDto.getStatus().equals(FeeVersionStatus.approved));
                     });
                 });
             }));
 
-        deleteFee(rangedFeeDto1.getCode());
-        deleteFee(rangedFeeDto2.getCode());
+        deleteFee(feeCode);
+        deleteFee(newFeeCode);
 
     }
 

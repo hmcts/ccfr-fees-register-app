@@ -96,7 +96,7 @@ public abstract class BaseTest {
         this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
     }
 
-    CustomResultMatcher body() {
+    protected CustomResultMatcher body() {
         return new CustomResultMatcher(objectMapper);
     }
 
@@ -186,14 +186,14 @@ public abstract class BaseTest {
         }};
     }
 
-    public CreateRangedFeeDto getRangedFeeDto() {
+    public CreateRangedFeeDto getRangedFeeDto(String feeCode) {
 
 
         CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
 
         rangedFeeDto.setMinRange(new BigDecimal(1));
         rangedFeeDto.setMaxRange(new BigDecimal(3000));
-        rangedFeeDto.setCode("X0024");
+        rangedFeeDto.setCode(feeCode);
         rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved));
         rangedFeeDto.setJurisdiction1(null);
         rangedFeeDto.setJurisdiction2(null);

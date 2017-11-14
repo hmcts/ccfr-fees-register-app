@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees2.register.api.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.data.model.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(builderMethodName = "fee2DtoWith")
 public class Fee2Dto {
 
     private String code;
