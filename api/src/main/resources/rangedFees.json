@@ -5,8 +5,6 @@
     "code": "X0001",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 0.01 up to 300 GBP",
       "status": "approved",
       "flatAmount": {
@@ -29,8 +27,6 @@
     "code": "X0002",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 300.01 up to 500 GBP",
       "status": "approved",
       "flatAmount": {
@@ -53,8 +49,6 @@
     "code": "X0003",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 500.01 up to 1000 GBP",
       "status": "approved",
       "flatAmount": {
@@ -77,8 +71,6 @@
     "code": "X0004",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 1000.01 up to 1500 GBP",
       "status": "approved",
       "flatAmount": {
@@ -101,8 +93,6 @@
     "code": "X0005",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 1500.01 up to 3000 GBP",
       "status": "approved",
       "flatAmount": {
@@ -125,8 +115,6 @@
     "code": "X0006",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 3000.01 up to 5000 GBP",
       "status": "approved",
       "flatAmount": {
@@ -149,8 +137,6 @@
     "code": "X0007",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 5000.01 up to 10000 GBP",
       "status": "approved",
       "flatAmount": {
@@ -173,8 +159,6 @@
     "code": "X0008-1",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP. Fees are 5% of the claim value",
       "status": "approved",
       "percentageAmount": {
@@ -220,8 +204,6 @@
     "code": "X0024",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP",
       "status": "approved",
       "flatAmount": {
@@ -244,8 +226,6 @@
     "code": "X0025",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP",
       "status": "approved",
       "flatAmount": {
@@ -268,8 +248,6 @@
     "code": "X0026",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP",
       "status": "approved",
       "flatAmount": {
@@ -292,8 +270,6 @@
     "code": "X0027",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP",
       "status": "approved",
       "flatAmount": {
@@ -316,8 +292,6 @@
     "code": "X0028",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP",
       "status": "approved",
       "flatAmount": {
@@ -340,8 +314,6 @@
     "code": "X0029",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP",
       "status": "approved",
       "flatAmount": {
@@ -364,8 +336,6 @@
     "code": "X0433",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP",
       "status": "approved",
       "flatAmount": {
@@ -388,8 +358,6 @@
     "code": "X0434",
     "version": {
       "version": 1,
-      "validFrom": "2017-11-07T17:58:49.885Z",
-      "validTo": "2018-11-07T17:58:49.885Z",
       "description": "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value",
       "status": "approved",
       "percentageAmount": {

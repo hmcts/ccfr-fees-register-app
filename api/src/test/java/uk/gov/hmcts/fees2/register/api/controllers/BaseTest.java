@@ -96,7 +96,7 @@ public abstract class BaseTest {
         this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
     }
 
-    CustomResultMatcher body() {
+    protected CustomResultMatcher body() {
         return new CustomResultMatcher(objectMapper);
     }
 

@@ -11,8 +11,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
-import uk.gov.hmcts.fees2.register.api.controllers.advice.exception.BadRequestException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 
 import java.io.IOException;
 import java.io.InputStream;
