@@ -24,7 +24,7 @@ public class FeeLoaderComponentTest extends BaseTest {
      */
 
     @Test
-    public void testFeeLoaderCmcPaperFees() throws Exception{
+    public void testFeeLoaderForCmcPaperFees() throws Exception{
         restActions
             .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"), "channel=default&service=civil money claims")
             .andExpect(status().isOk())
@@ -46,7 +46,7 @@ public class FeeLoaderComponentTest extends BaseTest {
 
 
     @Test
-    public void testFeeLoaderCmcOnlineFees() throws Exception {
+    public void testFeeLoaderForCmcOnlineFees() throws Exception {
         restActions
             .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"), "channel=online&service=civil money claims")
             .andExpect(status().isOk())
@@ -63,6 +63,26 @@ public class FeeLoaderComponentTest extends BaseTest {
                     assertThat(fee2Dto.getEventTypeDto().getName()).isEqualTo("issue");
                     assertThat(fee2Dto.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);
                     assertThat(fee2Dto.getFeeVersionDtos().get(0).getVersion()).isEqualTo(1);
+                });
+            }));
+    }
+
+    @Test
+    public void testFeeLoaderForDivorceFee() throws Exception {
+        restActions
+            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"), "channel=default&service=divorce")
+            .andExpect(status().isOk())
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+                assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
+                    assertThat(fee2Dto.getCode()).isEqualTo("X0165");
+                    assertThat(fee2Dto.getServiceTypeDto().getName()).isEqualTo("divorce");
+                    assertThat(fee2Dto.getChannelTypeDto().getName()).isEqualTo("default");
+                    assertThat(fee2Dto.getEventTypeDto().getName()).isEqualTo("issue");
+                    assertThat(fee2Dto.getJurisdiction1Dto().getName()).isEqualTo("family");
+                    assertThat(fee2Dto.getJurisdiction2Dto().getName()).isEqualTo("family court");
+                    assertThat(fee2Dto.getFeeVersionDtos().get(0).getVersion()).isEqualTo(1);
+                    assertThat(fee2Dto.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);
+                    assertThat(fee2Dto.getFeeVersionDtos().get(0).getFlatAmount().getAmount()).isEqualTo(new BigDecimal("550.00"));
                 });
             }));
     }
