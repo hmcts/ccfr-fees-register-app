@@ -15,6 +15,7 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -36,6 +37,8 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Autowired
     private ChannelTypeService channelTypeService;
 
+    private String feeCode;
+
 
     /**
      *
@@ -56,12 +59,13 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Test
     public void createRangedFeeWithAllReferenceDataTest() {
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, "XCRUD02", FeeVersionStatus.approved);
+        feeCode = UUID.randomUUID().toString();
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, feeCode, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(savedFee);
 
-        assertEquals(rangedFeeDto.getCode(), "XCRUD02");
+        assertEquals(rangedFeeDto.getCode(), feeCode);
         FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
@@ -73,13 +77,14 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Transactional
     public void ReadRangedFeeWithAllReferenceDataTest() {
         // Insert a new ranged fee
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, "XCRUD03", FeeVersionStatus.approved);
+        feeCode = UUID.randomUUID().toString();
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, feeCode, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
 
-        Fee fee = feeService.get("XCRUD03");
+        Fee fee = feeService.get(feeCode);
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(fee);
-        assertEquals(rangedFeeDto.getCode(), "XCRUD03");
+        assertEquals(rangedFeeDto.getCode(), feeCode);
         FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
@@ -90,10 +95,11 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test
     public void createDraftFeeAndApproveTheFeeTest() {
         // Insert a new ranged fee
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, "XCRUD04", FeeVersionStatus.draft);
+        feeCode = UUID.randomUUID().toString();
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, feeCode, FeeVersionStatus.draft);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
 
-        Fee fee = feeService.get("XCRUD04");
+        Fee fee = feeService.get(feeCode);
 
         boolean result = feeService.approve(fee.getCode(), 1);
         assertTrue(result);
