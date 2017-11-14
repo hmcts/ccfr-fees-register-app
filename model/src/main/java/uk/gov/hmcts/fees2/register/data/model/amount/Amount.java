@@ -35,6 +35,8 @@ public abstract class Amount extends AbstractEntity{
 
     public abstract BigDecimal calculateFee(BigDecimal amount);
 
+    public abstract boolean acceptsUnspecifiedFees();
+
     @PreUpdate
     public void preUpdate() {
         Date now = new Date();

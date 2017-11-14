@@ -21,4 +21,9 @@ public class FlatAmount extends Amount {
     public BigDecimal calculateFee(BigDecimal amount) {
         return this.amount;
     }
+
+    @Override
+    public boolean acceptsUnspecifiedFees() {
+        return true;
+    }
 }

@@ -159,13 +159,13 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>3.5.3</version>
                 <configuration>
-                    <changeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed.yaml</changeLogFile>
-                    <diffChangeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed.yaml</diffChangeLogFile>
+                    <changeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+                    <diffChangeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed-v3.yaml</diffChangeLogFile>
                     <url>jdbc:postgresql://localhost:5432/fees_register</url>
                     <driver>org.postgresql.Driver</driver>
                     <username>fees_register</username>
                     <password>fees_register</password>
-                    <referenceUrl>hibernate:spring:uk.gov.hmcts.fees2.register.data.model?dialect=org.hibernate.dialect.PostgreSQL82Dialect</referenceUrl>
+                    <referenceUrl>hibernate:spring:uk.gov.hmcts.fees2.register.data.model?dialect=org.hibernate.dialect.PostgreSQL9Dialect</referenceUrl>
                     <verbose>true</verbose>
                     <diffExcludeObjects>table:range, table:range_group, table:fixed_fee_old, table:category, table:category_fee, table:fee_old</diffExcludeObjects>
                 </configuration>

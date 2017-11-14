@@ -28,7 +28,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
 */
 
     @Test
-    public void testFixedFee() throws Exception{
+    public synchronized void testFixedFee() throws Exception{
 
         CreateFixedFeeDto dto = new CreateFixedFeeDto();
         dto.setService("divorce");

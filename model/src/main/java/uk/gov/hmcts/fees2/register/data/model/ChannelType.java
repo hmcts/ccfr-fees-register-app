@@ -22,7 +22,7 @@ import java.util.Date;
 @Table(name = "channel_type")
 public class ChannelType implements Serializable{
 
-    public final static String DEFAULT = "default";
+    public static final String DEFAULT = "default";
 
     @Id
     @Column(name = "name", nullable = false)

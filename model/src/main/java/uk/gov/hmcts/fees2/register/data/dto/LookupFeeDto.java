@@ -29,4 +29,6 @@ public class LookupFeeDto {
 
     private BigDecimal amount;
 
+    private Boolean unspecifiedClaimAmount;
+
 }

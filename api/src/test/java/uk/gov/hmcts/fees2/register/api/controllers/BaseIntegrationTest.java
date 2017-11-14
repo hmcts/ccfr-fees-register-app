@@ -10,6 +10,7 @@ import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -39,16 +40,36 @@ public abstract class BaseIntegrationTest extends BaseTest{
     }
 
     protected void saveFeeAndCheckStatusIsCreated(CreateFeeDto dto) throws Exception {
+
+        String methodName = dto instanceof CreateRangedFeeDto ? "createRangedFee" : "createFixedFee";
+
         restActions
             .withUser("admin")
             .post(
-                URIUtils.getUrlForPostMethod(FeeController.class, "createRangedFee"),
+                URIUtils.getUrlForPostMethod(FeeController.class, methodName),
                 dto
             )
             .andExpect(status().isCreated());
     }
 
+    protected ResultActions saveFee(CreateFeeDto dto) throws Exception {
+
+        String methodName = dto instanceof CreateRangedFeeDto ? "createRangedFee" : "createFixedFee";
+
+        return restActions
+            .withUser("admin")
+            .post(
+                URIUtils.getUrlForPostMethod(FeeController.class, methodName),
+                dto
+            );
+
+    }
+
+
     protected ResultActions lookupUsingCreateFeeDtoReferenceData(CreateFeeDto createDto, BigDecimal claimValue) throws Exception{
+
+        String method = createDto.getUnspecifiedClaimAmount() != null &&
+            createDto.getUnspecifiedClaimAmount() ? "lookupUnspecified" : "lookup";
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -57,11 +78,14 @@ public abstract class BaseIntegrationTest extends BaseTest{
         httpHeaders.add(UserRequestAuthorizer.AUTHORISATION, token);
 
         MockHttpServletRequestBuilder lookup = MockMvcRequestBuilders
-            .get(URIUtils.getUrlForGetMethod(FeeController.class, "lookup"))
+            .get(URIUtils.getUrlForGetMethod(FeeController.class, method))
             .contentType(APPLICATION_JSON)
             .accept(APPLICATION_JSON)
-            .headers(httpHeaders)
-            .param("amount", claimValue.toString());
+            .headers(httpHeaders);
+
+        if(createDto.getUnspecifiedClaimAmount() == null || !createDto.getUnspecifiedClaimAmount()){
+            lookup = lookup.param("amount", claimValue.toString());
+        }
 
         if(createDto.getChannel() != null){
             lookup = lookup.param("channel", createDto.getChannel());
@@ -115,6 +139,12 @@ public abstract class BaseIntegrationTest extends BaseTest{
     protected ResultMatcher lookupResultMatchesExpectedFeeAmount(BigDecimal feeAmount) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
             assertThat(feeAmount.compareTo(res.getFeeAmount()) == 0);
+        });
+    }
+
+    protected ResultMatcher isUnspecifiedAmountFee() {
+        return body().as(Fee2Dto.class, (res) -> {
+            assertThat(res.isUnspecifiedClaimAmount());
         });
     }
 

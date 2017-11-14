@@ -15,7 +15,7 @@ public class CreateRangedFeeDto extends CreateFeeDto{
     private BigDecimal maxRange;
 
     public CreateRangedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String direction, String event, String memoLine, String feeOrderName, String naturalAccountCode, BigDecimal maxRange,  BigDecimal minRange) {
-        super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode);
+        super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode, false);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }

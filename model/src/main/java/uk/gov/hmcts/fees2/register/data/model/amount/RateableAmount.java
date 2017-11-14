@@ -29,4 +29,9 @@ public class RateableAmount extends Amount {
     public BigDecimal calculateFee(BigDecimal amount) {
         return null;
     }
+
+    @Override
+    public boolean acceptsUnspecifiedFees() {
+        return false;
+    }
 }

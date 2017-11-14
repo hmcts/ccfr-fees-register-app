@@ -17,6 +17,8 @@ import java.io.Serializable;
 @MappedSuperclass
 public class AbstractEntity extends Object implements Serializable {
 
+    private static final Long servialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore

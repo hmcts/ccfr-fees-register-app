@@ -62,6 +62,9 @@ public abstract class Fee extends AbstractEntity{
     @Cascade(CascadeType.ALL)
     private List<FeeVersion> feeVersions;
 
+    @Column(name = "unspecified_claim_amount")
+    private boolean unspecifiedClaimAmount;
+
     /* --- */
 
     @Column(name = "creation_time", nullable = false)

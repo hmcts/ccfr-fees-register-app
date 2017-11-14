@@ -46,5 +46,6 @@ public class Fee2Dto {
 
     private BigDecimal maxRange;
 
+    private boolean unspecifiedClaimAmount;
 
 }

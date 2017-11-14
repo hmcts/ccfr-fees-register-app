@@ -76,9 +76,10 @@ public class FeeController {
                                 @RequestParam(required = false) String channel,
                                 @RequestParam(required = false) String event,
                                 @RequestParam(required = false) String direction,
-                                @RequestParam(required = false) BigDecimal amount) {
+                                @RequestParam(required = false) BigDecimal amount,
+                                @RequestParam(required = false) Boolean unspecifiedClaimAmounts) {
         return feeService
-            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount))
+            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts))
             .stream()
             .map(feeDtoMapper::toFeeDto)
             .collect(Collectors.toList());
@@ -92,7 +93,17 @@ public class FeeController {
                                        @RequestParam String event,
                                        @RequestParam(required = false) BigDecimal amount) {
 
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount));
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount, false));
+    }
+
+    @GetMapping("/lookup/unspecified")
+    public FeeLookupResponseDto lookupUnspecified(@RequestParam String service,
+                                                  @RequestParam String jurisdiction1,
+                                                  @RequestParam String jurisdiction2,
+                                                  @RequestParam(required = false) String channel,
+                                                  @RequestParam String event) {
+
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true));
     }
 
 
@@ -103,7 +114,7 @@ public class FeeController {
 
     /* --- */
 
-    private String getResourceLocation(Fee fee){
+    private String getResourceLocation(Fee fee) {
         return URIUtils.getUrlForGetMethod(this.getClass(), "getFee").replace("{code}", fee.getCode());
     }
 
