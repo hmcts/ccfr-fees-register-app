@@ -38,9 +38,6 @@ public class FeeLoader implements ApplicationRunner {
     @Autowired
     private FeeController feeController;
 
-    private CreateRangedFeeDto createRangedFeeDto = null;
-
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
         try {
@@ -63,7 +60,7 @@ public class FeeLoader implements ApplicationRunner {
 
     }
 
-    public List<CreateRangedFeeDto> loadFromResource(String location) throws IOException {
+    private List<CreateRangedFeeDto> loadFromResource(String location) throws IOException {
         InputStream fileAsInputStream = resourceLoader.getResource(location).getInputStream();
         return objectMapper.readValue(fileAsInputStream, objectMapper.getTypeFactory().constructCollectionType(List.class, CreateRangedFeeDto.class));
     }
