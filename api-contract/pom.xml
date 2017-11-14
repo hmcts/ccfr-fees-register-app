@@ -27,4 +27,31 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>cz.habarta.typescript-generator</groupId>
+                <artifactId>typescript-generator-maven-plugin</artifactId>
+                <version>1.29.355</version>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mapClasses>asClasses</mapClasses>
+                    <outputFileType>implementationFile</outputFileType>
+                    <jsonLibrary>jackson2</jsonLibrary>
+                    <classPatterns>uk.gov.hmcts.fees2.register.api.contract.**</classPatterns>
+                    <outputKind>module</outputKind>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

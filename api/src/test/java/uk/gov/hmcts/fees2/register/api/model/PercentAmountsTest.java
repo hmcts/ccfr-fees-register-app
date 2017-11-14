@@ -13,19 +13,19 @@ public class PercentAmountsTest {
 
     @Test
     public void simple() {
-        Amount amount = new PercentageAmount(new BigDecimal("0.1"));
+        Amount amount = new PercentageAmount(new BigDecimal("10"));
         assertTrue(amount.calculateFee(BigDecimal.TEN).compareTo(BigDecimal.ONE) == 0);
     }
 
     @Test
     public void zero() {
-        Amount amount = new PercentageAmount(new BigDecimal("0.1"));
+        Amount amount = new PercentageAmount(new BigDecimal("10"));
         assertTrue(amount.calculateFee(BigDecimal.ZERO).compareTo(BigDecimal.ZERO) == 0);
     }
 
     @Test
     public void typical() {
-        Amount amount = new PercentageAmount(new BigDecimal("0.05"));
+        Amount amount = new PercentageAmount(new BigDecimal("5"));
         assertTrue(amount.calculateFee(new BigDecimal("65")).compareTo(new BigDecimal("3.25")) == 0);
     }
 
@@ -39,7 +39,7 @@ public class PercentAmountsTest {
 
     @Test
     public void truncate() {
-        Amount amount = new PercentageAmount(new BigDecimal("0.0001"));
+        Amount amount = new PercentageAmount(new BigDecimal("0.01"));
         assertEquals(new BigDecimal("1050.50"), amount.calculateFee(new BigDecimal("10505096")));
     }
 

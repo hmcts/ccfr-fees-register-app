@@ -39,7 +39,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
         dto.setChannel("online");
 
         FeeVersionDto versionDto = new FeeVersionDto();
-        versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal("0.1")));
+        versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal("10")));
         versionDto.setDescription(dto.getMemoLine());
         versionDto.setValidFrom(new Date());
         versionDto.setValidTo(new Date(System.currentTimeMillis() + 360000));
@@ -79,7 +79,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
         CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
-        versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal("0.1")));
+        versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal("10")));
         versionDto.setDescription(dto.getMemoLine());
         versionDto.setValidFrom(new Date());
         versionDto.setValidTo(new Date(System.currentTimeMillis() + 360000));
@@ -158,7 +158,6 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     public synchronized void testCreateRangedFeeWithFlatAmountAndDefaultChannel() throws Exception {
 
         CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
-        dto.setChannel("online");
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));

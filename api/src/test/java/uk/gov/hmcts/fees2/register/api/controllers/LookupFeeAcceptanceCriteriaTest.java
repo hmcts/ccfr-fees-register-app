@@ -79,7 +79,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         FeeVersionDto versionDto = new FeeVersionDto();
 
-        versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal(0.1))); // 10%
+        versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal(10)));
         versionDto.setDescription(dto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
@@ -154,7 +154,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         FeeVersionDto versionDto = new FeeVersionDto();
 
-        versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal(0.1))); // 10%
+        versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal(10))); // 10%
         versionDto.setDescription(dto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
