@@ -61,7 +61,7 @@ public class ReferenceDataServiceTest extends BaseTest {
     }
 
     @Test
-    public void testChannelTypes() throws Exception {
+    public void given() throws Exception {
         List<ChannelType> channels = new ArrayList<>();
         channels.add(new ChannelType("civil", null, null));
         channels.add(new ChannelType("bulk", null, null));
@@ -77,7 +77,7 @@ public class ReferenceDataServiceTest extends BaseTest {
     }
 
     @Test
-    public void testDirectionTypes() throws Exception {
+    public void testFindAllChannelTypes() throws Exception {
         List<DirectionType> directions = new ArrayList<>();
         directions.add(new DirectionType("cost recovery", null, null));
         directions.add(new DirectionType("enhanced", null, null));
@@ -95,7 +95,7 @@ public class ReferenceDataServiceTest extends BaseTest {
     }
 
     @Test
-    public void testEventTypes() throws Exception {
+    public void testFindAllEventTypes() throws Exception {
         List<EventType> events = new ArrayList<>();
         events.add(new EventType("issue", null, null));
         events.add(new EventType("copies", null, null));
@@ -116,7 +116,7 @@ public class ReferenceDataServiceTest extends BaseTest {
     }
 
     @Test
-    public void testJurisdictions1() throws Exception {
+    public void testFindAllJurisdictions1() throws Exception {
         List<Jurisdiction1> jurisdictions1 = new ArrayList<>();
         jurisdictions1.add(new Jurisdiction1("civil", null, null));
         jurisdictions1.add(new Jurisdiction1("family", null, null));
@@ -134,7 +134,7 @@ public class ReferenceDataServiceTest extends BaseTest {
     }
 
     @Test
-    public void testJurisdictions2() throws Exception {
+    public void testFindAllJurisdictions2() throws Exception {
         List<Jurisdiction2> jurisdictions2 =new ArrayList<>();
         jurisdictions2.add(new Jurisdiction2("county court", null, null));
         jurisdictions2.add(new Jurisdiction2("high court" , null, null));
@@ -152,7 +152,7 @@ public class ReferenceDataServiceTest extends BaseTest {
 
 
      @Test
-     public void testServiceTypes() throws Exception {
+     public void testFindAllServiceTypes() throws Exception {
         List<ServiceType> serviceTypes = new ArrayList<>();
         serviceTypes.add(new ServiceType("civil money claims", null, null));
         serviceTypes.add(new ServiceType("divorce", null, null));
