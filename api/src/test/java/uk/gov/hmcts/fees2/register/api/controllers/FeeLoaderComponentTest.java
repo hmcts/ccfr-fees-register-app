@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees2.register.api.service;
+package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
