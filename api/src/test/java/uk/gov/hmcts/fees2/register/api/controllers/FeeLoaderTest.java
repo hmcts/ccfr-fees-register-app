@@ -52,8 +52,7 @@ public class FeeLoaderTest extends BaseIntegrationTest {
                     assertThat(fee2Dto.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);
                 });
             }));
-
-        deleteFee("X0001");
+        
     }
 
 
