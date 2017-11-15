@@ -33,6 +33,9 @@
         <sonar.exclusions>
             **/fees/**
         </sonar.exclusions>
+        <sonar.test.exclusions>
+            **/fees/**
+        </sonar.test.exclusions>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.dependencyCheck.reportPath>${project.basedir}/target/dependency-check-report.xml
         </sonar.dependencyCheck.reportPath>
