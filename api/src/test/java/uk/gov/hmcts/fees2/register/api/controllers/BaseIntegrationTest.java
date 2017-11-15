@@ -19,7 +19,7 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static junit.framework.TestCase.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -117,34 +117,34 @@ public abstract class BaseIntegrationTest extends BaseTest{
         return body().as(Fee2Dto.class, (feeDto) -> {
 
             FeeVersionDto v = feeDto.getFeeVersionDtos().get(0);
-            assertThat(v.getVersion().equals(1));
-            assertThat(v.getStatus() == FeeVersionStatus.draft);
+            assertTrue(v.getVersion().equals(1));
+            assertTrue(v.getStatus() == FeeVersionStatus.draft);
         });
     }
 
     protected ResultMatcher channelIsDefault() {
         return body().as(Fee2Dto.class, (feeDto) -> {
-            assertThat(feeDto.getChannelTypeDto().getName().equals(ChannelType.DEFAULT));
+            assertTrue(feeDto.getChannelTypeDto().getName().equals(ChannelType.DEFAULT));
         });
     }
 
     protected ResultMatcher lookupResultMatchesFee(CreateFeeDto feeDto) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
-            assertThat(feeDto.getMemoLine().equalsIgnoreCase(res.getDescription()));
-            assertThat(feeDto.getCode().equalsIgnoreCase(res.getCode()));
-            assertThat(res.getVersion() != null);
+            assertTrue(feeDto.getMemoLine().equalsIgnoreCase(res.getDescription()));
+            assertTrue(feeDto.getCode().equalsIgnoreCase(res.getCode()));
+            assertTrue(res.getVersion() != null);
         });
     }
 
     protected ResultMatcher lookupResultMatchesExpectedFeeAmount(BigDecimal feeAmount) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
-            assertThat(feeAmount.compareTo(res.getFeeAmount()) == 0);
+            assertTrue(feeAmount.compareTo(res.getFeeAmount()) == 0);
         });
     }
 
     protected ResultMatcher isUnspecifiedAmountFee() {
         return body().as(Fee2Dto.class, (res) -> {
-            assertThat(res.isUnspecifiedClaimAmount());
+            assertTrue(res.isUnspecifiedClaimAmount());
         });
     }
 
