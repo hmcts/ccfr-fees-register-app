@@ -39,7 +39,7 @@ public class FeeLoaderComponentTest extends BaseTest {
                    assertThat(fee2Dto.getEventTypeDto().getName()).isEqualTo("issue");
                    assertThat(fee2Dto.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);
                    assertThat(fee2Dto.getFeeVersionDtos().get(0).getVersion()).isEqualTo(1);
-                   assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("200000.01"));
+                   assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("200000.00"));
                });
             }));
     }
@@ -55,7 +55,7 @@ public class FeeLoaderComponentTest extends BaseTest {
                     assertThat(fee2Dto.getCode()).isEqualTo("X0433");
                     assertThat(fee2Dto.getServiceTypeDto().getName()).isEqualTo("civil money claims");
                     assertThat(fee2Dto.getChannelTypeDto().getName()).isEqualTo("online");
-                    assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("5000.01"));
+                    assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("5000.00"));
                     assertThat(fee2Dto.getMaxRange()).isEqualTo(new BigDecimal("10000.00"));
                     assertThat(fee2Dto.getJurisdiction1Dto().getName()).isEqualTo("civil");
                     assertThat(fee2Dto.getJurisdiction2Dto().getName()).isEqualTo("county court");
