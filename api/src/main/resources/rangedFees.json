@@ -1,6 +1,6 @@
 [
   {
-    "minRange": 1,
+    "minRange": 0,
     "maxRange": 300.00,
     "code": "X0001",
     "version": {
@@ -19,7 +19,7 @@
     "event": "issue"
   },
   {
-    "minRange": 300.01,
+    "minRange": 300.00,
     "maxRange": 500.00,
     "code": "X0002",
     "version": {
@@ -38,7 +38,7 @@
     "event": "issue"
   },
   {
-    "minRange": 500.01,
+    "minRange": 500.00,
     "maxRange": 1000.00,
     "code": "X0003",
     "version": {
@@ -57,7 +57,7 @@
     "event": "issue"
   },
   {
-    "minRange": 1000.01,
+    "minRange": 1000.00,
     "maxRange": 1500.00,
     "code": "X0004",
     "version": {
@@ -76,7 +76,7 @@
     "event": "issue"
   },
   {
-    "minRange": 1500.01,
+    "minRange": 1500.00,
     "maxRange": 3000.00,
     "code": "X0005",
     "version": {
@@ -95,7 +95,7 @@
     "event": "issue"
   },
   {
-    "minRange": 3000.01,
+    "minRange": 3000.00,
     "maxRange": 5000.00,
     "code": "X0006",
     "version": {
@@ -114,7 +114,7 @@
     "event": "issue"
   },
   {
-    "minRange": 5000.01,
+    "minRange": 5000.00,
     "maxRange": 10000.00,
     "code": "X0007",
     "version": {
@@ -133,7 +133,7 @@
     "event": "issue"
   },
   {
-    "minRange": 10000.01,
+    "minRange": 10000.00,
     "maxRange": 200000.00,
     "code": "X0008-1",
     "version": {
@@ -152,7 +152,7 @@
     "event": "issue"
   },
   {
-    "minRange": 200000.01,
+    "minRange": 200000.00,
     "code": "X0012",
     "version": {
       "version": 1,
@@ -170,7 +170,7 @@
     "event": "issue"
   },
   {
-    "minRange": 1,
+    "minRange": 0,
     "maxRange": 300.00,
     "code": "X0024",
     "version": {
@@ -189,7 +189,7 @@
     "event": "issue"
   },
   {
-    "minRange": 300.01,
+    "minRange": 300.00,
     "maxRange": 500.00,
     "code": "X0025",
     "version": {
@@ -208,7 +208,7 @@
     "event": "issue"
   },
   {
-    "minRange": 500.01,
+    "minRange": 500.00,
     "maxRange": 1000.00,
     "code": "X0026",
     "version": {
@@ -227,7 +227,7 @@
     "event": "issue"
   },
   {
-    "minRange": 1000.01,
+    "minRange": 1000.00,
     "maxRange": 1500.00,
     "code": "X0027",
     "version": {
@@ -246,7 +246,7 @@
     "event": "issue"
   },
   {
-    "minRange": 1500.01,
+    "minRange": 1500.00,
     "maxRange": 3000.00,
     "code": "X0028",
     "version": {
@@ -265,7 +265,7 @@
     "event": "issue"
   },
   {
-    "minRange": 3000.01,
+    "minRange": 3000.00,
     "maxRange": 5000.00,
     "code": "X0029",
     "version": {
@@ -284,7 +284,7 @@
     "event": "issue"
   },
   {
-    "minRange": 5000.01,
+    "minRange": 5000.00,
     "maxRange": 10000.00,
     "code": "X0433",
     "version": {
@@ -303,7 +303,7 @@
     "event": "issue"
   },
   {
-    "minRange": 10000.01,
+    "minRange": 10000.00,
     "maxRange": 15000.00,
     "code": "X0434",
     "version": {
