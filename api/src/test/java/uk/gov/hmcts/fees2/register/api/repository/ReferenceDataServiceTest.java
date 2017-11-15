@@ -1,13 +1,10 @@
 package uk.gov.hmcts.fees2.register.api.repository;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
+import uk.gov.hmcts.fees2.register.api.controllers.BaseTest;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
@@ -26,8 +23,7 @@ import static org.mockito.Mockito.when;
  * Created by tarun on 15/11/2017.
  */
 
-@RunWith(MockitoJUnitRunner.class)
-public class ReferenceDataServiceTest {
+public class ReferenceDataServiceTest extends BaseTest {
 
     @Mock
     private ChannelTypeRepository channelTypeRepository;
