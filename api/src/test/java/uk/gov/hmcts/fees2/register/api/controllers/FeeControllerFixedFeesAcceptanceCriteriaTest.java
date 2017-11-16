@@ -37,6 +37,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
         dto.setJurisdiction2("high court");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setMemoLine("description");
+        dto.setDirection("license");
 
         FeeVersionDto version = new FeeVersionDto();
         version.setDescription(dto.getMemoLine());

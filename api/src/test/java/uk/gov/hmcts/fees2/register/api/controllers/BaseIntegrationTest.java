@@ -155,6 +155,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setService("civil money claims")
         .setEvent("issue")
         .setJurisdiction1("civil")
+        .setDirection("license")
         .setJurisdiction2("family court")
         .setCode(String.valueOf(System.currentTimeMillis()))
         .setMemoLine("description");
@@ -166,6 +167,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setEvent("issue")
         .setJurisdiction1("family")
         .setJurisdiction2("family court")
+        .setDirection("license")
         .setCode(String.valueOf(System.currentTimeMillis()))
         .setMemoLine("description");
 
