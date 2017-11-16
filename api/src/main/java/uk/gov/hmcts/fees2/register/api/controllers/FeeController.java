@@ -39,7 +39,7 @@ public class FeeController {
 
     @PostMapping("/rangedfees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRangedFee(@RequestBody final CreateRangedFeeDto request, HttpServletResponse response) {
+    public void createRangedFee(@RequestBody @Validated final CreateRangedFeeDto request, HttpServletResponse response) {
         Fee fee = feeService.save(feeDtoMapper.toFee(request));
 
         if (response != null) {
@@ -49,7 +49,7 @@ public class FeeController {
 
     @PostMapping("/fixedfees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createFixedFee(@RequestBody final CreateFixedFeeDto request, HttpServletResponse response) {
+    public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request, HttpServletResponse response) {
         Fee fee = feeService.save(feeDtoMapper.toFee(request));
 
         if (response != null) {
@@ -108,7 +108,7 @@ public class FeeController {
 
 
     @PatchMapping("/fees/approve")
-    public void approve(@RequestBody ApproveFeeDto dto) {
+    public void approve(@RequestBody @Validated ApproveFeeDto dto) {
         feeService.approve(dto.getFeeCode(), dto.getFeeVersion());
     }
 

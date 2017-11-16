@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 public class CreateRangedFeeDto extends CreateFeeDto{
 
+    @NotNull
     private BigDecimal minRange;
 
     private BigDecimal maxRange;

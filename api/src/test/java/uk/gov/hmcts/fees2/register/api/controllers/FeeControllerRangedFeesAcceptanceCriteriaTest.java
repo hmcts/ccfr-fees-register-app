@@ -184,6 +184,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
         dto.setMaxRange(BigDecimal.TEN);
         dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setMemoLine("description");
+        dto.setDirection("license");
 
         return dto;
     }
