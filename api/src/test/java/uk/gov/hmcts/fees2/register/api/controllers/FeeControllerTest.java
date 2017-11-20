@@ -157,8 +157,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 assertThat(fee2Dtos.size() == 2);
                 assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
                     assertThat(fee2Dto.getCode().equals(feeCode));
-                    assertThat(fee2Dto.getMinRange().equals(new BigDecimal(500)));
-                    assertThat(fee2Dto.getMaxRange().equals(new BigDecimal(599)));
                     assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
                         assertThat(feeVersionDto.getStatus().equals(FeeVersionStatus.approved));
                     });
