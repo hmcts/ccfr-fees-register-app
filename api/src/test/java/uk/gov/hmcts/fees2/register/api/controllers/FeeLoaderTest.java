@@ -30,6 +30,7 @@ public class FeeLoaderTest extends BaseIntegrationTest {
 
     @Test
     public void testCMCFeeLoading() throws Exception{
+
         // Delete the Fee:X0001 if it already exists
         deleteFee("X0001");
 
