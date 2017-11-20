@@ -145,7 +145,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void lookupUnspecifiedFee() throws Exception{
+    public synchronized void testThatLookupOfUnspecifiedClaimAmountMatchesUnspecifiedTypeFee() throws Exception{
 
         CreateFixedFeeDto dto = new CreateFixedFeeDto();
         dto.setService("civil money claims");
@@ -167,7 +167,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest{
 
         saveFeeAndCheckStatusIsCreated(dto);
 
-        lookupUsingCreateFeeDtoReferenceData(dto, null)
+        lookupUsingUsingReferenceDataFrom(dto, null)
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(version.getFlatAmount().getAmount()));
 

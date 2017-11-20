@@ -9,6 +9,8 @@ import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrationTest {
 
     /* PAY-449 */
@@ -187,6 +189,40 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
         dto.setDirection("license");
 
         return dto;
+    }
+
+    /* PAY-476: Check ranges are valid */
+
+    @Test
+    public synchronized void testInvalidRange() throws Exception {
+
+        CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
+        dto.setMaxRange(BigDecimal.ZERO);
+        dto.setMinRange(BigDecimal.TEN);
+
+        FeeVersionDto versionDto = new FeeVersionDto();
+        versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
+        versionDto.setDescription(dto.getMemoLine());
+
+        dto.setVersion(versionDto);
+
+        saveFee(dto).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public synchronized void testInvalidRangeSameRange() throws Exception {
+
+        CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
+        dto.setMaxRange(BigDecimal.TEN);
+        dto.setMinRange(BigDecimal.TEN);
+
+        FeeVersionDto versionDto = new FeeVersionDto();
+        versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
+        versionDto.setDescription(dto.getMemoLine());
+
+        dto.setVersion(versionDto);
+
+        saveFee(dto).andExpect(status().isBadRequest());
     }
 
 }

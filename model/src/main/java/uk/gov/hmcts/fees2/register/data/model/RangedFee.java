@@ -23,6 +23,11 @@ public class RangedFee extends Fee{
     private BigDecimal maxRange;
 
     @Override
+    public String getTypeCode() {
+        return "ranged";
+    }
+
+    @Override
     public boolean isInRange(BigDecimal amount) {
         return amount != null &&
             (minRange == null || amount.compareTo(minRange) > 0)

@@ -9,6 +9,11 @@ import java.math.BigDecimal;
 public class FixedFee extends Fee{
 
     @Override
+    public String getTypeCode() {
+        return "fixed";
+    }
+
+    @Override
     public boolean isInRange(BigDecimal amount) {
         return true;
     }

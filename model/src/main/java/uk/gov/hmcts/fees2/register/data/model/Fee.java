@@ -73,21 +73,18 @@ public abstract class Fee extends AbstractEntity{
     @Column(name = "last_updated", nullable = false)
     private Date lastUpdated;
 
-    private transient FeeVersion currentVersion = null;
-
     /* --- */
+
+    public abstract String getTypeCode();
+
+
 
     public abstract boolean isInRange(BigDecimal amount);
 
-    public FeeVersion getCurrentVersion() {
-
-        if(currentVersion != null) {
-            return currentVersion;
-        }
-
+    public FeeVersion getCurrentVersion(boolean isApproved) {
         Optional<FeeVersion> opt = getFeeVersions()
             .stream()
-            .filter(v -> v.getStatus() == FeeVersionStatus.approved && v.isInRange(new Date()))
+            .filter(v -> (!isApproved || v.getStatus() == FeeVersionStatus.approved) && v.isInRange(new Date()))
             .findFirst();
 
         return opt.isPresent() ? opt.get() : null;

@@ -110,7 +110,7 @@ public class FeeServiceImpl implements FeeService {
 
         Fee fee = fees.get(0);
 
-        FeeVersion version = fee.getCurrentVersion();
+        FeeVersion version = fee.getCurrentVersion(true);
 
         if (version == null) {
             throw new FeeNotFoundException(dto);

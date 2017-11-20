@@ -23,6 +23,8 @@ public class Fee2Dto {
 
     private String code;
 
+    private String feeType;
+
     private String memoLine;
 
     private ChannelType channelTypeDto;
@@ -42,6 +44,8 @@ public class Fee2Dto {
     private String feeOrderName;
 
     private List<FeeVersionDto> feeVersionDtos;
+
+    private FeeVersionDto currentVersion;
 
     // only ranged fee
     private BigDecimal minRange;
