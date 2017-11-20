@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.boot.ApplicationArguments;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.controllers.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.FeeLoader;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
@@ -54,6 +56,24 @@ public class FeeLoaderTest extends BaseIntegrationTest {
                 });
             }));
 
+    }
+
+    @Test
+    public void testCMCUnspecifiedFeesUsingFeeLoader() throws Exception {
+
+        // Delete the fee if it already exists
+        deleteFee("X0012");
+
+        feeLoader.run(args);
+
+        restActions
+            .get("/fees-register/lookup/unspecified?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&event=issue")
+            .andExpect(status().isOk())
+            .andExpect(body().as(FeeLookupResponseDto.class, fee -> {
+                assertThat(fee.getCode()).isEqualTo("X0012");
+                assertThat(fee.getFeeAmount()).isEqualTo("10000.00");
+                assertThat(fee.getVersion()).isEqualTo(1);
+            }));
     }
 
 
