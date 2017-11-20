@@ -48,6 +48,9 @@ public class FeeLoader implements ApplicationRunner {
                 List<CreateFixedFeeDto> fixedFees = feeLoaderMapper.getFixedFees();
                 fixedFees.forEach(f -> {
                     try {
+                        if (f.getUnspecifiedClaimAmount() == null) {
+                            f.setUnspecifiedClaimAmount(false);
+                        }
                         feeController.createFixedFee(f, null);
                         LOG.info("Fixed fee with code " +f.getCode()+ " inserted into database.");
                     } catch (BadRequestException be) {
