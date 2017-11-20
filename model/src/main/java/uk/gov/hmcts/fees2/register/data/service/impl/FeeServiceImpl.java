@@ -118,7 +118,7 @@ public class FeeServiceImpl implements FeeService {
 
         return new FeeLookupResponseDto(
             fee.getCode(),
-            fee.getMemoLine(),
+            version.getDescription(),
             version.getVersion(),
             version.calculateFee(dto.getAmount()));
 
