@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CreateRangedFeeDto extends CreateFeeDto{
 
-    @NotNull
     private BigDecimal minRange;
 
     private BigDecimal maxRange;

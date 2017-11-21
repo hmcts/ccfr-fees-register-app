@@ -47,7 +47,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         saveFeeAndCheckStatusIsCreated(dto);
 
-        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+        lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
@@ -86,7 +86,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         saveFeeAndCheckStatusIsCreated(dto);
 
-        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+        lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(new BigDecimal("0.5")));
@@ -123,7 +123,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         saveFeeAndCheckStatusIsCreated(dto);
 
-        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+        lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
@@ -161,7 +161,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         saveFeeAndCheckStatusIsCreated(dto);
 
-        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+        lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(new BigDecimal("0.5")));
@@ -198,7 +198,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         saveFeeAndCheckStatusIsCreated(dto);
 
-        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+        lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isNotFound());
 
         deleteFee(dto.getCode());
@@ -236,7 +236,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         saveFeeAndCheckStatusIsCreated(dto);
 
-        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+        lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
@@ -274,7 +274,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         saveFeeAndCheckStatusIsCreated(dto);
 
-        lookupUsingCreateFeeDtoReferenceData(dto, claimValue)
+        lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isNotFound());
 
         deleteFee(dto.getCode());

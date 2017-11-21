@@ -66,7 +66,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
     }
 
 
-    protected ResultActions lookupUsingCreateFeeDtoReferenceData(CreateFeeDto createDto, BigDecimal claimValue) throws Exception{
+    protected ResultActions lookupUsingUsingReferenceDataFrom(CreateFeeDto createDto, BigDecimal claimValue) throws Exception{
 
         String method = createDto.getUnspecifiedClaimAmount() != null &&
             createDto.getUnspecifiedClaimAmount() ? "lookupUnspecified" : "lookup";
@@ -172,5 +172,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setMemoLine("description");
 
     }
+
+
 
 }

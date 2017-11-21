@@ -9,6 +9,7 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -165,6 +166,25 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         deleteFee(feeCode);
         deleteFee(newFeeCode);
+
+    }
+
+    @Test
+    public synchronized void createInvalidDateVersionTest() throws Exception {
+        feeCode = UUID.randomUUID().toString();
+
+        Date date = new Date();
+
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, feeCode, FeeVersionStatus.approved);
+        rangedFeeDto.getVersion().setValidTo(date);
+        rangedFeeDto.getVersion().setValidFrom(date);
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/rangedfees", rangedFeeDto)
+            .andExpect(status().isCreated());
+
+        deleteFee(feeCode);
 
     }
 

@@ -31,7 +31,6 @@ public abstract class CreateFeeDto {
 
     protected String channel;
 
-    @NotNull
     protected String direction;
 
     @NotNull

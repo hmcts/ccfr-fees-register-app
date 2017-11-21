@@ -17,7 +17,9 @@ import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -95,6 +97,9 @@ public class FeeDtoMapper {
         Fee2Dto fee2Dto = new Fee2Dto();
 
         fee2Dto.setCode(fee.getCode());
+
+        fee2Dto.setFeeType(fee.getTypeCode());
+
         fee2Dto.setMemoLine(fee.getMemoLine());
 
         fee2Dto.setChannelTypeDto(fee.getChannelType());
@@ -115,6 +120,12 @@ public class FeeDtoMapper {
 
         List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(this::toFeeVersionDto).collect(Collectors.toList());
         fee2Dto.setFeeVersionDtos(feeVersionDtos);
+
+        FeeVersion currentVersion = fee.getCurrentVersion(false);
+
+        if(currentVersion != null) {
+            fee2Dto.setCurrentVersion(toFeeVersionDto(fee.getCurrentVersion(false)));
+        }
 
         return fee2Dto;
     }
