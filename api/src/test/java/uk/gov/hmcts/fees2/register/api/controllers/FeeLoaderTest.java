@@ -21,6 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Created by tarun on 15/11/2017.
+ *
+ * Fee loader test
  */
 public class FeeLoaderTest extends BaseIntegrationTest {
 
