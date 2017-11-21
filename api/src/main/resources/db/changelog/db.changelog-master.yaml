@@ -446,3 +446,19 @@ databaseChangeLog:
 
     - include:
         file: db/changelog/db.changelog-fees-managed-v2.yaml
+
+    - changeSet:
+        id: 19
+        author: tarun
+        changes:
+          - sql: >
+              DELETE FROM fixed_fee;
+              DELETE FROM fee_version;
+              DELETE FROM ranged_fee;
+              DELETE FROM fee;
+              DELETE FROM flat_amount;
+              DELETE FROM percentage_amount;
+              DELETE FROM amount;
+
+
+
