@@ -132,7 +132,7 @@ public class ReferenceDataComponentTest extends BaseTest{
             .get(URIUtils.getUrlForGetMethod(ReferenceDataController.class, "getAllJurisdictions2"))
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Jurisdiction2Dto.class, jurisdiction2Dtos -> {
-                assertThat(jurisdiction2Dtos.size()).isEqualTo(11);
+                assertThat(jurisdiction2Dtos.size()).isEqualTo(13);
                 assertThat(jurisdiction2Dtos).contains(
                     jurisdiction2TypeDtoWith()
                         .name("county court")
