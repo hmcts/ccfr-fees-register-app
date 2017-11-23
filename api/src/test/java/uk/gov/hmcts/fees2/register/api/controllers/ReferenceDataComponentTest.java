@@ -168,7 +168,7 @@ public class ReferenceDataComponentTest extends BaseTest{
                         .name("tax chamber")
                         .build(),
                     jurisdiction2TypeDtoWith()
-                        .name("Upper Tribunal Immigration and Asylum Chamber")
+                        .name("upper tribunal immigration and asylum chamber")
                         .build(),
                     jurisdiction2TypeDtoWith()
                         .name("upper tribunal lands chamber")
