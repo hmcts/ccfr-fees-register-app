@@ -15,6 +15,7 @@ import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.*;
 
 /**
  * Reference data verification component test
+ *
  */
 
 public class ReferenceDataComponentTest extends BaseTest{
