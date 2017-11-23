@@ -166,6 +166,12 @@ public class ReferenceDataComponentTest extends BaseTest{
                         .build(),
                     jurisdiction2TypeDtoWith()
                         .name("tax chamber")
+                        .build(),
+                    jurisdiction2TypeDtoWith()
+                        .name("Upper Tribunal Immigration and Asylum Chamber")
+                        .build(),
+                    jurisdiction2TypeDtoWith()
+                        .name("upper tribunal lands chamber")
                         .build()
 
                 );
@@ -203,19 +209,19 @@ public class ReferenceDataComponentTest extends BaseTest{
                         .name("adoption")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("gambling tribunal")
+                        .name("gambling")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("gender recognition tribunal")
+                        .name("gender recognition")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("immigration and asylum chamber tribunal")
+                        .name("immigration and asylum")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("property chamber")
+                        .name("property")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("tax chamber")
+                        .name("tax")
                         .build(),
                     serviceTypeDtoWith()
                         .name("probate")
