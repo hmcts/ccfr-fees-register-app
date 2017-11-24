@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class FeeServiceImpl implements FeeService {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(FeeServiceImpl.class);
 
     private static final Predicate[] REF = new Predicate[0];
