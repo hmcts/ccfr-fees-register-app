@@ -15,6 +15,7 @@ import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.util.FeeLoader;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +28,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/fees-register")
 public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
-
 
 
     public static final String LOCATION = "Location";
