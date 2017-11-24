@@ -14,7 +14,8 @@ import static uk.gov.hmcts.fees2.register.api.contract.Jurisdiction2Dto.*;
 import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.*;
 
 /**
- * Created by tarun on 18/10/2017.
+ * Reference data verification component test
+ *
  */
 
 public class ReferenceDataComponentTest extends BaseTest{
@@ -132,7 +133,7 @@ public class ReferenceDataComponentTest extends BaseTest{
             .get(URIUtils.getUrlForGetMethod(ReferenceDataController.class, "getAllJurisdictions2"))
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Jurisdiction2Dto.class, jurisdiction2Dtos -> {
-                assertThat(jurisdiction2Dtos.size()).isEqualTo(11);
+                assertThat(jurisdiction2Dtos.size()).isEqualTo(13);
                 assertThat(jurisdiction2Dtos).contains(
                     jurisdiction2TypeDtoWith()
                         .name("county court")
@@ -166,6 +167,12 @@ public class ReferenceDataComponentTest extends BaseTest{
                         .build(),
                     jurisdiction2TypeDtoWith()
                         .name("tax chamber")
+                        .build(),
+                    jurisdiction2TypeDtoWith()
+                        .name("upper tribunal immigration and asylum chamber")
+                        .build(),
+                    jurisdiction2TypeDtoWith()
+                        .name("upper tribunal lands chamber")
                         .build()
 
                 );
@@ -203,19 +210,19 @@ public class ReferenceDataComponentTest extends BaseTest{
                         .name("adoption")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("gambling tribunal")
+                        .name("gambling")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("gender recognition tribunal")
+                        .name("gender recognition")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("immigration and asylum chamber tribunal")
+                        .name("immigration and asylum")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("property chamber")
+                        .name("property")
                         .build(),
                     serviceTypeDtoWith()
-                        .name("tax chamber")
+                        .name("tax")
                         .build(),
                     serviceTypeDtoWith()
                         .name("probate")

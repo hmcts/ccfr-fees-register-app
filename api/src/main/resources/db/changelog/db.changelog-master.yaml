@@ -459,6 +459,3 @@ databaseChangeLog:
               DELETE FROM flat_amount;
               DELETE FROM percentage_amount;
               DELETE FROM amount;
-
-
-
