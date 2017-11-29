@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeValidator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -77,7 +78,7 @@ public abstract class Fee extends AbstractEntity{
 
     public abstract String getTypeCode();
 
-
+    public abstract List<Class<? extends IFeeValidator>> getValidators();
 
     public abstract boolean isInRange(BigDecimal amount);
 

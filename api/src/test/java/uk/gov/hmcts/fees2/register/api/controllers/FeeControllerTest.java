@@ -182,7 +182,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto)
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         deleteFee(feeCode);
 

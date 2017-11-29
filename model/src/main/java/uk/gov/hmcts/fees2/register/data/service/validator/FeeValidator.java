@@ -1,30 +1,55 @@
 package uk.gov.hmcts.fees2.register.data.service.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
-import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.ChannelType;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
+import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersionValidator;
+
+import java.util.List;
 
 @Component
 public class FeeValidator {
 
-    @Autowired
+    protected ApplicationContext context;
+
     private ChannelTypeRepository channelTypeRepository;
+
+    private List<IFeeVersionValidator> versionValidators;
+
+    @Autowired
+    public FeeValidator(ApplicationContext context, ChannelTypeRepository channelTypeRepository, List<IFeeVersionValidator> versionValidators) {
+        this.context = context;
+        this.channelTypeRepository = channelTypeRepository;
+        this.versionValidators = versionValidators;
+    }
 
     public void validateAndDefaultNewFee(Fee fee) {
 
-        /* - VALIDATIONS - */
-
-        if(fee instanceof RangedFee) {
-            validateRangedFee((RangedFee) fee);
+        /* Specific Fee Type Validator */
+        if (fee.getValidators() != null) {
+            fee.getValidators().forEach(
+                validatorClass ->
+                    context.getBean(validatorClass).validateFee(fee)
+            );
         }
 
-        if(fee.isUnspecifiedClaimAmount()) {
-            fee.getFeeVersions().forEach( v ->this.validateVersion(fee, v));
-        }
+        /* Fee Version Validators */
+        fee.getFeeVersions().forEach(v -> {
+            for (IFeeVersionValidator validator : versionValidators) {
+                validator.onCreate(fee, v);
+            }
+        });
 
-        /* - DEFAULTS - */
+        setDefaultValues(fee);
+
+    }
+
+    private void setDefaultValues(Fee fee) {
 
         if (fee.getChannelType() == null) {
             fee.setChannelType(channelTypeRepository.findOne(ChannelType.DEFAULT));
@@ -40,30 +65,6 @@ public class FeeValidator {
                 v.setVersion(1);
             }
         }
-    }
-
-    private void validateVersion(Fee fee, FeeVersion v){
-        if(fee.isUnspecifiedClaimAmount() && !v.getAmount().acceptsUnspecifiedFees()) {
-            throw new BadRequestException(
-                "Amount type " + v.getAmount().getClass().getSimpleName()
-                    + " is not allowed with unspecified amount fees");
-        }
-
-        if(v.getValidFrom() != null && v.getValidTo() != null && v.getValidFrom().compareTo(v.getValidTo()) >= 0) {
-            throw new BadRequestException("Fee version valid from must be lower than valid to");
-        }
-    }
-
-    private void validateRangedFee(RangedFee fee){
-
-        if(fee.isUnspecifiedClaimAmount()) {
-            throw new BadRequestException("Ranged fees can not have unspecified claim amounts");
-        }
-
-        if(fee.getMinRange() != null && fee.getMaxRange() != null && fee.getMinRange().compareTo(fee.getMaxRange()) >= 0) {
-            throw new BadRequestException("Ranged fee min range can not be greater or equal than the max range");
-        }
-
     }
 
 }
