@@ -3,7 +3,9 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
@@ -66,6 +68,12 @@ public class FeeController {
     public Fee2Dto getFee(@PathVariable("code") String code) {
         Fee fee = feeService.get(code);
         return feeDtoMapper.toFeeDto(fee);
+    }
+
+    @RequestMapping(method = RequestMethod.HEAD, path = "/fees/{code}")
+    @ResponseStatus(HttpStatus.OK)
+    public void doesFeeExist(@PathVariable("code") String code) {
+        feeService.get(code);
     }
 
     @DeleteMapping("/fees/{code}")

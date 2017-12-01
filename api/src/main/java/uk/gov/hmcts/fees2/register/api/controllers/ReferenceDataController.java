@@ -55,6 +55,23 @@ public class ReferenceDataController {
         this.referenceDataDtoMapper = referenceDataDtoMapper;
     }
 
+    @GetMapping("/referenceData")
+    @ResponseStatus(HttpStatus.OK)
+    public AllReferenceDataDto getAllReferenceData(){
+
+        AllReferenceDataDto dto = new AllReferenceDataDto();
+
+        dto.setChannelTypes(getAllChannelTypes());
+        dto.setDirectionTypes(getAllDirectionTypes());
+        dto.setServiceTypes(getAllServiceTypes());
+        dto.setEventTypes(getAllEventTypes());
+        dto.setJurisdictions1(getAllJurisdictions1());
+        dto.setJurisdictions2(getAllJurisdictions2());
+
+        return dto;
+
+    }
+
     @GetMapping("/channeltypes")
     @ResponseStatus(HttpStatus.OK)
     public List<ChannelTypeDto> getAllChannelTypes() {
