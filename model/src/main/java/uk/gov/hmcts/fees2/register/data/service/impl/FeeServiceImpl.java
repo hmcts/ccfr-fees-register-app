@@ -71,6 +71,21 @@ public class FeeServiceImpl implements FeeService {
 
     }
 
+    /***
+     *
+     * @param fees list
+     */
+    @Transactional
+    public void save(List<Fee> fees) {
+
+        fees.stream().forEach(fee -> {
+            feeValidator.validateAndDefaultNewFee(fee);
+        });
+
+        fee2Repository.save(fees);
+
+    }
+
     @Transactional
     public void delete(String code) {
         fee2Repository.deleteFeeByCode(code);

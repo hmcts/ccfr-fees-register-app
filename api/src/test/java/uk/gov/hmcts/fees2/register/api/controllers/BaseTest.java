@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.MutableDateTime;
 import org.junit.Before;
@@ -17,11 +18,13 @@ import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -282,6 +285,112 @@ public abstract class BaseTest {
 
     public PercentageAmountDto getPercentageAmountDto() {
         return new PercentageAmountDto(new BigDecimal(4.5));
+    }
+
+
+    public List<CreateFixedFeeDto> getFixedFeesDto() throws IOException {
+        String  csvFees = "[\n" +
+            "  {\n" +
+            "    \"code\": \"X0IMP1\",\n" +
+            "    \"version\": {\n" +
+            "     \"version\": \"1\",\n" +
+            "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
+            "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
+            "     \"description\": \"Testing1\",\n" +
+            "     \"status\": \"draft\",\n" +
+            "      \"flatAmount\": {\n" +
+            "      \"amount\": \"150\"\n" +
+            "      }\n" +
+            "   },\n" +
+            "   \"jurisdiction1\": \"family\",\n" +
+            "   \"jurisdiction2\": \"court of protection\",\n" +
+            "   \"service\": \"divorce\",\n" +
+            "   \"channel\": \"default\",\n" +
+            "   \"direction\": \"enhanced\",\n" +
+            "   \"event\": \"issue\",\n" +
+            "   \"memoLine\": \"Test memo line\",\n" +
+            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+            "   \"naturalAccountCode\": \"Natural code 001\"\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"code\": \"X0IMP2\",\n" +
+            "    \"version\": {\n" +
+            "   \"version\": \"1\",\n" +
+            "   \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
+            "   \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
+            "   \"description\": \"Testing2\",\n" +
+            "   \"status\": \"approved\",\n" +
+            "   \"flatAmount\": {\n" +
+            "     \"amount\": \"300\"\n" +
+            "   }\n" +
+            " },\n" +
+            "   \"jurisdiction1\": \"family\",\n" +
+            "   \"jurisdiction2\": \"court of protection\",\n" +
+            "   \"service\": \"civil money claims\",\n" +
+            "   \"channel\": \"default\",\n" +
+            "   \"direction\": \"enhanced\",\n" +
+            "   \"event\": \"issue\",\n" +
+            "   \"memoLine\": \"Test memo line\",\n" +
+            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+            "   \"naturalAccountCode\": \"Natural code 002\"\n" +
+            "  }\n" +
+            "]";
+
+        TypeReference<List<CreateFixedFeeDto>> fixedFeeDtos = new TypeReference<List<CreateFixedFeeDto>>(){};
+        return objectMapper.readValue(csvFees, fixedFeeDtos);
+    }
+
+
+    public List<CreateFixedFeeDto> getIncorrectFixedFeesDto() throws IOException {
+        String  csvFees = "[\n" +
+            "  {\n" +
+            "    \"code\": \"X0IMP1\",\n" +
+            "    \"version\": {\n" +
+            "     \"version\": \"1\",\n" +
+            "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
+            "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
+            "     \"description\": \"Testing1\",\n" +
+            "     \"status\": \"draft\",\n" +
+            "      \"flatAmount\": {\n" +
+            "      \"amount\": \"150\"\n" +
+            "      }\n" +
+            "   },\n" +
+            "   \"jurisdiction1\": \"family\",\n" +
+            "   \"jurisdiction2\": \"court of protection\",\n" +
+            "   \"service\": \"divorce\",\n" +
+            "   \"channel\": \"default\",\n" +
+            "   \"direction\": \"enhanced1\",\n" +
+            "   \"event\": \"issue\",\n" +
+            "   \"memoLine\": \"Test memo line\",\n" +
+            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+            "   \"naturalAccountCode\": \"Natural code 001\"\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"code\": \"X0IMP2\",\n" +
+            "    \"version\": {\n" +
+            "   \"version\": \"1\",\n" +
+            "   \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
+            "   \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
+            "   \"description\": \"Testing2\",\n" +
+            "   \"status\": \"approved\",\n" +
+            "   \"flatAmount\": {\n" +
+            "     \"amount\": \"300\"\n" +
+            "   }\n" +
+            " },\n" +
+            "   \"jurisdiction1\": \"family\",\n" +
+            "   \"jurisdiction2\": \"court of protection\",\n" +
+            "   \"service\": \"civil money claims\",\n" +
+            "   \"channel\": \"default\",\n" +
+            "   \"direction\": \"enhanced\",\n" +
+            "   \"event\": \"issue\",\n" +
+            "   \"memoLine\": \"Test memo line\",\n" +
+            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+            "   \"naturalAccountCode\": \"Natural code 002\"\n" +
+            "  }\n" +
+            "]";
+
+        TypeReference<List<CreateFixedFeeDto>> fixedFeeDtos = new TypeReference<List<CreateFixedFeeDto>>(){};
+        return objectMapper.readValue(csvFees, fixedFeeDtos);
     }
 
 }
