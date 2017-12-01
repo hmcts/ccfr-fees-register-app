@@ -79,6 +79,12 @@ public class FeeController {
         return feeDtoMapper.toFeeDto(fee);
     }
 
+    @RequestMapping(method = RequestMethod.HEAD, path = "/fees/{code}")
+    @ResponseStatus(HttpStatus.OK)
+    public void doesFeeExist(@PathVariable("code") String code) {
+        feeService.get(code);
+    }
+
     @DeleteMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFee(@PathVariable("code") String code) {
