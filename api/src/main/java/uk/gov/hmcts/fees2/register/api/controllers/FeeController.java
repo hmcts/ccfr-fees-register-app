@@ -52,7 +52,7 @@ public class FeeController {
         }
     }
 
-    @PostMapping("/fixedfees")
+    @PostMapping(value = "/fixedfees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request, HttpServletResponse response) {
         Fee fee = feeService.save(feeDtoMapper.toFee(request));
@@ -63,7 +63,7 @@ public class FeeController {
     }
 
     @Transactional
-    @PostMapping(value = "/fixedfees", headers = "content-type=application/json")
+    @PostMapping(value = "/fixedfees/bulk")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFees(@RequestBody final List<CreateFixedFeeDto> createFixedFeeDtos) {
         LOG.info("No. of csv import fees: " + createFixedFeeDtos.size());

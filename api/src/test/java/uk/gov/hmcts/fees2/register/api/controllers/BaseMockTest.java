@@ -24,7 +24,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
 @ActiveProfiles({"embedded", "idam-backdoor"})
-public class BaseMockTest {
+public abstract class BaseMockTest {
 
     @Autowired
     protected ObjectMapper objectMapper;

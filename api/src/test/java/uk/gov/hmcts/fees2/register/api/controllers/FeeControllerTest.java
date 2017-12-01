@@ -200,7 +200,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void createCsvImportFixedFeesTest() throws Exception {
         restActions
             .withUser("admin")
-            .post("/fees-register/fixedfees", getFixedFeesDto())
+            .post("/fees-register/fixedfees/bulk", getFixedFeesDto())
             .andExpect(status().isCreated());
 
 
@@ -239,7 +239,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         restActions
             .withUser("admin")
-            .post("/fees-register/fixedfees", getIncorrectFixedFeesDto())
+            .post("/fees-register/fixedfees/bulk", getIncorrectFixedFeesDto())
             .andExpect(status().is4xxClientError());
     }
 

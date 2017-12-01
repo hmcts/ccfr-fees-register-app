@@ -52,7 +52,7 @@ public class FeeControllerMockTest extends BaseMockTest {
         doNothing().when(fs).save(fees);
         when(feeDtoMapper.toFee(getFixedFeeDto())).thenReturn(getFixedFee("XOMOCK1"));
 
-        this.mockMvc.perform(post("/fees-register/fixedfees")
+        this.mockMvc.perform(post("/fees-register/fixedfees/bulk")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(getFeeJson()))
             .andExpect(status().isCreated());
