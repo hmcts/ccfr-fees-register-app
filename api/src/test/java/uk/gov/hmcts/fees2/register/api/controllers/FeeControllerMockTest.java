@@ -4,6 +4,8 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -20,9 +22,11 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class FeeControllerMockTest extends BaseMockTest {
+public class FeeControllerMockTest {
 
     private MockMvc mockMvc;
+
+    private BaseMockTest baseMockTest;
 
     @InjectMocks
     private FeeController feeController;
@@ -37,6 +41,7 @@ public class FeeControllerMockTest extends BaseMockTest {
 
     @Before
     public void setUp() {
+        baseMockTest = new BaseMockTest();
         MockitoAnnotations.initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(feeController).build();
     }
@@ -47,14 +52,14 @@ public class FeeControllerMockTest extends BaseMockTest {
         FeeService fs = Mockito.spy(feeService);
 
         List<Fee> fees = new ArrayList<>();
-        fees.add(getFixedFee("X0MOCK1"));
+        fees.add(baseMockTest.getFixedFee("X0MOCK1"));
 
         doNothing().when(fs).save(fees);
-        when(feeDtoMapper.toFee(getFixedFeeDto())).thenReturn(getFixedFee("XOMOCK1"));
+        when(feeDtoMapper.toFee(baseMockTest.getFixedFeeDto())).thenReturn(baseMockTest.getFixedFee("XOMOCK1"));
 
         this.mockMvc.perform(post("/fees-register/bulkfixedfees")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(getFeeJson()))
+                    .content(baseMockTest.getFeeJson()))
             .andExpect(status().isCreated());
     }
 
