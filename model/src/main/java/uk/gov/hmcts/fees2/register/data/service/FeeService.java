@@ -10,6 +10,8 @@ public interface FeeService  {
 
     Fee save(Fee fee);
 
+    void save(List<Fee> fees);
+
     void delete(String code);
 
     FeeLookupResponseDto lookup(LookupFeeDto dto);

@@ -3,21 +3,17 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
-import uk.gov.hmcts.fees2.register.util.FeeLoader;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +29,8 @@ public class FeeController {
 
 
     public static final String LOCATION = "Location";
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     private final FeeService feeService;
 
@@ -54,7 +52,7 @@ public class FeeController {
         }
     }
 
-    @PostMapping("/fixedfees")
+    @PostMapping(value = "/fixedfees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request, HttpServletResponse response) {
         Fee fee = feeService.save(feeDtoMapper.toFee(request));
@@ -62,6 +60,17 @@ public class FeeController {
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
         }
+    }
+
+    @Transactional
+    @PostMapping(value = "/bulkfixedfees")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createFixedFees(@RequestBody final List<CreateFixedFeeDto> createFixedFeeDtos) {
+        LOG.info("No. of csv import fees: " + createFixedFeeDtos.size());
+
+        List<Fee> fixedFees = createFixedFeeDtos.stream().map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto)).collect(Collectors.toList());
+
+        feeService.save(fixedFees);
     }
 
     @GetMapping("/fees/{code}")
