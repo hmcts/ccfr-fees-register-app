@@ -63,7 +63,7 @@ public class FeeController {
     }
 
     @Transactional
-    @PostMapping(value = "/fixedfees/bulk")
+    @PostMapping(value = "/bulkfixedfees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFees(@RequestBody final List<CreateFixedFeeDto> createFixedFeeDtos) {
         LOG.info("No. of csv import fees: " + createFixedFeeDtos.size());
