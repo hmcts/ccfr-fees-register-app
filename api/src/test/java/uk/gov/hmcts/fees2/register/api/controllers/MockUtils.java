@@ -22,10 +22,7 @@ import java.util.List;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = MOCK)
-@ActiveProfiles({"embedded", "idam-backdoor"})
-public class BaseMockTest {
+public class MockUtils {
 
     @Autowired
     protected ObjectMapper objectMapper;

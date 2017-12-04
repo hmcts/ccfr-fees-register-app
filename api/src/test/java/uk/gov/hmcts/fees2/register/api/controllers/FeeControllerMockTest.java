@@ -3,10 +3,12 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.hmcts.fees.register.api.model.FeeRepository;
@@ -19,14 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = MOCK)
+@ActiveProfiles({"embedded", "idam-backdoor"})
 public class FeeControllerMockTest {
 
     private MockMvc mockMvc;
 
-    private BaseMockTest baseMockTest;
+    private MockUtils baseMockTest;
 
     @InjectMocks
     private FeeController feeController;
@@ -41,7 +48,7 @@ public class FeeControllerMockTest {
 
     @Before
     public void setUp() {
-        baseMockTest = new BaseMockTest();
+        baseMockTest = new MockUtils();
         MockitoAnnotations.initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(feeController).build();
     }
