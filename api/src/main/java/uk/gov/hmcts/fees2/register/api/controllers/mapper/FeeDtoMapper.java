@@ -67,6 +67,8 @@ public class FeeDtoMapper {
         fee.setMemoLine(request.getMemoLine());
         fee.setFeeOrderName(request.getFeeOrderName());
         fee.setNaturalAccountCode(request.getNaturalAccountCode());
+        fee.setStatutoryInstrument(request.getStatutoryInstrument());
+        fee.setSiRefId(request.getSiRefId());
 
         FeeVersion version = toFeeVersion(request.getVersion());
         version.setFee(fee);

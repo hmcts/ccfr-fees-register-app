@@ -42,6 +42,10 @@ public abstract class CreateFeeDto {
 
     protected String naturalAccountCode;
 
+    protected String statutoryInstrument;
+
+    protected String siRefId;
+
     protected Boolean unspecifiedClaimAmount;
 
 }

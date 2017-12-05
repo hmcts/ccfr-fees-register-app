@@ -61,6 +61,12 @@ public abstract class Fee extends AbstractEntity{
     @Column(name = "natural_account_code")
     private String naturalAccountCode;
 
+    @Column(name = "statutory_instrument")
+    private String statutoryInstrument;
+
+    @Column(name = "si_ref_id")
+    private String siRefId;
+
     @OneToMany(mappedBy = "fee", orphanRemoval = true)
     @Cascade(CascadeType.ALL)
     private List<FeeVersion> feeVersions;
