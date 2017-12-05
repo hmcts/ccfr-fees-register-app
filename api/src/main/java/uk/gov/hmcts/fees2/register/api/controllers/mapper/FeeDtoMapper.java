@@ -93,6 +93,12 @@ public class FeeDtoMapper {
         return fee;
     }
 
+    public Fee2Dto toFeeDto(FeeVersion version) {
+        Fee2Dto fee2Dto = toFeeDto(version.getFee());
+        fee2Dto.setCurrentVersion(toFeeVersionDto(version));
+        return fee2Dto;
+    }
+
     public Fee2Dto toFeeDto(Fee fee) {
         Fee2Dto fee2Dto = new Fee2Dto();
 

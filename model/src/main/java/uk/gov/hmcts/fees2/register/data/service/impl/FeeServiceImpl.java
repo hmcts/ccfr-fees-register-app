@@ -233,4 +233,8 @@ public class FeeServiceImpl implements FeeService {
 
     }
 
+    @Override
+    public List<FeeVersion> getUnapprovedVersions() {
+        return feeVersionRepository.findByStatus(FeeVersionStatus.draft);
+    }
 }

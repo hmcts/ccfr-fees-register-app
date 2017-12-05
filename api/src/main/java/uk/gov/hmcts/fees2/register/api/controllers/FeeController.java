@@ -128,6 +128,10 @@ public class FeeController {
         return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true));
     }
 
+    @GetMapping("/lookup/unapproved")
+    public List<Fee2Dto> getUnapprovedFees() {
+        return feeService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
+    }
 
     @PatchMapping("/fees/approve")
     public void approve(@RequestBody @Validated ApproveFeeDto dto) {
