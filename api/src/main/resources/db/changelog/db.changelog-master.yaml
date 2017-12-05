@@ -459,3 +459,11 @@ databaseChangeLog:
               DELETE FROM flat_amount;
               DELETE FROM percentage_amount;
               DELETE FROM amount;
+
+    - changeSet:
+        id: 20
+        author: eduardo
+        changes:
+          - sql: >
+              ALTER TABLE fee ADD COLUMN statutory_instrument VARCHAR(2000);
+              ALTER TABLE fee ADD COLUMN si_ref_id VARCHAR(2000);

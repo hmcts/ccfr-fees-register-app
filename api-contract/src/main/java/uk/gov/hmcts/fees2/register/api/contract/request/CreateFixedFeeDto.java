@@ -12,8 +12,8 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 @EqualsAndHashCode(callSuper = true)
 public class CreateFixedFeeDto extends CreateFeeDto{
 
-    public CreateFixedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String direction, String event, String memoLine, String feeOrderName, String naturalAccountCode, boolean unspecifiedClaimAmount) {
-        super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode, unspecifiedClaimAmount);
+    public CreateFixedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String direction, String event, String memoLine, String feeOrderName, String naturalAccountCode, String statutoryInstrument, String siRefId, boolean unspecifiedClaimAmount) {
+        super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode, statutoryInstrument, siRefId, unspecifiedClaimAmount);
     }
 
     public CreateFixedFeeDto setCode(String code) {

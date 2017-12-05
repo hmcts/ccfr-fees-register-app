@@ -21,7 +21,6 @@ import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,15 +59,11 @@ public class FeeServiceImpl implements FeeService {
     @Autowired
     private FeeValidator feeValidator;
 
-
     /* --- */
 
     public Fee save(Fee fee) {
-
         feeValidator.validateAndDefaultNewFee(fee);
-
         return fee2Repository.save(fee);
-
     }
 
     /***
@@ -83,7 +78,6 @@ public class FeeServiceImpl implements FeeService {
         });
 
         fee2Repository.save(fees);
-
     }
 
     @Transactional
