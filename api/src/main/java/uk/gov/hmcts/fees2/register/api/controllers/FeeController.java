@@ -13,6 +13,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
@@ -99,7 +100,13 @@ public class FeeController {
                                 @RequestParam(required = false) String event,
                                 @RequestParam(required = false) String direction,
                                 @RequestParam(required = false) BigDecimal amount,
-                                @RequestParam(required = false) Boolean unspecifiedClaimAmounts) {
+                                @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
+                                @RequestParam(required = false) FeeVersionStatus feeVersionStatus) {
+
+        if(feeVersionStatus != null) { /* Limited for now to required functionality */
+            return feeService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
+        }
+
         return feeService
             .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts))
             .stream()
@@ -126,11 +133,6 @@ public class FeeController {
                                                   @RequestParam String event) {
 
         return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true));
-    }
-
-    @GetMapping("/lookup/unapproved")
-    public List<Fee2Dto> getUnapprovedFees() {
-        return feeService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
     }
 
     @PatchMapping("/fees/approve")

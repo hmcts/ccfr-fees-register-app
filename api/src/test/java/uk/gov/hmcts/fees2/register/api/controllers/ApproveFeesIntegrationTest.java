@@ -30,7 +30,7 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void testListPendingApprovalFees() throws Exception {
+    public void testUnapprovedFeesAreRetrieved() throws Exception {
 
         CreateFixedFeeDto dto = dto();
         FeeVersionDto versionDto = new FeeVersionDto();
@@ -41,7 +41,7 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
         saveFeeAndCheckStatusIsCreated(dto);
 
         restActions
-            .get(URIUtils.getUrlForGetMethod(FeeController.class, "getUnapprovedFees"))
+            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search") + "?feeVersionStatus=draft")
             .andExpect(status().isOk())
             .andExpect(
                 body().as(List.class, (list) ->
@@ -51,5 +51,8 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
                     }
                 )
             );
+
+        deleteFee(dto.getCode());
+
     }
 }
