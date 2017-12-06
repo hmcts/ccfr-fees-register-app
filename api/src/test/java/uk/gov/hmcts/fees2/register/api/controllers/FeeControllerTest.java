@@ -79,7 +79,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto)
-            .andExpect(status().isCreated());
+            .andExpect(status().isNoContent());
 
         ApproveFeeDto approveFeeDto = new ApproveFeeDto();
         approveFeeDto.setFeeCode(feeCode);
@@ -88,7 +88,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .patch("/fees-register/fees/approve", approveFeeDto)
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
 
         deleteFee(feeCode);
     }
