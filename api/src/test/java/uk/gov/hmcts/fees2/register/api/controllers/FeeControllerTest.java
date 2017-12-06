@@ -88,7 +88,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .patch("/fees-register/fees/approve", approveFeeDto)
-            .andExpect(status().isCreated());
+            .andExpect(status().is2xxSuccessful());
 
         deleteFee(feeCode);
     }
