@@ -97,7 +97,7 @@ public class FeeController {
         feeService.save(fixedFees);
     }
 
-    @ApiOperation(value = "Get a fee for the give fee code", response = Fee2Dto.class)
+    @ApiOperation(value = "Get a fee for the given fee code", response = Fee2Dto.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not Found")
@@ -170,7 +170,7 @@ public class FeeController {
         return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount, false));
     }
 
-    @ApiOperation(value = "Lookup for Unspecified fee based on reference data and amount", response = FeeLookupResponseDto.class)
+    @ApiOperation(value = "Lookup for unspecified fee based on reference data", response = FeeLookupResponseDto.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
