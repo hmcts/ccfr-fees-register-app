@@ -1,5 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -9,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.ReferenceDataDtoMapper;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
 import java.util.List;
@@ -21,6 +27,7 @@ import static java.util.stream.Collectors.toList;
  * @author Tarun Palisetty
  */
 
+@Api(value = "ReferenceData", description = "Operations pertaining to fees reference data")
 @RestController
 @Validated
 @RequestMapping("/fees-register")
@@ -55,6 +62,11 @@ public class ReferenceDataController {
         this.referenceDataDtoMapper = referenceDataDtoMapper;
     }
 
+    @ApiOperation(value = "Get all reference data", response = AllReferenceDataDto.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @GetMapping("/referenceData")
     @ResponseStatus(HttpStatus.OK)
     public AllReferenceDataDto getAllReferenceData(){
@@ -72,36 +84,66 @@ public class ReferenceDataController {
 
     }
 
+    @ApiOperation(value = "Get channel types reference data", response = ChannelTypeDto.class, responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @GetMapping("/channeltypes")
     @ResponseStatus(HttpStatus.OK)
     public List<ChannelTypeDto> getAllChannelTypes() {
         return channelTypeService.findAll().stream().map(referenceDataDtoMapper::toChannelTypeDto).collect(toList());
     }
 
+    @ApiOperation(value = "Get direction types reference data", response = DirectionTypeDto.class, responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @GetMapping("/directiontypes")
     @ResponseStatus(HttpStatus.OK)
     public List<DirectionTypeDto> getAllDirectionTypes() {
         return directionTypeService.findAll().stream().map(referenceDataDtoMapper::toDirectionTypeDto).collect(toList());
     }
 
+    @ApiOperation(value = "Get event types reference data", response = EventTypeDto.class, responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @GetMapping("/eventtypes")
     @ResponseStatus(HttpStatus.OK)
     public List<EventTypeDto> getAllEventTypes() {
         return eventTypeService.findAll().stream().map(referenceDataDtoMapper::toEventTypeDto).collect(toList());
     }
 
+    @ApiOperation(value = "Get jurisdiction1 types reference data", response = Jurisdiction1Dto.class, responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @GetMapping(path = "/jurisdictions1")
     @ResponseStatus(HttpStatus.OK)
     public List<Jurisdiction1Dto> getAllJurisdictions1() {
         return jurisdiction1Service.findAll().stream().map(referenceDataDtoMapper::toJuridiction1Dto).collect(toList());
     }
 
+    @ApiOperation(value = "Get jurisdiction2 types reference data", response = Jurisdiction2Dto.class, responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @GetMapping("/jurisdictions2")
     @ResponseStatus(HttpStatus.OK)
     public List<Jurisdiction2Dto> getAllJurisdictions2() {
         return jurisdiction2Service.findAll().stream().map(referenceDataDtoMapper::toJurisdiction2Dto).collect(toList());
     }
 
+    @ApiOperation(value = "Get serivce types reference data", response = ServiceTypeDto.class, responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @GetMapping("/servicetypes")
     @ResponseStatus(HttpStatus.OK)
     public List<ServiceTypeDto> getAllServiceTypes() {

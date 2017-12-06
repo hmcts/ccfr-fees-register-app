@@ -52,6 +52,7 @@ public class SwaggerConfiguration {
                     .modelRef(new ModelRef("string"))
                     .build()
             ))
+            .useDefaultResponseMessages(false)
             .apiInfo(newFeesApiInfo()).select()
             .apis(packagesLike("uk.gov.hmcts.fees2.register.api.controllers"))
             .paths(PathSelectors.any())
