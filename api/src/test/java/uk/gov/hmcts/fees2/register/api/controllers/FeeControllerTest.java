@@ -79,7 +79,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto)
-            .andExpect(status().isNoContent());
+            .andExpect(status().is2xxSuccessful());
 
         ApproveFeeDto approveFeeDto = new ApproveFeeDto();
         approveFeeDto.setFeeCode(feeCode);
