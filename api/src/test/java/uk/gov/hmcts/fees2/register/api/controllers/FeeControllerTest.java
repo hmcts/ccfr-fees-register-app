@@ -79,7 +79,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .post("/fees-register/rangedfees", rangedFeeDto)
-            .andExpect(status().isCreated());
+            .andExpect(status().is2xxSuccessful());
 
         ApproveFeeDto approveFeeDto = new ApproveFeeDto();
         approveFeeDto.setFeeCode(feeCode);
@@ -88,7 +88,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .patch("/fees-register/fees/approve", approveFeeDto)
-            .andExpect(status().isOk());
+            .andExpect(status().is2xxSuccessful());
 
         deleteFee(feeCode);
     }
@@ -241,6 +241,13 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/fixedfees/bulk", getIncorrectFixedFeesDto())
             .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void findFeeWithInvalidReferenceData() throws Exception {
+        restActions
+            .get("/fees-register/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies1")
+            .andExpect(status().isBadRequest());
     }
 
 }
