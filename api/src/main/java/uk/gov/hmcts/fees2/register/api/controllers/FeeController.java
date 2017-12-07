@@ -51,7 +51,7 @@ public class FeeController {
     @ApiOperation(value = "Create ranged fee")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
     @PostMapping("/rangedfees")
@@ -67,7 +67,7 @@ public class FeeController {
     @ApiOperation(value = "Create fixed fee")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
     @PostMapping(value = "/fixedfees")
@@ -83,7 +83,7 @@ public class FeeController {
     @ApiOperation(value = "Create bulk fees")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
     @Transactional
