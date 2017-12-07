@@ -243,4 +243,11 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().is4xxClientError());
     }
 
+    @Test
+    public void findFeeWithInvalidReferenceData() throws Exception {
+        restActions
+            .get("/fees-register/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies1")
+            .andExpect(status().isBadRequest());
+    }
+
 }

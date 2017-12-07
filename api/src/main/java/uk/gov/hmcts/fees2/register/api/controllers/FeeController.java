@@ -100,6 +100,7 @@ public class FeeController {
     @ApiOperation(value = "Get a fee for the given fee code", response = Fee2Dto.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not Found")
     })
     @GetMapping("/fees/{code}")
@@ -128,6 +129,7 @@ public class FeeController {
     @ApiOperation(value = "Search for fees based on criteria")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
     @GetMapping("/fees")
@@ -156,6 +158,7 @@ public class FeeController {
     @ApiOperation(value = "Fee lookup based on reference data and amount", response = FeeLookupResponseDto.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
     @GetMapping("/lookup")
@@ -173,6 +176,7 @@ public class FeeController {
     @ApiOperation(value = "Lookup for unspecified fee based on reference data", response = FeeLookupResponseDto.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
     @GetMapping("/lookup/unspecified")
