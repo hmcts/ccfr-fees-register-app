@@ -64,7 +64,7 @@ public class FeeController {
         }
     }
 
-    @ApiOperation(value = "Create fixedfee")
+    @ApiOperation(value = "Create fixed fee")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
