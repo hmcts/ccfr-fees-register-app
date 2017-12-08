@@ -358,7 +358,6 @@
       "service": "divorce",
       "channel": "default",
       "event": "issue"
-
     }
   ]
 }
