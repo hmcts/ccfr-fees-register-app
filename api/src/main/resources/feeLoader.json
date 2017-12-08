@@ -354,6 +354,7 @@
       },
       "jurisdiction1": "family",
       "jurisdiction2": "family court",
+      "direction": "enhanced",
       "service": "divorce",
       "channel": "default",
       "event": "issue"
