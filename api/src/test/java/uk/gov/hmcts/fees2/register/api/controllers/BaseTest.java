@@ -50,43 +50,43 @@ public abstract class BaseTest {
     protected UserResolverBackdoor userRequestAuthorizer;
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    protected WebApplicationContext webApplicationContext;
 
     @Autowired
-    private ChannelTypeRepository channelTypeRepository;
+    protected ChannelTypeRepository channelTypeRepository;
 
     @Autowired
-    private ChannelTypeService channelTypeService;
+    protected ChannelTypeService channelTypeService;
 
     @Autowired
-    private DirectionTypeRepository directionTypeRepository;
+    protected DirectionTypeRepository directionTypeRepository;
 
     @Autowired
-    private DirectionTypeService directionTypeService;
+    protected DirectionTypeService directionTypeService;
 
     @Autowired
-    private EventTypeRepository eventTypeRepository;
+    protected EventTypeRepository eventTypeRepository;
 
     @Autowired
-    private EventTypeService eventTypeService;
+    protected EventTypeService eventTypeService;
 
     @Autowired
-    private Jurisdiction1Repository jurisdiction1Repository;
+    protected Jurisdiction1Repository jurisdiction1Repository;
 
     @Autowired
-    private Jurisdiction1Service jurisdiction1Service;
+    protected Jurisdiction1Service jurisdiction1Service;
 
     @Autowired
-    private Jurisdiction2Repository jurisdiction2Repository;
+    protected Jurisdiction2Repository jurisdiction2Repository;
 
     @Autowired
-    private Jurisdiction2Service jurisdiction2Service;
+    protected Jurisdiction2Service jurisdiction2Service;
 
     @Autowired
-    private ServiceTypeRepository serviceTypeRepository;
+    protected ServiceTypeRepository serviceTypeRepository;
 
     @Autowired
-    private ServiceTypeService serviceTypeService;
+    protected ServiceTypeService serviceTypeService;
 
     protected RestActions restActions;
 
@@ -139,7 +139,7 @@ public abstract class BaseTest {
             add(new ServiceType("civil money claims", new Date(), new Date()));
             add(new ServiceType("possession claims", new Date(), new Date()));
             add(new ServiceType("insolvency", new Date(), new Date()));
-            add(new ServiceType("private law", new Date(), new Date()));
+            add(new ServiceType("protected law", new Date(), new Date()));
             add(new ServiceType("public law", new Date(), new Date()));
             add(new ServiceType("divorce", new Date(), new Date()));
             add(new ServiceType("adoption", new Date(), new Date()));

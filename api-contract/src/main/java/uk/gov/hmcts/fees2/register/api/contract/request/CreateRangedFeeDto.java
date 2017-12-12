@@ -15,6 +15,8 @@ public class CreateRangedFeeDto extends CreateFeeDto{
 
     private BigDecimal maxRange;
 
+    private String rangeUnit;
+
     public CreateRangedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String direction, String event, String memoLine, String feeOrderName, String naturalAccountCode, BigDecimal maxRange,  BigDecimal minRange) {
         super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode, null, null, false);
         this.maxRange = maxRange;
@@ -95,6 +97,26 @@ public class CreateRangedFeeDto extends CreateFeeDto{
         this.naturalAccountCode = naturalAccountCode;
         return this;
     }
+
+    public CreateRangedFeeDto setStatutoryInstrument(String statutoryInstrument){
+        this.statutoryInstrument = statutoryInstrument;
+        return this;
+    }
+
+    public CreateRangedFeeDto setSIRefId(String siRefID){
+        this.siRefId = siRefID;
+        return this;
+    }
+
+    public String getRangeUnit() {
+        return rangeUnit;
+    }
+
+    public CreateRangedFeeDto setRangeUnit(String rangeUnit) {
+        this.rangeUnit = rangeUnit;
+        return this;
+    }
+
 
 
 }

@@ -92,6 +92,13 @@ public class FeeDtoMapper {
         fee.setUnspecifiedClaimAmount(false);
         fee.setMaxRange(request.getMaxRange());
         fee.setMinRange(request.getMinRange());
+
+        if(request.getRangeUnit() == null) {
+            request.setRangeUnit("GBP");
+        }
+
+        fee.setRangeUnit(new RangeUnit(request.getRangeUnit()));
+
         return fee;
     }
 
@@ -121,9 +128,20 @@ public class FeeDtoMapper {
         fee2Dto.setFeeOrderName(fee.getFeeOrderName());
         fee2Dto.setUnspecifiedClaimAmount(fee.isUnspecifiedClaimAmount());
 
+        fee2Dto.setStatutoryInstrument(fee.getStatutoryInstrument());
+        fee2Dto.setSiRefId(fee.getSiRefId());
+
         if (fee instanceof RangedFee) {
-            fee2Dto.setMinRange(((RangedFee) fee).getMinRange());
-            fee2Dto.setMaxRange(((RangedFee) fee).getMaxRange());
+
+            RangedFee rangedFee = (RangedFee) fee;
+
+            fee2Dto.setMinRange(rangedFee.getMinRange());
+            fee2Dto.setMaxRange(rangedFee.getMaxRange());
+
+            if(rangedFee.getRangeUnit() != null) {
+                fee2Dto.setRangeUnit(rangedFee.getRangeUnit().getName());
+            }
+
         }
 
         List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(this::toFeeVersionDto).collect(Collectors.toList());
@@ -186,9 +204,6 @@ public class FeeDtoMapper {
             percentageAmountDto.setPercentage(((PercentageAmount) feeVersion.getAmount()).getPercentage());
             feeVersionDto.setPercentageAmount(percentageAmountDto);
         }
-
-//        feeVersionDto.setAmountType(feeVersion.getAmount().getClass().getSimpleName());
-//        feeVersionDto.setAmount(feeVersion.getAmount());
 
         return feeVersionDto;
 

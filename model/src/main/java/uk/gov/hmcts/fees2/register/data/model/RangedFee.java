@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.RangedFeeValidator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +25,10 @@ public class RangedFee extends Fee{
 
     @Column(name = "max_range")
     private BigDecimal maxRange;
+
+    @ManyToOne
+    @JoinColumn(name = "range_unit")
+    private RangeUnit rangeUnit;
 
     @Override
     public String getTypeCode() {

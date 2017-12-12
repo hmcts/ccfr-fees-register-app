@@ -15,6 +15,8 @@ import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.ReferenceDataDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.DirectionType;
+import uk.gov.hmcts.fees2.register.data.model.RangeUnit;
+import uk.gov.hmcts.fees2.register.data.repository.RangeUnitRepository;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
 import java.util.List;
@@ -45,6 +47,8 @@ public class ReferenceDataController {
 
     private final ServiceTypeService serviceTypeService;
 
+    private final RangeUnitRepository rangeUnitRepository;
+
     private ReferenceDataDtoMapper referenceDataDtoMapper;
 
     @Autowired
@@ -52,6 +56,7 @@ public class ReferenceDataController {
                                    DirectionTypeService directionTypeService, EventTypeService eventTypeService,
                                    Jurisdiction1Service jurisdiction1Service,
                                    Jurisdiction2Service jurisdiction2Service, ServiceTypeService serviceTypeService,
+                                   RangeUnitRepository rangeUnitRepository,
                                    ReferenceDataDtoMapper referenceDataDtoMapper) {
         this.channelTypeService = channelTypeService;
         this.directionTypeService = directionTypeService;
@@ -59,6 +64,7 @@ public class ReferenceDataController {
         this.jurisdiction1Service = jurisdiction1Service;
         this.jurisdiction2Service = jurisdiction2Service;
         this.serviceTypeService = serviceTypeService;
+        this.rangeUnitRepository = rangeUnitRepository;
         this.referenceDataDtoMapper = referenceDataDtoMapper;
     }
 
@@ -79,6 +85,7 @@ public class ReferenceDataController {
         dto.setEventTypes(getAllEventTypes());
         dto.setJurisdictions1(getAllJurisdictions1());
         dto.setJurisdictions2(getAllJurisdictions2());
+        dto.setRangeUnits(getAllRangeUnits());
 
         return dto;
 
@@ -139,7 +146,7 @@ public class ReferenceDataController {
         return jurisdiction2Service.findAll().stream().map(referenceDataDtoMapper::toJurisdiction2Dto).collect(toList());
     }
 
-    @ApiOperation(value = "Get serivce types reference data", response = ServiceTypeDto.class, responseContainer = "List")
+    @ApiOperation(value = "Get service types reference data", response = ServiceTypeDto.class, responseContainer = "List")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
@@ -149,4 +156,16 @@ public class ReferenceDataController {
     public List<ServiceTypeDto> getAllServiceTypes() {
         return serviceTypeService.findAll().stream().map(referenceDataDtoMapper::toServiceTypeDto).collect(toList());
     }
+
+    @ApiOperation(value = "Get range units reference data", response = RangeUnit.class, responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
+    @GetMapping("/rangeunits")
+    @ResponseStatus(HttpStatus.OK)
+    private List<RangeUnit> getAllRangeUnits() {
+        return rangeUnitRepository.findAll();
+    }
+
 }

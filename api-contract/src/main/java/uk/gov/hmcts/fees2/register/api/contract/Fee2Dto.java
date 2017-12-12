@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.data.model.*;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -46,12 +45,17 @@ public class Fee2Dto {
     private List<FeeVersionDto> feeVersionDtos;
 
     private FeeVersionDto currentVersion;
-
     // only ranged fee
     private BigDecimal minRange;
 
     private BigDecimal maxRange;
 
+    private String rangeUnit;
+
     private boolean unspecifiedClaimAmount;
+
+    private String statutoryInstrument;
+
+    private String siRefId;
 
 }

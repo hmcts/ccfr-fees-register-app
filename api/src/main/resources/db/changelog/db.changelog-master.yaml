@@ -467,3 +467,6 @@ databaseChangeLog:
           - sql: >
               ALTER TABLE fee ADD COLUMN statutory_instrument VARCHAR(2000);
               ALTER TABLE fee ADD COLUMN si_ref_id VARCHAR(2000);
+
+    - include:
+        file: db/changelog/db.changelog-fees-range-units.yaml

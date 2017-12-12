@@ -50,4 +50,9 @@
         <gav regex="true">^io\.jsonwebtoken:jjwt:.*$</gav>
         <cpe>cpe:/a:sonatype:nexus</cpe>
     </suppress>
+    <suppress>
+        <notes>Does not apply as postgesql is used here as a client and vendor has not yet provided a solution</notes>
+        <gav regex="true">^org\.postgresql:postgresql.*:.*$</gav>
+        <cve>CVE-2017-8806</cve>
+    </suppress>
 </suppressions>
