@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
@@ -30,5 +31,7 @@ public class LookupFeeDto {
     private BigDecimal amount;
 
     private Boolean unspecifiedClaimAmount;
+
+    private FeeVersionStatus versionStatus;
 
 }
