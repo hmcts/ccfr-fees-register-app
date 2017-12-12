@@ -123,7 +123,11 @@ public class FeeServiceImpl implements FeeService {
 
         Fee fee = fees.get(0);
 
-        FeeVersion version = fee.getCurrentVersion(true);
+        if(dto.getVersionStatus() == null) {
+            dto.setVersionStatus(FeeVersionStatus.approved);
+        }
+
+        FeeVersion version = fee.getCurrentVersion(dto.getVersionStatus().equals(FeeVersionStatus.approved));
 
         if (version == null) {
             throw new FeeNotFoundException(dto);

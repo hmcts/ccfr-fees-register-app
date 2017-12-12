@@ -144,12 +144,12 @@ public class FeeController {
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus) {
 
-        if(feeVersionStatus != null) { /* Limited for now to required functionality */
+        if(feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.draft)) { /* Limited for now to required functionality */
             return feeService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
         }
 
         return feeService
-            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts))
+            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts, feeVersionStatus /* Not used for now*/))
             .stream()
             .map(feeDtoMapper::toFeeDto)
             .collect(Collectors.toList());
@@ -170,7 +170,7 @@ public class FeeController {
                                        @RequestParam String event,
                                        @RequestParam(required = false) BigDecimal amount) {
 
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount, false));
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount, false, FeeVersionStatus.approved));
     }
 
     @ApiOperation(value = "Lookup for unspecified fee based on reference data", response = FeeLookupResponseDto.class)
@@ -187,7 +187,7 @@ public class FeeController {
                                                   @RequestParam(required = false) String channel,
                                                   @RequestParam String event) {
 
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true));
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true, FeeVersionStatus.approved));
     }
 
     @ApiOperation(value = "Approve a draft fee")
