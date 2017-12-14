@@ -5,6 +5,7 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
@@ -280,4 +281,45 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
         deleteFee(dto.getCode());
     }
 
+    /* -- PAY-4487 -- */
+
+    /* Scenario1: Solicitors application for estates valued above £5k */
+
+    /* Given Application is already deployed in prod with old fees register data in there And new needed ranged fee for "probate" for an "issue" event details are
+    Jurisdiction1 as "family"
+    And Jurisdiction2 as "probate"
+    And a minimum range of £5000.00
+    And  a maximum range
+    And "default" channel
+    And the fee code
+    And have specified the fee description
+    And the fee amount is a "flat amount"
+    And the flat amount is defined as £155
+    And a ''valid from'' and ''valid to'' date
+    And  SI Ref data
+    And fee order name
+    And statutory instruments
+    And Natural Account Code
+    And the memoline
+    When application is started
+    Then the fee is SAVED successfully
+    And the fee status is Approved
+    And the fee version is 1
+    */
+
+    @Test
+    public synchronized void testLookupProbateFeeForEstateValuedMoreThan5000ReturnsASingleResult() throws Exception{
+
+        /* We want to make sure the fee will be in place for probate in a functional state and not collisioning with similar fees */
+
+        LookupFeeDto lookup = new LookupFeeDto();
+        lookup.setAmount(new BigDecimal(10000));
+        lookup.setService("probate");
+        lookup.setJurisdiction1("family");
+        lookup.setJurisdiction2("probate registry");
+        lookup.setChannel("default");
+        lookup.setEvent("issue");
+
+        lookup(lookup).andExpect(status().isOk());
+    }
 }
