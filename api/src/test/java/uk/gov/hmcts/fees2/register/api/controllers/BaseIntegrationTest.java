@@ -11,6 +11,7 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -63,6 +64,50 @@ public abstract class BaseIntegrationTest extends BaseTest{
                 dto
             );
 
+    }
+
+    protected ResultActions lookup(LookupFeeDto lookupFeeDto) throws Exception{
+
+        String method = lookupFeeDto.getUnspecifiedClaimAmount() != null &&
+            lookupFeeDto.getUnspecifiedClaimAmount() ? "lookupUnspecified" : "lookup";
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        String token = UUID.randomUUID().toString();
+        userRequestAuthorizer.registerToken(token, "admin");
+        httpHeaders.add(UserRequestAuthorizer.AUTHORISATION, token);
+
+        MockHttpServletRequestBuilder lookup = MockMvcRequestBuilders
+            .get(URIUtils.getUrlForGetMethod(FeeController.class, method))
+            .contentType(APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
+            .headers(httpHeaders);
+
+        if(lookupFeeDto.getChannel() != null){
+            lookup = lookup.param("channel", lookupFeeDto.getChannel());
+        }
+
+        if(lookupFeeDto.getService() != null){
+            lookup = lookup.param("service", lookupFeeDto.getService());
+        }
+
+        if(lookupFeeDto.getJurisdiction1() != null){
+            lookup = lookup.param("jurisdiction1", lookupFeeDto.getJurisdiction1());
+        }
+
+        if(lookupFeeDto.getJurisdiction2() != null){
+            lookup = lookup.param("jurisdiction2", lookupFeeDto.getJurisdiction2());
+        }
+
+        if(lookupFeeDto.getEvent() != null){
+            lookup = lookup.param("event", lookupFeeDto.getEvent());
+        }
+
+        if(lookupFeeDto.getAmount() != null){
+            lookup = lookup.param("amount", lookupFeeDto.getAmount().toString());
+        }
+
+        return mvc.perform(lookup);
     }
 
 

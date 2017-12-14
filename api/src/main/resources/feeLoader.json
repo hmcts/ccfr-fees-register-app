@@ -321,6 +321,29 @@
       "channel": "online",
       "direction": "enhanced",
       "event": "issue"
+    },
+    {
+      "minRange": 5000.00,
+      "rangeUnit": "GBP",
+      "code": "X0249",
+      "version": {
+        "version": 1,
+        "validFrom" : "2011-04-04T00:00:00.511Z",
+        "description": "Application for a grant of probate (Estate over £5000)",
+        "status": "approved",
+        "flatAmount": {
+          "amount": 155
+        }
+      },
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "direction": "cost recovery",
+      "event": "issue",
+      "statutoryInstrument": "2011 No. 588 (L. 4)",
+      "feeOrderName": "Non-Contentious Probate Fees",
+      "siRefId": "1"
     }
   ],
   "fixedFees": [
