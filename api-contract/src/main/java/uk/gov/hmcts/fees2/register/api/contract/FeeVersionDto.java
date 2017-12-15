@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.contract;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,10 @@ public class FeeVersionDto {
 
     private Integer version;
 
+    @JsonProperty("valid_from")
     private Date validFrom;
 
+    @JsonProperty("valid_to")
     private Date validTo;
 
     private String description;
@@ -27,9 +30,10 @@ public class FeeVersionDto {
     private FeeVersionStatus status;
 
     // Is there a better way to specify this ?
-
+    @JsonProperty("flat_amount")
     private FlatAmountDto flatAmount;
 
+    @JsonProperty("percentage_amount")
     private PercentageAmountDto percentageAmount;
 
 

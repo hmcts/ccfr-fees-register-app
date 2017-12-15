@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.contract.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
@@ -11,10 +12,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CreateRangedFeeDto extends CreateFeeDto{
 
+    @JsonProperty("min_range")
     private BigDecimal minRange;
 
+    @JsonProperty("max_range")
     private BigDecimal maxRange;
 
+    @JsonProperty("range_unit")
     private String rangeUnit;
 
     public CreateRangedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String direction, String event, String memoLine, String feeOrderName, String naturalAccountCode, BigDecimal maxRange,  BigDecimal minRange) {

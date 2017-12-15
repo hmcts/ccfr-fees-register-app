@@ -294,11 +294,11 @@ public abstract class BaseTest {
             "    \"code\": \"X0IMP1\",\n" +
             "    \"version\": {\n" +
             "     \"version\": \"1\",\n" +
-            "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
-            "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
+            "     \"valid_from\": \"2017-11-06T16:33:37.040Z\",\n" +
+            "     \"valid_to\": \"2020-11-06T16:33:37.040Z\",\n" +
             "     \"description\": \"Testing1\",\n" +
             "     \"status\": \"draft\",\n" +
-            "      \"flatAmount\": {\n" +
+            "      \"flat_amount\": {\n" +
             "      \"amount\": \"150\"\n" +
             "      }\n" +
             "   },\n" +
@@ -308,19 +308,19 @@ public abstract class BaseTest {
             "   \"channel\": \"default\",\n" +
             "   \"direction\": \"enhanced\",\n" +
             "   \"event\": \"issue\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 001\"\n" +
+            "   \"memo_line\": \"Test memo line\",\n" +
+            "   \"fee_order_name\": \"CMC online fee order name\",\n" +
+            "   \"natural_account_code\": \"Natural code 001\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"code\": \"X0IMP2\",\n" +
             "    \"version\": {\n" +
             "   \"version\": \"1\",\n" +
-            "   \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
-            "   \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
+            "   \"valid_from\": \"2017-11-06T16:33:37.040Z\",\n" +
+            "   \"valid_to\": \"2020-11-06T16:33:37.040Z\",\n" +
             "   \"description\": \"Testing2\",\n" +
             "   \"status\": \"approved\",\n" +
-            "   \"flatAmount\": {\n" +
+            "   \"flat_amount\": {\n" +
             "     \"amount\": \"300\"\n" +
             "   }\n" +
             " },\n" +
@@ -330,9 +330,9 @@ public abstract class BaseTest {
             "   \"channel\": \"default\",\n" +
             "   \"direction\": \"enhanced\",\n" +
             "   \"event\": \"issue\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 002\"\n" +
+            "   \"memo_line\": \"Test memo line\",\n" +
+            "   \"fee_order_name\": \"CMC online fee order name\",\n" +
+            "   \"natural_account_code\": \"Natural code 002\"\n" +
             "  }\n" +
             "]";
 

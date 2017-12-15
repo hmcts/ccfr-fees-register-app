@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,8 +31,10 @@ public class LookupFeeDto {
 
     private BigDecimal amount;
 
+    @JsonProperty("unspecified_claim_amount")
     private Boolean unspecifiedClaimAmount;
 
+    @JsonProperty("version_status")
     private FeeVersionStatus versionStatus;
 
 }

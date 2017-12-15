@@ -1,14 +1,14 @@
 {
   "rangedFees": [
     {
-      "minRange": 0,
-      "maxRange": 300.00,
+      "min_range": 0,
+      "max_range": 300.00,
       "code": "X0001",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 0.01 up to 300 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 35.00
         }
       },
@@ -20,14 +20,14 @@
       "event": "issue"
     },
     {
-      "minRange": 300.00,
-      "maxRange": 500.00,
+      "min_range": 300.00,
+      "max_range": 500.00,
       "code": "X0002",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 300.01 up to 500 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 50.00
         }
       },
@@ -39,14 +39,14 @@
       "event": "issue"
     },
     {
-      "minRange": 500.00,
-      "maxRange": 1000.00,
+      "min_range": 500.00,
+      "max_range": 1000.00,
       "code": "X0003",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 500.01 up to 1000 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 70.00
         }
       },
@@ -58,14 +58,14 @@
       "event": "issue"
     },
     {
-      "minRange": 1000.00,
-      "maxRange": 1500.00,
+      "min_range": 1000.00,
+      "max_range": 1500.00,
       "code": "X0004",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 1000.01 up to 1500 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 80.00
         }
       },
@@ -77,14 +77,14 @@
       "event": "issue"
     },
     {
-      "minRange": 1500.00,
-      "maxRange": 3000.00,
+      "min_range": 1500.00,
+      "max_range": 3000.00,
       "code": "X0005",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 1500.01 up to 3000 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 115.00
         }
       },
@@ -96,14 +96,14 @@
       "event": "issue"
     },
     {
-      "minRange": 3000.00,
-      "maxRange": 5000.00,
+      "min_range": 3000.00,
+      "max_range": 5000.00,
       "code": "X0006",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 3000.01 up to 5000 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 205.00
         }
       },
@@ -115,14 +115,14 @@
       "event": "issue"
     },
     {
-      "minRange": 5000.00,
-      "maxRange": 10000.00,
+      "min_range": 5000.00,
+      "max_range": 10000.00,
       "code": "X0007",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 5000.01 up to 10000 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 455.00
         }
       },
@@ -134,8 +134,8 @@
       "event": "issue"
     },
     {
-      "minRange": 10000.00,
-      "maxRange": 200000.00,
+      "min_range": 10000.00,
+      "max_range": 200000.00,
       "code": "X0008-1",
       "version": {
         "version": 1,
@@ -153,13 +153,13 @@
       "event": "issue"
     },
     {
-      "minRange": 200000.00,
+      "min_range": 200000.00,
       "code": "X0009",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 10000.00
         }
       },
@@ -171,14 +171,14 @@
       "event": "issue"
     },
     {
-      "minRange": 0,
-      "maxRange": 300.00,
+      "min_range": 0,
+      "max_range": 300.00,
       "code": "X0024",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 25.00
         }
       },
@@ -190,14 +190,14 @@
       "event": "issue"
     },
     {
-      "minRange": 300.00,
-      "maxRange": 500.00,
+      "min_range": 300.00,
+      "max_range": 500.00,
       "code": "X0025",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 35.00
         }
       },
@@ -209,14 +209,14 @@
       "event": "issue"
     },
     {
-      "minRange": 500.00,
-      "maxRange": 1000.00,
+      "min_range": 500.00,
+      "max_range": 1000.00,
       "code": "X0026",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 60.00
         }
       },
@@ -228,14 +228,14 @@
       "event": "issue"
     },
     {
-      "minRange": 1000.00,
-      "maxRange": 1500.00,
+      "min_range": 1000.00,
+      "max_range": 1500.00,
       "code": "X0027",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 70.00
         }
       },
@@ -247,14 +247,14 @@
       "event": "issue"
     },
     {
-      "minRange": 1500.00,
-      "maxRange": 3000.00,
+      "min_range": 1500.00,
+      "max_range": 3000.00,
       "code": "X0028",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 105.00
         }
       },
@@ -266,14 +266,14 @@
       "event": "issue"
     },
     {
-      "minRange": 3000.00,
-      "maxRange": 5000.00,
+      "min_range": 3000.00,
+      "max_range": 5000.00,
       "code": "X0029",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 185.00
         }
       },
@@ -285,14 +285,14 @@
       "event": "issue"
     },
     {
-      "minRange": 5000.00,
-      "maxRange": 10000.00,
+      "min_range": 5000.00,
+      "max_range": 10000.00,
       "code": "X0433",
       "version": {
         "version": 1,
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 410.00
         }
       },
@@ -304,8 +304,8 @@
       "event": "issue"
     },
     {
-      "minRange": 10000.00,
-      "maxRange": 15000.00,
+      "min_range": 10000.00,
+      "max_range": 15000.00,
       "code": "X0434",
       "version": {
         "version": 1,
@@ -331,7 +331,7 @@
         "validFrom" : "2011-04-04T00:00:00.511Z",
         "description": "Application for a grant of probate (Estate over £5000)",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 155
         }
       },
@@ -341,9 +341,9 @@
       "channel": "default",
       "direction": "cost recovery",
       "event": "issue",
-      "statutoryInstrument": "2011 No. 588 (L. 4)",
-      "feeOrderName": "Non-Contentious Probate Fees",
-      "siRefId": "1"
+      "statutory_instrument": "2011 No. 588 (L. 4)",
+      "fee_order_name": "Non-Contentious Probate Fees",
+      "si_ref_id": "1"
     }
   ],
   "fixedFees": [
@@ -353,7 +353,7 @@
         "version": 1,
         "description": "Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 10000.00
         }
       },
@@ -363,7 +363,7 @@
       "channel": "default",
       "direction": "enhanced",
       "event": "issue",
-      "unspecifiedClaimAmount": "true"
+      "unspecified_claim_amount": "true"
     },
     {
       "code": "X0165",
@@ -371,7 +371,7 @@
         "version": 1,
         "description": "Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.",
         "status": "approved",
-        "flatAmount": {
+        "flat_amount": {
           "amount": 550.00
         }
       },
