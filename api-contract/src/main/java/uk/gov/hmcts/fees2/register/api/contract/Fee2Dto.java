@@ -23,8 +23,10 @@ public class Fee2Dto {
 
     private String code;
 
+    @JsonProperty("fee_type")
     private String feeType;
 
+    @JsonProperty("memo_line")
     private String memoLine;
 
     @JsonProperty("channel_type")
