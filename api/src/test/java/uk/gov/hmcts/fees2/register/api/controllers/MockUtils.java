@@ -122,7 +122,7 @@ public class MockUtils {
         FlatAmountDto flatAmountDto = new FlatAmountDto(new BigDecimal("150.00"));
         FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
             null,
-            null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null);
+            null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null, null);
         CreateFixedFeeDto fixedFeeDto = new CreateFixedFeeDto("X0MOCK1", feeVersionDto, "family",
             "court of protection", "civil money claims", "default", "enhanced", "issue",
             "Test memo line", "CMC online fee order name", "Natural code 001", null, null, false);

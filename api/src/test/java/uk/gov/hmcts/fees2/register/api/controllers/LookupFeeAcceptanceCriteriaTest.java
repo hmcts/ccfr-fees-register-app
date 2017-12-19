@@ -1,6 +1,8 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import jdk.nashorn.internal.lookup.Lookup;
 import org.junit.Test;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
@@ -10,9 +12,10 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
+public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
     /* --- PAY-440 --- */
 
@@ -30,7 +33,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void testLookupFlatFeeAmount() throws Exception{
+    public synchronized void testLookupFlatFeeAmount() throws Exception {
 
 
         BigDecimal claimValue = new BigDecimal(5);
@@ -71,7 +74,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void testLookupPercentFeeAmount() throws Exception{
+    public synchronized void testLookupPercentFeeAmount() throws Exception {
 
         BigDecimal claimValue = new BigDecimal(5);
 
@@ -109,7 +112,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void testLookupFlatFeeAmountWithDefaultChannel() throws Exception{
+    public synchronized void testLookupFlatFeeAmountWithDefaultChannel() throws Exception {
 
         BigDecimal claimValue = new BigDecimal(5);
 
@@ -147,7 +150,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void testLookupPercentFeeAmountWithDefaultChannel() throws Exception{
+    public synchronized void testLookupPercentFeeAmountWithDefaultChannel() throws Exception {
 
         BigDecimal claimValue = new BigDecimal(5);
 
@@ -185,7 +188,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void testLookupFeeWhereNoApproved() throws Exception{
+    public synchronized void testLookupFeeWhereNoApproved() throws Exception {
 
         BigDecimal claimValue = new BigDecimal(5);
 
@@ -221,7 +224,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void testLookupFlatFeeWithDefaultChannelSpecified() throws Exception{
+    public synchronized void testLookupFlatFeeWithDefaultChannelSpecified() throws Exception {
 
         BigDecimal claimValue = new BigDecimal(5);
 
@@ -260,7 +263,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void testLookupFeeWhereNoApprovedDivorceDefaultChannel() throws Exception{
+    public synchronized void testLookupFeeWhereNoApprovedDivorceDefaultChannel() throws Exception {
 
         BigDecimal claimValue = new BigDecimal(5);
 
@@ -308,12 +311,12 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
     */
 
     @Test
-    public synchronized void testLookupProbateFeeForEstateValuedMoreThan5000ReturnsASingleResult() throws Exception{
+    public void testLookupProbateFeeForEstateValuedMoreThan5000ReturnsASingleResult() throws Exception {
 
         /* We want to make sure the fee will be in place for probate in a functional state and not collisioning with similar fees */
 
         LookupFeeDto lookup = new LookupFeeDto();
-        lookup.setAmount(new BigDecimal(10000));
+        lookup.setAmountOrVolume(new BigDecimal(10000));
         lookup.setService("probate");
         lookup.setJurisdiction1("family");
         lookup.setJurisdiction2("probate registry");
@@ -322,4 +325,67 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest{
 
         lookup(lookup).andExpect(status().isOk());
     }
+
+    /* - PAY-522 - */
+
+    /*
+
+    ACCEPTANCE CRITERIA
+
+    Scenario1: Copies - fixed flat fee
+
+    Given I want to create a fixed flat fee for "any given service" for a "copies" event
+    And I have specified Jurisdiction1
+    And I have specified Jurisdiction2
+    And I have specified the channel
+    And i have specified a ''valid from'' and ''valid to'' date
+    And I have specified the fee code
+    And I have specified the fee description
+    And i have specified SI Ref data
+    And i have specified fee order name
+    And i have specified statutory instruments
+    And i have specified Natural Account Code
+    And i have specified the memoline
+    And the fee amount is a "flat amount"
+    When I save this fee
+    Then the fee is SAVED successfully
+    And the fee status is Draft
+    And the fee version is 1
+*/
+
+    @Test
+    public void testLookupForProbateCopiesFeeX0258ReturnsCorrectResult() throws Exception{
+
+        /* 1. Get the fee and get the amount per copy */
+
+        getFeeAndExpectStatusIsOk("X0258").andExpect(
+            body().as(Fee2Dto.class, (fee) -> {
+
+                /* 2. Lookup the fee for 10 copies and test value is correct */
+
+                LookupFeeDto lookupDto = new LookupFeeDto();
+                lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
+                lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
+                lookupDto.setChannel(fee.getChannelTypeDto().getName());
+                lookupDto.setDirection(fee.getDirectionTypeDto().getName());
+                lookupDto.setEvent(fee.getEventTypeDto().getName());
+                lookupDto.setService(fee.getServiceTypeDto().getName());
+                lookupDto.setAmountOrVolume(BigDecimal.TEN);
+
+                try {
+                    lookup(lookupDto)
+                        .andExpect(lookupResultMatchesExpectedFeeAmount(lookupDto.getAmountOrVolume().multiply(fee.getCurrentVersion().getVolumeAmount().getAmount())));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            })
+        );
+
+
+
+
+    }
+
+
 }

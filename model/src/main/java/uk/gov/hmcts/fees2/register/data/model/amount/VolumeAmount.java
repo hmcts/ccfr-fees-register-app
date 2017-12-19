@@ -5,31 +5,24 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "rateable_amount")
+@Table(name = "volume_amount")
 @EqualsAndHashCode(callSuper = false)
-public class RateableAmount extends Amount {
+public class VolumeAmount extends Amount {
 
-    @Column(name = "min_value")
-    private BigDecimal minValue;
-
-    @Column(name = "max_value")
-    private BigDecimal maxValue;
-
-    @Column(name = "rateable_value")
-    private BigDecimal rateableValue;
+    private BigDecimal amount;
 
     @Override
     public BigDecimal calculateFee(BigDecimal amountOrVolume) {
-        return null;
+        return this.amount.multiply(amountOrVolume, MathContext.DECIMAL32).setScale(2, BigDecimal.ROUND_DOWN);
     }
 
     @Override

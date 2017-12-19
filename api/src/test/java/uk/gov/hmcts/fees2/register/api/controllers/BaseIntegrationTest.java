@@ -103,8 +103,8 @@ public abstract class BaseIntegrationTest extends BaseTest{
             lookup = lookup.param("event", lookupFeeDto.getEvent());
         }
 
-        if(lookupFeeDto.getAmount() != null){
-            lookup = lookup.param("amount", lookupFeeDto.getAmount().toString());
+        if(lookupFeeDto.getAmountOrVolume() != null){
+            lookup = lookup.param("amount_or_volume", lookupFeeDto.getAmountOrVolume().toString());
         }
 
         return mvc.perform(lookup);
@@ -129,7 +129,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
             .headers(httpHeaders);
 
         if(createDto.getUnspecifiedClaimAmount() == null || !createDto.getUnspecifiedClaimAmount()){
-            lookup = lookup.param("amount", claimValue.toString());
+            lookup = lookup.param("amount_or_volume", claimValue.toString());
         }
 
         if(createDto.getChannel() != null){

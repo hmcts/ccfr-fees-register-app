@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.data.model.amount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.data.model.AbstractEntity;
 
@@ -23,6 +24,7 @@ import java.util.Date;
 @Table(name = "amount")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "amount_type")
+@EqualsAndHashCode(callSuper = false)
 public abstract class Amount extends AbstractEntity{
 
     @Column(name = "creation_time", nullable = false)
@@ -33,7 +35,7 @@ public abstract class Amount extends AbstractEntity{
     @JsonIgnore
     private Date lastUpdated;
 
-    public abstract BigDecimal calculateFee(BigDecimal amount);
+    public abstract BigDecimal calculateFee(BigDecimal amountOrVolume);
 
     public abstract boolean acceptsUnspecifiedFees();
 

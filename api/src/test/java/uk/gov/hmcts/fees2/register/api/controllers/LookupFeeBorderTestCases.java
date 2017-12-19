@@ -30,7 +30,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(299.98));
+        dto.setAmountOrVolume(new BigDecimal(299.98));
 
         // 299.98 * 5% = 14.999 -> 14.99
 
@@ -49,7 +49,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(299.99));
+        dto.setAmountOrVolume(new BigDecimal(299.99));
 
         // 299.99 * 5% = 14.9995 -> 14.99
 
@@ -68,7 +68,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(300));
+        dto.setAmountOrVolume(new BigDecimal(300));
         // 300 * 5% = 15
 
         lookupResultMatchesExpectedFeeAmount(new BigDecimal(15));
@@ -86,7 +86,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(299.951));
+        dto.setAmountOrVolume(new BigDecimal(299.951));
 
         // 299.951 * 5% = 14.99755 -> 14.99
 
@@ -105,7 +105,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(299.98971));
+        dto.setAmountOrVolume(new BigDecimal(299.98971));
 
         // 299.98971 * 5% = 14.9994855 -> 14.99
 
@@ -124,7 +124,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(500));
+        dto.setAmountOrVolume(new BigDecimal(500));
 
         // 500 * 10% = 50
 
@@ -143,7 +143,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(20000));
+        dto.setAmountOrVolume(new BigDecimal(20000));
 
         // 20000 * 20% = 4000
 
@@ -162,7 +162,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(300.01));
+        dto.setAmountOrVolume(new BigDecimal(300.01));
 
         // 300.01 * 10% = 30.001 -> 30
 

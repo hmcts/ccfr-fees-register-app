@@ -6,6 +6,7 @@ import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
@@ -14,12 +15,11 @@ import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
+import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -176,6 +176,8 @@ public class FeeDtoMapper {
             version.setAmount(toFlatAmount(versionDto.getFlatAmount()));
         }else if(versionDto.getPercentageAmount() != null) {
             version.setAmount(toPercentageAmount(versionDto.getPercentageAmount()));
+        }else if(versionDto.getVolumeAmount() != null) {
+            version.setAmount(toVolumeAmount(versionDto.getVolumeAmount()));
         }
 
         return version;
@@ -197,12 +199,17 @@ public class FeeDtoMapper {
             FlatAmountDto flatAmountDto = new FlatAmountDto();
             flatAmountDto.setAmount(((FlatAmount) feeVersion.getAmount()).getAmount());
             feeVersionDto.setFlatAmount(flatAmountDto);
-        }
+        }else
 
         if (feeVersion.getAmount() instanceof PercentageAmount) {
             PercentageAmountDto percentageAmountDto = new PercentageAmountDto();
             percentageAmountDto.setPercentage(((PercentageAmount) feeVersion.getAmount()).getPercentage());
             feeVersionDto.setPercentageAmount(percentageAmountDto);
+        }else
+
+        if(feeVersion.getAmount() instanceof  VolumeAmount) {
+            VolumeAmountDto volumeAmountDto = new VolumeAmountDto(((VolumeAmount) feeVersion.getAmount()).getAmount());
+            feeVersionDto.setVolumeAmount(volumeAmountDto);
         }
 
         return feeVersionDto;
@@ -217,6 +224,12 @@ public class FeeDtoMapper {
 
     private FlatAmount toFlatAmount(FlatAmountDto dto) {
         FlatAmount amount = new FlatAmount();
+        amount.setAmount(dto.getAmount());
+        return amount;
+    }
+
+    private VolumeAmount toVolumeAmount(VolumeAmountDto dto) {
+        VolumeAmount amount = new VolumeAmount();
         amount.setAmount(dto.getAmount());
         return amount;
     }

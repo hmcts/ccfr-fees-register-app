@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.util.Date;
@@ -29,12 +30,12 @@ public class FeeVersionDto {
 
     private FeeVersionStatus status;
 
-    // Is there a better way to specify this ?
     @JsonProperty("flat_amount")
     private FlatAmountDto flatAmount;
 
     @JsonProperty("percentage_amount")
     private PercentageAmountDto percentageAmount;
 
-
+    @JsonProperty("volume_amount")
+    private VolumeAmountDto volumeAmount;
 }

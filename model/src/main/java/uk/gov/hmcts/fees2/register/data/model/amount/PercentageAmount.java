@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.data.model.amount;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import java.math.RoundingMode;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "percentage_amount")
+@EqualsAndHashCode(callSuper = false)
 public class PercentageAmount extends Amount{
 
     private final static BigDecimal HUNDRED = new BigDecimal(100);
@@ -23,8 +25,8 @@ public class PercentageAmount extends Amount{
     private BigDecimal percentage;
 
     @Override
-    public BigDecimal calculateFee(BigDecimal amount) {
-        return amount.multiply(
+    public BigDecimal calculateFee(BigDecimal amountOrVolume) {
+        return amountOrVolume.multiply(
             percentage.divide(HUNDRED, MathContext.DECIMAL32)
         ).setScale(2, RoundingMode.DOWN);
     }

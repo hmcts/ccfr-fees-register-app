@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees2.register.data.model.amount;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -13,12 +14,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "flat_amount")
+@EqualsAndHashCode(callSuper = false)
 public class FlatAmount extends Amount {
 
     private BigDecimal amount;
 
     @Override
-    public BigDecimal calculateFee(BigDecimal amount) {
+    public BigDecimal calculateFee(BigDecimal amountOrVolume) {
         return this.amount;
     }
 
@@ -26,4 +28,5 @@ public class FlatAmount extends Amount {
     public boolean acceptsUnspecifiedFees() {
         return true;
     }
+
 }

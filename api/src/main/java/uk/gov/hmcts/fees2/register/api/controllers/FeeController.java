@@ -33,10 +33,7 @@ import java.util.stream.Collectors;
 public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
 
-
     public static final String LOCATION = "Location";
-
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     private final FeeService feeService;
 
@@ -168,9 +165,9 @@ public class FeeController {
                                        @RequestParam String jurisdiction2,
                                        @RequestParam(required = false) String channel,
                                        @RequestParam String event,
-                                       @RequestParam(required = false) BigDecimal amount) {
+                                       @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume) {
 
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amount, false, FeeVersionStatus.approved));
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amountOrVolume, false, FeeVersionStatus.approved));
     }
 
     @ApiOperation(value = "Lookup for unspecified fee based on reference data", response = FeeLookupResponseDto.class)

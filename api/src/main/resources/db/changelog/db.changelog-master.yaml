@@ -470,3 +470,39 @@ databaseChangeLog:
 
     - include:
         file: db/changelog/db.changelog-fees-range-units.yaml
+
+    - changeSet:
+        id: 1513271153416-1
+        author: Eduardo (generated)
+        changes:
+        - createTable:
+            columns:
+            - column:
+                name: amount
+                type: numeric(19, 2)
+            - column:
+                constraints:
+                  nullable: false
+                name: id
+                type: BIGINT
+            tableName: volume_amount
+    - changeSet:
+        id: 1513271153416-2
+        author: Eduardo (generated)
+        changes:
+        - addPrimaryKey:
+            columnNames: id
+            constraintName: volume_amountPK
+            tableName: volume_amount
+    - changeSet:
+        id: 1513271153416-3
+        author: Eduardo (generated)
+        changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: id
+            baseTableName: volume_amount
+            constraintName: FK_ltj7mq2uivtds6v0i84hj26br
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: amount

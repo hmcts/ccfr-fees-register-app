@@ -29,7 +29,7 @@ public class LookupFeeDto {
 
     private String direction;
 
-    private BigDecimal amount;
+    private BigDecimal amountOrVolume;
 
     @JsonProperty("unspecified_claim_amount")
     private Boolean unspecifiedClaimAmount;

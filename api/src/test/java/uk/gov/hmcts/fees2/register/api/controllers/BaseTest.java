@@ -276,7 +276,7 @@ public abstract class BaseTest {
         MutableDateTime validTo = new MutableDateTime(new Date());
         validTo.addDays(90);
 
-        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, getFlatAmountDto(), null);
+        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, getFlatAmountDto(), null, null);
     }
 
     public FlatAmountDto getFlatAmountDto() {

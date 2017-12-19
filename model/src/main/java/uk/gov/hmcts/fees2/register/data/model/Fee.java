@@ -114,4 +114,26 @@ public abstract class Fee extends AbstractEntity{
         lastUpdated = now;
     }
 
+    /** Added toString method to avoid StackOverFlow error on debugger */
+    @Override
+    public String toString() {
+        return "Fee{" +
+            "code='" + code + '\'' +
+            ", memoLine='" + memoLine + '\'' +
+            ", jurisdiction1=" + jurisdiction1 +
+            ", jurisdiction2=" + jurisdiction2 +
+            ", eventType=" + eventType +
+            ", service=" + service +
+            ", directionType=" + directionType +
+            ", channelType=" + channelType +
+            ", feeOrderName='" + feeOrderName + '\'' +
+            ", naturalAccountCode='" + naturalAccountCode + '\'' +
+            ", statutoryInstrument='" + statutoryInstrument + '\'' +
+            ", siRefId='" + siRefId + '\'' +
+            ", feeVersions=" + feeVersions +
+            ", unspecifiedClaimAmount=" + unspecifiedClaimAmount +
+            ", creationTime=" + creationTime +
+            ", lastUpdated=" + lastUpdated +
+            '}';
+    }
 }

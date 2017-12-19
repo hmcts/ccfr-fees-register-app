@@ -137,7 +137,7 @@ public class FeeServiceImpl implements FeeService {
             fee.getCode(),
             version.getDescription(),
             version.getVersion(),
-            version.calculateFee(dto.getAmount()));
+            version.calculateFee(dto.getAmountOrVolume()));
 
     }
 
@@ -150,7 +150,7 @@ public class FeeServiceImpl implements FeeService {
                 (rootFee, criteriaQuery, criteriaBuilder) -> buildFirstLevelPredicate(rootFee, criteriaBuilder, dto)
             )
             .stream()
-            .filter(fee -> dto.getAmount() == null || fee.isInRange(dto.getAmount()))
+            .filter(fee -> dto.getAmountOrVolume() == null || fee.isInRange(dto.getAmountOrVolume()))
             .collect(Collectors.toList());
 
     }

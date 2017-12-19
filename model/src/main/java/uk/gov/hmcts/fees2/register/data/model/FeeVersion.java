@@ -1,10 +1,7 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 
 import javax.persistence.*;
@@ -17,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder(builderMethodName = "feeVersionWith")
 @Table(name = "fee_version", uniqueConstraints = {@UniqueConstraint(name = "uk_fee_version", columnNames = {"fee_id", "version"})})
+@EqualsAndHashCode(callSuper = false)
 public class FeeVersion extends AbstractEntity{
 
     @ManyToOne
@@ -50,4 +48,16 @@ public class FeeVersion extends AbstractEntity{
         return this.amount.calculateFee(amount);
     }
 
+    @Override
+    public String toString() {
+        return "FeeVersion{" +
+            "fee=" + fee.getCode() +
+            ", amount=" + amount +
+            ", description='" + description + '\'' +
+            ", version=" + version +
+            ", status=" + status +
+            ", validFrom=" + validFrom +
+            ", validTo=" + validTo +
+            '}';
+    }
 }

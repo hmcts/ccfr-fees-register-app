@@ -381,6 +381,27 @@
       "service": "divorce",
       "channel": "default",
       "event": "issue"
+    },
+    {
+      "code": "X0258",
+      "version": {
+        "version": 1,
+        "validFrom" : "2014-04-22T00:00:00.511Z",
+        "description": "Additional copies of the grant representation",
+        "status": "approved",
+        "volume_amount": {
+          "amount": 0.5
+        }
+      },
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "direction": "reduced churn",
+      "event": "copies",
+      "statutory_instrument": "2014 No 876(L19)",
+      "fee_order_name": "Non-Contentious Probate Fees",
+      "si_ref_id": "8b"
     }
   ]
 }

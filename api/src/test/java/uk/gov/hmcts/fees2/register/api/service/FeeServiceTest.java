@@ -86,7 +86,7 @@ public class FeeServiceTest extends BaseTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("high court");
-        dto.setAmount(new BigDecimal(5));
+        dto.setAmountOrVolume(new BigDecimal(5));
 
         FeeLookupResponseDto fee = feeService.lookup(dto);
 
