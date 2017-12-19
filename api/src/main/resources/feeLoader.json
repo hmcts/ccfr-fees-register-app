@@ -328,7 +328,7 @@
       "code": "X0249",
       "version": {
         "version": 1,
-        "validFrom" : "2011-04-04T00:00:00.511Z",
+        "valid_from" : "2011-04-04T00:00:00.511Z",
         "description": "Application for a grant of probate (Estate over £5000)",
         "status": "approved",
         "flat_amount": {
@@ -386,7 +386,7 @@
       "code": "X0258",
       "version": {
         "version": 1,
-        "validFrom" : "2014-04-22T00:00:00.511Z",
+        "valid_from" : "2014-04-22T00:00:00.511Z",
         "description": "Additional copies of the grant representation",
         "status": "approved",
         "volume_amount": {
