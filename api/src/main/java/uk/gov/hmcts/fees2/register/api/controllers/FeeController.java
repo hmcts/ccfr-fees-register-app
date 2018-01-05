@@ -11,11 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import uk.gov.hmcts.fees.register.api.model.exceptions.ResourceNotFoundException;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
@@ -24,6 +26,7 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
@@ -166,6 +169,10 @@ public class FeeController {
                                        @RequestParam(required = false) String channel,
                                        @RequestParam String event,
                                        @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume) {
+
+        if (amountOrVolume.compareTo(BigDecimal.ZERO) < 0) {
+            throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
+        }
 
         return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amountOrVolume, false, FeeVersionStatus.approved));
     }
