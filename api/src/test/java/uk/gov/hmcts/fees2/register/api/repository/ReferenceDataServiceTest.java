@@ -81,7 +81,7 @@ public class ReferenceDataServiceTest extends BaseTest {
         List<DirectionType> directions = new ArrayList<>();
         directions.add(new DirectionType("cost recovery", null, null));
         directions.add(new DirectionType("enhanced", null, null));
-        directions.add(new DirectionType("license", null, null));
+        directions.add(new DirectionType("licence", null, null));
 
         when(directionTypeService.findAll()).thenReturn(directions);
 
@@ -89,7 +89,7 @@ public class ReferenceDataServiceTest extends BaseTest {
 
         assertNotNull(result);
         assertEquals(result.size(), 3);
-        assertNotNull(result.stream().filter(d -> d.getName().equals("license")).findAny().isPresent());
+        assertNotNull(result.stream().filter(d -> d.getName().equals("licence")).findAny().isPresent());
 
         verify(directionTypeRepository, times(1)).findAll();
     }

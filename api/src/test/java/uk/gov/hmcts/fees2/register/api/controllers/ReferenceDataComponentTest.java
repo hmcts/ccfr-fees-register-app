@@ -57,7 +57,7 @@ public class ReferenceDataComponentTest extends BaseTest{
                         .name("enhanced")
                         .build(),
                     directionTypeDtoWith()
-                        .name("license")
+                        .name("licence")
                         .build(),
                     directionTypeDtoWith()
                         .name("partial cost recovery")

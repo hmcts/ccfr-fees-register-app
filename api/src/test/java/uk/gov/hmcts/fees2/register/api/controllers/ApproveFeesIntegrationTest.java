@@ -22,7 +22,7 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
             .setService("civil money claims")
             .setEvent("issue")
             .setJurisdiction1("civil")
-            .setDirection("license")
+            .setDirection("licence")
             .setJurisdiction2("family court")
             .setChannel("online")
             .setCode("XXX" + String.valueOf(System.currentTimeMillis()))

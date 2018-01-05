@@ -52,7 +52,7 @@ databaseChangeLog:
                 VALUES
                   ('cost recovery'),
                   ('enhanced'),
-                  ('license'),
+                  ('licence'),
                   ('partial cost recovery'),
                   ('pre cost recovery'),
                   ('reduced churn'),
