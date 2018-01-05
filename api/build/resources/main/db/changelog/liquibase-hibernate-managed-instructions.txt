@@ -1,0 +1,8 @@
+On a developers box:
+
+cd /model
+mvn liquibase:diff
+
+Then run application so changes are applied or do:
+
+mvn liquibase:update

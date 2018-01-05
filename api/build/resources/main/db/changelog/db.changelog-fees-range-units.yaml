@@ -1,0 +1,60 @@
+databaseChangeLog:
+- changeSet:
+    id: 1512668257737-1
+    author: Eduardo (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: creation_time
+            type: TIMESTAMP
+            defaultValue: now()
+        - column:
+            constraints:
+              nullable: false
+            name: last_updated
+            type: TIMESTAMP
+            defaultValue: now()
+        tableName: range_unit
+- changeSet:
+    id: 1512668257737-2
+    author: Eduardo (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: range_unit
+            type: varchar(255)
+        tableName: ranged_fee
+    - sql: >
+        UPDATE ranged_fee SET range_unit = 'GBP' WHERE range_unit IS NULL;
+- changeSet:
+    id: 1512668257737-3
+    author: Eduardo (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: name
+        constraintName: range_unitPK
+        tableName: range_unit
+    - sql: >
+        INSERT INTO range_unit (name) VALUES ('GBP');
+        INSERT INTO range_unit (name) VALUES ('Volume');
+- changeSet:
+    id: 1512668257737-4
+    author: Eduardo (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: range_unit
+        baseTableName: ranged_fee
+        constraintName: FK_68957h2dwoo4ak7rwaqorh062
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: name
+        referencedTableName: range_unit

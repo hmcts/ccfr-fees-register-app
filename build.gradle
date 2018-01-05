@@ -1,0 +1,73 @@
+plugins {
+    id 'application'
+    id 'checkstyle'
+    id "org.sonarqube" version "2.6.1"
+    id 'org.springframework.boot' version '1.5.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.3.RELEASE'
+    id 'org.owasp.dependencycheck' version '1.4.5.1'
+    id 'jacoco'
+}
+allprojects {
+    apply plugin: 'maven'
+
+    group = 'uk.gov.hmcts.reform.fees-register'
+    version = '1.0.1-SNAPSHOT'
+
+    repositories {
+        maven {
+            url "https://dl.bintray.com/hmcts/hmcts-maven"
+        }
+        jcenter()
+        mavenLocal()
+        maven { url "http://dl.bintray.com/gov-uk-notify/maven" }
+
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+        testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
+        compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+        compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
+    }
+
+
+}
+
+jar {
+    manifest {
+
+        attributes 'Implementation-Title': project.name,
+                'Implementation-Version': project.version
+    }
+}
+
+bootRepackage {
+    classifier 'all'
+}
+
+task printVersion {
+    description 'Prints the version of this project'
+    doLast {
+        print project.version
+    }
+}
+run {
+    def debug = System.getProperty("debug")
+    if (debug == 'true') {
+        jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+    }
+}
+dependencies {
+    compile project(':fees-register-api')
+}
+mainClassName = 'uk.gov.hmcts.FeesRegisterServiceApplication'

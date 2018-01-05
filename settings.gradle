@@ -1,0 +1,10 @@
+rootProject.name = 'fees-register-app'
+include ':fees-register-model'
+include ':fees-register-api-contract'
+include ':fees-register-api'
+include ':fees-register-client'
+
+project(':fees-register-model').projectDir = "$rootDir/model" as File
+project(':fees-register-api-contract').projectDir = "$rootDir/api-contract" as File
+project(':fees-register-api').projectDir = "$rootDir/api" as File
+project(':fees-register-client').projectDir = "$rootDir/client" as File

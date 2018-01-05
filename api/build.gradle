@@ -1,0 +1,25 @@
+description = ''
+dependencies {
+    compile project(':fees-register-model')
+    compile project(':fees-register-api-contract')
+    compile group: 'uk.gov.hmcts.auth.checker', name: 'auth-checker-spring', version: '1.0.0.46'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.9.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.9.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.9.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '1.5.9.RELEASE'
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+    compile(group: 'org.postgresql', name: 'postgresql', version: '42.1.4') {
+        exclude(module: 'commons-logging')
+        exclude(module: 'slf4j-simple')
+    }
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.0'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.0'
+    runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.5.9.RELEASE'
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.9.RELEASE') {
+        exclude(module: 'commons-logging')
+    }
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.3.RELEASE'
+    testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
+}
