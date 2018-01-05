@@ -195,7 +195,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest{
             .setEvent("issue")
             .setJurisdiction1("family")
             .setJurisdiction2("high court")
-            .setDirection("license")
+            .setDirection("licence")
             .setCode(code)
             .setMinRange(minRange)
             .setMaxRange(maxRange)

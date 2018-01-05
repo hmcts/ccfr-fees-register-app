@@ -121,7 +121,7 @@ public abstract class BaseTest {
         return new ArrayList<DirectionType>() {{
             add(new DirectionType("cost recovery", new Date(), new Date()));
             add(new DirectionType("enhanced", new Date(), new Date()));
-            add(new DirectionType("license", new Date(), new Date()));
+            add(new DirectionType("licence", new Date(), new Date()));
             add(new DirectionType("partial cost recovery", new Date(), new Date()));
             add(new DirectionType("pre cost recovery", new Date(), new Date()));
             add(new DirectionType("reduced chum", new Date(), new Date()));
@@ -241,7 +241,7 @@ public abstract class BaseTest {
         rangedFeeDto.setVersion(getFeeVersionDto(status));
         rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("family").getName());
         rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("high court").getName());
-        rangedFeeDto.setDirection(directionTypeService.findByNameOrThrow("license").getName());
+        rangedFeeDto.setDirection(directionTypeService.findByNameOrThrow("licence").getName());
         rangedFeeDto.setEvent(eventTypeService.findByNameOrThrow("copies").getName());
         rangedFeeDto.setService(serviceTypeService.findByNameOrThrow("divorce").getName());
         rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());

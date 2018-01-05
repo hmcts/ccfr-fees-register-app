@@ -39,7 +39,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
-        dto.setDirection("license");
+        dto.setDirection("licence");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setMemoLine("description");
         dto.setUnspecifiedClaimAmount(true);
@@ -83,7 +83,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
-        dto.setDirection("license");
+        dto.setDirection("licence");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setMemoLine("description");
         dto.setUnspecifiedClaimAmount(true);
@@ -152,7 +152,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
-        dto.setDirection("license");
+        dto.setDirection("licence");
         dto.setChannel("online");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setMemoLine("description");
