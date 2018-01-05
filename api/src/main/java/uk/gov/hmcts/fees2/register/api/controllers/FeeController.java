@@ -170,7 +170,7 @@ public class FeeController {
                                        @RequestParam String event,
                                        @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume) {
 
-        if (amountOrVolume.compareTo(BigDecimal.ZERO) < 0) {
+        if (amountOrVolume != null && amountOrVolume.compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
         }
 
