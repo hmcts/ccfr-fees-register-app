@@ -56,13 +56,13 @@ public class FeeDtoMapper {
 
     private void fillFee(CreateFeeDto request, Fee fee) {
         fillCode(fee, request.getCode());
-        fillJuridistiction1(fee, request.getJurisdiction1());
-        fillJuridistiction2(fee, request.getJurisdiction2());
+        fillJuridistiction1(fee, request.getJurisdiction1().toLowerCase());
+        fillJuridistiction2(fee, request.getJurisdiction2().toLowerCase());
 
-        fillServiceType(fee, request.getService());
-        fillEventType(fee, request.getEvent());
-        fillChannelType(fee, request.getChannel());
-        fillDirectionType(fee, request.getDirection());
+        fillServiceType(fee, request.getService().toLowerCase());
+        fillEventType(fee, request.getEvent().toLowerCase());
+        fillChannelType(fee, request.getChannel().toLowerCase());
+        fillDirectionType(fee, request.getDirection().toLowerCase());
 
         fee.setMemoLine(request.getMemoLine());
         fee.setFeeOrderName(request.getFeeOrderName());
