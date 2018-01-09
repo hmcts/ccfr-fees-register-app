@@ -1,6 +1,13 @@
 target/
+build/
 api/target
+api/build
+api-contract/target
+api-contract/build
+client/target
+client/build
 model/target
+model/build
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

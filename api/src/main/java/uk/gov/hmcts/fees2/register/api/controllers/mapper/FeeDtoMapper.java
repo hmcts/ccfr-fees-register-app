@@ -56,13 +56,13 @@ public class FeeDtoMapper {
 
     private void fillFee(CreateFeeDto request, Fee fee) {
         fillCode(fee, request.getCode());
-        fillJuridistiction1(fee, request.getJurisdiction1().toLowerCase());
-        fillJuridistiction2(fee, request.getJurisdiction2().toLowerCase());
+        fillJuridistiction1(fee, request.getJurisdiction1());
+        fillJuridistiction2(fee, request.getJurisdiction2());
 
-        fillServiceType(fee, request.getService().toLowerCase());
-        fillEventType(fee, request.getEvent().toLowerCase());
-        fillChannelType(fee, request.getChannel().toLowerCase());
-        fillDirectionType(fee, request.getDirection().toLowerCase());
+        fillServiceType(fee, request.getService());
+        fillEventType(fee, request.getEvent());
+        fillChannelType(fee, request.getChannel());
+        fillDirectionType(fee, request.getDirection());
 
         fee.setMemoLine(request.getMemoLine());
         fee.setFeeOrderName(request.getFeeOrderName());
@@ -256,7 +256,7 @@ public class FeeDtoMapper {
 
         ChannelType channelType = channel == null ?
             channelTypeRepository.findByNameOrThrow(ChannelType.DEFAULT) :
-            channelTypeRepository.findByNameOrThrow(channel);
+            channelTypeRepository.findByNameOrThrow(channel.toLowerCase());
 
         fee.setChannelType(channelType);
 
@@ -278,13 +278,13 @@ public class FeeDtoMapper {
 
     private void fillJuridistiction1(Fee fee, String jurisdiction1) {
         if(jurisdiction1 != null) {
-            fee.setJurisdiction1(jurisdiction1Repository.findByNameOrThrow(jurisdiction1));
+            fee.setJurisdiction1(jurisdiction1Repository.findByNameOrThrow(jurisdiction1.toLowerCase()));
         }
     }
 
     private void fillJuridistiction2(Fee fee, String jurisdiction2) {
         if(jurisdiction2 != null) {
-            fee.setJurisdiction2(jurisdiction2Repository.findByNameOrThrow(jurisdiction2));
+            fee.setJurisdiction2(jurisdiction2Repository.findByNameOrThrow(jurisdiction2.toLowerCase()));
         }
     }
 
@@ -294,7 +294,7 @@ public class FeeDtoMapper {
             return;
         }
 
-        fee.setEventType(eventTypeRepository.findByNameOrThrow(event));
+        fee.setEventType(eventTypeRepository.findByNameOrThrow(event.toLowerCase()));
     }
 
     private void fillDirectionType(Fee fee, String direction) {
@@ -303,7 +303,7 @@ public class FeeDtoMapper {
             return;
         }
 
-        fee.setDirectionType(directionTypeRepository.findByNameOrThrow(direction));
+        fee.setDirectionType(directionTypeRepository.findByNameOrThrow(direction.toLowerCase()));
 
     }
 
@@ -313,7 +313,7 @@ public class FeeDtoMapper {
             return;
         }
 
-        fee.setService(serviceTypeRepository.findByNameOrThrow(service));
+        fee.setService(serviceTypeRepository.findByNameOrThrow(service.toLowerCase()));
     }
 
 }
