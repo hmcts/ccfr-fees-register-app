@@ -2,8 +2,7 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.controllers.BaseTest;
-import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
+import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;

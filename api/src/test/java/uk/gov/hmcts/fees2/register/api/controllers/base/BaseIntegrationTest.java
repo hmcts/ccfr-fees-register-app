@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees2.register.api.controllers;
+package uk.gov.hmcts.fees2.register.api.controllers.base;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.ResultActions;
@@ -11,6 +11,7 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;

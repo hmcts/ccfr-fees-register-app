@@ -2,16 +2,14 @@ package uk.gov.hmcts.fees2.register.api.repository;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import uk.gov.hmcts.fees2.register.api.controllers.BaseTest;
+import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
 import uk.gov.hmcts.fees2.register.data.service.impl.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
