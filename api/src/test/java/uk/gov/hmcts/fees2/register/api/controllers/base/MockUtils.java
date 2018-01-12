@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees2.register.api.controllers;
+package uk.gov.hmcts.fees2.register.api.controllers.base;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;

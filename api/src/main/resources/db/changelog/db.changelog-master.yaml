@@ -506,9 +506,3 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: id
             referencedTableName: amount
-    - changeSet:
-        id: 1513271153416-9
-        author: Eduardo
-        changes:
-          - sql: >
-              UPDATE direction_type SET name = 'defence' WHERE name = 'defense';

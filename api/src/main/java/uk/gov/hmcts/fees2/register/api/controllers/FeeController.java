@@ -21,6 +21,7 @@ import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,11 +41,14 @@ public class FeeController {
 
     private final FeeService feeService;
 
+    private final FeeVersionService feeVersionService;
+
     private final FeeDtoMapper feeDtoMapper;
 
     @Autowired
-    public FeeController(FeeService feeService, FeeDtoMapper feeDtoMapper) {
+    public FeeController(FeeService feeService, FeeVersionService feeVersionService, FeeDtoMapper feeDtoMapper) {
         this.feeService = feeService;
+        this.feeVersionService = feeVersionService;
         this.feeDtoMapper = feeDtoMapper;
     }
 
@@ -105,6 +109,7 @@ public class FeeController {
     })
     @GetMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
+    @Transactional
     public Fee2Dto getFee(@PathVariable("code") String code) {
         Fee fee = feeService.get(code);
         return feeDtoMapper.toFeeDto(fee);
@@ -145,7 +150,7 @@ public class FeeController {
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus) {
 
         if(feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.draft)) { /* Limited for now to required functionality */
-            return feeService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
+            return feeVersionService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
         }
 
         return feeService
@@ -201,7 +206,7 @@ public class FeeController {
     @PatchMapping("/fees/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approve(@RequestBody @Validated ApproveFeeDto dto) {
-        feeService.approve(dto.getFeeCode(), dto.getFeeVersion());
+        feeVersionService.approve(dto.getFeeCode(), dto.getFeeVersion());
     }
 
     /* --- */

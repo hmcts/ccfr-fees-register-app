@@ -21,7 +21,4 @@ public interface FeeService  {
 
     Fee get(String code);
 
-    boolean approve(String code, Integer version);
-
-    List<FeeVersion> getUnapprovedVersions();
 }

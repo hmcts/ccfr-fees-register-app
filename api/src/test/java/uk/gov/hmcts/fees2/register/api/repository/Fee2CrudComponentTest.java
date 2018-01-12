@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.controllers.BaseTest;
+import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.ChannelTypeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -28,6 +29,9 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Autowired
     private FeeService feeService;
+
+    @Autowired
+    private FeeVersionService feeVersionService;
 
     @Autowired
     private FeeDtoMapper feeDtoMapper;
@@ -101,7 +105,7 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         Fee fee = feeService.get(feeCode);
 
-        boolean result = feeService.approve(fee.getCode(), 1);
+        boolean result = feeVersionService.approve(fee.getCode(), 1);
         assertTrue(result);
     }
 

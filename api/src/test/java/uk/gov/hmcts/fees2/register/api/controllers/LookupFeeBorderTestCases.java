@@ -2,18 +2,15 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-public class LookupFeeBorderTestCases extends BaseIntegrationTest{
+public class LookupFeeBorderTestCases extends BaseIntegrationTest {
 
     /* We need to add test cases like 299.98 claim and 299.99, 300, 300.01,
     and so on for all range based edges like at 500, 200000 etc
