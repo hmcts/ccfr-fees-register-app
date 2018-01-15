@@ -344,6 +344,30 @@
       "statutory_instrument": "2011 No. 588 (L. 4)",
       "fee_order_name": "Non-Contentious Probate Fees",
       "si_ref_id": "1"
+    },
+    {
+      "minRange": 0,
+      "maxRange": 5000.00,
+      "rangeUnit": "GBP",
+      "code": "X0249_NO_FEE",
+      "version": {
+        "version": 1,
+        "valid_from" : "2011-04-04T00:00:00.511Z",
+        "description": "Application for a grant of probate (Estate under £5000)",
+        "status": "approved",
+        "flat_amount": {
+          "amount": 0
+        }
+      },
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "direction": "cost recovery",
+      "event": "issue",
+      "statutory_instrument": "2011 No. 588 (L. 4)",
+      "fee_order_name": "Non-Contentious Probate Fees",
+      "si_ref_id": "1"
     }
   ],
   "fixedFees": [
