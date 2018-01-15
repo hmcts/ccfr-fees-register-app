@@ -506,3 +506,11 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: id
             referencedTableName: amount
+
+    - changeSet:
+        id: 21
+        author: eduardo
+        changes:
+          - sql: >
+             UPDATE ranged_fee SET min_range = 5000 WHERE id = (SELECT id FROM fee WHERE code = 'X0249');
+

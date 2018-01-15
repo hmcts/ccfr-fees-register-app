@@ -381,11 +381,44 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
             })
         );
-
-
-
-
     }
 
+    /* PAY - 527 */
+
+    /* Scenario1: Application for estates valued under £5k
+
+    GIVEN that a probate case has been submitted
+    And the case will be for a "family" jurisdiction
+    And the case is made through ’default’’ channel
+    And the case event is ''issue'' or ''misc''
+    And the case has an estate valued at £5000 and below
+    When the fee for this case is being looked up through the API
+    Then return a £0 fee and/or 204 message */
+    @Test
+    public void lookupProbateEstateOf5000AndGetNoContent() throws Exception{
+
+        getFeeAndExpectStatusIsOk("X0249").andExpect(
+            body().as(Fee2Dto.class, (fee) -> {
+
+                LookupFeeDto lookupDto = new LookupFeeDto();
+                lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
+                lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
+                lookupDto.setChannel(fee.getChannelTypeDto().getName());
+                lookupDto.setDirection(fee.getDirectionTypeDto().getName());
+                lookupDto.setEvent(fee.getEventTypeDto().getName());
+                lookupDto.setService(fee.getServiceTypeDto().getName());
+                lookupDto.setAmountOrVolume(new BigDecimal(5000));
+
+                try {
+                    lookup(lookupDto)
+                        .andExpect(status().isNoContent());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            })
+        );
+
+    }
 
 }

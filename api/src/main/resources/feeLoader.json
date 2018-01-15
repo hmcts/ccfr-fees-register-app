@@ -323,7 +323,7 @@
       "event": "issue"
     },
     {
-      "minRange": 5000.00,
+      "min_range": 5000.00,
       "rangeUnit": "GBP",
       "code": "X0249",
       "version": {
@@ -346,8 +346,8 @@
       "si_ref_id": "1"
     },
     {
-      "minRange": 0,
-      "maxRange": 5000.00,
+      "min_range": 0,
+      "max_range": 5000.00,
       "rangeUnit": "GBP",
       "code": "X0249_NO_FEE",
       "version": {

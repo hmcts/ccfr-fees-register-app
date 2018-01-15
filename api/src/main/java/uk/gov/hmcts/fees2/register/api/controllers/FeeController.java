@@ -8,12 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import uk.gov.hmcts.fees.register.api.model.exceptions.ResourceNotFoundException;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.contract.request.*;
+import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -27,7 +29,6 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
@@ -149,7 +150,7 @@ public class FeeController {
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus) {
 
-        if(feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.draft)) { /* Limited for now to required functionality */
+        if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.draft)) { /* Limited for now to required functionality */
             return feeVersionService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
         }
 
@@ -163,23 +164,29 @@ public class FeeController {
     @ApiOperation(value = "Fee lookup based on reference data and amount", response = FeeLookupResponseDto.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 204, message = "Found, but fee amount is zero"),
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
     @GetMapping("/lookup")
-    @ResponseStatus(HttpStatus.OK)
-    public FeeLookupResponseDto lookup(@RequestParam String service,
-                                       @RequestParam String jurisdiction1,
-                                       @RequestParam String jurisdiction2,
-                                       @RequestParam(required = false) String channel,
-                                       @RequestParam String event,
-                                       @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume) {
+    public ResponseEntity<FeeLookupResponseDto> lookup(@RequestParam String service,
+                                         @RequestParam String jurisdiction1,
+                                         @RequestParam String jurisdiction2,
+                                         @RequestParam(required = false) String channel,
+                                         @RequestParam String event,
+                                         @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume) {
 
         if (amountOrVolume != null && amountOrVolume.compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
         }
 
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amountOrVolume, false, FeeVersionStatus.approved));
+        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amountOrVolume, false, FeeVersionStatus.approved));
+
+        if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Lookup for unspecified fee based on reference data", response = FeeLookupResponseDto.class)
