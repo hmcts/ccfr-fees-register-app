@@ -1,7 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.apache.http.auth.AUTH;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
@@ -27,7 +29,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         CreateFixedFeeDto dto = getFee();
 
-        feeController.createFixedFee(getFee(), null);
+        feeController.createFixedFee(getFee(), null, new PrincipalImpl(AUTHOR));
 
         try {
 
@@ -46,7 +48,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         CreateFixedFeeDto dto = getFee();
 
-        feeController.createFixedFee(getFee(), null);
+        feeController.createFixedFee(getFee(), null, new PrincipalImpl(AUTHOR));
 
         try {
 
@@ -54,7 +56,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             approveFeeDto.setFeeCode(dto.getCode());
             approveFeeDto.setFeeVersion(1);
 
-            feeController.approve(approveFeeDto);
+            feeController.approve(approveFeeDto, new PrincipalImpl(AUTHOR));
 
             feeVersionController.deleteFeeVersion(dto.getCode(), 1);
 
@@ -69,7 +71,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         CreateFixedFeeDto dto = getFee();
 
-        feeController.createFixedFee(getFee(), null);
+        feeController.createFixedFee(getFee(), null, new PrincipalImpl(AUTHOR));
 
         try {
 
@@ -77,12 +79,12 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             approveFeeDto.setFeeCode(dto.getCode());
             approveFeeDto.setFeeVersion(1);
 
-            feeController.approve(approveFeeDto);
+            feeController.approve(approveFeeDto, new PrincipalImpl(AUTHOR));
 
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft);
             feeVersionDto2.setVersion(2);
 
-            feeVersionController.createVersion(dto.getCode(), feeVersionDto2);
+            feeVersionController.createVersion(dto.getCode(), feeVersionDto2, new PrincipalImpl(AUTHOR));
 
             assertThat(feeController.getFee(dto.getCode()).getFeeVersionDtos().size()).isEqualTo(2);
 

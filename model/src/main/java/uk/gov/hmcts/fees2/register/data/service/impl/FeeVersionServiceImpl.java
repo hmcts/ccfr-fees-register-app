@@ -3,7 +3,6 @@ package uk.gov.hmcts.fees2.register.data.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
@@ -16,27 +15,29 @@ import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import java.util.List;
 
 @Service
-public class FeeVersionServiceImpl implements FeeVersionService{
+public class FeeVersionServiceImpl implements FeeVersionService {
 
     private final FeeVersionRepository feeVersionRepository;
 
     private final Fee2Repository feeRepository;
 
     @Autowired
-    public FeeVersionServiceImpl(FeeVersionRepository feeVersionRepository, Fee2Repository feeRepository){
+    public FeeVersionServiceImpl(FeeVersionRepository feeVersionRepository, Fee2Repository feeRepository) {
         this.feeVersionRepository = feeVersionRepository;
         this.feeRepository = feeRepository;
     }
 
     @Override
     @Transactional
-    public boolean approve(String code, Integer version) {
+    public boolean approve(String code, Integer version, String name) {
 
         FeeVersion ver = feeVersionRepository.findByFee_CodeAndVersion(code, version);
 
         if (ver == null) {
             throw new FeeVersionNotFoundException(code);
         }
+
+        ver.setApprovedBy(name);
 
         ver.setStatus(FeeVersionStatus.approved);
 
@@ -49,13 +50,13 @@ public class FeeVersionServiceImpl implements FeeVersionService{
 
         FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
 
-        if(!feeVersion.getStatus().equals(FeeVersionStatus.draft)){
+        if (!feeVersion.getStatus().equals(FeeVersionStatus.draft)) {
             throw new BadRequestException("Non draft fee versions can not be deleted by this operation");
         }
 
-        if(feeVersion.getFee().getFeeVersions().size() == 1){
+        if (feeVersion.getFee().getFeeVersions().size() == 1) {
             feeRepository.delete(feeVersion.getFee());
-        }else{
+        } else {
             feeVersionRepository.delete(feeVersion);
         }
 
@@ -75,4 +76,15 @@ public class FeeVersionServiceImpl implements FeeVersionService{
         feeVersionRepository.save(version);
     }
 
+    @Override
+    @Transactional
+    public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
+        FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
+
+        if(newStatus == FeeVersionStatus.approved) {
+            feeVersion.setApprovedBy(user);
+        }
+
+        feeVersion.setStatus(newStatus);
+    }
 }

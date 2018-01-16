@@ -1,5 +1,5 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
 public enum FeeVersionStatus {
-    draft, approved
+    draft, pending_approval, approved
 }

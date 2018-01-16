@@ -161,7 +161,7 @@ public class FeeServiceTest extends BaseTest{
 
         dto.setVersion(versionDto);
 
-        feeService.save(dtoMapper.toFee(dto));
+        feeService.save(dtoMapper.toFee(dto, AUTHOR));
 
         return dto.getCode();
     }

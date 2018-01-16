@@ -63,7 +63,7 @@ public class FeeControllerMockTest {
         fees.add(baseMockTest.getFixedFee("X0MOCK1"));
 
         doNothing().when(fs).save(fees);
-        when(feeDtoMapper.toFee(baseMockTest.getFixedFeeDto())).thenReturn(baseMockTest.getFixedFee("XOMOCK1"));
+        when(feeDtoMapper.toFee(baseMockTest.getFixedFeeDto(), "TEST")).thenReturn(baseMockTest.getFixedFee("XOMOCK1"));
 
         this.mockMvc.perform(post("/fees-register/bulkfixedfees")
                     .contentType(MediaType.APPLICATION_JSON)

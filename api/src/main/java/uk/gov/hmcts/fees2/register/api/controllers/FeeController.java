@@ -28,6 +28,7 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,8 +62,12 @@ public class FeeController {
     })
     @PostMapping("/rangedfees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRangedFee(@RequestBody @Validated final CreateRangedFeeDto request, HttpServletResponse response) {
-        Fee fee = feeService.save(feeDtoMapper.toFee(request));
+    public void createRangedFee(
+        @RequestBody @Validated final CreateRangedFeeDto request,
+        HttpServletResponse response,
+        Principal principal) {
+        Fee fee = feeService.save(
+            feeDtoMapper.toFee(request, principal != null ? principal.getName() : null));
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
@@ -77,8 +82,13 @@ public class FeeController {
     })
     @PostMapping(value = "/fixedfees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request, HttpServletResponse response) {
-        Fee fee = feeService.save(feeDtoMapper.toFee(request));
+    public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request,
+                               HttpServletResponse response,
+                               Principal principal) {
+
+        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+
+        fee = feeService.save(fee);
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
@@ -94,10 +104,13 @@ public class FeeController {
     @Transactional
     @PostMapping(value = "/bulkfixedfees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createFixedFees(@RequestBody final List<CreateFixedFeeDto> createFixedFeeDtos) {
+    public void createFixedFees(@RequestBody final List<CreateFixedFeeDto> createFixedFeeDtos, Principal principal) {
         LOG.info("No. of csv import fees: " + createFixedFeeDtos.size());
 
-        List<Fee> fixedFees = createFixedFeeDtos.stream().map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto)).collect(Collectors.toList());
+        List<Fee> fixedFees = createFixedFeeDtos
+            .stream()
+            .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, principal != null ? principal.getName() : null))
+            .collect(Collectors.toList());
 
         feeService.save(fixedFees);
     }
@@ -170,11 +183,11 @@ public class FeeController {
     })
     @GetMapping("/lookup")
     public ResponseEntity<FeeLookupResponseDto> lookup(@RequestParam String service,
-                                         @RequestParam String jurisdiction1,
-                                         @RequestParam String jurisdiction2,
-                                         @RequestParam(required = false) String channel,
-                                         @RequestParam String event,
-                                         @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume) {
+                                                       @RequestParam String jurisdiction1,
+                                                       @RequestParam String jurisdiction2,
+                                                       @RequestParam(required = false) String channel,
+                                                       @RequestParam String event,
+                                                       @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume) {
 
         if (amountOrVolume != null && amountOrVolume.compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
@@ -212,8 +225,8 @@ public class FeeController {
     })
     @PatchMapping("/fees/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approve(@RequestBody @Validated ApproveFeeDto dto) {
-        feeVersionService.approve(dto.getFeeCode(), dto.getFeeVersion());
+    public void approve(@RequestBody @Validated ApproveFeeDto dto, Principal principal) {
+        feeVersionService.approve(dto.getFeeCode(), dto.getFeeVersion(), principal.getName());
     }
 
     /* --- */

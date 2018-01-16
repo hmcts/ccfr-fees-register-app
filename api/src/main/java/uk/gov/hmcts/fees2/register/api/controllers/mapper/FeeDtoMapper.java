@@ -54,7 +54,7 @@ public class FeeDtoMapper {
         this.directionTypeRepository = directionTypeRepository;
     }
 
-    private void fillFee(CreateFeeDto request, Fee fee) {
+    private void fillFee(CreateFeeDto request, Fee fee, String author) {
         fillCode(fee, request.getCode());
         fillJuridistiction1(fee, request.getJurisdiction1());
         fillJuridistiction2(fee, request.getJurisdiction2());
@@ -70,25 +70,26 @@ public class FeeDtoMapper {
         fee.setStatutoryInstrument(request.getStatutoryInstrument());
         fee.setSiRefId(request.getSiRefId());
 
-        FeeVersion version = toFeeVersion(request.getVersion());
+        FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
         fee.setFeeVersions(Arrays.asList(version));
     }
 
-    public Fee toFee(CreateFixedFeeDto request) {
+    public Fee toFee(CreateFixedFeeDto request, String author) {
         FixedFee fee = new FixedFee();
 
         fee.setUnspecifiedClaimAmount(
             request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
         );
 
-        fillFee(request, fee);
+        fillFee(request, fee, author);
         return fee;
     }
 
-    public Fee toFee(CreateRangedFeeDto request) {
+    public Fee toFee(CreateRangedFeeDto request, String author) {
         RangedFee fee = new RangedFee();
-        fillFee(request, fee);
+        fillFee(request, fee, author);
+
         fee.setUnspecifiedClaimAmount(false);
         fee.setMaxRange(request.getMaxRange());
         fee.setMinRange(request.getMinRange());
@@ -156,7 +157,7 @@ public class FeeDtoMapper {
         return fee2Dto;
     }
 
-    public FeeVersion toFeeVersion(FeeVersionDto versionDto) {
+    public FeeVersion toFeeVersion(FeeVersionDto versionDto, String author) {
 
         if(versionDto == null){
             throw new BadRequestException("Version is required");
@@ -178,6 +179,12 @@ public class FeeDtoMapper {
             version.setAmount(toPercentageAmount(versionDto.getPercentageAmount()));
         }else if(versionDto.getVolumeAmount() != null) {
             version.setAmount(toVolumeAmount(versionDto.getVolumeAmount()));
+        }
+
+        version.setAuthor(author);
+
+        if(version.getStatus() == FeeVersionStatus.approved){
+            version.setApprovedBy(author);
         }
 
         return version;
@@ -211,6 +218,9 @@ public class FeeDtoMapper {
             VolumeAmountDto volumeAmountDto = new VolumeAmountDto(((VolumeAmount) feeVersion.getAmount()).getAmount());
             feeVersionDto.setVolumeAmount(volumeAmountDto);
         }
+
+        feeVersionDto.setAuthor(feeVersion.getAuthor());
+        feeVersionDto.setApprovedBy(feeVersion.getApprovedBy());
 
         return feeVersionDto;
 

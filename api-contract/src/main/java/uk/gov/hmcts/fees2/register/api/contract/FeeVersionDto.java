@@ -38,4 +38,8 @@ public class FeeVersionDto {
 
     @JsonProperty("volume_amount")
     private VolumeAmountDto volumeAmount;
+
+    private String author;
+
+    private String approvedBy;
 }

@@ -50,7 +50,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test
     public void createRangedFeeTest() {
         rangedFeeDto = getRangedFeeDto("XCRUD00");
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         assertNotNull(savedFee);
     }
@@ -58,14 +58,14 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test(expected = BadRequestException.class)
     public void duplicateFeeCreationTest() {
         rangedFeeDto = getRangedFeeDto("XCRUD00");
-        feeService.save(feeDtoMapper.toFee(rangedFeeDto));
+        feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
     }
 
     @Test
     public void createRangedFeeWithAllReferenceDataTest() {
         feeCode = UUID.randomUUID().toString();
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, feeCode, FeeVersionStatus.approved);
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(savedFee);
 
@@ -83,7 +83,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         // Insert a new ranged fee
         feeCode = UUID.randomUUID().toString();
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, feeCode, FeeVersionStatus.approved);
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee fee = feeService.get(feeCode);
 
@@ -95,17 +95,16 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
     }
 
-
     @Test
     public void createDraftFeeAndApproveTheFeeTest() {
         // Insert a new ranged fee
         feeCode = UUID.randomUUID().toString();
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, feeCode, FeeVersionStatus.draft);
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto));
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee fee = feeService.get(feeCode);
 
-        boolean result = feeVersionService.approve(fee.getCode(), 1);
+        boolean result = feeVersionService.approve(fee.getCode(), 1, AUTHOR);
         assertTrue(result);
     }
 
