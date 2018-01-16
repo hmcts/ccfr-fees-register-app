@@ -39,6 +39,12 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "valid_to")
     private Date validTo;
 
+    @Column(name = "author")
+    private String author;
+
+    @Column(name = "approved_by")
+    private String approvedBy;
+
     public boolean isInRange(Date date) {
         return (validFrom == null || date.compareTo(validFrom) >= 0)
             && (validTo == null || date.compareTo(validTo) < 0);

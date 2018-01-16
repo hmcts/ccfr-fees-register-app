@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.auth.AUTH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
@@ -17,6 +19,7 @@ import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -26,6 +29,8 @@ import java.util.List;
 @Component
 public class FeeLoader implements ApplicationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(FeeLoader.class);
+
+    private Principal AUTHOR = new PrincipalImpl("LOADER");
 
     @Value("classpath:${fees.loader.json}")
     private String feesJsonInputFile;
@@ -51,7 +56,7 @@ public class FeeLoader implements ApplicationRunner {
                         if (f.getUnspecifiedClaimAmount() == null) {
                             f.setUnspecifiedClaimAmount(false);
                         }
-                        feeController.createFixedFee(f, null);
+                        feeController.createFixedFee(f, null, AUTHOR);
                         LOG.info("Fixed fee with code " +f.getCode()+ " inserted into database.");
                     } catch (BadRequestException be) {
                         LOG.info("Fixed fee with code " +f.getCode()+ " already in use.");
@@ -63,7 +68,7 @@ public class FeeLoader implements ApplicationRunner {
                 List<CreateRangedFeeDto> rangedFees = feeLoaderMapper.getRangedFees();
                 rangedFees.forEach(r -> {
                     try {
-                        feeController.createRangedFee(r, null);
+                        feeController.createRangedFee(r, null, AUTHOR);
                         LOG.info("Ranged fee with code " +r.getCode()+ " inserted into database.");
                     } catch (BadRequestException be) {
                         LOG.info("Ranged fee with code " +r.getCode()+ " already in use.");

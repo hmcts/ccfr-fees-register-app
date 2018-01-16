@@ -43,6 +43,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ActiveProfiles({"embedded", "idam-backdoor"})
 public abstract class BaseTest {
 
+    protected final static String AUTHOR = "TEST";
+
     @Autowired
     protected ObjectMapper objectMapper;
 
@@ -276,7 +278,7 @@ public abstract class BaseTest {
         MutableDateTime validTo = new MutableDateTime(new Date());
         validTo.addDays(90);
 
-        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, getFlatAmountDto(), null, null);
+        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, getFlatAmountDto(), null, null, AUTHOR, AUTHOR);
     }
 
     public FlatAmountDto getFlatAmountDto() {

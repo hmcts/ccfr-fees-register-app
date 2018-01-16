@@ -8,27 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
-import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
-import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
-import uk.gov.hmcts.fees2.register.util.URIUtils;
 
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.security.Principal;
 
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
 @RestController
@@ -66,10 +54,25 @@ public class FeeVersionController {
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
-    @PostMapping(value = "/fees/{feeCode}/version")
+    @PostMapping("/fees/{feeCode}/version")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createVersion(@PathVariable("feeCode") String feeCode, @RequestBody @Validated final FeeVersionDto request) {
-        feeVersionService.save(mapper.toFeeVersion(request), feeCode);
+    public void createVersion(@PathVariable("feeCode") String feeCode,
+                              @RequestBody @Validated final FeeVersionDto request,
+                              Principal principal) {
+
+        feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
+    }
+
+    @PatchMapping("/fees/{feeCode}/version/{version}/status/{status}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void changeVersionStatus(
+        @PathVariable("code") String code,
+        @PathVariable("version") Integer version,
+        @PathVariable("status") FeeVersionStatus status,
+        Principal principal) {
+
+        //TODO: Implement security on this operation, but for now...
+        feeVersionService.changeStatus(code, version, status, principal.getName());
     }
 
 }

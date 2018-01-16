@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.api.controllers.base;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.auth.AUTH;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 public class MockUtils {
 
+    private static final String AUTHOR = "TEST";
     @Autowired
     protected ObjectMapper objectMapper;
 
@@ -122,7 +124,7 @@ public class MockUtils {
         FlatAmountDto flatAmountDto = new FlatAmountDto(new BigDecimal("150.00"));
         FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
             null,
-            null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null, null);
+            null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null, null, AUTHOR, AUTHOR);
         CreateFixedFeeDto fixedFeeDto = new CreateFixedFeeDto("X0MOCK1", feeVersionDto, "family",
             "court of protection", "civil money claims", "default", "enhanced", "issue",
             "Test memo line", "CMC online fee order name", "Natural code 001", null, null, false);

@@ -514,3 +514,24 @@ databaseChangeLog:
           - sql: >
              UPDATE ranged_fee SET min_range = 5000 WHERE id = (SELECT id FROM fee WHERE code = 'X0249');
 
+    - changeSet:
+        id: 1516108652088-1
+        author: Eduardo (generated)
+        changes:
+        - addColumn:
+            columns:
+            - column:
+                name: approved_by
+                type: varchar(255)
+            tableName: fee_version
+
+    - changeSet:
+        id: 1516108652088-2
+        author: Eduardo (generated)
+        changes:
+        - addColumn:
+            columns:
+            - column:
+                name: author
+                type: varchar(255)
+            tableName: fee_version

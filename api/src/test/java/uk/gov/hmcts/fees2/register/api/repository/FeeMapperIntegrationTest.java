@@ -40,7 +40,7 @@ public class FeeMapperIntegrationTest extends BaseTest {
                 .setSIRefId("siRefId")
                 .setNaturalAccountCode("Natural code 001");
 
-        Fee fee = dtoMapper.toFee(rangedFeeDto);
+        Fee fee = dtoMapper.toFee(rangedFeeDto, AUTHOR);
 
         Fee2Dto fee2Dto = dtoMapper.toFeeDto(fee);
 
