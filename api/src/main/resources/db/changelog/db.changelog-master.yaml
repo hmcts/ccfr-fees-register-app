@@ -535,3 +535,12 @@ databaseChangeLog:
                 name: author
                 type: varchar(255)
             tableName: fee_version
+
+    - changeSet:
+        id: 1516108652088-3333
+        author: eduardo
+        changes:
+          - sql: >
+              DELETE FROM fee_version WHERE amount_id IS NULL;
+              DELETE FROM ranged_fee f WHERE NOT EXISTS (SELECT 1 FROM fee_version WHERE fee_id = f.id);
+              DELETE FROM fee f WHERE NOT EXISTS (SELECT 1 FROM fee_version WHERE fee_id = f.id);
