@@ -180,7 +180,7 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/fees/lookup")
+    @GetMapping("/lookup")
     public ResponseEntity<FeeLookupResponseDto> lookup(@RequestParam String service,
                                                        @RequestParam String jurisdiction1,
                                                        @RequestParam String jurisdiction2,
@@ -207,7 +207,7 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/fees/lookup/unspecified")
+    @GetMapping("/lookup/unspecified")
     @ResponseStatus(HttpStatus.OK)
     public FeeLookupResponseDto lookupUnspecified(@RequestParam String service,
                                                   @RequestParam String jurisdiction1,
