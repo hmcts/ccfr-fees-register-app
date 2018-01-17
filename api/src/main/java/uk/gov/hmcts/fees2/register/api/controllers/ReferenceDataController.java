@@ -32,7 +32,6 @@ import static java.util.stream.Collectors.toList;
 @Api(value = "ReferenceData", description = "Operations pertaining to fees reference data")
 @RestController
 @Validated
-@RequestMapping("/fees-register")
 public class ReferenceDataController {
 
     private final ChannelTypeService channelTypeService;
@@ -96,7 +95,7 @@ public class ReferenceDataController {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/channeltypes")
+    @GetMapping("/channel-types")
     @ResponseStatus(HttpStatus.OK)
     public List<ChannelTypeDto> getAllChannelTypes() {
         return channelTypeService.findAll().stream().map(referenceDataDtoMapper::toChannelTypeDto).collect(toList());
@@ -107,7 +106,7 @@ public class ReferenceDataController {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/directiontypes")
+    @GetMapping("/direction-types")
     @ResponseStatus(HttpStatus.OK)
     public List<DirectionTypeDto> getAllDirectionTypes() {
         return directionTypeService.findAll().stream().map(referenceDataDtoMapper::toDirectionTypeDto).collect(toList());
@@ -118,7 +117,7 @@ public class ReferenceDataController {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/eventtypes")
+    @GetMapping("/event-types")
     @ResponseStatus(HttpStatus.OK)
     public List<EventTypeDto> getAllEventTypes() {
         return eventTypeService.findAll().stream().map(referenceDataDtoMapper::toEventTypeDto).collect(toList());
@@ -129,7 +128,7 @@ public class ReferenceDataController {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping(path = "/jurisdictions1")
+    @GetMapping("/jurisdictions1")
     @ResponseStatus(HttpStatus.OK)
     public List<Jurisdiction1Dto> getAllJurisdictions1() {
         return jurisdiction1Service.findAll().stream().map(referenceDataDtoMapper::toJuridiction1Dto).collect(toList());
@@ -151,7 +150,7 @@ public class ReferenceDataController {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/servicetypes")
+    @GetMapping("/service-types")
     @ResponseStatus(HttpStatus.OK)
     public List<ServiceTypeDto> getAllServiceTypes() {
         return serviceTypeService.findAll().stream().map(referenceDataDtoMapper::toServiceTypeDto).collect(toList());
@@ -162,7 +161,7 @@ public class ReferenceDataController {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/rangeunits")
+    @GetMapping("/range-units")
     @ResponseStatus(HttpStatus.OK)
     private List<RangeUnit> getAllRangeUnits() {
         return rangeUnitRepository.findAll();

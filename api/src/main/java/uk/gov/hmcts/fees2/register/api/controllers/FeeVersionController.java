@@ -21,7 +21,6 @@ import java.security.Principal;
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
 @RestController
 @Validated
-@RequestMapping("/fees-register")
 public class FeeVersionController {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeeVersionController.class);
