@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -160,14 +159,21 @@ public class FeeController {
                                 @RequestParam(required = false) String direction,
                                 @RequestParam(required = false) BigDecimal amount,
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
-                                @RequestParam(required = false) FeeVersionStatus feeVersionStatus) {
+                                @RequestParam(required = false) FeeVersionStatus feeVersionStatus,
+                                @RequestParam(required = false) String author) {
 
-        if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.draft)) { /* Limited for now to required functionality */
+        /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
+
+        if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.pending_approval)) {
             return feeVersionService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
         }
 
+        if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.draft)) {
+            return feeVersionService.getDraftVersions(author).stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
+        }
+
         return feeService
-            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts, feeVersionStatus /* Not used for now*/))
+            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
             .stream()
             .map(feeDtoMapper::toFeeDto)
             .collect(Collectors.toList());
@@ -192,7 +198,7 @@ public class FeeController {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
         }
 
-        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amountOrVolume, false, FeeVersionStatus.approved));
+        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amountOrVolume, false, FeeVersionStatus.approved, null));
 
         if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -215,17 +221,7 @@ public class FeeController {
                                                   @RequestParam(required = false) String channel,
                                                   @RequestParam String event) {
 
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true, FeeVersionStatus.approved));
-    }
-
-    @ApiOperation(value = "Approve a draft fee")
-    @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "No content")
-    })
-    @PatchMapping("/fees/approve")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approve(@RequestBody @Validated ApproveFeeDto dto, Principal principal) {
-        feeVersionService.approve(dto.getFeeCode(), dto.getFeeVersion(), principal.getName());
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true, FeeVersionStatus.approved, null));
     }
 
     /* --- */

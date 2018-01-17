@@ -1,18 +1,14 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import org.apache.http.auth.AUTH;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-
-import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,8 +24,9 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteFeeAndVersion() {
 
         CreateFixedFeeDto dto = getFee();
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft));
 
-        feeController.createFixedFee(getFee(), null, new PrincipalImpl(AUTHOR));
+        feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
         try {
 
@@ -47,16 +44,13 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteApprovedVersionFails() {
 
         CreateFixedFeeDto dto = getFee();
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval));
 
-        feeController.createFixedFee(getFee(), null, new PrincipalImpl(AUTHOR));
+        feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
         try {
 
-            ApproveFeeDto approveFeeDto = new ApproveFeeDto();
-            approveFeeDto.setFeeCode(dto.getCode());
-            approveFeeDto.setFeeVersion(1);
-
-            feeController.approve(approveFeeDto, new PrincipalImpl(AUTHOR));
+            feeVersionController.changeVersionStatus(dto.getCode(), 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
 
             feeVersionController.deleteFeeVersion(dto.getCode(), 1);
 
@@ -70,16 +64,14 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteVersionDoesNotDeleteFee() {
 
         CreateFixedFeeDto dto = getFee();
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval));
 
-        feeController.createFixedFee(getFee(), null, new PrincipalImpl(AUTHOR));
+        feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
+
 
         try {
 
-            ApproveFeeDto approveFeeDto = new ApproveFeeDto();
-            approveFeeDto.setFeeCode(dto.getCode());
-            approveFeeDto.setFeeVersion(1);
-
-            feeController.approve(approveFeeDto, new PrincipalImpl(AUTHOR));
+            feeVersionController.changeVersionStatus(dto.getCode(), 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
 
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft);
             feeVersionDto2.setVersion(2);
@@ -98,13 +90,12 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
     }
 
-
     private CreateFixedFeeDto getFee() {
 
         CreateFixedFeeDto dto = new CreateFixedFeeDto();
 
         dto.setCode("PEPITO");
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft));
+
         dto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         dto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
         dto.setDirection(directionTypeService.findByNameOrThrow("enhanced").getName());

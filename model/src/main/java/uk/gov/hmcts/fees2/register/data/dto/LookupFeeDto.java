@@ -37,4 +37,5 @@ public class LookupFeeDto {
     @JsonProperty("version_status")
     private FeeVersionStatus versionStatus;
 
+    private String author;
 }

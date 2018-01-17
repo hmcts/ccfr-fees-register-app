@@ -13,6 +13,8 @@ public interface FeeVersionService {
 
     List<FeeVersion> getUnapprovedVersions();
 
+    List<FeeVersion> getDraftVersions(String author);
+
     void save(FeeVersion version, String feeCode);
 
     void changeStatus(String code, Integer version, FeeVersionStatus status, String name);

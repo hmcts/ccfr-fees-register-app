@@ -65,7 +65,16 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     public List<FeeVersion> getUnapprovedVersions() {
-        return feeVersionRepository.findByStatus(FeeVersionStatus.draft);
+        return feeVersionRepository.findByStatus(FeeVersionStatus.pending_approval);
+    }
+
+    @Override
+    public List<FeeVersion> getDraftVersions(String author) {
+        if (author == null) {
+            return feeVersionRepository.findByStatus(FeeVersionStatus.draft);
+        } else {
+            return feeVersionRepository.findByStatusAndAuthor(FeeVersionStatus.draft, author);
+        }
     }
 
     @Override
@@ -81,7 +90,16 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
         FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
 
-        if(newStatus == FeeVersionStatus.approved) {
+        if(feeVersion.getStatus() == FeeVersionStatus.approved) {
+            throw new BadRequestException("Approved fees cant change their status");
+        }
+
+        if (newStatus == FeeVersionStatus.approved) {
+
+            if(feeVersion.getStatus() != FeeVersionStatus.pending_approval) {
+                throw new BadRequestException("Only fees pending approval can be approved");
+            }
+
             feeVersion.setApprovedBy(user);
         }
 
