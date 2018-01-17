@@ -91,7 +91,7 @@ public class FeeLoaderComponentTest extends BaseTest {
     public void testFeeLoaderForCMCUnspecifiedFee() throws Exception {
 
         restActions
-            .get("/fees-register/lookup/unspecified?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&event=issue")
+            .get("/fees/lookup/unspecified?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&event=issue")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, (fee) -> {
                 assertThat(fee.getCode()).isEqualTo("X0012");

@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
 @RestController
 @Validated
-@RequestMapping("/fees-register")
 public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
 
@@ -60,7 +59,7 @@ public class FeeController {
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
-    @PostMapping("/rangedfees")
+    @PostMapping("/ranged-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRangedFee(
         @RequestBody @Validated final CreateRangedFeeDto request,
@@ -80,7 +79,7 @@ public class FeeController {
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
-    @PostMapping(value = "/fixedfees")
+    @PostMapping(value = "/fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request,
                                HttpServletResponse response,
@@ -102,7 +101,7 @@ public class FeeController {
         @ApiResponse(code = 403, message = "Forbidden")
     })
     @Transactional
-    @PostMapping(value = "/bulkfixedfees")
+    @PostMapping(value = "/bulk-fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFees(@RequestBody final List<CreateFixedFeeDto> createFixedFeeDtos, Principal principal) {
         LOG.info("No. of csv import fees: " + createFixedFeeDtos.size());
@@ -121,7 +120,7 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not Found")
     })
-    @GetMapping("/fees/{code}")
+    @GetMapping("/fees-register/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
     @Transactional
     public Fee2Dto getFee(@PathVariable("code") String code) {
@@ -151,7 +150,7 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/fees")
+    @GetMapping("/fees-register/fees")
     @ResponseStatus(HttpStatus.OK)
     public List<Fee2Dto> search(@RequestParam(required = false) String service,
                                 @RequestParam(required = false) String jurisdiction1,
@@ -181,7 +180,7 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/lookup")
+    @GetMapping("/fees/lookup")
     public ResponseEntity<FeeLookupResponseDto> lookup(@RequestParam String service,
                                                        @RequestParam String jurisdiction1,
                                                        @RequestParam String jurisdiction2,
@@ -208,7 +207,7 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/lookup/unspecified")
+    @GetMapping("/fees/lookup/unspecified")
     @ResponseStatus(HttpStatus.OK)
     public FeeLookupResponseDto lookupUnspecified(@RequestParam String service,
                                                   @RequestParam String jurisdiction1,
