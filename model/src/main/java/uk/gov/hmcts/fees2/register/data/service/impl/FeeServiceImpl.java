@@ -90,7 +90,6 @@ public class FeeServiceImpl implements FeeService {
     }
 
 
-
     public FeeLookupResponseDto lookup(LookupFeeDto dto) {
 
         defaults(dto);
@@ -107,7 +106,7 @@ public class FeeServiceImpl implements FeeService {
 
         Fee fee = fees.get(0);
 
-        if(dto.getVersionStatus() == null) {
+        if (dto.getVersionStatus() == null) {
             dto.setVersionStatus(FeeVersionStatus.approved);
         }
 
@@ -134,7 +133,7 @@ public class FeeServiceImpl implements FeeService {
                 (rootFee, criteriaQuery, criteriaBuilder) -> buildFirstLevelPredicate(rootFee, criteriaBuilder, dto)
             )
             .stream()
-            .filter(fee -> dto.getAmountOrVolume() == null || fee.isInRange(dto.getAmountOrVolume()))
+            .filter(fee -> secondLevelFilter(fee, dto))
             .collect(Collectors.toList());
 
     }
@@ -143,6 +142,16 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getChannel() == null) {
             dto.setChannel(ChannelType.DEFAULT);
         }
+    }
+
+    private boolean secondLevelFilter(Fee fee, LookupFeeDto dto) {
+        return
+            (dto.getAmountOrVolume() == null
+                || fee.isInRange(dto.getAmountOrVolume()
+            ) &&
+                (dto.getAuthor() == null
+                    || dto.getAuthor().equals(
+                        fee.getCurrentVersion(dto.getVersionStatus() == FeeVersionStatus.approved).getAuthor())));
     }
 
     private Predicate buildFirstLevelPredicate(Root<Fee> fee, CriteriaBuilder builder, LookupFeeDto dto) {

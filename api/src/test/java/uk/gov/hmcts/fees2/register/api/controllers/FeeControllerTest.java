@@ -4,7 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
+
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -71,20 +71,16 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void approveFeeTest() throws Exception {
         feeCode = UUID.randomUUID().toString();
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(200, 299, feeCode, FeeVersionStatus.draft);
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(200, 299, feeCode, FeeVersionStatus.pending_approval);
 
         restActions
             .withUser("admin")
             .post("/ranged-fees", rangedFeeDto)
             .andExpect(status().is2xxSuccessful());
 
-        ApproveFeeDto approveFeeDto = new ApproveFeeDto();
-        approveFeeDto.setFeeCode(feeCode);
-        approveFeeDto.setFeeVersion(1);
-
         restActions
             .withUser("admin")
-            .patch("/fees/approve", approveFeeDto)
+            .patch("/fees/" + feeCode + "/versions/1/status/approved", "")
             .andExpect(status().is2xxSuccessful());
 
         deleteFee(feeCode);

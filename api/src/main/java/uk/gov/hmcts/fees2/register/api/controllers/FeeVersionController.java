@@ -12,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
@@ -39,7 +38,7 @@ public class FeeVersionController {
     @ApiResponses(value = {
         @ApiResponse(code = 204, message = "Successfully deleted the fee version for the given fee code."),
     })
-    @DeleteMapping("/fees/{code}/version/{version}")
+    @DeleteMapping("/fees/{code}/versions/{version}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFeeVersion(
         @PathVariable("code") String code,
@@ -53,7 +52,7 @@ public class FeeVersionController {
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
-    @PostMapping("/fees/{feeCode}/version")
+    @PostMapping("/fees/{feeCode}/versions")
     @ResponseStatus(HttpStatus.CREATED)
     public void createVersion(@PathVariable("feeCode") String feeCode,
                               @RequestBody @Validated final FeeVersionDto request,
@@ -62,16 +61,16 @@ public class FeeVersionController {
         feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
     }
 
-    @PatchMapping("/fees/{feeCode}/version/{version}/status/{status}")
+    @PatchMapping("/fees/{feeCode}/versions/{version}/status/{status}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changeVersionStatus(
-        @PathVariable("code") String code,
+        @PathVariable("feeCode") String feeCode,
         @PathVariable("version") Integer version,
         @PathVariable("status") FeeVersionStatus status,
         Principal principal) {
 
         //TODO: Implement security on this operation, but for now...
-        feeVersionService.changeStatus(code, version, status, principal.getName());
+        feeVersionService.changeStatus(feeCode, version, status, principal.getName());
     }
 
 }
