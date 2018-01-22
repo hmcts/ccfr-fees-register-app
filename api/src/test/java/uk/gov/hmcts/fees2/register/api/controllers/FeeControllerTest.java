@@ -111,7 +111,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             }));
 
         restActions
-            .get("/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online")
+            .get("/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, (lookupDto) -> {
                 assertThat(lookupDto.getCode().equals(feeCode));
@@ -129,7 +129,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void feesLookupNotFoundTest() throws Exception {
         restActions
-            .get("/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies")
+            .get("/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies")
             .andExpect(status().isNotFound());
 
     }
@@ -239,7 +239,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public void findFeeWithInvalidReferenceData() throws Exception {
         restActions
-            .get("/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies1")
+            .get("/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies1")
             .andExpect(status().isBadRequest());
     }
 
