@@ -5203,31 +5203,6 @@
       "si_ref_id":"1.2i"
     },
     {
-      "code":"X0435",
-      "version":{
-        "version":1,
-        "valid_from":"2015-03-09T00:00:00.000Z",
-        "valid_to":null,
-        "description":"Money claims \nunlimited - online",
-        "status":"approved",
-        "flat_amount":{
-          "amount":null
-        }
-      },
-      "jurisdiction1":"Civil",
-      "jurisdiction2":"county court",
-      "service":"Civil Money Claims",
-      "channel":"ONLINE",
-      "direction":"Enhanced",
-      "event":"issue",
-      "memo_line":"XXX",
-      "fee_order_name":"Civil Proceedings",
-      "natural_account_code":"XXX",
-      "unspecified_claim_amount":false,
-      "statutory_instrument":"2015 No. 576 (L. 7)",
-      "si_ref_id":"1.3i"
-    },
-    {
       "code":"X0442",
       "version":{
         "version":2,
