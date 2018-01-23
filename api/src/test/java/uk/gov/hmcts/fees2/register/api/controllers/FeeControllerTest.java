@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 
+import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -40,7 +41,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         restActions
             .withUser("admin")
-            .post("/ranged-fees", rangedFeeDto)
+            .post("/fees-register/ranged-fees", rangedFeeDto)
             .andExpect(status().isCreated());
 
         deleteFee(feeCode);
@@ -54,7 +55,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         restActions
             .withUser("admin")
-            .post("/ranged-fees", rangedFeeDto)
+            .post("/fees-register/ranged-fees", rangedFeeDto)
             .andExpect(status().isCreated());
 
         restActions
@@ -75,7 +76,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         restActions
             .withUser("admin")
-            .post("/ranged-fees", rangedFeeDto)
+            .post("/fees-register/ranged-fees", rangedFeeDto)
             .andExpect(status().is2xxSuccessful());
 
         restActions
@@ -94,11 +95,16 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void feesLookupTest() throws Exception {
         feeCode = UUID.randomUUID().toString();
         CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoForLookup(300, 399, feeCode, FeeVersionStatus.approved);
+        rangedFeeDto.getVersion().setFlatAmount(null);
 
+        VolumeAmountDto dto = new VolumeAmountDto();
+        dto.setAmount(new BigDecimal(301));
+
+        rangedFeeDto.getVersion().setVolumeAmount(dto);
 
         restActions
             .withUser("admin")
-            .post("/ranged-fees", rangedFeeDto)
+            .post("/fees-register/ranged-fees", rangedFeeDto)
             .andExpect(status().isCreated());
 
         restActions
@@ -111,7 +117,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             }));
 
         restActions
-            .get("/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online")
+            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online&amount_or_volume=311")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, (lookupDto) -> {
                 assertThat(lookupDto.getCode().equals(feeCode));
@@ -129,9 +135,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void feesLookupNotFoundTest() throws Exception {
         restActions
-            .get("/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies")
+            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&amount_or_volume=10&channel=default")
             .andExpect(status().isNotFound());
-
     }
 
     /**
@@ -143,14 +148,14 @@ public class FeeControllerTest extends BaseIntegrationTest {
         CreateRangedFeeDto rangedFeeDto1 = getRangedFeeDtoWithReferenceData(500, 599, feeCode, FeeVersionStatus.approved);
         restActions
             .withUser("admin")
-            .post("/ranged-fees", rangedFeeDto1)
+            .post("/fees-register/ranged-fees", rangedFeeDto1)
             .andExpect(status().isCreated());
 
         String newFeeCode = UUID.randomUUID().toString();
         CreateRangedFeeDto rangedFeeDto2 = getRangedFeeDtoWithReferenceData(600, 699, newFeeCode, FeeVersionStatus.draft);
         restActions
             .withUser("admin")
-            .post("/ranged-fees", rangedFeeDto2)
+            .post("/fees-register/ranged-fees", rangedFeeDto2)
             .andExpect(status().isCreated());
 
         restActions
@@ -183,7 +188,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         restActions
             .withUser("admin")
-            .post("/ranged-fees", rangedFeeDto)
+            .post("/fees-register/ranged-fees", rangedFeeDto)
             .andExpect(status().isBadRequest());
 
         deleteFee(feeCode);
@@ -193,7 +198,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void createCsvImportFixedFeesTest() throws Exception {
         restActions
             .withUser("admin")
-            .post("/bulk-fixed-fees", getFixedFeesDto())
+            .post("/fees-register/bulk-fixed-fees", getFixedFeesDto())
             .andExpect(status().isCreated());
 
 
@@ -232,14 +237,14 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         restActions
             .withUser("admin")
-            .post("/fixed-fees/bulk", getIncorrectFixedFeesDto())
+            .post("/fees-register/fixed-fees/bulk", getIncorrectFixedFeesDto())
             .andExpect(status().is4xxClientError());
     }
 
     @Test
     public void findFeeWithInvalidReferenceData() throws Exception {
         restActions
-            .get("/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies1")
+            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies1")
             .andExpect(status().isBadRequest());
     }
 
