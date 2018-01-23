@@ -124,7 +124,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setDescription(dto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
-
+        dto.setChannel("default");
         saveFeeAndCheckStatusIsCreated(dto);
 
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
@@ -162,6 +162,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setDescription(dto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
+        dto.setChannel("default");
 
         saveFeeAndCheckStatusIsCreated(dto);
 
@@ -199,6 +200,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
         versionDto.setDescription(dto.getMemoLine());
         dto.setVersion(versionDto);
+        dto.setChannel("default");
 
         saveFeeAndCheckStatusIsCreated(dto);
 

@@ -1,9 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,8 @@ import java.util.stream.Collectors;
 
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
 @RestController
+@RequestMapping(value = "/fees-register")
+
 @Validated
 public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
@@ -78,7 +77,7 @@ public class FeeController {
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
-    @PostMapping(value = "/fixed-fees")
+    @PostMapping(value = "/fees-register/fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request,
                                HttpServletResponse response,
@@ -90,6 +89,7 @@ public class FeeController {
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
+
         }
     }
 
@@ -119,10 +119,10 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not Found")
     })
-    @GetMapping("/fees-register/fees/{code}")
+    @GetMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
     @Transactional
-    public Fee2Dto getFee(@PathVariable("code") String code) {
+    public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response) {
         Fee fee = feeService.get(code);
         return feeDtoMapper.toFeeDto(fee);
     }
@@ -149,8 +149,9 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/fees-register/fees")
+    @GetMapping("/fees")
     @ResponseStatus(HttpStatus.OK)
+
     public List<Fee2Dto> search(@RequestParam(required = false) String service,
                                 @RequestParam(required = false) String jurisdiction1,
                                 @RequestParam(required = false) String jurisdiction2,
@@ -160,8 +161,8 @@ public class FeeController {
                                 @RequestParam(required = false) BigDecimal amount,
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus,
-                                @RequestParam(required = false) String author) {
-
+                                @RequestParam(required = false) String author,
+                                                                HttpServletResponse response) {
         /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
 
         if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.pending_approval)) {
@@ -171,6 +172,7 @@ public class FeeController {
         if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.draft)) {
             return feeVersionService.getDraftVersions(author).stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
         }
+
 
         return feeService
             .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
@@ -190,9 +192,10 @@ public class FeeController {
     public ResponseEntity<FeeLookupResponseDto> lookup(@RequestParam String service,
                                                        @RequestParam String jurisdiction1,
                                                        @RequestParam String jurisdiction2,
-                                                       @RequestParam(required = false) String channel,
+                                                       @RequestParam String channel,
                                                        @RequestParam String event,
-                                                       @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume) {
+                                                       @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume,
+                                                       HttpServletResponse response) {
 
         if (amountOrVolume != null && amountOrVolume.compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
@@ -213,14 +216,14 @@ public class FeeController {
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/fees/lookup/unspecified")
+    @GetMapping("/fees/lookup-unspecified")
     @ResponseStatus(HttpStatus.OK)
     public FeeLookupResponseDto lookupUnspecified(@RequestParam String service,
                                                   @RequestParam String jurisdiction1,
                                                   @RequestParam String jurisdiction2,
-                                                  @RequestParam(required = false) String channel,
-                                                  @RequestParam String event) {
-
+                                                  @RequestParam String channel,
+                                                  @RequestParam String event,
+                                                  HttpServletResponse response) {
         return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true, FeeVersionStatus.approved, null));
     }
 

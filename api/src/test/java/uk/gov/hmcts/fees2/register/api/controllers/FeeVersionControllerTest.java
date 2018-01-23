@@ -1,6 +1,8 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
@@ -10,15 +12,29 @@ import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import javax.servlet.http.HttpServletResponse;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 public class FeeVersionControllerTest extends BaseIntegrationTest {
+
+    private static final String CONTENT_TYPE = "application/vnd.uk.gov.hmcts.cc.fr.v2+json";
 
     @Autowired
     private FeeController feeController;
 
     @Autowired
     private FeeVersionController feeVersionController;
+
+    @Mock
+    private HttpServletResponse response;
+
+    @Before
+    public void setup(){
+
+
+    }
 
     @Test(expected = FeeNotFoundException.class)
     public synchronized void testDeleteFeeAndVersion() {
@@ -32,7 +48,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
             feeVersionController.deleteFeeVersion(dto.getCode(), 1);
 
-            feeController.getFee(dto.getCode());
+
+            feeController.getFee(dto.getCode(), response);
 
         } finally {
             feeController.deleteFee(dto.getCode());
@@ -78,11 +95,11 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
             feeVersionController.createVersion(dto.getCode(), feeVersionDto2, new PrincipalImpl(AUTHOR));
 
-            assertThat(feeController.getFee(dto.getCode()).getFeeVersionDtos().size()).isEqualTo(2);
+            assertThat(feeController.getFee(dto.getCode(), response).getFeeVersionDtos().size()).isEqualTo(2);
 
             feeVersionController.deleteFeeVersion(dto.getCode(), 2);
 
-            assertThat(feeController.getFee(dto.getCode())).isNotNull();
+            assertThat(feeController.getFee(dto.getCode(),response)).isNotNull();
 
         } finally {
             feeController.deleteFee(dto.getCode());

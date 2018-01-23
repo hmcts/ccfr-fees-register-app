@@ -23,6 +23,7 @@ public class RestActions {
         this.mvc = mvc;
         this.userRequestAuthorizer = userRequestAuthorizer;
         this.objectMapper = objectMapper;
+        httpHeaders.add("Accept","application/vnd.uk.gov.hmcts.cc.fr.v2+json");
     }
 
     public RestActions withUser(String userId) {
