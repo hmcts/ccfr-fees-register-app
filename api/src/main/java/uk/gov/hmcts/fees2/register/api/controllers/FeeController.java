@@ -77,7 +77,7 @@ public class FeeController {
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
-    @PostMapping(value = "/fees-register/fixed-fees")
+    @PostMapping(value = "/fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request,
                                HttpServletResponse response,
