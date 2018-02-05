@@ -55,4 +55,10 @@
         <gav regex="true">^org\.postgresql:postgresql.*:.*$</gav>
         <cve>CVE-2017-8806</cve>
     </suppress>
+
+    <suppress>
+        <notes>This is used for data load internally and can't be hit from outside. i.e. Json loaded using library is loaded loaded for internal json </notes>
+        <cve>CVE-2017-17485</cve>
+    </suppress>
+
 </suppressions>
