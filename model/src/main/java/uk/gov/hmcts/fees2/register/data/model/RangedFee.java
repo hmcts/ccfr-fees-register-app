@@ -38,7 +38,7 @@ public class RangedFee extends Fee{
     @Override
     public boolean isInRange(BigDecimal amount) {
         return amount != null &&
-            (minRange == null || amount.compareTo(minRange) > 0)
+            (minRange == null || amount.compareTo(minRange) >= 0)
             && (maxRange == null || amount.compareTo(maxRange) <= 0);
     }
 
