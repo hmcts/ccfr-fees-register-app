@@ -450,7 +450,7 @@
     {
       "min_range": 1500.01,
       "max_range": 3000.00,
-      "code": "X0005",
+      "code": "X0052",
       "version": {
         "version": 1,
         "description": "Hearing fee: Small claims case (exceeds £1,500 but not £3,000)",
