@@ -468,6 +468,7 @@
     },
     {
       "min_range": 3000.01,
+      "max_range": 10000.00,
       "code": "X0053",
       "version": {
         "version": 1,
