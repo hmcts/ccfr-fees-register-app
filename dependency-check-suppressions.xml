@@ -67,5 +67,11 @@
         <notes>This is used for data load internally and can't be hit from outside. i.e. Json loaded using library is loaded loaded for internal json </notes>
         <cve>CVE-2017-17485</cve>
     </suppress>
+    <suppress>
+        <notes>IDAM api errors. Waiting for new release of IDAM API </notes>
+        <cve>CVE-2016-9878</cve>
+    </suppress>
+
+
 
 </suppressions>
