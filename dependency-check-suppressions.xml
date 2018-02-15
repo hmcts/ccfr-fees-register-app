@@ -34,6 +34,7 @@
         <notes>Does not apply as we don't use Jackson XmlMapper</notes>
         <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-.*:.*$</gav>
         <cve>CVE-2016-7051</cve>
+        <cve>CVE-2018-5968</cve>
     </suppress>
     <suppress>
         <notes>Does not apply as tomcat is configured to run as HTTP only</notes>
