@@ -38,8 +38,10 @@ public class FeeLoaderComponentTest extends BaseTest {
                    assertThat(fee2Dto.getDirectionTypeDto().getName()).isEqualTo("enhanced");
                    assertThat(fee2Dto.getEventTypeDto().getName()).isEqualTo("issue");
                    assertThat(fee2Dto.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);
-                   assertThat(fee2Dto.getFeeVersionDtos().get(0).getVersion()).isEqualTo(1);
+                   assertThat(fee2Dto.getFeeVersionDtos().get(0).getVersion()).isEqualTo(3);
                    assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("200000.01"));
+                   assertThat(fee2Dto.getMemoLine()).isEqualTo("CC-Money claim >£200,000");
+                   assertThat(fee2Dto.getRangeUnit()).isEqualTo("GBP");
                });
             }));
     }
@@ -63,6 +65,8 @@ public class FeeLoaderComponentTest extends BaseTest {
                     assertThat(fee2Dto.getEventTypeDto().getName()).isEqualTo("issue");
                     assertThat(fee2Dto.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);
                     assertThat(fee2Dto.getFeeVersionDtos().get(0).getVersion()).isEqualTo(1);
+                    assertThat(fee2Dto.getMemoLine()).isEqualTo("GOV.UK Pay online claims - Money Claim £5000-10000");
+                    assertThat(fee2Dto.getRangeUnit()).isEqualTo("GBP");
                 });
             }));
     }

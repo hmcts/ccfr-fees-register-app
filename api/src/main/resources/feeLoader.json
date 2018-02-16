@@ -5,133 +5,161 @@
       "max_range": 300.00,
       "code": "X0001",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 0.01 up to 300 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 35.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim £0-300",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 300.01,
       "max_range": 500.00,
       "code": "X0002",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 300.01 up to 500 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 50.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim £300-500",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 500.01,
       "max_range": 1000.00,
       "code": "X0003",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 500.01 up to 1000 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 70.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim £500-1,000",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 1000.01,
       "max_range": 1500.00,
       "code": "X0004",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 1000.01 up to 1500 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 80.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim £1,000-1,500",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 1500.01,
       "max_range": 3000.00,
       "code": "X0005",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 1500.01 up to 3000 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 115.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim £1,500-3,000",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 3000.01,
       "max_range": 5000.00,
       "code": "X0006",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 3000.01 up to 5000 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 205.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim £3,000-5,000",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 5000.01,
       "max_range": 10000.00,
       "code": "X0007",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2015-03-09T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 5000.01 up to 10000 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 455.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim £5,000.01-10,000",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 10000.01,
@@ -139,81 +167,98 @@
       "code": "X0008-1",
       "version": {
         "version": 1,
+        "valid_from" : "2015-03-09T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP. Fees are 5% of the claim value",
         "status": "approved",
         "percentage_amount": {
           "percentage": 5
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim £10,000.01-200,000",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 200000.01,
       "code": "X0009",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2015-03-09T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more",
         "status": "approved",
         "flat_amount": {
           "amount": 10000.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"CC-Money claim >£200,000",
+      "natural_account_code":"4481102016"
     },
     {
       "min_range": 0.01,
       "max_range": 300.00,
       "code": "X0024",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 25.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "online",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"GOV.UK Pay online claims - Money Claim £0-300",
+      "natural_account_code":"4481102133"
     },
     {
       "min_range": 300.01,
       "max_range": 500.00,
       "code": "X0025",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 35.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "online",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"GOV.UK Pay online claims - Money Claim £300-500",
+      "natural_account_code":"4481102133"
     },
     {
       "min_range": 500.01,
       "max_range": 1000.00,
       "code": "X0026",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP",
         "status": "approved",
         "flat_amount": {
@@ -225,64 +270,78 @@
       "service": "civil money claims",
       "channel": "online",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"GOV.UK Pay online claims - Money Claim £500-1000",
+      "natural_account_code":"4481102133"
     },
     {
       "min_range": 1000.01,
       "max_range": 1500.00,
       "code": "X0027",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 70.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "online",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"GOV.UK Pay online claims - Money Claim £1000-1500",
+      "natural_account_code":"4481102133"
     },
     {
       "min_range": 1500.01,
       "max_range": 3000.00,
       "code": "X0028",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 105.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "online",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"GOV.UK Pay online claims - Money Claim £1500-3000",
+      "natural_account_code":"4481102133"
     },
     {
       "min_range": 3000.01,
       "max_range": 5000.00,
       "code": "X0029",
       "version": {
-        "version": 1,
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 185.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "online",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"GOV.UK Pay online claims - Money Claim £3000-5000",
+      "natural_account_code":"4481102133"
     },
     {
       "min_range": 5000.01,
@@ -290,37 +349,45 @@
       "code": "X0433",
       "version": {
         "version": 1,
+        "valid_from" : "2015-03-09T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP",
         "status": "approved",
         "flat_amount": {
           "amount": 410.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "online",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"GOV.UK Pay online claims - Money Claim £5000-10000",
+      "natural_account_code":"4481102133"
     },
     {
       "min_range": 10000.01,
-      "max_range": 15000.00,
+      "max_range": 100000.00,
       "code": "X0434",
       "version": {
         "version": 1,
-        "description": "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value",
+        "valid_from" : "2015-03-09T00:00:00.000Z",
+        "description": "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 100000 GBP. Fees are 4.5% of the claim value",
         "status": "approved",
         "percentage_amount": {
           "percentage": 4.5
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "online",
       "direction": "enhanced",
-      "event": "issue"
+      "event": "issue",
+      "memo_line":"GOV - online claims - Money Claim £10000- 100000",
+      "natural_account_code":"4481102133"
     },
     {
       "min_range": 5000.01,
@@ -492,19 +559,23 @@
       "code": "X0012",
       "version": {
         "version": 1,
-        "description": "Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more",
+        "valid_from" : "2014-04-22T00:00:00.000Z",
+        "description": "Civil Court fees - Money Claims - Claim Amount - Unspecified",
         "status": "approved",
         "flat_amount": {
           "amount": 10000.00
         }
       },
+      "unit":"GBP",
       "jurisdiction1": "civil",
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
       "direction": "enhanced",
       "event": "issue",
-      "unspecified_claim_amount": "true"
+      "unspecified_claim_amount": "true",
+      "memo_line":"CC-Money claim >£200,000",
+      "natural_account_code":"4481102016"
     },
     {
       "code": "X0165",
