@@ -32,11 +32,14 @@
     </suppress>
     <suppress>
         <notes>Does not apply as being used by internal applications only</notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-.*:.*$</gav>
-        <cve>CVE-2016-7051</cve>
+        <gav regex="true">^com\.fasterxml\.jackson\..*:jackson-.*:.*$</gav>
         <cve>CVE-2018-5968</cve>
     </suppress>
-
+    <suppress>
+        <notes>Does not apply as we don't use Jackson XmlMapper</notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-.*:.*$</gav>
+      <cve>CVE-2016-7051</cve>
+    </suppress>
     <suppress>
         <notes>Does not apply as being used by internal applications only</notes>
         <gav regex="true">^com\.fasterxml\.jackson\..*:jackson-.*:.*$</gav>
