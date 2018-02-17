@@ -43,7 +43,7 @@ public abstract class CreateFeeDto {
     @JsonProperty("fee_order_name")
     protected String feeOrderName;
 
-    @JsonProperty("natural_acount_code")
+    @JsonProperty("natural_account_code")
     protected String naturalAccountCode;
 
     @JsonProperty("statutory_instrument")
