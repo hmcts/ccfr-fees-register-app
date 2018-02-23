@@ -69,6 +69,11 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     }
 
     @Override
+    public List<FeeVersion> getApprovedVersions() {
+        return feeVersionRepository.findByStatus(FeeVersionStatus.approved);
+    }
+
+    @Override
     public List<FeeVersion> getDraftVersions(String author) {
         if (author == null) {
             return feeVersionRepository.findByStatus(FeeVersionStatus.draft);
