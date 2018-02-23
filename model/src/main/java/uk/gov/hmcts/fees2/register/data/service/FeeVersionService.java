@@ -15,6 +15,8 @@ public interface FeeVersionService {
 
     List<FeeVersion> getDraftVersions(String author);
 
+    List<FeeVersion> getFeesVersionByStatus(FeeVersionStatus feeVersionStatus);
+
     void save(FeeVersion version, String feeCode);
 
     void changeStatus(String code, Integer version, FeeVersionStatus status, String name);
