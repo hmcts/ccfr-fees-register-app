@@ -163,7 +163,7 @@ public class ReferenceDataController {
     })
     @GetMapping("/range-units")
     @ResponseStatus(HttpStatus.OK)
-    private List<RangeUnit> getAllRangeUnits() {
+    public List<RangeUnit> getAllRangeUnits() {
         return rangeUnitRepository.findAll();
     }
 
