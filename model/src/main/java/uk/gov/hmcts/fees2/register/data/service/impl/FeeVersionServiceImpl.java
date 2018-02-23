@@ -69,7 +69,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     }
 
     @Override
-    public List<FeeVersion> getFeeVersionsByStatus(FeeVersionStatus feeVersionStatus) {
+    public List<FeeVersion> getFeesVersionByStatus(FeeVersionStatus feeVersionStatus) {
         return feeVersionRepository.findByStatus(feeVersionStatus);
     }
 
