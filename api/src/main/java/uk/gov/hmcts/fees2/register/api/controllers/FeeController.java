@@ -166,7 +166,7 @@ public class FeeController {
         /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
 
         if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.approved)) {
-            return feeVersionService.getFeeVersion(FeeVersionStatus.approved).stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
+            return feeVersionService.getFeeVersionsByStatus(FeeVersionStatus.approved).stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
         }
 
         if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.pending_approval)) {
