@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -213,14 +215,13 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         restActions
             .withUser("admin")
-            .get("/fees-register/fees?feeVersionStatus=draft")
+            .get("/fees-register/fees?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&channel=default&event=issue&unspecifiedClaimAmounts=false&feeVersionStatus=approved")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
-                assertThat(fee2Dtos.size() == 2);
-                assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
-                    assertThat(fee2Dto.getCode().equals(feeCode));
-                    assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
-                        assertThat(feeVersionDto.getStatus().equals(FeeVersionStatus.approved));
+                fee2Dtos.stream().forEach(f -> {
+                    assertEquals(f.getServiceTypeDto().getName(), "civil money claims");
+                    f.getFeeVersionDtos().stream().forEach(v -> {
+                        assertEquals(v.getStatus(), FeeVersionStatus.approved);
                     });
                 });
             }));
