@@ -50,7 +50,7 @@ public class CustomResultMatcher implements ResultMatcher {
     public <T> ResultMatcher asListOf(Class<T> collectionType, Consumer<List<T>> assertions) {
         matchers.add(result -> {
             JavaType javaType = TypeFactory.defaultInstance().constructCollectionType(List.class, collectionType);
-            List actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), javaType);
+            List<T> actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), javaType);
             assertions.accept(actual);
         });
         return this;
