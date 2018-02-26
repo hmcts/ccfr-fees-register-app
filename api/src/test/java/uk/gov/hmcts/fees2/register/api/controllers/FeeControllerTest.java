@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -173,6 +175,61 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         deleteFee(feeCode);
         deleteFee(newFeeCode);
+
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    @Test
+    public synchronized void searchFee_WithApprovedStatusTest() throws Exception {
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto1 = getRangeFeeDtoForSearch(0, 100, feeCode, FeeVersionStatus.approved, "civil money claims");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto1)
+            .andExpect(status().isCreated());
+
+        String feeCode2 = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto2 = getRangeFeeDtoForSearch(101, 599, feeCode2, FeeVersionStatus.approved, "civil money claims");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto2)
+            .andExpect(status().isCreated());
+
+
+        String feeCode3 = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto3 = getRangeFeeDtoForSearch(101, 699, feeCode3, FeeVersionStatus.draft, "probate");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto3)
+            .andExpect(status().isCreated());
+
+        String feeCode4 = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto4 = getRangeFeeDtoForSearch(700, 999, feeCode4, FeeVersionStatus.pending_approval, "divorce");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto4)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&channel=default&event=issue&unspecifiedClaimAmounts=false&feeVersionStatus=approved")
+            .andExpect(status().isOk())
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+                fee2Dtos.stream().forEach(f -> {
+                    assertEquals(f.getServiceTypeDto().getName(), "civil money claims");
+                    f.getFeeVersionDtos().stream().forEach(v -> {
+                        assertEquals(v.getStatus(), FeeVersionStatus.approved);
+                    });
+                });
+            }));
+
+        deleteFee(feeCode);
+        deleteFee(feeCode2);
+        deleteFee(feeCode3);
+        deleteFee(feeCode4);
 
     }
 

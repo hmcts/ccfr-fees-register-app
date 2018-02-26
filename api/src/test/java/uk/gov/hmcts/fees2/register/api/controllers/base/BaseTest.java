@@ -234,6 +234,25 @@ public abstract class BaseTest {
         return rangedFeeDto;
     }
 
+    public CreateRangedFeeDto getRangeFeeDtoForSearch(int minRange, int maxRange, String feeCode, FeeVersionStatus status, String service) {
+        CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
+        rangedFeeDto.setMinRange(new BigDecimal(minRange));
+        rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
+        rangedFeeDto.setCode(feeCode);
+        rangedFeeDto.setVersion(getFeeVersionDto(status));
+        rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
+        rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
+        rangedFeeDto.setDirection(directionTypeService.findByNameOrThrow("enhanced").getName());
+        rangedFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
+        rangedFeeDto.setService(serviceTypeService.findByNameOrThrow(service).getName());
+        rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("default").getName());
+        rangedFeeDto.setMemoLine("Test memo line");
+        rangedFeeDto.setFeeOrderName("CMC online fee order name");
+        rangedFeeDto.setNaturalAccountCode("Natural code 001");
+
+        return rangedFeeDto;
+    }
+
     public CreateRangedFeeDto getRangedFeeDtoForLookup(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
 
         CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();

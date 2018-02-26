@@ -165,21 +165,12 @@ public class FeeController {
                                                                 HttpServletResponse response) {
         /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
 
-        if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.approved)) {
-            return feeVersionService.getFeesVersionByStatus(FeeVersionStatus.approved).stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
-        }
-
-        if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.pending_approval)) {
-            return feeVersionService.getUnapprovedVersions().stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
-        }
-
-        if (feeVersionStatus != null && feeVersionStatus.equals(FeeVersionStatus.draft)) {
-            return feeVersionService.getDraftVersions(author).stream().map(feeDtoMapper::toFeeDto).collect(Collectors.toList());
-        }
-
         return feeService
             .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
             .stream()
+            .filter(f -> {
+                return f.getFeeVersions().stream().anyMatch(v -> v.getStatus().equals(feeVersionStatus));
+            })
             .map(feeDtoMapper::toFeeDto)
             .collect(Collectors.toList());
     }
