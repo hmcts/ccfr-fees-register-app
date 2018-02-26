@@ -189,29 +189,31 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", rangedFeeDto1)
             .andExpect(status().isCreated());
 
-        CreateRangedFeeDto rangedFeeDto11 = getRangeFeeDtoForSearch(101, 599, feeCode, FeeVersionStatus.approved, "civil money claims");
-        restActions
-            .withUser("admin")
-            .post("/fees-register/ranged-fees", rangedFeeDto11)
-            .andExpect(status().isCreated());
-
-
-        String newFeeCode = UUID.randomUUID().toString();
-        CreateRangedFeeDto rangedFeeDto2 = getRangeFeeDtoForSearch(101, 699, newFeeCode, FeeVersionStatus.draft, "probate");
+        String feeCode2 = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto2 = getRangeFeeDtoForSearch(101, 599, feeCode2, FeeVersionStatus.approved, "civil money claims");
         restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", rangedFeeDto2)
             .andExpect(status().isCreated());
 
-        String newFeeCode3 = UUID.randomUUID().toString();
-        CreateRangedFeeDto rangedFeeDto3 = getRangeFeeDtoForSearch(700, 999, newFeeCode, FeeVersionStatus.pending_approval, "divorce");
+
+        String feeCode3 = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto3 = getRangeFeeDtoForSearch(101, 699, feeCode3, FeeVersionStatus.draft, "probate");
         restActions
             .withUser("admin")
-            .post("/fees-register/ranged-fees", rangedFeeDto2)
+            .post("/fees-register/ranged-fees", rangedFeeDto3)
+            .andExpect(status().isCreated());
+
+        String feeCode4 = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto4 = getRangeFeeDtoForSearch(700, 999, feeCode4, FeeVersionStatus.pending_approval, "divorce");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto4)
             .andExpect(status().isCreated());
 
         restActions
-            .get(String.format("/fee?service=civil money claims&feeVersionStatus=approved&jurisdiction1=civil&jurisdiction2=county court"))
+            .withUser("admin")
+            .get("/fees-register/fees?feeVersionStatus=draft")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
                 assertThat(fee2Dtos.size() == 2);
@@ -224,7 +226,9 @@ public class FeeControllerTest extends BaseIntegrationTest {
             }));
 
         deleteFee(feeCode);
-        deleteFee(newFeeCode);
+        deleteFee(feeCode2);
+        deleteFee(feeCode3);
+        deleteFee(feeCode4);
 
     }
 
