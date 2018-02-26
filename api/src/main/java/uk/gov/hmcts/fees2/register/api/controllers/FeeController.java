@@ -169,7 +169,10 @@ public class FeeController {
             .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
             .stream()
             .filter(f -> {
-                return f.getFeeVersions().stream().anyMatch(v -> v.getStatus().equals(feeVersionStatus));
+                if (feeVersionStatus!=null) {
+                    return f.getFeeVersions().stream().anyMatch(v -> v.getStatus().equals(feeVersionStatus));
+                }
+                return true;
             })
             .map(feeDtoMapper::toFeeDto)
             .collect(Collectors.toList());
