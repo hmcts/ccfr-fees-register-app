@@ -176,6 +176,58 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     }
 
+
+    /**
+     * @throws Exception
+     */
+    @Test
+    public synchronized void searchFee_WithApprovedStatusTest() throws Exception {
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto1 = getRangeFeeDtoForSearch(0, 100, feeCode, FeeVersionStatus.approved, "civil money claims");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto1)
+            .andExpect(status().isCreated());
+
+        CreateRangedFeeDto rangedFeeDto11 = getRangeFeeDtoForSearch(101, 599, feeCode, FeeVersionStatus.approved, "civil money claims");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto11)
+            .andExpect(status().isCreated());
+
+
+        String newFeeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto2 = getRangeFeeDtoForSearch(101, 699, newFeeCode, FeeVersionStatus.draft, "probate");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto2)
+            .andExpect(status().isCreated());
+
+        String newFeeCode3 = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto3 = getRangeFeeDtoForSearch(700, 999, newFeeCode, FeeVersionStatus.pending_approval, "divorce");
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto2)
+            .andExpect(status().isCreated());
+
+        restActions
+            .get(String.format("/fee?service=civil money claims&feeVersionStatus=approved&jurisdiction1=civil&jurisdiction2=county court"))
+            .andExpect(status().isOk())
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+                assertThat(fee2Dtos.size() == 2);
+                assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
+                    assertThat(fee2Dto.getCode().equals(feeCode));
+                    assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
+                        assertThat(feeVersionDto.getStatus().equals(FeeVersionStatus.approved));
+                    });
+                });
+            }));
+
+        deleteFee(feeCode);
+        deleteFee(newFeeCode);
+
+    }
+
     @Test
     public synchronized void createInvalidDateVersionTest() throws Exception {
         feeCode = UUID.randomUUID().toString();
