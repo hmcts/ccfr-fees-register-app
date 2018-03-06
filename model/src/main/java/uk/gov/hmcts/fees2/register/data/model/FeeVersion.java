@@ -45,6 +45,25 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "approved_by")
     private String approvedBy;
 
+    @Column(name = "memo_line")
+    private String memoLine;
+
+    @Column(name="fee_order_name")
+    private String feeOrderName;
+
+    @Column(name = "natural_account_code")
+    private String naturalAccountCode;
+
+    @Column(name = "statutory_instrument")
+    private String statutoryInstrument;
+
+    @Column(name = "si_ref_id")
+    private String siRefId;
+
+    @ManyToOne
+    @JoinColumn(name = "direction_type")
+    private DirectionType directionType;
+
     public boolean isInRange(Date date) {
         return (validFrom == null || date.compareTo(validFrom) >= 0)
             && (validTo == null || date.compareTo(validTo) < 0);
@@ -62,6 +81,12 @@ public class FeeVersion extends AbstractEntity{
             ", description='" + description + '\'' +
             ", version=" + version +
             ", status=" + status +
+            ", memoLine='" + memoLine + '\'' +
+            ", directionType=" + directionType +
+            ", feeOrderName='" + feeOrderName + '\'' +
+            ", naturalAccountCode='" + naturalAccountCode + '\'' +
+            ", statutoryInstrument='" + statutoryInstrument + '\'' +
+            ", siRefId='" + siRefId + '\'' +
             ", validFrom=" + validFrom +
             ", validTo=" + validTo +
             '}';

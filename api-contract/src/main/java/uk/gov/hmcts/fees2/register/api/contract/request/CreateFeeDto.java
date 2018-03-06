@@ -32,25 +32,8 @@ public abstract class CreateFeeDto {
 
     protected String channel;
 
-    protected String direction;
-
     @NotNull
     protected String event;
-
-    @JsonProperty("memo_line")
-    protected String memoLine;
-
-    @JsonProperty("fee_order_name")
-    protected String feeOrderName;
-
-    @JsonProperty("natural_account_code")
-    protected String naturalAccountCode;
-
-    @JsonProperty("statutory_instrument")
-    protected String statutoryInstrument;
-
-    @JsonProperty("si_ref_id")
-    protected String siRefId;
 
     @JsonProperty("unspecified_claim_amount")
     protected Boolean unspecifiedClaimAmount;

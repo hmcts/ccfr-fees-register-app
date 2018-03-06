@@ -27,18 +27,13 @@ public class FeeMapperIntegrationTest extends BaseTest {
                 .setMaxRange(BigDecimal.TEN)
                 .setRangeUnit("GBP")
                 .setCode("XXXYYY")
-                .setVersion(getFeeVersionDto(FeeVersionStatus.draft))
+                .setVersion(getFeeVersionDto(FeeVersionStatus.draft, "Test memo line", "CMC online fee order name",
+                    "Natural code 001", "SI", "siRefId", directionTypeService.findByNameOrThrow("enhanced")))
                 .setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName())
                 .setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName())
-                .setDirection(directionTypeService.findByNameOrThrow("enhanced").getName())
                 .setEvent(eventTypeService.findByNameOrThrow("issue").getName())
                 .setService(serviceTypeService.findByNameOrThrow("civil money claims").getName())
-                .setChannel(channelTypeService.findByNameOrThrow("online").getName())
-                .setMemoLine("Test memo line")
-                .setFeeOrderName("CMC online fee order name")
-                .setStatutoryInstrument("SI")
-                .setSIRefId("siRefId")
-                .setNaturalAccountCode("Natural code 001");
+                .setChannel(channelTypeService.findByNameOrThrow("online").getName());
 
         Fee fee = dtoMapper.toFee(rangedFeeDto, AUTHOR);
 
@@ -50,14 +45,8 @@ public class FeeMapperIntegrationTest extends BaseTest {
         assertEquals(fee2Dto.getRangeUnit(), rangedFeeDto.getRangeUnit());
         assertEquals(fee2Dto.getJurisdiction1Dto().getName(), rangedFeeDto.getJurisdiction1());
         assertEquals(fee2Dto.getJurisdiction2Dto().getName(), rangedFeeDto.getJurisdiction2());
-        assertEquals(fee2Dto.getDirectionTypeDto().getName(), rangedFeeDto.getDirection());
         assertEquals(fee2Dto.getServiceTypeDto().getName(), rangedFeeDto.getService());
         assertEquals(fee2Dto.getChannelTypeDto().getName(), rangedFeeDto.getChannel());
-        assertEquals(fee2Dto.getMemoLine(), rangedFeeDto.getMemoLine());
-        assertEquals(fee2Dto.getFeeOrderName(), rangedFeeDto.getFeeOrderName());
-        assertEquals(fee2Dto.getStatutoryInstrument(), rangedFeeDto.getStatutoryInstrument());
-        assertEquals(fee2Dto.getSiRefId(), rangedFeeDto.getSiRefId());
-        assertEquals(fee2Dto.getNaturalAccountCode(), rangedFeeDto.getNaturalAccountCode());
         assertEquals(fee2Dto.getEventTypeDto().getName(), rangedFeeDto.getEvent());
 
     }

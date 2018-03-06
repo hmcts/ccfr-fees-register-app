@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -42,4 +44,23 @@ public class FeeVersionDto {
     private String author;
 
     private String approvedBy;
+
+    @JsonProperty("memo_line")
+    private String memoLine;
+
+    @JsonProperty("statutory_instrument")
+    private String statutoryInstrument;
+
+    @JsonProperty("si_ref_id")
+    private String siRefId;
+
+    @JsonProperty("natural_account_code")
+    private String naturalAccountCode;
+
+    @JsonProperty("fee_order_name")
+    private String feeOrderName;
+
+    @JsonProperty("direction")
+    private String direction;
+
 }

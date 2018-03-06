@@ -12,8 +12,8 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 @EqualsAndHashCode(callSuper = true)
 public class CreateFixedFeeDto extends CreateFeeDto{
 
-    public CreateFixedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String direction, String event, String memoLine, String feeOrderName, String naturalAccountCode, String statutoryInstrument, String siRefId, boolean unspecifiedClaimAmount) {
-        super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode, statutoryInstrument, siRefId, unspecifiedClaimAmount);
+    public CreateFixedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, boolean unspecifiedClaimAmount) {
+        super(code, version, jurisdiction1, jurisdiction2, service, channel, event, unspecifiedClaimAmount);
     }
 
     public CreateFixedFeeDto setCode(String code) {
@@ -46,30 +46,12 @@ public class CreateFixedFeeDto extends CreateFeeDto{
         return this;
     }
 
-    public CreateFixedFeeDto setDirection(String direction) {
-        this.direction = direction;
-        return this;
-    }
 
     public CreateFixedFeeDto setEvent(String event) {
         this.event = event;
         return this;
     }
 
-    public CreateFixedFeeDto setMemoLine(String memoLine) {
-        this.memoLine = memoLine;
-        return this;
-    }
-
-    public CreateFixedFeeDto setFeeOrderName(String feeOrderName) {
-        this.feeOrderName = feeOrderName;
-        return this;
-    }
-
-    public CreateFixedFeeDto setNaturalAccountCode(String naturalAccountCode) {
-        this.naturalAccountCode = naturalAccountCode;
-        return this;
-    }
 
     public Boolean getUnspecifiedClaimAmount() {
         return unspecifiedClaimAmount;

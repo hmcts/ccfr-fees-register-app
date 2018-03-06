@@ -40,7 +40,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteFeeAndVersion() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, null, null, null, null, null, null));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -61,7 +61,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteApprovedVersionFails() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, null, null, null, null, null, null));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -81,7 +81,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteVersionDoesNotDeleteFee() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, null, null, null, null, null, null));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -90,7 +90,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
             feeVersionController.changeVersionStatus(dto.getCode(), 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
 
-            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft);
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, null, null, null, null, null, null);
             feeVersionDto2.setVersion(2);
 
             feeVersionController.createVersion(dto.getCode(), feeVersionDto2, new PrincipalImpl(AUTHOR));
@@ -115,13 +115,9 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         dto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         dto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
-        dto.setDirection(directionTypeService.findByNameOrThrow("enhanced").getName());
         dto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
         dto.setService(serviceTypeService.findByNameOrThrow("civil money claims").getName());
         dto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
-        dto.setMemoLine("Test memo line");
-        dto.setFeeOrderName("CMC online fee order name");
-        dto.setNaturalAccountCode("Natural code 001");
 
         return dto;
 

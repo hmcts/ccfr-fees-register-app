@@ -6,6 +6,7 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
@@ -40,14 +41,15 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
-        dto.setDirection("licence");
+
         dto.setCode(String.valueOf(System.currentTimeMillis()));
-        dto.setMemoLine("description");
         dto.setUnspecifiedClaimAmount(true);
         dto.setChannel("online");
 
         FeeVersionDto version = new FeeVersionDto();
-        version.setDescription(dto.getMemoLine());
+        version.setDescription(version.getMemoLine());
+        version.setDirection("licence");
+        version.setMemoLine("description");
         version.setFlatAmount(new FlatAmountDto(new BigDecimal(10000)));
 
         dto.setVersion(version);
@@ -84,13 +86,14 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
-        dto.setDirection("licence");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
-        dto.setMemoLine("description");
+
         dto.setUnspecifiedClaimAmount(true);
 
         FeeVersionDto version = new FeeVersionDto();
-        version.setDescription(dto.getMemoLine());
+        version.setDescription(version.getMemoLine());
+        version.setDirection("licence");
+        version.setMemoLine("description");
         version.setFlatAmount(new FlatAmountDto(new BigDecimal(10000)));
 
         dto.setVersion(version);
@@ -116,11 +119,11 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
-        dto.setMemoLine("description");
         dto.setUnspecifiedClaimAmount(true);
 
         FeeVersionDto version = new FeeVersionDto();
-        version.setDescription(dto.getMemoLine());
+        version.setMemoLine("description");
+        version.setDescription(version.getMemoLine());
         version.setPercentageAmount(new PercentageAmountDto(new BigDecimal("0.01")));
 
         dto.setVersion(version);
@@ -153,14 +156,14 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
-        dto.setDirection("licence");
         dto.setChannel("online");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
-        dto.setMemoLine("description");
         dto.setUnspecifiedClaimAmount(true);
 
         FeeVersionDto version = new FeeVersionDto();
-        version.setDescription(dto.getMemoLine());
+        version.setMemoLine("description");
+        version.setDescription(version.getMemoLine());
+        version.setDirection("licence");
         version.setStatus(FeeVersionStatus.approved);
         version.setFlatAmount(new FlatAmountDto(new BigDecimal(10000)));
 

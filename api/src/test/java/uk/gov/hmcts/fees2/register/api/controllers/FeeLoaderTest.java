@@ -50,7 +50,6 @@ public class FeeLoaderTest extends BaseIntegrationTest {
                     assertThat(fee2Dto.getServiceTypeDto().getName()).isEqualTo("civil money claims");
                     assertThat(fee2Dto.getJurisdiction1Dto().getName()).isEqualTo("civil");
                     assertThat(fee2Dto.getJurisdiction2Dto().getName()).isEqualTo("county court");
-                    assertThat(fee2Dto.getDirectionTypeDto().getName()).isEqualTo("enhanced");
                     assertThat(fee2Dto.getFeeVersionDtos().get(0).getFlatAmount().getAmount()).isEqualTo(new BigDecimal("35.00"));
                     assertThat(fee2Dto.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);
                 });

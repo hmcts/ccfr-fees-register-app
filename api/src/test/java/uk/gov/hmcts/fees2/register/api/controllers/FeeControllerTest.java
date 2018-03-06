@@ -278,7 +278,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 assertThat(fee2Dtos).anySatisfy(f -> {
                     assertThat(f.getCode()).isEqualTo("X0IMP2");
                     assertThat(f.getJurisdiction1Dto().getName()).isEqualTo("family");
-                    assertThat(f.getMemoLine()).isEqualTo("Test memo line");
+                    //assertThat(f.getMemoLine()).isEqualTo("Test memo line");
                     assertThat(f.getFeeVersionDtos().get(0).getFlatAmount().getAmount()).isEqualTo(new BigDecimal("300.00"));
                     assertThat(f.getFeeVersionDtos().get(0).getVersion()).isEqualTo(1);
                     assertThat(f.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);

@@ -176,7 +176,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
     protected ResultMatcher lookupResultMatchesFee(CreateFeeDto feeDto) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
-            assertTrue(feeDto.getMemoLine().equalsIgnoreCase(res.getDescription()));
+            //assertTrue(feeDto.getMemoLine().equalsIgnoreCase(res.getDescription()));
             assertTrue(feeDto.getCode().equalsIgnoreCase(res.getCode()));
             assertTrue(res.getVersion() != null);
         });
@@ -201,10 +201,10 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setService("civil money claims")
         .setEvent("issue")
         .setJurisdiction1("civil")
-        .setDirection("licence")
+        //.setDirection("licence")
         .setJurisdiction2("family court")
-        .setCode(String.valueOf(System.currentTimeMillis()))
-        .setMemoLine("description");
+        .setCode(String.valueOf(System.currentTimeMillis()));
+        //.setMemoLine("description");
     }
 
     protected CreateFixedFeeDto createDivorceIssueFamilyFixedFee() {
@@ -213,9 +213,9 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setEvent("issue")
         .setJurisdiction1("family")
         .setJurisdiction2("family court")
-        .setDirection("licence")
-        .setCode(String.valueOf(System.currentTimeMillis()))
-        .setMemoLine("description");
+        //.setDirection("licence")
+        .setCode(String.valueOf(System.currentTimeMillis()));
+        //.setMemoLine("description");
 
     }
 

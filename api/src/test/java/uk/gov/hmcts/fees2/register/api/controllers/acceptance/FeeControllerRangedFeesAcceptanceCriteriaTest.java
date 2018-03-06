@@ -43,7 +43,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal("10")));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         versionDto.setValidFrom(new Date());
         versionDto.setValidTo(new Date(System.currentTimeMillis() + 360000));
 
@@ -83,7 +83,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal("10")));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         versionDto.setValidFrom(new Date());
         versionDto.setValidTo(new Date(System.currentTimeMillis() + 360000));
 
@@ -127,7 +127,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
 
         dto.setVersion(versionDto);
 
@@ -164,7 +164,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
 
         dto.setVersion(versionDto);
 
@@ -186,8 +186,6 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
         dto.setMinRange(BigDecimal.ONE);
         dto.setMaxRange(BigDecimal.TEN);
         dto.setCode(String.valueOf(System.currentTimeMillis()));
-        dto.setMemoLine("description");
-        dto.setDirection("licence");
 
         return dto;
     }
@@ -203,7 +201,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
 
         dto.setVersion(versionDto);
 
@@ -219,7 +217,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
 
         dto.setVersion(versionDto);
 

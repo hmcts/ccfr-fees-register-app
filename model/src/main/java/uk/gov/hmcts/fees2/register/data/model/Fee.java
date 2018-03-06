@@ -28,9 +28,6 @@ public abstract class Fee extends AbstractEntity{
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "memo_line")
-    private String memoLine;
-
     @ManyToOne
     @JoinColumn(name = "jurisdiction1")
     private Jurisdiction1 jurisdiction1;
@@ -48,24 +45,8 @@ public abstract class Fee extends AbstractEntity{
     private ServiceType service;
 
     @ManyToOne
-    @JoinColumn(name = "direction_type")
-    private DirectionType directionType;
-
-    @ManyToOne
     @JoinColumn(name = "channel_type")
     private ChannelType channelType;
-
-    @Column(name="fee_order_name")
-    private String feeOrderName;
-
-    @Column(name = "natural_account_code")
-    private String naturalAccountCode;
-
-    @Column(name = "statutory_instrument")
-    private String statutoryInstrument;
-
-    @Column(name = "si_ref_id")
-    private String siRefId;
 
     @OneToMany(mappedBy = "fee", orphanRemoval = true)
     @Cascade(CascadeType.ALL)
@@ -119,17 +100,11 @@ public abstract class Fee extends AbstractEntity{
     public String toString() {
         return "Fee{" +
             "code='" + code + '\'' +
-            ", memoLine='" + memoLine + '\'' +
             ", jurisdiction1=" + jurisdiction1 +
             ", jurisdiction2=" + jurisdiction2 +
             ", eventType=" + eventType +
             ", service=" + service +
-            ", directionType=" + directionType +
             ", channelType=" + channelType +
-            ", feeOrderName='" + feeOrderName + '\'' +
-            ", naturalAccountCode='" + naturalAccountCode + '\'' +
-            ", statutoryInstrument='" + statutoryInstrument + '\'' +
-            ", siRefId='" + siRefId + '\'' +
             ", feeVersions=" + feeVersions +
             ", unspecifiedClaimAmount=" + unspecifiedClaimAmount +
             ", creationTime=" + creationTime +
