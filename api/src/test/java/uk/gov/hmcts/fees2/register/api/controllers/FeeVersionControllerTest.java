@@ -10,6 +10,7 @@ import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteFeeAndVersion() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, null, null, null, null, null, null));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -61,7 +63,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteApprovedVersionFails() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, null, null, null, null, null, null));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -81,7 +84,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteVersionDoesNotDeleteFee() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, null, null, null, null, null, null));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -90,7 +94,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
             feeVersionController.changeVersionStatus(dto.getCode(), 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
 
-            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, null, null, null, null, null, null);
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+                "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
             feeVersionDto2.setVersion(2);
 
             feeVersionController.createVersion(dto.getCode(), feeVersionDto2, new PrincipalImpl(AUTHOR));

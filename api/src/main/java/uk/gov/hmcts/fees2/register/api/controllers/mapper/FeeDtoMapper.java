@@ -199,7 +199,10 @@ public class FeeDtoMapper {
         feeVersionDto.setDescription(feeVersion.getDescription());
 
         feeVersionDto.setMemoLine(feeVersion.getMemoLine());
-        feeVersionDto.setDirection(feeVersion.getDirectionType().getName());
+        if (feeVersion.getDirectionType() != null) {
+            feeVersionDto.setDirection(feeVersion.getDirectionType().getName());
+        }
+
         feeVersionDto.setNaturalAccountCode(feeVersion.getNaturalAccountCode());
         feeVersionDto.setFeeOrderName(feeVersion.getFeeOrderName());
         feeVersionDto.setStatutoryInstrument(feeVersion.getStatutoryInstrument());

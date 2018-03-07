@@ -27,6 +27,7 @@ import uk.gov.hmcts.fees2.register.data.service.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -199,7 +200,8 @@ public abstract class BaseTest {
         rangedFeeDto.setMinRange(new BigDecimal(1));
         rangedFeeDto.setMaxRange(new BigDecimal(3000));
         rangedFeeDto.setCode(feeCode);
-        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line", "CMC online fee order name", "Natural code 001", null, null, null));
+        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line", "CMC online fee order name",
+            "Natural code 001", "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
         rangedFeeDto.setJurisdiction1(null);
         rangedFeeDto.setJurisdiction2(null);
         rangedFeeDto.setEvent(null);
@@ -262,7 +264,8 @@ public abstract class BaseTest {
         feeDto.setMinRange(new BigDecimal(minRange));
         feeDto.setMaxRange(new BigDecimal(maxRange));
         feeDto.setCode(feeCode);
-        //feeDto.setVersion(getFeeVersionDto(status));
+        feeDto.setFeeVersionDtos(Arrays.asList(getFeeVersionDto(status, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build())));
         feeDto.setJurisdiction1Dto(jurisdiction1Service.findByNameOrThrow("civil"));
         feeDto.setJurisdiction2Dto(jurisdiction2Service.findByNameOrThrow("county court"));
         feeDto.setEventTypeDto(eventTypeService.findByNameOrThrow("issue"));
@@ -298,6 +301,10 @@ public abstract class BaseTest {
             "     \"valid_from\": \"2017-11-06T16:33:37.040Z\",\n" +
             "     \"valid_to\": \"2020-11-06T16:33:37.040Z\",\n" +
             "     \"description\": \"Testing1\",\n" +
+            "     \"direction\": \"enhanced\",\n" +
+            "     \"memo_line\": \"Test memo line\",\n" +
+            "     \"fee_order_name\": \"CMC online fee order name\",\n" +
+            "     \"natural_account_code\": \"Natural code 001\",\n" +
             "     \"status\": \"draft\",\n" +
             "      \"flat_amount\": {\n" +
             "      \"amount\": \"150\"\n" +
@@ -307,11 +314,7 @@ public abstract class BaseTest {
             "   \"jurisdiction2\": \"court of protection\",\n" +
             "   \"service\": \"divorce\",\n" +
             "   \"channel\": \"default\",\n" +
-            "   \"direction\": \"enhanced\",\n" +
-            "   \"event\": \"issue\",\n" +
-            "   \"memo_line\": \"Test memo line\",\n" +
-            "   \"fee_order_name\": \"CMC online fee order name\",\n" +
-            "   \"natural_account_code\": \"Natural code 001\"\n" +
+            "   \"event\": \"issue\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"code\": \"X0IMP2\",\n" +
@@ -321,6 +324,10 @@ public abstract class BaseTest {
             "   \"valid_to\": \"2020-11-06T16:33:37.040Z\",\n" +
             "   \"description\": \"Testing2\",\n" +
             "   \"status\": \"approved\",\n" +
+            "   \"direction\": \"enhanced\",\n" +
+            "   \"memo_line\": \"Test memo line\",\n" +
+            "   \"fee_order_name\": \"CMC online fee order name\",\n" +
+            "   \"natural_account_code\": \"Natural code 002\",\n" +
             "   \"flat_amount\": {\n" +
             "     \"amount\": \"300\"\n" +
             "   }\n" +
@@ -329,11 +336,7 @@ public abstract class BaseTest {
             "   \"jurisdiction2\": \"court of protection\",\n" +
             "   \"service\": \"civil money claims\",\n" +
             "   \"channel\": \"default\",\n" +
-            "   \"direction\": \"enhanced\",\n" +
-            "   \"event\": \"issue\",\n" +
-            "   \"memo_line\": \"Test memo line\",\n" +
-            "   \"fee_order_name\": \"CMC online fee order name\",\n" +
-            "   \"natural_account_code\": \"Natural code 002\"\n" +
+            "   \"event\": \"issue\"\n" +
             "  }\n" +
             "]";
 
@@ -352,6 +355,10 @@ public abstract class BaseTest {
             "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
             "     \"description\": \"Testing1\",\n" +
             "     \"status\": \"draft\",\n" +
+            "     \"direction\": \"enhanced1\",\n" +
+            "     \"memoLine\": \"Test memo line\",\n" +
+            "     \"feeOrderName\": \"CMC online fee order name\",\n" +
+            "     \"naturalAccountCode\": \"Natural code 001\",\n" +
             "      \"flatAmount\": {\n" +
             "      \"amount\": \"150\"\n" +
             "      }\n" +
@@ -360,11 +367,7 @@ public abstract class BaseTest {
             "   \"jurisdiction2\": \"court of protection\",\n" +
             "   \"service\": \"divorce\",\n" +
             "   \"channel\": \"default\",\n" +
-            "   \"direction\": \"enhanced1\",\n" +
-            "   \"event\": \"issue\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 001\"\n" +
+            "   \"event\": \"issue\"\n" +
             "  },\n" +
             "  {\n" +
             "    \"code\": \"X0IMP2\",\n" +
@@ -374,6 +377,10 @@ public abstract class BaseTest {
             "   \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
             "   \"description\": \"Testing2\",\n" +
             "   \"status\": \"approved\",\n" +
+            "   \"direction\": \"enhanced\",\n" +
+            "   \"memoLine\": \"Test memo line\",\n" +
+            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+            "   \"naturalAccountCode\": \"Natural code 002\",\n" +
             "   \"flatAmount\": {\n" +
             "     \"amount\": \"300\"\n" +
             "   }\n" +
@@ -382,11 +389,7 @@ public abstract class BaseTest {
             "   \"jurisdiction2\": \"court of protection\",\n" +
             "   \"service\": \"civil money claims\",\n" +
             "   \"channel\": \"default\",\n" +
-            "   \"direction\": \"enhanced\",\n" +
-            "   \"event\": \"issue\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 002\"\n" +
+            "   \"event\": \"issue\"\n" +
             "  }\n" +
             "]";
 

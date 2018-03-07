@@ -561,7 +561,6 @@
         "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - Unspecified",
         "status": "approved",
-        "unspecified_claim_amount": "true",
         "memo_line":"CC-Money claim >£200,000",
         "natural_account_code":"4481102016",
         "direction": "enhanced",
@@ -573,7 +572,8 @@
       "jurisdiction2": "county court",
       "service": "civil money claims",
       "channel": "default",
-      "event": "issue"
+      "event": "issue",
+      "unspecified_claim_amount": "true"
     },
     {
       "code": "X0165",
