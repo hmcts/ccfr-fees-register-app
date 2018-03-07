@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.security.acl.PrincipalImpl;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
@@ -14,6 +15,8 @@ import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -110,6 +113,26 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             feeController.deleteFee(dto.getCode());
         }
 
+    }
+
+    @Test
+    public synchronized void createFeeWithMultipleVersions() throws Exception {
+        CreateFixedFeeDto dto = getFee();
+        String feeCode = UUID.randomUUID().toString();
+        dto.setCode(feeCode);
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1",
+            "natural account code1", "SI_1", "siRefId1", DirectionType.directionWith().name("enhanced").build()));
+
+        feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
+
+        FeeVersionDto version2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine2", "fee order name2",
+            "natural account code2", "SI_2", "siRefId2", DirectionType.directionWith().name("enhanced").build());
+        version2.setVersion(2);
+        feeVersionController.createVersion(feeCode, version2, new PrincipalImpl(AUTHOR));
+
+        Fee2Dto feeDto = feeController.getFee(feeCode, response);
+        assertNotNull(feeDto);
+        assertEquals(feeDto.getFeeVersionDtos().size(), 2);
     }
 
     private CreateFixedFeeDto getFee() {
