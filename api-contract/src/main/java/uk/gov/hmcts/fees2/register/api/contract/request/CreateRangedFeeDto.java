@@ -21,8 +21,8 @@ public class CreateRangedFeeDto extends CreateFeeDto{
     @JsonProperty("range_unit")
     private String rangeUnit;
 
-    public CreateRangedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String direction, String event, String memoLine, String feeOrderName, String naturalAccountCode, BigDecimal maxRange,  BigDecimal minRange) {
-        super(code, version, jurisdiction1, jurisdiction2, service, channel, direction, event, memoLine, feeOrderName, naturalAccountCode, null, null, false);
+    public CreateRangedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, BigDecimal maxRange,  BigDecimal minRange) {
+        super(code, version, jurisdiction1, jurisdiction2, service, channel, event, false);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }
@@ -77,40 +77,12 @@ public class CreateRangedFeeDto extends CreateFeeDto{
         return this;
     }
 
-    public CreateRangedFeeDto setDirection(String direction) {
-        this.direction = direction;
-        return this;
-    }
 
     public CreateRangedFeeDto setEvent(String event) {
         this.event = event;
         return this;
     }
 
-    public CreateRangedFeeDto setMemoLine(String memoLine) {
-        this.memoLine = memoLine;
-        return this;
-    }
-
-    public CreateRangedFeeDto setFeeOrderName(String feeOrderName) {
-        this.feeOrderName = feeOrderName;
-        return this;
-    }
-
-    public CreateRangedFeeDto setNaturalAccountCode(String naturalAccountCode) {
-        this.naturalAccountCode = naturalAccountCode;
-        return this;
-    }
-
-    public CreateRangedFeeDto setStatutoryInstrument(String statutoryInstrument){
-        this.statutoryInstrument = statutoryInstrument;
-        return this;
-    }
-
-    public CreateRangedFeeDto setSIRefId(String siRefID){
-        this.siRefId = siRefID;
-        return this;
-    }
 
     public String getRangeUnit() {
         return rangeUnit;

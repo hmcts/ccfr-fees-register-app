@@ -32,6 +32,7 @@ public class FeeDtoMapper {
     private ChannelTypeRepository channelTypeRepository;
     private EventTypeRepository eventTypeRepository;
     private DirectionTypeRepository directionTypeRepository;
+    private FeeVersionRepository feeVersionRepository;
 
     public static final String CODE_ALREADY_IN_USE  = "Code is already in use";
 
@@ -43,7 +44,8 @@ public class FeeDtoMapper {
         Fee2Repository fee2Repository,
         ServiceTypeRepository serviceTypeRepository,
         ChannelTypeRepository channelTypeRepository,
-        EventTypeRepository eventTypeRepository) {
+        EventTypeRepository eventTypeRepository,
+        FeeVersionRepository feeVersionRepository) {
 
         this.jurisdiction1Repository = jurisdiction1Repository;
         this.jurisdiction2Repository = jurisdiction2Repository;
@@ -52,6 +54,7 @@ public class FeeDtoMapper {
         this.channelTypeRepository = channelTypeRepository;
         this.eventTypeRepository = eventTypeRepository;
         this.directionTypeRepository = directionTypeRepository;
+        this.feeVersionRepository = feeVersionRepository;
     }
 
     private void fillFee(CreateFeeDto request, Fee fee, String author) {
@@ -62,13 +65,6 @@ public class FeeDtoMapper {
         fillServiceType(fee, request.getService());
         fillEventType(fee, request.getEvent());
         fillChannelType(fee, request.getChannel());
-        fillDirectionType(fee, request.getDirection());
-
-        fee.setMemoLine(request.getMemoLine());
-        fee.setFeeOrderName(request.getFeeOrderName());
-        fee.setNaturalAccountCode(request.getNaturalAccountCode());
-        fee.setStatutoryInstrument(request.getStatutoryInstrument());
-        fee.setSiRefId(request.getSiRefId());
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
@@ -116,21 +112,14 @@ public class FeeDtoMapper {
 
         fee2Dto.setFeeType(fee.getTypeCode());
 
-        fee2Dto.setMemoLine(fee.getMemoLine());
-
         fee2Dto.setChannelTypeDto(fee.getChannelType());
-        fee2Dto.setDirectionTypeDto(fee.getDirectionType());
+
         fee2Dto.setEventTypeDto(fee.getEventType());
         fee2Dto.setJurisdiction1Dto(fee.getJurisdiction1());
         fee2Dto.setJurisdiction2Dto(fee.getJurisdiction2());
         fee2Dto.setServiceTypeDto(fee.getService());
 
-        fee2Dto.setNaturalAccountCode(fee.getNaturalAccountCode());
-        fee2Dto.setFeeOrderName(fee.getFeeOrderName());
         fee2Dto.setUnspecifiedClaimAmount(fee.isUnspecifiedClaimAmount());
-
-        fee2Dto.setStatutoryInstrument(fee.getStatutoryInstrument());
-        fee2Dto.setSiRefId(fee.getSiRefId());
 
         if (fee instanceof RangedFee) {
 
@@ -168,6 +157,14 @@ public class FeeDtoMapper {
         version.setValidFrom(versionDto.getValidFrom());
         version.setValidTo(versionDto.getValidTo());
 
+        version.setMemoLine(versionDto.getMemoLine());
+        version.setFeeOrderName(versionDto.getFeeOrderName());
+        version.setNaturalAccountCode(versionDto.getNaturalAccountCode());
+        version.setStatutoryInstrument(versionDto.getStatutoryInstrument());
+        version.setSiRefId(versionDto.getSiRefId());
+        fillDirectionType(version, versionDto.getDirection());
+
+
         fillVersionStatus(version, versionDto.getStatus());
         fillVersionVersion(version, versionDto.getVersion());
 
@@ -200,6 +197,16 @@ public class FeeDtoMapper {
         feeVersionDto.setVersion(feeVersion.getVersion());
         feeVersionDto.setStatus(feeVersion.getStatus());
         feeVersionDto.setDescription(feeVersion.getDescription());
+
+        feeVersionDto.setMemoLine(feeVersion.getMemoLine());
+        if (feeVersion.getDirectionType() != null) {
+            feeVersionDto.setDirection(feeVersion.getDirectionType().getName());
+        }
+
+        feeVersionDto.setNaturalAccountCode(feeVersion.getNaturalAccountCode());
+        feeVersionDto.setFeeOrderName(feeVersion.getFeeOrderName());
+        feeVersionDto.setStatutoryInstrument(feeVersion.getStatutoryInstrument());
+        feeVersionDto.setSiRefId(feeVersion.getSiRefId());
 
         // map the amount
         if (feeVersion.getAmount() instanceof FlatAmount) {
@@ -307,13 +314,13 @@ public class FeeDtoMapper {
         fee.setEventType(eventTypeRepository.findByNameOrThrow(event.toLowerCase()));
     }
 
-    private void fillDirectionType(Fee fee, String direction) {
+    private void fillDirectionType(FeeVersion feeVersion, String direction) {
 
         if(direction == null) {
             return;
         }
 
-        fee.setDirectionType(directionTypeRepository.findByNameOrThrow(direction.toLowerCase()));
+        feeVersion.setDirectionType(directionTypeRepository.findByNameOrThrow(direction.toLowerCase()));
 
     }
 

@@ -447,6 +447,10 @@ databaseChangeLog:
     - include:
         file: db/changelog/db.changelog-fees-managed-v2.yaml
 
+    - include:
+        file: db/changelog/db.changelog-fees-managed-v3.yaml
+
+
     - changeSet:
         id: 19
         author: tarun

@@ -166,7 +166,7 @@ public class FeeController {
         /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
 
         return feeService
-            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, direction, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
+            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
             .stream()
             .filter(f -> {
                 if (feeVersionStatus!=null) {
@@ -198,7 +198,7 @@ public class FeeController {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
         }
 
-        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, amountOrVolume, false, FeeVersionStatus.approved, null));
+        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, amountOrVolume, false, FeeVersionStatus.approved, null));
 
         if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -221,7 +221,7 @@ public class FeeController {
                                                   @RequestParam String channel,
                                                   @RequestParam String event,
                                                   HttpServletResponse response) {
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, null, true, FeeVersionStatus.approved, null));
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, true, FeeVersionStatus.approved, null));
     }
 
     /* --- */

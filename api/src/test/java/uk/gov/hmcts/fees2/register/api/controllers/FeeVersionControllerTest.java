@@ -5,14 +5,18 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import sun.security.acl.PrincipalImpl;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -40,7 +44,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteFeeAndVersion() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -61,7 +66,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteApprovedVersionFails() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -81,7 +87,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteVersionDoesNotDeleteFee() {
 
         CreateFixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval));
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
 
@@ -90,7 +97,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
             feeVersionController.changeVersionStatus(dto.getCode(), 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
 
-            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft);
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+                "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
             feeVersionDto2.setVersion(2);
 
             feeVersionController.createVersion(dto.getCode(), feeVersionDto2, new PrincipalImpl(AUTHOR));
@@ -107,6 +115,26 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
     }
 
+    @Test
+    public synchronized void createFeeWithMultipleVersions() throws Exception {
+        CreateFixedFeeDto dto = getFee();
+        String feeCode = UUID.randomUUID().toString();
+        dto.setCode(feeCode);
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1",
+            "natural account code1", "SI_1", "siRefId1", DirectionType.directionWith().name("enhanced").build()));
+
+        feeController.createFixedFee(dto, null, new PrincipalImpl(AUTHOR));
+
+        FeeVersionDto version2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine2", "fee order name2",
+            "natural account code2", "SI_2", "siRefId2", DirectionType.directionWith().name("enhanced").build());
+        version2.setVersion(2);
+        feeVersionController.createVersion(feeCode, version2, new PrincipalImpl(AUTHOR));
+
+        Fee2Dto feeDto = feeController.getFee(feeCode, response);
+        assertNotNull(feeDto);
+        assertEquals(feeDto.getFeeVersionDtos().size(), 2);
+    }
+
     private CreateFixedFeeDto getFee() {
 
         CreateFixedFeeDto dto = new CreateFixedFeeDto();
@@ -115,13 +143,9 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         dto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         dto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
-        dto.setDirection(directionTypeService.findByNameOrThrow("enhanced").getName());
         dto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
         dto.setService(serviceTypeService.findByNameOrThrow("civil money claims").getName());
         dto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
-        dto.setMemoLine("Test memo line");
-        dto.setFeeOrderName("CMC online fee order name");
-        dto.setNaturalAccountCode("Natural code 001");
 
         return dto;
 

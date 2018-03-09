@@ -44,7 +44,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
 
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
 
         dto.setVersion(versionDto);
@@ -84,7 +84,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
 
         versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal(10)));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
 
@@ -121,7 +121,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
 
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
         dto.setChannel("default");
@@ -159,7 +159,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
 
         versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal(10))); // 10%
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
         dto.setChannel("default");
@@ -198,7 +198,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
 
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         dto.setVersion(versionDto);
         dto.setChannel("default");
 
@@ -235,7 +235,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         versionDto.setStatus(FeeVersionStatus.approved);
 
         dto.setVersion(versionDto);
@@ -275,7 +275,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
 
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setDescription(dto.getMemoLine());
+        versionDto.setDescription(versionDto.getMemoLine());
         dto.setVersion(versionDto);
 
         saveFeeAndCheckStatusIsCreated(dto);
@@ -369,7 +369,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
                 lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
                 lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
                 lookupDto.setChannel(fee.getChannelTypeDto().getName());
-                lookupDto.setDirection(fee.getDirectionTypeDto().getName());
+                //lookupDto.setDirection(fee.getDirectionTypeDto().getName());
                 lookupDto.setEvent(fee.getEventTypeDto().getName());
                 lookupDto.setService(fee.getServiceTypeDto().getName());
                 lookupDto.setAmountOrVolume(BigDecimal.TEN);
@@ -406,7 +406,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
                 lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
                 lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
                 lookupDto.setChannel(fee.getChannelTypeDto().getName());
-                lookupDto.setDirection(fee.getDirectionTypeDto().getName());
+                //lookupDto.setDirection(fee.getDirectionTypeDto().getName());
                 lookupDto.setEvent(fee.getEventTypeDto().getName());
                 lookupDto.setService(fee.getServiceTypeDto().getName());
                 lookupDto.setAmountOrVolume(new BigDecimal(5000));

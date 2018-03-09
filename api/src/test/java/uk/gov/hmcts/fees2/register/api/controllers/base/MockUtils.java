@@ -40,6 +40,10 @@ public class MockUtils {
             "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
             "     \"description\": \"Testing1\",\n" +
             "     \"status\": \"draft\",\n" +
+            "   \"direction\": \"enhanced\",\n" +
+            "   \"memoLine\": \"Test memo line\",\n" +
+            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+            "   \"naturalAccountCode\": \"Natural code 001\",\n" +
             "      \"flatAmount\": {\n" +
             "      \"amount\": \"150\"\n" +
             "      }\n" +
@@ -48,11 +52,7 @@ public class MockUtils {
             "   \"jurisdiction2\": \"court of protection\",\n" +
             "   \"service\": \"divorce\",\n" +
             "   \"channel\": \"default\",\n" +
-            "   \"direction\": \"enhanced\",\n" +
-            "   \"event\": \"issue\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 001\"\n" +
+            "   \"event\": \"issue\"\n" +
             "  }\n" +
             "]";
 
@@ -70,6 +70,10 @@ public class MockUtils {
             "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
             "     \"description\": \"Testing1\",\n" +
             "     \"status\": \"draft\",\n" +
+            "   \"direction\": \"enhanced\",\n" +
+            "   \"memoLine\": \"Test memo line\",\n" +
+            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+            "   \"naturalAccountCode\": \"Natural code 001\",\n" +
             "      \"flatAmount\": {\n" +
             "      \"amount\": \"150\"\n" +
             "      }\n" +
@@ -78,11 +82,7 @@ public class MockUtils {
             "   \"jurisdiction2\": \"court of protection\",\n" +
             "   \"service\": \"civil money claims\",\n" +
             "   \"channel\": \"default\",\n" +
-            "   \"direction\": \"enhanced\",\n" +
-            "   \"event\": \"issue\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 001\"\n" +
+            "   \"event\": \"issue\"\n" +
             "  }\n" +
             "]";
     }
@@ -92,13 +92,10 @@ public class MockUtils {
         fee.setCode(code);
         fee.setChannelType(new ChannelType("default", null, null));
         fee.setEventType(new EventType("issue", null, null));
-        fee.setDirectionType(new DirectionType("enhanced", null, null));
         fee.setJurisdiction1(new Jurisdiction1("family", null, null));
         fee.setJurisdiction2(new Jurisdiction2("court of protection", null, null));
         fee.setService(new ServiceType("civil money claims", null, null));
         fee.setFeeVersions(getFeeVersions());
-        fee.setFeeOrderName("CMC online fee order name");
-        fee.setNaturalAccountCode("Natural code 001");
 
         return fee;
     }
@@ -110,6 +107,9 @@ public class MockUtils {
         feeVersion.setDescription("Testing1");
         feeVersion.setStatus(FeeVersionStatus.approved);
         feeVersion.setVersion(1);
+        feeVersion.setDirectionType(new DirectionType("enhanced", null, null));
+        feeVersion.setFeeOrderName("CMC online fee order name");
+        feeVersion.setNaturalAccountCode("Natural code 001");
         feeVersions.add(feeVersion);
 
         return feeVersions;
@@ -124,10 +124,11 @@ public class MockUtils {
         FlatAmountDto flatAmountDto = new FlatAmountDto(new BigDecimal("150.00"));
         FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
             null,
-            null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null, null, AUTHOR, AUTHOR);
+            null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
+            "Test memo line", null, null, "Natural code 001", "CMC online fee order name",
+            "enhanced");
         CreateFixedFeeDto fixedFeeDto = new CreateFixedFeeDto("X0MOCK1", feeVersionDto, "family",
-            "court of protection", "civil money claims", "default", "enhanced", "issue",
-            "Test memo line", "CMC online fee order name", "Natural code 001", null, null, false);
+            "court of protection", "civil money claims", "default", "issue", false);
 
         return fixedFeeDto;
     }

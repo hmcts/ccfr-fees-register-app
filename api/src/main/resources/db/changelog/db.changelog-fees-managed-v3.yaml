@@ -1,0 +1,160 @@
+databaseChangeLog:
+- changeSet:
+    id: 1520422932060-1
+    author: tarun (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: direction_type
+            type: varchar(255)
+        tableName: fee_version
+- changeSet:
+    id: 1520422932060-2
+    author: tarun (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: fee_order_name
+            type: varchar(255)
+        tableName: fee_version
+- changeSet:
+    id: 1520422932060-3
+    author: tarun (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: memo_line
+            type: varchar(255)
+        tableName: fee_version
+- changeSet:
+    id: 1520422932060-4
+    author: tarun (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: natural_account_code
+            type: varchar(255)
+        tableName: fee_version
+- changeSet:
+    id: 1520422932060-5
+    author: tarun (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: si_ref_id
+            type: varchar(255)
+        tableName: fee_version
+- changeSet:
+    id: 1520422932060-6
+    author: tarun (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: statutory_instrument
+            type: varchar(255)
+        tableName: fee_version
+- changeSet:
+    id: 1520422932060-7
+    author: tarun (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: direction_type
+        baseTableName: fee_version
+        constraintName: FK_ptkfgg7s2irpathj3ssw6ofco
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: name
+        referencedTableName: direction_type
+- changeSet:
+    id: 1520422932060-8
+    author: tarun (generated)
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: fee
+        constraintName: FK_j26jb6c9pmeiabyp3vlrgycsy
+- changeSet:
+    id: 1520422932060-9
+    author: tarun (generated)
+    changes:
+    - dropColumn:
+        columnName: direction_type
+        tableName: fee
+- changeSet:
+    id: 1520422932060-10
+    author: tarun (generated)
+    changes:
+    - dropColumn:
+        columnName: fee_order_name
+        tableName: fee
+- changeSet:
+    id: 1520422932060-11
+    author: tarun (generated)
+    changes:
+    - dropColumn:
+        columnName: memo_line
+        tableName: fee
+- changeSet:
+    id: 1520422932060-12
+    author: tarun (generated)
+    changes:
+    - dropColumn:
+        columnName: natural_account_code
+        tableName: fee
+- changeSet:
+    id: 1520422932060-13
+    author: tarun (generated)
+    preConditions:
+      - onFail: MARK_RAN
+      - tableExists:
+          tableName: fee
+      - columnExists:
+          columnName: si_ref_id
+          tableName: fee
+    changes:
+    - dropColumn:
+        columnName: si_ref_id
+        tableName: fee
+- changeSet:
+    id: 1520422932060-14
+    author: tarun (generated)
+    preConditions:
+      - onFail: MARK_RAN
+      - tableExists:
+          tableName: fee
+      - columnExists:
+          columnName: statutory_instrument
+          tableName: fee
+    changes:
+    - dropColumn:
+        columnName: statutory_instrument
+        tableName: fee
+- changeSet:
+    id: 1520422932060-15
+    author: tarunp
+    changes:
+      - sql: >
+          DELETE FROM fixed_fee;
+          DELETE FROM fee_version;
+          DELETE FROM ranged_fee;
+          DELETE FROM fee;
+          DELETE FROM flat_amount;
+          DELETE FROM percentage_amount;
+
+- changeSet:
+    id: 1520422932060-16
+    author: tarun (generated)
+    preConditions:
+      - onFail: MARK_RAN
+      - tableExists:
+          tableName: volume_amount
+    changes:
+      - sql: >
+          DELETE FROM volume_amount;
+          DELETE FROM amount;
+

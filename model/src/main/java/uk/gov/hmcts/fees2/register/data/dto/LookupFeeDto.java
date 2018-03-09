@@ -27,7 +27,7 @@ public class LookupFeeDto {
 
     private String event;
 
-    private String direction;
+    //private String direction;
 
     private BigDecimal amountOrVolume;
 

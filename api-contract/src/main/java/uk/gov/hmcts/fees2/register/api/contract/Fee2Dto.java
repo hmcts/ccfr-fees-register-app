@@ -26,14 +26,8 @@ public class Fee2Dto {
     @JsonProperty("fee_type")
     private String feeType;
 
-    @JsonProperty("memo_line")
-    private String memoLine;
-
     @JsonProperty("channel_type")
     private ChannelType channelTypeDto;
-
-    @JsonProperty("direction_type")
-    private DirectionType directionTypeDto;
 
     @JsonProperty("event_type")
     private EventType eventTypeDto;
@@ -46,12 +40,6 @@ public class Fee2Dto {
 
     @JsonProperty("service_type")
     private ServiceType serviceTypeDto;
-
-    @JsonProperty("natural_account_code")
-    private String naturalAccountCode;
-
-    @JsonProperty("fee_order_name")
-    private String feeOrderName;
 
     @JsonProperty("fee_versions")
     private List<FeeVersionDto> feeVersionDtos;
@@ -71,10 +59,6 @@ public class Fee2Dto {
     @JsonProperty("unspecified_claim_amount")
     private boolean unspecifiedClaimAmount;
 
-    @JsonProperty("statutory_instrument")
-    private String statutoryInstrument;
 
-    @JsonProperty("si_ref_id")
-    private String siRefId;
 
 }

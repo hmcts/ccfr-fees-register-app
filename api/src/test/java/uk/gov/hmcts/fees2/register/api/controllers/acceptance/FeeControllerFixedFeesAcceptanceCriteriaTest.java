@@ -5,6 +5,7 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 
 import java.math.BigDecimal;
 
@@ -37,11 +38,11 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
-        dto.setMemoLine("description");
-        dto.setDirection("licence");
 
         FeeVersionDto version = new FeeVersionDto();
-        version.setDescription(dto.getMemoLine());
+        version.setDescription(version.getMemoLine());
+        version.setMemoLine("description");
+        version.setDirection("licence");
         version.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
 
         dto.setVersion(version);

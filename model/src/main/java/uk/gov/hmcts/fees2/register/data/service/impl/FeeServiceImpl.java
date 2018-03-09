@@ -192,15 +192,6 @@ public class FeeServiceImpl implements FeeService {
             );
         }
 
-        if (dto.getDirection() != null) {
-            predicates.add(
-                builder.equal(
-                    fee.get(fee.getModel().getSingularAttribute("directionType")),
-                    directionTypeRepository.findByNameOrThrow(dto.getDirection())
-                )
-            );
-        }
-
         if (dto.getEvent() != null) {
             predicates.add(
                 builder.equal(

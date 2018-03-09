@@ -57,7 +57,7 @@ public class FeeServiceTest extends BaseTest{
 
         dto.setChannel("online");
 
-        dto.setDirection("licence");
+        //dto.setDirection("licence");
         dto.setService("divorce");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
@@ -81,7 +81,7 @@ public class FeeServiceTest extends BaseTest{
 
         dto.setChannel("online");
 
-        dto.setDirection("licence");
+        //dto.setDirection("licence");
         dto.setService("civil money claims");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
@@ -146,18 +146,19 @@ public class FeeServiceTest extends BaseTest{
 
         dto.setChannel("online");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
-        dto.setDirection("licence");
+
         dto.setService(service);
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("high court");
-        dto.setMemoLine("Hello");
         dto.setMinRange(BigDecimal.ONE);
         dto.setMaxRange(BigDecimal.TEN);
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
         versionDto.setStatus(FeeVersionStatus.approved);
+        versionDto.setDirection("licence");
+        versionDto.setMemoLine("Hello");
 
         dto.setVersion(versionDto);
 
