@@ -172,7 +172,7 @@
                 <version>3.5.3</version>
                 <configuration>
                     <changeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
-                    <diffChangeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed-v4.yaml</diffChangeLogFile>
+                    <diffChangeLogFile>${project.basedir}/../api/src/main/resources/db/changelog/db.changelog-fees-managed-v5.yaml</diffChangeLogFile>
                     <url>jdbc:postgresql://localhost:5432/fees_register</url>
                     <driver>org.postgresql.Driver</driver>
                     <username>fees_register</username>

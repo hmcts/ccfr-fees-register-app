@@ -78,4 +78,15 @@ public class ReferenceDataDtoMapper {
                 .name(serviceType.getName())
                 .build();
     }
+
+    /**
+     *
+     * @param applicationType
+     * @return
+     */
+    public ApplicationTypeDto toApplicationTypeDto(ApplicationType applicationType) {
+        return ApplicationTypeDto.applicationTypeDtoWith()
+            .name(applicationType.getName())
+            .build();
+    }
  }

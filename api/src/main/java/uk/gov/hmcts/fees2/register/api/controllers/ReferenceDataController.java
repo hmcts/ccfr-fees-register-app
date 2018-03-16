@@ -8,13 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.ReferenceDataDtoMapper;
-import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.RangeUnit;
 import uk.gov.hmcts.fees2.register.data.repository.RangeUnitRepository;
 import uk.gov.hmcts.fees2.register.data.service.*;
@@ -50,12 +47,15 @@ public class ReferenceDataController {
 
     private ReferenceDataDtoMapper referenceDataDtoMapper;
 
+    private final ApplicationTypeService applicationTypeService;
+
+
     @Autowired
     public ReferenceDataController(ChannelTypeService channelTypeService,
                                    DirectionTypeService directionTypeService, EventTypeService eventTypeService,
                                    Jurisdiction1Service jurisdiction1Service,
                                    Jurisdiction2Service jurisdiction2Service, ServiceTypeService serviceTypeService,
-                                   RangeUnitRepository rangeUnitRepository,
+                                   RangeUnitRepository rangeUnitRepository, ApplicationTypeService applicationTypeService,
                                    ReferenceDataDtoMapper referenceDataDtoMapper) {
         this.channelTypeService = channelTypeService;
         this.directionTypeService = directionTypeService;
@@ -65,6 +65,7 @@ public class ReferenceDataController {
         this.serviceTypeService = serviceTypeService;
         this.rangeUnitRepository = rangeUnitRepository;
         this.referenceDataDtoMapper = referenceDataDtoMapper;
+        this.applicationTypeService = applicationTypeService;
     }
 
     @ApiOperation(value = "Get all reference data", response = AllReferenceDataDto.class)
@@ -85,9 +86,20 @@ public class ReferenceDataController {
         dto.setJurisdictions1(getAllJurisdictions1());
         dto.setJurisdictions2(getAllJurisdictions2());
         dto.setRangeUnits(getAllRangeUnits());
-
+        dto.setApplicationTypes(getAllApplicationTypes());
         return dto;
 
+    }
+
+    @ApiOperation(value = "Get application types reference data", response = ApplicationTypeDto.class, responseContainer = "List")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
+    @GetMapping("/application-types")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ApplicationTypeDto> getAllApplicationTypes() {
+        return applicationTypeService.findAll().stream().map(referenceDataDtoMapper::toApplicationTypeDto).collect(toList());
     }
 
     @ApiOperation(value = "Get channel types reference data", response = ChannelTypeDto.class, responseContainer = "List")

@@ -48,6 +48,10 @@ public abstract class Fee extends AbstractEntity{
     @JoinColumn(name = "channel_type")
     private ChannelType channelType;
 
+    @ManyToOne
+    @JoinColumn(name = "application_type")
+    private ApplicationType applicationType;
+
     @OneToMany(mappedBy = "fee", orphanRemoval = true)
     @Cascade(CascadeType.ALL)
     private List<FeeVersion> feeVersions;
@@ -105,6 +109,7 @@ public abstract class Fee extends AbstractEntity{
             ", eventType=" + eventType +
             ", service=" + service +
             ", channelType=" + channelType +
+            ", applicationType=" + applicationType +
             ", feeVersions=" + feeVersions +
             ", unspecifiedClaimAmount=" + unspecifiedClaimAmount +
             ", creationTime=" + creationTime +
