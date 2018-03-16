@@ -25,4 +25,6 @@ public class AllReferenceDataDto {
     private List<Jurisdiction2Dto> jurisdictions2;
 
     private List<RangeUnit> rangeUnits;
+
+    private List<ApplicationTypeDto> applicationTypes;
 }

@@ -450,6 +450,9 @@ databaseChangeLog:
     - include:
         file: db/changelog/db.changelog-fees-managed-v3.yaml
 
+    - include:
+        file: db/changelog/db.changelog-fees-managed-v4.yaml
+
 
     - changeSet:
         id: 19

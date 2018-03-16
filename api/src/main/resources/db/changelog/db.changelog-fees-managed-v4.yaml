@@ -1,0 +1,68 @@
+databaseChangeLog:
+- changeSet:
+    id: 1521217899808-1
+    author: tarun (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: creation_time
+            type: timestamp
+            defaultValue: now()
+        - column:
+            name: last_updated
+            type: timestamp
+            defaultValue: now()
+        tableName: application_type
+
+- changeSet:
+    id: 1521217899808-2
+    author: tarun (generated)
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: application_type
+            type: varchar(255)
+        tableName: fee
+
+- changeSet:
+    id: 1521217899808-3
+    author: tarun (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: name
+        constraintName: application_typePK
+        tableName: application_type
+
+- changeSet:
+    id: 1521217899808-4
+    author: tarun
+    changes:
+      - sql:
+          splitStatements: true
+          sql: >
+            INSERT INTO application_type (name)
+            VALUES
+              ('personal'),
+              ('non personal'),
+              ('all');
+            DELETE from event_type where name = 'judicial review';
+
+- changeSet:
+    id: 1521217899808-5
+    author: tarun (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: application_type
+        baseTableName: fee
+        constraintName: FK_fchyike5k5s9qa57ef8phmtx2
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: name
+        referencedTableName: application_type

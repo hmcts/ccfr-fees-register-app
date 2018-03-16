@@ -35,6 +35,8 @@ public abstract class CreateFeeDto {
     @NotNull
     protected String event;
 
+    protected String application;
+
     @JsonProperty("unspecified_claim_amount")
     protected Boolean unspecifiedClaimAmount;
 
