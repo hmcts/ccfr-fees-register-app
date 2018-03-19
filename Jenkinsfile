@@ -40,7 +40,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
                 rtGradle.tool = 'gradle-4.2'
                 rtGradle.deployer repo: 'libs-release', server: server
                 rtGradle.deployer.deployArtifacts = (env.BRANCH_NAME == 'master') && !versionAlreadyPublished
-                rtGradle.run buildFile: 'build.gradle', tasks: 'clean build artifactoryPublish sonarqube', buildInfo: buildInfo
+                rtGradle.run buildFile: 'build.gradle', tasks: 'clean build dependencyCheck artifactoryPublish sonarqube', buildInfo: buildInfo
             }
 
             def feesApiDockerVersion

@@ -12,11 +12,11 @@ You will need jdk and maven installed on your machine or use mvnw to install the
 
 ### Installing
 1. Clone the repo to your machine using git clone git@git.reform.hmcts.net:fees-register/fees-register-app.git
-2. Run $ ./mvnw install
+2. Run $ ./gradlew build
 
 ## Running the tests
 
-You can run the tests using 'mvn test'
+You can run the tests using './gradlew test'
 
 
 ## Deployment
@@ -26,7 +26,7 @@ See Jenkinsfile for the deployment details
 ## Run the application
 To run the application at local developer machine use following command
 
-$ mvn clean install spring-boot:run
+$ ./gradlew bootRun
 
 Once application server is started use swagger ui to find the endpoints and test these. 
 http://localhost:8080/swagger-ui.html
