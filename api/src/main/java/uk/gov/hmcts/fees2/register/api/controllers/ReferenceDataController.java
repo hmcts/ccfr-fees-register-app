@@ -86,19 +86,19 @@ public class ReferenceDataController {
         dto.setJurisdictions1(getAllJurisdictions1());
         dto.setJurisdictions2(getAllJurisdictions2());
         dto.setRangeUnits(getAllRangeUnits());
-        dto.setApplicationTypes(getAllApplicationTypes());
+        dto.setApplicationTypes(getAllApplicantTypes());
         return dto;
 
     }
 
-    @ApiOperation(value = "Get application types reference data", response = ApplicationTypeDto.class, responseContainer = "List")
+    @ApiOperation(value = "Get application types reference data", response = ApplicantTypeDto.class, responseContainer = "List")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 404, message = "Not found")
     })
-    @GetMapping("/application-types")
+    @GetMapping("/applicant-types")
     @ResponseStatus(HttpStatus.OK)
-    public List<ApplicationTypeDto> getAllApplicationTypes() {
+    public List<ApplicantTypeDto> getAllApplicantTypes() {
         return applicantTypeService.findAll().stream().map(referenceDataDtoMapper::toApplicationTypeDto).collect(toList());
     }
 

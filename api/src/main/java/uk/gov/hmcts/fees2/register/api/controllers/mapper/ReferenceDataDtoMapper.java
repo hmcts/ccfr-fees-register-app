@@ -84,8 +84,8 @@ public class ReferenceDataDtoMapper {
      * @param applicantType
      * @return
      */
-    public ApplicationTypeDto toApplicationTypeDto(ApplicantType applicantType) {
-        return ApplicationTypeDto.applicationTypeDtoWith()
+    public ApplicantTypeDto toApplicantTypeDto(ApplicantType applicantType) {
+        return ApplicantTypeDto.applicantTypeDtoWith()
             .name(applicantType.getName())
             .build();
     }
