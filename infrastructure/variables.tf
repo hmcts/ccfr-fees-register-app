@@ -28,10 +28,6 @@ variable "microservice" {
   type = "string"
   default = "fees-register-app"
 }
-variable "database-password" {
-  default = "NotReallyAFakepassword!"
-  description = "Password for microservice database"
-}
 
 variable "database-name" {
   default = "fees_register"

@@ -27,4 +27,43 @@ module "fees-register-database" {
   postgresql_database = "${var.database-name}"
 }
 
+module "key-vault" {
+  source              = "git@github.com:hmcts/moj-module-key-vault?ref=master"
+  product             = "${var.product}"
+  env                 = "${var.env}"
+  tenant_id           = "${var.tenant_id}"
+  object_id           = "${var.jenkins_AAD_objectId}"
+  resource_group_name = "${module.fees-register-api.resource_group_name}"
+  product_group_object_id = "38f9dea6-e861-4a50-9e73-21e64f563537"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES-USER" {
+  name      = "fees-register-POSTGRES-USER"
+  value     = "${module.fees-register-database.user_name}"
+  vault_uri = "${module.key-vault.key_vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
+  name      = "fees-register-POSTGRES-PASS"
+  value     = "${module.fees-register-database.postgresql_password}"
+  vault_uri = "${module.key-vault.key_vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
+  name      = "fees-register-POSTGRES-HOST"
+  value     = "${module.fees-register-database.host_name}"
+  vault_uri = "${module.key-vault.key_vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
+  name      = "fees-register-POSTGRES-PORT"
+  value     = "${module.fees-register-database.postgresql_listen_port}"
+  vault_uri = "${module.key-vault.key_vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
+  name      = "fees-register-POSTGRES-DATABASE"
+  value     = "${module.fees-register-database.postgresql_database}"
+  vault_uri = "${module.key-vault.key_vault_uri}"
+}
 
