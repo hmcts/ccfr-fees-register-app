@@ -21,7 +21,9 @@ allprojects {
         }
         jcenter()
         mavenLocal()
-        maven { url "http://dl.bintray.com/gov-uk-notify/maven" }
+        maven {
+            url "http://dl.bintray.com/gov-uk-notify/maven"
+        }
 
     }
 }
