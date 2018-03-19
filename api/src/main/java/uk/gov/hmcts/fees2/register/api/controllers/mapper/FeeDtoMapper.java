@@ -68,7 +68,7 @@ public class FeeDtoMapper {
         fillServiceType(fee, request.getService());
         fillEventType(fee, request.getEvent());
         fillChannelType(fee, request.getChannel());
-        fillApplicationType(fee, request.getApplicant());
+        fillApplicationType(fee, request.getApplicantType());
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);

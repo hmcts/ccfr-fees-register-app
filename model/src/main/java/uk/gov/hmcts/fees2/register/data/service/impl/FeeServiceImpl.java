@@ -141,8 +141,8 @@ public class FeeServiceImpl implements FeeService {
             dto.setChannel(ChannelType.DEFAULT);
         }
 
-        if (dto.getApplicant() == null) {
-            dto.setApplicant(ApplicantType.ALL);
+        if (dto.getApplicantType() == null) {
+            dto.setApplicantType(ApplicantType.ALL);
         }
     }
 
@@ -205,11 +205,11 @@ public class FeeServiceImpl implements FeeService {
             );
         }
 
-        if (dto.getApplicant() != null) {
+        if (dto.getApplicantType() != null) {
             predicates.add(
                 builder.equal(
                     fee.get(fee.getModel().getSingularAttribute("applicantType")),
-                    applicantTypeRepository.findByNameOrThrow(dto.getApplicant())
+                    applicantTypeRepository.findByNameOrThrow(dto.getApplicantType())
                 )
             );
         }

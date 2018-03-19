@@ -29,7 +29,7 @@ public class LookupFeeDto {
 
     //private String direction;
 
-    private String applicant;
+    private String applicantType;
 
     private BigDecimal amountOrVolume;
 

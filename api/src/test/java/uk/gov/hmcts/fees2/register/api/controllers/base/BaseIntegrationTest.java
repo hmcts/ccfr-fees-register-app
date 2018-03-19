@@ -104,8 +104,8 @@ public abstract class BaseIntegrationTest extends BaseTest{
             lookup = lookup.param("event", lookupFeeDto.getEvent());
         }
 
-        if(lookupFeeDto.getApplicant() != null){
-            lookup = lookup.param("applicant", lookupFeeDto.getApplicant());
+        if(lookupFeeDto.getApplicantType() != null){
+            lookup = lookup.param("applicant_type", lookupFeeDto.getApplicantType());
         }
 
         if(lookupFeeDto.getAmountOrVolume() != null){
@@ -157,8 +157,8 @@ public abstract class BaseIntegrationTest extends BaseTest{
             lookup = lookup.param("event", createDto.getEvent());
         }
 
-        if(createDto.getApplicant() != null){
-            lookup = lookup.param("applicant", createDto.getApplicant());
+        if(createDto.getApplicantType() != null){
+            lookup = lookup.param("applicant_type", createDto.getApplicantType());
         }
 
         return mvc.perform(lookup);
@@ -211,7 +211,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setJurisdiction1("civil")
         //.setDirection("licence")
         .setJurisdiction2("family court")
-        .setApplicant("all")
+        .setApplicantType("all")
         .setCode(String.valueOf(System.currentTimeMillis()));
         //.setMemoLine("description");
     }
@@ -222,7 +222,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setEvent("issue")
         .setJurisdiction1("family")
         .setJurisdiction2("family court")
-        .setApplicant("all")
+        .setApplicantType("all")
         //.setDirection("licence")
         .setCode(String.valueOf(System.currentTimeMillis()));
         //.setMemoLine("description");
