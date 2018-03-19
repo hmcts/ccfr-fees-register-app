@@ -86,7 +86,7 @@ public class ReferenceDataController {
         dto.setJurisdictions1(getAllJurisdictions1());
         dto.setJurisdictions2(getAllJurisdictions2());
         dto.setRangeUnits(getAllRangeUnits());
-        dto.setApplicationTypes(getAllApplicantTypes());
+        dto.setApplicantTypes(getAllApplicantTypes());
         return dto;
 
     }

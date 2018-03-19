@@ -26,5 +26,5 @@ public class AllReferenceDataDto {
 
     private List<RangeUnit> rangeUnits;
 
-    private List<ApplicantTypeDto> applicationTypes;
+    private List<ApplicantTypeDto> applicantTypes;
 }
