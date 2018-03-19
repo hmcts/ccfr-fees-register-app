@@ -36,15 +36,11 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
             }
 
             stage('Build') {
-                def descriptor = Artifactory.mavenDescriptor()
-                descriptor.version = artifactVersion
-                descriptor.transform()
-
-                def rtMaven = Artifactory.newMavenBuild()
-                rtMaven.tool = 'apache-maven-3.3.9'
-                rtMaven.deployer releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
-                rtMaven.deployer.deployArtifacts = (env.BRANCH_NAME == 'master') && !versionAlreadyPublished
-                rtMaven.run pom: 'pom.xml', goals: 'clean install sonar:sonar', buildInfo: buildInfo
+                def rtGradle = Artifactory.newGradleBuild()
+                rtGradle.tool = 'gradle-4.2'
+                rtGradle.deployer repo: 'libs-release', server: server
+                rtGradle.deployer.deployArtifacts = (env.BRANCH_NAME == 'master') && !versionAlreadyPublished
+                rtGradle.run buildFile: 'build.gradle', tasks: 'clean build artifactoryPublish sonarqube', buildInfo: buildInfo
             }
 
             def feesApiDockerVersion
@@ -70,7 +66,7 @@ lock(resource: "fees-register-app-${env.BRANCH_NAME}", inversePrecedence: true) 
                 def rpmVersion
 
                 stage("Publish RPM") {
-                    rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls api/target/fees-register-api-*.jar)', 'springboot', 'api/src/main/resources/application.properties')
+                    rpmVersion = packager.javaRPM('master', 'fees-register-api', '$(ls build/libs/fees-register-app.jar)', 'springboot', 'api/src/main/resources/application.properties')
                     packager.publishJavaRPM('fees-register-api')
                 }
 
