@@ -14,7 +14,7 @@ allprojects {
 
     group = 'uk.gov.hmcts.reform.fees-register'
     ext {
-        buildNumber = System.getenv("BUILD_NUMBER") ?: 'dev'
+        buildNumber = System.getenv("BUILD_NUMBER") ?: '0'
     }
     version = rootProject.file('version.txt').text.trim() + ".${buildNumber}"
 
