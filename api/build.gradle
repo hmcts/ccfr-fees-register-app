@@ -2,7 +2,7 @@ description = ''
 dependencies {
     compile project(':fees-register-model')
     compile project(':fees-register-api-contract')
-    compile group: 'uk.gov.hmcts.auth.checker', name: 'auth-checker-spring', version: '1.0.0.46'
+    compile group: 'uk.gov.hmcts.auth.checker', name: 'auth-checker-spring', version: '[1.0, )'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.9.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.9.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.9.RELEASE'

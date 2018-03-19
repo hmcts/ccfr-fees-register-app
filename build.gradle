@@ -17,7 +17,7 @@ allprojects {
 
     repositories {
         maven {
-            url "https://dl.bintray.com/hmcts/hmcts-maven"
+            url "http://artifactory.reform.hmcts.net/artifactory/libs-release"
         }
         jcenter()
         mavenLocal()
