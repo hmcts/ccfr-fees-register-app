@@ -41,8 +41,8 @@ public class Fee2Dto {
     @JsonProperty("service_type")
     private ServiceType serviceTypeDto;
 
-    @JsonProperty("application")
-    private ApplicationType applicationTypeDto;
+    @JsonProperty("applicant")
+    private ApplicantType applicantTypeDto;
 
     @JsonProperty("fee_versions")
     private List<FeeVersionDto> feeVersionDtos;

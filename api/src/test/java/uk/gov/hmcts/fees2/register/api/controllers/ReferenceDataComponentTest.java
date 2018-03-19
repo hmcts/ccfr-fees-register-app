@@ -4,7 +4,6 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
-import uk.gov.hmcts.fees2.register.data.model.ApplicationType;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;

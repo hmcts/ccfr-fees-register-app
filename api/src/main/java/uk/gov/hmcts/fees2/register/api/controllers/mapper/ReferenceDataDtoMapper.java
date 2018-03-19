@@ -81,12 +81,12 @@ public class ReferenceDataDtoMapper {
 
     /**
      *
-     * @param applicationType
+     * @param applicantType
      * @return
      */
-    public ApplicationTypeDto toApplicationTypeDto(ApplicationType applicationType) {
+    public ApplicationTypeDto toApplicationTypeDto(ApplicantType applicantType) {
         return ApplicationTypeDto.applicationTypeDtoWith()
-            .name(applicationType.getName())
+            .name(applicantType.getName())
             .build();
     }
  }

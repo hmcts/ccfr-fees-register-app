@@ -40,7 +40,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         CreateFixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
         dto.setChannel("online");
-        dto.setApplication("all");
+        dto.setApplicant("all");
 
         FeeVersionDto versionDto = new FeeVersionDto();
 
@@ -81,7 +81,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         CreateFixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
         dto.setChannel("online");
-        dto.setApplication("all");
+        dto.setApplicant("all");
 
         FeeVersionDto versionDto = new FeeVersionDto();
 
@@ -127,7 +127,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
         dto.setChannel("default");
-        dto.setApplication("all");
+        dto.setApplicant("all");
         saveFeeAndCheckStatusIsCreated(dto);
 
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
@@ -166,7 +166,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
         dto.setChannel("default");
-        dto.setApplication("all");
+        dto.setApplicant("all");
 
         saveFeeAndCheckStatusIsCreated(dto);
 
@@ -205,7 +205,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setDescription(versionDto.getMemoLine());
         dto.setVersion(versionDto);
         dto.setChannel("default");
-        dto.setApplication("all");
+        dto.setApplicant("all");
 
         saveFeeAndCheckStatusIsCreated(dto);
 
@@ -237,7 +237,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
         dto.setChannel("online");
-        dto.setApplication("all");
+        dto.setApplicant("all");
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
@@ -277,7 +277,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
         dto.setChannel("online");
-        dto.setApplication("all");
+        dto.setApplicant("all");
 
         FeeVersionDto versionDto = new FeeVersionDto();
 
@@ -331,7 +331,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         lookup.setJurisdiction2("probate registry");
         lookup.setChannel("default");
         lookup.setEvent("issue");
-        lookup.setApplication("all");
+        lookup.setApplicant("all");
 
         lookup(lookup).andExpect(status().isOk());
     }
@@ -377,7 +377,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
                 lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
                 lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
                 lookupDto.setChannel(fee.getChannelTypeDto().getName());
-                lookupDto.setApplication(fee.getApplicationTypeDto().getName());
+                lookupDto.setApplicant(fee.getApplicantTypeDto().getName());
                 //lookupDto.setDirection(fee.getDirectionTypeDto().getName());
                 lookupDto.setEvent(fee.getEventTypeDto().getName());
                 lookupDto.setService(fee.getServiceTypeDto().getName());
@@ -415,7 +415,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
                 lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
                 lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
                 lookupDto.setChannel(fee.getChannelTypeDto().getName());
-                lookupDto.setApplication(fee.getApplicationTypeDto().getName());
+                lookupDto.setApplicant(fee.getApplicantTypeDto().getName());
                 //lookupDto.setDirection(fee.getDirectionTypeDto().getName());
                 lookupDto.setEvent(fee.getEventTypeDto().getName());
                 lookupDto.setService(fee.getServiceTypeDto().getName());

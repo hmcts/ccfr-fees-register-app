@@ -66,7 +66,7 @@ public class FeeLoaderTest extends BaseIntegrationTest {
         feeLoader.run(args);
 
         restActions
-            .get("/fees-register/fees/lookup-unspecified?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&event=issue&channel=default&application=all")
+            .get("/fees-register/fees/lookup-unspecified?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&event=issue&channel=default&applicant=all")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, fee -> {
                 assertThat(fee.getCode()).isEqualTo("X0012");

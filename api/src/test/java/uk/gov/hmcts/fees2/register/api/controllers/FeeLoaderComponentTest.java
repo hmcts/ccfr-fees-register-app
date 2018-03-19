@@ -4,9 +4,7 @@ import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
@@ -96,7 +94,7 @@ public class FeeLoaderComponentTest extends BaseTest {
     @Test
     public void testFeeLoaderForPersonalFee() throws Exception {
         restActions
-            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"), "channel=default&service=probate&application=personal")
+            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"), "channel=default&service=probate&applicant=personal")
         .andExpect(status().isOk())
         .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
             Fee2Dto fee = fee2Dtos.stream().filter(f -> f.getCode().equals("X0250-1")).findAny().orElse(null);
@@ -104,7 +102,7 @@ public class FeeLoaderComponentTest extends BaseTest {
             assertThat(fee.getJurisdiction1Dto().getName()).isEqualTo("family");
             assertThat(fee.getJurisdiction2Dto().getName()).isEqualTo("probate registry");
             assertThat(fee.getServiceTypeDto().getName()).isEqualTo("probate");
-            assertThat(fee.getApplicationTypeDto().getName()).isEqualTo("personal");
+            assertThat(fee.getApplicantTypeDto().getName()).isEqualTo("personal");
             assertThat(fee.getCurrentVersion().getFlatAmount().getAmount()).isEqualTo(new BigDecimal("215.00"));
         }));
     }
@@ -113,7 +111,7 @@ public class FeeLoaderComponentTest extends BaseTest {
     public void testFeeLoaderForCMCUnspecifiedFee() throws Exception {
 
         restActions
-            .get("/fees-register/fees/lookup-unspecified?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&event=issue&channel=default&application=all")
+            .get("/fees-register/fees/lookup-unspecified?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&event=issue&channel=default&applicant=all")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, (fee) -> {
                 assertThat(fee.getCode()).isEqualTo("X0012");

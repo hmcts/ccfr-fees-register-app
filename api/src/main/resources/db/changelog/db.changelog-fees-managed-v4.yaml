@@ -66,3 +66,12 @@ databaseChangeLog:
         initiallyDeferred: false
         referencedColumnNames: name
         referencedTableName: application_type
+
+
+- changeSet:
+    id: 1521217899808-6
+    author: tarunp
+    changes:
+      - renameTable:
+          newTableName: applicant_type
+          oldTableName: application_type

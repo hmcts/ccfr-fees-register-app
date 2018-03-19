@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.repository.ApplicationTypeRepository;
+import uk.gov.hmcts.fees2.register.data.repository.ApplicantTypeRepository;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersionValidator;
 
@@ -17,7 +17,7 @@ public class FeeValidator {
 
     private ChannelTypeRepository channelTypeRepository;
 
-    private ApplicationTypeRepository applicationTypeRepository;
+    private ApplicantTypeRepository applicantTypeRepository;
 
     private List<IFeeVersionValidator> versionValidators;
 
@@ -55,8 +55,8 @@ public class FeeValidator {
             fee.setChannelType(channelTypeRepository.findOne(ChannelType.DEFAULT));
         }
 
-        if (fee.getApplicationType() == null) {
-            fee.setApplicationType(ApplicationType.applicationWith().name(ApplicationType.ALL).build());
+        if (fee.getApplicantType() == null) {
+            fee.setApplicantType(ApplicantType.applicantWith().name(ApplicantType.ALL).build());
         }
 
         /* If no status was specified, set it to draft */

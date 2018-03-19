@@ -47,7 +47,7 @@ public class ReferenceDataController {
 
     private ReferenceDataDtoMapper referenceDataDtoMapper;
 
-    private final ApplicationTypeService applicationTypeService;
+    private final ApplicantTypeService applicantTypeService;
 
 
     @Autowired
@@ -55,7 +55,7 @@ public class ReferenceDataController {
                                    DirectionTypeService directionTypeService, EventTypeService eventTypeService,
                                    Jurisdiction1Service jurisdiction1Service,
                                    Jurisdiction2Service jurisdiction2Service, ServiceTypeService serviceTypeService,
-                                   RangeUnitRepository rangeUnitRepository, ApplicationTypeService applicationTypeService,
+                                   RangeUnitRepository rangeUnitRepository, ApplicantTypeService applicantTypeService,
                                    ReferenceDataDtoMapper referenceDataDtoMapper) {
         this.channelTypeService = channelTypeService;
         this.directionTypeService = directionTypeService;
@@ -65,7 +65,7 @@ public class ReferenceDataController {
         this.serviceTypeService = serviceTypeService;
         this.rangeUnitRepository = rangeUnitRepository;
         this.referenceDataDtoMapper = referenceDataDtoMapper;
-        this.applicationTypeService = applicationTypeService;
+        this.applicantTypeService = applicantTypeService;
     }
 
     @ApiOperation(value = "Get all reference data", response = AllReferenceDataDto.class)
@@ -99,7 +99,7 @@ public class ReferenceDataController {
     @GetMapping("/application-types")
     @ResponseStatus(HttpStatus.OK)
     public List<ApplicationTypeDto> getAllApplicationTypes() {
-        return applicationTypeService.findAll().stream().map(referenceDataDtoMapper::toApplicationTypeDto).collect(toList());
+        return applicantTypeService.findAll().stream().map(referenceDataDtoMapper::toApplicationTypeDto).collect(toList());
     }
 
     @ApiOperation(value = "Get channel types reference data", response = ChannelTypeDto.class, responseContainer = "List")

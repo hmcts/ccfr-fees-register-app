@@ -21,8 +21,8 @@ public class CreateRangedFeeDto extends CreateFeeDto{
     @JsonProperty("range_unit")
     private String rangeUnit;
 
-    public CreateRangedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String application, BigDecimal maxRange,  BigDecimal minRange) {
-        super(code, version, jurisdiction1, jurisdiction2, service, channel, event, application, false);
+    public CreateRangedFeeDto(String code, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicant, BigDecimal maxRange,  BigDecimal minRange) {
+        super(code, version, jurisdiction1, jurisdiction2, service, channel, event, applicant, false);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }
@@ -83,8 +83,8 @@ public class CreateRangedFeeDto extends CreateFeeDto{
         return this;
     }
 
-    public CreateRangedFeeDto setApplication(String application) {
-        this.application = application;
+    public CreateRangedFeeDto setApplicant(String applicant) {
+        this.applicant = applicant;
         return this;
     }
 

@@ -48,7 +48,7 @@ public class FeeServiceImpl implements FeeService {
     private ServiceTypeRepository serviceTypeRepository;
 
     @Autowired
-    private ApplicationTypeRepository applicationTypeRepository;
+    private ApplicantTypeRepository applicantTypeRepository;
 
     @Autowired
     private Fee2Repository fee2Repository;
@@ -141,8 +141,8 @@ public class FeeServiceImpl implements FeeService {
             dto.setChannel(ChannelType.DEFAULT);
         }
 
-        if (dto.getApplication() == null) {
-            dto.setApplication(ApplicationType.ALL);
+        if (dto.getApplicant() == null) {
+            dto.setApplicant(ApplicantType.ALL);
         }
     }
 
@@ -205,11 +205,11 @@ public class FeeServiceImpl implements FeeService {
             );
         }
 
-        if (dto.getApplication() != null) {
+        if (dto.getApplicant() != null) {
             predicates.add(
                 builder.equal(
-                    fee.get(fee.getModel().getSingularAttribute("applicationType")),
-                    applicationTypeRepository.findByNameOrThrow(dto.getApplication())
+                    fee.get(fee.getModel().getSingularAttribute("applicantType")),
+                    applicantTypeRepository.findByNameOrThrow(dto.getApplicant())
                 )
             );
         }
