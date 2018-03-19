@@ -10,8 +10,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
-@Builder(builderMethodName = "applicationTypeDtoWith")
-public class ApplicationTypeDto {
+@Builder(builderMethodName = "applicantTypeDtoWith")
+public class ApplicantTypeDto {
 
     private String name;
 

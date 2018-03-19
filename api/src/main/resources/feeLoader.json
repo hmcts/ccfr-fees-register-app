@@ -1,6 +1,32 @@
 {
   "rangedFees": [
     {
+      "min_range": 5000.01,
+      "code": "X0250-1",
+      "version": {
+        "version": 1,
+        "valid_from" : "2011-04-04T00:00:00.000Z",
+        "description": "cost recovery",
+        "status": "approved",
+        "memo_line":"Personal Application for grant of Probate",
+        "natural_account_code":"4481102158",
+        "direction": "enhanced",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument":"2011 No. 588 (L. 4)",
+        "si_ref_id": "2",
+        "flat_amount": {
+          "amount": 215.00
+        }
+      },
+      "range_unit":"GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "issue",
+      "applicant_type": "personal"
+    },
+    {
       "min_range": 0.01,
       "max_range": 300.00,
       "code": "X0001",
@@ -22,7 +48,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 300.01,
@@ -46,7 +72,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
 
     },
     {
@@ -72,7 +98,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 1000.01,
@@ -96,7 +122,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 1500.01,
@@ -120,7 +146,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 3000.01,
@@ -144,7 +170,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 5000.01,
@@ -168,7 +194,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 10000.01,
@@ -192,7 +218,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 200000.01,
@@ -215,7 +241,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 0.01,
@@ -239,7 +265,7 @@
       "service": "civil money claims",
       "channel": "online",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 300.01,
@@ -263,7 +289,7 @@
       "service": "civil money claims",
       "channel": "online",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 500.01,
@@ -286,7 +312,7 @@
       "service": "civil money claims",
       "channel": "online",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 1000.01,
@@ -310,7 +336,7 @@
       "service": "civil money claims",
       "channel": "online",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 1500.01,
@@ -334,7 +360,7 @@
       "service": "civil money claims",
       "channel": "online",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 3000.01,
@@ -358,7 +384,7 @@
       "service": "civil money claims",
       "channel": "online",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 5000.01,
@@ -382,7 +408,7 @@
       "service": "civil money claims",
       "channel": "online",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 10000.01,
@@ -406,7 +432,7 @@
       "service": "civil money claims",
       "channel": "online",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 5000.01,
@@ -430,7 +456,7 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 0.01,
@@ -455,7 +481,7 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 0.01,
@@ -475,7 +501,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 300.01,
@@ -495,7 +521,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 500.01,
@@ -515,7 +541,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 1000.01,
@@ -535,7 +561,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 1500.01,
@@ -555,7 +581,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "min_range": 3000.01,
@@ -575,7 +601,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "application": "all"
+      "applicant_type": "all"
     }
   ],
   "fixedFees": [
@@ -599,7 +625,7 @@
       "channel": "default",
       "event": "issue",
       "unspecified_claim_amount": "true",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code": "X0165",
@@ -617,7 +643,7 @@
       "service": "divorce",
       "channel": "default",
       "event": "issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code": "X0258",
@@ -639,7 +665,7 @@
       "service": "probate",
       "channel": "default",
       "event": "copies",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0033",
@@ -665,7 +691,7 @@
       "channel":"DEFAULT",
       "unspecified_claim_amount":false,
       "event":"issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0034",
@@ -691,7 +717,7 @@
       "channel":"DEFAULT",
       "unspecified_claim_amount":false,
       "event":"issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0035",
@@ -717,7 +743,7 @@
       "channel":"ONLINE",
       "unspecified_claim_amount":false,
       "event":"issue",
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0217",
@@ -743,7 +769,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0265",
@@ -769,7 +795,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0098",
@@ -795,7 +821,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
 
     },
     {
@@ -822,7 +848,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0054",
@@ -848,7 +874,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0055",
@@ -874,7 +900,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0056",
@@ -900,7 +926,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0410",
@@ -926,7 +952,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0406",
@@ -952,7 +978,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0114",
@@ -978,7 +1004,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0122",
@@ -1004,7 +1030,7 @@
       "channel":"DEFAULT",
       "event":"search",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0213",
@@ -1030,7 +1056,7 @@
       "channel":"DEFAULT",
       "event":"search",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0212",
@@ -1056,7 +1082,7 @@
       "channel":"DEFAULT",
       "event":"search",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0211",
@@ -1082,7 +1108,7 @@
       "channel":"DEFAULT",
       "event":"search",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0240",
@@ -1108,7 +1134,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0096",
@@ -1134,7 +1160,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0398",
@@ -1160,7 +1186,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0397",
@@ -1186,7 +1212,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0396",
@@ -1212,7 +1238,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0228",
@@ -1238,7 +1264,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0276",
@@ -1264,7 +1290,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0095",
@@ -1290,7 +1316,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0242",
@@ -1316,7 +1342,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0238",
@@ -1342,7 +1368,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0101",
@@ -1368,7 +1394,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0393",
@@ -1394,7 +1420,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0164",
@@ -1420,7 +1446,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0405",
@@ -1446,7 +1472,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0104",
@@ -1472,7 +1498,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0105",
@@ -1498,7 +1524,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0106",
@@ -1524,7 +1550,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0107",
@@ -1550,7 +1576,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0108",
@@ -1576,7 +1602,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0109",
@@ -1602,7 +1628,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0110",
@@ -1628,7 +1654,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0097",
@@ -1654,7 +1680,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0113",
@@ -1680,7 +1706,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0120",
@@ -1706,7 +1732,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0241",
@@ -1732,7 +1758,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0121",
@@ -1758,7 +1784,7 @@
       "channel":"DEFAULT",
       "event":"search",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0449",
@@ -1784,7 +1810,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0308",
@@ -1810,7 +1836,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0394",
@@ -1836,7 +1862,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0445",
@@ -1862,7 +1888,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0102",
@@ -1888,7 +1914,7 @@
       "channel":"ONLINE",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0132",
@@ -1914,7 +1940,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0133",
@@ -1940,7 +1966,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0134",
@@ -1966,7 +1992,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0135",
@@ -1992,7 +2018,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0136",
@@ -2018,7 +2044,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0137",
@@ -2044,7 +2070,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0138",
@@ -2070,7 +2096,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0139",
@@ -2096,7 +2122,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0140",
@@ -2122,7 +2148,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0141",
@@ -2148,7 +2174,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0142",
@@ -2174,7 +2200,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0143",
@@ -2200,7 +2226,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0144",
@@ -2226,7 +2252,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0145",
@@ -2252,7 +2278,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0146",
@@ -2278,7 +2304,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0147",
@@ -2304,7 +2330,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0150",
@@ -2330,7 +2356,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0151",
@@ -2356,7 +2382,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0152",
@@ -2382,7 +2408,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0153",
@@ -2408,7 +2434,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0154",
@@ -2434,7 +2460,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0157",
@@ -2460,7 +2486,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0158",
@@ -2486,7 +2512,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0159",
@@ -2512,7 +2538,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0160",
@@ -2538,7 +2564,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0162",
@@ -2564,7 +2590,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0163",
@@ -2590,7 +2616,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0103",
@@ -2616,7 +2642,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0226",
@@ -2642,7 +2668,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0274",
@@ -2668,7 +2694,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0127",
@@ -2694,7 +2720,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0239",
@@ -2720,7 +2746,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0172",
@@ -2746,7 +2772,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0173",
@@ -2772,7 +2798,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0174",
@@ -2798,7 +2824,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0175",
@@ -2824,7 +2850,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0176",
@@ -2850,7 +2876,7 @@
       "service":"Private Law",
       "channel":"DEFAULT",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0177",
@@ -2876,7 +2902,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0178",
@@ -2902,7 +2928,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0179",
@@ -2928,7 +2954,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0180",
@@ -2954,7 +2980,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0181",
@@ -2980,7 +3006,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0182",
@@ -3006,7 +3032,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0183",
@@ -3032,7 +3058,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0184",
@@ -3058,7 +3084,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0185",
@@ -3084,7 +3110,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0186",
@@ -3110,7 +3136,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0187",
@@ -3136,7 +3162,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0188",
@@ -3162,7 +3188,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0189",
@@ -3188,7 +3214,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0190",
@@ -3214,7 +3240,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0191",
@@ -3240,7 +3266,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0192",
@@ -3266,7 +3292,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0193",
@@ -3292,7 +3318,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0194",
@@ -3318,7 +3344,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0195",
@@ -3344,7 +3370,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0196",
@@ -3370,7 +3396,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0197",
@@ -3396,7 +3422,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0198",
@@ -3422,7 +3448,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0199",
@@ -3448,7 +3474,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0200",
@@ -3474,7 +3500,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0201",
@@ -3500,7 +3526,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0202",
@@ -3526,7 +3552,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0203",
@@ -3552,7 +3578,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0204",
@@ -3575,7 +3601,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0400",
@@ -3601,7 +3627,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0399",
@@ -3627,7 +3653,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0408",
@@ -3653,7 +3679,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0404",
@@ -3679,7 +3705,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0279",
@@ -3705,7 +3731,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0126",
@@ -3731,7 +3757,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0125",
@@ -3757,7 +3783,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0167",
@@ -3783,7 +3809,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0248",
@@ -3809,7 +3835,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0131",
@@ -3835,7 +3861,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0209",
@@ -3861,7 +3887,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0444",
@@ -3887,7 +3913,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0129",
@@ -3913,7 +3939,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0407",
@@ -3939,7 +3965,7 @@
       "channel":"DEFAULT",
       "event":"hearing",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0447",
@@ -3965,7 +3991,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0409",
@@ -3991,7 +4017,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0216",
@@ -4017,7 +4043,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0251",
@@ -4043,7 +4069,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0252",
@@ -4069,7 +4095,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0253",
@@ -4095,7 +4121,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0254",
@@ -4121,7 +4147,7 @@
       "channel":"DEFAULT",
       "event":"search",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0255",
@@ -4147,7 +4173,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0256",
@@ -4173,7 +4199,7 @@
       "channel":"DEFAULT",
       "event":"search",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0259",
@@ -4199,7 +4225,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0260",
@@ -4225,7 +4251,7 @@
       "channel":"DEFAULT",
       "event":"search",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0261",
@@ -4251,7 +4277,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0262",
@@ -4277,7 +4303,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0264",
@@ -4303,7 +4329,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0443",
@@ -4329,7 +4355,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0124",
@@ -4355,7 +4381,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0123",
@@ -4381,7 +4407,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0232",
@@ -4407,7 +4433,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0171",
@@ -4433,7 +4459,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0166",
@@ -4459,7 +4485,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0237",
@@ -4485,7 +4511,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0446",
@@ -4511,7 +4537,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0448",
@@ -4537,7 +4563,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0206",
@@ -4563,7 +4589,7 @@
       "channel":"DEFAULT",
       "event":"General Application",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0170",
@@ -4589,7 +4615,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0310",
@@ -4615,7 +4641,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0311",
@@ -4641,7 +4667,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0312",
@@ -4667,7 +4693,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0313",
@@ -4693,7 +4719,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0314",
@@ -4719,7 +4745,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0315",
@@ -4745,7 +4771,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0318",
@@ -4771,7 +4797,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0231",
@@ -4797,7 +4823,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0236",
@@ -4823,7 +4849,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0233",
@@ -4849,7 +4875,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0229",
@@ -4875,7 +4901,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0230",
@@ -4901,7 +4927,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0100",
@@ -4927,7 +4953,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0235",
@@ -4953,7 +4979,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0208",
@@ -4979,7 +5005,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0099",
@@ -5005,7 +5031,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0234",
@@ -5031,7 +5057,7 @@
       "channel":"DEFAULT",
       "event":"enforcement",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0277",
@@ -5057,7 +5083,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0205",
@@ -5083,7 +5109,7 @@
       "channel":"DEFAULT",
       "event":"General Application",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0207",
@@ -5109,7 +5135,7 @@
       "channel":"DEFAULT",
       "event":"General Application",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0426",
@@ -5135,7 +5161,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0417",
@@ -5161,7 +5187,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0425",
@@ -5187,7 +5213,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
 
     },
     {
@@ -5214,7 +5240,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0423",
@@ -5240,7 +5266,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0416",
@@ -5266,7 +5292,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0419",
@@ -5292,7 +5318,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0420",
@@ -5318,7 +5344,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0422",
@@ -5344,7 +5370,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0414",
@@ -5370,7 +5396,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0415",
@@ -5396,7 +5422,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0418",
@@ -5422,7 +5448,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0421",
@@ -5448,7 +5474,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0278",
@@ -5474,7 +5500,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0309",
@@ -5500,7 +5526,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0094",
@@ -5526,7 +5552,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0210",
@@ -5552,7 +5578,7 @@
       "channel":"DEFAULT",
       "event":"appeal",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0227",
@@ -5578,7 +5604,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0432",
@@ -5604,7 +5630,7 @@
       "channel":"BULK",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0442",
@@ -5630,7 +5656,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0275",
@@ -5656,7 +5682,7 @@
       "channel":"DEFAULT",
       "event":"Cost Assessment",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0169",
@@ -5682,7 +5708,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0168",
@@ -5708,7 +5734,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0130",
@@ -5734,7 +5760,7 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     },
     {
       "code":"X0395",
@@ -5760,7 +5786,7 @@
       "channel":"DEFAULT",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "application": "all"
+      "applicant_type": "all"
     }
   ]
 }

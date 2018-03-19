@@ -157,6 +157,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
         dto.setChannel("online");
+        dto.setApplicantType("all");
         dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setUnspecifiedClaimAmount(true);
 
