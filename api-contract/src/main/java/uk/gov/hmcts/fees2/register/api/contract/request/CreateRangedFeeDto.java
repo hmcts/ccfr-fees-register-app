@@ -88,7 +88,6 @@ public class CreateRangedFeeDto extends CreateFeeDto{
         return this;
     }
 
-
     public String getRangeUnit() {
         return rangeUnit;
     }
