@@ -23,3 +23,8 @@ dependencies {
     testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.3.RELEASE'
     testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
 }
+
+test {
+    // Base test class for other tests - has no runnable test methods
+    exclude '**/ComponentTestBase*'
+}

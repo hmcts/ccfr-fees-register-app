@@ -5,13 +5,15 @@ plugins {
     id 'org.springframework.boot' version '1.5.9.RELEASE'
     id 'io.spring.dependency-management' version '1.0.3.RELEASE'
     id 'org.owasp.dependencycheck' version '1.4.5.1'
+    id "com.gorylenko.gradle-git-properties" version "1.4.21"
+    id 'findbugs'
     id 'jacoco'
 }
 allprojects {
     apply plugin: 'maven'
 
     group = 'uk.gov.hmcts.reform.fees-register'
-    version = '1.0.1-SNAPSHOT'
+    version = rootProject.file('version.txt').text.trim()
 
     repositories {
         maven {
@@ -26,6 +28,9 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: "jacoco"
+    apply plugin: "findbugs"
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     tasks.withType(JavaCompile) {
@@ -40,19 +45,75 @@ subprojects {
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
     }
 
+    test {
+        finalizedBy jacocoTestReport
+        jacoco {
+            append = true
+            destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
+        }
+    }
 
-}
+    jacocoTestReport {
+        executionData(test)
+        reports {
+            xml.enabled true
+            html.enabled true
+        }
+    }
 
-jar {
-    manifest {
-
-        attributes 'Implementation-Title': project.name,
-                'Implementation-Version': project.version
+    findbugs {
+        ignoreFailures = false
+        reportsDir = file("$project.buildDir/reports/findbugs")
+        effort = "max"
+        reportLevel = "high"
+        includeFilter = file("$rootProject.projectDir/findbugs-security-include.xml")
+        excludeFilter = file("$rootProject.projectDir/findbugs-security-exclude.xml")
     }
 }
 
-bootRepackage {
-    classifier 'all'
+dependencies {
+    compile project(':fees-register-api')
+}
+
+jar {
+    archiveName 'fees-register-app.jar'
+    manifest {
+        attributes 'Implementation-Title': project.name, 'Implementation-Version': project.version
+    }
+}
+
+springBoot {
+    mainClassName = 'uk.gov.hmcts.FeesRegisterServiceApplication'
+    buildInfo()
+}
+
+//    OWASP (./gradlew dependencyCheck -DdependencyCheck.failBuild=true)
+dependencyCheck {
+    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
+    // range of 0-10 fails the build, anything greater and it doesn't fail the build
+    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
+    suppressionFile = 'dependency-check-suppressions.xml'
+    format='ALL'
+}
+
+def sonarExclusions = [
+        '**/fees/**',
+        '**/fees2/register/api/contract/**',
+        '**/fees2/register/data/model/**',
+        '**/fees2/register/data/dto/**'
+]
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "https://sonar.reform.hmcts.net/"
+        property "sonar.dynamicAnalysis", "reuseReports"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
+        property "sonar.exclusions", sonarExclusions.join(", ")
+        property "sonar.test.exclusions", sonarExclusions.join(", ")
+        property "sonar.coverage.exclusions", sonarExclusions.join(", ")
+    }
 }
 
 task printVersion {
@@ -61,13 +122,11 @@ task printVersion {
         print project.version
     }
 }
+
 run {
     def debug = System.getProperty("debug")
     if (debug == 'true') {
         jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
     }
 }
-dependencies {
-    compile project(':fees-register-api')
-}
-mainClassName = 'uk.gov.hmcts.FeesRegisterServiceApplication'
+
