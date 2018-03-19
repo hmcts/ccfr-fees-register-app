@@ -1,6 +1,32 @@
 {
   "rangedFees": [
     {
+      "min_range": 5000.01,
+      "code": "X0250-1",
+      "version": {
+        "version": 1,
+        "valid_from" : "2011-04-04T00:00:00.000Z",
+        "description": "cost recovery",
+        "status": "approved",
+        "memo_line":"Personal Application for grant of Probate",
+        "natural_account_code":"4481102158",
+        "direction": "enhanced",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument":"2011 No. 588 (L. 4)",
+        "si_ref_id": "2",
+        "flat_amount": {
+          "amount": 215.00
+        }
+      },
+      "range_unit":"GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "issue",
+      "application": "personal"
+    },
+    {
       "min_range": 0.01,
       "max_range": 300.00,
       "code": "X0001",

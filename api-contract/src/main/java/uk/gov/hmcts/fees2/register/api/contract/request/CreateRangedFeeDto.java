@@ -83,6 +83,11 @@ public class CreateRangedFeeDto extends CreateFeeDto{
         return this;
     }
 
+    public CreateRangedFeeDto setApplication(String application) {
+        this.application = application;
+        return this;
+    }
+
 
     public String getRangeUnit() {
         return rangeUnit;

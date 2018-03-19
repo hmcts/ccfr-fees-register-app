@@ -104,6 +104,10 @@ public abstract class BaseIntegrationTest extends BaseTest{
             lookup = lookup.param("event", lookupFeeDto.getEvent());
         }
 
+        if(lookupFeeDto.getApplication() != null){
+            lookup = lookup.param("application", lookupFeeDto.getApplication());
+        }
+
         if(lookupFeeDto.getAmountOrVolume() != null){
             lookup = lookup.param("amount_or_volume", lookupFeeDto.getAmountOrVolume().toString());
         }
@@ -151,6 +155,10 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
         if(createDto.getEvent() != null){
             lookup = lookup.param("event", createDto.getEvent());
+        }
+
+        if(createDto.getApplication() != null){
+            lookup = lookup.param("application", createDto.getApplication());
         }
 
         return mvc.perform(lookup);
@@ -203,6 +211,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setJurisdiction1("civil")
         //.setDirection("licence")
         .setJurisdiction2("family court")
+        .setApplication("all")
         .setCode(String.valueOf(System.currentTimeMillis()));
         //.setMemoLine("description");
     }
@@ -213,6 +222,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setEvent("issue")
         .setJurisdiction1("family")
         .setJurisdiction2("family court")
+        .setApplication("all")
         //.setDirection("licence")
         .setCode(String.valueOf(System.currentTimeMillis()));
         //.setMemoLine("description");

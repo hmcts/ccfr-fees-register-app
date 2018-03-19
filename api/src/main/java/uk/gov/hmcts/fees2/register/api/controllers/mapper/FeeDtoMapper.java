@@ -33,6 +33,7 @@ public class FeeDtoMapper {
     private EventTypeRepository eventTypeRepository;
     private DirectionTypeRepository directionTypeRepository;
     private FeeVersionRepository feeVersionRepository;
+    private ApplicationTypeRepository applicationTypeRepository;
 
     public static final String CODE_ALREADY_IN_USE  = "Code is already in use";
 
@@ -45,6 +46,7 @@ public class FeeDtoMapper {
         ServiceTypeRepository serviceTypeRepository,
         ChannelTypeRepository channelTypeRepository,
         EventTypeRepository eventTypeRepository,
+        ApplicationTypeRepository applicationTypeRepository,
         FeeVersionRepository feeVersionRepository) {
 
         this.jurisdiction1Repository = jurisdiction1Repository;
@@ -55,6 +57,7 @@ public class FeeDtoMapper {
         this.eventTypeRepository = eventTypeRepository;
         this.directionTypeRepository = directionTypeRepository;
         this.feeVersionRepository = feeVersionRepository;
+        this.applicationTypeRepository = applicationTypeRepository;
     }
 
     private void fillFee(CreateFeeDto request, Fee fee, String author) {
@@ -65,6 +68,7 @@ public class FeeDtoMapper {
         fillServiceType(fee, request.getService());
         fillEventType(fee, request.getEvent());
         fillChannelType(fee, request.getChannel());
+        fillApplicationType(fee, request.getApplication());
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
@@ -118,6 +122,7 @@ public class FeeDtoMapper {
         fee2Dto.setJurisdiction1Dto(fee.getJurisdiction1());
         fee2Dto.setJurisdiction2Dto(fee.getJurisdiction2());
         fee2Dto.setServiceTypeDto(fee.getService());
+        fee2Dto.setApplicationTypeDto(fee.getApplicationType());
 
         fee2Dto.setUnspecifiedClaimAmount(fee.isUnspecifiedClaimAmount());
 
@@ -331,6 +336,15 @@ public class FeeDtoMapper {
         }
 
         fee.setService(serviceTypeRepository.findByNameOrThrow(service.toLowerCase()));
+    }
+
+    private void fillApplicationType(Fee fee, String application) {
+
+        if(application == null) {
+            return;
+        }
+
+        fee.setApplicationType(applicationTypeRepository.findByNameOrThrow(application.toLowerCase()));
     }
 
 }

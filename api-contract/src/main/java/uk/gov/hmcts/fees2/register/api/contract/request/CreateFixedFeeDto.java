@@ -52,6 +52,11 @@ public class CreateFixedFeeDto extends CreateFeeDto{
         return this;
     }
 
+    public CreateFixedFeeDto setApplication(String application) {
+        this.application = application;
+        return this;
+    }
+
 
     public Boolean getUnspecifiedClaimAmount() {
         return unspecifiedClaimAmount;
