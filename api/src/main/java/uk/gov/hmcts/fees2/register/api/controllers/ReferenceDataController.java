@@ -99,7 +99,7 @@ public class ReferenceDataController {
     @GetMapping("/applicant-types")
     @ResponseStatus(HttpStatus.OK)
     public List<ApplicantTypeDto> getAllApplicantTypes() {
-        return applicantTypeService.findAll().stream().map(referenceDataDtoMapper::toApplicationTypeDto).collect(toList());
+        return applicantTypeService.findAll().stream().map(referenceDataDtoMapper::toApplicantTypeDto).collect(toList());
     }
 
     @ApiOperation(value = "Get channel types reference data", response = ChannelTypeDto.class, responseContainer = "List")
