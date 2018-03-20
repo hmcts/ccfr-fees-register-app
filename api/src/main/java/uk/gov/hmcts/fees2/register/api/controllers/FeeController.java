@@ -193,7 +193,7 @@ public class FeeController {
                                                        @RequestParam String jurisdiction2,
                                                        @RequestParam String channel,
                                                        @RequestParam String event,
-                                                       @RequestParam(required = false, defaultValue = "all", name = "applicant_type") String applicantType,
+                                                       @RequestParam(name = "applicant_type") String applicantType,
                                                        @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume,
                                                        HttpServletResponse response) {
 
