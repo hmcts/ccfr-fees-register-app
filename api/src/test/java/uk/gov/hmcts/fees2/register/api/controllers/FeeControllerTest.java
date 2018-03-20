@@ -119,7 +119,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             }));
 
         restActions
-            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online&amount_or_volume=311&applicant_type=all")
+            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online&amount_or_volume=311")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, (lookupDto) -> {
                 assertThat(lookupDto.getCode().equals(feeCode));
