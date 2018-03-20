@@ -277,7 +277,6 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
         dto.setChannel("online");
-        dto.setApplicantType("all");
 
         FeeVersionDto versionDto = new FeeVersionDto();
 

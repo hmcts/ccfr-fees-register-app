@@ -140,10 +140,6 @@ public class FeeServiceImpl implements FeeService {
         if (dto.getChannel() == null) {
             dto.setChannel(ChannelType.DEFAULT);
         }
-
-        if (dto.getApplicantType() == null) {
-            dto.setApplicantType(ApplicantType.ALL);
-        }
     }
 
     private boolean secondLevelFilter(Fee fee, LookupFeeDto dto) {
