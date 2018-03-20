@@ -1,6 +1,7 @@
 package uk.gove.hmcts.fees.register.smoke;
 
 import io.restassured.RestAssured;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import static io.restassured.RestAssured.given;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @RunWith(SpringRunner.class)
+@Slf4j
 public class SmokeTest {
     @Value("${TEST_URL:http://localhost:8080}")
     private String testUrl;
@@ -19,6 +21,7 @@ public class SmokeTest {
     @Before
     public void setup() {
         RestAssured.baseURI = testUrl;
+        log.info("Fees-Register-Api base url is :{}", testUrl);
     }
 
     @Test
