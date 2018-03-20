@@ -8,9 +8,12 @@ module "fees-register-api" {
   is_frontend  = false
 
   app_settings = {
+    # db
     SPRING_DATASOURCE_USERNAME = "${module.fees-register-database.user_name}"
     SPRING_DATASOURCE_PASSWORD = "${module.fees-register-database.postgresql_password}"
     SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.fees-register-database.host_name}:${module.fees-register-database.postgresql_listen_port}/${module.fees-register-database.postgresql_database}"
+    # idam
+    IDAM_CLIENT_BASE_URL = "${var.idam_api_url}"
   }
 }
 
