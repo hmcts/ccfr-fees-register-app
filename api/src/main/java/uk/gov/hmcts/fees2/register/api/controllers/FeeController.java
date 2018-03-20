@@ -193,7 +193,7 @@ public class FeeController {
                                                        @RequestParam String jurisdiction2,
                                                        @RequestParam String channel,
                                                        @RequestParam String event,
-                                                       @RequestParam(name = "applicant_type") String applicantType,
+                                                       @RequestParam(required = false, name = "applicant_type") String applicantType,
                                                        @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume,
                                                        HttpServletResponse response) {
 
@@ -223,7 +223,7 @@ public class FeeController {
                                                   @RequestParam String jurisdiction2,
                                                   @RequestParam String channel,
                                                   @RequestParam String event,
-                                                  @RequestParam(name = "applicant_type") String applicantType,
+                                                  @RequestParam(required = false, name = "applicant_type") String applicantType,
                                                   HttpServletResponse response) {
         return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, null, true, FeeVersionStatus.approved, null));
     }
