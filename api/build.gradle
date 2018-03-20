@@ -1,4 +1,33 @@
-description = ''
+description = 'api module'
+
+sourceSets {
+
+    smokeTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/smokeTest/java')
+        }
+    }
+    functionalTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/functionalTest/java')
+        }
+    }
+}
+
+apply plugin: 'idea'
+idea {
+    module {
+        testSourceDirs += project.sourceSets.smokeTest.java.srcDirs
+        testSourceDirs += project.sourceSets.smokeTest.resources.srcDirs
+        testSourceDirs += project.sourceSets.functionalTest.java.srcDirs
+        testSourceDirs += project.sourceSets.functionalTest.resources.srcDirs
+    }
+}
+
 dependencies {
     compile project(':fees-register-model')
     compile project(':fees-register-api-contract')
@@ -16,15 +45,34 @@ dependencies {
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.0'
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.0'
+
     runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.5.9.RELEASE'
+
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.9.RELEASE') {
         exclude(module: 'commons-logging')
     }
     testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.3.RELEASE'
     testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
+    testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
+
+    // smoke
+    smokeTestCompile sourceSets.test.runtimeClasspath
+
+    // functional
+    functionalTestCompile sourceSets.test.runtimeClasspath
 }
 
 test {
     // Base test class for other tests - has no runnable test methods
     exclude '**/ComponentTestBase*'
+}
+
+task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verification') {
+    testClassesDirs = sourceSets.smokeTest.output.classesDirs
+    classpath = sourceSets.smokeTest.runtimeClasspath
+}
+
+task functionalTest(type: Test, description: 'Runs the smoke functional', group: 'Verification') {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
 }
