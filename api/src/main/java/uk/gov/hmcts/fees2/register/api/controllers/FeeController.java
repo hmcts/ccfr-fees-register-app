@@ -22,6 +22,7 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
+import javax.annotation.RegEx;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -158,6 +159,7 @@ public class FeeController {
                                 @RequestParam(required = false) String channel,
                                 @RequestParam(required = false) String event,
                                 @RequestParam(required = false) String direction,
+                                @RequestParam(required = false, name = "applicant_type") String applicantType,
                                 @RequestParam(required = false) BigDecimal amount,
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus,
@@ -166,7 +168,7 @@ public class FeeController {
         /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
 
         return feeService
-            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
+            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
             .stream()
             .filter(f -> {
                 if (feeVersionStatus!=null) {
@@ -191,6 +193,7 @@ public class FeeController {
                                                        @RequestParam String jurisdiction2,
                                                        @RequestParam String channel,
                                                        @RequestParam String event,
+                                                       @RequestParam(required = false, name = "applicant_type") String applicantType,
                                                        @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume,
                                                        HttpServletResponse response) {
 
@@ -198,7 +201,7 @@ public class FeeController {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
         }
 
-        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, amountOrVolume, false, FeeVersionStatus.approved, null));
+        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amountOrVolume, false, FeeVersionStatus.approved, null));
 
         if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -220,8 +223,9 @@ public class FeeController {
                                                   @RequestParam String jurisdiction2,
                                                   @RequestParam String channel,
                                                   @RequestParam String event,
+                                                  @RequestParam(required = false, name = "applicant_type") String applicantType,
                                                   HttpServletResponse response) {
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, null, true, FeeVersionStatus.approved, null));
+        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, null, true, FeeVersionStatus.approved, null));
     }
 
     /* --- */

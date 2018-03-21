@@ -14,9 +14,9 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(builderMethodName = "applicationWith")
-@Table(name = "application_type")
-public class ApplicationType implements Serializable {
+@Builder(builderMethodName = "applicantWith")
+@Table(name = "applicant_type")
+public class ApplicantType implements Serializable {
 
     public static final String ALL = "all";
 

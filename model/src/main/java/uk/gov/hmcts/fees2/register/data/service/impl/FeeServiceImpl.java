@@ -9,10 +9,7 @@ import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
-import uk.gov.hmcts.fees2.register.data.model.ChannelType;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
@@ -49,6 +46,9 @@ public class FeeServiceImpl implements FeeService {
 
     @Autowired
     private ServiceTypeRepository serviceTypeRepository;
+
+    @Autowired
+    private ApplicantTypeRepository applicantTypeRepository;
 
     @Autowired
     private Fee2Repository fee2Repository;
@@ -197,6 +197,15 @@ public class FeeServiceImpl implements FeeService {
                 builder.equal(
                     fee.get(fee.getModel().getSingularAttribute("eventType")),
                     eventTypeRepository.findByNameOrThrow(dto.getEvent())
+                )
+            );
+        }
+
+        if (dto.getApplicantType() != null) {
+            predicates.add(
+                builder.equal(
+                    fee.get(fee.getModel().getSingularAttribute("applicantType")),
+                    applicantTypeRepository.findByNameOrThrow(dto.getApplicantType())
                 )
             );
         }

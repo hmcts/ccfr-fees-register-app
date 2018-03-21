@@ -13,11 +13,14 @@ allprojects {
     apply plugin: 'maven'
 
     group = 'uk.gov.hmcts.reform.fees-register'
-    version = rootProject.file('version.txt').text.trim()
+    ext {
+        buildNumber = System.getenv("BUILD_NUMBER") ?: '0'
+    }
+    version = rootProject.file('version.txt').text.trim() + ".${buildNumber}"
 
     repositories {
         maven {
-            url "https://dl.bintray.com/hmcts/hmcts-maven"
+            url "http://artifactory.reform.hmcts.net/artifactory/libs-release"
         }
         jcenter()
         mavenLocal()

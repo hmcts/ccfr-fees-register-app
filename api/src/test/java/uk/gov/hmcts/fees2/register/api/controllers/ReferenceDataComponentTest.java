@@ -4,12 +4,11 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
-import uk.gov.hmcts.fees2.register.data.model.ApplicationType;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees2.register.api.contract.ApplicationTypeDto.*;
+import static uk.gov.hmcts.fees2.register.api.contract.ApplicantTypeDto.*;
 import static uk.gov.hmcts.fees2.register.api.contract.ChannelTypeDto.*;
 import static uk.gov.hmcts.fees2.register.api.contract.DirectionTypeDto.*;
 import static uk.gov.hmcts.fees2.register.api.contract.EventTypeDto.*;
@@ -28,17 +27,17 @@ public class ReferenceDataComponentTest extends BaseTest {
     public void getAllApplicationTypeTest() throws Exception {
 
         restActions
-            .get(URIUtils.getUrlForGetMethod(ReferenceDataController.class, "getAllApplicationTypes"))
-            .andExpect(body().asListOf(ApplicationTypeDto.class, applicationTypeDtos -> {
-                assertThat(applicationTypeDtos.size()).isEqualTo(3);
-                assertThat(applicationTypeDtos).contains(
-                    applicationTypeDtoWith()
+            .get(URIUtils.getUrlForGetMethod(ReferenceDataController.class, "getAllApplicantTypes"))
+            .andExpect(body().asListOf(ApplicantTypeDto.class, applicantTypeDtos -> {
+                assertThat(applicantTypeDtos.size()).isEqualTo(3);
+                assertThat(applicantTypeDtos).contains(
+                    applicantTypeDtoWith()
                         .name("personal")
                         .build(),
-                    applicationTypeDtoWith()
+                    applicantTypeDtoWith()
                         .name("non personal")
                         .build(),
-                    applicationTypeDtoWith()
+                    applicantTypeDtoWith()
                         .name("all")
                         .build()
                 );

@@ -92,6 +92,22 @@ public class FeeLoaderComponentTest extends BaseTest {
     }
 
     @Test
+    public void testFeeLoaderForPersonalFee() throws Exception {
+        restActions
+            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"), "channel=default&service=probate&applicant_type=personal")
+        .andExpect(status().isOk())
+        .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+            Fee2Dto fee = fee2Dtos.stream().filter(f -> f.getCode().equals("X0250-1")).findAny().orElse(null);
+            assertThat(fee.getCode()).isEqualTo("X0250-1");
+            assertThat(fee.getJurisdiction1Dto().getName()).isEqualTo("family");
+            assertThat(fee.getJurisdiction2Dto().getName()).isEqualTo("probate registry");
+            assertThat(fee.getServiceTypeDto().getName()).isEqualTo("probate");
+            assertThat(fee.getApplicantTypeDto().getName()).isEqualTo("personal");
+            assertThat(fee.getCurrentVersion().getFlatAmount().getAmount()).isEqualTo(new BigDecimal("215.00"));
+        }));
+    }
+
+    @Test
     public void testFeeLoaderForCMCUnspecifiedFee() throws Exception {
 
         restActions

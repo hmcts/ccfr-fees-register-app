@@ -137,7 +137,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void feesLookupNotFoundTest() throws Exception {
         restActions
-            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&amount_or_volume=10&channel=default")
+            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&amount_or_volume=10&channel=default&applicant_type=all")
             .andExpect(status().isNotFound());
     }
 

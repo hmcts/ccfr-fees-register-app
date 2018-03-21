@@ -41,6 +41,9 @@ public class Fee2Dto {
     @JsonProperty("service_type")
     private ServiceType serviceTypeDto;
 
+    @JsonProperty("applicant_type")
+    private ApplicantType applicantTypeDto;
+
     @JsonProperty("fee_versions")
     private List<FeeVersionDto> feeVersionDtos;
 
@@ -58,7 +61,4 @@ public class Fee2Dto {
 
     @JsonProperty("unspecified_claim_amount")
     private boolean unspecifiedClaimAmount;
-
-
-
 }
