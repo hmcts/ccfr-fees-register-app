@@ -33,7 +33,7 @@ module "key-vault" {
   tenant_id           = "${var.tenant_id}"
   object_id           = "${var.jenkins_AAD_objectId}"
   resource_group_name = "${module.fees-register-api.resource_group_name}"
-  product_group_object_id = "38f9dea6-e861-4a50-9e73-21e64f563537"
+  product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
