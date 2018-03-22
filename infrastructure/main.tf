@@ -1,5 +1,5 @@
 module "fees-register-api" {
-  source   = "git@github.com:hmcts/moj-module-webapp?ref=0.0.78"
+  source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product  = "${var.product}-api"
   location = "${var.location}"
   env      = "${var.env}"
