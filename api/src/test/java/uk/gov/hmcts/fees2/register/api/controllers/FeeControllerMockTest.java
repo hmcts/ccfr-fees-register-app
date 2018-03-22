@@ -27,9 +27,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = MOCK)
-@ActiveProfiles({"embedded", "idam-backdoor"})
 public class FeeControllerMockTest {
 
     private MockMvc mockMvc;
