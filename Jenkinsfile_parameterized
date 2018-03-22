@@ -4,10 +4,10 @@
 properties([
     parameters([
         string(name: 'PRODUCT_NAME', defaultValue: 'fees-register', description: ''),
-        string(name: 'APP', defaultValue: 'backend', description: ''),
+        string(name: 'APP', defaultValue: 'api', description: ''),
         string(name: 'TYPE', defaultValue: 'java', description: ''),
-        string(name: 'SUBSCRIPTION', defaultValue: 'sandbox', description: 'Azure subscriptions available to build in'),
-        choice(name: 'ENVIRONMENT', choices: 'saat\nsprod', description: 'Environment where code should be build and deployed')
+        string(name: 'ENVIRONMENT', defaultValue: 'sandbox', description: 'Environment where code should be build and deployed'),
+        choice(name: 'SUBSCRIPTION', choices: 'sandbox\nnonprod\nprod', description: 'Azure subscriptions available to build in')
     ]),
     [$class: 'GithubProjectProperty', projectUrlStr: 'github.com/hmcts/ccfr-fees-register-app'],
     pipelineTriggers([[$class: 'GitHubPushTrigger']])
