@@ -2,12 +2,15 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
+import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -119,5 +122,67 @@ public class FeeLoaderComponentTest extends BaseTest {
                 assertThat(fee.getVersion()).isEqualTo(1);
             }));
 
+    }
+
+    @Test
+    public void testFeeLoader_toUpdate_RangedFeeAttribute() throws Exception {
+
+        /* -- Before fee update -- */
+        restActions
+            .get("/fees-register/fees/X0249_NO_FEE")
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, fee2Dto -> {
+                assertThat(fee2Dto.getCode()).isEqualTo("X0249_NO_FEE");
+                assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("0.00"));
+                assertThat(fee2Dto.getMaxRange()).isEqualTo(new BigDecimal("5000.00"));
+            }));
+
+        restActions
+            .withUser("admin")
+            .put("/fees-register/ranged-fees/X0249_NO_FEE", getUpdatedRangedFeeRequest())
+            .andExpect(status().isNoContent());
+
+        /* -- After fee update */
+        restActions
+            .get("/fees-register/fees/X0249_NO_FEE")
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, fee2Dto -> {
+                assertThat(fee2Dto.getCode()).isEqualTo("X0249_NO_FEE");
+                assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("1000.00"));
+                assertThat(fee2Dto.getMaxRange()).isEqualTo(new BigDecimal("5000.00"));
+            }));
+    }
+
+
+    private CreateRangedFeeDto getUpdatedRangedFeeRequest() throws Exception {
+        return objectMapper.readValue(getModifiedRangedFeeJSON().getBytes(), CreateRangedFeeDto.class);
+    }
+
+    private String getModifiedRangedFeeJSON() {
+        return "{\n" +
+            "      \"min_range\": 1000.00,\n" +
+            "      \"max_range\": 5000.00,\n" +
+            "      \"range_unit\": \"GBP\",\n" +
+            "      \"code\": \"X0249_NO_FEE\",\n" +
+            "      \"version\": {\n" +
+            "        \"version\": 1,\n" +
+            "        \"valid_from\" : \"2011-04-04T00:00:00.511Z\",\n" +
+            "        \"description\": \"Application for a grant of probate (Estate under £5000)\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"statutory_instrument\": \"2011 No. 588 (L. 4)\",\n" +
+            "        \"fee_order_name\": \"Non-Contentious Probate Fees\",\n" +
+            "        \"si_ref_id\": \"1\",\n" +
+            "        \"direction\": \"cost recovery\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 0\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"probate registry\",\n" +
+            "      \"service\": \"probate\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"issue\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    }";
     }
 }
