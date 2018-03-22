@@ -18,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
@@ -71,6 +72,27 @@ public class FeeController {
             response.setHeader(LOCATION, getResourceLocation(fee));
         }
     }
+
+
+    @ApiOperation(value = "Update ranged fee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Updated"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PutMapping("/ranged-fees/{code}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void updateRangedFee(@PathVariable("code") String code,
+                                @RequestBody @Validated final CreateRangedFeeDto request,
+                                HttpServletResponse response,
+                                Principal principal) {
+        RangedFee fee = (RangedFee) feeService.get(code);
+
+        /* -- Set here the update attributes  -- */
+        fee.setMinRange(request.getMinRange());
+    }
+
 
     @ApiOperation(value = "Create fixed fee")
     @ApiResponses(value = {

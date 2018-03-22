@@ -459,7 +459,7 @@
       "applicant_type": "all"
     },
     {
-      "min_range": 0.01,
+      "min_range": 0,
       "max_range": 5000.00,
       "range_unit": "GBP",
       "code": "X0249_NO_FEE",
