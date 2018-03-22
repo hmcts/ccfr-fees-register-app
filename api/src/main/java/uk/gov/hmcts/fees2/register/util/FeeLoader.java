@@ -17,6 +17,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeLoaderJsonMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 
+import javax.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
@@ -72,7 +73,11 @@ public class FeeLoader implements ApplicationRunner {
                         LOG.info("Ranged fee with code " +r.getCode()+ " inserted into database.");
                     } catch (BadRequestException be) {
                         LOG.info("Ranged fee with code " +r.getCode()+ " already in use.");
-                        feeController.updateRangedFee(r.getCode(), r, null, AUTHOR);
+                        try {
+                            feeController.updateRangedFee(r.getCode(), r, null, AUTHOR);
+                        } catch (BadRequestException|PersistenceException pe) {
+                            LOG.info("Update failed for the fee code: {}", r.getCode());
+                        }
                     }
                 });
             }

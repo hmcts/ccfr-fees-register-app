@@ -153,14 +153,6 @@ public class FeeLoaderComponentTest extends BaseTest {
             }));
     }
 
-    @Test
-    public void testFeeLoader_toLookup_theUpdatedRangedFee() throws Exception {
-
-        restActions
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=issue&applicant_type=all&amount_or_volume=0")
-            .andExpect(status().isNoContent());
-    }
-
 
     private CreateRangedFeeDto getUpdatedRangedFeeRequest() throws Exception {
         return objectMapper.readValue(getModifiedRangedFeeJSON().getBytes(), CreateRangedFeeDto.class);
