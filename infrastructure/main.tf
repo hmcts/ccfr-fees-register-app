@@ -22,7 +22,7 @@ module "fees-register-database" {
   product             = "${var.product}"
   location            = "West Europe"
   env                 = "${var.env}"
-  postgresql_user   = "fradmin"
+  postgresql_user     = "fradmin"
 }
 
 module "key-vault" {
