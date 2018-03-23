@@ -29,10 +29,6 @@ variable "microservice" {
   default = "fees-register-app"
 }
 
-variable "database-name" {
-  default = "fees_register"
-}
-
 variable "idam_api_url" {
   default = "https://idam-test.dev.ccidam.reform.hmcts.net"
 }

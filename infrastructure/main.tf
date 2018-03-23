@@ -22,7 +22,7 @@ module "fees-register-database" {
   product             = "${var.product}"
   location            = "West Europe"
   env                 = "${var.env}"
-  postgresql_user   = "fradmin"  
+  postgresql_user   = "fradmin"
 }
 
 module "key-vault" {
@@ -32,6 +32,7 @@ module "key-vault" {
   tenant_id           = "${var.tenant_id}"
   object_id           = "${var.jenkins_AAD_objectId}"
   resource_group_name = "${module.fees-register-api.resource_group_name}"
+  # group id of dcd_reform_dev_azure
   product_group_object_id = "56679aaa-b343-472a-bb46-58bbbfde9c3d"
 }
 
