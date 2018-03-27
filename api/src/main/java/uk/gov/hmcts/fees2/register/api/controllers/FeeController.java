@@ -237,6 +237,10 @@ public class FeeController {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
         }
 
+        if ((event != null && event.equals("copies")) && (amountOrVolume != null && amountOrVolume.scale() >= 1)) {
+            throw new BadRequestException("Volume cannot be in fractions.");
+        }
+
         final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amountOrVolume, false, FeeVersionStatus.approved, null));
 
         if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {

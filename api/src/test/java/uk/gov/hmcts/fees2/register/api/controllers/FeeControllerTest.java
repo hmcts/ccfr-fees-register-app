@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
@@ -303,6 +304,30 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies1")
             .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void findFeeWithVolume_inFractions_shouldThrowBadRequestException() throws Exception {
+        MvcResult result = restActions
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=1.5")
+            .andExpect(status().isBadRequest())
+            .andReturn();
+
+        assertEquals(result.getResponse().getContentAsString(), "{\"cause\":\"Volume cannot be in fractions.\"}");
+    }
+
+    @Test
+    public void findFeeWithVolume_inWholeNumber_shouldReturnValidFee() throws Exception {
+        MvcResult result = restActions
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .andExpect(status().isOk())
+            .andReturn();
+
+        FeeLookupResponseDto fee = objectMapper.readValue(result.getResponse().getContentAsByteArray(), FeeLookupResponseDto.class);
+        assertEquals(fee.getCode(), "X0258");
+        assertEquals(fee.getDescription(), "Additional copies of the grant representation");
+        assertEquals(fee.getVersion(), new Integer(3));
+        assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
     }
 
 }
