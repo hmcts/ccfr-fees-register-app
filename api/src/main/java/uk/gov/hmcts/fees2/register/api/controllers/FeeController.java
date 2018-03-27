@@ -16,9 +16,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.model.RangedFee;
+import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
@@ -88,9 +86,25 @@ public class FeeController {
                                 HttpServletResponse response,
                                 Principal principal) {
         RangedFee fee = (RangedFee) feeService.get(code);
+        feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
+    }
 
-        /* -- Set here the update attributes  -- */
-        fee.setMinRange(request.getMinRange());
+
+    @ApiOperation(value = "Update fixed fee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Updated"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PutMapping("/fixed-fees/{code}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void updateFixedFee(@PathVariable("code") String code,
+                                @RequestBody @Validated final CreateFixedFeeDto request,
+                                HttpServletResponse response,
+                                Principal principal) {
+        FixedFee fee = (FixedFee) feeService.get(code);
+        feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
     }
 
 

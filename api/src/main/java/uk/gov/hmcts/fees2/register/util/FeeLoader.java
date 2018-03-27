@@ -61,6 +61,12 @@ public class FeeLoader implements ApplicationRunner {
                         LOG.info("Fixed fee with code " +f.getCode()+ " inserted into database.");
                     } catch (BadRequestException be) {
                         LOG.info("Fixed fee with code " +f.getCode()+ " already in use.");
+
+                        try {
+                            feeController.updateFixedFee(f.getCode(), f, null, AUTHOR);
+                        } catch (BadRequestException|PersistenceException pe) {
+                            LOG.info("Update failed for the fee code: {}", f.getCode());
+                        }
                     }
                 });
             }

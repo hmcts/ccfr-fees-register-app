@@ -439,7 +439,7 @@
       "range_unit": "GBP",
       "code": "X0249",
       "version": {
-        "version": 1,
+        "version": 2,
         "valid_from" : "2011-04-04T00:00:00.511Z",
         "description": "Application for a grant of probate (Estate over £5000)",
         "status": "approved",
@@ -447,6 +447,8 @@
         "fee_order_name": "Non-Contentious Probate Fees",
         "si_ref_id": "1",
         "direction": "cost recovery",
+        "memo_line": "Non Personal Application for grant of Probate",
+        "natural_account_code": "4481102158",
         "flat_amount": {
           "amount": 155
         }
@@ -472,6 +474,8 @@
         "fee_order_name": "Non-Contentious Probate Fees",
         "si_ref_id": "1",
         "direction": "cost recovery",
+        "memo_line": "Non Personal Application for grant of Probate",
+        "natural_account_code": "4481102158",
         "flat_amount": {
           "amount": 0
         }
@@ -630,10 +634,16 @@
     {
       "code": "X0165",
       "version": {
-        "version": 1,
+        "version": 4,
+        "valid_from": "2016-03-21T00:00:00.000Z",
         "description": "Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.",
         "status": "approved",
         "direction": "enhanced",
+        "memo_line": "GOV - App for divorce/nullity of marriage or CP",
+        "statutory_instrument": "2016 No. 402 (L. 5)",
+        "si_ref_id": "1.2",
+        "fee_order_name": "The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016",
+        "natural_account_code":"4481102159",
         "flat_amount": {
           "amount": 550.00
         }
@@ -648,7 +658,7 @@
     {
       "code": "X0258",
       "version": {
-        "version": 1,
+        "version": 3,
         "valid_from" : "2014-04-22T00:00:00.511Z",
         "description": "Additional copies of the grant representation",
         "status": "approved",
@@ -656,6 +666,8 @@
         "statutory_instrument": "2014 No 876(L19)",
         "fee_order_name": "Non-Contentious Probate Fees",
         "si_ref_id": "8b",
+        "memo_line": "Additional sealed copy of grant",
+        "natural_account_code": "4481102171",
         "volume_amount": {
           "amount": 0.5
         }
