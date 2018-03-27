@@ -86,6 +86,24 @@ public class FeeDtoMapper {
         return fee;
     }
 
+
+    public void updateRangedFee(CreateRangedFeeDto request, RangedFee fee, String author) {
+        /* -- Add any new setters here  -- */
+        fee.setMinRange(request.getMinRange());
+    }
+
+    public void updateFixedFee(CreateFixedFeeDto request, FixedFee fee, String author) {
+        /* -- Add any new setters here  -- */
+        FeeVersion currentVersion = fee.getCurrentVersion(true);
+        currentVersion.setMemoLine(request.getVersion().getMemoLine());
+        currentVersion.setVersion(request.getVersion().getVersion());
+        currentVersion.setValidFrom(request.getVersion().getValidFrom());
+        currentVersion.setStatutoryInstrument(request.getVersion().getStatutoryInstrument());
+        currentVersion.setSiRefId(request.getVersion().getSiRefId());
+        currentVersion.setFeeOrderName(request.getVersion().getFeeOrderName());
+        currentVersion.setNaturalAccountCode(request.getVersion().getNaturalAccountCode());
+    }
+
     public Fee toFee(CreateRangedFeeDto request, String author) {
         RangedFee fee = new RangedFee();
         fillFee(request, fee, author);

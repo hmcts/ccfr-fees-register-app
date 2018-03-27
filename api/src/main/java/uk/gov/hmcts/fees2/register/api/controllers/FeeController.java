@@ -86,9 +86,7 @@ public class FeeController {
                                 HttpServletResponse response,
                                 Principal principal) {
         RangedFee fee = (RangedFee) feeService.get(code);
-
-        /* -- Set here the update attributes  -- */
-        fee.setMinRange(request.getMinRange());
+        feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
     }
 
 
@@ -106,16 +104,7 @@ public class FeeController {
                                 HttpServletResponse response,
                                 Principal principal) {
         FixedFee fee = (FixedFee) feeService.get(code);
-
-        /* -- Set here the update attributes  -- */
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        currentVersion.setMemoLine(request.getVersion().getMemoLine());
-        currentVersion.setVersion(request.getVersion().getVersion());
-        currentVersion.setValidFrom(request.getVersion().getValidFrom());
-        currentVersion.setStatutoryInstrument(request.getVersion().getStatutoryInstrument());
-        currentVersion.setSiRefId(request.getVersion().getSiRefId());
-        currentVersion.setFeeOrderName(request.getVersion().getFeeOrderName());
-        currentVersion.setNaturalAccountCode(request.getVersion().getNaturalAccountCode());
+        feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
     }
 
 
