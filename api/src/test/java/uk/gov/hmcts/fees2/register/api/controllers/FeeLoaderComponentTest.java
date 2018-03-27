@@ -87,7 +87,7 @@ public class FeeLoaderComponentTest extends BaseTest {
                 assertThat(fixedFee.getChannelTypeDto().getName()).isEqualTo("default");
                 assertThat(fixedFee.getJurisdiction1Dto().getName()).isEqualTo("family");
                 assertThat(fixedFee.getJurisdiction2Dto().getName()).isEqualTo("family court");
-                assertThat(fixedFee.getCurrentVersion().getVersion()).isEqualTo(4);
+                assertThat(fixedFee.getCurrentVersion().getVersion()).isEqualTo(new Integer(4));
                 assertThat(fixedFee.getCurrentVersion().getFlatAmount().getAmount()).isEqualTo(new BigDecimal("550.00"));
             }));
     }
