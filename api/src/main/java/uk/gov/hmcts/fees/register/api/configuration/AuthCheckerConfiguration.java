@@ -9,6 +9,7 @@ import uk.gov.hmcts.auth.checker.spring.useronly.AuthCheckerUserOnlyFilter;
 import uk.gov.hmcts.auth.checker.user.User;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class AuthCheckerConfiguration {
 
     @Bean
     public Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor() {
-        return (any) -> Collections.singletonList("admin");
+        return (any) -> Collections.unmodifiableList(Arrays.asList("admin", "freg-finance-admin"));
     }
 
     @Bean
