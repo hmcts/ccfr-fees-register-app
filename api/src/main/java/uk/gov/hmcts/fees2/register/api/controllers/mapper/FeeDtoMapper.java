@@ -90,6 +90,10 @@ public class FeeDtoMapper {
     public void updateRangedFee(CreateRangedFeeDto request, RangedFee fee, String author) {
         /* -- Add any new setters here  -- */
         fee.setMinRange(request.getMinRange());
+        FeeVersion currentVersion = fee.getCurrentVersion(true);
+        currentVersion.setMemoLine(request.getVersion().getMemoLine());
+        currentVersion.setVersion(request.getVersion().getVersion());
+        currentVersion.setNaturalAccountCode(request.getVersion().getNaturalAccountCode());
     }
 
     public void updateFixedFee(CreateFixedFeeDto request, FixedFee fee, String author) {
