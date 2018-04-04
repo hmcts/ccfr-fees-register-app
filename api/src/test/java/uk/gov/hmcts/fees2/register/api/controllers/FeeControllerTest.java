@@ -138,6 +138,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void feesLookupNotFoundTest() throws Exception {
         restActions
+            .withUser("admin")
             .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&amount_or_volume=10&channel=default&applicant_type=all")
             .andExpect(status().isNotFound());
     }
@@ -302,6 +303,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public void findFeeWithInvalidReferenceData() throws Exception {
         restActions
+            .withUser("admin")
             .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies1")
             .andExpect(status().isBadRequest());
     }
@@ -309,6 +311,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public void findFeeWithVolume_inFractions_shouldThrowBadRequestException() throws Exception {
         MvcResult result = restActions
+            .withUser("admin")
             .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=1.5")
             .andExpect(status().isBadRequest())
             .andReturn();
@@ -319,6 +322,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public void findFeeWithVolume_inWholeNumber_shouldReturnValidFee() throws Exception {
         MvcResult result = restActions
+            .withUser("admin")
             .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
             .andExpect(status().isOk())
             .andReturn();

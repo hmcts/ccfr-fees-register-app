@@ -90,6 +90,13 @@ public class FeeDtoMapper {
     public void updateRangedFee(CreateRangedFeeDto request, RangedFee fee, String author) {
         /* -- Add any new setters here  -- */
         fee.setMinRange(request.getMinRange());
+        fee.setMaxRange(request.getMaxRange());
+
+        /* -- Reference data  -- */
+        fillJuridistiction1(fee, request.getJurisdiction1());
+        fillJuridistiction2(fee, request.getJurisdiction2());
+
+        /* -- set version -- */
         FeeVersion currentVersion = fee.getCurrentVersion(true);
         currentVersion.setMemoLine(request.getVersion().getMemoLine());
         currentVersion.setVersion(request.getVersion().getVersion());
@@ -97,7 +104,7 @@ public class FeeDtoMapper {
     }
 
     public void updateFixedFee(CreateFixedFeeDto request, FixedFee fee, String author) {
-        /* -- Add any new setters here  -- */
+        /* -- set version -- */
         FeeVersion currentVersion = fee.getCurrentVersion(true);
         currentVersion.setMemoLine(request.getVersion().getMemoLine());
         currentVersion.setVersion(request.getVersion().getVersion());
