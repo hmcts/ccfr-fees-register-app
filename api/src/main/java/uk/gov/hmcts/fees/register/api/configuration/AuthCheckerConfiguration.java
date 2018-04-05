@@ -20,7 +20,7 @@ public class AuthCheckerConfiguration {
 
     @Bean
     public Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor() {
-        return (any) -> Collections.unmodifiableList(Arrays.asList("admin", "freg-finance-admin"));
+        return (any) -> Collections.unmodifiableList(Arrays.asList("freg"));
     }
 
     @Bean
