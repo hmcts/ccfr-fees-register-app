@@ -41,6 +41,7 @@ public class SecurityComponentTest extends ComponentTestBase {
     @Test
     public void anonymousUpdateCategoryForbidden() throws Exception {
         restActions
+            .withUser("admin")
             .put("/categories/cmc-online", "any body")
             .andExpect(status().isBadRequest());
     }
