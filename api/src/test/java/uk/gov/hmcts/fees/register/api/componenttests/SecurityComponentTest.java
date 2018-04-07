@@ -27,24 +27,21 @@ public class SecurityComponentTest extends ComponentTestBase {
     @Test
     public void anonymousUpdateFeeForbidden() throws Exception {
         restActions
-            .withUser("admin")
             .put("/fees/X0433", "any body")
-            .andExpect(status().isForbidden());
+            .andExpect(status().isBadRequest());
     }
 
     @Test
     public void anonymousUpdateRangeGroupForbidden() throws Exception {
         restActions
-            .withUser("admin")
             .put("/range-groups/cmc-online", "any body")
-            .andExpect(status().isForbidden());
+            .andExpect(status().isBadRequest());
     }
 
     @Test
     public void anonymousUpdateCategoryForbidden() throws Exception {
         restActions
-            .withUser("admin")
             .put("/categories/cmc-online", "any body")
-            .andExpect(status().isForbidden());
+            .andExpect(status().isBadRequest());
     }
 }
