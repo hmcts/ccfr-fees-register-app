@@ -32,11 +32,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .logout().disable()
             .authorizeRequests()
             .antMatchers("/swagger-ui.html", "/webjars/springfox-swagger-ui/**", "/swagger-resources/**", "/v2/**", "/health", "/info").permitAll()
-            .antMatchers(HttpMethod.POST,"/fees-register/ranged-fees", "/fees-register/fixed-fees", "/fees-register/fees/**/versions").hasAnyAuthority("freg-finance-super-user", "freg-finance-admin")
-            .antMatchers(HttpMethod.POST, "/fees-register/bulk-fixed-fees").hasAuthority("freg-finance-admin")
-            .antMatchers(HttpMethod.PATCH, "/fees-register/fees/**/versions/**").hasAuthority("freg-finance-super-user")
-            .antMatchers(HttpMethod.PUT, "/fees-register/ranged-fees/**", "/fees-register/fixed-fees/**").hasAuthority("freg-finance-admin")
-            .antMatchers(HttpMethod.DELETE, "/fees-register/fees/**", "/fees-register/**/versions/**").hasAuthority("freg-finance-admin")
+            .antMatchers(HttpMethod.POST,"/fees-register/ranged-fees", "/fees-register/fixed-fees", "/fees-register/fees/**/versions").hasAnyAuthority("freg-fee-create")
+            .antMatchers(HttpMethod.POST, "/fees-register/bulk-fixed-fees").hasAuthority("freg-fee-create")
+            .antMatchers(HttpMethod.PATCH, "/fees-register/fees/**/versions/**").hasAuthority("freg-fee-approve")
+            .antMatchers(HttpMethod.PUT, "/fees-register/ranged-fees/**", "/fees-register/fixed-fees/**").hasAuthority("freg-fee-edit")
+            .antMatchers(HttpMethod.DELETE, "/fees-register/fees/**", "/fees-register/**/versions/**").hasAuthority("freg-fee-delete")
             .antMatchers(HttpMethod.GET, "/fees-register/fees/**").permitAll();
     }
 }
