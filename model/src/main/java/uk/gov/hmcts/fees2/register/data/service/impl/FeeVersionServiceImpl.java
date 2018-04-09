@@ -96,7 +96,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
         FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
 
         if(feeVersion.getStatus() == FeeVersionStatus.approved) {
-            throw new BadRequestException("Approved fees cant change their status");
+            throw new BadRequestException("Approved fees cannot change their status");
         }
 
         if (newStatus == FeeVersionStatus.approved) {

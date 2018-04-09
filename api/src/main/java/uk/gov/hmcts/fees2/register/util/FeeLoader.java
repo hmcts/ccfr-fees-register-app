@@ -60,7 +60,7 @@ public class FeeLoader implements ApplicationRunner {
                         feeController.createFixedFee(f, null, AUTHOR);
                         LOG.info("Fixed fee with code " +f.getCode()+ " inserted into database.");
                     } catch (BadRequestException be) {
-                        LOG.info("Fixed fee with code " +f.getCode()+ " already in use.");
+                        LOG.debug("Fixed fee with code " +f.getCode()+ " already in use.");
 
                         try {
                             feeController.updateFixedFee(f.getCode(), f, null, AUTHOR);
@@ -78,7 +78,7 @@ public class FeeLoader implements ApplicationRunner {
                         feeController.createRangedFee(r, null, AUTHOR);
                         LOG.info("Ranged fee with code " +r.getCode()+ " inserted into database.");
                     } catch (BadRequestException be) {
-                        LOG.info("Ranged fee with code " +r.getCode()+ " already in use.");
+                        LOG.debug("Ranged fee with code " +r.getCode()+ " already in use.");
                         try {
                             feeController.updateRangedFee(r.getCode(), r, null, AUTHOR);
                         } catch (BadRequestException|PersistenceException pe) {
