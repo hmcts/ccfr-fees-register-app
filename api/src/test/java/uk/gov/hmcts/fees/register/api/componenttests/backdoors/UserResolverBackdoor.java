@@ -22,7 +22,7 @@ public class UserResolverBackdoor implements SubjectResolver<User> {
             throw new AuthCheckerException("Token not found");
         }
 
-        return new User(userId, ImmutableSet.of("admin"));
+        return new User(userId, ImmutableSet.of("freg-finance-admin"));
     }
 
     public void registerToken(String token, String userId) {
