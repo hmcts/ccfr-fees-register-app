@@ -145,7 +145,7 @@ public class FeeLoaderComponentTest extends BaseTest {
             .andExpect(status().isOk())
             .andExpect(body().as(Fee2Dto.class, fee2Dto -> {
                 assertThat(fee2Dto.getCode()).isEqualTo("X0249_NO_FEE");
-                assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("1000.00"));
+                assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("0.00"));
                 assertThat(fee2Dto.getMaxRange()).isEqualTo(new BigDecimal("5000.00"));
             }));
     }
