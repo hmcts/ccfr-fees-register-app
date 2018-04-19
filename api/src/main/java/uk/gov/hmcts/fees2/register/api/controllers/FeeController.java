@@ -173,11 +173,15 @@ public class FeeController {
     @ApiOperation(value = "Delete a fee for the given fee code")
     @ApiResponses(value = {
         @ApiResponse(code = 204, message = "Successfully deleted the fee for the given fee code."),
+        @ApiResponse(code = 403, message = "Unable to delete fee due to an existing approved version")
     })
     @DeleteMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFee(@PathVariable("code") String code) {
-        feeService.delete(code);
+    public void deleteFee(@PathVariable("code") String code, HttpServletResponse response) {
+        // check if fee has any approved versions before deleting
+        if (!feeService.delete(code)) {
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+        }
     }
 
     @ApiOperation(value = "Search for fees based on criteria")

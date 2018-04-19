@@ -69,7 +69,6 @@ public class FeeVersionController {
         @PathVariable("status") FeeVersionStatus status,
         Principal principal) {
 
-        //TODO: Implement security on this operation, but for now...
         feeVersionService.changeStatus(feeCode, version, status, principal.getName());
     }
 
