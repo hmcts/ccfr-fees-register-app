@@ -1,0 +1,53 @@
+databaseChangeLog:
+- changeSet:
+    id: 1523960740461-1
+    author: tarun (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: feecode_historyPK
+            name: id
+            type: BIGINT
+        - column:
+            name: date_created
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: date_updated
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: new_code
+            type: VARCHAR(255)
+        - column:
+            name: old_code
+            type: VARCHAR(255)
+        - column:
+            name: fee_id
+            type: BIGINT
+        tableName: feecode_history
+- changeSet:
+    id: 1523960740461-2
+    author: tarun (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: fee_id
+        baseTableName: feecode_history
+        constraintName: FK_nh96g5mk3cnw14m7nsti4xr78
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: fee
+- changeSet:
+    id: 1523960740461-3
+    author: tarun
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: fee_number
+            type: BIGINT
+        tableName: fee
+

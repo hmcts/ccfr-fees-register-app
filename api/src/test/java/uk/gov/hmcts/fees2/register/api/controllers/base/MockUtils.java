@@ -127,7 +127,7 @@ public class MockUtils {
             null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
             "Test memo line", null, null, "Natural code 001", "CMC online fee order name",
             "enhanced");
-        CreateFixedFeeDto fixedFeeDto = new CreateFixedFeeDto("X0MOCK1", feeVersionDto, "family",
+        CreateFixedFeeDto fixedFeeDto = new CreateFixedFeeDto("X0MOCK1", null, feeVersionDto, "family",
             "court of protection", "civil money claims", "default", "issue", "all",false);
 
         return fixedFeeDto;

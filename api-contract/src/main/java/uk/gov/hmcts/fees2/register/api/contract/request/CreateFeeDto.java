@@ -1,7 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.contract.request;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +8,19 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
 import javax.validation.constraints.NotNull;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.*;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public abstract class CreateFeeDto {
 
-    @NotNull
+    @JsonIgnore
     protected String code;
+
+    @JsonIgnore
+    protected String newCode;
 
     @NotNull
     protected FeeVersionDto version;

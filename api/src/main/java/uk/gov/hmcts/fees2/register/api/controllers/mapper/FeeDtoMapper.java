@@ -7,6 +7,8 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
@@ -90,6 +92,17 @@ public class FeeDtoMapper {
         return fee;
     }
 
+    public Fee toFee(LoaderFixedFeeDto request, String author) {
+        FixedFee fee = new FixedFee();
+
+        fee.setUnspecifiedClaimAmount(
+            request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
+        );
+
+        fillFee(request, fee, author);
+        return fee;
+    }
+
 
     public void updateRangedFee(CreateRangedFeeDto request, RangedFee fee, String author) {
         updateFeeDetails(request, fee, author);
@@ -106,6 +119,23 @@ public class FeeDtoMapper {
     }
 
     public Fee toFee(CreateRangedFeeDto request, String author) {
+        RangedFee fee = new RangedFee();
+        fillFee(request, fee, author);
+
+        fee.setUnspecifiedClaimAmount(false);
+        fee.setMaxRange(request.getMaxRange());
+        fee.setMinRange(request.getMinRange());
+
+        if(request.getRangeUnit() == null) {
+            request.setRangeUnit("GBP");
+        }
+
+        fee.setRangeUnit(new RangeUnit(request.getRangeUnit()));
+
+        return fee;
+    }
+
+    public Fee toFee(LoaderRangedFeeDto request, String author) {
         RangedFee fee = new RangedFee();
         fillFee(request, fee, author);
 
@@ -309,11 +339,11 @@ public class FeeDtoMapper {
     /* --- */
 
     private void fillCode(Fee fee, String code) {
-        if(code == null) {
-            throw new BadRequestException("Code is required");
-        }
+//        if(code == null) {
+//            throw new BadRequestException("Code is required");
+//        }
 
-        if(fee2Repository.findByCode(code).isPresent()) {
+        if(fee2Repository.findByCode(code).isPresent() && !code.startsWith("X")) {
             throw new BadRequestException(CODE_ALREADY_IN_USE);
         }
 
