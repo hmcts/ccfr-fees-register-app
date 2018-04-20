@@ -13,7 +13,7 @@ public interface FeeService  {
 
     void save(List<Fee> fees);
 
-    void delete(String code);
+    boolean delete(String code);
 
     FeeLookupResponseDto lookup(LookupFeeDto dto);
 
