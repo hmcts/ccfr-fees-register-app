@@ -3,7 +3,7 @@ package uk.gov.hmcts.fees2.register.api;
 import uk.gov.hmcts.fees2.register.data.model.FixedFee;
 import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 
-public class FeeFixtures {
+public class FeeTestFixtures {
 
     public static final String CODE = "testCode";
 

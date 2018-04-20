@@ -26,11 +26,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees2.register.api.FeeFixtures.aFixedFee;
-import static uk.gov.hmcts.fees2.register.api.FeeFixtures.aFixedFeePayload;
-import static uk.gov.hmcts.fees2.register.api.FeeFixtures.aRangeFeePayload;
-import static uk.gov.hmcts.fees2.register.api.FeeFixtures.aRangedFee;
-import static uk.gov.hmcts.fees2.register.api.FeeFixtures.bulkFeesPayload;
+import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.aFixedFee;
+import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.aFixedFeePayload;
+import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.aRangeFeePayload;
+import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.aRangedFee;
+import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.bulkFeesPayload;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(FeeController.class)

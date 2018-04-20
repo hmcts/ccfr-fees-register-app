@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees2.register.api.FeeFixtures.aFeeVersionPayload;
+import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.aFeeVersionPayload;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(FeeVersionController.class)
