@@ -17,6 +17,8 @@ import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.security.Principal;
 
+import static uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus.pending_approval;
+
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
 @RestController
 @Validated
@@ -71,6 +73,12 @@ public class FeeVersionController {
 
         //TODO: Implement security on this operation, but for now...
         feeVersionService.changeStatus(feeCode, version, status, principal.getName());
+    }
+
+    @PatchMapping("/fees/{feeCode}/versions/{version}/submit-for-review")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void submitForReview(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version) {
+        feeVersionService.changeStatus(feeCode, version, pending_approval, null);
     }
 
 }
