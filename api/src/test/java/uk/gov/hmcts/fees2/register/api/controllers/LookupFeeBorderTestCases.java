@@ -185,7 +185,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
 
         FeeVersionDto version = new FeeVersionDto();
         version.setPercentageAmount(new PercentageAmountDto(percent));
-        version.setStatus(FeeVersionStatus.approved);
+        version.setStatus(FeeVersionStatus.draft);
 
         saveFeeAndCheckStatusIsCreated(new CreateRangedFeeDto()
             .setService("divorce")
