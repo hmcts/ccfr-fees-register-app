@@ -57,7 +57,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             feeController.getFee(dto.getCode(), response);
 
         } finally {
-            feeController.deleteFee(dto.getCode());
+            feeController.deleteFee(dto.getCode(), response);
         }
 
     }
@@ -78,7 +78,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             feeVersionController.deleteFeeVersion(dto.getCode(), 1);
 
         } finally {
-            feeController.deleteFee(dto.getCode());
+            feeController.deleteFee(dto.getCode(), response);
         }
 
     }
@@ -95,8 +95,6 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         try {
 
-            feeVersionController.changeVersionStatus(dto.getCode(), 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
-
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
             feeVersionDto2.setVersion(2);
@@ -110,7 +108,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             assertThat(feeController.getFee(dto.getCode(),response)).isNotNull();
 
         } finally {
-            feeController.deleteFee(dto.getCode());
+            feeController.deleteFee(dto.getCode(), response);
         }
 
     }
