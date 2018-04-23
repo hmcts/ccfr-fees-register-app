@@ -16,7 +16,9 @@ import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,8 +80,15 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Transactional
-    public void delete(String code) {
-        fee2Repository.deleteFeeByCode(code);
+    public boolean delete(String code) {
+        Optional<Fee> optFeeToDelete = fee2Repository.findByCode(code);
+        if (optFeeToDelete.isPresent()) {
+            if (feeVersionRepository.findByFee_CodeAndStatus(code, FeeVersionStatus.approved).isEmpty()) {
+                fee2Repository.deleteFeeByCode(code);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
