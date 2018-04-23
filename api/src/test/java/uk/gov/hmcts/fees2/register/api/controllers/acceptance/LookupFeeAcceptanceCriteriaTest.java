@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 import static junit.framework.TestCase.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Ignore
 public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
     /* --- PAY-440 --- */

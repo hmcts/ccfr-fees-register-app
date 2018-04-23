@@ -45,4 +45,34 @@ public class FeeVersionControllerMvcTest {
         // then
         verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.pending_approval, null);
     }
+
+    @Test
+    public void shouldApprove() throws Exception {
+        // given
+        String code = "aCode";
+        int version = 2;
+
+        // when
+        this.mvc.perform(
+            patch("/fees/aCode/versions/2/approve"))
+            .andExpect(status().isNoContent());
+
+        // then
+        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.approved, null);
+    }
+
+    @Test
+    public void shouldReject() throws Exception {
+        // given
+        String code = "aCode";
+        int version = 2;
+
+        // when
+        this.mvc.perform(
+            patch("/fees/aCode/versions/2/reject"))
+            .andExpect(status().isNoContent());
+
+        // then
+        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.rejected, null);
+    }
 }

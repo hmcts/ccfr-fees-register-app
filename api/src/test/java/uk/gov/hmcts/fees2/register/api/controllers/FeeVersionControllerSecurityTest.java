@@ -39,7 +39,7 @@ public class FeeVersionControllerSecurityTest {
     @Test
     public void testSubmitToReview_shouldReturnOkWhenUserHasFeeEditAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-edit");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
         // when & then
         this.mockMvc.perform(
             patch("/fees/aCode/versions/2/submit-for-review")
@@ -50,7 +50,7 @@ public class FeeVersionControllerSecurityTest {
     @Test
     public void testSubmitToReview_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-unknown");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
         // when & then
         this.mockMvc.perform(
             patch("/fees/aCode/versions/2/submit-for-review")
@@ -59,9 +59,54 @@ public class FeeVersionControllerSecurityTest {
     }
 
     @Test
-    public void testCreateFeeVersion_shouldReturnOkWhenUserHasFeeCreateAuthority() throws Exception {
+    public void testApprove_shouldReturnOkWhenUserHasFeeApproveAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-create");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-approver");
+        // when & then
+        this.mockMvc.perform(
+            patch("/fees/aCode/versions/2/approve")
+                .with(authentication(authentication)))
+            .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testApprove_shouldReturnForbiddenWhenUserDoesNotHaveFeeApproveAuthority() throws Exception {
+        // given
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
+        // when & then
+        this.mockMvc.perform(
+            patch("/fees/aCode/versions/2/approve")
+                .with(authentication(authentication)))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void testReject_shouldReturnOkWhenUserHasFeeApproveAuthority() throws Exception {
+        // given
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-approver");
+        // when & then
+        this.mockMvc.perform(
+            patch("/fees/aCode/versions/2/reject")
+                .with(authentication(authentication)))
+            .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void testReject_shouldReturnForbiddenWhenUserDoesNotHaveFeeApproveAuthority() throws Exception {
+        // given
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
+        // when & then
+        this.mockMvc.perform(
+            patch("/fees/aCode/versions/2/reject")
+                .with(authentication(authentication)))
+            .andExpect(status().isForbidden());
+    }
+
+
+    @Test
+    public void testCreateFeeVersion_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
+        // given
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         // when & then
         this.mockMvc.perform(
@@ -73,9 +118,9 @@ public class FeeVersionControllerSecurityTest {
     }
 
     @Test
-    public void testCreateFeeVersion_shouldReturnForbiddenWhenUserDoesNotHaveFeeCreateAuthority() throws Exception {
+    public void testCreateFeeVersion_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-unknown");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
         // when & then
         this.mockMvc.perform(
             post("/fees/testCode/versions")
@@ -86,9 +131,9 @@ public class FeeVersionControllerSecurityTest {
     }
 
     @Test
-    public void testDeleteFeeVersion_shouldReturnOkWhenUserHasFeeDeleteAuthority() throws Exception {
+    public void testDeleteFeeVersion_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-delete");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         // when & then
         this.mockMvc.perform(
@@ -98,9 +143,9 @@ public class FeeVersionControllerSecurityTest {
     }
 
     @Test
-    public void testDeleteFeeVersion_shouldReturnForbiddenWhenUserDoesNotHaveFeeDeleteAuthority() throws Exception {
+    public void testDeleteFeeVersion_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-create");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-approver");
         // when & then
         this.mockMvc.perform(
             delete("/fees/testCode/versions/2")

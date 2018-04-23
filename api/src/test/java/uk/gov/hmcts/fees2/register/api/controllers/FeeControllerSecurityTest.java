@@ -45,9 +45,9 @@ public class FeeControllerSecurityTest {
     private MockMvc mockMvc;
 
     @Test
-    public void testCreateRangedFee_shouldReturnOkWhenUserHasFeeCreateAuthority() throws Exception {
+    public void testCreateRangedFee_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-create");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         given(feeDtoMapper.toFee(any(CreateRangedFeeDto.class), anyString())).willReturn(aRangedFee());
         given(feeService.save(any(Fee.class))).willReturn(aRangedFee());
@@ -62,9 +62,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testCreateRangedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeCreateAuthority() throws Exception {
+    public void testCreateRangedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-unknown");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
         // when & then
         this.mockMvc.perform(
             post("/fees-register/ranged-fees")
@@ -75,9 +75,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testCreateFixedFee_shouldReturnOkWhenUserHasFeeCreateAuthority() throws Exception {
+    public void testCreateFixedFee_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-create");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         given(feeDtoMapper.toFee(any(CreateFixedFeeDto.class), anyString())).willReturn(aFixedFee());
         given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
@@ -92,9 +92,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testCreateFixedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeCreateAuthority() throws Exception {
+    public void testCreateFixedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-unknown");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
         // when & then
         this.mockMvc.perform(
             post("/fees-register/fixed-fees")
@@ -105,9 +105,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testUpdateRangedFee_shouldReturnOkWhenUserHasFeeEditAuthority() throws Exception {
+    public void testUpdateRangedFee_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-edit");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         given(feeService.get(anyString())).willReturn(aRangedFee());
 
@@ -121,9 +121,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testUpdateRangedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditAuthority() throws Exception {
+    public void testUpdateRangedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-create");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
         // when & then
         this.mockMvc.perform(
             put("/fees-register/ranged-fees/testCode")
@@ -134,9 +134,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testUpdateFixedFee_shouldReturnOkWhenUserHasFeeEditAuthority() throws Exception {
+    public void testUpdateFixedFee_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-edit");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         given(feeDtoMapper.toFee(any(CreateFixedFeeDto.class), anyString())).willReturn(aFixedFee());
         given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
@@ -151,9 +151,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testUpdateFixedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditAuthority() throws Exception {
+    public void testUpdateFixedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-create");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
         // when & then
         this.mockMvc.perform(
             put("/fees-register/fixed-fees/testCode")
@@ -164,9 +164,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testDeleteFee_shouldReturnOkWhenUserHasFeeDeleteAuthority() throws Exception {
+    public void testDeleteFee_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-delete");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         // when & then
         this.mockMvc.perform(
@@ -178,7 +178,7 @@ public class FeeControllerSecurityTest {
     @Test
     public void testDeleteFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeDeleteAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-create");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
         // when & then
         this.mockMvc.perform(
             delete("/fees-register/fees/testCode")
@@ -187,9 +187,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testCreateBulkFees_shouldReturnOkWhenUserHasFeeUploadAuthority() throws Exception {
+    public void testCreateBulkFees_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-upload");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         // when & then
         this.mockMvc.perform(
@@ -201,9 +201,9 @@ public class FeeControllerSecurityTest {
     }
 
     @Test
-    public void testCreateBulkFees_shouldReturnForbiddenWhenUserDoesNotHaveFeeUploadAuthority() throws Exception {
+    public void testCreateBulkFees_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-fee-create");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
         // when & then
         this.mockMvc.perform(
             post("/fees-register/bulk-fixed-fees")
