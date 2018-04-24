@@ -46,6 +46,5 @@ public class FeeLoaderTest extends BaseIntegrationTest {
                     assertThat(f.getServiceTypeDto().getName()).isEqualTo("civil money claims");
                 });
             }));
-
     }
 }

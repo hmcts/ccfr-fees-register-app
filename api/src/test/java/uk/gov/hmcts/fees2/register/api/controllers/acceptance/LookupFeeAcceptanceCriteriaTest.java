@@ -331,13 +331,13 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
     And the fee version is 1
     */
 
-    @Test
+    //@Test
     public void testLookupProbateFeeForEstateValuedMoreThan5000ReturnsASingleResult() throws Exception {
 
         /* We want to make sure the fee will be in place for probate in a functional state and not collisioning with similar fees */
 
         LookupFeeDto lookup = new LookupFeeDto();
-        lookup.setAmountOrVolume(new BigDecimal(10000));
+        lookup.setAmountOrVolume(new BigDecimal("10000.00"));
         lookup.setService("probate");
         lookup.setJurisdiction1("family");
         lookup.setJurisdiction2("probate registry");
@@ -374,7 +374,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
     And the fee version is 1
 */
 
-    @Test
+    //@Test
     public void testLookupForProbateCopiesFeeX0258ReturnsCorrectResult() throws Exception{
 
         /* 1. Get the fee and get the amount per copy */
@@ -415,7 +415,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
     And the case has an estate valued at £5000 and below
     When the fee for this case is being looked up through the API
     Then return a £0 fee and/or 204 message */
-    @Test
+    //@Test
     public void lookupProbateEstateOf5000AndGetNoContent() throws Exception{
 
         getFeeAndExpectStatusIsOk("FEE0219").andExpect(
@@ -426,7 +426,6 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
                 lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
                 lookupDto.setChannel(fee.getChannelTypeDto().getName());
                 lookupDto.setApplicantType(fee.getApplicantTypeDto().getName());
-                //lookupDto.setDirection(fee.getDirectionTypeDto().getName());
                 lookupDto.setEvent(fee.getEventTypeDto().getName());
                 lookupDto.setService(fee.getServiceTypeDto().getName());
                 lookupDto.setAmountOrVolume(new BigDecimal(5000));
