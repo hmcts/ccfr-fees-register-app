@@ -337,19 +337,6 @@ public class FeeDtoMapper {
     }
 
     /* --- */
-
-    private void fillCode(Fee fee, String code) {
-//        if(code == null) {
-//            throw new BadRequestException("Code is required");
-//        }
-
-        if(fee2Repository.findByCode(code).isPresent() && !code.startsWith("X")) {
-            throw new BadRequestException(CODE_ALREADY_IN_USE);
-        }
-
-        fee.setCode(code);
-    }
-
     private void fillJuridistiction1(Fee fee, String jurisdiction1) {
         if(jurisdiction1 != null) {
             fee.setJurisdiction1(jurisdiction1Repository.findByNameOrThrow(jurisdiction1.toLowerCase()));
