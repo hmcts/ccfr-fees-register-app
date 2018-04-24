@@ -349,7 +349,6 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
     }
 
     /* - PAY-522 - */
-
     /*
 
     ACCEPTANCE CRITERIA
@@ -443,5 +442,4 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         );
 
     }
-
 }
