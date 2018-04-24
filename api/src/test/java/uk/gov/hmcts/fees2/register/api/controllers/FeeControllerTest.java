@@ -47,7 +47,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", rangedFeeDto)
             .andExpect(status().isCreated());
 
-        deleteFee(feeCode);
+        forceDeleteFee(feeCode);
 
     }
 
@@ -69,7 +69,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
             }));
 
-        deleteFee(feeCode);
+        forceDeleteFee(feeCode);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .patch("/fees/" + feeCode + "/versions/1/status/approved", "")
             .andExpect(status().is2xxSuccessful());
 
-        deleteFee(feeCode);
+        forceDeleteFee(feeCode);
     }
 
 
@@ -127,7 +127,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 assertThat(lookupDto.getFeeAmount().equals(new BigDecimal(2500)));
             }));
 
-        deleteFee(rangedFeeDto.getCode());
+        forceDeleteFee(rangedFeeDto.getCode());
 
     }
 
@@ -175,8 +175,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 });
             }));
 
-        deleteFee(feeCode);
-        deleteFee(newFeeCode);
+        forceDeleteFee(feeCode);
+        forceDeleteFee(newFeeCode);
 
     }
 
@@ -228,10 +228,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 });
             }));
 
-        deleteFee(feeCode);
-        deleteFee(feeCode2);
-        deleteFee(feeCode3);
-        deleteFee(feeCode4);
+        forceDeleteFee(feeCode);
+        forceDeleteFee(feeCode2);
+        forceDeleteFee(feeCode3);
+        forceDeleteFee(feeCode4);
 
     }
 
@@ -250,7 +250,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", rangedFeeDto)
             .andExpect(status().isBadRequest());
 
-        deleteFee(feeCode);
+        forceDeleteFee(feeCode);
     }
 
     @Test
@@ -287,8 +287,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 });
             }));
 
-        deleteFee("X0IMP1");
-        deleteFee("X0IMP2");
+        forceDeleteFee("X0IMP1");
+        forceDeleteFee("X0IMP2");
     }
 
     @Test
@@ -332,6 +332,42 @@ public class FeeControllerTest extends BaseIntegrationTest {
         assertEquals(fee.getDescription(), "Additional copies of the grant representation");
         assertEquals(fee.getVersion(), new Integer(3));
         assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
+    }
+
+    // test that delete throws 403 when trying to delete a fee with an approved version
+    @Test
+    public void deletingFeeWithApprovedVersionThrowsForbiddenException() throws Exception {
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, feeCode, FeeVersionStatus.approved);
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), feeCode)
+            .andExpect(status().isForbidden());
+
+        forceDeleteFee(feeCode);
+    }
+
+    // test that delete deletes fee which has no approved versions
+    @Test
+    public void deletingFeeWithoutApprovedVersionReturnsNoContent() throws Exception {
+        feeCode = UUID.randomUUID().toString();
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, feeCode, FeeVersionStatus.draft);
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), feeCode)
+            .andExpect(status().isNoContent());
     }
 
 }

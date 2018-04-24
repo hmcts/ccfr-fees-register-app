@@ -80,11 +80,16 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Transactional
-    public boolean delete(String code) {
+    public void delete(String code) {
+        fee2Repository.deleteFeeByCode(code);
+    }
+
+    @Transactional
+    public boolean safeDelete(String code) {
         Optional<Fee> optFeeToDelete = fee2Repository.findByCode(code);
         if (optFeeToDelete.isPresent()) {
             if (feeVersionRepository.findByFee_CodeAndStatus(code, FeeVersionStatus.approved).isEmpty()) {
-                fee2Repository.deleteFeeByCode(code);
+                delete(code);
                 return true;
             }
         }

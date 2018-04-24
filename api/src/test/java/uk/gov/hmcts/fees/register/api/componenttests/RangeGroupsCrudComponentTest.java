@@ -1,25 +1,66 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
+import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
+import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
+import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.RangeGroupUpdateDtoBuilder;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.RangeUpdateDto;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
 import static java.util.Collections.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.RangeDto.rangeDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.RangeUpdateDto.rangeUpdateDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.rangeGroupUpdateDtoWith;
 
-public class RangeGroupsCrudComponentTest extends ComponentTestBase {
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = MOCK)
+@ActiveProfiles({"embedded", "idam-backdoor"})
+@Transactional
+public class RangeGroupsCrudComponentTest {
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    protected UserResolverBackdoor userRequestAuthorizer;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    RestActions restActions;
+
+    @Before
+    public void setUp() {
+        MockMvc mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
+    }
+
+    CustomResultMatcher body() {
+        return new CustomResultMatcher(objectMapper);
+    }
 
     private static final RangeGroupDto RANGE_GROUP_PROBATE_COPIES = rangeGroupDtoWith()
         .code("probate-copies")

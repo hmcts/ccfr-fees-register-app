@@ -57,7 +57,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
     }
 
     /* Scenario 2: Looking up a % fee with ONLINE channel
@@ -97,7 +97,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(new BigDecimal("0.5")));
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
     }
 
     /* Scenario 3: Looking up a FLAT fee with DEFAULT channel
@@ -135,7 +135,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
     }
 
     /* Scenario 4: Looking up a % fee with DEFAULT channel
@@ -175,7 +175,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(new BigDecimal("0.5")));
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
     }
 
     /* Scenario 5: Looking up fees where no approved fee exists
@@ -212,7 +212,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isNotFound());
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
     }
 
     /* --- PAY-457 --- */
@@ -253,7 +253,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
 
     }
 
@@ -289,7 +289,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isNotFound());
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
     }
 
     /* -- PAY-4487 -- */

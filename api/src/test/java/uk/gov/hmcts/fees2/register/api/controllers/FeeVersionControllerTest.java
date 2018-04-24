@@ -19,8 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
+
+
 public class FeeVersionControllerTest extends BaseIntegrationTest {
 
     private static final String CONTENT_TYPE = "application/vnd.uk.gov.hmcts.cc.fr.v2+json";
@@ -43,7 +44,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = FeeNotFoundException.class)
     public synchronized void testDeleteFeeAndVersion() {
 
-        CreateFixedFeeDto dto = getFee();
+        CreateFixedFeeDto dto = getFee("1234");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -57,7 +58,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             feeController.getFee(dto.getCode(), response);
 
         } finally {
-            feeController.deleteFee(dto.getCode());
+            forceDeleteFee(dto.getCode());
         }
 
     }
@@ -65,7 +66,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = BadRequestException.class)
     public synchronized void testDeleteApprovedVersionFails() {
 
-        CreateFixedFeeDto dto = getFee();
+        CreateFixedFeeDto dto = getFee("2345");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -78,7 +79,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             feeVersionController.deleteFeeVersion(dto.getCode(), 1);
 
         } finally {
-            feeController.deleteFee(dto.getCode());
+            forceDeleteFee(dto.getCode());
         }
 
     }
@@ -86,7 +87,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void testDeleteVersionDoesNotDeleteFee() {
 
-        CreateFixedFeeDto dto = getFee();
+        CreateFixedFeeDto dto = getFee("3456");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -110,14 +111,14 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             assertThat(feeController.getFee(dto.getCode(),response)).isNotNull();
 
         } finally {
-            feeController.deleteFee(dto.getCode());
+            forceDeleteFee(dto.getCode());
         }
 
     }
 
     @Test
     public synchronized void createFeeWithMultipleVersions() throws Exception {
-        CreateFixedFeeDto dto = getFee();
+        CreateFixedFeeDto dto = getFee("4567");
         String feeCode = UUID.randomUUID().toString();
         dto.setCode(feeCode);
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1",
@@ -135,11 +136,11 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         assertEquals(feeDto.getFeeVersionDtos().size(), 2);
     }
 
-    private CreateFixedFeeDto getFee() {
+    private CreateFixedFeeDto getFee(String feeCode) {
 
         CreateFixedFeeDto dto = new CreateFixedFeeDto();
 
-        dto.setCode("PEPITO");
+        dto.setCode(feeCode);
 
         dto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         dto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());

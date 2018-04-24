@@ -34,7 +34,7 @@ public class FeeLoaderTest extends BaseIntegrationTest {
     public void testCMCFeeLoading() throws Exception{
 
         // Delete the Fee:X0001 if it already exists
-        deleteFee("X0001");
+        forceDeleteFee("X0001");
 
         // Run the fee loader
         feeLoader.run(args);
@@ -61,7 +61,7 @@ public class FeeLoaderTest extends BaseIntegrationTest {
     public void testCMCUnspecifiedFeesUsingFeeLoader() throws Exception {
 
         // Delete the fee if it already exists
-        deleteFee("X0012");
+        forceDeleteFee("X0012");
 
         feeLoader.run(args);
 

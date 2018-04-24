@@ -60,7 +60,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
             .andExpect(versionIsOneAndStatusIsDraft())
         .andExpect(isUnspecifiedAmountFee());
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
 
     }
 
@@ -104,7 +104,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
             .andExpect(versionIsOneAndStatusIsDraft())
             .andExpect(isUnspecifiedAmountFee());
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
 
     }
 
@@ -130,7 +130,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
 
         saveFee(dto).andExpect(status().isBadRequest());
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
     }
 
     /* - PAY-447 */
@@ -176,7 +176,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(version.getFlatAmount().getAmount()));
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(dto.getCode());
 
     }
 
