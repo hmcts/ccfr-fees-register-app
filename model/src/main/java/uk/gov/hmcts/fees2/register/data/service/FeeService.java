@@ -15,6 +15,8 @@ public interface FeeService  {
 
     void delete(String code);
 
+    boolean safeDelete(String code);
+
     FeeLookupResponseDto lookup(LookupFeeDto dto);
 
     List<Fee> search(LookupFeeDto dto);

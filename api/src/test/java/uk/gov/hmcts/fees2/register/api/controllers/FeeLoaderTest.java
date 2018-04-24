@@ -35,7 +35,6 @@ public class FeeLoaderTest extends BaseIntegrationTest {
 
     @Test
     public void testCMCFeeLoading_1() throws Exception{
-
         // Run the fee loader
         feeLoader.run(args);
 

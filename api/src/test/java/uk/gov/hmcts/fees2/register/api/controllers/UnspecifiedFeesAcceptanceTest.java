@@ -61,8 +61,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
             .andExpect(versionIsOneAndStatusIsDraft())
         .andExpect(isUnspecifiedAmountFee());
 
-        deleteFee(arr[3]);
-
+        forceDeleteFee(arr[3]);
     }
 
     /* Scenario 2: Creating a FLAT fee for the DEFAULT channel
@@ -106,8 +105,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
             .andExpect(versionIsOneAndStatusIsDraft())
             .andExpect(isUnspecifiedAmountFee());
 
-        deleteFee(arr[3]);
-
+        forceDeleteFee(arr[3]);
     }
 
     /* NOTE:****IT SHOULD NOT BE POSSIBLE TO HAVE THIS FEE IN % */
@@ -130,8 +128,6 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setVersion(version);
 
         saveFee(dto).andExpect(status().isBadRequest());
-
-        //deleteFee(dto.getCode());
     }
 
     /* - PAY-447 */
@@ -178,8 +174,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(version.getFlatAmount().getAmount()));
 
-        deleteFee(arr[3]);
-
+        forceDeleteFee(arr[3]);
     }
 
 

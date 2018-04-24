@@ -51,8 +51,7 @@ public class RestActions {
                 .delete(urlTemplate, uriVars)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .headers(httpHeaders))
-                .andExpect(status().isNoContent());
+                .headers(httpHeaders));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

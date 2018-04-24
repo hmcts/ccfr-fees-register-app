@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -121,6 +122,18 @@ public class FeeServiceImpl implements FeeService {
     @Transactional
     public void delete(String code) {
         fee2Repository.deleteFeeByCode(code);
+    }
+
+    @Transactional
+    public boolean safeDelete(String code) {
+        Optional<Fee> optFeeToDelete = fee2Repository.findByCode(code);
+        if (optFeeToDelete.isPresent()) {
+            if (feeVersionRepository.findByFee_CodeAndStatus(code, FeeVersionStatus.approved).isEmpty()) {
+                delete(code);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

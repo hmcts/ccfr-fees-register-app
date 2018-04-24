@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers.base;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -16,6 +17,7 @@ import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
@@ -26,6 +28,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public abstract class BaseIntegrationTest extends BaseTest{
+
+    @Autowired
+    FeeService feeService;
 
     /* --- API CALLS --- */
 
@@ -38,7 +43,12 @@ public abstract class BaseIntegrationTest extends BaseTest{
     protected ResultActions deleteFee(String code) throws Exception {
         return restActions
             .withUser("admin")
-            .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), code);
+            .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), code)
+            .andExpect(status().isNoContent());
+    }
+
+    protected void forceDeleteFee(String code) {
+        feeService.delete(code);
     }
 
     protected String saveFeeAndCheckStatusIsCreated(CreateFeeDto dto) throws Exception {

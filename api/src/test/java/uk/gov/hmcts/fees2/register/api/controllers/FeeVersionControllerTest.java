@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,7 +45,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = FeeNotFoundException.class)
     public synchronized void testDeleteFeeAndVersion() throws Exception {
 
-        CreateFixedFeeDto dto = getFee();
+        CreateFixedFeeDto dto = getFee("1234");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -66,7 +65,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             feeController.getFee(arr[3], response);
 
         } finally {
-            feeController.deleteFee(arr[3]);
+
+            forceDeleteFee(arr[3]);
         }
 
     }
@@ -74,7 +74,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = BadRequestException.class)
     public synchronized void testDeleteApprovedVersionFails() throws Exception {
 
-        CreateFixedFeeDto dto = getFee();
+        CreateFixedFeeDto dto = getFee("2345");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -93,7 +93,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             feeVersionController.deleteFeeVersion(arr[3], 1);
 
         } finally {
-            feeController.deleteFee(arr[3]);
+            forceDeleteFee(arr[3]);
         }
 
     }
@@ -101,7 +101,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void testDeleteVersionDoesNotDeleteFee() throws Exception {
 
-        CreateFixedFeeDto dto = getFee();
+        CreateFixedFeeDto dto = getFee("3456");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -131,14 +131,14 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             assertThat(feeController.getFee(arr[3],response)).isNotNull();
 
         } finally {
-            feeController.deleteFee(arr[3]);
+            forceDeleteFee(arr[3]);
         }
 
     }
 
     @Test
     public synchronized void createFeeWithMultipleVersions() throws Exception {
-        CreateFixedFeeDto dto = getFee();
+        CreateFixedFeeDto dto = getFee(null);
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1",
             "natural account code1", "SI_1", "siRefId1", DirectionType.directionWith().name("enhanced").build()));
 
@@ -162,7 +162,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         assertEquals(feeDto.getFeeVersionDtos().size(), 1);
     }
 
-    private CreateFixedFeeDto getFee() {
+    private CreateFixedFeeDto getFee(String feeCode) {
 
         CreateFixedFeeDto dto = new CreateFixedFeeDto();
 

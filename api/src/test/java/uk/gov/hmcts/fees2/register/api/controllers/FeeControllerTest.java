@@ -51,8 +51,9 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
             }));
 
-        deleteFee(arr[3]);
+        forceDeleteFee(arr[3]);
     }
+
 
     /**
      * @throws Exception
@@ -91,8 +92,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 assertThat(lookupDto.getFeeAmount().equals(new BigDecimal(2500)));
             }));
 
-        deleteFee(arr[3]);
-
+        forceDeleteFee(arr[3]);
     }
 
 
@@ -114,7 +114,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void searchFeeTest() throws Exception {
 
         restActions
-            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search"))
+            .get("/fees-register/fees")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
                 assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
@@ -211,6 +211,44 @@ public class FeeControllerTest extends BaseIntegrationTest {
         assertEquals(fee.getDescription(), "Additional copies of the grant representation");
         assertEquals(fee.getVersion(), new Integer(3));
         assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
+    }
+
+    // test that delete throws 403 when trying to delete a fee with an approved version
+    @Test
+    public void deletingFeeWithApprovedVersionThrowsForbiddenException() throws Exception {
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.approved);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        restActions
+            .withUser("admin")
+            .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), arr[3])
+            .andExpect(status().isForbidden());
+
+        forceDeleteFee(arr[3]);
+    }
+
+    // test that delete deletes fee which has no approved versions
+    @Test
+    public void deletingFeeWithoutApprovedVersionReturnsNoContent() throws Exception {
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        restActions
+            .withUser("admin")
+            .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), arr[3])
+            .andExpect(status().isNoContent());
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -25,6 +26,7 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,8 +42,8 @@ public class FeeLoader implements ApplicationRunner {
     @Value("classpath:${fees.loader.json}")
     private String feesJsonInputFile;
 
-    @Value("${reform.environment}")
-    private String environment;
+    @Autowired
+    private Environment environment;
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -65,20 +67,21 @@ public class FeeLoader implements ApplicationRunner {
                 fixedFees.forEach(f -> {
                     Fee fee = feeDtoMapper.toFee(f, null);
 
-                    if (environment != null && environment.equals("local")) {
+                    if (f.getUnspecifiedClaimAmount() == null) {
+                        f.setUnspecifiedClaimAmount(false);
+                    }
+
+                    if (Arrays.stream(environment.getActiveProfiles()).filter(p -> p.equals("embedded")).findAny().isPresent()) {
                         fee.setCode(f.getNewCode());
                         feeService.save(fee);
                     } else {
                         try {
-                            if (f.getUnspecifiedClaimAmount() == null) {
-                                f.setUnspecifiedClaimAmount(false);
-                            }
-
                             if (feeService.get(f.getCode()) == null) {
                                 feeService.save(fee);
                                 LOG.info("Fixed fee with code " +f.getNewCode()+ " inserted into database.");
                             } else {
                                 try {
+                                    fee.setCode(f.getCode());
                                     feeService.updateFeeLoaderData(fee, f.getNewCode());
                                 } catch (DataIntegrityViolationException ue) {
                                     LOG.info("Update failed for the fee code: {}", f.getNewCode());
@@ -96,7 +99,7 @@ public class FeeLoader implements ApplicationRunner {
                 rangedFees.forEach(r -> {
                     Fee fee = feeDtoMapper.toFee(r, null);
 
-                    if (environment != null && environment.equals("local")) {
+                    if (Arrays.stream(environment.getActiveProfiles()).filter(p -> p.equals("embedded")).findAny().isPresent()) {
                         fee.setCode(r.getNewCode());
                         feeService.save(fee);
                     } else {
@@ -106,6 +109,7 @@ public class FeeLoader implements ApplicationRunner {
                                 LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
                             } else {
                                 try {
+                                    fee.setCode(r.getCode());
                                     feeService.updateFeeLoaderData(fee, r.getNewCode());
                                 } catch (DataIntegrityViolationException ue) {
                                     LOG.info("Update failed for the fee code: {}", r.getNewCode());
