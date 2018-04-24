@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
@@ -39,18 +40,13 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
         String[] uri = loc.split("/");
 
         restActions
-            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search") + "?feeVersionStatus=draft")
+            .get( "/fees-register/fees?feeVersionStatus=draft")
             .andExpect(status().isOk())
-            .andExpect(
-                body().as(List.class, (list) ->
-                    {
-                        assertTrue(list.size() > 0);
-                        assertTrue(list.stream().filter(o -> ((Map) o).get("code").equals(uri[3])).findAny().isPresent());
-                    }
-                )
-            );
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+                assertTrue(fee2Dtos.stream().filter(f -> f.getCode().equals(uri[3])).findAny().isPresent());
+            }));
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
 
     }
 }
