@@ -42,7 +42,6 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
 
-        dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setUnspecifiedClaimAmount(true);
         dto.setChannel("online");
 
@@ -54,13 +53,15 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
 
         dto.setVersion(version);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] arr = loc.split("/");
 
+        dto.setCode(arr[3]);
         getFeeAndExpectStatusIsOk(dto.getCode())
             .andExpect(versionIsOneAndStatusIsDraft())
         .andExpect(isUnspecifiedAmountFee());
 
-        deleteFee(dto.getCode());
+        deleteFee(arr[3]);
 
     }
 
@@ -86,7 +87,6 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
-        dto.setCode(String.valueOf(System.currentTimeMillis()));
 
         dto.setUnspecifiedClaimAmount(true);
 
@@ -98,13 +98,15 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
 
         dto.setVersion(version);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] arr = loc.split("/");
 
+        dto.setCode(arr[3]);
         getFeeAndExpectStatusIsOk(dto.getCode())
             .andExpect(versionIsOneAndStatusIsDraft())
             .andExpect(isUnspecifiedAmountFee());
 
-        deleteFee(dto.getCode());
+        deleteFee(arr[3]);
 
     }
 
@@ -118,7 +120,6 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
-        dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setUnspecifiedClaimAmount(true);
 
         FeeVersionDto version = new FeeVersionDto();
@@ -130,7 +131,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
 
         saveFee(dto).andExpect(status().isBadRequest());
 
-        deleteFee(dto.getCode());
+        //deleteFee(dto.getCode());
     }
 
     /* - PAY-447 */
@@ -158,7 +159,6 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         dto.setJurisdiction2("county court");
         dto.setChannel("online");
         dto.setApplicantType("all");
-        dto.setCode(String.valueOf(System.currentTimeMillis()));
         dto.setUnspecifiedClaimAmount(true);
 
         FeeVersionDto version = new FeeVersionDto();
@@ -170,13 +170,15 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
 
         dto.setVersion(version);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] arr = loc.split("/");
 
+        dto.setCode(arr[3]);
         lookupUsingUsingReferenceDataFrom(dto, null)
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(version.getFlatAmount().getAmount()));
 
-        deleteFee(dto.getCode());
+        deleteFee(arr[3]);
 
     }
 

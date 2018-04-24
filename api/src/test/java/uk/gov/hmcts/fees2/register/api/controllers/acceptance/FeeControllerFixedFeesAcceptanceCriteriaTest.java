@@ -37,7 +37,6 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setCode(String.valueOf(System.currentTimeMillis()));
 
         FeeVersionDto version = new FeeVersionDto();
         version.setDescription(version.getMemoLine());
@@ -47,12 +46,14 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
 
         dto.setVersion(version);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(dto.getCode())
+
+        getFeeAndExpectStatusIsOk(uri[3])
             .andExpect(versionIsOneAndStatusIsDraft());
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
 
     }
 

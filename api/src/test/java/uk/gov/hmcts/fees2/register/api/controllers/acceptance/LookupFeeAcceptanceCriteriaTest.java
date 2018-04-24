@@ -50,14 +50,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* Scenario 2: Looking up a % fee with ONLINE channel
@@ -90,14 +92,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(new BigDecimal("0.5")));
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* Scenario 3: Looking up a FLAT fee with DEFAULT channel
@@ -128,14 +132,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         dto.setVersion(versionDto);
         dto.setChannel("default");
         dto.setApplicantType("all");
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* Scenario 4: Looking up a % fee with DEFAULT channel
@@ -168,14 +174,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         dto.setChannel("default");
         dto.setApplicantType("all");
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(new BigDecimal("0.5")));
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* Scenario 5: Looking up fees where no approved fee exists
@@ -207,12 +215,14 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         dto.setChannel("default");
         dto.setApplicantType("all");
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isNotFound());
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* --- PAY-457 --- */
@@ -246,14 +256,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
 
     }
 
@@ -284,12 +296,14 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setDescription(versionDto.getMemoLine());
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isNotFound());
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* -- PAY-4487 -- */
@@ -367,7 +381,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         /* 1. Get the fee and get the amount per copy */
 
-        getFeeAndExpectStatusIsOk("X0258").andExpect(
+        getFeeAndExpectStatusIsOk("FEE0003").andExpect(
             body().as(Fee2Dto.class, (fee) -> {
 
                 /* 2. Lookup the fee for 10 copies and test value is correct */
@@ -377,7 +391,6 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
                 lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
                 lookupDto.setChannel(fee.getChannelTypeDto().getName());
                 lookupDto.setApplicantType(fee.getApplicantTypeDto().getName());
-                //lookupDto.setDirection(fee.getDirectionTypeDto().getName());
                 lookupDto.setEvent(fee.getEventTypeDto().getName());
                 lookupDto.setService(fee.getServiceTypeDto().getName());
                 lookupDto.setAmountOrVolume(BigDecimal.TEN);
@@ -407,7 +420,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
     @Test
     public void lookupProbateEstateOf5000AndGetNoContent() throws Exception{
 
-        getFeeAndExpectStatusIsOk("X0249").andExpect(
+        getFeeAndExpectStatusIsOk("FEE0219").andExpect(
             body().as(Fee2Dto.class, (fee) -> {
 
                 LookupFeeDto lookupDto = new LookupFeeDto();

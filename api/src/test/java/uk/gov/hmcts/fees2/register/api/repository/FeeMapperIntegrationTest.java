@@ -26,7 +26,6 @@ public class FeeMapperIntegrationTest extends BaseTest {
                 .setMinRange(BigDecimal.ZERO)
                 .setMaxRange(BigDecimal.TEN)
                 .setRangeUnit("GBP")
-                .setCode("XXXYYY")
                 .setVersion(getFeeVersionDto(FeeVersionStatus.draft, "Test memo line", "CMC online fee order name",
                     "Natural code 001", "SI", "siRefId", directionTypeService.findByNameOrThrow("enhanced")))
                 .setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName())
@@ -39,7 +38,6 @@ public class FeeMapperIntegrationTest extends BaseTest {
 
         Fee2Dto fee2Dto = dtoMapper.toFeeDto(fee);
 
-        assertEquals(fee2Dto.getCode(), rangedFeeDto.getCode());
         assertEquals(fee2Dto.getMinRange(), rangedFeeDto.getMinRange());
         assertEquals(fee2Dto.getMaxRange(), rangedFeeDto.getMaxRange());
         assertEquals(fee2Dto.getRangeUnit(), rangedFeeDto.getRangeUnit());

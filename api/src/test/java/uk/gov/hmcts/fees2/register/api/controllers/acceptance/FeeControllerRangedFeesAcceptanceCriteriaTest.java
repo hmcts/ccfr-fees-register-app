@@ -49,12 +49,13 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(dto.getCode())
+        getFeeAndExpectStatusIsOk(uri[3])
             .andExpect(versionIsOneAndStatusIsDraft());
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* Scenario 2: Creating a % fee for the DEFAULT channel
@@ -89,13 +90,14 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(dto.getCode())
+        getFeeAndExpectStatusIsOk(uri[3])
             .andExpect(channelIsDefault())
             .andExpect(versionIsOneAndStatusIsDraft());
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* PAY-444 */
@@ -131,12 +133,13 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(dto.getCode())
+        getFeeAndExpectStatusIsOk(uri[3])
             .andExpect(versionIsOneAndStatusIsDraft());
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     /* Scenario 2: Creating a FLAT fee for the DEFAULT channel
@@ -168,13 +171,14 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(dto.getCode())
+        getFeeAndExpectStatusIsOk(uri[3])
             .andExpect(versionIsOneAndStatusIsDraft())
             .andExpect(channelIsDefault());
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
     }
 
     private CreateRangedFeeDto createCMCIssueCivilCountyRangedFee() {
@@ -185,7 +189,6 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
         dto.setJurisdiction2("county court");
         dto.setMinRange(BigDecimal.ONE);
         dto.setMaxRange(BigDecimal.TEN);
-        dto.setCode(String.valueOf(System.currentTimeMillis()));
 
         return dto;
     }

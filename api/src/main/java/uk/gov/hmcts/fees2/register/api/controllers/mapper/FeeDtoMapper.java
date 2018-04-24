@@ -63,7 +63,7 @@ public class FeeDtoMapper {
     }
 
     private void fillFee(CreateFeeDto request, Fee fee, String author) {
-        fillCode(fee, request.getCode());
+        //fillCode(fee, request.getCode());
         updateFeeDetails(request, fee, author);
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);

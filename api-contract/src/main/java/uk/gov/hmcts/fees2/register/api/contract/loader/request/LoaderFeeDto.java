@@ -13,6 +13,7 @@ import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
 @Getter
 public abstract class LoaderFeeDto extends CreateFeeDto {
 
+    @JsonProperty("code")
     private String code;
 
     @JsonProperty("new_code")

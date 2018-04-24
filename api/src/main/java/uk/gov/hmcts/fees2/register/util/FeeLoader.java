@@ -40,14 +40,14 @@ public class FeeLoader implements ApplicationRunner {
     @Value("classpath:${fees.loader.json}")
     private String feesJsonInputFile;
 
+    @Value("${reform.environment}")
+    private String environment;
+
     @Autowired
     private ResourceLoader resourceLoader;
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private FeeController feeController;
 
     @Autowired
     private FeeService feeService;
@@ -65,23 +65,28 @@ public class FeeLoader implements ApplicationRunner {
                 fixedFees.forEach(f -> {
                     Fee fee = feeDtoMapper.toFee(f, null);
 
-                    try {
-                        if (f.getUnspecifiedClaimAmount() == null) {
-                            f.setUnspecifiedClaimAmount(false);
-                        }
-
-                        if (feeService.get(f.getCode()) == null) {
-                            feeService.save(fee);
-                            LOG.info("Fixed fee with code " +f.getNewCode()+ " inserted into database.");
-                        } else {
-                            try {
-                                feeService.updateFeeLoaderData(fee, f.getNewCode());
-                            } catch (DataIntegrityViolationException ue) {
-                                LOG.info("Update failed for the fee code: {}", f.getNewCode());
+                    if (environment != null && environment.equals("local")) {
+                        fee.setCode(f.getNewCode());
+                        feeService.save(fee);
+                    } else {
+                        try {
+                            if (f.getUnspecifiedClaimAmount() == null) {
+                                f.setUnspecifiedClaimAmount(false);
                             }
+
+                            if (feeService.get(f.getCode()) == null) {
+                                feeService.save(fee);
+                                LOG.info("Fixed fee with code " +f.getNewCode()+ " inserted into database.");
+                            } else {
+                                try {
+                                    feeService.updateFeeLoaderData(fee, f.getNewCode());
+                                } catch (DataIntegrityViolationException ue) {
+                                    LOG.info("Update failed for the fee code: {}", f.getNewCode());
+                                }
+                            }
+                        } catch (FeeNotFoundException fe) {
+                            LOG.debug("Fee with code is not found:", fe);
                         }
-                    } catch (FeeNotFoundException fe) {
-                        LOG.debug("Fee with code is not found:", fe);
                     }
                 });
             }
@@ -91,21 +96,25 @@ public class FeeLoader implements ApplicationRunner {
                 rangedFees.forEach(r -> {
                     Fee fee = feeDtoMapper.toFee(r, null);
 
-                    try {
-
-                        if (feeService.get(r.getCode()) == null) {
-                            feeService.save(fee);
-                            LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
-                        } else {
-                            try {
-                                feeService.updateFeeLoaderData(fee, r.getNewCode());
-                            } catch (DataIntegrityViolationException ue) {
-                                LOG.info("Update failed for the fee code: {}", r.getNewCode());
+                    if (environment != null && environment.equals("local")) {
+                        fee.setCode(r.getNewCode());
+                        feeService.save(fee);
+                    } else {
+                        try {
+                            if (feeService.get(r.getCode()) == null) {
+                                feeService.save(fee);
+                                LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
+                            } else {
+                                try {
+                                    feeService.updateFeeLoaderData(fee, r.getNewCode());
+                                } catch (DataIntegrityViolationException ue) {
+                                    LOG.info("Update failed for the fee code: {}", r.getNewCode());
+                                }
                             }
                         }
-                    }
-                    catch (FeeNotFoundException fe) {
-                        LOG.debug("Fee not found exception: {}", fe);
+                        catch (FeeNotFoundException fe) {
+                            LOG.debug("Fee not found exception: {}", fe);
+                        }
                     }
                 });
             }
@@ -115,8 +124,6 @@ public class FeeLoader implements ApplicationRunner {
             LOG.error("Error is loading cmc fee json loader");
             throw new Exception("Error in loading fee into the database.", ex);
         }
-
-
     }
 
     private FeeLoaderJsonMapper loadFromResource(String location) throws IOException {

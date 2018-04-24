@@ -51,35 +51,25 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Autowired
     private ChannelTypeService channelTypeService;
 
-    private String feeCode;
-
-
     /**
      *
      */
     @Test
     public void createRangedFeeTest() {
-        rangedFeeDto = getRangedFeeDto("XCRUD00");
+        rangedFeeDto = getRangedFeeDto(null);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         assertNotNull(savedFee);
     }
 
-    @Test(expected = BadRequestException.class)
-    public void duplicateFeeCreationTest() {
-        rangedFeeDto = getRangedFeeDto("XCRUD00");
-        feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
-    }
 
     @Test
     public void createRangedFeeWithAllReferenceDataTest() {
-        feeCode = UUID.randomUUID().toString();
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, feeCode, FeeVersionStatus.approved);
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, null, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(savedFee);
 
-        assertEquals(rangedFeeDto.getCode(), feeCode);
         FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
@@ -91,14 +81,12 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Transactional
     public void ReadRangedFeeWithAllReferenceDataTest() {
         // Insert a new ranged fee
-        feeCode = UUID.randomUUID().toString();
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, feeCode, FeeVersionStatus.approved);
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, null, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
-        Fee fee = feeService.get(feeCode);
+        Fee fee = feeService.get(savedFee.getCode());
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(fee);
-        assertEquals(rangedFeeDto.getCode(), feeCode);
         FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
@@ -108,11 +96,10 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test
     public void createDraftFeeAndApproveTheFeeTest() {
         // Insert a new ranged fee
-        feeCode = UUID.randomUUID().toString();
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, feeCode, FeeVersionStatus.draft);
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, null, FeeVersionStatus.draft);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
-        Fee fee = feeService.get(feeCode);
+        Fee fee = feeService.get(savedFee.getCode());
 
         boolean result = feeVersionService.approve(fee.getCode(), 1, AUTHOR);
         assertTrue(result);
@@ -122,13 +109,12 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Transactional
     public void createFee_withSingleFeeVersionTest() throws Exception {
         // Insert a new ranged fee
-        feeCode = UUID.randomUUID().toString();
-        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, feeCode, FeeVersionStatus.approved);
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, null, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
-        Fee fee = feeService.get(feeCode);
+        Fee fee = feeService.get(savedFee.getCode());
         assertNotNull(fee);
-        assertEquals(fee.getCode(), feeCode);
+        assertEquals(fee.getCode(), fee.getCode());
         FeeVersion feeVersion = fee.getCurrentVersion(true);
         assertEquals(feeVersion.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersion.getMemoLine(), "Test memo line");

@@ -23,8 +23,7 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
             .setEvent("issue")
             .setJurisdiction1("civil")
             .setJurisdiction2("family court")
-            .setChannel("online")
-            .setCode("XXX" + String.valueOf(System.currentTimeMillis()));
+            .setChannel("online");
     }
 
     @Test
@@ -36,7 +35,8 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
         versionDto.setDescription("Hi");
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
         restActions
             .get(URIUtils.getUrlForGetMethod(FeeController.class, "search") + "?feeVersionStatus=draft")
@@ -45,12 +45,12 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
                 body().as(List.class, (list) ->
                     {
                         assertTrue(list.size() > 0);
-                        assertTrue(list.stream().filter(o -> ((Map) o).get("code").equals(dto.getCode())).findAny().isPresent());
+                        assertTrue(list.stream().filter(o -> ((Map) o).get("code").equals(uri[3])).findAny().isPresent());
                     }
                 )
             );
 
-        deleteFee(dto.getCode());
+        deleteFee(uri[3]);
 
     }
 }
