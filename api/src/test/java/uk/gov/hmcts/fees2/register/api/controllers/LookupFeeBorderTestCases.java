@@ -18,7 +18,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     */
 
     @Test
-    public synchronized void testBorderCase299_98() throws Exception{
+    public void testBorderCase299_98() throws Exception{
 
         initFees();
 
@@ -37,7 +37,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
-    public synchronized void testBorderCase299_99() throws Exception{
+    public void testBorderCase299_99() throws Exception{
 
         initFees();
 
@@ -56,7 +56,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
-    public synchronized void testBorderCase300_00() throws Exception{
+    public void testBorderCase300_00() throws Exception{
 
         initFees();
 
@@ -74,7 +74,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
-    public synchronized void testBorderCase299_951() throws Exception{
+    public void testBorderCase299_951() throws Exception{
 
         initFees();
 
@@ -93,7 +93,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
-    public synchronized void testBorderCase299_98971() throws Exception{
+    public void testBorderCase299_98971() throws Exception{
 
         initFees();
 
@@ -112,7 +112,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
-    public synchronized void testBorderCase500() throws Exception{
+    public void testBorderCase500() throws Exception{
 
         initFees();
 
@@ -131,7 +131,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
-    public synchronized void testBorderCase20000() throws Exception{
+    public void testBorderCase20000() throws Exception{
 
         initFees();
 
@@ -150,7 +150,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
-    public synchronized void testBorderCase300_01() throws Exception{
+    public void testBorderCase300_01() throws Exception{
 
         initFees();
 
@@ -169,9 +169,9 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     private void deleteFees() throws Exception{
-        deleteFee("T1");
-        deleteFee("T2");
-        deleteFee("T3");
+        forceDeleteFee("T1");
+        forceDeleteFee("T2");
+        forceDeleteFee("T3");
     }
 
     /** Create 3 ranged-percent fees to test all border cases */

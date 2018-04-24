@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -179,8 +180,8 @@ public class FeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFee(@PathVariable("code") String code, HttpServletResponse response) {
         // check if fee has any approved versions before deleting
-        if (!feeService.delete(code)) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
+        if (!feeService.safeDelete(code)) {
+            throw new ForbiddenException();
         }
     }
 

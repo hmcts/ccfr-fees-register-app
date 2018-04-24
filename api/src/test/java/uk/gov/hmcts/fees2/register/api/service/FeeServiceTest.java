@@ -35,6 +35,18 @@ public class FeeServiceTest extends BaseTest{
 
     @Test
     @Transactional
+    public void testDeletePreventsDeletingApprovedFee() {
+        String code = createSimplestFee();
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteWorksForNonApprovedFee() {
+
+    }
+
+    @Test
+    @Transactional
     public void testBasicSearch() {
 
         createDefaultChannelType();
