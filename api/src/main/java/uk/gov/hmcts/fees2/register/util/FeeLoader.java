@@ -122,8 +122,6 @@ public class FeeLoader implements ApplicationRunner {
                     }
                 });
             }
-
-
         } catch (IOException  | NullPointerException ex) {
             LOG.error("Error is loading cmc fee json loader");
             throw new Exception("Error in loading fee into the database.", ex);
