@@ -9,13 +9,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.security.Principal;
+
+import static java.util.Optional.ofNullable;
 
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
 @RestController
@@ -70,6 +78,44 @@ public class FeeVersionController {
         Principal principal) {
 
         feeVersionService.changeStatus(feeCode, version, status, principal.getName());
+    }
+
+    @ApiOperation(value = "Approve a fee version")
+    @ApiResponses(value = {
+        @ApiResponse(code = 204, message = "Fee version is Approved"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PatchMapping("/fees/{feeCode}/versions/{version}/approve")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void approve(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, Principal principal) {
+        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.approved, ofNullable(principal)
+            .map(p -> p.getName())
+            .orElse(null));
+    }
+
+    @ApiOperation(value = "Reject a fee version")
+    @ApiResponses(value = {
+        @ApiResponse(code = 204, message = "Fee version is Rejected"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version) {
+        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.rejected, null);
+    }
+
+    @ApiOperation(value = "Submit a fee version to approval")
+    @ApiResponses(value = {
+        @ApiResponse(code = 204, message = "Fee version is submitted to approval"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PatchMapping("/fees/{feeCode}/versions/{version}/submit-for-review")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void submitForReview(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version) {
+        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.pending_approval, null);
     }
 
 }
