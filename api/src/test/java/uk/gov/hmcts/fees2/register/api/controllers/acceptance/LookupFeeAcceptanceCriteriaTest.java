@@ -308,5 +308,5 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         forceDeleteFee(uri[3]);
     }
-    
+
 }
