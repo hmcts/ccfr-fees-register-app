@@ -76,12 +76,6 @@ public class FeeServiceImpl implements FeeService {
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
-        if (Arrays.stream(environment.getActiveProfiles()).filter(p -> p.equals("embedded")).findAny().isPresent()) {
-            Matcher matcher = pattern.matcher(fee.getCode());
-            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
-            return fee2Repository.save(fee);
-        }
-
         Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
         fee.setFeeNumber(nextFeeNumber);
         fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
