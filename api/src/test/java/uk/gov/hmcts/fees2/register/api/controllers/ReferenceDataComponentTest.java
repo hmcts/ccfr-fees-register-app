@@ -35,7 +35,7 @@ public class ReferenceDataComponentTest extends BaseTest {
                         .name("personal")
                         .build(),
                     applicantTypeDtoWith()
-                        .name("non personal")
+                        .name("professional")
                         .build(),
                     applicantTypeDtoWith()
                         .name("all")
