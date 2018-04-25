@@ -180,7 +180,6 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
     protected ResultMatcher versionIsOneAndStatusIsDraft() {
         return body().as(Fee2Dto.class, (feeDto) -> {
-
             FeeVersionDto v = feeDto.getFeeVersionDtos().get(0);
             assertTrue(v.getVersion().equals(1));
             assertTrue(v.getStatus() == FeeVersionStatus.draft);
@@ -195,7 +194,6 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
     protected ResultMatcher lookupResultMatchesFee(CreateFeeDto feeDto) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
-            //assertTrue(feeDto.getMemoLine().equalsIgnoreCase(res.getDescription()));
             assertTrue(feeDto.getCode().equalsIgnoreCase(res.getCode()));
             assertTrue(res.getVersion() != null);
         });

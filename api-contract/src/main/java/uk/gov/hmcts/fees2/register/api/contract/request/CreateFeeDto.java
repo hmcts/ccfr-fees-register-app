@@ -8,8 +8,6 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
 import javax.validation.constraints.NotNull;
 
-import static com.fasterxml.jackson.annotation.JsonProperty.*;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
@@ -65,12 +66,21 @@ public class FeeServiceImpl implements FeeService {
     @Autowired
     private FeeValidator feeValidator;
 
+    @Autowired
+    private Environment environment;
+
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
     /* --- */
 
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
+
+        if (Arrays.stream(environment.getActiveProfiles()).filter(p -> p.equals("embedded")).findAny().isPresent()) {
+            Matcher matcher = pattern.matcher(fee.getCode());
+            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            return fee2Repository.save(fee);
+        }
 
         Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
         fee.setFeeNumber(nextFeeNumber);

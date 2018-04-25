@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
@@ -8,11 +9,14 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
@@ -415,30 +419,17 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
     And the case has an estate valued at £5000 and below
     When the fee for this case is being looked up through the API
     Then return a £0 fee and/or 204 message */
-    //@Test
+    @Test
     public void lookupProbateEstateOf5000AndGetNoContent() throws Exception{
 
-        getFeeAndExpectStatusIsOk("FEE0219").andExpect(
-            body().as(Fee2Dto.class, (fee) -> {
-
-                LookupFeeDto lookupDto = new LookupFeeDto();
-                lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
-                lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
-                lookupDto.setChannel(fee.getChannelTypeDto().getName());
-                lookupDto.setApplicantType(fee.getApplicantTypeDto().getName());
-                lookupDto.setEvent(fee.getEventTypeDto().getName());
-                lookupDto.setService(fee.getServiceTypeDto().getName());
-                lookupDto.setAmountOrVolume(new BigDecimal(5000));
-
-                try {
-                    lookup(lookupDto)
-                        .andExpect(status().isNoContent());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-            })
-        );
+        restActions
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=issue&applicant_type=all&amount_or_volume=10000.00")
+            .andExpect(status().isOk())
+            .andExpect(body().as(FeeLookupResponseDto.class, feeLookupResponseDto -> {
+                assertThat(feeLookupResponseDto.getCode()).isEqualTo("FEE0219");
+                assertThat(feeLookupResponseDto.getVersion()).isEqualTo(new Integer(2));
+                assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo(new BigDecimal("155.00"));
+            }));
 
     }
 }
