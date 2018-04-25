@@ -29,7 +29,6 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void testUnapprovedFeesAreRetrieved() throws Exception {
-
         CreateFixedFeeDto dto = dto();
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));

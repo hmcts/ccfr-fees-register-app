@@ -1,6 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -16,7 +15,6 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -123,7 +121,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
                     });
                 });
             }));
-
     }
 
 

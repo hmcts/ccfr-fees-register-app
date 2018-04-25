@@ -7,12 +7,8 @@ import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.model.RangedFee;
-import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
-import java.net.URI;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
