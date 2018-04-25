@@ -75,3 +75,13 @@ databaseChangeLog:
       - renameTable:
           newTableName: applicant_type
           oldTableName: application_type
+
+- changeSet:
+    id: 1521217899808-7
+    author: tarun
+    changes:
+      - sql:
+          splitStatements: true
+          sql: >
+            DELETE FROM applicant_type where name = 'non personal';
+            INSERT INTO applicant_type (name) VALUES ('professional');
