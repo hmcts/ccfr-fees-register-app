@@ -186,3 +186,14 @@ databaseChangeLog:
                   ('probate'),
                   ('general'),
                   ('magistrates');
+
+    - changeSet:
+        id: 1523960740461-44
+        author: tarun
+        changes:
+          - sql:
+              splitStatements: true
+              sql: >
+                DELETE FROM applicant_type where name = 'non personal';
+                INSERT INTO applicant_type (name) VALUES ('professional');
+
