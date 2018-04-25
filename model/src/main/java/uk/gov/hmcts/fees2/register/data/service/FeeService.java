@@ -23,4 +23,8 @@ public interface FeeService  {
 
     Fee get(String code);
 
+    Integer getMaxFeeNumber();
+
+    void updateFeeLoaderData(Fee fee, String code);
+
 }

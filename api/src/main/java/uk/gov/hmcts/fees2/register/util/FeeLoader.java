@@ -1,26 +1,32 @@
 package uk.gov.hmcts.fees2.register.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.auth.AUTH;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 import sun.security.acl.PrincipalImpl;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
+import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeLoaderJsonMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.service.FeeService;
 
-import javax.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,13 +43,19 @@ public class FeeLoader implements ApplicationRunner {
     private String feesJsonInputFile;
 
     @Autowired
+    private Environment environment;
+
+    @Autowired
     private ResourceLoader resourceLoader;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
-    private FeeController feeController;
+    private FeeService feeService;
+
+    @Autowired
+    private FeeDtoMapper feeDtoMapper;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -51,50 +63,69 @@ public class FeeLoader implements ApplicationRunner {
             FeeLoaderJsonMapper feeLoaderMapper = loadFromResource(feesJsonInputFile);
 
             if (feeLoaderMapper.getFixedFees().size() > 0) {
-                List<CreateFixedFeeDto> fixedFees = feeLoaderMapper.getFixedFees();
+                List<LoaderFixedFeeDto> fixedFees = feeLoaderMapper.getFixedFees();
                 fixedFees.forEach(f -> {
-                    try {
-                        if (f.getUnspecifiedClaimAmount() == null) {
-                            f.setUnspecifiedClaimAmount(false);
-                        }
-                        feeController.createFixedFee(f, null, AUTHOR);
-                        LOG.info("Fixed fee with code " +f.getCode()+ " inserted into database.");
-                    } catch (BadRequestException be) {
-                        LOG.debug("Fixed fee with code " +f.getCode()+ " already in use.");
+                    Fee fee = feeDtoMapper.toFee(f, null);
 
+                    if (f.getUnspecifiedClaimAmount() == null) {
+                        f.setUnspecifiedClaimAmount(false);
+                    }
+
+                    if (Arrays.stream(environment.getActiveProfiles()).filter(p -> p.equals("embedded")).findAny().isPresent()) {
+                        fee.setCode(f.getNewCode());
+                        feeService.save(fee);
+                    } else {
                         try {
-                            feeController.updateFixedFee(f.getCode(), f, null, AUTHOR);
-                        } catch (BadRequestException|PersistenceException pe) {
-                            LOG.info("Update failed for the fee code: {}", f.getCode());
+                            if (feeService.get(f.getCode()) == null) {
+                                feeService.save(fee);
+                                LOG.info("Fixed fee with code " +f.getNewCode()+ " inserted into database.");
+                            } else {
+                                try {
+                                    fee.setCode(f.getCode());
+                                    feeService.updateFeeLoaderData(fee, f.getNewCode());
+                                } catch (DataIntegrityViolationException ue) {
+                                    LOG.info("Update failed for the fee code: {}", f.getNewCode());
+                                }
+                            }
+                        } catch (FeeNotFoundException fe) {
+                            LOG.debug("Fee with code is not found:", fe);
                         }
                     }
                 });
             }
 
             if (feeLoaderMapper.getRangedFees().size() > 0) {
-                List<CreateRangedFeeDto> rangedFees = feeLoaderMapper.getRangedFees();
+                List<LoaderRangedFeeDto> rangedFees = feeLoaderMapper.getRangedFees();
                 rangedFees.forEach(r -> {
-                    try {
-                        feeController.createRangedFee(r, null, AUTHOR);
-                        LOG.info("Ranged fee with code " +r.getCode()+ " inserted into database.");
-                    } catch (BadRequestException be) {
-                        LOG.debug("Ranged fee with code " +r.getCode()+ " already in use.");
+                    Fee fee = feeDtoMapper.toFee(r, null);
+
+                    if (Arrays.stream(environment.getActiveProfiles()).filter(p -> p.equals("embedded")).findAny().isPresent()) {
+                        fee.setCode(r.getNewCode());
+                        feeService.save(fee);
+                    } else {
                         try {
-                            feeController.updateRangedFee(r.getCode(), r, null, AUTHOR);
-                        } catch (BadRequestException|PersistenceException pe) {
-                            LOG.info("Update failed for the fee code: {}", r.getCode());
+                            if (feeService.get(r.getCode()) == null) {
+                                feeService.save(fee);
+                                LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
+                            } else {
+                                try {
+                                    fee.setCode(r.getCode());
+                                    feeService.updateFeeLoaderData(fee, r.getNewCode());
+                                } catch (DataIntegrityViolationException ue) {
+                                    LOG.info("Update failed for the fee code: {}", r.getNewCode());
+                                }
+                            }
+                        }
+                        catch (FeeNotFoundException fe) {
+                            LOG.debug("Fee not found exception: {}", fe);
                         }
                     }
                 });
             }
-
-
         } catch (IOException  | NullPointerException ex) {
             LOG.error("Error is loading cmc fee json loader");
             throw new Exception("Error in loading fee into the database.", ex);
         }
-
-
     }
 
     private FeeLoaderJsonMapper loadFromResource(String location) throws IOException {

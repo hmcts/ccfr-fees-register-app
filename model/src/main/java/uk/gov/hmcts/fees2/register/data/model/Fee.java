@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
@@ -27,6 +26,9 @@ public abstract class Fee extends AbstractEntity{
 
     @Column(name = "code", unique = true)
     private String code;
+
+    @Column(name = "fee_number", unique = true)
+    private Integer feeNumber;
 
     @ManyToOne
     @JoinColumn(name = "jurisdiction1")
@@ -116,4 +118,10 @@ public abstract class Fee extends AbstractEntity{
             ", lastUpdated=" + lastUpdated +
             '}';
     }
+
+    @OneToMany
+    @Cascade(CascadeType.ALL)
+    @JoinColumn(name = "fee_id", referencedColumnName = "id", nullable = false)
+    private List<FeeCodeHistory> feeCodeHistories;
+
 }

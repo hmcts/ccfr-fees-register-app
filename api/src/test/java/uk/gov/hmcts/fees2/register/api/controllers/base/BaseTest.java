@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
@@ -199,7 +200,6 @@ public abstract class BaseTest {
 
         rangedFeeDto.setMinRange(new BigDecimal(1));
         rangedFeeDto.setMaxRange(new BigDecimal(3000));
-        rangedFeeDto.setCode(feeCode);
         rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line", "CMC online fee order name",
             "Natural code 001", "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
         rangedFeeDto.setJurisdiction1(null);
@@ -216,7 +216,6 @@ public abstract class BaseTest {
         CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
-        rangedFeeDto.setCode(feeCode);
         rangedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
         rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
@@ -231,7 +230,6 @@ public abstract class BaseTest {
         CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
-        rangedFeeDto.setCode(feeCode);
         rangedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
         rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
@@ -247,7 +245,6 @@ public abstract class BaseTest {
         CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
-        rangedFeeDto.setCode(feeCode);
         rangedFeeDto.setVersion(getFeeVersionDto(status, "Test lookup fee", "Divorce online fee order name", "Natural code for lookup", null, null, directionTypeService.findByNameOrThrow("licence")));
         rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("family").getName());
         rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("high court").getName());
@@ -263,7 +260,6 @@ public abstract class BaseTest {
         Fee2Dto feeDto = new Fee2Dto();
         feeDto.setMinRange(new BigDecimal(minRange));
         feeDto.setMaxRange(new BigDecimal(maxRange));
-        feeDto.setCode(feeCode);
         feeDto.setFeeVersionDtos(Arrays.asList(getFeeVersionDto(status, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build())));
         feeDto.setJurisdiction1Dto(jurisdiction1Service.findByNameOrThrow("civil"));
@@ -295,7 +291,6 @@ public abstract class BaseTest {
     public List<CreateFixedFeeDto> getFixedFeesDto() throws IOException {
         String  csvFees = "[\n" +
             "  {\n" +
-            "    \"code\": \"X0IMP1\",\n" +
             "    \"version\": {\n" +
             "     \"version\": \"1\",\n" +
             "     \"valid_from\": \"2017-11-06T16:33:37.040Z\",\n" +
@@ -317,7 +312,6 @@ public abstract class BaseTest {
             "   \"event\": \"issue\"\n" +
             "  },\n" +
             "  {\n" +
-            "    \"code\": \"X0IMP2\",\n" +
             "    \"version\": {\n" +
             "   \"version\": \"1\",\n" +
             "   \"valid_from\": \"2017-11-06T16:33:37.040Z\",\n" +
@@ -348,7 +342,6 @@ public abstract class BaseTest {
     public List<CreateFixedFeeDto> getIncorrectFixedFeesDto() throws IOException {
         String  csvFees = "[\n" +
             "  {\n" +
-            "    \"code\": \"X0IMP1\",\n" +
             "    \"version\": {\n" +
             "     \"version\": \"1\",\n" +
             "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
@@ -370,7 +363,6 @@ public abstract class BaseTest {
             "   \"event\": \"issue\"\n" +
             "  },\n" +
             "  {\n" +
-            "    \"code\": \"X0IMP2\",\n" +
             "    \"version\": {\n" +
             "   \"version\": \"1\",\n" +
             "   \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +

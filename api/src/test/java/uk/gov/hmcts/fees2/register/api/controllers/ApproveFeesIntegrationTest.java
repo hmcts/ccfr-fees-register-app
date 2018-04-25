@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
@@ -23,34 +24,28 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
             .setEvent("issue")
             .setJurisdiction1("civil")
             .setJurisdiction2("family court")
-            .setChannel("online")
-            .setCode("XXX" + String.valueOf(System.currentTimeMillis()));
+            .setChannel("online");
     }
 
     @Test
     public void testUnapprovedFeesAreRetrieved() throws Exception {
-
         CreateFixedFeeDto dto = dto();
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
         versionDto.setDescription("Hi");
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
         restActions
-            .get(URIUtils.getUrlForGetMethod(FeeController.class, "search") + "?feeVersionStatus=draft")
+            .get( "/fees-register/fees?feeVersionStatus=draft")
             .andExpect(status().isOk())
-            .andExpect(
-                body().as(List.class, (list) ->
-                    {
-                        assertTrue(list.size() > 0);
-                        assertTrue(list.stream().filter(o -> ((Map) o).get("code").equals(dto.getCode())).findAny().isPresent());
-                    }
-                )
-            );
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+                assertTrue(fee2Dtos.stream().filter(f -> f.getCode().equals(uri[3])).findAny().isPresent());
+            }));
 
-        deleteFee(dto.getCode());
+        forceDeleteFee(uri[3]);
 
     }
 }

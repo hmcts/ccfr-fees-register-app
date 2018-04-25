@@ -1,18 +1,15 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
 import org.junit.Test;
-import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
-import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
@@ -50,14 +47,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        forceDeleteFee(dto.getCode());
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 2: Looking up a % fee with ONLINE channel
@@ -90,14 +89,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(new BigDecimal("0.5")));
 
-        forceDeleteFee(dto.getCode());
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 3: Looking up a FLAT fee with DEFAULT channel
@@ -128,14 +129,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         dto.setVersion(versionDto);
         dto.setChannel("default");
         dto.setApplicantType("all");
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        forceDeleteFee(dto.getCode());
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 4: Looking up a % fee with DEFAULT channel
@@ -168,14 +171,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         dto.setChannel("default");
         dto.setApplicantType("all");
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(new BigDecimal("0.5")));
 
-        forceDeleteFee(dto.getCode());
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 5: Looking up fees where no approved fee exists
@@ -207,12 +212,14 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         dto.setChannel("default");
         dto.setApplicantType("all");
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isNotFound());
 
-        forceDeleteFee(dto.getCode());
+        forceDeleteFee(uri[3]);
     }
 
     /* --- PAY-457 --- */
@@ -246,15 +253,16 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isOk())
             .andExpect(lookupResultMatchesFee(dto))
             .andExpect(lookupResultMatchesExpectedFeeAmount(versionDto.getFlatAmount().getAmount()));
 
-        forceDeleteFee(dto.getCode());
-
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 2: Looking up fees where no approved fee exists
@@ -284,152 +292,14 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setDescription(versionDto.getMemoLine());
         dto.setVersion(versionDto);
 
-        saveFeeAndCheckStatusIsCreated(dto);
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] uri = loc.split("/");
 
+        dto.setCode(uri[3]);
         lookupUsingUsingReferenceDataFrom(dto, claimValue)
             .andExpect(status().isNotFound());
 
-        forceDeleteFee(dto.getCode());
-    }
-
-    /* -- PAY-4487 -- */
-
-    /* Scenario1: Solicitors application for estates valued above £5k */
-
-    /* Given Application is already deployed in prod with old fees register data in there And new needed ranged fee for "probate" for an "issue" event details are
-    Jurisdiction1 as "family"
-    And Jurisdiction2 as "probate"
-    And a minimum range of £5000.00
-    And  a maximum range
-    And "default" channel
-    And the fee code
-    And have specified the fee description
-    And the fee amount is a "flat amount"
-    And the flat amount is defined as £155
-    And a ''valid from'' and ''valid to'' date
-    And  SI Ref data
-    And fee order name
-    And statutory instruments
-    And Natural Account Code
-    And the memoline
-    When application is started
-    Then the fee is SAVED successfully
-    And the fee status is Approved
-    And the fee version is 1
-    */
-
-    @Test
-    public void testLookupProbateFeeForEstateValuedMoreThan5000ReturnsASingleResult() throws Exception {
-
-        /* We want to make sure the fee will be in place for probate in a functional state and not collisioning with similar fees */
-
-        LookupFeeDto lookup = new LookupFeeDto();
-        lookup.setAmountOrVolume(new BigDecimal(10000));
-        lookup.setService("probate");
-        lookup.setJurisdiction1("family");
-        lookup.setJurisdiction2("probate registry");
-        lookup.setChannel("default");
-        lookup.setEvent("issue");
-        lookup.setApplicantType("all");
-
-        lookup(lookup).andExpect(status().isOk());
-    }
-
-    /* - PAY-522 - */
-
-    /*
-
-    ACCEPTANCE CRITERIA
-
-    Scenario1: Copies - fixed flat fee
-
-    Given I want to create a fixed flat fee for "any given service" for a "copies" event
-    And I have specified Jurisdiction1
-    And I have specified Jurisdiction2
-    And I have specified the channel
-    And i have specified a ''valid from'' and ''valid to'' date
-    And I have specified the fee code
-    And I have specified the fee description
-    And i have specified SI Ref data
-    And i have specified fee order name
-    And i have specified statutory instruments
-    And i have specified Natural Account Code
-    And i have specified the memoline
-    And the fee amount is a "flat amount"
-    When I save this fee
-    Then the fee is SAVED successfully
-    And the fee status is Draft
-    And the fee version is 1
-*/
-
-    @Test
-    public void testLookupForProbateCopiesFeeX0258ReturnsCorrectResult() throws Exception{
-
-        /* 1. Get the fee and get the amount per copy */
-
-        getFeeAndExpectStatusIsOk("X0258").andExpect(
-            body().as(Fee2Dto.class, (fee) -> {
-
-                /* 2. Lookup the fee for 10 copies and test value is correct */
-
-                LookupFeeDto lookupDto = new LookupFeeDto();
-                lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
-                lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
-                lookupDto.setChannel(fee.getChannelTypeDto().getName());
-                lookupDto.setApplicantType(fee.getApplicantTypeDto().getName());
-                //lookupDto.setDirection(fee.getDirectionTypeDto().getName());
-                lookupDto.setEvent(fee.getEventTypeDto().getName());
-                lookupDto.setService(fee.getServiceTypeDto().getName());
-                lookupDto.setAmountOrVolume(BigDecimal.TEN);
-
-                try {
-                    lookup(lookupDto)
-                        .andExpect(lookupResultMatchesExpectedFeeAmount(lookupDto.getAmountOrVolume().multiply(fee.getCurrentVersion().getVolumeAmount().getAmount())));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-            })
-        );
-    }
-
-    /* PAY - 527 */
-
-    /* Scenario1: Application for estates valued under £5k
-
-    GIVEN that a probate case has been submitted
-    And the case will be for a "family" jurisdiction
-    And the case is made through ’default’’ channel
-    And the case event is ''issue'' or ''misc''
-    And the case has an estate valued at £5000 and below
-    When the fee for this case is being looked up through the API
-    Then return a £0 fee and/or 204 message */
-    @Test
-    public void lookupProbateEstateOf5000AndGetNoContent() throws Exception{
-
-        getFeeAndExpectStatusIsOk("X0249").andExpect(
-            body().as(Fee2Dto.class, (fee) -> {
-
-                LookupFeeDto lookupDto = new LookupFeeDto();
-                lookupDto.setJurisdiction1(fee.getJurisdiction1Dto().getName());
-                lookupDto.setJurisdiction2(fee.getJurisdiction2Dto().getName());
-                lookupDto.setChannel(fee.getChannelTypeDto().getName());
-                lookupDto.setApplicantType(fee.getApplicantTypeDto().getName());
-                //lookupDto.setDirection(fee.getDirectionTypeDto().getName());
-                lookupDto.setEvent(fee.getEventTypeDto().getName());
-                lookupDto.setService(fee.getServiceTypeDto().getName());
-                lookupDto.setAmountOrVolume(new BigDecimal(5000));
-
-                try {
-                    lookup(lookupDto)
-                        .andExpect(status().isNoContent());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-            })
-        );
-
+        forceDeleteFee(uri[3]);
     }
 
 }

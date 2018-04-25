@@ -551,3 +551,7 @@ databaseChangeLog:
               DELETE FROM fee_version WHERE amount_id IS NULL;
               DELETE FROM ranged_fee f WHERE NOT EXISTS (SELECT 1 FROM fee_version WHERE fee_id = f.id);
               DELETE FROM fee f WHERE NOT EXISTS (SELECT 1 FROM fee_version WHERE fee_id = f.id);
+
+
+    - include:
+        file: db/changelog/db.changelog-fees-managed-v5.yaml

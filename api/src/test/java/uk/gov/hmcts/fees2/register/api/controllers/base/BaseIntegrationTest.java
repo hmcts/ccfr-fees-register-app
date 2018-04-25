@@ -51,17 +51,18 @@ public abstract class BaseIntegrationTest extends BaseTest{
         feeService.delete(code);
     }
 
-    protected void saveFeeAndCheckStatusIsCreated(CreateFeeDto dto) throws Exception {
+    protected String saveFeeAndCheckStatusIsCreated(CreateFeeDto dto) throws Exception {
 
         String methodName = dto instanceof CreateRangedFeeDto ? "createRangedFee" : "createFixedFee";
 
-        restActions
+        return restActions
             .withUser("admin")
             .post(
                 URIUtils.getUrlForPostMethod(FeeController.class, methodName),
                 dto
             )
-            .andExpect(status().isCreated());
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
     }
 
     protected ResultActions saveFee(CreateFeeDto dto) throws Exception {
@@ -179,7 +180,6 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
     protected ResultMatcher versionIsOneAndStatusIsDraft() {
         return body().as(Fee2Dto.class, (feeDto) -> {
-
             FeeVersionDto v = feeDto.getFeeVersionDtos().get(0);
             assertTrue(v.getVersion().equals(1));
             assertTrue(v.getStatus() == FeeVersionStatus.draft);
@@ -194,7 +194,6 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
     protected ResultMatcher lookupResultMatchesFee(CreateFeeDto feeDto) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
-            //assertTrue(feeDto.getMemoLine().equalsIgnoreCase(res.getDescription()));
             assertTrue(feeDto.getCode().equalsIgnoreCase(res.getCode()));
             assertTrue(res.getVersion() != null);
         });
@@ -219,11 +218,8 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setService("civil money claims")
         .setEvent("issue")
         .setJurisdiction1("civil")
-        //.setDirection("licence")
         .setJurisdiction2("family court")
-        .setApplicantType("all")
-        .setCode(String.valueOf(System.currentTimeMillis()));
-        //.setMemoLine("description");
+        .setApplicantType("all");
     }
 
     protected CreateFixedFeeDto createDivorceIssueFamilyFixedFee() {
@@ -232,11 +228,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setEvent("issue")
         .setJurisdiction1("family")
         .setJurisdiction2("family court")
-        .setApplicantType("all")
-        //.setDirection("licence")
-        .setCode(String.valueOf(System.currentTimeMillis()));
-        //.setMemoLine("description");
-
+        .setApplicantType("all");
     }
 
 

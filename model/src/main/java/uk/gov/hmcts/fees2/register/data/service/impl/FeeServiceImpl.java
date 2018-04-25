@@ -1,12 +1,15 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.*;
@@ -16,8 +19,10 @@ import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -56,13 +61,52 @@ public class FeeServiceImpl implements FeeService {
     private Fee2Repository fee2Repository;
 
     @Autowired
+    private FeeCodeHistoryRepository feeCodeHistoryRepository;
+
+    @Autowired
     private FeeValidator feeValidator;
+
+    @Autowired
+    private Environment environment;
+
+    private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
     /* --- */
 
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
+
+        Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
+        fee.setFeeNumber(nextFeeNumber);
+        fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
+
         return fee2Repository.save(fee);
+    }
+
+    @Override
+    @Transactional
+    public void updateFeeLoaderData(Fee updateFee, String newCode) {
+        Fee fee = get(updateFee.getCode());
+
+        if (newCode != null) {  // If the new feeCode is provided in the request.
+            FeeCodeHistory feeCodeHistory = FeeCodeHistory.FeeCodeHistoryWith()
+                .fee(fee)
+                .old_code(fee.getCode())
+                .new_code(newCode)
+                .build();
+            fee.setFeeCodeHistories(Arrays.asList(feeCodeHistory));
+            feeCodeHistoryRepository.save(feeCodeHistory);
+
+            fee.setCode(newCode);
+
+            Matcher matcher = pattern.matcher(newCode);
+            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+        } else { // If the new feeCode is not present in the request, then auto generate the code.
+            Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
+            fee.setFeeNumber(nextFeeNumber);
+            fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
+        }
+
     }
 
     /***
@@ -99,6 +143,11 @@ public class FeeServiceImpl implements FeeService {
     @Override
     public Fee get(String code) {
         return fee2Repository.findByCodeOrThrow(code);
+    }
+
+    @Override
+    public Integer getMaxFeeNumber() {
+        return getMaxFeeNumber();
     }
 
 
