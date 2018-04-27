@@ -40,7 +40,7 @@ public class FeeLoaderComponentTest extends BaseTest {
     @Test
     public void testFeeLoaderForCmcOnlineFees() throws Exception {
         restActions
-            .get("/fees-register/fees?channel=online&service=civil money claims")
+            .get("/fees-register/fees?service=civil money claims&channel=online")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
                 assertThat(fee2Dtos).anySatisfy(fee2Dto -> {

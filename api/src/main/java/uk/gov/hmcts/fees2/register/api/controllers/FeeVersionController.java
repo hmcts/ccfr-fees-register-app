@@ -65,6 +65,8 @@ public class FeeVersionController {
     public void createVersion(@PathVariable("feeCode") String feeCode,
                               @RequestBody @Validated final FeeVersionDto request,
                               Principal principal) {
+        Integer newVersion = feeVersionService.getMaxFeeVersion(feeCode);
+        request.setVersion(newVersion + 1);
 
         feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
     }
