@@ -28,10 +28,14 @@ idea {
     }
 }
 
+def javaLoggingVersion = '2.1.1'
+
 dependencies {
     compile project(':fees-register-model')
     compile project(':fees-register-api-contract')
-    compile group: 'uk.gov.hmcts.auth.checker', name: 'auth-checker-spring', version: '[1.0, )'
+    compile (group: 'uk.gov.hmcts.auth.checker', name: 'auth-checker-spring', version: '[1.0, )') {
+        exclude(module: 'java-logging-spring')
+    }
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.9.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.9.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.9.RELEASE'
@@ -42,7 +46,9 @@ dependencies {
         exclude(module: 'slf4j-simple')
     }
     compile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
-    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.0'
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: javaLoggingVersion
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: javaLoggingVersion
+
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.0'
 
