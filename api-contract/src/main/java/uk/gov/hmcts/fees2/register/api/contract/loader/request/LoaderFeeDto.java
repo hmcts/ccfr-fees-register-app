@@ -19,9 +19,12 @@ public abstract class LoaderFeeDto extends CreateFeeDto {
     @JsonProperty("new_code")
     private String newCode;
 
-    public LoaderFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, Boolean unspecifiedClaimAmount) {
+    private LoaderFeeVersionDto version;
+
+    public LoaderFeeDto(String code, String newCode, LoaderFeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, Boolean unspecifiedClaimAmount) {
         super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount);
         this.code = code;
         this.newCode = newCode;
+        this.version = version;
     }
 }

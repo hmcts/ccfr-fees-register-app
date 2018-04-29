@@ -21,6 +21,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeLoaderJsonMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 
 import java.io.IOException;
