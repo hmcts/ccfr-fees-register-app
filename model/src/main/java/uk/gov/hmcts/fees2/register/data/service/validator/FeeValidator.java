@@ -52,7 +52,7 @@ public class FeeValidator {
     private void setDefaultValues(Fee fee) {
 
         if (fee.getChannelType() == null) {
-            fee.setChannelType(channelTypeRepository.findOne(ChannelType.DEFAULT));
+            fee.setChannelType(channelTypeRepository.getOne(ChannelType.DEFAULT));
         }
 
         if (fee.getApplicantType() == null) {
