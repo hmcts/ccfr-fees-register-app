@@ -120,7 +120,7 @@ public class FeeServiceImpl implements FeeService {
             feeValidator.validateAndDefaultNewFee(fee);
         });
 
-        fee2Repository.save(fees);
+        fee2Repository.saveAll(fees);
     }
 
     @Transactional
