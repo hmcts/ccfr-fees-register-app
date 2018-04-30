@@ -195,7 +195,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         assertEquals(result.getResponse().getContentAsString(), "{\"cause\":\"Volume cannot be in fractions.\"}");
     }
 
-    //@Test
+    @Test
     public void findFeeWithVolume_inWholeNumber_shouldReturnValidFee() throws Exception {
         MvcResult result = restActions
             .withUser("admin")

@@ -93,7 +93,7 @@ public class FeeLoaderComponentTest extends BaseTest {
         }));
     }
 
-   // @Test
+   @Test
     public void testFeeLoaderForCMCUnspecifiedFee() throws Exception {
 
         restActions
