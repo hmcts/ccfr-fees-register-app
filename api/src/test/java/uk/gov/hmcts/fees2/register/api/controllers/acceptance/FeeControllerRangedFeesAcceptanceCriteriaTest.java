@@ -1,6 +1,8 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
@@ -10,6 +12,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrationTest {
@@ -49,11 +52,23 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(uri[3])
-            .andExpect(versionIsOneAndStatusIsDraft());
+        restActions
+            .get("/fees-register/fees/" + uri[3])
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, fee2Dto -> {
+                assertThat(fee2Dto.getCode()).isEqualTo(uri[3]);
+                assertThat(fee2Dto.getChannelTypeDto().getName()).isEqualTo("online");
+                fee2Dto.getFeeVersionDtos().stream().forEach(v -> {
+                    assertThat(v.getPercentageAmount().getPercentage()).isEqualTo(new BigDecimal("10.00"));
+                });
+            }));
 
         deleteFee(uri[3]);
     }
@@ -90,12 +105,24 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(uri[3])
-            .andExpect(channelIsDefault())
-            .andExpect(versionIsOneAndStatusIsDraft());
+        restActions
+            .get("/fees-register/fees/" + uri[3])
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, fee2Dto -> {
+                assertThat(fee2Dto.getCode()).isEqualTo(uri[3]);
+                assertThat(fee2Dto.getChannelTypeDto().getName()).isEqualTo("default");
+                fee2Dto.getFeeVersionDtos().stream().forEach(v -> {
+                    assertThat(v.getPercentageAmount().getPercentage()).isEqualTo(new BigDecimal("10.00"));
+                });
+
+            }));
 
         deleteFee(uri[3]);
     }
@@ -133,11 +160,21 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(uri[3])
-            .andExpect(versionIsOneAndStatusIsDraft());
+        restActions
+            .get("/fees-register/fees/" + uri[3])
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, fee -> {
+                assertThat(fee.getCode()).isEqualTo(uri[3]);
+                assertThat(fee.getChannelTypeDto().getName()).isEqualTo("online");
+            }));
+
 
         deleteFee(uri[3]);
     }
@@ -171,12 +208,26 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] uri = loc.split("/");
 
-        getFeeAndExpectStatusIsOk(uri[3])
-            .andExpect(versionIsOneAndStatusIsDraft())
-            .andExpect(channelIsDefault());
+        restActions
+            .get("/fees-register/fees/" + uri[3])
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, fee2Dto -> {
+                assertThat(fee2Dto.getCode()).isEqualTo(uri[3]);
+                assertThat(fee2Dto.getChannelTypeDto().getName()).isEqualTo("default");
+                assertThat(fee2Dto.getServiceTypeDto().getName()).isEqualTo("civil money claims");
+                assertThat(fee2Dto.getMinRange()).isEqualTo(new BigDecimal("1.00"));
+                assertThat(fee2Dto.getMaxRange()).isEqualTo(new BigDecimal("10.00"));
+                fee2Dto.getFeeVersionDtos().stream().forEach(v -> {
+                    assertThat(v.getFlatAmount().getAmount()).isEqualTo(new BigDecimal("10.00"));
+                });
+            }));
 
         deleteFee(uri[3]);
     }

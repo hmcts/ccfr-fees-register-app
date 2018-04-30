@@ -15,6 +15,7 @@ import java.util.Date;
 @Builder(builderMethodName = "FeeCodeHistoryWith")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "feecode_history")
+@EqualsAndHashCode(callSuper = false)
 public class FeeCodeHistory extends AbstractEntity {
 
     @Column(name = "old_code")

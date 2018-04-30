@@ -181,7 +181,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
     protected ResultMatcher versionIsOneAndStatusIsDraft() {
         return body().as(Fee2Dto.class, (feeDto) -> {
             FeeVersionDto v = feeDto.getFeeVersionDtos().get(0);
-            assertTrue(v.getVersion().equals(1));
+            assertTrue(v.getVersion().equals(new Integer(1)));
             assertTrue(v.getStatus() == FeeVersionStatus.draft);
         });
     }

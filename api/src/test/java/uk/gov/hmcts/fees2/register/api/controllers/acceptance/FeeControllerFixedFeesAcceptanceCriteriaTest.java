@@ -1,12 +1,19 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegrationTest {
 
@@ -45,12 +52,30 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
 
         dto.setVersion(version);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] uri = loc.split("/");
 
 
-        getFeeAndExpectStatusIsOk(uri[3])
-            .andExpect(versionIsOneAndStatusIsDraft());
+        restActions
+            .get("/fees-register/fees/" + uri[3])
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, feeDto -> {
+                assertThat(feeDto.getCode()).isEqualTo(uri[3]);
+                assertThat(feeDto.getServiceTypeDto().getName()).isEqualTo("divorce");
+                assertThat(feeDto.getEventTypeDto().getName()).isEqualTo("issue");
+                assertThat(feeDto.getJurisdiction1Dto().getName()).isEqualTo("family");
+                assertThat(feeDto.getJurisdiction2Dto().getName()).isEqualTo("high court");
+                feeDto.getFeeVersionDtos().stream().forEach(v -> {
+                    assertThat(v.getFlatAmount().getAmount()).isEqualTo("10.00");
+                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatus.draft);
+                });
+            }));
+//        getFeeAndExpectStatusIsOk(uri[3])
+//            .andExpect(versionIsOneAndStatusIsDraft());
 
         deleteFee(uri[3]);
 

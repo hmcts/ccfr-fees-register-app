@@ -14,12 +14,15 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.*;
+
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeeVersionDto {
 
+    @JsonProperty(access = Access.READ_ONLY)
     private Integer version;
 
     @JsonProperty("valid_from")
