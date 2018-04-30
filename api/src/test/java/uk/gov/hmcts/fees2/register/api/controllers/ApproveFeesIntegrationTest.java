@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
@@ -46,7 +48,8 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
             .get( "/fees-register/fees?feeVersionStatus=draft")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
-                assertTrue(fee2Dtos.stream().filter(f -> f.getCode().equals(uri[3])).findAny().isPresent());
+                Fee2Dto fee = fee2Dtos.stream().filter(f -> f.getCode().equals(uri[3])).findAny().get();
+                assertThat(fee.getCode()).isEqualTo(uri[3]);
             }));
 
         forceDeleteFee(uri[3]);
