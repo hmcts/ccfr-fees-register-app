@@ -47,7 +47,11 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         dto.setVersion(versionDto);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] uri = loc.split("/");
 
         dto.setCode(uri[3]);
@@ -89,7 +93,11 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setStatus(FeeVersionStatus.approved);
         dto.setVersion(versionDto);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] uri = loc.split("/");
 
         dto.setCode(uri[3]);

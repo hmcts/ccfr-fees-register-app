@@ -1,16 +1,19 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
-import uk.gov.hmcts.fees2.register.data.model.DirectionType;
+import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
@@ -37,29 +40,43 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     public synchronized void testCreateUnspecifiedAmountFeeForOnlineChannel() throws Exception{
 
         CreateFixedFeeDto dto = new CreateFixedFeeDto();
-        dto.setService("civil money claims");
+        dto.setService("gambling");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
-        dto.setJurisdiction2("county court");
-
+        dto.setJurisdiction2("magistrates court");
+        dto.setApplicantType("personal");
         dto.setUnspecifiedClaimAmount(true);
         dto.setChannel("online");
 
         FeeVersionDto version = new FeeVersionDto();
         version.setDescription(version.getMemoLine());
-        version.setDirection("licence");
+        version.setDirection("enhanced");
         version.setMemoLine("description");
         version.setFlatAmount(new FlatAmountDto(new BigDecimal(10000)));
 
         dto.setVersion(version);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] arr = loc.split("/");
 
-        dto.setCode(arr[3]);
-        getFeeAndExpectStatusIsOk(dto.getCode())
-            .andExpect(versionIsOneAndStatusIsDraft())
-        .andExpect(isUnspecifiedAmountFee());
+        restActions
+            .get("/fees-register/fees/" + arr[3])
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, fee -> {
+                assertThat(fee.getCode()).isEqualTo(arr[3]);
+                assertThat(fee.getServiceTypeDto().getName()).isEqualTo("gambling");
+                assertThat(fee.getJurisdiction1Dto().getName()).isEqualTo("civil");
+                assertThat(fee.getJurisdiction2Dto().getName()).isEqualTo("magistrates court");
+                assertThat(fee.getChannelTypeDto().getName()).isEqualTo("online");
+                fee.getFeeVersionDtos().stream().forEach(v -> {
+                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatus.draft);
+                    assertThat(v.getFlatAmount().getAmount()).isEqualTo("10000.00");
+                });
+            }));
 
         forceDeleteFee(arr[3]);
     }
@@ -97,13 +114,27 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
 
         dto.setVersion(version);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] arr = loc.split("/");
 
         dto.setCode(arr[3]);
-        getFeeAndExpectStatusIsOk(dto.getCode())
-            .andExpect(versionIsOneAndStatusIsDraft())
-            .andExpect(isUnspecifiedAmountFee());
+        System.out.println("Fee code: " + dto.getCode());
+
+        restActions
+            .get("/fees-register/fees/" + dto.getCode())
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, fee2Dto -> {
+                assertThat(fee2Dto.getCode()).isEqualTo(arr[3]);
+                assertThat(fee2Dto.isUnspecifiedClaimAmount()).isEqualTo(true);
+                fee2Dto.getFeeVersionDtos().stream().forEach(v -> {
+                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatus.draft);
+                    assertThat(v.getFlatAmount().getAmount()).isEqualTo(new BigDecimal("10000.00"));
+                });
+            }));
 
         forceDeleteFee(arr[3]);
     }
@@ -149,7 +180,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     public synchronized void testThatLookupOfUnspecifiedClaimAmountMatchesUnspecifiedTypeFee() throws Exception{
 
         CreateFixedFeeDto dto = new CreateFixedFeeDto();
-        dto.setService("civil money claims");
+        dto.setService("general");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("county court");
@@ -162,18 +193,25 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         version.setDescription(version.getMemoLine());
         version.setDirection("licence");
         version.setStatus(FeeVersionStatus.approved);
-        version.setFlatAmount(new FlatAmountDto(new BigDecimal(10000)));
+        version.setFlatAmount(new FlatAmountDto(new BigDecimal(25000)));
 
         dto.setVersion(version);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] arr = loc.split("/");
 
-        dto.setCode(arr[3]);
-        lookupUsingUsingReferenceDataFrom(dto, null)
-            .andExpect(lookupResultMatchesFee(dto))
-            .andExpect(lookupResultMatchesExpectedFeeAmount(version.getFlatAmount().getAmount()));
-
+        restActions
+            .get("/fees-register/fees/lookup-unspecified?service=general&jurisdiction1=civil&jurisdiction2=county court&channel=online&event=issue&applicant_type=all")
+            .andExpect(status().isOk())
+            .andExpect(body().as(FeeLookupResponseDto.class, fee -> {
+                assertThat(fee.getCode()).isEqualTo(arr[3]);
+                assertThat(fee.getDescription()).isEqualTo(version.getDescription());
+                assertThat(fee.getFeeAmount()).isEqualTo(new BigDecimal("25000.00"));
+            }));
         forceDeleteFee(arr[3]);
     }
 
