@@ -35,7 +35,11 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
         versionDto.setDescription("Hi");
         dto.setVersion(versionDto);
 
-        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
         String[] uri = loc.split("/");
 
         restActions
