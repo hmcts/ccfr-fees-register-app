@@ -14,16 +14,14 @@ import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackd
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
 import uk.gov.hmcts.fees.register.legacymodel.FixedFee;
-import uk.gov.hmcts.fees.register.legacymodel.PercentageFee;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static uk.gov.hmcts.fees.register.api.controllers.ChargeableFeeWrapperDto.chargeableFeeDtoWith;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
@@ -107,13 +105,8 @@ public class LegacyFeesRegisterControllerComponentTest {
         restActions
             .get("/fees-register/categories/hearingfees/ranges/300000/fees")
             .andExpect(status().isOk())
-            .andExpect(body().isEqualTo(
-                chargeableFeeDtoWith()
-                    .fee(new FixedFee("X0052", "Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP", 17000))
-                    .chargeableFee(17000)
-                    .build(),
-                FixedFee.class
-            ));
+            .andExpect(content().json("" +
+                "{\"chargeableFee\":17000,\"id\":\"X0052\",\"description\":\"Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP\",\"amount\":17000,\"type\":\"fixed\"}"));
     }
 
     @Test
@@ -121,13 +114,7 @@ public class LegacyFeesRegisterControllerComponentTest {
         restActions
             .get("/fees-register/categories/onlinefees/ranges/1500000/fees")
             .andExpect(status().isOk())
-            .andExpect(body().isEqualTo(
-                chargeableFeeDtoWith()
-                    .fee(new PercentageFee("X0434", "Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value", BigDecimal.valueOf(4.5)))
-                    .chargeableFee(67500)
-                    .build(),
-                PercentageFee.class
-            ));
+            .andExpect(content().json("{ \"chargeableFee\" : 67500}"));
     }
 
     @Test
