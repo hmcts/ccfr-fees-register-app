@@ -11,7 +11,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
