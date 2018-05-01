@@ -84,10 +84,11 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     @Transactional
-    public void save(FeeVersion version, String feeCode) {
+    public FeeVersion save(FeeVersion version, String feeCode) {
         Fee fee = feeRepository.findByCodeOrThrow(feeCode);
         version.setFee(fee);
         feeVersionRepository.save(version);
+        return version;
     }
 
     @Override
@@ -95,24 +96,43 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
         FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
 
-        if(feeVersion.getStatus() == FeeVersionStatus.approved) {
+        if (feeVersion.getStatus() == FeeVersionStatus.approved) {
             throw new BadRequestException("Approved fees cannot change their status");
         }
 
         if (newStatus == FeeVersionStatus.approved) {
 
-            if(feeVersion.getStatus() != FeeVersionStatus.pending_approval) {
+            if (feeVersion.getStatus() != FeeVersionStatus.pending_approval) {
                 throw new BadRequestException("Only fees pending approval can be approved");
             }
 
             feeVersion.setApprovedBy(user);
+
+            setValidToOnPreviousFeeVersion(feeVersion);
         }
 
         feeVersion.setStatus(newStatus);
     }
 
+
     @Override
     public Integer getMaxFeeVersion(String feeCode) {
         return feeVersionRepository.getMaxFeeVersion(feeCode);
     }
+
+    private void setValidToOnPreviousFeeVersion(FeeVersion newFeeVersion) {
+
+        if (newFeeVersion.getValidFrom() != null) {
+
+            FeeVersion currentVersion = newFeeVersion.getFee().getCurrentVersion(true);
+
+            if (currentVersion != null && currentVersion.getValidTo() == null) {
+
+                currentVersion.setValidTo(newFeeVersion.getValidFrom());
+            }
+
+        }
+
+    }
+
 }

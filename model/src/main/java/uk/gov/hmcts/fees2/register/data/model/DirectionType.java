@@ -24,7 +24,6 @@ import java.util.Date;
 @Table(name = "direction_type")
 public class DirectionType implements Serializable{
 
-
     @Id
     @Column(name = "name", nullable = false)
     private String name;
