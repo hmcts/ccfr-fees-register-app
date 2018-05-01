@@ -1022,7 +1022,7 @@
         "statutory_instrument":"2016 no 434 ",
         "si_ref_id":"11(c)",
         "flat_amount":{
-          "amount":null
+          "amount":1000
         }
       },
       "jurisdiction1":"Tribunal",
@@ -1238,7 +1238,7 @@
         "statutory_instrument":"2016 no 434 ",
         "si_ref_id":"5(b)",
         "flat_amount":{
-          "amount":null
+          "amount":1500
         }
       },
       "jurisdiction1":"Tribunal",
@@ -1265,7 +1265,7 @@
         "statutory_instrument":"2016 no 434 ",
         "si_ref_id":"5(a)",
         "flat_amount":{
-          "amount":null
+          "amount":1200
         }
       },
       "jurisdiction1":"Tribunal",
@@ -2048,7 +2048,7 @@
         "statutory_instrument":"2016 no 434 ",
         "si_ref_id":"13.1b",
         "flat_amount":{
-          "amount":null
+          "amount":1090
         }
       },
       "jurisdiction1":"Civil",
@@ -2075,7 +2075,7 @@
         "statutory_instrument":"2016 no 434 ",
         "si_ref_id":"13.1c",
         "flat_amount":{
-          "amount":null
+          "amount":1090
         }
       },
       "jurisdiction1":"Civil",
@@ -3587,7 +3587,7 @@
         "statutory_instrument":"2014 No 877 (L20)",
         "si_ref_id":"2.2",
         "flat_amount":{
-          "amount":null
+          "amount":2055
         }
       },
       "jurisdiction1":"Family",
@@ -3908,7 +3908,7 @@
         "statutory_instrument":"2014 No 874(L17)",
         "si_ref_id":"10.5b",
         "flat_amount":{
-          "amount":null
+          "amount":2455
         }
       },
       "jurisdiction1":"Civil",
@@ -3935,7 +3935,7 @@
         "statutory_instrument":"2014 No 874(L17)",
         "si_ref_id":"10.5a",
         "flat_amount":{
-          "amount":null
+          "amount":2455
         }
       },
       "jurisdiction1":"Civil",
@@ -4556,7 +4556,7 @@
         "statutory_instrument":"2014 No 874(L17)",
         "si_ref_id":"10.4b",
         "flat_amount":{
-          "amount":null
+          "amount":2455
         }
       },
       "jurisdiction1":"Civil",
@@ -4583,7 +4583,7 @@
         "statutory_instrument":"2014 No 874(L17)",
         "si_ref_id":"10.4a",
         "flat_amount":{
-          "amount":null
+          "amount":2455
         }
       },
       "jurisdiction1":"Civil",
@@ -5366,7 +5366,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"2",
         "flat_amount":{
-          "amount":null
+          "amount":9400
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5393,7 +5393,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.4",
         "flat_amount":{
-          "amount":null
+          "amount":10000
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5448,7 +5448,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.11",
         "flat_amount":{
-          "amount":null
+          "amount":1600
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5475,7 +5475,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.1",
         "flat_amount":{
-          "amount":null
+          "amount":9400
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5502,7 +5502,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.3",
         "flat_amount":{
-          "amount":null
+          "amount":10000
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5529,7 +5529,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.6",
         "flat_amount":{
-          "amount":null
+          "amount":1600
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5556,7 +5556,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.7",
         "flat_amount":{
-          "amount":null
+          "amount":1600
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5583,7 +5583,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.9",
         "flat_amount":{
-          "amount":null
+          "amount":1600
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5610,7 +5610,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.1",
         "flat_amount":{
-          "amount":null
+          "amount":14000
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5637,7 +5637,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.2",
         "flat_amount":{
-          "amount":null
+          "amount":3100
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5664,7 +5664,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.5",
         "flat_amount":{
-          "amount":null
+          "amount":10000
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5691,7 +5691,7 @@
         "statutory_instrument":"2010 No 633",
         "si_ref_id":"1.8",
         "flat_amount":{
-          "amount":null
+          "amount":1600
         }
       },
       "jurisdiction1":"Tribunal",
@@ -5853,7 +5853,7 @@
         "statutory_instrument":"2015 No. 576 (L. 7)",
         "si_ref_id":"1.2i",
         "flat_amount":{
-          "amount":null
+          "amount":10000
         }
       },
       "jurisdiction1":"Civil",

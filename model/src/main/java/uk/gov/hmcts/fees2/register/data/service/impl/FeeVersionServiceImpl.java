@@ -8,10 +8,15 @@ import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
+import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
+import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
+import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -114,5 +119,23 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     @Override
     public Integer getMaxFeeVersion(String feeCode) {
         return feeVersionRepository.getMaxFeeVersion(feeCode);
+    }
+
+    @Override
+    @Transactional
+    public void updateVersion(String feeCode, Integer versionId, BigDecimal amount) {
+        FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
+
+        if (version.getAmount() instanceof FlatAmount) {
+            FlatAmount flatAmount = (FlatAmount) version.getAmount();
+            flatAmount.setAmount(amount);
+        } else if (version.getAmount() instanceof VolumeAmount) {
+            VolumeAmount volumeAmount = (VolumeAmount) version.getAmount();
+            volumeAmount.setAmount(amount);
+        } else if (version.getAmount() instanceof PercentageAmount) {
+            PercentageAmount percentageAmount = (PercentageAmount) version.getAmount();
+            percentageAmount.setPercentage(amount);
+        }
+
     }
 }

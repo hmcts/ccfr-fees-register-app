@@ -11,7 +11,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import sun.security.acl.PrincipalImpl;
+import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -19,9 +21,11 @@ import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeLoaderJsonMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +57,9 @@ public class FeeLoader implements ApplicationRunner {
 
     @Autowired
     private FeeDtoMapper feeDtoMapper;
+
+    @Autowired
+    private FeeVersionService feeVersionService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -87,6 +94,10 @@ public class FeeLoader implements ApplicationRunner {
                         } catch (FeeNotFoundException fe) {
                             LOG.debug("Fee with code is not found:", fe);
                         }
+
+                        updateFeeVersion(f.getNewCode(), f.getVersion());
+
+
                     }
                 });
             }
@@ -116,6 +127,8 @@ public class FeeLoader implements ApplicationRunner {
                         catch (FeeNotFoundException fe) {
                             LOG.debug("Fee not found exception: {}", fe);
                         }
+
+                        updateFeeVersion(r.getNewCode(), r.getVersion());
                     }
                 });
             }
@@ -128,6 +141,16 @@ public class FeeLoader implements ApplicationRunner {
     private FeeLoaderJsonMapper loadFromResource(String location) throws IOException {
         InputStream fileAsInputStream = resourceLoader.getResource(location).getInputStream();
         return objectMapper.readValue(fileAsInputStream, FeeLoaderJsonMapper.class);
+    }
+
+    private void updateFeeVersion(String code, LoaderFeeVersionDto feeVersionDto) {
+        if (feeVersionDto.getFlatAmount() != null) {
+            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getFlatAmount().getAmount());
+        } else if (feeVersionDto.getVolumeAmount() != null) {
+            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getVolumeAmount().getAmount());
+        } else {
+            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getPercentageAmount().getPercentage());
+        }
     }
 
 }
