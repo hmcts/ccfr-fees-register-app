@@ -17,12 +17,12 @@ import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
-import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
-import javax.annotation.RegEx;
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -41,14 +41,12 @@ public class FeeController {
 
     private final FeeService feeService;
 
-    private final FeeVersionService feeVersionService;
-
     private final FeeDtoMapper feeDtoMapper;
 
+
     @Autowired
-    public FeeController(FeeService feeService, FeeVersionService feeVersionService, FeeDtoMapper feeDtoMapper) {
+    public FeeController(FeeService feeService, FeeDtoMapper feeDtoMapper) {
         this.feeService = feeService;
-        this.feeVersionService = feeVersionService;
         this.feeDtoMapper = feeDtoMapper;
     }
 
@@ -75,37 +73,65 @@ public class FeeController {
 
     @ApiOperation(value = "Update ranged fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Updated"),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 204, message = "Updated"),
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
     @PutMapping("/ranged-fees/{code}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void updateRangedFee(@PathVariable("code") String code,
                                 @RequestBody @Validated final CreateRangedFeeDto request,
                                 HttpServletResponse response,
                                 Principal principal) {
-        RangedFee fee = (RangedFee) feeService.get(code);
-        feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
+        String author = principal != null ? principal.getName() : null;
+
+        try {
+            feeService.alignFeeType(feeDtoMapper.toFee(request, author), code);
+        } catch (NoResultException noResEx) {
+            try {
+                feeService.get(code);
+            } catch (FeeNotFoundException noFeeEx) {
+                createRangedFee(request, response, principal);
+                response.setStatus(HttpStatus.CREATED.value());
+                return;
+            }
+        }
+
+        feeService.updateFee(feeDtoMapper.toFee(request, author), code);
+        response.setStatus(HttpStatus.NO_CONTENT.value());
     }
 
 
     @ApiOperation(value = "Update fixed fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Updated"),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 204, message = "Updated"),
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
         @ApiResponse(code = 403, message = "Forbidden")
     })
     @PutMapping("/fixed-fees/{code}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void updateFixedFee(@PathVariable("code") String code,
-                                @RequestBody @Validated final CreateFixedFeeDto request,
-                                HttpServletResponse response,
-                                Principal principal) {
-        FixedFee fee = (FixedFee) feeService.get(code);
-        feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
+                               @RequestBody @Validated final CreateFixedFeeDto request,
+                               HttpServletResponse response,
+                               Principal principal) {
+        String author = principal != null ? principal.getName() : null;
+
+        try {
+            feeService.alignFeeType(feeDtoMapper.toFee(request, author), code);
+        } catch (NoResultException noResEx) {
+            try {
+                feeService.get(code);
+            } catch (FeeNotFoundException noFeeEx) {
+                createFixedFee(request, response, principal);
+                response.setStatus(HttpStatus.CREATED.value());
+                return;
+            }
+        }
+
+        feeService.updateFee(feeDtoMapper.toFee(request, author), code);
+        response.setStatus(HttpStatus.NO_CONTENT.value());
     }
 
 
@@ -205,14 +231,14 @@ public class FeeController {
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus,
                                 @RequestParam(required = false) String author,
-                                                                HttpServletResponse response) {
+                                HttpServletResponse response) {
         /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
 
         return feeService
             .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
             .stream()
             .filter(f -> {
-                if (feeVersionStatus!=null) {
+                if (feeVersionStatus != null) {
                     return f.getFeeVersions().stream().anyMatch(v -> v.getStatus().equals(feeVersionStatus));
                 }
                 return true;

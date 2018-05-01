@@ -83,15 +83,14 @@ public abstract class Fee extends AbstractEntity{
             .filter(v -> (!isApproved || v.getStatus() == FeeVersionStatus.approved) && v.isInRange(new Date()))
             .findFirst();
 
-        return opt.isPresent() ? opt.get() : null;
+        return opt.orElse(null);
     }
 
     /* --- */
 
     @PreUpdate
     public void preUpdate() {
-        Date now = new Date();
-        lastUpdated = now;
+        lastUpdated = new Date();
     }
 
     @PrePersist

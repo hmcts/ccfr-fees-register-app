@@ -7,14 +7,20 @@ import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.FixedFee;
+import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FeeControllerTest extends BaseIntegrationTest {
 
     @Rule
-    public ExpectedException thrown= ExpectedException.none();
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public synchronized void readFeeTest() throws Exception {
@@ -116,7 +122,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
                 assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
-                        assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
+                    assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
                         assertThat(feeVersionDto.getStatus().equals(FeeVersionStatus.approved));
                     });
                 });
@@ -248,4 +254,131 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isNoContent());
     }
 
+    @Test
+    public void putUpdateRangedFeeDoesNotModifyVersions() throws Exception {
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        Fee fee = feeService.get(arr[3]);
+        List<FeeVersion> originalFeeVersions = fee.getFeeVersions();
+
+        CreateRangedFeeDto rangedFeeDtoNew = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
+        rangedFeeDtoNew.getVersion().setDescription("new descr");
+        rangedFeeDtoNew.getVersion().setMemoLine("new memoline");
+
+        restActions.withUser("admin").put(URIUtils.getUrlForPutMethod(FeeController.class, "updateRangedFee"), rangedFeeDtoNew, arr[3])
+            .andExpect(status().isNoContent());
+
+        fee = feeService.get(arr[3]);
+        List<FeeVersion> newFeeVersions = fee.getFeeVersions();
+
+        assertThat(originalFeeVersions.equals(newFeeVersions));
+    }
+
+    @Test
+    public void putUpdateFixedFeeDoesNotModifyVersions() throws Exception {
+        CreateFixedFeeDto fixedFeeDto = getFixedFeesDto().get(0);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        Fee fee = feeService.get(arr[3]);
+        List<FeeVersion> originalFeeVersions = fee.getFeeVersions();
+
+        CreateFixedFeeDto fixedFeeDtoNew = getFixedFeesDto().get(1);
+
+        restActions.withUser("admin").put(URIUtils.getUrlForPutMethod(FeeController.class, "updateFixedFee"), fixedFeeDtoNew, arr[3])
+            .andExpect(status().isNoContent());
+
+        fee = feeService.get(arr[3]);
+        List<FeeVersion> newFeeVersions = fee.getFeeVersions();
+
+        assertThat(originalFeeVersions.equals(newFeeVersions));
+    }
+
+    // TODO: finish this test
+    @Test
+    public void putUpdateFixedFeePassingInFixedFeeWhenFeeIsRangedModifiesTheFeeType() throws Exception {
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        CreateFixedFeeDto fixedFeeDto = getFixedFeesDto().get(0);
+
+        restActions.withUser("admin").put(URIUtils.getUrlForPutMethod(FeeController.class, "updateFixedFee"), fixedFeeDto, arr[3])
+            .andExpect(status().isNoContent());
+
+        Fee fee = feeService.get(arr[3]);
+        assertThat(fee instanceof FixedFee);
+    }
+
+    @Test
+    public void putUpdateRangedFeePassingInRangedFeeWhenFeeIsFixedModifiesTheFeeType() throws Exception {
+        CreateFixedFeeDto fixedFeeDto = getFixedFeesDto().get(0);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
+
+        restActions.withUser("admin").put(URIUtils.getUrlForPutMethod(FeeController.class, "updateRangedFee"), rangedFeeDto, arr[3])
+            .andExpect(status().isNoContent());
+
+        Fee fee = feeService.get(arr[3]);
+        assertThat(fee instanceof RangedFee);
+
+        RangedFee rFee = (RangedFee) fee;
+        assertThat(rFee.getMaxRange().equals(rangedFeeDto.getMaxRange()));
+        assertThat(rFee.getMinRange().equals(rangedFeeDto.getMinRange()));
+        assertThat(rFee.getRangeUnit().getName().equals(rangedFeeDto.getRangeUnit()));
+    }
+
+    @Test
+    public void putUpdateFixedFeePassingInNonExistingRangedFeeCreatesFee() throws Exception {
+        CreateFixedFeeDto fixedFeeDto = getFixedFeesDto().get(0);
+
+        String loc = restActions
+            .withUser("admin")
+            .put(URIUtils.getUrlForPutMethod(FeeController.class, "updateFixedFee"),
+                fixedFeeDto,
+                "randomFeeCode"
+            )
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+
+        assertThat(loc.length() > 0);
+    }
+
+    @Test
+    public void putUpdateFixedFeePassingInNonExistingFixedFeeCreatesFee() throws Exception {
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
+
+        String loc = restActions
+            .withUser("admin")
+            .put(URIUtils.getUrlForPutMethod(FeeController.class, "updateRangedFee"),
+                rangedFeeDto,
+                "randomFeeCode"
+            )
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+
+        assertThat(loc.length() > 0);
+    }
 }

@@ -1,9 +1,6 @@
 package uk.gov.hmcts.fees2.register.util;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -23,6 +20,26 @@ public class URIUtils {
         }
 
         return reqMap[0];
+
+    }
+
+    public static String getUrlForPutMethod(Class<?> clazz, String methodName) {
+
+        String url = getRequestMappingPath(clazz);
+
+        String[] str = Arrays.stream(clazz.getMethods())
+            .filter(method -> method.getName().equalsIgnoreCase(methodName))
+            .map(method -> method.getAnnotation(PutMapping.class))
+            .filter(Objects::nonNull)
+            .map(PutMapping::value)
+            .findFirst()
+            .orElse(null);
+
+        if (str == null || str.length == 0) {
+            return url;
+        }
+
+        return url + str[0];
 
     }
 

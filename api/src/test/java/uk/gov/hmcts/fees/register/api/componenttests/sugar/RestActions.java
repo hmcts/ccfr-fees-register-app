@@ -57,10 +57,10 @@ public class RestActions {
         }
     }
 
-    public ResultActions put(String urlTemplate, Object dto) {
+    public ResultActions put(String urlTemplate, Object dto, Object... uriVars) {
         try {
             return mvc.perform(MockMvcRequestBuilders
-                .put(urlTemplate)
+                .put(urlTemplate, uriVars)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .headers(httpHeaders)

@@ -29,36 +29,28 @@ public class FeeDtoMapper {
 
     private Jurisdiction1Repository jurisdiction1Repository;
     private Jurisdiction2Repository jurisdiction2Repository;
-    private Fee2Repository fee2Repository;
     private ServiceTypeRepository serviceTypeRepository;
     private ChannelTypeRepository channelTypeRepository;
     private EventTypeRepository eventTypeRepository;
     private DirectionTypeRepository directionTypeRepository;
-    private FeeVersionRepository feeVersionRepository;
     private ApplicantTypeRepository applicantTypeRepository;
-
-    public static final String CODE_ALREADY_IN_USE  = "Code is already in use";
 
     @Autowired
     public FeeDtoMapper(
         Jurisdiction1Repository jurisdiction1Repository,
         Jurisdiction2Repository jurisdiction2Repository,
         DirectionTypeRepository directionTypeRepository,
-        Fee2Repository fee2Repository,
         ServiceTypeRepository serviceTypeRepository,
         ChannelTypeRepository channelTypeRepository,
         EventTypeRepository eventTypeRepository,
-        ApplicantTypeRepository applicantTypeRepository,
-        FeeVersionRepository feeVersionRepository) {
+        ApplicantTypeRepository applicantTypeRepository) {
 
         this.jurisdiction1Repository = jurisdiction1Repository;
         this.jurisdiction2Repository = jurisdiction2Repository;
-        this.fee2Repository = fee2Repository;
         this.serviceTypeRepository = serviceTypeRepository;
         this.channelTypeRepository = channelTypeRepository;
         this.eventTypeRepository = eventTypeRepository;
         this.directionTypeRepository = directionTypeRepository;
-        this.feeVersionRepository = feeVersionRepository;
         this.applicantTypeRepository = applicantTypeRepository;
     }
 
@@ -102,21 +94,6 @@ public class FeeDtoMapper {
         return fee;
     }
 
-
-    public void updateRangedFee(CreateRangedFeeDto request, RangedFee fee, String author) {
-        updateFeeDetails(request, fee, author);
-
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
-    }
-
-    public void updateFixedFee(CreateFixedFeeDto request, FixedFee fee, String author) {
-        updateFeeDetails(request, fee, author);
-
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
-    }
-
     public Fee toFee(CreateRangedFeeDto request, String author) {
         RangedFee fee = new RangedFee();
         fillFee(request, fee, author);
@@ -125,7 +102,7 @@ public class FeeDtoMapper {
         fee.setMaxRange(request.getMaxRange());
         fee.setMinRange(request.getMinRange());
 
-        if(request.getRangeUnit() == null) {
+        if (request.getRangeUnit() == null) {
             request.setRangeUnit("GBP");
         }
 
@@ -142,7 +119,7 @@ public class FeeDtoMapper {
         fee.setMaxRange(request.getMaxRange());
         fee.setMinRange(request.getMinRange());
 
-        if(request.getRangeUnit() == null) {
+        if (request.getRangeUnit() == null) {
             request.setRangeUnit("GBP");
         }
 
@@ -181,7 +158,7 @@ public class FeeDtoMapper {
             fee2Dto.setMinRange(rangedFee.getMinRange());
             fee2Dto.setMaxRange(rangedFee.getMaxRange());
 
-            if(rangedFee.getRangeUnit() != null) {
+            if (rangedFee.getRangeUnit() != null) {
                 fee2Dto.setRangeUnit(rangedFee.getRangeUnit().getName());
             }
 
@@ -192,7 +169,7 @@ public class FeeDtoMapper {
 
         FeeVersion currentVersion = fee.getCurrentVersion(false);
 
-        if(currentVersion != null) {
+        if (currentVersion != null) {
             fee2Dto.setCurrentVersion(toFeeVersionDto(fee.getCurrentVersion(false)));
         }
 
@@ -201,7 +178,7 @@ public class FeeDtoMapper {
 
     public FeeVersion toFeeVersion(FeeVersionDto versionDto, String author) {
 
-        if(versionDto == null){
+        if (versionDto == null) {
             throw new BadRequestException("Version is required");
         }
 
@@ -228,17 +205,17 @@ public class FeeDtoMapper {
 
         version.setDescription(versionDto.getDescription());
 
-        if(versionDto.getFlatAmount() != null) {
+        if (versionDto.getFlatAmount() != null) {
             version.setAmount(toFlatAmount(versionDto.getFlatAmount()));
-        }else if(versionDto.getPercentageAmount() != null) {
+        } else if (versionDto.getPercentageAmount() != null) {
             version.setAmount(toPercentageAmount(versionDto.getPercentageAmount()));
-        }else if(versionDto.getVolumeAmount() != null) {
+        } else if (versionDto.getVolumeAmount() != null) {
             version.setAmount(toVolumeAmount(versionDto.getVolumeAmount()));
         }
 
         version.setAuthor(author);
 
-        if(version.getStatus() == FeeVersionStatus.approved){
+        if (version.getStatus() == FeeVersionStatus.approved) {
             version.setApprovedBy(author);
         }
     }
@@ -269,15 +246,11 @@ public class FeeDtoMapper {
             FlatAmountDto flatAmountDto = new FlatAmountDto();
             flatAmountDto.setAmount(((FlatAmount) feeVersion.getAmount()).getAmount());
             feeVersionDto.setFlatAmount(flatAmountDto);
-        }else
-
-        if (feeVersion.getAmount() instanceof PercentageAmount) {
+        } else if (feeVersion.getAmount() instanceof PercentageAmount) {
             PercentageAmountDto percentageAmountDto = new PercentageAmountDto();
             percentageAmountDto.setPercentage(((PercentageAmount) feeVersion.getAmount()).getPercentage());
             feeVersionDto.setPercentageAmount(percentageAmountDto);
-        }else
-
-        if(feeVersion.getAmount() instanceof  VolumeAmount) {
+        } else if (feeVersion.getAmount() instanceof VolumeAmount) {
             VolumeAmountDto volumeAmountDto = new VolumeAmountDto(((VolumeAmount) feeVersion.getAmount()).getAmount());
             feeVersionDto.setVolumeAmount(volumeAmountDto);
         }
@@ -309,18 +282,18 @@ public class FeeDtoMapper {
 
     private void fillVersionVersion(FeeVersion version, Integer versionNumber) {
 
-        if(versionNumber == null) {
+        if (versionNumber == null) {
             version.setVersion(1);
-        }else{
+        } else {
             version.setVersion(versionNumber);
         }
     }
 
     private void fillVersionStatus(FeeVersion version, FeeVersionStatus status) {
 
-        if(status == null) {
+        if (status == null) {
             version.setStatus(FeeVersionStatus.draft);
-        }else{
+        } else {
             version.setStatus(status);
         }
     }
@@ -337,20 +310,20 @@ public class FeeDtoMapper {
 
     /* --- */
     private void fillJuridistiction1(Fee fee, String jurisdiction1) {
-        if(jurisdiction1 != null) {
+        if (jurisdiction1 != null) {
             fee.setJurisdiction1(jurisdiction1Repository.findByNameOrThrow(jurisdiction1.toLowerCase()));
         }
     }
 
     private void fillJuridistiction2(Fee fee, String jurisdiction2) {
-        if(jurisdiction2 != null) {
+        if (jurisdiction2 != null) {
             fee.setJurisdiction2(jurisdiction2Repository.findByNameOrThrow(jurisdiction2.toLowerCase()));
         }
     }
 
     private void fillEventType(Fee fee, String event) {
 
-        if(event == null) {
+        if (event == null) {
             return;
         }
 
@@ -359,7 +332,7 @@ public class FeeDtoMapper {
 
     private void fillDirectionType(FeeVersion feeVersion, String direction) {
 
-        if(direction == null) {
+        if (direction == null) {
             return;
         }
 
@@ -369,7 +342,7 @@ public class FeeDtoMapper {
 
     private void fillServiceType(Fee fee, String service) {
 
-        if(service == null) {
+        if (service == null) {
             return;
         }
 
@@ -378,7 +351,7 @@ public class FeeDtoMapper {
 
     private void fillApplicationType(Fee fee, String application) {
 
-        if(application == null) {
+        if (application == null) {
             return;
         }
 

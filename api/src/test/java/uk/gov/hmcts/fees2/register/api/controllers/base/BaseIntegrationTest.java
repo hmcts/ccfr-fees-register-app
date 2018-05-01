@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public abstract class BaseIntegrationTest extends BaseTest{
 
     @Autowired
-    FeeService feeService;
+    protected FeeService feeService;
 
     /* --- API CALLS --- */
 
