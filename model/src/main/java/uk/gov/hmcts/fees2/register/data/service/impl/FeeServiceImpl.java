@@ -14,6 +14,7 @@ import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -68,6 +69,9 @@ public class FeeServiceImpl implements FeeService {
     private FeeValidator feeValidator;
 
     @Autowired
+    private FeeVersionService feeVersionService;
+
+    @Autowired
     private Environment environment;
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
@@ -107,7 +111,6 @@ public class FeeServiceImpl implements FeeService {
             fee.setFeeNumber(nextFeeNumber);
             fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
         }
-
     }
 
     /***
@@ -121,7 +124,7 @@ public class FeeServiceImpl implements FeeService {
             feeValidator.validateAndDefaultNewFee(fee);
         });
 
-        fee2Repository.save(fees);
+        fee2Repository.saveAll(fees);
     }
 
     @Transactional

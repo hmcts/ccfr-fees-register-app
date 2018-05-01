@@ -12,6 +12,7 @@ import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -132,6 +133,14 @@ public class FeeVersionServiceImpl implements FeeVersionService {
             }
 
         }
+
+    }
+
+    @Override
+    @Transactional
+    public void updateVersion(String feeCode, Integer versionId, BigDecimal amount) {
+        FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
+        version.getAmount().setAmountValue(amount);
 
     }
 

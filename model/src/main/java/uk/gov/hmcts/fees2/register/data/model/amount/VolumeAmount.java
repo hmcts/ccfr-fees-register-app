@@ -29,4 +29,9 @@ public class VolumeAmount extends Amount {
     public boolean acceptsUnspecifiedFees() {
         return false;
     }
+
+    @Override
+    public void setAmountValue(BigDecimal amount) {
+        this.amount  = amount;
+    }
 }

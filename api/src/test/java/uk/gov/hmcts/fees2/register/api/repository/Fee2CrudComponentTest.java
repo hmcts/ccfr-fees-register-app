@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.repository;
 
+import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.junit.Test;
@@ -28,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.*;
 
 
@@ -120,6 +122,33 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertEquals(feeVersion.getMemoLine(), "Test memo line");
         FlatAmount flatAmount = (FlatAmount) feeVersion.getAmount();
         assertEquals(flatAmount.getAmount(), new BigDecimal(2500));
+    }
+
+    @Test
+    @Transactional
+    public void createFee_andUpdateFlatAmount() throws Exception {
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(499, 999, null, FeeVersionStatus.approved);
+        FeeVersionDto versionDto = rangedFeeDto.getVersion();
+
+        FlatAmountDto flatAmountDto = new FlatAmountDto();
+        flatAmountDto.setAmount(new BigDecimal("99.99"));
+        versionDto.setFlatAmount(flatAmountDto);
+        Fee fee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
+
+        Fee savedFee = feeService.get(fee.getCode());
+        assertThat(savedFee.getCode()).isEqualTo(fee.getCode());
+        savedFee.getFeeVersions().stream().forEach(v -> {
+            FlatAmount flatAmount = (FlatAmount) v.getAmount();
+            assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("99.99"));
+        });
+
+        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(), new BigDecimal("199.99"));
+        Fee updatedFee = feeService.get(fee.getCode());
+        assertThat(updatedFee.getCode()).isEqualTo(fee.getCode());
+        updatedFee.getFeeVersions().stream().forEach(v -> {
+            FlatAmount flatAmount = (FlatAmount) v.getAmount();
+            assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("199.99"));
+        });
     }
 
 }

@@ -36,4 +36,9 @@ public class RateableAmount extends Amount {
     public boolean acceptsUnspecifiedFees() {
         return false;
     }
+
+    @Override
+    public void setAmountValue(BigDecimal amount) {
+
+    }
 }

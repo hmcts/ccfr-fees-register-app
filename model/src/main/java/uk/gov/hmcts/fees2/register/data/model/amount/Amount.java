@@ -51,4 +51,6 @@ public abstract class Amount extends AbstractEntity{
         creationTime = now;
         lastUpdated = now;
     }
+
+    public abstract void setAmountValue(BigDecimal amount);
 }
