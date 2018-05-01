@@ -110,4 +110,9 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
         feeVersion.setStatus(newStatus);
     }
+
+    @Override
+    public Integer getMaxFeeVersion(String feeCode) {
+        return feeVersionRepository.getMaxFeeVersion(feeCode);
+    }
 }

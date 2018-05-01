@@ -1,6 +1,8 @@
 package uk.gov.hmcts.fees2.register.data.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
@@ -21,5 +23,8 @@ public interface FeeVersionRepository extends JpaRepository<FeeVersion, Long> {
     List<FeeVersion> findByStatusAndAuthor(FeeVersionStatus status, String author);
 
     List<FeeVersion> findByFee_CodeAndStatus(String feeCode, FeeVersionStatus status);
+
+    @Query("SELECT coalesce(max(v.version), 0) FROM Fee f, FeeVersion v where f.id = v.fee.id and f.code = ?1")
+    Integer getMaxFeeVersion(String code);
 
 }

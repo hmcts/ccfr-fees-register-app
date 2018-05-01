@@ -2,8 +2,8 @@ plugins {
     id 'application'
     id 'checkstyle'
     id "org.sonarqube" version "2.6.1"
-    id 'org.springframework.boot' version '1.5.9.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.3.RELEASE'
+    id 'org.springframework.boot' version '2.0.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.5.RELEASE'
     id 'org.owasp.dependencycheck' version '3.1.1'
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
     id 'findbugs'
@@ -11,6 +11,7 @@ plugins {
 }
 allprojects {
     apply plugin: 'maven'
+    apply plugin: 'io.spring.dependency-management'
 
     group = 'uk.gov.hmcts.reform.fees-register'
     ext {
@@ -19,13 +20,17 @@ allprojects {
     version = rootProject.file('version.txt').text.trim() + ".${buildNumber}"
 
     repositories {
+        mavenLocal()
+        maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
         maven {
             url "http://artifactory.reform.hmcts.net/artifactory/libs-release"
         }
         jcenter()
-        mavenLocal()
-        maven { url "http://dl.bintray.com/gov-uk-notify/maven" }
-
+    }
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.0.1.RELEASE"
+        }
     }
 }
 
@@ -78,7 +83,13 @@ dependencies {
     compile project(':fees-register-api')
 }
 
+mainClassName = 'uk.gov.hmcts.FeesRegisterServiceApplication'
+
 jar {
+    enabled = true
+}
+
+bootJar {
     archiveName 'fees-register-app.jar'
     manifest {
         attributes 'Implementation-Title': project.name, 'Implementation-Version': project.version
@@ -86,10 +97,8 @@ jar {
 }
 
 springBoot {
-    mainClassName = 'uk.gov.hmcts.FeesRegisterServiceApplication'
     buildInfo()
 }
-
 //    OWASP (./gradlew dependencyCheck -DdependencyCheck.failBuild=true)
 dependencyCheck {
     // Specifies if the build should be failed if a CVSS score above a specified level is identified.

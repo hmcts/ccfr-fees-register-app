@@ -20,4 +20,6 @@ public interface FeeVersionService {
     void save(FeeVersion version, String feeCode);
 
     void changeStatus(String code, Integer version, FeeVersionStatus status, String name);
+
+    Integer getMaxFeeVersion(String feeCode);
 }

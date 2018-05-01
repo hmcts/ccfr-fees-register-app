@@ -181,7 +181,7 @@ public class FeeServiceTest extends BaseTest{
 
     private void createDefaultChannelType() {
 
-        ChannelType def = channelTypeRepository.findOne(ChannelType.DEFAULT);
+        ChannelType def = channelTypeRepository.getOne(ChannelType.DEFAULT);
 
         if(def == null) {
             def = new ChannelType();
