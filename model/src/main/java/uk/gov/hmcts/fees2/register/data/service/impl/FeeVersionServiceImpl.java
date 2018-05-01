@@ -125,17 +125,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     @Transactional
     public void updateVersion(String feeCode, Integer versionId, BigDecimal amount) {
         FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
-
-        if (version.getAmount() instanceof FlatAmount) {
-            FlatAmount flatAmount = (FlatAmount) version.getAmount();
-            flatAmount.setAmount(amount);
-        } else if (version.getAmount() instanceof VolumeAmount) {
-            VolumeAmount volumeAmount = (VolumeAmount) version.getAmount();
-            volumeAmount.setAmount(amount);
-        } else if (version.getAmount() instanceof PercentageAmount) {
-            PercentageAmount percentageAmount = (PercentageAmount) version.getAmount();
-            percentageAmount.setPercentage(amount);
-        }
+        version.getAmount().setAmountValue(amount);
 
     }
 }

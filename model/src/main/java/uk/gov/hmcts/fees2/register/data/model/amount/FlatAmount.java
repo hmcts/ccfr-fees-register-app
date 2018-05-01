@@ -29,4 +29,9 @@ public class FlatAmount extends Amount {
         return true;
     }
 
+    @Override
+    public void setAmountValue(BigDecimal amount) {
+        this.amount = amount;
+    }
+
 }

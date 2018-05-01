@@ -35,4 +35,9 @@ public class PercentageAmount extends Amount{
     public boolean acceptsUnspecifiedFees() {
         return false;
     }
+
+    @Override
+    public void setAmountValue(BigDecimal percentage) {
+        this.percentage = percentage;
+    }
 }
