@@ -12,6 +12,7 @@ import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.*;
@@ -43,6 +44,18 @@ public class FeeVersionDto {
 
     @JsonProperty("volume_amount")
     private VolumeAmountDto volumeAmount;
+
+    public BigDecimal getAmount() {
+        if (getFlatAmount() != null) {
+            return getFlatAmount().getAmount();
+        } else if (getVolumeAmount() != null) {
+            return getVolumeAmount().getAmount();
+        } else if (getPercentageAmount() != null){
+            return getPercentageAmount().getPercentage();
+        }
+
+        return null;
+    }
 
     private String author;
 

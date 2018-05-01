@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import javax.persistence.criteria.*;
@@ -67,6 +67,9 @@ public class FeeServiceImpl implements FeeService {
     private FeeValidator feeValidator;
 
     @Autowired
+    private FeeVersionService feeVersionService;
+
+    @Autowired
     private Environment environment;
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
@@ -106,7 +109,6 @@ public class FeeServiceImpl implements FeeService {
             fee.setFeeNumber(nextFeeNumber);
             fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
         }
-
     }
 
     /***
