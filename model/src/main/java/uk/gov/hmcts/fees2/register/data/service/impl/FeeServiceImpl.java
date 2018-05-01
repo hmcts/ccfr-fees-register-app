@@ -6,10 +6,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.*;
@@ -17,13 +20,17 @@ import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.*;
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,6 +76,12 @@ public class FeeServiceImpl implements FeeService {
     @Autowired
     private Environment environment;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
     /* --- */
@@ -94,20 +107,128 @@ public class FeeServiceImpl implements FeeService {
                 .old_code(fee.getCode())
                 .new_code(newCode)
                 .build();
-            fee.setFeeCodeHistories(Arrays.asList(feeCodeHistory));
+            fee.setFeeCodeHistories(Collections.singletonList(feeCodeHistory));
             feeCodeHistoryRepository.save(feeCodeHistory);
 
             fee.setCode(newCode);
 
             Matcher matcher = pattern.matcher(newCode);
-            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee.setFeeNumber(matcher.find() ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
         } else { // If the new feeCode is not present in the request, then auto generate the code.
             Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
             fee.setFeeNumber(nextFeeNumber);
             fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
         }
-
     }
+
+    @Override
+    public void updateFee(Fee newFee, String code) {
+        Fee oldFee = get(code);
+        fillCommonFeeDetails(oldFee, newFee);
+    }
+
+    @Override
+    public void alignFeeType(Fee newFee, String oldFeeCode) {
+        String oldFeeType = getFeeType(oldFeeCode);
+
+        if (!oldFeeType.equals(newFee.getTypeCode())) {
+            if (newFee.getTypeCode().equals(FeeType.fixed.name())) {
+                updateToFixedFee(oldFeeCode);
+            } else if (newFee.getTypeCode().equals(FeeType.ranged.name())) {
+                updateToRangedFee(oldFeeCode);
+            }
+        }
+    }
+
+    private String getFeeType(String code) {
+        Query q = entityManager.createNativeQuery("SELECT fee_type FROM fee WHERE code = :code");
+        q.setParameter("code", code);
+
+        String result = null;
+
+        switch ((String) q.getSingleResult()) {
+            case "FixedFee":
+                result = "fixed";
+                break;
+            case "RangedFee":
+                result = "ranged";
+                break;
+        }
+
+        return result;
+    }
+
+    private void updateToRangedFee(String oldFeeCode) {
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
+                Query q = entityManager.createNativeQuery("UPDATE fee SET fee_type = :feeType WHERE code = :code");
+                q.setParameter("code", oldFeeCode);
+                q.setParameter("feeType", "RangedFee");
+                q.executeUpdate();
+
+                q = entityManager.createNativeQuery("SELECT id FROM fee WHERE code = :code");
+                q.setParameter("code", oldFeeCode);
+                BigInteger id = (BigInteger) q.getSingleResult();
+
+                q = entityManager.createNativeQuery("DELETE FROM fixed_fee WHERE id = :id");
+                q.setParameter("id", id);
+                q.executeUpdate();
+
+                q = entityManager.createNativeQuery("INSERT INTO ranged_fee (id) VALUES (:id)");
+                q.setParameter("id", id);
+                q.executeUpdate();
+            }
+        });
+    }
+
+    private void updateToFixedFee(String oldFeeCode) {
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
+                Query q = entityManager.createNativeQuery("UPDATE fee SET fee_type = :feeType WHERE code = :code");
+                q.setParameter("code", oldFeeCode);
+                q.setParameter("feeType", "FixedFee");
+                q.executeUpdate();
+
+                q = entityManager.createNativeQuery("SELECT id FROM fee WHERE code = :code");
+                q.setParameter("code", oldFeeCode);
+                BigInteger id = (BigInteger) q.getSingleResult();
+
+                q = entityManager.createNativeQuery("DELETE FROM ranged_fee WHERE id = :id");
+                q.setParameter("id", id);
+                q.executeUpdate();
+
+                q = entityManager.createNativeQuery("INSERT INTO fixed_fee (id) VALUES (:id)");
+                q.setParameter("id", id);
+                q.executeUpdate();
+            }
+        });
+    }
+
+    @Transactional
+    public void fillCommonFeeDetails(Fee oldFee, Fee newFee) {
+        oldFee.setJurisdiction1(newFee.getJurisdiction1());
+        oldFee.setJurisdiction2(newFee.getJurisdiction2());
+        oldFee.setService(newFee.getService());
+        oldFee.setEventType(newFee.getEventType());
+        oldFee.setChannelType(newFee.getChannelType());
+        oldFee.setApplicantType(newFee.getApplicantType());
+        oldFee.setUnspecifiedClaimAmount(newFee.isUnspecifiedClaimAmount());
+
+        if (newFee instanceof RangedFee) {
+            RangedFee rangedNewFee = (RangedFee) newFee;
+            RangedFee rangedOldFee = (RangedFee) oldFee;
+            rangedOldFee.setMaxRange(rangedNewFee.getMaxRange());
+            rangedOldFee.setMinRange(rangedNewFee.getMinRange());
+            rangedOldFee.setRangeUnit(rangedNewFee.getRangeUnit());
+        }
+    }
+
 
     /***
      *
@@ -116,9 +237,7 @@ public class FeeServiceImpl implements FeeService {
     @Transactional
     public void save(List<Fee> fees) {
 
-        fees.stream().forEach(fee -> {
-            feeValidator.validateAndDefaultNewFee(fee);
-        });
+        fees.stream().forEach(fee -> feeValidator.validateAndDefaultNewFee(fee));
 
         fee2Repository.saveAll(fees);
     }
@@ -212,7 +331,7 @@ public class FeeServiceImpl implements FeeService {
             ) &&
                 (dto.getAuthor() == null
                     || dto.getAuthor().equals(
-                        fee.getCurrentVersion(dto.getVersionStatus() == FeeVersionStatus.approved).getAuthor())));
+                    fee.getCurrentVersion(dto.getVersionStatus() == FeeVersionStatus.approved).getAuthor())));
     }
 
     private Predicate buildFirstLevelPredicate(Root<Fee> fee, CriteriaBuilder builder, LookupFeeDto dto) {
