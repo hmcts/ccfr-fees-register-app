@@ -86,6 +86,7 @@ public class FeeLoader implements ApplicationRunner {
                         LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
                     } else {
                         try {
+                            fee.setCode(r.getNewCode());
                             feeService.updateLoaderFee(fee, r.getNewCode());
                         } catch (DataIntegrityViolationException ue) {
                             LOG.error("Update failed for the fee code: {}", r.getNewCode());
@@ -126,11 +127,12 @@ public class FeeLoader implements ApplicationRunner {
         }
 
         try {
-            if ( f.getCode() == null || f.getCode().trim().length() == 0 || feeService.get(f.getCode()) == null) {
+            if (feeService.get(f.getCode()) == null) {
                 feeService.save(fee);
                 LOG.info("Fixed fee with code " + f.getNewCode() + " inserted into database.");
             } else {
                 try {
+                    fee.setCode(f.getNewCode());
                     feeService.updateLoaderFee(fee, f.getNewCode());
                 } catch (DataIntegrityViolationException ue) {
                     LOG.error("Fee Update failed for the fee code: {}", f.getNewCode());
