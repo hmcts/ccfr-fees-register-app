@@ -79,16 +79,23 @@ public class FeeServiceImpl implements FeeService {
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
-        if (fee.getCode() != null && !fee2Repository.findByCode(fee.getCode()).isPresent()) {
-            Matcher matcher = pattern.matcher(fee.getCode());
-            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
-        } else {
-            Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
-            fee.setFeeNumber(nextFeeNumber);
-            fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
-        }
+        Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
+        fee.setFeeNumber(nextFeeNumber);
+        fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
 
         return fee2Repository.save(fee);
+    }
+
+    @Override
+    public void saveLoaderFee(Fee fee) {
+
+        if (fee.getCode() != null && !fee2Repository.findByCode(fee.getCode()).isPresent()) {
+            feeValidator.validateAndDefaultNewFee(fee);
+
+            Matcher matcher = pattern.matcher(fee.getCode());
+            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee2Repository.save(fee);
+        }
     }
 
     @Override
