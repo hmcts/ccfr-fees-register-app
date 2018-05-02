@@ -93,6 +93,7 @@ public class FeeLoader implements ApplicationRunner {
                             // Saving as a new fee.
                             fee.setCode(f.getNewCode());
                             feeService.saveLoaderFee(fee);
+
                         }
 
                 });
