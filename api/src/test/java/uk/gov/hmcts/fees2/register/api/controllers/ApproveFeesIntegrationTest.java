@@ -53,6 +53,5 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
             }));
 
         forceDeleteFee(uri[3]);
-
     }
 }

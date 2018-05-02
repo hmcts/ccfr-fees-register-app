@@ -98,7 +98,7 @@ public class FeeLoader implements ApplicationRunner {
 
                     // Saving as a new fee.
                     fee.setCode(r.getNewCode());
-                    feeService.saveLoaderFee(fee);
+                    feeService.save(fee);
                 }
 
             });
@@ -143,7 +143,7 @@ public class FeeLoader implements ApplicationRunner {
 
             // Saving as a new fee.
             fee.setCode(f.getNewCode());
-            feeService.saveLoaderFee(fee);
+            feeService.save(fee);
 
         }
     }
