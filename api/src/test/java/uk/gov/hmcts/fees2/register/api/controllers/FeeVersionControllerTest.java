@@ -83,7 +83,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         try {
 
-            feeVersionController.changeVersionStatus(arr[3], 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
+            feeVersionController.approve(arr[3], 1, new PrincipalImpl(AUTHOR));
 
             feeVersionController.deleteFeeVersion(arr[3], 1);
 
@@ -110,7 +110,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         try {
 
-            feeVersionController.changeVersionStatus(arr[3], 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
+            feeVersionController.approve(arr[3], 1, new PrincipalImpl(AUTHOR));
 
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());

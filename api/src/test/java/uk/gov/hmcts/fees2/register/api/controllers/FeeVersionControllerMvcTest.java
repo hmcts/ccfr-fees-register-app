@@ -73,6 +73,6 @@ public class FeeVersionControllerMvcTest {
             .andExpect(status().isNoContent());
 
         // then
-        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.rejected, null);
+        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null);
     }
 }
