@@ -75,20 +75,25 @@ public class FeeServiceImpl implements FeeService {
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
     /* --- */
-
+    @Override
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
-        Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
-        fee.setFeeNumber(nextFeeNumber);
-        fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
+        if (fee.getCode() != null && !fee2Repository.findByCode(fee.getCode()).isPresent()) {
+            Matcher matcher = pattern.matcher(fee.getCode());
+            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+        } else {
+            Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
+            fee.setFeeNumber(nextFeeNumber);
+            fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
+        }
 
         return fee2Repository.save(fee);
     }
 
     @Override
     @Transactional
-    public void updateFeeLoaderData(Fee updateFee, String newCode) {
+    public void updateLoaderFee(Fee updateFee, String newCode) {
         Fee fee = get(updateFee.getCode());
 
         if (newCode != null) {  // If the new feeCode is provided in the request.
