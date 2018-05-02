@@ -77,8 +77,8 @@ public class FeeLoaderComponentTest extends BaseTest {
             .get("/fees-register/fees?channel=default&service=probate&applicant_type=personal")
         .andExpect(status().isOk())
         .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
-            Fee2Dto fee = fee2Dtos.stream().filter(f -> f.getCode().equals("FEE0201")).findAny().orElse(null);
-            assertThat(fee.getCode()).isEqualTo("FEE0201");
+            Fee2Dto fee = fee2Dtos.stream().filter(f -> f.getCode().equals("FEE0226")).findAny().orElse(null);
+            assertThat(fee.getCode()).isEqualTo("FEE0226");
             assertThat(fee.getJurisdiction1Dto().getName()).isEqualTo("family");
             assertThat(fee.getJurisdiction2Dto().getName()).isEqualTo("probate registry");
             assertThat(fee.getServiceTypeDto().getName()).isEqualTo("probate");

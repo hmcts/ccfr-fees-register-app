@@ -73,10 +73,6 @@ public class FeeLoader implements ApplicationRunner {
                         f.setUnspecifiedClaimAmount(false);
                     }
 
-                    if (Arrays.stream(environment.getActiveProfiles()).filter(p -> p.equals("embedded")).findAny().isPresent()) {
-                        fee.setCode(f.getNewCode());
-                        feeService.save(fee);
-                    } else {
                         try {
                             if (feeService.get(f.getCode()) == null) {
                                 feeService.save(fee);
@@ -98,7 +94,7 @@ public class FeeLoader implements ApplicationRunner {
                             fee.setCode(f.getNewCode());
                             feeService.saveFeeLoader(fee);
                         }
-                    }
+
                 });
             }
 
@@ -107,10 +103,7 @@ public class FeeLoader implements ApplicationRunner {
                 rangedFees.forEach(r -> {
                     Fee fee = feeDtoMapper.toFee(r, null);
 
-                    if (Arrays.stream(environment.getActiveProfiles()).filter(p -> p.equals("embedded")).findAny().isPresent()) {
-                        fee.setCode(r.getNewCode());
-                        feeService.save(fee);
-                    } else {
+
                         try {
                             if (feeService.get(r.getCode()) == null) {
                                 feeService.save(fee);
@@ -133,7 +126,7 @@ public class FeeLoader implements ApplicationRunner {
                             fee.setCode(r.getNewCode());
                             feeService.saveFeeLoader(fee);
                         }
-                    }
+
                 });
             }
         } catch (IOException  | NullPointerException ex) {
