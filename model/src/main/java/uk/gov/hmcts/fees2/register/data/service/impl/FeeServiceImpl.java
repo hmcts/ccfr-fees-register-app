@@ -86,7 +86,7 @@ public class FeeServiceImpl implements FeeService {
         return fee2Repository.save(fee);
     }
 
-    public Fee saveFeeLoader(Fee fee) {
+    public Fee saveLoaderFee(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
         Matcher matcher = pattern.matcher(fee.getCode());
