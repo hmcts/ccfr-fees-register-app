@@ -86,7 +86,6 @@ public class FeeLoader implements ApplicationRunner {
                         LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
                     } else {
                         try {
-                            fee.setCode(r.getCode());
                             feeService.updateLoaderFee(fee, r.getNewCode());
                         } catch (DataIntegrityViolationException ue) {
                             LOG.error("Update failed for the fee code: {}", r.getNewCode());

@@ -27,6 +27,4 @@ public interface FeeService  {
 
     void updateLoaderFee(Fee fee, String code);
 
-    void saveLoaderFee(Fee fee);
-
 }
