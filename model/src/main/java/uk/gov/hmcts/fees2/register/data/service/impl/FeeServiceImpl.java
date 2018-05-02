@@ -87,15 +87,14 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
-    public Fee saveLoaderFee(Fee fee) {
+    public void saveLoaderFee(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
         if (!fee2Repository.findByCode(fee.getCode()).isPresent()) {
             Matcher matcher = pattern.matcher(fee.getCode());
             fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
-            return fee2Repository.save(fee);
+            fee2Repository.save(fee);
         }
-        return null;
     }
 
     @Override
