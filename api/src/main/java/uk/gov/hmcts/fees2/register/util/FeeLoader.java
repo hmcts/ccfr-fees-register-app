@@ -24,7 +24,6 @@ import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
@@ -90,13 +89,15 @@ public class FeeLoader implements ApplicationRunner {
                                     LOG.info("Update failed for the fee code: {}", f.getNewCode());
                                 }
                             }
+
+                            updateFeeVersion(f.getNewCode(), f.getVersion());
                         } catch (FeeNotFoundException fe) {
-                            LOG.debug("Fee with code is not found:", fe);
+                            LOG.debug("Fee with code is not found: {}", fe);
+
+                            // Saving as a new fee.
+                            fee.setCode(f.getNewCode());
+                            feeService.saveFeeLoader(fee);
                         }
-
-                        updateFeeVersion(f.getNewCode(), f.getVersion());
-
-
                     }
                 });
             }
@@ -122,12 +123,16 @@ public class FeeLoader implements ApplicationRunner {
                                     LOG.info("Update failed for the fee code: {}", r.getNewCode());
                                 }
                             }
+
+                            updateFeeVersion(r.getNewCode(), r.getVersion());
                         }
                         catch (FeeNotFoundException fe) {
-                            LOG.debug("Fee not found exception: {}", fe);
-                        }
+                            LOG.debug("Fee with code is not found: {}", fe);
 
-                        updateFeeVersion(r.getNewCode(), r.getVersion());
+                            // Saving as a new fee.
+                            fee.setCode(r.getNewCode());
+                            feeService.saveFeeLoader(fee);
+                        }
                     }
                 });
             }
