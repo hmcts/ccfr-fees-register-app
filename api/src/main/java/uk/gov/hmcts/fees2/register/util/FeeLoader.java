@@ -61,9 +61,7 @@ public class FeeLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-
         loadFees();
-
     }
 
 
@@ -72,9 +70,6 @@ public class FeeLoader implements ApplicationRunner {
 
         loadFixedFees(feeLoaderMapper);
         loadRangedFees(feeLoaderMapper);
-
-
-
     }
 
     private void loadRangedFees(FeeLoaderJsonMapper feeLoaderMapper) {
@@ -94,7 +89,7 @@ public class FeeLoader implements ApplicationRunner {
                             fee.setCode(r.getCode());
                             feeService.updateLoaderFee(fee, r.getNewCode());
                         } catch (DataIntegrityViolationException ue) {
-                            LOG.info("Update failed for the fee code: {}", r.getNewCode());
+                            LOG.error("Update failed for the fee code: {}", r.getNewCode());
                         }
                     }
 
@@ -118,7 +113,6 @@ public class FeeLoader implements ApplicationRunner {
             fixedFees.forEach(f -> {
 
                saveFixedFee(f);
-
             });
         }
 
@@ -156,8 +150,6 @@ public class FeeLoader implements ApplicationRunner {
     }
 
     private FeeLoaderJsonMapper loadFile() throws Exception {
-
-
         try {
             return loadFromResource(feesJsonInputFile);
 
