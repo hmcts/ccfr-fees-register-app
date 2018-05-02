@@ -77,33 +77,36 @@ public class FeeLoader implements ApplicationRunner {
         if (feeLoaderMapper.getRangedFees().size() > 0) {
             List<LoaderRangedFeeDto> rangedFees = feeLoaderMapper.getRangedFees();
             rangedFees.forEach(r -> {
-                Fee fee = feeDtoMapper.toFee(r, null);
-
-
-                try {
-                    if (feeService.get(r.getCode()) == null) {
-                        feeService.save(fee);
-                        LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
-                    } else {
-                        try {
-                            fee.setCode(r.getNewCode());
-                            feeService.updateLoaderFee(fee, r.getNewCode());
-                        } catch (DataIntegrityViolationException ue) {
-                            LOG.error("Update failed for the fee code: {}", r.getNewCode());
-                        }
-                    }
-
-                    updateFeeVersion(r.getNewCode(), r.getVersion());
-                } catch (FeeNotFoundException fe) {
-                    LOG.debug("Fee with code is not found: {}", fe);
-
-                    // Saving as a new fee.
-                    fee.setCode(r.getNewCode());
-                    feeService.save(fee);
-                }
-
+                saveRangedFee(r);
             });
         }
+    }
+
+    private void saveRangedFee(LoaderRangedFeeDto r) {
+        Fee fee = feeDtoMapper.toFee(r, null);
+
+        try {
+            if (feeService.get(r.getCode()) == null) {
+                feeService.save(fee);
+                LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
+            } else {
+                try {
+                    fee.setCode(r.getCode());
+                    feeService.updateLoaderFee(fee, r.getNewCode());
+                } catch (DataIntegrityViolationException ue) {
+                    LOG.error("Update failed for the fee code: {}", r.getNewCode());
+                }
+            }
+
+            updateFeeVersion(r.getNewCode(), r.getVersion());
+        } catch (FeeNotFoundException fe) {
+            LOG.debug("Fee with code is not found: {}", fe);
+
+            // Saving as a new fee.
+            fee.setCode(r.getNewCode());
+            feeService.save(fee);
+        }
+
     }
 
     private void loadFixedFees(FeeLoaderJsonMapper feeLoaderMapper) {
@@ -132,7 +135,7 @@ public class FeeLoader implements ApplicationRunner {
                 LOG.info("Fixed fee with code " + f.getNewCode() + " inserted into database.");
             } else {
                 try {
-                    fee.setCode(f.getNewCode());
+                    fee.setCode(f.getCode());
                     feeService.updateLoaderFee(fee, f.getNewCode());
                 } catch (DataIntegrityViolationException ue) {
                     LOG.error("Fee Update failed for the fee code: {}", f.getNewCode());
