@@ -80,7 +80,7 @@ public class FeeLoader implements ApplicationRunner {
                             } else {
                                 try {
                                     fee.setCode(f.getCode());
-                                    feeService.updateFeeLoaderData(fee, f.getNewCode());
+                                    feeService.updateLoaderFee(fee, f.getNewCode());
                                 } catch (DataIntegrityViolationException ue) {
                                     LOG.info("Update failed for the fee code: {}", f.getNewCode());
                                 }
@@ -92,7 +92,7 @@ public class FeeLoader implements ApplicationRunner {
 
                             // Saving as a new fee.
                             fee.setCode(f.getNewCode());
-                            feeService.saveFeeLoader(fee);
+                            feeService.saveLoaderFee(fee);
                         }
 
                 });
@@ -111,7 +111,7 @@ public class FeeLoader implements ApplicationRunner {
                             } else {
                                 try {
                                     fee.setCode(r.getCode());
-                                    feeService.updateFeeLoaderData(fee, r.getNewCode());
+                                    feeService.updateLoaderFee(fee, r.getNewCode());
                                 } catch (DataIntegrityViolationException ue) {
                                     LOG.info("Update failed for the fee code: {}", r.getNewCode());
                                 }
@@ -124,7 +124,7 @@ public class FeeLoader implements ApplicationRunner {
 
                             // Saving as a new fee.
                             fee.setCode(r.getNewCode());
-                            feeService.saveFeeLoader(fee);
+                            feeService.saveLoaderFee(fee);
                         }
 
                 });

@@ -96,7 +96,7 @@ public class FeeServiceImpl implements FeeService {
 
     @Override
     @Transactional
-    public void updateFeeLoaderData(Fee updateFee, String newCode) {
+    public void updateLoaderFee(Fee updateFee, String newCode) {
         Fee fee = get(updateFee.getCode());
 
         if (newCode != null) {  // If the new feeCode is provided in the request.
