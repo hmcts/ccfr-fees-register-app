@@ -74,7 +74,7 @@ public class FeeServiceImpl implements FeeService {
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
-    /* --- */
+    
     @Override
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
