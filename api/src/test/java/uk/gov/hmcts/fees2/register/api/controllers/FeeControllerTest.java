@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -246,6 +248,79 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), arr[3])
             .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void fixedFeeAddDeleteAddSameFeeWithPassingFeeCodeCreatesFeeWithSameCode() throws Exception {
+        CreateFixedFeeDto fixedFeeDto = getFixedFeesDto().get(0);
+        //fixedFeeDto.setCode(null);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String feeCode = loc.split("/")[3];
+
+        String loc2 = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String feeCode2 = loc2.split("/")[3];
+
+        assertNotEquals(feeCode, feeCode2);
+
+        restActions
+            .withUser("admin")
+            .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), feeCode)
+            .andExpect(status().isNoContent());
+
+        fixedFeeDto.setCode(feeCode);
+        String loc3 = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String feeCode3 = loc3.split("/")[3];
+
+        assertEquals(feeCode, feeCode3);
+    }
+
+    @Test
+    public void rangedFeeAddDeleteAddSameFeeWithPassingFeeCodeCreatesFeeWithSameCode() throws Exception {
+        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, "FEE0999", FeeVersionStatus.draft);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String feeCode = loc.split("/")[3];
+
+        String loc2 = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String feeCode2 = loc2.split("/")[3];
+
+        assertNotEquals(feeCode, feeCode2);
+
+        restActions
+            .withUser("admin")
+            .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), feeCode)
+            .andExpect(status().isNoContent());
+
+        rangedFeeDto.setCode(feeCode);
+        String loc3 = restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String feeCode3 = loc3.split("/")[3];
+
+        assertEquals(feeCode, feeCode3);
     }
 
 }

@@ -26,6 +26,7 @@ import javax.annotation.RegEx;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,8 +65,10 @@ public class FeeController {
         @RequestBody @Validated final CreateRangedFeeDto request,
         HttpServletResponse response,
         Principal principal) {
+
         Fee fee = feeService.save(
-            feeDtoMapper.toFee(request, principal != null ? principal.getName() : null));
+            feeDtoMapper.toFee(request, principal != null ? principal.getName() : null)
+        );
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
@@ -101,9 +104,9 @@ public class FeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void updateFixedFee(@PathVariable("code") String code,
-                                @RequestBody @Validated final CreateFixedFeeDto request,
-                                HttpServletResponse response,
-                                Principal principal) {
+                               @RequestBody @Validated final CreateFixedFeeDto request,
+                               HttpServletResponse response,
+                               Principal principal) {
         FixedFee fee = (FixedFee) feeService.get(code);
         feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
     }
@@ -127,7 +130,6 @@ public class FeeController {
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
-
         }
     }
 
@@ -204,19 +206,28 @@ public class FeeController {
                                 @RequestParam(required = false) BigDecimal amount,
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus,
+                                @RequestParam(required = false) String approvedBy,
                                 @RequestParam(required = false) String author,
-                                                                HttpServletResponse response) {
-        /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
-
+                                @RequestParam(required = false) Boolean isActive,
+                                @RequestParam(required = false) Boolean isExpired,
+                                HttpServletResponse response) {
         return feeService
             .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
             .stream()
-            .filter(f -> {
-                if (feeVersionStatus!=null) {
-                    return f.getFeeVersions().stream().anyMatch(v -> v.getStatus().equals(feeVersionStatus));
-                }
-                return true;
-            })
+            .flatMap(f -> f.getFeeVersions().stream())
+            .filter(v -> feeVersionStatus == null || v.getStatus().equals(feeVersionStatus))
+            .filter(v -> approvedBy == null || approvedBy.equals(v.getApprovedBy()))
+            .filter(v -> author == null || author.equals(v.getAuthor()))
+            .filter(v -> isActive == null ||
+                isActive && v.equals(v.getFee().getCurrentVersion(true))
+                ||
+                !isActive && !v.equals(v.getFee().getCurrentVersion(true))
+            )
+            .filter(v -> isExpired == null || v.getValidTo() == null ||
+                isExpired && v.getValidTo().before(new Date())
+                ||
+                !isExpired && v.getValidTo().after(new Date())
+            )
             .map(feeDtoMapper::toFeeDto)
             .collect(Collectors.toList());
     }
