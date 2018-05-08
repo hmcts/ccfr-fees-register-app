@@ -7,9 +7,9 @@
       "version": {
         "version": 1,
         "valid_from" : "2011-04-04T00:00:00.000Z",
-        "description": "cost recovery",
+        "description": "Personal Application for grant of Probate",
         "status": "approved",
-        "memo_line":"Personal Application for grant of Probate  ",
+        "memo_line":"Personal Application for grant of Probate",
         "natural_account_code":"4481102158",
         "direction": "enhanced",
         "fee_order_name": "Non-Contentious Probate Fees",
@@ -37,8 +37,8 @@
         "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 0.01 up to 300 GBP",
         "status": "approved",
-        "memo_line":"CC-Money claim £0-300",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim £0-300",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "flat_amount": {
           "amount": 35.00
@@ -62,8 +62,8 @@
         "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 300.01 up to 500 GBP",
         "status": "approved",
-        "memo_line":"CC-Money claim £300-500",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim £300-500",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "flat_amount": {
           "amount": 50.00
@@ -88,8 +88,8 @@
         "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 500.01 up to 1000 GBP",
         "status": "approved",
-        "memo_line":"CC-Money claim £500-1,000",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim £500-1,000",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
 
         "flat_amount": {
@@ -114,8 +114,8 @@
         "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 1000.01 up to 1500 GBP",
         "status": "approved",
-        "memo_line":"CC-Money claim £1,000-1,500",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim £1,000-1,500",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "flat_amount": {
           "amount": 80.00
@@ -139,8 +139,8 @@
         "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 1500.01 up to 3000 GBP",
         "status": "approved",
-        "memo_line":"CC-Money claim £1,500-3,000",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim £1,500-3,000",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "flat_amount": {
           "amount": 115.00
@@ -164,8 +164,8 @@
         "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 3000.01 up to 5000 GBP",
         "status": "approved",
-        "memo_line":"CC-Money claim £3,000-5,000",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim £3,000-5,000",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "flat_amount": {
           "amount": 205.00
@@ -189,8 +189,8 @@
         "valid_from" : "2015-03-09T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 5000.01 up to 10000 GBP",
         "status": "approved",
-        "memo_line":"CC-Money claim £5,000.01-10,000",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim £5,000.01-10,000",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "flat_amount": {
           "amount": 455.00
@@ -214,8 +214,8 @@
         "valid_from" : "2015-03-09T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP.",
         "status": "approved",
-        "memo_line":"CC-Money claim £10,000.01-200,000",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim £10,000.01-200,000",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "percentage_amount": {
           "percentage": 5
@@ -238,8 +238,8 @@
         "valid_from" : "2015-03-09T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more",
         "status": "approved",
-        "memo_line":"CC-Money claim >£200,000",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim >£200,000",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "flat_amount": {
           "amount": 10000.00
@@ -643,8 +643,8 @@
         "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - Unspecified",
         "status": "approved",
-        "memo_line":"CC-Money claim >£200,000",
-        "natural_account_code":"4481102016",
+        "memo_line":"GOV - Paper fees - Money claim >£200,000",
+        "natural_account_code":"4481102133",
         "direction": "enhanced",
         "flat_amount": {
           "amount": 10000.00

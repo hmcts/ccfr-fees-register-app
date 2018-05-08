@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.contract;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -8,10 +9,8 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -45,6 +44,7 @@ public class FeeVersionDto {
     @JsonProperty("volume_amount")
     private VolumeAmountDto volumeAmount;
 
+    @JsonIgnore
     public BigDecimal getAmount() {
         if (getFlatAmount() != null) {
             return getFlatAmount().getAmount();
