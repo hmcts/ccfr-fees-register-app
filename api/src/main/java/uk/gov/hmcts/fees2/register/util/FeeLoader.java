@@ -98,7 +98,6 @@ public class FeeLoader implements ApplicationRunner {
                 }
             }
 
-            updateFeeVersion(r.getNewCode(), r.getVersion());
         } catch (FeeNotFoundException fe) {
             LOG.debug("Fee with code is not found: {}", fe);
 
@@ -107,6 +106,7 @@ public class FeeLoader implements ApplicationRunner {
             feeService.saveLoaderFee(fee);
         }
 
+        updateFeeVersion(r.getNewCode(), r.getVersion());
     }
 
     private void loadFixedFees(FeeLoaderJsonMapper feeLoaderMapper) {
@@ -142,7 +142,6 @@ public class FeeLoader implements ApplicationRunner {
                 }
             }
 
-            updateFeeVersion(f.getNewCode(), f.getVersion());
         } catch (FeeNotFoundException fe) {
             LOG.debug("Fee with code is not found: {}", fe);
 
@@ -151,6 +150,8 @@ public class FeeLoader implements ApplicationRunner {
             feeService.saveLoaderFee(fee);
 
         }
+
+        updateFeeVersion(f.getNewCode(), f.getVersion());
     }
 
     private FeeLoaderJsonMapper loadFile() throws Exception {
