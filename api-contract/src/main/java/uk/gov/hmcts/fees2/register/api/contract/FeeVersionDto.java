@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.contract;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -45,6 +46,7 @@ public class FeeVersionDto {
     @JsonProperty("volume_amount")
     private VolumeAmountDto volumeAmount;
 
+    @JsonIgnore
     public BigDecimal getAmount() {
         if (getFlatAmount() != null) {
             return getFlatAmount().getAmount();
