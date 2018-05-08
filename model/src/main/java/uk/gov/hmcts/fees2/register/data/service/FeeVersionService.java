@@ -24,5 +24,6 @@ public interface FeeVersionService {
 
     Integer getMaxFeeVersion(String feeCode);
 
-    void updateVersion(String feeCode, Integer versionId, BigDecimal amount);
+    void updateVersion(String feeCode, Integer versionId, BigDecimal amount, String description,
+                       String memoLine, String nac);
 }

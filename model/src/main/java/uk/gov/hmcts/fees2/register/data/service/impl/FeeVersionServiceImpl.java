@@ -138,10 +138,12 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     @Transactional
-    public void updateVersion(String feeCode, Integer versionId, BigDecimal amount) {
+    public void updateVersion(String feeCode, Integer versionId, BigDecimal amount, String description, String memoLine, String nac) {
         FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
         version.getAmount().setAmountValue(amount);
-
+        version.setDescription(description);
+        version.setMemoLine(memoLine);
+        version.setNaturalAccountCode(nac);
     }
 
 }
