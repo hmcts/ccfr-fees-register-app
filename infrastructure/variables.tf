@@ -29,6 +29,16 @@ variable "microservice" {
   default = "fees-register-app"
 }
 
+variable "database_name" {
+  type    = "string"
+  default = "fees_register"
+}
+
+variable "postgresql_user" {
+  type    = "string"
+  default = "fees_register"
+}
+
 variable "idam_api_url" {
   default = "http://betaDevBccidamAppLB.reform.hmcts.net"
 }
