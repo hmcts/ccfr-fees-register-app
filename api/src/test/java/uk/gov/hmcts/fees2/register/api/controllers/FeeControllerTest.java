@@ -249,5 +249,4 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), arr[3])
             .andExpect(status().isNoContent());
     }
-
 }

@@ -15,9 +15,12 @@ import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.SearchFeeVersionDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
@@ -42,14 +45,14 @@ public class FeeController {
 
     private final FeeService feeService;
 
-    private final FeeVersionService feeVersionService;
-
     private final FeeDtoMapper feeDtoMapper;
 
+    private final FeeSearchService feeSearchService;
+
     @Autowired
-    public FeeController(FeeService feeService, FeeVersionService feeVersionService, FeeDtoMapper feeDtoMapper) {
+    public FeeController(FeeService feeService, FeeDtoMapper feeDtoMapper, FeeSearchService feeSearchService) {
         this.feeService = feeService;
-        this.feeVersionService = feeVersionService;
+        this.feeSearchService = feeSearchService;
         this.feeDtoMapper = feeDtoMapper;
     }
 
@@ -195,13 +198,11 @@ public class FeeController {
     })
     @GetMapping("/fees")
     @ResponseStatus(HttpStatus.OK)
-
     public List<Fee2Dto> search(@RequestParam(required = false) String service,
                                 @RequestParam(required = false) String jurisdiction1,
                                 @RequestParam(required = false) String jurisdiction2,
                                 @RequestParam(required = false) String channel,
                                 @RequestParam(required = false) String event,
-                                @RequestParam(required = false) String direction,
                                 @RequestParam(required = false, name = "applicant_type") String applicantType,
                                 @RequestParam(required = false) BigDecimal amount,
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
@@ -211,23 +212,12 @@ public class FeeController {
                                 @RequestParam(required = false) Boolean isActive,
                                 @RequestParam(required = false) Boolean isExpired,
                                 HttpServletResponse response) {
-        return feeService
-            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
+        return feeSearchService
+            .search(
+                new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts),
+                new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, feeVersionStatus)
+            )
             .stream()
-            .flatMap(f -> f.getFeeVersions().stream())
-            .filter(v -> feeVersionStatus == null || v.getStatus().equals(feeVersionStatus))
-            .filter(v -> approvedBy == null || approvedBy.equals(v.getApprovedBy()))
-            .filter(v -> author == null || author.equals(v.getAuthor()))
-            .filter(v -> isActive == null ||
-                isActive && v.equals(v.getFee().getCurrentVersion(true))
-                ||
-                !isActive && !v.equals(v.getFee().getCurrentVersion(true))
-            )
-            .filter(v -> isExpired == null || v.getValidTo() == null ||
-                isExpired && v.getValidTo().before(new Date())
-                ||
-                !isExpired && v.getValidTo().after(new Date())
-            )
             .map(feeDtoMapper::toFeeDto)
             .collect(Collectors.toList());
     }
