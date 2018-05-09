@@ -108,5 +108,4 @@ public class FeeVersionController {
     public void submitForReview(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version) {
         feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.pending_approval, null);
     }
-
 }

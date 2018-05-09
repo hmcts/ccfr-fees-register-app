@@ -2,9 +2,11 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,6 +16,7 @@ import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
@@ -37,6 +40,7 @@ import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.bulkFeesPayload;
 @ContextConfiguration(classes = {TestSecurityConfiguration.class})
 public class FeeControllerSecurityTest {
 
+    @MockBean private FeeSearchService feeSearchService;
     @MockBean private FeeVersionService feeVersionService;
     @MockBean private FeeService feeService;
     @MockBean private FeeDtoMapper feeDtoMapper;
