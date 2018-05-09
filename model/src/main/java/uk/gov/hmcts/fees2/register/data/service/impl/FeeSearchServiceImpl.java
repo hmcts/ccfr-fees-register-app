@@ -12,6 +12,7 @@ import uk.gov.hmcts.fees2.register.data.repository.EventTypeRepository;
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.repository.Jurisdiction1Repository;
 import uk.gov.hmcts.fees2.register.data.repository.Jurisdiction2Repository;
+import uk.gov.hmcts.fees2.register.data.repository.ServiceTypeRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,6 +26,9 @@ import java.util.stream.Collectors;
 @Service
 public class FeeSearchServiceImpl implements FeeSearchService {
     private static final Predicate[] REF = new Predicate[0];
+
+    @Autowired
+    private ServiceTypeRepository serviceTypeRepository;
 
     @Autowired
     private ChannelTypeRepository channelTypeRepository;
@@ -67,7 +71,7 @@ public class FeeSearchServiceImpl implements FeeSearchService {
             predicates.add(
                 builder.equal(
                     fee.get(fee.getModel().getSingularAttribute("service")),
-                    channelTypeRepository.findByNameOrThrow(feeCriteria.getService())
+                    serviceTypeRepository.findByNameOrThrow(feeCriteria.getService())
                 )
             );
         }

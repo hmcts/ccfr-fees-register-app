@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import io.swagger.annotations.*;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,39 +23,33 @@ import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
-import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.data.service.impl.FeeSearchServiceImpl;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
-import javax.annotation.RegEx;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
 @RestController
 @RequestMapping(value = "/fees-register")
-
+@AllArgsConstructor
 @Validated
 public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
 
     public static final String LOCATION = "Location";
 
+    @Autowired
     private final FeeService feeService;
 
+    @Autowired
     private final FeeDtoMapper feeDtoMapper;
 
-    private final FeeSearchService feeSearchService;
-
     @Autowired
-    public FeeController(FeeService feeService, FeeDtoMapper feeDtoMapper, FeeSearchService feeSearchService) {
-        this.feeService = feeService;
-        this.feeSearchService = feeSearchService;
-        this.feeDtoMapper = feeDtoMapper;
-    }
+    private final FeeSearchService feeSearchService;
 
     @ApiOperation(value = "Create ranged fee")
     @ApiResponses(value = {

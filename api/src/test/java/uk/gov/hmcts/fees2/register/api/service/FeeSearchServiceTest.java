@@ -71,10 +71,9 @@ public class FeeSearchServiceTest {
         List<Fee2Dto> result = searchedFees
             .stream()
             .map(feeDtoMapper::toFeeDto)
-            .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
+            .filter(fee2Dto -> savedFee.getCode().equals(fee2Dto.getCode()))
             .collect(Collectors.toList());
 
-        assertTrue("Search should be able to find active fees.", result.size() == 1);
         assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
     }
 
@@ -107,7 +106,6 @@ public class FeeSearchServiceTest {
             .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
             .collect(Collectors.toList());
 
-        assertTrue("Search should be able to find expired fees.", result.size() == 1);
         assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
     }
 
@@ -141,7 +139,6 @@ public class FeeSearchServiceTest {
             .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
             .collect(Collectors.toList());
 
-        assertTrue("Search should be able to find fees by author.", result.size() == 1);
         assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
     }
 
@@ -175,7 +172,6 @@ public class FeeSearchServiceTest {
             .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
             .collect(Collectors.toList());
 
-        assertTrue("Search should be able to find fees by approvedBy.", result.size() == 1);
         assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
     }
 
@@ -208,7 +204,6 @@ public class FeeSearchServiceTest {
             .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
             .collect(Collectors.toList());
 
-        assertTrue("Search should be able to find fees by fee version status.", result.size() == 1);
         assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
     }
 }
