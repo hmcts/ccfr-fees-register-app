@@ -6,7 +6,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.gov.hmcts.auth.checker.user.UserRequestAuthorizer;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
@@ -19,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
+import uk.gov.hmcts.reform.auth.checker.core.user.UserRequestAuthorizer;
 
 import java.math.BigDecimal;
 import java.util.UUID;
