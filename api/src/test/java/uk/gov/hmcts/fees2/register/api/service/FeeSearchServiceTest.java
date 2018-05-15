@@ -16,10 +16,13 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.model.FixedFee;
+import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
+import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,7 +68,7 @@ public class FeeSearchServiceTest {
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
-            true, null, null);
+            true, null, null, null, null, null);
 
         List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
         List<Fee2Dto> result = searchedFees
@@ -97,7 +100,7 @@ public class FeeSearchServiceTest {
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
-            null, true, null);
+            null, true, null, null, null, null);
 
         List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
         List<Fee2Dto> result = searchedFees
@@ -130,7 +133,7 @@ public class FeeSearchServiceTest {
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(author, null,
-            null, null, null);
+            null, null, null, null, null, null);
 
         List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
         List<Fee2Dto> result = searchedFees
@@ -163,7 +166,7 @@ public class FeeSearchServiceTest {
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, author,
-            null, null, null);
+            null, null, null, null, null, null);
 
         List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
         List<Fee2Dto> result = searchedFees
@@ -195,7 +198,102 @@ public class FeeSearchServiceTest {
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
-            null, null, FeeVersionStatus.pending_approval);
+            null, null, FeeVersionStatus.pending_approval, null, null, null);
+
+        List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
+        List<Fee2Dto> result = searchedFees
+            .stream()
+            .map(feeDtoMapper::toFeeDto)
+            .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
+            .collect(Collectors.toList());
+
+        assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
+    }
+    
+    @Test
+    @Transactional
+    public void givenFeeWithGivenDescriptionExists_thenSearchingByGivenDescriptionShouldReturnTheFee() {
+        Fee fee = new FixedFee();
+        FeeVersion feeVersion = new FeeVersion();
+        feeVersion.setValidFrom(null);
+        feeVersion.setValidTo(null);
+        feeVersion.setStatus(FeeVersionStatus.approved);
+        feeVersion.setDescription("This is a fee version object");
+
+        feeVersion.setFee(fee);
+        fee.setFeeVersions(Collections.singletonList(feeVersion));
+
+        feeService.save(fee);
+
+        Fee savedFee = feeService.get(fee.getCode());
+
+        SearchFeeDto searchFeeCriteria = new SearchFeeDto();
+        SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
+            null, null, null, " fee version object", null, null);
+
+        List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
+        List<Fee2Dto> result = searchedFees
+            .stream()
+            .map(feeDtoMapper::toFeeDto)
+            .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
+            .collect(Collectors.toList());
+
+        assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
+    }
+    
+    @Test
+    @Transactional
+    public void givenFeeWithGivenSiRefIdExists_thenSearchingByGivenSiRefIdShouldReturnTheFee() {
+        Fee fee = new FixedFee();
+        FeeVersion feeVersion = new FeeVersion();
+        feeVersion.setValidFrom(null);
+        feeVersion.setValidTo(null);
+        feeVersion.setStatus(FeeVersionStatus.approved);
+        feeVersion.setSiRefId("4.a");
+
+        feeVersion.setFee(fee);
+        fee.setFeeVersions(Collections.singletonList(feeVersion));
+
+        feeService.save(fee);
+
+        Fee savedFee = feeService.get(fee.getCode());
+
+        SearchFeeDto searchFeeCriteria = new SearchFeeDto();
+        SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
+            null, null, null, null, "4", null);
+
+        List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
+        List<Fee2Dto> result = searchedFees
+            .stream()
+            .map(feeDtoMapper::toFeeDto)
+            .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
+            .collect(Collectors.toList());
+
+        assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
+    }
+    
+    @Test
+    @Transactional
+    public void givenFeeWithGivenFeeVersionAmountExists_thenSearchingByGivenFeeVersionAmountShouldReturnTheFee() {
+        Fee fee = new FixedFee();
+        FeeVersion feeVersion = new FeeVersion();
+        feeVersion.setValidFrom(null);
+        feeVersion.setValidTo(null);
+        feeVersion.setStatus(FeeVersionStatus.approved);
+        Amount amount = new FlatAmount();
+        amount.setAmountValue(new BigDecimal(5));
+        feeVersion.setAmount(amount);
+
+        feeVersion.setFee(fee);
+        fee.setFeeVersions(Collections.singletonList(feeVersion));
+
+        feeService.save(fee);
+
+        Fee savedFee = feeService.get(fee.getCode());
+
+        SearchFeeDto searchFeeCriteria = new SearchFeeDto();
+        SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
+            null, null, null, null, null, new BigDecimal(5));
 
         List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
         List<Fee2Dto> result = searchedFees

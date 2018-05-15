@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
@@ -49,10 +50,14 @@ public class FeeSearchServiceImpl implements FeeSearchService {
     private Fee2Repository fee2Repository;
 
     @Override
-    public List<FeeVersion> search(SearchFeeDto feeCriteria, SearchFeeVersionDto versionCriteria) {
-        List<Fee> fees = searchFees(feeCriteria);
-        return searchForVersionsInFees(fees, versionCriteria);
-    }
+	public List<FeeVersion> search(SearchFeeDto feeCriteria, SearchFeeVersionDto versionCriteria) {
+    	List<Fee> fees = searchFees(feeCriteria);
+		if (isExternalFeeSearch(versionCriteria)) {
+			return externalFeeSearchFilter(fees, versionCriteria);
+		} else {
+			return searchForVersionsInFees(fees, versionCriteria);
+		}
+	}
 
     private List<Fee> searchFees(SearchFeeDto criteria) {
         return fee2Repository.findAll((rootFee, criteriaQuery, criteriaBuilder) -> getFeePredicate(rootFee, criteriaBuilder, criteria))
@@ -152,4 +157,24 @@ public class FeeSearchServiceImpl implements FeeSearchService {
             )
             .collect(Collectors.toList());
     }
+    
+	private List<FeeVersion> externalFeeSearchFilter(List<Fee> fees, SearchFeeVersionDto sfvDto) {
+		
+		return fees.stream().flatMap(f -> f.getFeeVersions().stream()).filter(fee -> {
+			if (!fee.equals(fee.getFee().getCurrentVersion(true))) {
+				return false;
+			} else if (sfvDto.getDescription() != null && StringUtils.contains(fee.getDescription(), sfvDto.getDescription())
+					|| sfvDto.getSiRefId() != null && StringUtils.contains(fee.getSiRefId(), sfvDto.getSiRefId())
+					|| sfvDto.getFeeVersionAmount() != null && fee.calculateFee(sfvDto.getFeeVersionAmount()).floatValue() == sfvDto
+							.getFeeVersionAmount().floatValue()) {
+				return true;
+			}
+			return false;
+		}).collect(Collectors.toList());
+	}
+	
+	private boolean isExternalFeeSearch(SearchFeeVersionDto versionCriteria) {
+		return versionCriteria.getDescription() != null || versionCriteria.getSiRefId() != null
+				|| versionCriteria.getFeeVersionAmount() != null;
+	}
 }
