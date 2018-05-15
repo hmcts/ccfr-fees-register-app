@@ -206,11 +206,14 @@ public class FeeController {
                                 @RequestParam(required = false) String author,
                                 @RequestParam(required = false) Boolean isActive,
                                 @RequestParam(required = false) Boolean isExpired,
+                                @RequestParam(required = false) String description,
+                                @RequestParam(required = false) String siRefId,
+                                @RequestParam(required = false) BigDecimal feeVersionAmount,
                                 HttpServletResponse response) {
         return feeSearchService
             .search(
                 new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts),
-                new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, feeVersionStatus)
+                new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, feeVersionStatus, description, siRefId, feeVersionAmount)
             )
             .stream()
             .map(feeDtoMapper::toFeeDto)

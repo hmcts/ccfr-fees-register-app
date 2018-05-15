@@ -26,4 +26,10 @@ public class SearchFeeVersionDto {
 
     @JsonProperty("version_status")
     private FeeVersionStatus versionStatus;
+    
+    private String description;
+    
+    private String siRefId;
+    
+    private BigDecimal feeVersionAmount;
 }
