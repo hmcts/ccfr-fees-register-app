@@ -77,7 +77,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
 //        getFeeAndExpectStatusIsOk(uri[3])
 //            .andExpect(versionIsOneAndStatusIsDraft());
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
 
     }
 
