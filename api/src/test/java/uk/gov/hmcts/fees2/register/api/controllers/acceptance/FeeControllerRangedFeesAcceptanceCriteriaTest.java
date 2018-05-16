@@ -70,7 +70,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
                 });
             }));
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 2: Creating a % fee for the DEFAULT channel
@@ -124,7 +124,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
             }));
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
     }
 
     /* PAY-444 */
@@ -176,7 +176,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
             }));
 
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 2: Creating a FLAT fee for the DEFAULT channel
@@ -229,7 +229,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
                 });
             }));
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
     }
 
     private CreateRangedFeeDto createCMCIssueCivilCountyRangedFee() {
