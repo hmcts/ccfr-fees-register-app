@@ -42,7 +42,7 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
             .get( "/fees-register/fees?feeVersionStatus=draft")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
-                Fee2Dto fee = fee2Dtos.stream().filter(f -> f.getCode().equals(uri[3])).findAny().get();
+                Fee2Dto fee = fee2Dtos.stream().filter(f -> uri[3].equals(f.getCode())).findAny().get();
                 assertThat(fee.getCode()).isEqualTo(uri[3]);
             }));
 
