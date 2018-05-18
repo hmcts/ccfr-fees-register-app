@@ -1,4 +1,7 @@
 # Fees Register for HMCTS online services
+[![Build Status](https://travis-ci.org/hmcts/ccfr-fees-register-app.svg?branch=master)](https://travis-ci.org/hmcts/ccfr-fees-register-app)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0cb10a161dc24d0092470cda7c304c87)](https://app.codacy.com/app/HMCTS/ccfr-fees-register-app)
+[![codecov](https://codecov.io/gh/hmcts/ccfr-fees-register-app/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/ccfr-fees-register-app)
 
 This project provides REST based web services for exposing fees related information for hearing fee and award fees.
 
