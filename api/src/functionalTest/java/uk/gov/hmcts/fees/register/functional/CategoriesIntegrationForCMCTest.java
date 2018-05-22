@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.fees.register.api.contract.CategoryDto.categoryDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.CategoryUpdateDto.categoryUpdateDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;

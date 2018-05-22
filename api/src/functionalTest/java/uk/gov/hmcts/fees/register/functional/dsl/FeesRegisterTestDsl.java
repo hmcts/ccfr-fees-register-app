@@ -36,7 +36,7 @@ public class FeesRegisterTestDsl {
     private final UserTokenFactory userTokenFactory;
 
     @Autowired
-    public FeesRegisterTestDsl(@Value("${base-urls.fees-register:http://localhost:8080}") String baseUri, UserTokenFactory userTokenFactory) {
+    public FeesRegisterTestDsl(@Value("${base-urls.fees-register}") String baseUri, UserTokenFactory userTokenFactory) {
         this.objectMapper = new ObjectMapper();
         this.baseUri = baseUri;
         this.userTokenFactory = userTokenFactory;

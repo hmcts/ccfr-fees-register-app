@@ -8,7 +8,6 @@ import uk.gov.hmcts.fees.register.functional.dsl.FeesRegisterTestDsl;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class BuildInfoIntegrationTest extends IntegrationTestBase{
 
