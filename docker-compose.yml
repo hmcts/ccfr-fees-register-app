@@ -9,6 +9,7 @@ services:
         - https_proxy
         - no_proxy
     image: docker.artifactory.reform.hmcts.net/fees-register/fees-api
+    container_name: fees-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
       - SPRING_DATASOURCE_USERNAME=fees_register
@@ -23,6 +24,7 @@ services:
   fees-database:
     build:
       context: docker/database
+    container_name: fees-database
     image: docker.artifactory.reform.hmcts.net/fees-register/fees-database
     environment:
       - FEES_REGISTER_DB_USERNAME=fees_register
