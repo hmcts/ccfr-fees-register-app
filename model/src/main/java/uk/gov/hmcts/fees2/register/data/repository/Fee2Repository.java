@@ -20,7 +20,7 @@ public interface Fee2Repository extends JpaRepository<Fee, Long>, JpaSpecificati
 
     void deleteFeeByCode(String code);
 
-    @Query("SELECT coalesce(max(f.feeNumber), 0) FROM Fee f")
+    @Query("SELECT coalesce(max(f.feeNumber), 0) FROM uk.gov.hmcts.fees2.register.data.model.Fee f")
     Integer getMaxFeeNumber();
 
 }
