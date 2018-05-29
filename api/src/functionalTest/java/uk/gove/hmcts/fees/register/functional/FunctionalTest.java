@@ -1,4 +1,4 @@
-package uk.gov.hmcts.fees.register.functional;
+package uk.gove.hmcts.fees.register.functional;
 
 import io.restassured.RestAssured;
 import org.junit.Before;
@@ -13,7 +13,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @RunWith(SpringRunner.class)
 public class FunctionalTest {
 
-    @Value("${base-urls.fees-register}")
+    @Value("${TEST_URL:http://localhost:8080}")
     private String testUrl;
 
     @Before
