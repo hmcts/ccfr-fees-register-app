@@ -40,5 +40,5 @@ variable "postgresql_user" {
 }
 
 variable "idam_api_url" {
-  default = "http://betaDevBccidamAppLB.reform.hmcts.net"
+  default = "http://betaDevAccidamAppLB.reform.hmcts.net"
 }
