@@ -153,7 +153,7 @@ public class FeeDtoMapper {
 
     public Fee2Dto toFeeDto(FeeVersion version) {
         Fee2Dto fee2Dto = toFeeDto(version.getFee());
-        fee2Dto.setMatchingVersion(toFeeVersionDto(version));
+        fee2Dto.setCurrentVersion(toFeeVersionDto(version));
         return fee2Dto;
     }
 

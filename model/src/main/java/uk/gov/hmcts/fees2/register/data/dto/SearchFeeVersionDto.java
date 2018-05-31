@@ -9,6 +9,8 @@ import lombok.ToString;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -34,13 +36,7 @@ public class SearchFeeVersionDto {
     private BigDecimal feeVersionAmount;
 
     public boolean isNoFieldSet() {
-        return author == null &&
-            approvedBy == null &&
-            isActive == null &&
-            isExpired == null &&
-            versionStatus == null &&
-            description == null &&
-            siRefId == null &&
-            feeVersionAmount == null;
+        return Stream.of(author, approvedBy, isActive, isExpired, versionStatus, description, siRefId, feeVersionAmount)
+            .allMatch(Objects::isNull);
     }
 }
