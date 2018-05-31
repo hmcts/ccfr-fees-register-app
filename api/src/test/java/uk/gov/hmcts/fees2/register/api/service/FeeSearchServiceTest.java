@@ -308,7 +308,7 @@ public class FeeSearchServiceTest {
 
     @Test
     @Transactional
-    public void givenFeeWithGivenApprovedFeeVersionExists_thenSearchingByGivenFeeVersionShouldReturnTheFeeWithSetMatchingVersion() {
+    public void givenFeeWithGivenApprovedFeeVersionExistsThenSearchingByGivenFeeVersionShouldReturnTheFeeWithSetMatchingVersion() {
         Fee fee = new FixedFee();
         FeeVersion feeVersion = new FeeVersion();
         feeVersion.setValidFrom(new DateTime().minusDays(1).toDate());
