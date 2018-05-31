@@ -26,10 +26,21 @@ public class SearchFeeVersionDto {
 
     @JsonProperty("version_status")
     private FeeVersionStatus versionStatus;
-    
+
     private String description;
-    
+
     private String siRefId;
-    
+
     private BigDecimal feeVersionAmount;
+
+    public boolean isNoFieldSet() {
+        return author == null &&
+            approvedBy == null &&
+            isActive == null &&
+            isExpired == null &&
+            versionStatus == null &&
+            description == null &&
+            siRefId == null &&
+            feeVersionAmount == null;
+    }
 }

@@ -153,7 +153,7 @@ public class FeeDtoMapper {
 
     public Fee2Dto toFeeDto(FeeVersion version) {
         Fee2Dto fee2Dto = toFeeDto(version.getFee());
-        fee2Dto.setCurrentVersion(toFeeVersionDto(version));
+        fee2Dto.setMatchingVersion(toFeeVersionDto(version));
         return fee2Dto;
     }
 
@@ -193,7 +193,7 @@ public class FeeDtoMapper {
         FeeVersion currentVersion = fee.getCurrentVersion(false);
 
         if(currentVersion != null) {
-            fee2Dto.setCurrentVersion(toFeeVersionDto(fee.getCurrentVersion(false)));
+            fee2Dto.setCurrentVersion(toFeeVersionDto(currentVersion));
         }
 
         return fee2Dto;

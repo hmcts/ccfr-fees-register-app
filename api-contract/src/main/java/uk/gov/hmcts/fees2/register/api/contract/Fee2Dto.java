@@ -61,4 +61,7 @@ public class Fee2Dto {
 
     @JsonProperty("unspecified_claim_amount")
     private boolean unspecifiedClaimAmount;
+
+    @JsonProperty("matching_version")
+    private FeeVersionDto matchingVersion;
 }
