@@ -33,4 +33,6 @@ public class SearchFeeDto {
 
     @JsonProperty("unspecified_claim_amount")
     private Boolean unspecifiedClaimAmount;
+
+    private Boolean isDraft;
 }

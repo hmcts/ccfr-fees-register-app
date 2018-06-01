@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -76,6 +77,15 @@ public abstract class Fee extends AbstractEntity{
     public abstract List<Class<? extends IFeeValidator>> getValidators();
 
     public abstract boolean isInRange(BigDecimal amount);
+
+    public boolean isDraft() {
+        List<FeeVersion> feeVersions = getFeeVersions()
+            .stream()
+            .filter(v -> !v.getStatus().equals(FeeVersionStatus.draft))
+            .collect(Collectors.toList());
+
+        return feeVersions.isEmpty();
+    }
 
     public FeeVersion getCurrentVersion(boolean isApproved) {
         Optional<FeeVersion> opt = getFeeVersions()

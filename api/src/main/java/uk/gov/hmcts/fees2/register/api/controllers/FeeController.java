@@ -204,20 +204,31 @@ public class FeeController {
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus,
                                 @RequestParam(required = false) String approvedBy,
                                 @RequestParam(required = false) String author,
+                                @RequestParam(required = false) Boolean isDraft,
                                 @RequestParam(required = false) Boolean isActive,
                                 @RequestParam(required = false) Boolean isExpired,
                                 @RequestParam(required = false) String description,
                                 @RequestParam(required = false) String siRefId,
                                 @RequestParam(required = false) BigDecimal feeVersionAmount,
                                 HttpServletResponse response) {
-        return feeSearchService
-            .search(
-                new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts),
-                new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, feeVersionStatus, description, siRefId, feeVersionAmount)
-            )
-            .stream()
-            .map(feeDtoMapper::toFeeDto)
-            .collect(Collectors.toList());
+        List<Fee2Dto> result;
+        SearchFeeDto searchFeeDto = new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts, isDraft);
+        SearchFeeVersionDto searchFeeVersionDto = new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, feeVersionStatus, description, siRefId, feeVersionAmount);
+
+        if (searchFeeVersionDto.isNoFieldSet()) {
+            result = feeSearchService.search(searchFeeDto)
+                .stream()
+                .map(feeDtoMapper::toFeeDto)
+                .collect(Collectors.toList());
+        } else {
+            result = feeSearchService
+                .search(searchFeeDto, searchFeeVersionDto)
+                .stream()
+                .map(feeDtoMapper::toFeeDto)
+                .collect(Collectors.toList());
+        }
+
+        return result;
     }
 
     @ApiOperation(value = "Fee lookup based on reference data and amount", response = FeeLookupResponseDto.class)
