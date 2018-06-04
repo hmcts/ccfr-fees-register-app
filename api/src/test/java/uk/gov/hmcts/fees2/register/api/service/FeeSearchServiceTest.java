@@ -332,7 +332,12 @@ public class FeeSearchServiceTest {
         List<Fee2Dto> result = searchedFees
             .stream()
             .map(feeDtoMapper::toFeeDto)
-            .filter(fee2Dto -> fee2Dto.getCode().equals(savedFee.getCode()))
+            .filter(fee2Dto -> {
+                if(fee2Dto != null && fee2Dto.getCode() != null) {
+                    return fee2Dto.getCode().equals(savedFee.getCode());
+                }
+                return false;
+            })
             .collect(Collectors.toList());
 
         assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
