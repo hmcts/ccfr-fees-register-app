@@ -8,9 +8,12 @@ plugins {
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
     id 'findbugs'
     id 'jacoco'
+    id 'com.jfrog.bintray' version '1.8.0'
 }
 allprojects {
     apply plugin: 'maven'
+    apply 'maven-publish'
+    apply 'com.jfrog.bintray'
     apply plugin: 'io.spring.dependency-management'
 
     group = 'uk.gov.hmcts.reform.fees-register'
@@ -31,6 +34,21 @@ allprojects {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:2.0.2.RELEASE"
         }
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
     }
 }
 
@@ -136,6 +154,36 @@ task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verificat
 task functional(type: GradleBuild, description: 'Runs Functional tests', group: 'Verification') {
     buildFile = './api/build.gradle'
     tasks = ['functionalTest']
+}
+
+publishing {
+    publications {
+        Main(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId project.group
+            artifactId 'fees-register-app'
+            version project.version
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['Main']
+    publish = true
+    pkg {
+        repo = 'hmcts-maven'
+        name = 'fees-register-app'
+        userOrg = 'hmcts'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/hmcts/ccfr-fees-register-app'
+        version {
+            name = project.version
+        }
+    }
 }
 
 task printVersion {

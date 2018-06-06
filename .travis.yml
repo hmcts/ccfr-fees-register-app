@@ -17,3 +17,13 @@ script:
   - ./gradlew jacocoTestReport
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+deploy:
+- provider: script
+  script: "./gradlew bintrayUpload --info"
+  skip_cleanup: true
+  on:
+    repo: hmcts/ccfr-fees-register-app
+    tags: true
+env:
+  global:
+  - secure: "YUlYwhO9O1LiIbjvhWplh1Q8OIjHH9KaF7CT5QochJvj+qOBKFoMaedwheq/MF8m9mJ6P0Ag1aUBOOLYDERAOFAqdB1XmCDSzkW/4EAlQWcukK9TY+JxVVQo/TlNH0Sf1mxriAsfsNyhUFsx7ulI1gP8QulASohaZ5YBBJVlIHukDpp8zKXjO7iWMtYaJQQIov1ltEpPPBm9W6hHJps3Hp0nJpQvqfah2mnhfiLozB/wUuKoBklX2DhD3WLJBh9tqaQFsj5bZtmpJXsfOHNrqasXrQxRRgYdzZCENDngZiy0FFLGYwCrwVYf8sxUmBpjyp+spsC/BAuIBIS4DNjLWiTwcf2VOSLJCEtI1QPMVTtFhKmpz86WwgEqIjJKkGazVD/mBivvWSpBGGpsVlTCjLxFe7WxO7pg4iBHYMzRGqOUyGtcDZuppDZc81jr1CpMoL8gxt5UDSyuNjvBZhFDV5cfn3DwpetrXd6py1VEQg/8zlgKpVwjVCVMY1v8tuDowfhmzjBX2zPWHqj53g2WAuWRfmd5I9QUNM97/Jzuyo79k6Pl92Jw/K2oguTm+IgjTjLIY0q/OB+KhIWuM336yUh4qec2sUZM/QX019B0hi1NBxF/ApGkzTAtlhtUS+j1tbZlYj8aWZrlfR/zPCYzhUsnTZRR3sgxy+MwQbvfZxI="

@@ -5,3 +5,33 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-validator', version:'5.3.6.Final'
   compile project(':fees-register-model')
 }
+
+publishing {
+    publications {
+        Main(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId project.group
+            artifactId 'fees-register-api-contract'
+            version project.version
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['Main']
+    publish = true
+    pkg {
+        repo = 'hmcts-maven'
+        name = 'fees-register-api-contract'
+        userOrg = 'hmcts'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/hmcts/ccfr-fees-register-app'
+        version {
+            name = project.version
+        }
+    }
+}
