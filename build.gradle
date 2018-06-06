@@ -8,6 +8,7 @@ plugins {
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
     id 'findbugs'
     id 'jacoco'
+    id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.0'
 }
 allprojects {
