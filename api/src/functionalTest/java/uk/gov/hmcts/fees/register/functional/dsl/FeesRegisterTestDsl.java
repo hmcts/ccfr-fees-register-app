@@ -62,7 +62,7 @@ public class FeesRegisterTestDsl {
 
     public class FeesRegisterWhenDsl {
         private RequestSpecification newRequest() {
-            return RestAssured.given().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
+            return RestAssured.given().relaxedHTTPSValidation().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
         }
 
         public FeesRegisterWhenDsl createCategory(CategoryUpdateDto.CategoryUpdateDtoBuilder requestDto) {
@@ -224,7 +224,7 @@ public class FeesRegisterTestDsl {
     public class FeesRegisterThenDsl {
 
         private RequestSpecification newRequest() {
-            return RestAssured.given().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
+            return RestAssured.given().relaxedHTTPSValidation().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
         }
 
         public FeesRegisterThenDsl notFound() {
