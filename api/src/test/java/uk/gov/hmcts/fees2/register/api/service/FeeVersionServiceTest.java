@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -12,15 +13,18 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -173,4 +177,41 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
     }
 
+    @Test(expected = FeeVersionNotFoundException.class)
+    public void testUpdateVersion_withNonExistingFeeCode_shouldReturnException() throws Exception {
+        feeVersionService.updateVersion("FEE0999", 1, null, new BigDecimal("99.01"), "cost recovery",
+            "test update fee version", "memo line", "xxx", "fee order name", "si",
+            "sirefid001");
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateVersion_withExistingFeeCode() throws Exception {
+        Fee fee = feeService.get("FEE0221");
+        assertThat(fee.getCode()).isEqualTo("FEE0221");
+        FeeVersion version = fee.getCurrentVersion(true);
+        assertThat(version.getVersion()).isEqualTo(4);
+        assertThat(version.getAmount()).isEqualTo(new FlatAmount(new BigDecimal("25.00")));
+        assertThat(version.getStatutoryInstrument()).isEqualTo("2016 No 1191");
+        assertThat(version.getSiRefId()).isEqualTo("2.1ci");
+        assertThat(version.getFeeOrderName()).isEqualTo("The Civil Proceedings Fees (Amendment) Order 2016");
+
+        feeVersionService.updateVersion("FEE0221", 5, null, new BigDecimal("99.01"), "cost recovery",
+            "test update fee version", "memo line", "xxx",
+            "The Civil Proceedings Fees (Amendment) Order 2017", "2017 No 1192",
+            "2.1cii");
+        Fee updateFee = feeService.get("FEE0221");
+        FeeVersion updatedVersion = updateFee.getCurrentVersion(true);
+        assertThat(updatedVersion.getVersion()).isEqualTo(5);
+        assertThat(updatedVersion.getAmount()).isEqualTo(new FlatAmount(new BigDecimal("99.01")));
+        assertThat(updatedVersion.getDirectionType().getName()).isEqualTo("cost recovery");
+        assertThat(updatedVersion.getDescription()).isEqualTo("test update fee version");
+        assertThat(updatedVersion.getFeeOrderName()).isEqualTo("The Civil Proceedings Fees (Amendment) Order 2017");
+        assertThat(updatedVersion.getStatutoryInstrument()).isEqualTo("2017 No 1192");
+        assertThat(updatedVersion.getSiRefId()).isEqualTo("2.1cii");
+
+
+
+
+    }
 }

@@ -1,5 +1,7 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Service
 public class FeeVersionServiceImpl implements FeeVersionService {
+    private static final Logger LOG = LoggerFactory.getLogger(FeeVersionServiceImpl.class);
 
     private final FeeVersionRepository feeVersionRepository;
 
@@ -144,7 +147,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     @Transactional
     public void updateVersion(String feeCode, Integer versionId, Date validFrom, BigDecimal amount, String directionType, String description,
                               String memoLine, String nac, String feeOrderName, String statutoryInstrument, String siRefId) {
-        FeeVersion version = feeVersionRepository.findByFee_Code(feeCode);
+        FeeVersion version = feeVersionRepository.findByFeeCodeOrThrow(feeCode);
 
         version.setVersion(versionId);
         version.getAmount().setAmountValue(amount);
@@ -156,6 +159,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
         version.setFeeOrderName(feeOrderName);
         version.setStatutoryInstrument(statutoryInstrument);
         version.setSiRefId(siRefId);
+        LOG.debug("Updated the fee version data for the fee code: {}", feeCode);
     }
 
 }
