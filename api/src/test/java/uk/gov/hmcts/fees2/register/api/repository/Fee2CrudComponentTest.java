@@ -150,6 +150,10 @@ public class Fee2CrudComponentTest extends BaseTest {
         updatedFee.getFeeVersions().stream().forEach(v -> {
             FlatAmount flatAmount = (FlatAmount) v.getAmount();
             assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("199.99"));
+            assertThat(v.getDirectionType().getName()).isEqualTo("cost recovery");
+            assertThat(v.getStatutoryInstrument()).isEqualTo("2016 No 1191");
+            assertThat(v.getSiRefId()).isEqualTo("2.1ciii");
+            assertThat(v.getFeeOrderName()).isEqualTo("The Civil Proceedings Fees (Amendment) Order 2016");
         });
     }
 
