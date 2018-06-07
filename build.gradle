@@ -13,8 +13,8 @@ plugins {
 }
 allprojects {
     apply plugin: 'maven'
-    apply 'maven-publish'
-    apply 'com.jfrog.bintray'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.bintray'
     apply plugin: 'io.spring.dependency-management'
 
     group = 'uk.gov.hmcts.reform.fees-register'
@@ -51,6 +51,7 @@ allprojects {
         archives sourcesJar
         archives javadocJar
     }
+
 }
 
 subprojects {
