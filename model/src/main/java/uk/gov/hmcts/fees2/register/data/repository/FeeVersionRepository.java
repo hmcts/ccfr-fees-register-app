@@ -10,6 +10,7 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,12 @@ import java.util.Optional;
 public interface FeeVersionRepository extends JpaRepository<FeeVersion, Long> {
 
     FeeVersion findByFee_CodeAndVersion(String feeCode, Integer version);
+
+    Optional<FeeVersion> findByFee_Code(String feeCode);
+
+    default FeeVersion findByFeeCodeOrThrow(String feeCode) {
+        return findByFee_Code(feeCode).orElseThrow(() -> new FeeVersionNotFoundException("No fee version found for the fee code: " + feeCode));
+    }
 
     List<FeeVersion> findByStatus(FeeVersionStatus status);
 
