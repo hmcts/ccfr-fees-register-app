@@ -171,9 +171,8 @@ public class FeeLoader implements ApplicationRunner {
 
     private void updateFeeVersion(String code, LoaderFeeVersionDto feeVersionDto) {
         if (feeVersionDto.getAmount() != null) {
-            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getValidFrom(), feeVersionDto.getAmount(), feeVersionDto.getDirection(),
-                feeVersionDto.getDescription(), feeVersionDto.getMemoLine(), feeVersionDto.getNaturalAccountCode(),
-                feeVersionDto.getFeeOrderName(), feeVersionDto.getStatutoryInstrument(), feeVersionDto.getSiRefId());
+            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getAmount(),
+                feeVersionDto.getDescription(), feeVersionDto.getMemoLine(), feeVersionDto.getNaturalAccountCode());
         }
     }
 

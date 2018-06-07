@@ -33,14 +33,13 @@
       "code": "X0001",
       "new_code": "FEE0202",
       "version": {
-        "version": 4,
-        "valid_from" : "2015-03-09T00:00:00.000Z",
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 0.01 up to 300 GBP",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim £0-300",
         "natural_account_code":"4481102133",
         "direction": "enhanced",
-        "statutory_instrument": "2015 No 576",
         "flat_amount": {
           "amount": 35.00
         }
@@ -59,14 +58,13 @@
       "code": "X0002",
       "new_code": "FEE0203",
       "version": {
-        "version": 4,
-        "valid_from" : "2015-03-09T00:00:00.000Z",
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 300.01 up to 500 GBP",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim £300-500",
         "natural_account_code":"4481102133",
         "direction": "enhanced",
-        "statutory_instrument": "2015 No 576",
         "flat_amount": {
           "amount": 50.00
         }
@@ -86,14 +84,14 @@
       "code": "X0003",
       "new_code": "FEE0204",
       "version": {
-        "version": 4,
-        "valid_from" : "2015-03-09T00:00:00.000Z",
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 500.01 up to 1000 GBP",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim £500-1,000",
         "natural_account_code":"4481102133",
         "direction": "enhanced",
-        "statutory_instrument": "2015 No 576",
+
         "flat_amount": {
           "amount": 70.00
         }
@@ -112,14 +110,13 @@
       "code": "X0004",
       "new_code": "FEE0205",
       "version": {
-        "version": 4,
-        "valid_from" : "2015-03-09T00:00:00.000Z",
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 1000.01 up to 1500 GBP",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim £1,000-1,500",
         "natural_account_code":"4481102133",
         "direction": "enhanced",
-        "statutory_instrument": "2015 No 576",
         "flat_amount": {
           "amount": 80.00
         }
@@ -138,14 +135,13 @@
       "code": "X0005",
       "new_code": "FEE0206",
       "version": {
-        "version": 4,
-        "valid_from" : "2015-03-09T00:00:00.000Z",
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 1500.01 up to 3000 GBP",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim £1,500-3,000",
         "natural_account_code":"4481102133",
         "direction": "enhanced",
-        "statutory_instrument": "2015 No 576",
         "flat_amount": {
           "amount": 115.00
         }
@@ -164,14 +160,13 @@
       "code": "X0006",
       "new_code": "FEE0207",
       "version": {
-        "version": 4,
-        "valid_from" : "2015-03-09T00:00:00.000Z",
+        "version": 3,
+        "valid_from" : "2014-04-22T00:00:00.000Z",
         "description": "Civil Court fees - Money Claims - Claim Amount - 3000.01 up to 5000 GBP",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim £3,000-5,000",
         "natural_account_code":"4481102133",
         "direction": "enhanced",
-        "statutory_instrument": "2015 No 576",
         "flat_amount": {
           "amount": 205.00
         }
@@ -463,11 +458,11 @@
       "code": "X0249",
       "new_code": "FEE0219",
       "version": {
-        "version": 3,
-        "valid_from" : "2014-04-22T00:00:00.511Z",
+        "version": 2,
+        "valid_from" : "2011-04-04T00:00:00.511Z",
         "description": "Application for a grant of probate (Estate over £5000)",
         "status": "approved",
-        "statutory_instrument": "2014 No 876",
+        "statutory_instrument": "2011 No. 588 (L. 4)",
         "fee_order_name": "Non-Contentious Probate Fees",
         "si_ref_id": "1",
         "direction": "cost recovery",
@@ -518,14 +513,10 @@
       "code": "X0048",
       "new_code": "FEE0221",
       "version": {
-        "version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "version": 1,
         "description": "Hearing fee: Small claims case (does not exceed £300)",
         "status": "approved",
         "direction": "enhanced",
-        "statutory_instrument": "2016 No 1191",
-        "si_ref_id": "2.1ci",
-        "fee_order_name": "The Civil Proceedings Fees (Amendment) Order 2016",
         "flat_amount": {
           "amount": 25.00
         }
@@ -543,14 +534,10 @@
       "code": "X0049",
       "new_code": "FEE0222",
       "version": {
-        "version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "version": 1,
         "description": "Hearing fee: Small claims case (exceeds £300 but not £500)",
         "status": "approved",
         "direction": "enhanced",
-        "statutory_instrument": "2016 No 1191",
-        "si_ref_id": "2.1cii",
-        "fee_order_name": "The Civil Proceedings Fees (Amendment) Order 2016",
         "flat_amount": {
           "amount": 55.00
         }
@@ -568,14 +555,10 @@
       "code": "X0050",
       "new_code": "FEE0183",
       "version": {
-        "version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "version": 1,
         "description": "Hearing fee: Small claims case (exceeds £500 but not £1,000)",
         "status": "approved",
         "direction": "enhanced",
-        "statutory_instrument": "2016 No 1191",
-        "si_ref_id": "2.1ciii",
-        "fee_order_name": "The Civil Proceedings Fees (Amendment) Order 2016",
         "flat_amount": {
           "amount": 80.00
         }
@@ -593,14 +576,10 @@
       "code": "X0051",
       "new_code": "FEE0223",
       "version": {
-        "version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "version": 1,
         "description": "Hearing fee: Small claims case (exceeds £1,000 but not £1,500)",
         "status": "approved",
         "direction": "enhanced",
-        "statutory_instrument": "2016 No 1191",
-        "si_ref_id": "2.1civ",
-        "fee_order_name": "The Civil Proceedings Fees (Amendment) Order 2016",
         "flat_amount": {
           "amount": 115.00
         }
@@ -618,14 +597,10 @@
       "code": "X0052",
       "new_code": "FEE0224",
       "version": {
-        "version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "version": 1,
         "description": "Hearing fee: Small claims case (exceeds £1,500 but not £3,000)",
         "status": "approved",
         "direction": "enhanced",
-        "statutory_instrument": "2016 No 1191",
-        "si_ref_id": "2.1cv",
-        "fee_order_name": "The Civil Proceedings Fees (Amendment) Order 2016",
         "flat_amount": {
           "amount": 170.00
         }
@@ -643,14 +618,10 @@
       "code": "X0053",
       "new_code": "FEE0225",
       "version": {
-        "version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "version": 1,
         "description": "Hearing fee: Small claims case (exceeds £3,000)",
         "status": "approved",
         "direction": "enhanced",
-        "statutory_instrument": "2016 No 1191",
-        "si_ref_id": "2.1cvi",
-        "fee_order_name": "The Civil Proceedings Fees (Amendment) Order 2016",
         "flat_amount": {
           "amount": 335.00
         }
@@ -751,7 +722,7 @@
         "natural_account_code":"XXX",
         "statutory_instrument":"2014 No 874(L17)",
         "si_ref_id":"1.4a",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "flat_amount":{
           "amount":480
         }
@@ -778,7 +749,7 @@
         "natural_account_code":"XXX",
         "statutory_instrument":" 2016 No. 402 (L. 5)",
         "si_ref_id":"1.4b",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "flat_amount":{
           "amount":355
         }
@@ -936,7 +907,7 @@
         "valid_to":null,
         "description":"Appellant’s/respondent’s notice (High Court)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -963,7 +934,7 @@
         "valid_to":null,
         "description":"Appellant’s/respondent’s notice (County court‑small claims)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -990,7 +961,7 @@
         "valid_to":null,
         "description":"Appellant’s/respondent’s notice (County court‑other claims)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -1012,7 +983,7 @@
       "code":"X0410",
       "new_code": "FEE0014",
       "version":{
-        "version":4,
+        "version":3,
         "valid_from":"2013-06-30T23:00:00.000Z",
         "valid_to":null,
         "description":" Supply published decisions to supplier (each page) ",
@@ -1021,7 +992,7 @@
         "memo_line":"XXX",
         "fee_order_name":"The Upper Tribunal (Lands Chamber) Fees (Amendment ) Order ",
         "natural_account_code":"XXX",
-        "statutory_instrument":"2015 No 576",
+        "statutory_instrument":"2013 No 1199 amends 2010 no 2601",
         "si_ref_id":"14",
         "flat_amount":{
           "amount":1
@@ -1395,7 +1366,7 @@
         "valid_to":null,
         "description":"Request to set aside a default COP costs certificate.",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -2178,7 +2149,7 @@
         "valid_to":null,
         "description":"Application for JP to perform function not on court premises",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2205,7 +2176,7 @@
         "valid_to":null,
         "description":"Application to state a case for the opinion of the High Court",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2232,7 +2203,7 @@
         "valid_to":null,
         "description":"Appeal (deduction from earnings order)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2259,7 +2230,7 @@
         "valid_to":null,
         "description":"Appeal - proceedings under Schedule 5, Licensing Act 2003",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2286,7 +2257,7 @@
         "valid_to":null,
         "description":"Appeal (no other fee specified)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2313,7 +2284,7 @@
         "valid_to":null,
         "description":"Request for certificate of refusal to state a case",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2340,7 +2311,7 @@
         "valid_to":null,
         "description":"Request for a certificate of satisfaction",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2367,7 +2338,7 @@
         "valid_to":null,
         "description":"Request for a certified copy of a memorandum of conviction",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2394,7 +2365,7 @@
         "valid_to":null,
         "description":"Request for certificate/certified document (no fee specified)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2421,7 +2392,7 @@
         "valid_to":null,
         "description":"Council tax proceedings",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2448,7 +2419,7 @@
         "valid_to":null,
         "description":"Application for liability order (Child Support Act 1991)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2502,7 +2473,7 @@
         "valid_to":null,
         "description":"Request for licence/consent/authority (no other fee specified)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2529,7 +2500,7 @@
         "valid_to":null,
         "description":"Application for renewal/variation of an existing licence",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2556,7 +2527,7 @@
         "valid_to":null,
         "description":"Application for the revocation of licence (no other fee specified)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2583,7 +2554,7 @@
         "valid_to":null,
         "description":"On taking attestation of a constable or special constable",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2691,7 +2662,7 @@
         "valid_to":null,
         "description":"Application for a warrant of entry",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2718,7 +2689,7 @@
         "valid_to":null,
         "description":"Application for a warrant of commitment",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2745,7 +2716,7 @@
         "valid_to":null,
         "description":"Warrant of commitment (Child Support Act 1991)",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Magistrates’ Courts Fees",
         "natural_account_code":"XXX",
@@ -2853,7 +2824,7 @@
         "valid_to":null,
         "description":"Issue of a warrant for the arrest of a ship or goods",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -3119,16 +3090,16 @@
       "new_code": "FEE0092",
       "version":{
         "version":3,
-        "valid_from":"2016-04-06T23:00:00.000Z",
+        "valid_from":"2014-04-21T23:00:00.000Z",
         "valid_to":null,
         "description":"Secure accommodation order (section 25)",
         "status":"approved",
         "direction":"Cost Recovery",
         "memo_line":"XXX",
-        "fee_order_name":"The Social Services and Well-being (Wales) Act 2014 (Consequential Amendments) (Secondary Legislation) Regulations 2016",
+        "fee_order_name":"Family Proceedings",
         "natural_account_code":"XXX",
-        "statutory_instrument":"2016 No.211",
-        "si_ref_id":"2.1ia",
+        "statutory_instrument":"2014 No 877 (L20)",
+        "si_ref_id":"2.1i",
         "flat_amount":{
           "amount":215
         }
@@ -3497,16 +3468,16 @@
       "new_code": "FEE0106",
       "version":{
         "version":3,
-        "valid_from":"2016-04-06T23:00:00.000Z",
+        "valid_from":"2014-04-21T23:00:00.000Z",
         "valid_to":null,
         "description":"Approval of court for child in care of local authority to live abroad (paragraph 19(1) of Schedule 2)",
         "status":"approved",
         "direction":"Cost Recovery",
         "memo_line":"XXX",
-        "fee_order_name":"The Social Services and Well-being (Wales) Act 2014 (Consequential Amendments) (Secondary Legislation) Regulations 2016s",
+        "fee_order_name":"Family Proceedings",
         "natural_account_code":"XXX",
-        "statutory_instrument":"2016 No.211",
-        "si_ref_id":"2.1wa",
+        "statutory_instrument":"2014 No 877 (L20)",
+        "si_ref_id":"2.1w",
         "flat_amount":{
           "amount":215
         }
@@ -3659,16 +3630,16 @@
       "new_code": "FEE0112",
       "version":{
         "version":3,
-        "valid_from":"2016-04-06T23:00:00.000Z",
+        "valid_from":"2014-04-21T23:00:00.000Z",
         "valid_to":null,
         "description":"Appeal against a contribution order",
         "status":"approved",
         "direction":"Cost Recovery",
         "memo_line":"XXX",
-        "fee_order_name":"The Social Services and Well-being (Wales) Act 2014 (Consequential Amendments) (Secondary Legislation) Regulations 2016",
+        "fee_order_name":"Family Proceedings",
         "natural_account_code":"XXX",
-        "statutory_instrument":"2016 No.211",
-        "si_ref_id":"2.5",
+        "statutory_instrument":"2014 No 877 (L20)",
+        "si_ref_id":"2.4",
         "flat_amount":{
           "amount":215
         }
@@ -3930,7 +3901,7 @@
         "valid_to":null,
         "description":"Hearing before a judge of the Technology & Construction Court",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -3957,7 +3928,7 @@
         "valid_to":null,
         "description":"Hearing before a judge of the Commercial Court",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -4119,7 +4090,7 @@
         "valid_to":null,
         "description":"Entering a reference for hearing by the Registrar",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -4195,7 +4166,7 @@
       "code":"X0409",
       "new_code": "FEE0132",
       "version":{
-        "version":4,
+        "version":3,
         "valid_from":"2013-06-30T23:00:00.000Z",
         "valid_to":null,
         "description":" Copy or certified copy of documents (each page) ",
@@ -4204,7 +4175,7 @@
         "memo_line":"XXX",
         "fee_order_name":"The Upper Tribunal (Lands Chamber) Fees (Amendment ) Order ",
         "natural_account_code":"XXX",
-        "statutory_instrument":"2015 No 576",
+        "statutory_instrument":"2013 No 1199 amends 2010 no 2601",
         "si_ref_id":"13",
         "flat_amount":{
           "amount":1
@@ -4578,7 +4549,7 @@
         "valid_to":null,
         "description":"Appointment of a judge of the Technology & Construction Court",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
@@ -4605,7 +4576,7 @@
         "valid_to":null,
         "description":"Appointment of a judge of the Commercial Court",
         "status":"approved",
-        "direction":"cost recovery",
+        "direction":"Enhanced",
         "memo_line":"XXX",
         "fee_order_name":"Civil Proceedings",
         "natural_account_code":"XXX",
