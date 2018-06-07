@@ -50,4 +50,13 @@ databaseChangeLog:
             name: fee_number
             type: BIGINT
         tableName: fee
-
+- changeSet:
+    id: 1527062539722-1
+    author: tarun
+    changes:
+    - addUniqueConstraint:
+        columnNames: code, fee_number
+        constraintName: const_code
+        deferrable: false
+        initiallyDeferred: false
+        tableName: fee

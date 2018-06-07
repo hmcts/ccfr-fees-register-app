@@ -18,6 +18,8 @@ public interface FeeVersionRepository extends JpaRepository<FeeVersion, Long> {
 
     FeeVersion findByFee_CodeAndVersion(String feeCode, Integer version);
 
+    FeeVersion findByFee_Code(String feeCode);
+
     List<FeeVersion> findByStatus(FeeVersionStatus status);
 
     List<FeeVersion> findByStatusAndAuthor(FeeVersionStatus status, String author);

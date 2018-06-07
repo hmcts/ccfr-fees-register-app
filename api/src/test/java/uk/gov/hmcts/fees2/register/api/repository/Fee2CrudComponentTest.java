@@ -142,8 +142,9 @@ public class Fee2CrudComponentTest extends BaseTest {
             assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("99.99"));
         });
 
-        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(), new BigDecimal("199.99"),
-            "new description", "new memo line", "nac");
+        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(), null, new BigDecimal("199.99"),
+            "cost recovery", "new memo line", "nac", "xxx",
+            "The Civil Proceedings Fees (Amendment) Order 2016", "2016 No 1191", "2.1ciii");
         Fee updatedFee = feeService.get(fee.getCode());
         assertThat(updatedFee.getCode()).isEqualTo(fee.getCode());
         updatedFee.getFeeVersions().stream().forEach(v -> {
