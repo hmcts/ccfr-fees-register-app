@@ -21,6 +21,7 @@ module "fees-register-api" {
   ilbIp = "${var.ilbIp}"
   subscription = "${var.subscription}"
   is_frontend  = false
+  capacity = "${var.capacity}"
 
   app_settings = {
     # db
