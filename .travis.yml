@@ -6,7 +6,6 @@ services:
   - docker
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-- rm -fr  $HOME/.gradle/caches/modules-2/
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 before_install:
 cache:
@@ -14,7 +13,7 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 script:
-  - ./gradlew build
+  - ./gradlew build --info
   - ./gradlew jacocoTestReport
 after_success:
   - bash <(curl -s https://codecov.io/bash)
