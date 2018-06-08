@@ -4,6 +4,7 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface FeeVersionService {
@@ -24,6 +25,6 @@ public interface FeeVersionService {
 
     Integer getMaxFeeVersion(String feeCode);
 
-    void updateVersion(String feeCode, Integer versionId, BigDecimal amount, String description,
-                       String memoLine, String nac);
+    void updateVersion(String feeCode, Integer versionId, Integer newVersionId, Date validFrom, BigDecimal amount, String directionType, String description,
+                       String memoLine, String nac, String feeOrderName, String statutoryInstrument, String siRefId);
 }

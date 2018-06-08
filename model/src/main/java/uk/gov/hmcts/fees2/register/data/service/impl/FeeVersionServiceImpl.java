@@ -1,5 +1,7 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,24 +10,29 @@ import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.repository.DirectionTypeRepository;
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class FeeVersionServiceImpl implements FeeVersionService {
+    private static final Logger LOG = LoggerFactory.getLogger(FeeVersionServiceImpl.class);
 
     private final FeeVersionRepository feeVersionRepository;
 
     private final Fee2Repository feeRepository;
+    private final DirectionTypeRepository directionTypeRepository;
 
     @Autowired
-    public FeeVersionServiceImpl(FeeVersionRepository feeVersionRepository, Fee2Repository feeRepository) {
+    public FeeVersionServiceImpl(FeeVersionRepository feeVersionRepository, Fee2Repository feeRepository, DirectionTypeRepository directionTypeRepository) {
         this.feeVersionRepository = feeVersionRepository;
         this.feeRepository = feeRepository;
+        this.directionTypeRepository = directionTypeRepository;
     }
 
     @Override
@@ -138,12 +145,24 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     @Transactional
-    public void updateVersion(String feeCode, Integer versionId, BigDecimal amount, String description, String memoLine, String nac) {
+    public void updateVersion(String feeCode, Integer versionId, Integer newVersionId, Date validFrom, BigDecimal amount, String directionType, String description,
+                              String memoLine, String nac, String feeOrderName, String statutoryInstrument, String siRefId) {
         FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
-        version.getAmount().setAmountValue(amount);
-        version.setDescription(description);
-        version.setMemoLine(memoLine);
-        version.setNaturalAccountCode(nac);
+
+        if (version != null) {
+            if (newVersionId != null) {
+                version.setVersion(newVersionId);
+            }
+            version.getAmount().setAmountValue(amount);
+            version.setValidFrom(validFrom);
+            version.setDirectionType(directionTypeRepository.findByNameOrThrow(directionType.toLowerCase()));
+            version.setDescription(description);
+            version.setMemoLine(memoLine);
+            version.setNaturalAccountCode(nac);
+            version.setFeeOrderName(feeOrderName);
+            version.setStatutoryInstrument(statutoryInstrument);
+            version.setSiRefId(siRefId);
+        }
     }
 
 }

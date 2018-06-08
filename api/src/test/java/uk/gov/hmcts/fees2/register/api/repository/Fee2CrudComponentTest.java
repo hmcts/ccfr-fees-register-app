@@ -18,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
+import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
 import uk.gov.hmcts.fees2.register.data.service.ChannelTypeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
@@ -142,14 +143,44 @@ public class Fee2CrudComponentTest extends BaseTest {
             assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("99.99"));
         });
 
-        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(), new BigDecimal("199.99"),
-            "new description", "new memo line", "nac");
+        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(),  savedFee.getFeeVersions().get(0).getVersion() + 1,null,
+            new BigDecimal("199.99"), "cost recovery",
+            "new description", "new memo line", "xxx", "test fee" , "xxx", "2.1ci");
         Fee updatedFee = feeService.get(fee.getCode());
         assertThat(updatedFee.getCode()).isEqualTo(fee.getCode());
         updatedFee.getFeeVersions().stream().forEach(v -> {
             FlatAmount flatAmount = (FlatAmount) v.getAmount();
             assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("199.99"));
         });
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateFeeVersion() throws Exception {
+        Fee fee = feeService.get("FEE0001");
+        FeeVersion version = fee.getCurrentVersion(true);
+        assertThat(version.getDirectionType().getName()).isEqualTo("enhanced");
+        assertThat(version.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - Unspecified");
+        assertThat(version.getMemoLine()).isEqualTo("GOV - Paper fees - Money claim >£200,000");
+
+        Integer newVersion = version.getVersion() + 1;
+        feeVersionService.updateVersion(fee.getCode(), version.getVersion(), newVersion,
+            version.getValidFrom(), new BigDecimal("99.89"), "cost recovery", "New version description",
+            "new memo line", "new nac", "new fee order name", "new si",
+            "new sirefid");
+
+        FeeVersion updateVersion = feeService.get("FEE0001").getCurrentVersion(true);
+        assertThat(updateVersion.getVersion()).isEqualTo(2);
+        assertThat(updateVersion.getDirectionType().getName()).isEqualTo("cost recovery");
+        assertThat(updateVersion.getAmount()).isEqualTo(new FlatAmount(new BigDecimal("99.89")));
+        assertThat(updateVersion.getMemoLine()).isEqualTo("new memo line");
+        assertThat(updateVersion.getNaturalAccountCode()).isEqualTo("new nac");
+        assertThat(updateVersion.getFeeOrderName()).isEqualTo("new fee order name");
+        assertThat(updateVersion.getStatutoryInstrument()).isEqualTo("new si");
+        assertThat(updateVersion.getSiRefId()).isEqualTo("new sirefid");
+
+
+
     }
 
 }
