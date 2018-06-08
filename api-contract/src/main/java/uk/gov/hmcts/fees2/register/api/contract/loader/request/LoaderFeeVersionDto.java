@@ -15,4 +15,7 @@ public class LoaderFeeVersionDto extends FeeVersionDto {
 
     @JsonProperty("version")
     private Integer version;
+
+    @JsonProperty("new_version")
+    private Integer newVersion;
 }
