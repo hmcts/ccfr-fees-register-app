@@ -173,8 +173,8 @@ public class FeeSearchServiceImpl implements FeeSearchService {
         return fees.stream().flatMap(f -> f.getFeeVersions().stream()).filter(fee -> {
             if (!fee.equals(fee.getFee().getCurrentVersion(true))) {
                 return false;
-            } else if (sfvDto.getDescription() != null && StringUtils.contains(fee.getDescription(), sfvDto.getDescription())
-                || sfvDto.getSiRefId() != null && StringUtils.contains(fee.getSiRefId(), sfvDto.getSiRefId())
+            } else if (sfvDto.getDescription() != null && StringUtils.containsIgnoreCase(fee.getDescription(), sfvDto.getDescription())
+                || sfvDto.getSiRefId() != null && StringUtils.containsIgnoreCase(fee.getSiRefId(), sfvDto.getSiRefId())
                 || sfvDto.getFeeVersionAmount() != null && fee.calculateFee(sfvDto.getFeeVersionAmount()).floatValue() == sfvDto
                 .getFeeVersionAmount().floatValue()) {
                 return true;
