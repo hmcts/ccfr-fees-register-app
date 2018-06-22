@@ -7,9 +7,10 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.*;
+import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
@@ -17,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
+import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,52 +80,18 @@ public class FeeDtoMapper {
         fillApplicationType(fee, request.getApplicantType());
     }
 
-    public Fee toFee(FixedFeeDto request, String author) {
-        FixedFee fee = new FixedFee();
-
-        fee.setUnspecifiedClaimAmount(
-            request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
-        );
-
+    public Fee toFee(FeeDto request, String author) {
+        Fee fee = FeeFactory.getFee(request);
         fillFee(request, fee, author);
+
+        if (fee instanceof FixedFee){
+            fee.setUnspecifiedClaimAmount(
+                request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
+            );
+        }
+
         return fee;
     }
-
-    public Fee toFee(RateableFeeDto request, String author) {
-        RateableFee fee = new RateableFee();
-
-        fillFee(request, fee, author);
-        return fee;
-    }
-
-    public Fee toFee(RelationalFeeDto request, String author) {
-        RelationalFee fee = new RelationalFee();
-
-        fillFee(request, fee, author);
-        return fee;
-    }
-
-    public Fee toFee(BandedFeeDto request, String author) {
-        BandedFee fee = new BandedFee();
-
-        fillFee(request, fee, author);
-        return fee;
-    }
-
-
-
-
-    public Fee toFee(LoaderFixedFeeDto request, String author) {
-        FixedFee fee = new FixedFee();
-
-        fee.setUnspecifiedClaimAmount(
-            request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
-        );
-
-        fillFee(request, fee, author);
-        return fee;
-    }
-
 
     public void updateRangedFee(RangedFeeDto request, RangedFee fee, String author) {
         updateFeeDetails(request, fee);
