@@ -52,7 +52,7 @@ databaseChangeLog:
         tableName: fee
 
 
-changeSet:
+- changeSet:
     id: 1527062539722-1
     author: tarun
     changes:
@@ -64,7 +64,20 @@ changeSet:
         tableName: fee
 
 - changeSet:
-    id: 1529488414949-1
+    id: 1529663169707
+    author: sachi
+    changes:
+    - dropUniqueConstraint:
+        constraintName: const_code
+        tableName: fee
+    - addUniqueConstraint:
+        columnNames: code, fee_number
+        constraintName: const_code
+        tableName: fee
+
+
+- changeSet:
+    id: 1529663519366
     author: sachi
     changes:
     - createTable:
