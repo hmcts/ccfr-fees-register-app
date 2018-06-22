@@ -1,6 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
@@ -20,10 +22,12 @@ import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeVersionDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
-import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.FixedFee;
+import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
-import uk.gov.hmcts.fees2.register.data.service.impl.FeeSearchServiceImpl;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -60,7 +64,7 @@ public class FeeController {
     @PostMapping("/ranged-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRangedFee(
-        @RequestBody @Validated final CreateRangedFeeDto request,
+        @RequestBody @Validated final RangedFeeDto request,
         HttpServletResponse response,
         Principal principal) {
 
@@ -84,7 +88,7 @@ public class FeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void updateRangedFee(@PathVariable("code") String code,
-                                @RequestBody @Validated final CreateRangedFeeDto request,
+                                @RequestBody @Validated final RangedFeeDto request,
                                 HttpServletResponse response,
                                 Principal principal) {
         RangedFee fee = (RangedFee) feeService.get(code);
@@ -102,7 +106,7 @@ public class FeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void updateFixedFee(@PathVariable("code") String code,
-                               @RequestBody @Validated final CreateFixedFeeDto request,
+                               @RequestBody @Validated final FixedFeeDto request,
                                HttpServletResponse response,
                                Principal principal) {
         FixedFee fee = (FixedFee) feeService.get(code);
@@ -118,7 +122,7 @@ public class FeeController {
     })
     @PostMapping(value = "/fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request,
+    public void createFixedFee(@RequestBody @Validated final FixedFeeDto request,
                                HttpServletResponse response,
                                Principal principal) {
 
@@ -130,6 +134,71 @@ public class FeeController {
             response.setHeader(LOCATION, getResourceLocation(fee));
         }
     }
+    @ApiOperation(value = "Create rateable fee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PostMapping(value = "/rateable-fees")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createRateableFee(@RequestBody @Validated final RateableFeeDto request,
+                             HttpServletResponse response,
+                             Principal principal) {
+
+        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
+    }
+
+
+    @ApiOperation(value = "Create relational fee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PostMapping(value = "/relational-fees")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createRelationalFee(@RequestBody @Validated final RelationalFeeDto request,
+                             HttpServletResponse response,
+                             Principal principal) {
+
+        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
+    }
+
+    @ApiOperation(value = "Create banded fee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PostMapping(value = "/banded-fees")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createBandedFee(@RequestBody @Validated final BandedFeeDto request,
+                             HttpServletResponse response,
+                             Principal principal) {
+
+        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
+    }
+
+
 
     @ApiOperation(value = "Create bulk fees")
     @ApiResponses(value = {
@@ -140,10 +209,10 @@ public class FeeController {
     @Transactional
     @PostMapping(value = "/bulk-fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createFixedFees(@RequestBody final List<CreateFixedFeeDto> createFixedFeeDtos, Principal principal) {
-        LOG.info("No. of csv import fees: " + createFixedFeeDtos.size());
+    public void createFixedFees(@RequestBody final List<FixedFeeDto> fixedFeeDtos, Principal principal) {
+        LOG.info("No. of csv import fees: " + fixedFeeDtos.size());
 
-        List<Fee> fixedFees = createFixedFeeDtos
+        List<Fee> fixedFees = fixedFeeDtos
             .stream()
             .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, principal != null ? principal.getName() : null))
             .collect(Collectors.toList());

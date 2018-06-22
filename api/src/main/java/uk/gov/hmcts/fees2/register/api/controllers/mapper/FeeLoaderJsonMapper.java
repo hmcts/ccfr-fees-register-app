@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
 
 import java.util.List;
 

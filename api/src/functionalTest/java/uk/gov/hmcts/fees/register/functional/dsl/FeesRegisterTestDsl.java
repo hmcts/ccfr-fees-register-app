@@ -13,12 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees.register.api.contract.*;
-import uk.gov.hmcts.fees2.register.api.contract.*;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees.register.functional.dto.ChargeableFeeWrapperDto;
 import uk.gov.hmcts.fees.register.functional.dto.ChargeableFeeWrapperDto;
 import uk.gov.hmcts.fees.register.functional.tokens.UserTokenFactory;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -70,12 +67,12 @@ public class FeesRegisterTestDsl {
             return this;
         }
 
-        public FeesRegisterWhenDsl createRangedFee(CreateRangedFeeDto requestDto) {
+        public FeesRegisterWhenDsl createRangedFee(RangedFeeDto requestDto) {
             response = newRequest().body(requestDto).post("/fees-register/rangedfees");
             return this;
         }
 
-        public FeesRegisterWhenDsl createFixedFee(CreateFixedFeeDto requestDto) {
+        public FeesRegisterWhenDsl createFixedFee(uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto requestDto) {
             response = newRequest().body(requestDto).post("/fees-register/fixedfees");
             return this;
         }
@@ -85,7 +82,7 @@ public class FeesRegisterTestDsl {
          //   return this;
         //}
 
-        public FeesRegisterWhenDsl createFees(FixedFeeDto.FixedFeeDtoBuilder requestDto) {
+        public FeesRegisterWhenDsl createFees(uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.FixedFeeDtoBuilder requestDto) {
             response = newRequest().body(requestDto.build()).put("/fees/krishna");
             return this;
         }
@@ -265,9 +262,9 @@ public class FeesRegisterTestDsl {
             return this;
         }
 
-        public FeesRegisterThenDsl createdRangedFee(Consumer<CreateRangedFeeDto> feesRegisterAssertions) {
-            CreateRangedFeeDto CreateRangedFeeDto = response.then().statusCode(201).extract().as(CreateRangedFeeDto.class);
-            feesRegisterAssertions.accept(CreateRangedFeeDto);
+        public FeesRegisterThenDsl createdRangedFee(Consumer<RangedFeeDto> feesRegisterAssertions) {
+            RangedFeeDto RangedFeeDto = response.then().statusCode(201).extract().as(RangedFeeDto.class);
+            feesRegisterAssertions.accept(RangedFeeDto);
             return this;
         }
 
@@ -315,7 +312,7 @@ public class FeesRegisterTestDsl {
         @SneakyThrows
         public <T> FeesRegisterThenDsl gotChargeableFixedFee(Consumer<ChargeableFeeWrapperDto> assertions) {
             InputStream responseInputStream = response.then().statusCode(200).extract().asInputStream();
-            JavaType javaType = TypeFactory.defaultInstance().constructParametricType(ChargeableFeeWrapperDto.class, FixedFeeDto.class);
+            JavaType javaType = TypeFactory.defaultInstance().constructParametricType(ChargeableFeeWrapperDto.class, uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.class);
             ChargeableFeeWrapperDto actual = objectMapper.readValue(responseInputStream, javaType);
             assertions.accept(actual);
             return this;

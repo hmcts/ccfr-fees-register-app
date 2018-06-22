@@ -9,9 +9,7 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
@@ -62,7 +60,7 @@ public class FeeDtoMapper {
         this.applicantTypeRepository = applicantTypeRepository;
     }
 
-    private void fillFee(CreateFeeDto request, Fee fee, String author) {
+    private void fillFee(FeeDto request, Fee fee, String author) {
         updateFeeDetails(request, fee, author);
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
@@ -70,7 +68,7 @@ public class FeeDtoMapper {
         fee.setFeeVersions(Arrays.asList(version));
     }
 
-    private void updateFeeDetails(CreateFeeDto request, Fee fee, String author) {
+    private void updateFeeDetails(FeeDto request, Fee fee, String author) {
         fillJuridistiction1(fee, request.getJurisdiction1());
         fillJuridistiction2(fee, request.getJurisdiction2());
 
@@ -80,7 +78,7 @@ public class FeeDtoMapper {
         fillApplicationType(fee, request.getApplicantType());
     }
 
-    public Fee toFee(CreateFixedFeeDto request, String author) {
+    public Fee toFee(FixedFeeDto request, String author) {
         FixedFee fee = new FixedFee();
 
         fee.setUnspecifiedClaimAmount(
@@ -90,6 +88,30 @@ public class FeeDtoMapper {
         fillFee(request, fee, author);
         return fee;
     }
+
+    public Fee toFee(RateableFeeDto request, String author) {
+        RateableFee fee = new RateableFee();
+
+        fillFee(request, fee, author);
+        return fee;
+    }
+
+    public Fee toFee(RelationalFeeDto request, String author) {
+        RelationalFee fee = new RelationalFee();
+
+        fillFee(request, fee, author);
+        return fee;
+    }
+
+    public Fee toFee(BandedFeeDto request, String author) {
+        BandedFee fee = new BandedFee();
+
+        fillFee(request, fee, author);
+        return fee;
+    }
+
+
+
 
     public Fee toFee(LoaderFixedFeeDto request, String author) {
         FixedFee fee = new FixedFee();
@@ -103,21 +125,21 @@ public class FeeDtoMapper {
     }
 
 
-    public void updateRangedFee(CreateRangedFeeDto request, RangedFee fee, String author) {
+    public void updateRangedFee(RangedFeeDto request, RangedFee fee, String author) {
         updateFeeDetails(request, fee, author);
 
         FeeVersion currentVersion = fee.getCurrentVersion(true);
         fillFeeVersionDetails(request.getVersion(), currentVersion, author);
     }
 
-    public void updateFixedFee(CreateFixedFeeDto request, FixedFee fee, String author) {
+    public void updateFixedFee(FixedFeeDto request, FixedFee fee, String author) {
         updateFeeDetails(request, fee, author);
 
         FeeVersion currentVersion = fee.getCurrentVersion(true);
         fillFeeVersionDetails(request.getVersion(), currentVersion, author);
     }
 
-    public Fee toFee(CreateRangedFeeDto request, String author) {
+    public Fee toFee(RangedFeeDto request, String author) {
         RangedFee fee = new RangedFee();
         fillFee(request, fee, author);
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
@@ -17,7 +17,8 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FeeVersionControllerTest extends BaseIntegrationTest {
@@ -42,7 +43,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = FeeNotFoundException.class)
     public synchronized void testDeleteFeeAndVersion() throws Exception {
 
-        CreateFixedFeeDto dto = getFee("1234");
+        FixedFeeDto dto = getFee("1234");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -70,7 +71,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = BadRequestException.class)
     public synchronized void testDeleteApprovedVersionFails() throws Exception {
 
-        CreateFixedFeeDto dto = getFee("2345");
+        FixedFeeDto dto = getFee("2345");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -96,7 +97,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void testDeleteVersionDoesNotDeleteFee() throws Exception {
 
-        CreateFixedFeeDto dto = getFee("3456");
+        FixedFeeDto dto = getFee("3456");
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -132,7 +133,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void createFeeWithMultipleVersions() throws Exception {
-        CreateFixedFeeDto dto = getFee(null);
+        FixedFeeDto dto = getFee(null);
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1",
             "natural account code1", "SI_1", "siRefId1", DirectionType.directionWith().name("enhanced").build()));
 
@@ -153,9 +154,9 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         assertEquals(feeDto.getFeeVersionDtos().size(), 1);
     }
 
-    private CreateFixedFeeDto getFee(String feeCode) {
+    private FixedFeeDto getFee(String feeCode) {
 
-        CreateFixedFeeDto dto = new CreateFixedFeeDto();
+        FixedFeeDto dto = new FixedFeeDto();
 
         dto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         dto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());

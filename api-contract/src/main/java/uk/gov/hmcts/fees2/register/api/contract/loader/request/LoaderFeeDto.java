@@ -2,16 +2,14 @@ package uk.gov.hmcts.fees2.register.api.contract.loader.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @Getter
-public abstract class LoaderFeeDto extends CreateFeeDto {
+public abstract class LoaderFeeDto extends FeeDto {
 
     @JsonProperty("code")
     private String code;

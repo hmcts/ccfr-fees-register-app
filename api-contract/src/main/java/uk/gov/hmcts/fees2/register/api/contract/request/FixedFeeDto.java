@@ -1,8 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.contract.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,49 +10,49 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class CreateFixedFeeDto extends CreateFeeDto{
+public class FixedFeeDto extends FeeDto{
 
-    public CreateFixedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, boolean unspecifiedClaimAmount) {
+    public FixedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, boolean unspecifiedClaimAmount) {
         super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount);
     }
 
-    public CreateFixedFeeDto setCode(String code) {
+    public FixedFeeDto setCode(String code) {
         this.code = code;
         return this;
     }
 
-    public CreateFixedFeeDto setVersion(FeeVersionDto version) {
+    public FixedFeeDto setVersion(FeeVersionDto version) {
         this.version = version;
         return this;
     }
 
-    public CreateFixedFeeDto setJurisdiction1(String jurisdiction1) {
+    public FixedFeeDto setJurisdiction1(String jurisdiction1) {
         this.jurisdiction1 = jurisdiction1;
         return this;
     }
 
-    public CreateFixedFeeDto setJurisdiction2(String jurisdiction2) {
+    public FixedFeeDto setJurisdiction2(String jurisdiction2) {
         this.jurisdiction2 = jurisdiction2;
         return this;
     }
 
-    public CreateFixedFeeDto setService(String service) {
+    public FixedFeeDto setService(String service) {
         this.service = service;
         return this;
     }
 
-    public CreateFixedFeeDto setChannel(String channel) {
+    public FixedFeeDto setChannel(String channel) {
         this.channel = channel;
         return this;
     }
 
 
-    public CreateFixedFeeDto setEvent(String event) {
+    public FixedFeeDto setEvent(String event) {
         this.event = event;
         return this;
     }
 
-    public CreateFixedFeeDto setApplicantType(String applicantType) {
+    public FixedFeeDto setApplicantType(String applicantType) {
         this.applicantType = applicantType;
         return this;
     }
@@ -64,7 +62,7 @@ public class CreateFixedFeeDto extends CreateFeeDto{
         return unspecifiedClaimAmount;
     }
 
-    public CreateFixedFeeDto setUnspecifiedClaimAmount(Boolean unspecifiedClaimAmount) {
+    public FixedFeeDto setUnspecifiedClaimAmount(Boolean unspecifiedClaimAmount) {
         this.unspecifiedClaimAmount = unspecifiedClaimAmount;
         return this;
     }

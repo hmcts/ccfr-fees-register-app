@@ -63,13 +63,49 @@ changeSet:
         initiallyDeferred: false
         tableName: fee
 
-changeSet:
-    id: 1528456504181-1
-    author: tarun
+- changeSet:
+    id: 1529488414949-1
+    author: sachi
     changes:
-    - addUniqueConstraint:
-        columnNames: fee_id, version
-        constraintName: const_version
-        deferrable: false
-        initiallyDeferred: false
-        tableName: fee_version
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: BIGINT
+        tableName: rateable_fee
+    - addForeignKeyConstraint:
+        baseColumnNames: id
+        baseTableName: rateable_fee
+        constraintName: fk_fee_rateable_fee
+        referencedColumnNames: id
+        referencedTableName: fee
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: BIGINT
+        tableName: relational_fee
+    - addForeignKeyConstraint:
+        baseColumnNames: id
+        baseTableName: relational_fee
+        constraintName: fk_fee_relational_fee
+        referencedColumnNames: id
+        referencedTableName: fee
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: BIGINT
+        tableName: banded_fee
+    - addForeignKeyConstraint:
+        baseColumnNames: id
+        baseTableName: banded_fee
+        constraintName: fk_fee_banded_fee
+        referencedColumnNames: id
+        referencedTableName: fee

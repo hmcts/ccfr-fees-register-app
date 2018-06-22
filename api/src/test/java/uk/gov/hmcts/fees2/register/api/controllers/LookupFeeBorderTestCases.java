@@ -3,7 +3,7 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -187,7 +187,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
         version.setPercentageAmount(new PercentageAmountDto(percent));
         version.setStatus(FeeVersionStatus.approved);
 
-        saveFeeAndCheckStatusIsCreated(new CreateRangedFeeDto()
+        saveFeeAndCheckStatusIsCreated(new RangedFeeDto()
             .setService("divorce")
             .setEvent("issue")
             .setJurisdiction1("family")

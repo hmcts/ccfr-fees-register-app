@@ -9,7 +9,7 @@ import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
@@ -43,7 +43,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
     @Transactional
     public synchronized void testThatAJustCreatedAndApprovedFeeIsFoundWhenLookup() throws Exception {
 
-        CreateRangedFeeDto dto = createDetailedFee();
+        RangedFeeDto dto = createDetailedFee();
 
         Fee fee = feeService.get(dto.getCode());
 
@@ -60,7 +60,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
     @Transactional
     public synchronized void testThatSameFeeOnceExpiredFeeIsNotFoundWhenLookup() throws Exception {
 
-        CreateRangedFeeDto dto = createDetailedFee();
+        RangedFeeDto dto = createDetailedFee();
 
         Fee fee = feeService.get(dto.getCode());
 
@@ -80,7 +80,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         Date date = new Date(System.currentTimeMillis() + 60000);
 
-        CreateRangedFeeDto dto = createDetailedFee();
+        RangedFeeDto dto = createDetailedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setVersion(2);
@@ -105,7 +105,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
 
-        final CreateRangedFeeDto dto =
+        final RangedFeeDto dto =
             transactionTemplate.execute(
                 transactionStatus -> createDetailedFee()
             );
@@ -141,9 +141,9 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
     }
 
 
-    private CreateRangedFeeDto createDetailedFee() {
+    private RangedFeeDto createDetailedFee() {
 
-        CreateRangedFeeDto dto = new CreateRangedFeeDto();
+        RangedFeeDto dto = new RangedFeeDto();
 
         dto.setChannel("online");
         dto.setCode(String.valueOf(System.currentTimeMillis()));

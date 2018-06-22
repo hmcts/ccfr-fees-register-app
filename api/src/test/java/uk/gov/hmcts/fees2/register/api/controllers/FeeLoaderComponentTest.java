@@ -2,12 +2,10 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
@@ -162,12 +160,12 @@ public class FeeLoaderComponentTest extends BaseTest {
     }
 
 
-    private CreateRangedFeeDto getUpdatedRangedFeeRequest() throws Exception {
-        return objectMapper.readValue(getModifiedRangedFeeJSON().getBytes(), CreateRangedFeeDto.class);
+    private RangedFeeDto getUpdatedRangedFeeRequest() throws Exception {
+        return objectMapper.readValue(getModifiedRangedFeeJSON().getBytes(), RangedFeeDto.class);
     }
 
-    private CreateFixedFeeDto getUpdateFixedFeeRequest() throws Exception {
-        return objectMapper.readValue(getModifiedFixedFeeJson().getBytes(), CreateFixedFeeDto.class);
+    private FixedFeeDto getUpdateFixedFeeRequest() throws Exception {
+        return objectMapper.readValue(getModifiedFixedFeeJson().getBytes(), FixedFeeDto.class);
     }
 
     private String getModifiedRangedFeeJSON() {
