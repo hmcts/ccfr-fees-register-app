@@ -312,7 +312,7 @@ public class FeesRegisterTestDsl {
         @SneakyThrows
         public <T> FeesRegisterThenDsl gotChargeableFixedFee(Consumer<ChargeableFeeWrapperDto> assertions) {
             InputStream responseInputStream = response.then().statusCode(200).extract().asInputStream();
-            JavaType javaType = TypeFactory.defaultInstance().constructParametricType(ChargeableFeeWrapperDto.class, uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.class);
+            JavaType javaType = TypeFactory.defaultInstance().constructParametricType(ChargeableFeeWrapperDto.class, FixedFeeDto.class);
             ChargeableFeeWrapperDto actual = objectMapper.readValue(responseInputStream, javaType);
             assertions.accept(actual);
             return this;

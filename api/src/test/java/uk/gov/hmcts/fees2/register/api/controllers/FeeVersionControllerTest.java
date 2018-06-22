@@ -43,7 +43,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = FeeNotFoundException.class)
     public synchronized void testDeleteFeeAndVersion() throws Exception {
 
-        FixedFeeDto dto = getFee("1234");
+        FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -71,7 +71,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = BadRequestException.class)
     public synchronized void testDeleteApprovedVersionFails() throws Exception {
 
-        FixedFeeDto dto = getFee("2345");
+        FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -97,7 +97,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void testDeleteVersionDoesNotDeleteFee() throws Exception {
 
-        FixedFeeDto dto = getFee("3456");
+        FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
@@ -133,7 +133,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void createFeeWithMultipleVersions() throws Exception {
-        FixedFeeDto dto = getFee(null);
+        FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1",
             "natural account code1", "SI_1", "siRefId1", DirectionType.directionWith().name("enhanced").build()));
 
@@ -154,7 +154,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         assertEquals(feeDto.getFeeVersionDtos().size(), 1);
     }
 
-    private FixedFeeDto getFee(String feeCode) {
+    private FixedFeeDto getFee() {
 
         FixedFeeDto dto = new FixedFeeDto();
 

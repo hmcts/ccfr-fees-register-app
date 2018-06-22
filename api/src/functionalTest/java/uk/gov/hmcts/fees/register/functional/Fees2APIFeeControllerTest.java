@@ -26,12 +26,12 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     private String feeCode1;
     private String feeCode2;
 
-    RangedFeeDto proposeRangedFees;//new RangedFeeDto("X0011", version, "civil","county court", "civil money claims", "online", "enhanced","issue", "Test memo line", "CMC online fee order name","Natural code 001", new BigDecimal(1), new BigDecimal(10000));
+    private RangedFeeDto proposeRangedFees;//new RangedFeeDto("X0011", version, "civil","county court", "civil money claims", "online", "enhanced","issue", "Test memo line", "CMC online fee order name","Natural code 001", new BigDecimal(1), new BigDecimal(10000));
 
-    FixedFeeDto proposeFixedFees;
+    private FixedFeeDto proposeFixedFees;
 
     //  ApproveFeeDto approveFeeCode;
-    FeeDto createFeeDto;
+    private FeeDto createFeeDto;
 
   /*  @Test
     public void createRangedFees201() throws IOException {

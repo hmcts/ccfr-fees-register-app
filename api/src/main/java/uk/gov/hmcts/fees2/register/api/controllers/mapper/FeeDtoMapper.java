@@ -61,14 +61,14 @@ public class FeeDtoMapper {
     }
 
     private void fillFee(FeeDto request, Fee fee, String author) {
-        updateFeeDetails(request, fee, author);
+        updateFeeDetails(request, fee);
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
         fee.setFeeVersions(Arrays.asList(version));
     }
 
-    private void updateFeeDetails(FeeDto request, Fee fee, String author) {
+    private void updateFeeDetails(FeeDto request, Fee fee) {
         fillJuridistiction1(fee, request.getJurisdiction1());
         fillJuridistiction2(fee, request.getJurisdiction2());
 
@@ -126,14 +126,14 @@ public class FeeDtoMapper {
 
 
     public void updateRangedFee(RangedFeeDto request, RangedFee fee, String author) {
-        updateFeeDetails(request, fee, author);
+        updateFeeDetails(request, fee);
 
         FeeVersion currentVersion = fee.getCurrentVersion(true);
         fillFeeVersionDetails(request.getVersion(), currentVersion, author);
     }
 
     public void updateFixedFee(FixedFeeDto request, FixedFee fee, String author) {
-        updateFeeDetails(request, fee, author);
+        updateFeeDetails(request, fee);
 
         FeeVersion currentVersion = fee.getCurrentVersion(true);
         fillFeeVersionDetails(request.getVersion(), currentVersion, author);
