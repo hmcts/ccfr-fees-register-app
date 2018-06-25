@@ -1,19 +1,18 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
@@ -39,7 +38,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     @Test
     public synchronized void testCreateUnspecifiedAmountFeeForOnlineChannel() throws Exception{
 
-        CreateFixedFeeDto dto = new CreateFixedFeeDto();
+        FixedFeeDto dto = new FixedFeeDto();
         dto.setService("gambling");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
@@ -98,7 +97,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     @Test
     public synchronized void testCreateUnspecifiedAmountFeeForDefaultChannel() throws Exception{
 
-        CreateFixedFeeDto dto = new CreateFixedFeeDto();
+        FixedFeeDto dto = new FixedFeeDto();
         dto.setService("civil money claims");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
@@ -144,7 +143,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     @Test
     public synchronized void testCreateUnspecifiedAmountFeeForPercentAmounts() throws Exception{
 
-        CreateFixedFeeDto dto = new CreateFixedFeeDto();
+        FixedFeeDto dto = new FixedFeeDto();
         dto.setService("civil money claims");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
@@ -179,7 +178,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     @Test
     public synchronized void testThatLookupOfUnspecifiedClaimAmountMatchesUnspecifiedTypeFee() throws Exception{
 
-        CreateFixedFeeDto dto = new CreateFixedFeeDto();
+        FixedFeeDto dto = new FixedFeeDto();
         dto.setService("general");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");

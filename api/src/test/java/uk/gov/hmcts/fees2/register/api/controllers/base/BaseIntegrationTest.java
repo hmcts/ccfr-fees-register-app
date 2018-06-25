@@ -8,9 +8,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -51,9 +49,9 @@ public abstract class BaseIntegrationTest extends BaseTest{
         feeService.delete(code);
     }
 
-    protected String saveFeeAndCheckStatusIsCreated(CreateFeeDto dto) throws Exception {
+    protected String saveFeeAndCheckStatusIsCreated(FeeDto dto) throws Exception {
 
-        String methodName = dto instanceof CreateRangedFeeDto ? "createRangedFee" : "createFixedFee";
+        String methodName = getMethodName(dto);
 
         return restActions
             .withUser("admin")
@@ -65,9 +63,9 @@ public abstract class BaseIntegrationTest extends BaseTest{
             .andReturn().getResponse().getHeader("Location");
     }
 
-    protected ResultActions saveFee(CreateFeeDto dto) throws Exception {
+    protected ResultActions saveFee(FeeDto dto) throws Exception {
 
-        String methodName = dto instanceof CreateRangedFeeDto ? "createRangedFee" : "createFixedFee";
+        String methodName = getMethodName(dto);
 
         return restActions
             .withUser("admin")
@@ -76,6 +74,21 @@ public abstract class BaseIntegrationTest extends BaseTest{
                 dto
             );
 
+    }
+
+    private String getMethodName(FeeDto dto){
+        String methodName = null;
+        if (dto instanceof FixedFeeDto)
+            methodName = "createFixedFee";
+        if (dto instanceof RangedFeeDto)
+            methodName = "createRangedFee";
+        if (dto instanceof RateableFeeDto)
+            methodName = "createRateableFee";
+        if (dto instanceof RelationalFeeDto)
+            methodName = "createRelationalFee";
+        if (dto instanceof BandedFeeDto)
+            methodName = "createBandedFee";
+        return methodName;
     }
 
     protected ResultActions lookup(LookupFeeDto lookupFeeDto) throws Exception{
@@ -127,7 +140,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
     }
 
 
-    protected ResultActions lookupUsingUsingReferenceDataFrom(CreateFeeDto createDto, BigDecimal claimValue) throws Exception{
+    protected ResultActions lookupUsingUsingReferenceDataFrom(FeeDto createDto, BigDecimal claimValue) throws Exception{
 
         String method = createDto.getUnspecifiedClaimAmount() != null &&
             createDto.getUnspecifiedClaimAmount() ? "lookupUnspecified" : "lookup";
@@ -192,7 +205,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         });
     }
 
-    protected ResultMatcher lookupResultMatchesFee(CreateFeeDto feeDto) {
+    protected ResultMatcher lookupResultMatchesFee(FeeDto feeDto) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
             assertTrue(feeDto.getCode().equalsIgnoreCase(res.getCode()));
             assertTrue(res.getVersion() != null);
@@ -213,8 +226,8 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
     /* --- DTO BUILDERS --- */
 
-    protected CreateFixedFeeDto createCMCIssueCivilCountyFixedFee() {
-        return new CreateFixedFeeDto()
+    protected FixedFeeDto createCMCIssueCivilCountyFixedFee() {
+        return new FixedFeeDto()
         .setService("civil money claims")
         .setEvent("issue")
         .setJurisdiction1("civil")
@@ -222,8 +235,8 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setApplicantType("all");
     }
 
-    protected CreateFixedFeeDto createDivorceIssueFamilyFixedFee() {
-        return new CreateFixedFeeDto()
+    protected FixedFeeDto createDivorceIssueFamilyFixedFee() {
+        return new FixedFeeDto()
         .setService("divorce")
         .setEvent("issue")
         .setJurisdiction1("family")

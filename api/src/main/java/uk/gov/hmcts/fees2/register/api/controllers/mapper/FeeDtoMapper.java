@@ -7,11 +7,10 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
@@ -19,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
+import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,15 +62,15 @@ public class FeeDtoMapper {
         this.applicantTypeRepository = applicantTypeRepository;
     }
 
-    private void fillFee(CreateFeeDto request, Fee fee, String author) {
-        updateFeeDetails(request, fee, author);
+    private void fillFee(FeeDto request, Fee fee, String author) {
+        updateFeeDetails(request, fee);
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
         fee.setFeeVersions(Arrays.asList(version));
     }
 
-    private void updateFeeDetails(CreateFeeDto request, Fee fee, String author) {
+    private void updateFeeDetails(FeeDto request, Fee fee) {
         fillJuridistiction1(fee, request.getJurisdiction1());
         fillJuridistiction2(fee, request.getJurisdiction2());
 
@@ -80,44 +80,34 @@ public class FeeDtoMapper {
         fillApplicationType(fee, request.getApplicantType());
     }
 
-    public Fee toFee(CreateFixedFeeDto request, String author) {
-        FixedFee fee = new FixedFee();
-
-        fee.setUnspecifiedClaimAmount(
-            request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
-        );
-
+    public Fee toFee(FeeDto request, String author) {
+        Fee fee = FeeFactory.getFee(request);
         fillFee(request, fee, author);
+
+        if (fee instanceof FixedFee){
+            fee.setUnspecifiedClaimAmount(
+                request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
+            );
+        }
+
         return fee;
     }
 
-    public Fee toFee(LoaderFixedFeeDto request, String author) {
-        FixedFee fee = new FixedFee();
-
-        fee.setUnspecifiedClaimAmount(
-            request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
-        );
-
-        fillFee(request, fee, author);
-        return fee;
-    }
-
-
-    public void updateRangedFee(CreateRangedFeeDto request, RangedFee fee, String author) {
-        updateFeeDetails(request, fee, author);
+    public void updateRangedFee(RangedFeeDto request, RangedFee fee, String author) {
+        updateFeeDetails(request, fee);
 
         FeeVersion currentVersion = fee.getCurrentVersion(true);
         fillFeeVersionDetails(request.getVersion(), currentVersion, author);
     }
 
-    public void updateFixedFee(CreateFixedFeeDto request, FixedFee fee, String author) {
-        updateFeeDetails(request, fee, author);
+    public void updateFixedFee(FixedFeeDto request, FixedFee fee, String author) {
+        updateFeeDetails(request, fee);
 
         FeeVersion currentVersion = fee.getCurrentVersion(true);
         fillFeeVersionDetails(request.getVersion(), currentVersion, author);
     }
 
-    public Fee toFee(CreateRangedFeeDto request, String author) {
+    public Fee toFee(RangedFeeDto request, String author) {
         RangedFee fee = new RangedFee();
         fillFee(request, fee, author);
 

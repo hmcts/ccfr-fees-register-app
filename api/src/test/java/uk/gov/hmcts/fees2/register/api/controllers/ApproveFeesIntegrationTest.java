@@ -4,18 +4,18 @@ import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
 
-    private CreateFixedFeeDto dto() {
-        return new CreateFixedFeeDto()
+    private FixedFeeDto dto() {
+        return new FixedFeeDto()
             .setService("civil money claims")
             .setEvent("issue")
             .setJurisdiction1("civil")
@@ -25,7 +25,7 @@ public class ApproveFeesIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void testUnapprovedFeesAreRetrieved() throws Exception {
-        CreateFixedFeeDto dto = dto();
+        FixedFeeDto dto = dto();
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
         versionDto.setDescription("Hi");

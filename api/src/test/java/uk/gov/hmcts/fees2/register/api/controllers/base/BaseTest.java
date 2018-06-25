@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
@@ -19,8 +18,7 @@ import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
@@ -193,10 +191,10 @@ public abstract class BaseTest {
         }};
     }
 
-    public CreateRangedFeeDto getRangedFeeDto(String feeCode) {
+    public RangedFeeDto getRangedFeeDto(String feeCode) {
 
 
-        CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
 
         rangedFeeDto.setMinRange(new BigDecimal(1));
         rangedFeeDto.setMaxRange(new BigDecimal(3000));
@@ -211,9 +209,9 @@ public abstract class BaseTest {
         return rangedFeeDto;
     }
 
-    public CreateRangedFeeDto getRangedFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
+    public RangedFeeDto getRangedFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
 
-        CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
         rangedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
@@ -226,8 +224,8 @@ public abstract class BaseTest {
         return rangedFeeDto;
     }
 
-    public CreateRangedFeeDto getRangeFeeDtoForSearch(int minRange, int maxRange, String feeCode, FeeVersionStatus status, String service) {
-        CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
+    public RangedFeeDto getRangeFeeDtoForSearch(int minRange, int maxRange, String feeCode, FeeVersionStatus status, String service) {
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
         rangedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
@@ -240,9 +238,9 @@ public abstract class BaseTest {
         return rangedFeeDto;
     }
 
-    public CreateRangedFeeDto getRangedFeeDtoForLookup(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
+    public RangedFeeDto getRangedFeeDtoForLookup(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
 
-        CreateRangedFeeDto rangedFeeDto = new CreateRangedFeeDto();
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
         rangedFeeDto.setVersion(getFeeVersionDto(status, "Test lookup fee", "Divorce online fee order name", "Natural code for lookup", null, null, directionTypeService.findByNameOrThrow("licence")));
@@ -271,6 +269,48 @@ public abstract class BaseTest {
         return feeDto;
     }
 
+    public BandedFeeDto getBandedFeeDtoWithReferenceData(String feeCode, FeeVersionStatus status) {
+
+        BandedFeeDto bandedFeeDto = new BandedFeeDto();
+        bandedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
+        bandedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
+        bandedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
+        bandedFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
+        bandedFeeDto.setService(serviceTypeService.findByNameOrThrow("civil money claims").getName());
+        bandedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+
+        return bandedFeeDto;
+    }
+
+    public RelationalFeeDto getRelationalFeeDtoWithReferenceData(String feeCode, FeeVersionStatus status) {
+
+        RelationalFeeDto relationalFeeDto = new RelationalFeeDto();
+        relationalFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
+        relationalFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
+        relationalFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
+        relationalFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
+        relationalFeeDto.setService(serviceTypeService.findByNameOrThrow("civil money claims").getName());
+        relationalFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+
+        return relationalFeeDto;
+    }
+
+    public RateableFeeDto getRateableFeeDtoWithReferenceData(String feeCode, FeeVersionStatus status) {
+
+        RateableFeeDto rateablelFeeDto = new RateableFeeDto();
+        rateablelFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
+        rateablelFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
+        rateablelFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
+        rateablelFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
+        rateablelFeeDto.setService(serviceTypeService.findByNameOrThrow("civil money claims").getName());
+        rateablelFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+
+        return rateablelFeeDto;
+    }
+
+
+
+
     public FeeVersionDto getFeeVersionDto(FeeVersionStatus status, String memoLine, String feeOrderName, String naturalAccountCode, String statutoryInstrument, String siRefId, DirectionType direction) {
         MutableDateTime validTo = new MutableDateTime(new Date());
         validTo.addDays(90);
@@ -288,7 +328,7 @@ public abstract class BaseTest {
     }
 
 
-    public List<CreateFixedFeeDto> getFixedFeesDto() throws IOException {
+    public List<FixedFeeDto> getFixedFeesDto() throws IOException {
         String  csvFees = "[\n" +
             "  {\n" +
             "    \"version\": {\n" +
@@ -334,12 +374,12 @@ public abstract class BaseTest {
             "  }\n" +
             "]";
 
-        TypeReference<List<CreateFixedFeeDto>> fixedFeeDtos = new TypeReference<List<CreateFixedFeeDto>>(){};
+        TypeReference<List<FixedFeeDto>> fixedFeeDtos = new TypeReference<List<FixedFeeDto>>(){};
         return objectMapper.readValue(csvFees, fixedFeeDtos);
     }
 
 
-    public List<CreateFixedFeeDto> getIncorrectFixedFeesDto() throws IOException {
+    public List<FixedFeeDto> getIncorrectFixedFeesDto() throws IOException {
         String  csvFees = "[\n" +
             "  {\n" +
             "    \"version\": {\n" +
@@ -385,7 +425,7 @@ public abstract class BaseTest {
             "  }\n" +
             "]";
 
-        TypeReference<List<CreateFixedFeeDto>> fixedFeeDtos = new TypeReference<List<CreateFixedFeeDto>>(){};
+        TypeReference<List<FixedFeeDto>> fixedFeeDtos = new TypeReference<List<FixedFeeDto>>(){};
         return objectMapper.readValue(csvFees, fixedFeeDtos);
     }
 

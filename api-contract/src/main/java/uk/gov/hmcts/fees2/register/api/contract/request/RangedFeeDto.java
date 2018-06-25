@@ -5,12 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
-public class CreateRangedFeeDto extends CreateFeeDto{
+public class RangedFeeDto extends FeeDto{
 
     @JsonProperty("min_range")
     private BigDecimal minRange;
@@ -21,7 +20,7 @@ public class CreateRangedFeeDto extends CreateFeeDto{
     @JsonProperty("range_unit")
     private String rangeUnit;
 
-    public CreateRangedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, BigDecimal maxRange,  BigDecimal minRange) {
+    public RangedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, BigDecimal maxRange, BigDecimal minRange) {
         super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false);
         this.maxRange = maxRange;
         this.minRange = minRange;
@@ -31,7 +30,7 @@ public class CreateRangedFeeDto extends CreateFeeDto{
         return minRange;
     }
 
-    public CreateRangedFeeDto setMinRange(BigDecimal minRange) {
+    public RangedFeeDto setMinRange(BigDecimal minRange) {
         this.minRange = minRange;
         return this;
     }
@@ -40,50 +39,50 @@ public class CreateRangedFeeDto extends CreateFeeDto{
         return maxRange;
     }
 
-    public CreateRangedFeeDto setMaxRange(BigDecimal maxRange) {
+    public RangedFeeDto setMaxRange(BigDecimal maxRange) {
         this.maxRange = maxRange;
         return this;
     }
 
     /* --- */
 
-    public CreateRangedFeeDto setCode(String code) {
+    public RangedFeeDto setCode(String code) {
         this.code = code;
         return this;
     }
 
-    public CreateRangedFeeDto setVersion(FeeVersionDto version) {
+    public RangedFeeDto setVersion(FeeVersionDto version) {
         this.version = version;
         return this;
     }
 
-    public CreateRangedFeeDto setJurisdiction1(String jurisdiction1) {
+    public RangedFeeDto setJurisdiction1(String jurisdiction1) {
         this.jurisdiction1 = jurisdiction1;
         return this;
     }
 
-    public CreateRangedFeeDto setJurisdiction2(String jurisdiction2) {
+    public RangedFeeDto setJurisdiction2(String jurisdiction2) {
         this.jurisdiction2 = jurisdiction2;
         return this;
     }
 
-    public CreateRangedFeeDto setService(String service) {
+    public RangedFeeDto setService(String service) {
         this.service = service;
         return this;
     }
 
-    public CreateRangedFeeDto setChannel(String channel) {
+    public RangedFeeDto setChannel(String channel) {
         this.channel = channel;
         return this;
     }
 
 
-    public CreateRangedFeeDto setEvent(String event) {
+    public RangedFeeDto setEvent(String event) {
         this.event = event;
         return this;
     }
 
-    public CreateRangedFeeDto setApplicant(String applicantType) {
+    public RangedFeeDto setApplicant(String applicantType) {
         this.applicantType = applicantType;
         return this;
     }
@@ -92,7 +91,7 @@ public class CreateRangedFeeDto extends CreateFeeDto{
         return rangeUnit;
     }
 
-    public CreateRangedFeeDto setRangeUnit(String rangeUnit) {
+    public RangedFeeDto setRangeUnit(String rangeUnit) {
         this.rangeUnit = rangeUnit;
         return this;
     }

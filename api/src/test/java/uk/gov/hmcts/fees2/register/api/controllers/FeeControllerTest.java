@@ -5,9 +5,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.BandedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RateableFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RelationalFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -16,9 +18,9 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by tarun on 02/11/2017.
@@ -32,7 +34,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void readFeeTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.approved);
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.approved);
 
         String loc = restActions
             .withUser("admin")
@@ -53,12 +55,83 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
 
+
+    @Test
+    public synchronized void createBandedFeeTest() throws Exception {
+        BandedFeeDto bandedFeeDto = getBandedFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/banded-fees", bandedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        restActions
+            .get(loc)
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
+                assertThat(feeDto.getCode().equals(arr[3]));
+                assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
+            }));
+
+        forceDeleteFee(arr[3]);
+    }
+
+    @Test
+    public synchronized void createRelationalFeeTest() throws Exception {
+       RelationalFeeDto relationalFeeDto = getRelationalFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/relational-fees", relationalFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        restActions
+            .get(loc)
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
+                assertThat(feeDto.getCode().equals(arr[3]));
+                assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
+            }));
+
+        forceDeleteFee(arr[3]);
+    }
+
+
+    @Test
+    public synchronized void createRateableFeeTest() throws Exception {
+        RateableFeeDto rateableFeeDto = getRateableFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
+
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/rateable-fees", rateableFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
+        restActions
+            .get(loc)
+            .andExpect(status().isOk())
+            .andExpect(body().as(Fee2Dto.class, (feeDto) -> {
+                assertThat(feeDto.getCode().equals(arr[3]));
+                assertThat(feeDto.getJurisdiction1Dto().getName().equals("civil"));
+            }));
+
+        forceDeleteFee(arr[3]);
+    }
+
+
+
+
     /**
      * @throws Exception
      */
     @Test
     public synchronized void feesLookupTest() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoForLookup(300, 399, null, FeeVersionStatus.approved);
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoForLookup(300, 399, null, FeeVersionStatus.approved);
         rangedFeeDto.getVersion().setFlatAmount(null);
 
         VolumeAmountDto dto = new VolumeAmountDto();
@@ -149,7 +222,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void createInvalidDateVersionTest() throws Exception {
         Date date = new Date();
 
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, null, FeeVersionStatus.approved);
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, null, FeeVersionStatus.approved);
         rangedFeeDto.getVersion().setValidTo(date);
         rangedFeeDto.getVersion().setValidFrom(date);
 
@@ -159,13 +232,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isBadRequest());
     }
 
-    @Test
-    public synchronized void createCsvImportFixedFeesTest() throws Exception {
-        restActions
-            .withUser("admin")
-            .post("/fees-register/bulk-fixed-fees", getFixedFeesDto())
-            .andExpect(status().isCreated());
-    }
 
     @Test
     public synchronized void createCsvImportFixedFeesWithIncorrectDataTest() throws Exception {
@@ -213,7 +279,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     // test that delete throws 403 when trying to delete a fee with an approved version
     @Test
     public void deletingFeeWithApprovedVersionThrowsForbiddenException() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.approved);
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.approved);
 
         String loc = restActions
             .withUser("admin")
@@ -233,7 +299,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     // test that delete deletes fee which has no approved versions
     @Test
     public void deletingFeeWithoutApprovedVersionReturnsNoContent() throws Exception {
-        CreateRangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
 
         String loc = restActions
             .withUser("admin")
