@@ -7,4 +7,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "banded_fee")
 public class BandedFee extends FixedFee {
+    @Override
+    public String getTypeCode() {
+        return "banded";
+    }
 }

@@ -6,4 +6,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "relational_fee")
 public class RelationalFee extends FixedFee {
+    @Override
+    public String getTypeCode() {
+        return "relational";
+    }
 }
