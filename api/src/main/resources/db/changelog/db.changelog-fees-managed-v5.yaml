@@ -122,3 +122,15 @@ databaseChangeLog:
         constraintName: fk_fee_banded_fee
         referencedColumnNames: id
         referencedTableName: fee
+
+
+
+- changeSet:
+    id: 1530529796319
+    author: sachi
+    changes:
+      - sql:
+          sql: >
+            INSERT INTO service_type (name,creation_time,last_updated)
+            VALUES ('other',current_timestamp,current_timestamp)
+

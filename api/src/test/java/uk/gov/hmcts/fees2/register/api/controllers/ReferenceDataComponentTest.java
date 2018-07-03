@@ -8,12 +8,12 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees2.register.api.contract.ApplicantTypeDto.*;
-import static uk.gov.hmcts.fees2.register.api.contract.ChannelTypeDto.*;
-import static uk.gov.hmcts.fees2.register.api.contract.DirectionTypeDto.*;
-import static uk.gov.hmcts.fees2.register.api.contract.EventTypeDto.*;
-import static uk.gov.hmcts.fees2.register.api.contract.Jurisdiction2Dto.*;
-import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.*;
+import static uk.gov.hmcts.fees2.register.api.contract.ApplicantTypeDto.applicantTypeDtoWith;
+import static uk.gov.hmcts.fees2.register.api.contract.ChannelTypeDto.channelTypeDtoWith;
+import static uk.gov.hmcts.fees2.register.api.contract.DirectionTypeDto.directionTypeDtoWith;
+import static uk.gov.hmcts.fees2.register.api.contract.EventTypeDto.eventTypeDtoWith;
+import static uk.gov.hmcts.fees2.register.api.contract.Jurisdiction2Dto.jurisdiction2TypeDtoWith;
+import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.serviceTypeDtoWith;
 
 /**
  * Reference data verification component test
@@ -207,7 +207,7 @@ public class ReferenceDataComponentTest extends BaseTest {
             .get(URIUtils.getUrlForGetMethod(ReferenceDataController.class, "getAllServiceTypes"))
             .andExpect(status().isOk())
             .andExpect(body().asListOf(ServiceTypeDto.class, serviceTypeDtos -> {
-                assertThat(serviceTypeDtos.size()).isEqualTo(15);
+                assertThat(serviceTypeDtos.size()).isEqualTo(16);
                 assertThat(serviceTypeDtos).contains(
                     serviceTypeDtoWith()
                         .name("civil money claims")
@@ -253,6 +253,9 @@ public class ReferenceDataComponentTest extends BaseTest {
                         .build(),
                     serviceTypeDtoWith()
                         .name("magistrates")
+                        .build(),
+                    serviceTypeDtoWith()
+                        .name("other")
                         .build()
                 );
             }));
