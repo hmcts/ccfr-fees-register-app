@@ -150,3 +150,16 @@ databaseChangeLog:
           sql: >
             INSERT INTO service_type (name,creation_time,last_updated)
             VALUES ('other',current_timestamp,current_timestamp) ON CONFLICT DO NOTHING
+
+- changeSet:
+    id: 1530721907440
+    author: sachi
+    preConditions:
+      - onFail: MARK_RAN
+      - dbms:
+          type: postgresql
+    changes:
+      - sql:
+          sql: >
+            INSERT INTO service_type (name,creation_time,last_updated)
+            VALUES ('other',current_timestamp,current_timestamp) ON CONFLICT DO NOTHING

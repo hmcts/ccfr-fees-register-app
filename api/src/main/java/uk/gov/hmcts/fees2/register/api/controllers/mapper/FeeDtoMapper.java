@@ -11,7 +11,6 @@ import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDt
 import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ServiceTypeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
@@ -23,7 +22,6 @@ import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -67,17 +65,7 @@ public class FeeDtoMapper {
     private void updateFeeDetails(FeeDto request, Fee fee) {
         fillJuridistiction1(fee, request.getJurisdiction1());
         fillJuridistiction2(fee, request.getJurisdiction2());
-        Optional<ServiceType> optionalServiceType = null;
-
-        ServiceType serviceType =null;
-        if (request.getService() != null) {
-            optionalServiceType = serviceTypeRepository.findByName(request.getService().toLowerCase());
-            serviceType = optionalServiceType
-                .orElseThrow(() -> new ServiceTypeNotFoundException());
-        } else{
-            serviceType = serviceTypeRepository.findByName("other").get();
-        }
-        fillServiceType(fee, serviceType.getName());
+        fillServiceType(fee, request.getService());
         fillEventType(fee, request.getEvent());
         fillChannelType(fee, request.getChannel());
         fillApplicationType(fee, request.getApplicantType());
