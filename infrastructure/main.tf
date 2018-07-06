@@ -14,6 +14,7 @@ module "fees-register-api" {
   subscription = "${var.subscription}"
   is_frontend  = false
   capacity = "${var.capacity}"
+  common_tags     = "${var.common_tags}"
 
   app_settings = {
     # db
@@ -39,5 +40,6 @@ module "fees-register-database" {
   database_name = "${var.database_name}"
   sku_name = "GP_Gen5_2"
   sku_tier = "GeneralPurpose"
+  common_tags     = "${var.common_tags}"
 }
 
