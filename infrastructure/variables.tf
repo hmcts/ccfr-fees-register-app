@@ -50,3 +50,7 @@ variable "capacity" {
 variable "common_tags" {
   type = "map"
 }
+
+variable "external_host_name" {
+  default = "fees-register-api.nonprod.platform.hmcts.net"
+}
