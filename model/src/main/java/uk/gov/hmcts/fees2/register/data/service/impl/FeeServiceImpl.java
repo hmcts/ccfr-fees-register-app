@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.data.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -24,16 +25,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class FeeServiceImpl implements FeeService {
+public class FeeServiceImpl implements FeeService, InitializingBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeeServiceImpl.class);
 
     private static final Predicate[] REF = new Predicate[0];
+
+    private AtomicInteger nextFeeNumber;
 
     @Autowired
     private FeeVersionRepository feeVersionRepository;
@@ -76,16 +80,19 @@ public class FeeServiceImpl implements FeeService {
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
-    
     @Override
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
-        Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
+        Integer nextFeeNumber = getAvailableFeeNumber();
         fee.setFeeNumber(nextFeeNumber);
         fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
 
         return fee2Repository.save(fee);
+    }
+
+    private Integer getAvailableFeeNumber() {
+        return nextFeeNumber.getAndIncrement();
     }
 
     @Override
@@ -302,4 +309,8 @@ public class FeeServiceImpl implements FeeService {
     }
 
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        nextFeeNumber = new AtomicInteger(fee2Repository.getMaxFeeNumber() + 1);
+    }
 }

@@ -30,7 +30,7 @@ public class FeesControllerAdvice {
     @ExceptionHandler({ReferenceDataNotFoundException.class})
     public ResponseEntity<Map<String,String>> referenceDataNotFound(ReferenceDataNotFoundException e){
         LOG.error(e.toString());
-        return new ResponseEntity<>(Collections.singletonMap("cause", e.getIdValue() + " is not a valid value for " + e.getIdName()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Collections.singletonMap("cause", "\"" + e.getIdValue() + "\" is not a valid value for " + e.getIdName()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({TooManyResultsException.class})
