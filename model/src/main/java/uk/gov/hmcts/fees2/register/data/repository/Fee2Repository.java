@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 @Repository

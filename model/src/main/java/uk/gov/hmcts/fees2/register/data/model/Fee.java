@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeValidator;
@@ -28,7 +29,9 @@ public abstract class Fee extends AbstractEntity{
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "fee_number", unique = true)
+    @Column(name = "fee_number", unique = true, insertable = false)
+//    @SequenceGenerator(name = "fee_number_sequence", sequenceName = "fee_number_seq")
+//    @GeneratedValue(generator = "fee_number_sequence", strategy = GenerationType.AUTO)
     private Integer feeNumber;
 
     @ManyToOne
@@ -110,6 +113,11 @@ public abstract class Fee extends AbstractEntity{
         creationTime = now;
         lastUpdated = now;
     }
+
+//    @PostPersist
+//    public void postPersist() {
+//        setCode("FEE" + StringUtils.leftPad(getFeeNumber().toString(), 4, "0"));
+//    }
 
     /** Added toString method to avoid StackOverFlow error on debugger */
     @Override

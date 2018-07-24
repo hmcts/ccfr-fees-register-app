@@ -31,13 +31,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class FeeServiceImpl implements FeeService, InitializingBean {
+public class FeeServiceImpl implements FeeService {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeeServiceImpl.class);
 
     private static final Predicate[] REF = new Predicate[0];
-
-    private AtomicInteger nextFeeNumber;
 
     @Autowired
     private FeeVersionRepository feeVersionRepository;
@@ -81,18 +79,13 @@ public class FeeServiceImpl implements FeeService, InitializingBean {
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
     @Override
-    public Fee save(Fee fee) {
+    public Fee saveAndGenerateFeeCode(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
-        Integer nextFeeNumber = getAvailableFeeNumber();
-        fee.setFeeNumber(nextFeeNumber);
-        fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
+        Fee savedFee = fee2Repository.saveAndFlush(fee);
+        savedFee.setCode("FEE" + StringUtils.leftPad(savedFee.getFeeNumber().toString(), 4, "0"));
 
-        return fee2Repository.save(fee);
-    }
-
-    private Integer getAvailableFeeNumber() {
-        return nextFeeNumber.getAndIncrement();
+        return fee2Repository.saveAndFlush(savedFee);
     }
 
     @Override
@@ -102,7 +95,6 @@ public class FeeServiceImpl implements FeeService, InitializingBean {
             feeValidator.validateAndDefaultNewFee(fee);
 
             Matcher matcher = pattern.matcher(fee.getCode());
-            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
             fee2Repository.save(fee);
         }
     }
@@ -124,11 +116,11 @@ public class FeeServiceImpl implements FeeService, InitializingBean {
             fee.setCode(newCode);
 
             Matcher matcher = pattern.matcher(newCode);
-            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee.setFeeNumber(matcher.find() ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
         } else { // If the new feeCode is not present in the request, then auto generate the code.
             Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
             fee.setFeeNumber(nextFeeNumber);
-            fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
+            fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0")); // move to /get
         }
     }
 
@@ -137,7 +129,7 @@ public class FeeServiceImpl implements FeeService, InitializingBean {
      * @param fees list
      */
     @Transactional
-    public void save(List<Fee> fees) {
+    public void saveAndGenerateFeeCode(List<Fee> fees) {
 
         fees.stream().forEach(fee -> {
             feeValidator.validateAndDefaultNewFee(fee);
@@ -306,11 +298,5 @@ public class FeeServiceImpl implements FeeService, InitializingBean {
 
         return builder.and(predicates.toArray(REF));
 
-    }
-
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        nextFeeNumber = new AtomicInteger(fee2Repository.getMaxFeeNumber() + 1);
     }
 }

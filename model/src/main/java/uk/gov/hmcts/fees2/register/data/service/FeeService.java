@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface FeeService  {
 
-    Fee save(Fee fee);
+    Fee saveAndGenerateFeeCode(Fee fee);
 
-    void save(List<Fee> fees);
+    void saveAndGenerateFeeCode(List<Fee> fees);
 
     void delete(String code);
 

@@ -120,7 +120,7 @@ public class FeeServiceTest extends BaseTest{
         feeVersion.setAmount(new FlatAmount(BigDecimal.ONE));
         fee.setFeeVersions(Arrays.asList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         assertEquals(Integer.valueOf(1), fee.getFeeVersions().get(0).getVersion());
         assertEquals(FeeVersionStatus.draft, fee.getFeeVersions().get(0).getStatus());
@@ -140,7 +140,7 @@ public class FeeServiceTest extends BaseTest{
         feeVersion.setAmount(new FlatAmount(BigDecimal.ONE));
         fee.setFeeVersions(Arrays.asList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         assertEquals(Integer.valueOf(1), fee.getFeeVersions().get(0).getVersion());
         assertEquals(FeeVersionStatus.draft, fee.getFeeVersions().get(0).getStatus());
@@ -160,7 +160,7 @@ public class FeeServiceTest extends BaseTest{
         feeVersion.setAmount(new FlatAmount(BigDecimal.ONE));
         fee.setFeeVersions(Arrays.asList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         assertEquals(Integer.valueOf(1), fee.getFeeVersions().get(0).getVersion());
         assertEquals(FeeVersionStatus.draft, fee.getFeeVersions().get(0).getStatus());
@@ -180,7 +180,7 @@ public class FeeServiceTest extends BaseTest{
         feeVersion.setAmount(new FlatAmount(BigDecimal.ONE));
         fee.setFeeVersions(Arrays.asList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         assertEquals(Integer.valueOf(1), fee.getFeeVersions().get(0).getVersion());
         assertEquals(FeeVersionStatus.draft, fee.getFeeVersions().get(0).getStatus());
@@ -202,7 +202,7 @@ public class FeeServiceTest extends BaseTest{
         feeVersion.setAmount(new FlatAmount(BigDecimal.ONE));
         fee.setFeeVersions(Arrays.asList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         fee = feeService.get(fee.getCode());
 
@@ -234,7 +234,7 @@ public class FeeServiceTest extends BaseTest{
 
         dto.setVersion(versionDto);
 
-        feeService.save(dtoMapper.toFee(dto, AUTHOR));
+        feeService.saveAndGenerateFeeCode(dtoMapper.toFee(dto, AUTHOR));
 
         return dto.getCode();
     }

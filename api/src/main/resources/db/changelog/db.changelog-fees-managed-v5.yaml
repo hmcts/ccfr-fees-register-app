@@ -163,3 +163,12 @@ databaseChangeLog:
           sql: >
             INSERT INTO service_type (name,creation_time,last_updated)
             VALUES ('other',current_timestamp,current_timestamp) ON CONFLICT DO NOTHING
+
+- changeSet:
+    id: 2523960740461-3
+    author: mateuszs
+    changes:
+      - sql: >
+          CREATE SEQUENCE fee_number_seq;
+          ALTER TABLE fee ALTER COLUMN fee_number SET DEFAULT nextval('fee_number_seq');
+          SELECT setval('fee_number_seq', max(fee_number)) FROM fee;

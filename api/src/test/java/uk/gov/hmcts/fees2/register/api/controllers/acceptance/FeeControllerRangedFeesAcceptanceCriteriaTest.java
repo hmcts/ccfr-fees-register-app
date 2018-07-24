@@ -31,7 +31,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     And I have specified the date valid FROM & TO
     And the fee amount is a "% amount"
     And I enter the flat amount is defined
-    When I save this fee
+    When I saveAndGenerateFeeCode this fee
     Then the fee is SAVED successfully
     And the fee status is Draft
     And the fee version is 1
@@ -85,7 +85,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     And I have specified the date valid FROM & TO
     And the fee amount is a "% amount"
     And I enter the flat amount is defined
-    When I save this fee
+    When I saveAndGenerateFeeCode this fee
     Then the fee is SAVED successfully
     And the fee status is Draft
     And the fee version is 1
@@ -140,7 +140,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     And I have specified the fee codeAnd I have specified the fee description
     And the fee amount is a "flat amount"
     And  the flat amount is defined
-    When I save this fee
+    When I saveAndGenerateFeeCode this fee
     Then the fee is SAVED successfully
     And the fee status is Draft
     And the fee version is 1
@@ -190,7 +190,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     And I have specified the fee codeAnd I have specified the fee description
     And the fee amount is a "flat amount"
     And I enter the flat amount is defined
-    When I save this fee
+    When I saveAndGenerateFeeCode this fee
     Then the fee is SAVED successfully
     And the fee status is Draft
     And the fee version is 1

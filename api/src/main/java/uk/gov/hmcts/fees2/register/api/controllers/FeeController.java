@@ -68,7 +68,7 @@ public class FeeController {
         HttpServletResponse response,
         Principal principal) {
 
-        Fee fee = feeService.save(
+        Fee fee = feeService.saveAndGenerateFeeCode(
             feeDtoMapper.toFee(request, principal != null ? principal.getName() : null)
         );
 
@@ -128,7 +128,7 @@ public class FeeController {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        fee = feeService.save(fee);
+        fee = feeService.saveAndGenerateFeeCode(fee);
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
@@ -148,7 +148,7 @@ public class FeeController {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        fee = feeService.save(fee);
+        fee = feeService.saveAndGenerateFeeCode(fee);
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
@@ -170,7 +170,7 @@ public class FeeController {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        fee = feeService.save(fee);
+        fee = feeService.saveAndGenerateFeeCode(fee);
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
@@ -191,7 +191,7 @@ public class FeeController {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        fee = feeService.save(fee);
+        fee = feeService.saveAndGenerateFeeCode(fee);
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
@@ -217,7 +217,7 @@ public class FeeController {
             .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, principal != null ? principal.getName() : null))
             .collect(Collectors.toList());
 
-        feeService.save(fixedFees);
+        feeService.saveAndGenerateFeeCode(fixedFees);
     }
 
     @ApiOperation(value = "Get a fee for the given fee code", response = Fee2Dto.class)

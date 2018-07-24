@@ -26,7 +26,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
     And I have specified the fee codeAnd I have specified the fee description
     And the fee amount is a "flat amount"
     And  the flat amount is defined
-    When I save this fee
+    When I saveAndGenerateFeeCode this fee
     Then the fee is SAVED successfully
     And the fee status is Draft
     And the fee version is 1
