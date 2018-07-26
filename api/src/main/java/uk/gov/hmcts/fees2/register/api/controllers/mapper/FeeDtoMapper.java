@@ -144,7 +144,7 @@ public class FeeDtoMapper {
     public Fee2Dto toFeeDto(Fee fee) {
         Fee2Dto fee2Dto = new Fee2Dto();
 
-        fee2Dto.setCode("FEE" + StringUtils.leftPad(fee.getFeeNumber().toString(), 4, "0"));
+        fee2Dto.setCode(fee.getCode());
 
         fee2Dto.setFeeType(fee.getTypeCode());
 

@@ -26,13 +26,11 @@ import java.util.stream.Collectors;
 @Table(name = "fee")
 public abstract class Fee extends AbstractEntity{
 
+    @Transient
+    private boolean isFeeCodeUnset;
+
     @Column(name = "code", unique = true)
     private String code;
-
-    @Column(name = "fee_number", unique = true, insertable = false)
-//    @SequenceGenerator(name = "fee_number_sequence", sequenceName = "fee_number_seq")
-//    @GeneratedValue(generator = "fee_number_sequence", strategy = GenerationType.AUTO)
-    private Integer feeNumber;
 
     @ManyToOne
     @JoinColumn(name = "jurisdiction1")
@@ -74,6 +72,13 @@ public abstract class Fee extends AbstractEntity{
     private Date lastUpdated;
 
     /* --- */
+    public void setId(Long id) {
+        this.id = id;
+        if(isFeeCodeUnset) {
+            setCode("CustomFeeCode".concat(id.toString()));// TODO: put fee code generation logic here
+            this.isFeeCodeUnset = false;
+        }
+    }
 
     public abstract String getTypeCode();
 
@@ -112,6 +117,9 @@ public abstract class Fee extends AbstractEntity{
         Date now = new Date();
         creationTime = now;
         lastUpdated = now;
+        if(code == null || code.isEmpty()) {
+            isFeeCodeUnset = true;
+        }
     }
 
 //    @PostPersist
