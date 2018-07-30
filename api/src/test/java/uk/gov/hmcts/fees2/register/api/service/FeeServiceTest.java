@@ -49,8 +49,8 @@ public class FeeServiceTest extends BaseTest{
     @Test(expected = BadRequestException.class)
     @Transactional
     public void testSavingFeeWithSameReferenceDataThrowsError() {
-        createDetailedFee("divorce");
-        createDetailedFee("divorce");
+        createDetailedFee("cmc");
+        createDetailedFee("cmc");
     }
 
     @Test
