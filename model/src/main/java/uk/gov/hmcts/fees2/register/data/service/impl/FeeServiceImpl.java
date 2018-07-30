@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.*;
@@ -20,6 +21,7 @@ import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,16 +78,32 @@ public class FeeServiceImpl implements FeeService {
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
-    
+
     @Override
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
+
+        if (!isFeeReferenceDataUnique(fee)) {
+            throw new BadRequestException("Combination of reference data is already taken by another fee");
+        }
 
         Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
         fee.setFeeNumber(nextFeeNumber);
         fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
 
         return fee2Repository.save(fee);
+    }
+
+    private boolean isFeeReferenceDataUnique(Fee fee) {
+        // TODO: when keyword comes into play inside lookup, this needs to be extended
+        LookupFeeDto searchDto = new LookupFeeDto(fee.getService().getName(), fee.getJurisdiction1().getName(),
+            fee.getJurisdiction2().getName(), fee.getChannelType().getName(), fee.getEventType().getName(),
+            fee.getApplicantType().getName(), null, false,
+            null, null);
+
+        List<Fee> fees = search(searchDto);
+
+        return fees.isEmpty();
     }
 
     @Override
