@@ -76,7 +76,7 @@ public class FeeServiceImpl implements FeeService {
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
-    
+
     @Override
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
@@ -171,7 +171,7 @@ public class FeeServiceImpl implements FeeService {
 
         defaults(dto);
 
-        List<Fee> fees = search(dto);
+        List<Fee> fees = search(dto).stream().filter(fee -> fee.getCurrentVersion(true) != null).collect(Collectors.toList());
 
         if (fees.isEmpty()) {
             throw new FeeNotFoundException(dto);
