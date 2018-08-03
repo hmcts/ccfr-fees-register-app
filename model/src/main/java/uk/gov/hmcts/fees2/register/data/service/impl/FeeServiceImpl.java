@@ -189,10 +189,6 @@ public class FeeServiceImpl implements FeeService {
 
         FeeVersion version = fee.getCurrentVersion(dto.getVersionStatus().equals(FeeVersionStatus.approved));
 
-        if (version == null) {
-            throw new FeeNotFoundException(dto);
-        }
-
         return new FeeLookupResponseDto(
             fee.getCode(),
             version.getDescription(),

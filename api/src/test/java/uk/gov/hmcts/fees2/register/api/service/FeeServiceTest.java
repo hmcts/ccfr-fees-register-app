@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -112,8 +113,8 @@ public class FeeServiceTest extends BaseTest{
     @Test
     @Transactional
     public void testLookupSearchesOnlyApprovedFees() {
-        String codeApproved = createDetailedFee("civil money claims", FeeVersionStatus.approved);
-        String codeDraft = createDetailedFee("civil money claims", FeeVersionStatus.draft);
+        createDetailedFee("civil money claims", FeeVersionStatus.approved);
+        createDetailedFee("civil money claims", FeeVersionStatus.draft);
 
         LookupFeeDto dto = new LookupFeeDto();
 
@@ -126,6 +127,8 @@ public class FeeServiceTest extends BaseTest{
 
         //confirm properly found
         FeeLookupResponseDto fee = feeService.lookup(dto);
+
+        assertNotEquals(null, fee);
     }
 
     @Test
