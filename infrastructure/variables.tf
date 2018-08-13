@@ -39,6 +39,11 @@ variable "postgresql_user" {
   default = "fees_register"
 }
 
+// disabled liquibase temporarily - enable for new db changes build and then disable again
+variable "liquibase_enabled" {
+  default = "false"
+}
+
 variable "idam_api_url" {
   default = "http://betaDevAccidamAppLB.reform.hmcts.net"
 }

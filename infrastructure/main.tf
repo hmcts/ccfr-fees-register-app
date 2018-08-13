@@ -25,7 +25,7 @@ module "fees-register-api" {
     SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.fees-register-database.host_name}:${module.fees-register-database.postgresql_listen_port}/${module.fees-register-database.postgresql_database}?ssl=true"
 
     # disables liquibase run
-    SPRING_LIQUIBASE_ENABLED = false
+    SPRING_LIQUIBASE_ENABLED = "${var.liquibase_enabled}"
 
     # idam
     IDAM_CLIENT_BASE_URL = "${var.idam_api_url}"
