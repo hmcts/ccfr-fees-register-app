@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +28,7 @@ import uk.gov.hmcts.fees2.register.data.model.FixedFee;
 import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.util.SecurityUtil;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -251,7 +250,7 @@ public class FeeController {
     @DeleteMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFee(@PathVariable("code") String code) {
-        if (hasAdminRole()) { // force delete
+        if (SecurityUtil.hasRole(FREG_ADMIN)) { // force delete
             feeService.delete(code);
         } else if (!feeService.safeDelete(code)) { // check if fee has any approved versions before deleting
             throw new ForbiddenException();
@@ -360,14 +359,6 @@ public class FeeController {
 
     private String getResourceLocation(Fee fee) {
         return URIUtils.getUrlForGetMethod(this.getClass(), "getFee").replace("{code}", fee.getCode());
-    }
-
-    private boolean hasAdminRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getAuthorities().stream()
-            .map(a -> FREG_ADMIN.equalsIgnoreCase(a.getAuthority()))
-            .findFirst()
-            .orElse(false);
     }
 
 }
