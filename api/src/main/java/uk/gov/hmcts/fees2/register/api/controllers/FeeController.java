@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +47,7 @@ public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
 
     public static final String LOCATION = "Location";
+    public static final String FREG_ADMIN = "freg-admin";
 
     @Autowired
     private final FeeService feeService;
@@ -247,9 +250,10 @@ public class FeeController {
     })
     @DeleteMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFee(@PathVariable("code") String code, HttpServletResponse response) {
-        // check if fee has any approved versions before deleting
-        if (!feeService.safeDelete(code)) {
+    public void deleteFee(@PathVariable("code") String code) {
+        if (hasAdminRole()) { // force delete
+            feeService.delete(code);
+        } else if (!feeService.safeDelete(code)) { // check if fee has any approved versions before deleting
             throw new ForbiddenException();
         }
     }
@@ -356,6 +360,14 @@ public class FeeController {
 
     private String getResourceLocation(Fee fee) {
         return URIUtils.getUrlForGetMethod(this.getClass(), "getFee").replace("{code}", fee.getCode());
+    }
+
+    private boolean hasAdminRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities().stream()
+            .map(a -> FREG_ADMIN.equalsIgnoreCase(a.getAuthority()))
+            .findFirst()
+            .orElse(false);
     }
 
 }
