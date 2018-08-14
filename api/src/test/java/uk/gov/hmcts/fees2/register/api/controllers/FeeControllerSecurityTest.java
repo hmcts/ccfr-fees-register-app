@@ -189,11 +189,12 @@ public class FeeControllerSecurityTest {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-admin");
 
-        // when & then
+        // when
         this.mockMvc.perform(
             delete("/fees-register/fees/testCode")
                 .with(authentication(authentication)))
             .andExpect(status().isNoContent());
+        // then
         verify(feeService).delete("testCode");
     }
 
