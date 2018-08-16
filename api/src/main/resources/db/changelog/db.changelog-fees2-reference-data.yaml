@@ -204,7 +204,7 @@ databaseChangeLog:
                   ('civil', now(), now()),
                   ('employment appeal tribunal', now(), now()),
                   ('employment tribunal', now(), now());
-- changeSet:
+    - changeSet:
         id: 16082018
         author: eduardo
         changes:
