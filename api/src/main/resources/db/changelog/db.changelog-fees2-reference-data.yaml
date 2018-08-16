@@ -204,3 +204,13 @@ databaseChangeLog:
                   ('civil', now(), now()),
                   ('employment appeal tribunal', now(), now()),
                   ('employment tribunal', now(), now());
+- changeSet:
+        id: 16082018
+        author: eduardo
+        changes:
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO service_type (name, creation_time, last_updated)
+                VALUES
+                  ('civil', now(), now());
