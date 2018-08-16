@@ -154,7 +154,7 @@ public class ReferenceDataComponentTest extends BaseTest {
             .get(URIUtils.getUrlForGetMethod(ReferenceDataController.class, "getAllJurisdictions2"))
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Jurisdiction2Dto.class, jurisdiction2Dtos -> {
-                assertThat(jurisdiction2Dtos.size()).isEqualTo(13);
+                assertThat(jurisdiction2Dtos.size()).isEqualTo(15);
                 assertThat(jurisdiction2Dtos).contains(
                     jurisdiction2TypeDtoWith()
                         .name("county court")
@@ -187,9 +187,6 @@ public class ReferenceDataComponentTest extends BaseTest {
                         .name("property chamber")
                         .build(),
                     jurisdiction2TypeDtoWith()
-                        .name("tax chamber")
-                        .build(),
-                    jurisdiction2TypeDtoWith()
                         .name("upper tribunal immigration and asylum chamber")
                         .build(),
                     jurisdiction2TypeDtoWith()
@@ -207,7 +204,7 @@ public class ReferenceDataComponentTest extends BaseTest {
             .get(URIUtils.getUrlForGetMethod(ReferenceDataController.class, "getAllServiceTypes"))
             .andExpect(status().isOk())
             .andExpect(body().asListOf(ServiceTypeDto.class, serviceTypeDtos -> {
-                assertThat(serviceTypeDtos.size()).isEqualTo(16);
+                assertThat(serviceTypeDtos.size()).isEqualTo(18);
                 assertThat(serviceTypeDtos).contains(
                     serviceTypeDtoWith()
                         .name("civil money claims")
@@ -241,9 +238,6 @@ public class ReferenceDataComponentTest extends BaseTest {
                         .build(),
                     serviceTypeDtoWith()
                         .name("property")
-                        .build(),
-                    serviceTypeDtoWith()
-                        .name("tax")
                         .build(),
                     serviceTypeDtoWith()
                         .name("probate")
