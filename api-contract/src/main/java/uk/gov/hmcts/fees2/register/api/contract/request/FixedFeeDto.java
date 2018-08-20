@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.contract.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,8 +13,8 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 @EqualsAndHashCode(callSuper = true)
 public class FixedFeeDto extends FeeDto{
 
-    public FixedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, boolean unspecifiedClaimAmount) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount);
+    public FixedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, boolean unspecifiedClaimAmount, String keyword) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount, keyword);
     }
 
     public FixedFeeDto setCode(String code) {
@@ -67,6 +68,9 @@ public class FixedFeeDto extends FeeDto{
         return this;
     }
 
-
+    public FixedFeeDto setKeyword(String keyword) {
+        this.keyword = keyword;
+        return this;
+    }
 
 }

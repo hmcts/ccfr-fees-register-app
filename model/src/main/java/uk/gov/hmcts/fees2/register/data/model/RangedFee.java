@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ranged_fee")
+@DiscriminatorValue("RangedFee")
 public class RangedFee extends Fee{
 
     @Column(name = "min_range")

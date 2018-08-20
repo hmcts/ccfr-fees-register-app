@@ -70,7 +70,15 @@ public abstract class Fee extends AbstractEntity{
     @Column(name = "last_updated", nullable = false)
     private Date lastUpdated;
 
+    @Column(name = "keyword")
+    private String keyword;
+
     /* --- */
+
+    @Transient
+    public String getFeeType() {
+        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
+    }
 
     public abstract String getTypeCode();
 

@@ -1,17 +1,26 @@
 package uk.gov.hmcts.fees2.register.data.service.validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.ApplicantTypeRepository;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
+import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersionValidator;
 
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.*;
 
 @Component
 public class FeeValidator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FeeValidator.class);
 
     protected ApplicationContext context;
 
@@ -21,11 +30,16 @@ public class FeeValidator {
 
     private List<IFeeVersionValidator> versionValidators;
 
+    private Fee2Repository feeRepository;
+
+    private static final Predicate[] REF = new Predicate[0];
+
     @Autowired
-    public FeeValidator(ApplicationContext context, ChannelTypeRepository channelTypeRepository, List<IFeeVersionValidator> versionValidators) {
+    public FeeValidator(ApplicationContext context, ChannelTypeRepository channelTypeRepository, List<IFeeVersionValidator> versionValidators, Fee2Repository feeRepository) {
         this.context = context;
         this.channelTypeRepository = channelTypeRepository;
         this.versionValidators = versionValidators;
+        this.feeRepository = feeRepository;
     }
 
     public void validateAndDefaultNewFee(Fee fee) {
@@ -69,6 +83,52 @@ public class FeeValidator {
                 v.setVersion(1);
             }
         }
+    }
+
+    public boolean isFeeExists(Fee fee) {
+         List<Fee> fees = feeRepository.findAll(findFeeByReferenceDataAndKeyword(fee));
+
+         if (fees.size() > 0) {
+             LOG.info("No. of fees found for the matching reference data: {}", fees.size());
+
+             return fees.stream().filter(f -> f.getFeeType().equals(fee.getFeeType())).findAny().isPresent();
+         }
+
+         return false;
+    }
+
+    private static Specification findFeeByReferenceDataAndKeyword(Fee fee) {
+        return ((root, query, cb) -> getPredicate(root, cb, fee));
+    }
+
+    private static Predicate getPredicate(Root<Fee> root, CriteriaBuilder cb, Fee fee) {
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (fee.getChannelType() != null) {
+            predicates.add(cb.equal(root.get("channelType"), fee.getChannelType()));
+        }
+
+        if (fee.getEventType() != null) {
+            predicates.add(cb.equal(root.get("eventType"), fee.getEventType()));
+        }
+
+        if (fee.getJurisdiction1() != null) {
+            predicates.add(cb.equal(root.get("jurisdiction1"), fee.getJurisdiction1()));
+        }
+
+        if (fee.getJurisdiction2() != null) {
+            predicates.add(cb.equal(root.get("jurisdiction2"), fee.getJurisdiction2()));
+        }
+
+        if (fee.getService() != null) {
+            predicates.add(cb.equal(root.get("service"), fee.getService()));
+        }
+
+        if (fee.getKeyword() != null) {
+            predicates.add(cb.equal(root.get("keyword"), fee.getKeyword()));
+        }
+
+        return cb.and(predicates.toArray(REF));
     }
 
 }

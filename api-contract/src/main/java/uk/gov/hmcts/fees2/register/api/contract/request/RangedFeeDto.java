@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.contract.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,8 @@ public class RangedFeeDto extends FeeDto{
     @JsonProperty("range_unit")
     private String rangeUnit;
 
-    public RangedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, BigDecimal maxRange, BigDecimal minRange) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false);
+    public RangedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, BigDecimal maxRange, BigDecimal minRange, String keyword) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false, keyword);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }
@@ -96,6 +97,9 @@ public class RangedFeeDto extends FeeDto{
         return this;
     }
 
-
+    public RangedFeeDto setKeyword(String keyword) {
+        this.keyword = keyword;
+        return this;
+    }
 
 }
