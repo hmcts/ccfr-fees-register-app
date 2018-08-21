@@ -19,7 +19,10 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -344,10 +347,84 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     }
 
+    @Test
+    @Transactional
+    public void createNewProbateCopiesFeeWithExistingReferenceDataFailureTest() throws Exception {
+        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateRangedFeeJson().getBytes(), FixedFeeDto.class);
+
+        String locHeader = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = locHeader.split("/");
+
+        assertNotNull(arr);
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data already exists")));
+
+        forceDeleteFee(arr[3]);
+    }
+
+    @Test
+    @Transactional
+    public void createNewProbateCopiesFeeWithExistingReferenceDataAndKeywordSuccessTest() throws Exception {
+        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateProbateCopiesFeeJson().getBytes(), FixedFeeDto.class);
+
+        String locHeader = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] fee1 = locHeader.split("/");
+
+        assertNotNull(fee1);
+
+        fixedFeeDto.setKeyword("KY-1");
+        String newLocHeader = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] fee2 = newLocHeader.split("/");
+
+        assertNotNull(fee1);
+
+        forceDeleteFee(fee1[3]);
+        forceDeleteFee(fee2[3]);
+    }
+
+    @Test
+    @Transactional
+    public void createNewFixedFeeWithKeywordTest() throws Exception {
+        List<FixedFeeDto> fixedFeeDtos = objectMapper.readValue(getCreateFixedFeeWithKeywordJson().getBytes(), new TypeReference<List<FixedFeeDto>>(){});
+
+        fixedFeeDtos.stream()
+            .forEach(f -> {
+                try {
+                    restActions
+                        .withUser("admin")
+                        .post("/fees-register/fixed-fees", f)
+                        .andExpect(status().isCreated());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+        MvcResult result = restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=general&jurisdiction1=family&jurisdiction2=family court&channel=default&event=miscellaneous")
+            .andExpect(status().isOk())
+            .andReturn();
+    }
+
     private String getCreateProbateCopiesFeeJson() {
         return "{\n" +
             "      \"version\": {\n" +
-            "        \"version\": 3,\n" +
             "        \"valid_from\" : \"2014-04-22T00:00:00.511Z\",\n" +
             "        \"description\": \"Additional copies of the grant representation\",\n" +
             "        \"status\": \"approved\",\n" +
@@ -420,5 +497,52 @@ public class FeeControllerTest extends BaseIntegrationTest {
             "      \"unspecified_claim_amount\": \"true\",\n" +
             "      \"applicant_type\": \"all\"\n" +
             "    }";
+    }
+
+    private String getCreateFixedFeeWithKeywordJson() {
+        return "[{\n" +
+            "      \"version\": {\n" +
+            "        \"valid_from\" : \"2014-04-22T00:00:00.000Z\",\n" +
+            "        \"description\": \"General fees - Money Claims - Claim Amount - Unspecified\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"memo_line\":\"GOV - Paper fees - Money claim >£200,000\",\n" +
+            "        \"natural_account_code\":\"4481102133\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 199.99\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"family court\",\n" +
+            "      \"service\": \"general\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"miscellaneous\",\n" +
+            "      \"keyword\": \"financial-order\",\n" +
+            "      \"unspecified_claim_amount\": \"true\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"version\": {\n" +
+            "        \"valid_from\": \"2016-03-21T00:00:00.000Z\",\n" +
+            "        \"description\": \"Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"memo_line\": \"GOV - App for divorce/nullity of marriage or CP\",\n" +
+            "        \"statutory_instrument\": \"2016 No. 402 (L. 5)\",\n" +
+            "        \"si_ref_id\": \"1.2\",\n" +
+            "        \"fee_order_name\": \"The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016\",\n" +
+            "        \"natural_account_code\":\"4481102159\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 550.00\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"family court\",\n" +
+            "      \"service\": \"general\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"general application\",\n" +
+            "      \"keyword\": \"without-notice\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    }]";
     }
 }
