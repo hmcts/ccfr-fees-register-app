@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.service.validator;
 
+import org.apache.commons.lang3.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersion
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Component
@@ -91,7 +93,13 @@ public class FeeValidator {
          if (fees.size() > 0) {
              LOG.info("No. of fees found for the matching reference data: {}", fees.size());
 
-             return fees.stream().filter(f -> f.getFeeType().equals(fee.getFeeType())).findAny().isPresent();
+
+             switch (fee.getFeeType()) {
+                 case "FixedFee":
+                     return fees.stream().filter(f -> f.getFeeType().equals("FixedFee")).findAny().isPresent();
+                 default:
+                     return false;
+             }
          }
 
          return false;

@@ -31,7 +31,7 @@ import java.util.List;
  * Created by tarun on 10/11/2017.
  */
 
-@Component
+//@Component
 public class FeeLoader implements ApplicationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(FeeLoader.class);
 

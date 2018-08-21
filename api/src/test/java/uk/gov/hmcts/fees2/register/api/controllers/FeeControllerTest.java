@@ -1,15 +1,14 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.BandedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RateableFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RelationalFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -17,6 +16,7 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -182,9 +182,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
      * @throws Exception
      */
     @Test
+    @Transactional
     public synchronized void searchFeeTest() throws Exception {
+        loadFees();
 
         restActions
+            .withUser("admin")
             .get("/fees-register/fees")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
@@ -262,7 +265,16 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void findFeeWithVolume_inWholeNumber_shouldReturnValidFee() throws Exception {
+        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateProbateCopiesFeeJson().getBytes(), FixedFeeDto.class);
+        String loc = restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+        String[] arr = loc.split("/");
+
         MvcResult result = restActions
             .withUser("admin")
             .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
@@ -270,10 +282,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andReturn();
 
         FeeLookupResponseDto fee = objectMapper.readValue(result.getResponse().getContentAsByteArray(), FeeLookupResponseDto.class);
-        assertEquals(fee.getCode(), "FEE0003");
+        assertEquals(fee.getCode(), arr[3]);
         assertEquals(fee.getDescription(), "Additional copies of the grant representation");
-        assertEquals(fee.getVersion(), new Integer(3));
+        assertEquals(fee.getVersion(), new Integer(1));
         assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
+
+        forceDeleteFee(arr[3]);
     }
 
     // test that delete throws 403 when trying to delete a fee with an approved version
@@ -312,5 +326,99 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .delete(URIUtils.getUrlForDeleteMethod(FeeController.class, "deleteFee"), arr[3])
             .andExpect(status().isNoContent());
+    }
+
+    private void loadFees() throws Exception {
+        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateFixedFeeJson().getBytes(), FixedFeeDto.class);
+        restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated());
+
+        RangedFeeDto rangedFeeDto = objectMapper.readValue(getCreateRangedFeeJson().getBytes(), RangedFeeDto.class);
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isCreated());
+
+
+    }
+
+    private String getCreateProbateCopiesFeeJson() {
+        return "{\n" +
+            "      \"version\": {\n" +
+            "        \"version\": 3,\n" +
+            "        \"valid_from\" : \"2014-04-22T00:00:00.511Z\",\n" +
+            "        \"description\": \"Additional copies of the grant representation\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"direction\": \"reduced churn\",\n" +
+            "        \"statutory_instrument\": \"2014 No 876(L19)\",\n" +
+            "        \"fee_order_name\": \"Non-Contentious Probate Fees\",\n" +
+            "        \"si_ref_id\": \"8b\",\n" +
+            "        \"memo_line\": \"Additional sealed copy of grant\",\n" +
+            "        \"natural_account_code\": \"4481102171\",\n" +
+            "        \"volume_amount\": {\n" +
+            "          \"amount\": 0.5\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"probate registry\",\n" +
+            "      \"service\": \"probate\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"copies\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    }";
+    }
+
+    private String getCreateRangedFeeJson() {
+        return "{\n" +
+            "      \"min_range\": 5000.01,\n" +
+            "      \"version\": {\n" +
+            "        \"version\": 1,\n" +
+            "        \"valid_from\" : \"2011-04-04T00:00:00.000Z\",\n" +
+            "        \"description\": \"Personal Application for grant of Probate\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"memo_line\":\"Personal Application for grant of Probate\",\n" +
+            "        \"natural_account_code\":\"4481102158\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"fee_order_name\": \"Non-Contentious Probate Fees\",\n" +
+            "        \"statutory_instrument\":\"2011 No. 588 (L. 4)\",\n" +
+            "        \"si_ref_id\": \"2\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 215.00\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"range_unit\":\"GBP\",\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"probate registry\",\n" +
+            "      \"service\": \"probate\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"issue\",\n" +
+            "      \"applicant_type\": \"personal\"\n" +
+            "    }";
+    }
+
+    private String getCreateFixedFeeJson() {
+        return "{\n" +
+            "      \"version\": {\n" +
+            "        \"version\": 1,\n" +
+            "        \"valid_from\" : \"2014-04-22T00:00:00.000Z\",\n" +
+            "        \"description\": \"Civil Court fees - Money Claims - Claim Amount - Unspecified\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"memo_line\":\"GOV - Paper fees - Money claim >£200,000\",\n" +
+            "        \"natural_account_code\":\"4481102133\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 10000.00\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"civil\",\n" +
+            "      \"jurisdiction2\": \"county court\",\n" +
+            "      \"service\": \"civil money claims\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"issue\",\n" +
+            "      \"unspecified_claim_amount\": \"true\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    }";
     }
 }

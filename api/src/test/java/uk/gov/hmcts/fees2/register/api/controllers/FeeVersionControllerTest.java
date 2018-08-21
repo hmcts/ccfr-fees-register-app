@@ -152,6 +152,8 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         Fee2Dto feeDto = feeController.getFee(arr[3], response);
         assertNotNull(feeDto);
         assertEquals(feeDto.getFeeVersionDtos().size(), 1);
+
+        forceDeleteFee(arr[3]);
     }
 
     private FixedFeeDto getFee() {
