@@ -20,7 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+
 
 public class FeeServiceTest extends BaseTest{
 
@@ -63,7 +65,7 @@ public class FeeServiceTest extends BaseTest{
     @Transactional
     public void testRefinedSearch() {
 
-        String code = createDetailedFee("divorce");
+        String code = createDetailedFee("divorce", FeeVersionStatus.approved);
 
         LookupFeeDto dto = new LookupFeeDto();
 
@@ -87,7 +89,7 @@ public class FeeServiceTest extends BaseTest{
     @Transactional
     public void testRefinedLookup() {
 
-        String code = createDetailedFee("civil money claims");
+        String code = createDetailedFee("civil money claims", FeeVersionStatus.approved);
 
         LookupFeeDto dto = new LookupFeeDto();
 
@@ -106,6 +108,27 @@ public class FeeServiceTest extends BaseTest{
 
         feeService.delete(code);
 
+    }
+
+    @Test
+    @Transactional
+    public void testLookupSearchesOnlyApprovedFees() {
+        createDetailedFee("civil money claims", FeeVersionStatus.approved);
+        createDetailedFee("civil money claims", FeeVersionStatus.draft);
+
+        LookupFeeDto dto = new LookupFeeDto();
+
+        dto.setChannel("online");
+        dto.setService("civil money claims");
+        dto.setEvent("issue");
+        dto.setJurisdiction1("civil");
+        dto.setJurisdiction2("high court");
+        dto.setAmountOrVolume(new BigDecimal(5));
+
+        //confirm properly found
+        FeeLookupResponseDto fee = feeService.lookup(dto);
+
+        assertNotEquals(null, fee);
     }
 
     @Test
@@ -212,7 +235,7 @@ public class FeeServiceTest extends BaseTest{
 
     }
 
-    private String createDetailedFee(String service) {
+    private String createDetailedFee(String service, FeeVersionStatus status) {
 
         RangedFeeDto dto = new RangedFeeDto();
 
@@ -228,7 +251,7 @@ public class FeeServiceTest extends BaseTest{
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setStatus(FeeVersionStatus.approved);
+        versionDto.setStatus(status);
         versionDto.setDirection("licence");
         versionDto.setMemoLine("Hello");
 

@@ -79,7 +79,7 @@ public class FeeServiceImpl implements FeeService {
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
-    
+
     @Override
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
@@ -178,7 +178,10 @@ public class FeeServiceImpl implements FeeService {
 
         defaults(dto);
 
-        List<Fee> fees = search(dto);
+        dto.setVersionStatus(FeeVersionStatus.approved);
+
+        List<Fee> fees = search(dto).stream().filter(fee -> fee.getCurrentVersion(true) != null)
+            .collect(Collectors.toList());
 
         if (fees.isEmpty()) {
             throw new FeeNotFoundException(dto);
@@ -190,15 +193,7 @@ public class FeeServiceImpl implements FeeService {
 
         Fee fee = fees.get(0);
 
-        if (dto.getVersionStatus() == null) {
-            dto.setVersionStatus(FeeVersionStatus.approved);
-        }
-
-        FeeVersion version = fee.getCurrentVersion(dto.getVersionStatus().equals(FeeVersionStatus.approved));
-
-        if (version == null) {
-            throw new FeeNotFoundException(dto);
-        }
+        FeeVersion version = fee.getCurrentVersion(true);
 
         return new FeeLookupResponseDto(
             fee.getCode(),
