@@ -85,56 +85,18 @@ public class FeeValidator {
         }
     }
 
-    public boolean isFeeExists(Fee fee) {
-         List<Fee> fees = feeRepository.findAll(findFeeByReferenceDataAndKeyword(fee));
-
-         if (fees.size() > 0) {
-             LOG.info("No. of fees found for the matching reference data: {}", fees.size());
-
-
-             switch (fee.getFeeType()) {
-                 case "FixedFee":
-                     return fees.stream().filter(f -> f.getFeeType().equals("FixedFee")).findAny().isPresent();
-                 default:
-                     return false;
-             }
-         }
-
-         return false;
+    public boolean isExistingFee(Fee newFee) {
+         return feeRepository.
+             findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndServiceAndKeyword(
+                 newFee.getChannelType(),
+                 newFee.getEventType(),
+                 newFee.getJurisdiction1(),
+                 newFee.getJurisdiction2(),
+                 newFee.getService(),
+                 newFee.getKeyword())
+             .stream()
+             .anyMatch(f -> f.isADuplicateOf(newFee));
     }
 
-    private static Specification findFeeByReferenceDataAndKeyword(Fee fee) {
-        return ((root, query, cb) -> getPredicate(root, cb, fee));
-    }
-
-    private static Predicate getPredicate(Root<Fee> root, CriteriaBuilder cb, Fee fee) {
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (fee.getChannelType() != null) {
-            predicates.add(cb.equal(root.get("channelType"), fee.getChannelType()));
-        }
-
-        if (fee.getEventType() != null) {
-            predicates.add(cb.equal(root.get("eventType"), fee.getEventType()));
-        }
-
-        if (fee.getJurisdiction1() != null) {
-            predicates.add(cb.equal(root.get("jurisdiction1"), fee.getJurisdiction1()));
-        }
-
-        if (fee.getJurisdiction2() != null) {
-            predicates.add(cb.equal(root.get("jurisdiction2"), fee.getJurisdiction2()));
-        }
-
-        if (fee.getService() != null) {
-            predicates.add(cb.equal(root.get("service"), fee.getService()));
-        }
-
-        if (fee.getKeyword() != null) {
-            predicates.add(cb.equal(root.get("keyword"), fee.getKeyword()));
-        }
-
-        return cb.and(predicates.toArray(REF));
-    }
 
 }

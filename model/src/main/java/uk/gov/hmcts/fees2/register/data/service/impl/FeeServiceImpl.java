@@ -84,7 +84,7 @@ public class FeeServiceImpl implements FeeService {
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
-        if (feeValidator.isFeeExists(fee)) {
+        if (feeValidator.isExistingFee(fee)) {
             throw new BadRequestException("Fee with the given reference data already exists");
         }
 

@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "fixed_fee")
-@DiscriminatorValue("FixedFee")
 public class FixedFee extends Fee{
 
     @Override

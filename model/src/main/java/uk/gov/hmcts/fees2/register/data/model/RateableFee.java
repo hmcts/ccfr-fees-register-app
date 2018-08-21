@@ -6,7 +6,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "rateable_fee")
-@DiscriminatorValue("RateableFee")
 public class RateableFee extends FixedFee {
     @Override
     public String getTypeCode() {
