@@ -1,12 +1,14 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.joda.time.DateTime;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
@@ -40,11 +42,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void readFeeTest() throws Exception {
         RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.approved);
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/ranged-fees", rangedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(rangedFeeDto);
         String[] arr = loc.split("/");
 
         restActions
@@ -64,11 +62,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void createBandedFeeTest() throws Exception {
         BandedFeeDto bandedFeeDto = getBandedFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/banded-fees", bandedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(bandedFeeDto);
         String[] arr = loc.split("/");
 
         restActions
@@ -86,11 +80,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void createRelationalFeeTest() throws Exception {
        RelationalFeeDto relationalFeeDto = getRelationalFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/relational-fees", relationalFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(relationalFeeDto);
         String[] arr = loc.split("/");
 
         restActions
@@ -109,11 +99,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void createRateableFeeTest() throws Exception {
         RateableFeeDto rateableFeeDto = getRateableFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/rateable-fees", rateableFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(rateableFeeDto);
         String[] arr = loc.split("/");
 
         restActions
@@ -143,11 +129,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         rangedFeeDto.getVersion().setVolumeAmount(dto);
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/ranged-fees", rangedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(rangedFeeDto);
         String[] arr = loc.split("/");
 
         restActions
@@ -227,16 +209,11 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void createInvalidDateVersionTest() throws Exception {
-        Date date = new Date();
-
         RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, null, FeeVersionStatus.approved);
-        rangedFeeDto.getVersion().setValidTo(date);
-        rangedFeeDto.getVersion().setValidFrom(date);
+        rangedFeeDto.getVersion().setValidTo(DateTime.now().plus(365*10).toDate());
+        rangedFeeDto.getVersion().setValidFrom(DateTime.now().toDate());
 
-        restActions
-            .withUser("admin")
-            .post("/fees-register/ranged-fees", rangedFeeDto)
-            .andExpect(status().isBadRequest());
+        saveFeeAndCheckStatusIsCreated(rangedFeeDto);
     }
 
 
@@ -272,11 +249,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Transactional
     public void findFeeWithVolume_inWholeNumber_shouldReturnValidFee() throws Exception {
         FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateProbateCopiesFeeJson().getBytes(), FixedFeeDto.class);
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/fixed-fees", fixedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] arr = loc.split("/");
 
         MvcResult result = restActions
@@ -299,11 +272,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public void deletingFeeWithApprovedVersionThrowsForbiddenException() throws Exception {
         RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.approved);
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/ranged-fees", rangedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(rangedFeeDto);
         String[] arr = loc.split("/");
 
         restActions
@@ -319,11 +288,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public void deletingFeeWithoutApprovedVersionReturnsNoContent() throws Exception {
         RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.draft);
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/ranged-fees", rangedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(rangedFeeDto);
         String[] arr = loc.split("/");
 
         restActions
@@ -334,18 +299,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     private void loadFees() throws Exception {
         FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateFixedFeeJson().getBytes(), FixedFeeDto.class);
-        restActions
-            .withUser("admin")
-            .post("/fees-register/fixed-fees", fixedFeeDto)
-            .andExpect(status().isCreated());
+        saveFeeAndCheckStatusIsCreated(fixedFeeDto);
 
         RangedFeeDto rangedFeeDto = objectMapper.readValue(getCreateRangedFeeJson().getBytes(), RangedFeeDto.class);
-        restActions
-            .withUser("admin")
-            .post("/fees-register/ranged-fees", rangedFeeDto)
-            .andExpect(status().isCreated());
-
-
+        saveFeeAndCheckStatusIsCreated(rangedFeeDto);
     }
 
     @Test
@@ -353,11 +310,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public void createNewProbateCopiesFeeWithExistingReferenceDataFailureTest() throws Exception {
         FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateRangedFeeJson().getBytes(), FixedFeeDto.class);
 
-        String locHeader = restActions
-            .withUser("admin")
-            .post("/fees-register/fixed-fees", fixedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String locHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] arr = locHeader.split("/");
 
         assertNotNull(arr);
@@ -373,24 +326,16 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    public void createNewProbateCopiesFeeWithExistingReferenceDataAndKeywordSuccessTest() throws Exception {
+    public void createNewProbateCopiesFeeWithExistingReferenceDataAndNewKeywordSuccessTest() throws Exception {
         FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateProbateCopiesFeeJson().getBytes(), FixedFeeDto.class);
 
-        String locHeader = restActions
-            .withUser("admin")
-            .post("/fees-register/fixed-fees", fixedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String locHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] fee1 = locHeader.split("/");
 
         assertNotNull(fee1);
 
         fixedFeeDto.setKeyword("KY-1");
-        String newLocHeader = restActions
-            .withUser("admin")
-            .post("/fees-register/fixed-fees", fixedFeeDto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String newLocHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] fee2 = newLocHeader.split("/");
 
         assertNotNull(fee1);
@@ -401,6 +346,28 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
+    public void createNewProbateCopiesFeeWithExistingReferenceDataAndKeywordFailureTest() throws Exception {
+        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateProbateCopiesFeeJson().getBytes(), FixedFeeDto.class);
+        fixedFeeDto.setKeyword("KY-1");
+
+        String newLocHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
+        String[] fee1 = newLocHeader.split("/");
+
+        assertNotNull(fee1);
+
+        fixedFeeDto.getVersion().setFlatAmount(new FlatAmountDto(new BigDecimal("123.98")));
+        restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data already exists")));
+    }
+
+
+
+
+    @Test
+    @Transactional
     public void createNewFixedFeeWithKeywordTest() throws Exception {
         List<FixedFeeDto> fixedFeeDtos = objectMapper.readValue(getCreateFixedFeeWithKeywordJson().getBytes(), new TypeReference<List<FixedFeeDto>>(){});
 
@@ -408,11 +375,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         fixedFeeDtos.stream()
             .forEach(f -> {
                 try {
-                    String header = restActions
-                        .withUser("admin")
-                        .post("/fees-register/fixed-fees", f)
-                        .andExpect(status().isCreated())
-                        .andReturn().getResponse().getHeader("Location");
+                    String header = saveFeeAndCheckStatusIsCreated(f);
 
                     String[] arr = header.split("/");
                     feeCodes.add(arr[3]);
@@ -428,6 +391,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             forceDeleteFee(f);
         });
     }
+
 
     private String getCreateProbateCopiesFeeJson() {
         return "{\n" +
