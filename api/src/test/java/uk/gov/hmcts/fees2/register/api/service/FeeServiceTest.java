@@ -10,6 +10,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
@@ -45,6 +46,13 @@ public class FeeServiceTest extends BaseTest{
     @Transactional
     public void testDeleteWorksForNonApprovedFee() {
 
+    }
+
+    @Test(expected = BadRequestException.class)
+    @Transactional
+    public void testSavingFeeWithSameReferenceDataThrowsError() {
+        createDetailedFee("cmc");
+        createDetailedFee("cmc");
     }
 
     @Test
