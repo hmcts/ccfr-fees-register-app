@@ -9,6 +9,7 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
+import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
@@ -45,6 +46,8 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Autowired
     private ChannelTypeService channelTypeService;
+
+    private FeeDataUtils feeDataUtils;
 
     /**
      *
@@ -160,7 +163,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test
     @Transactional
     public void testUpdateFeeVersion() throws Exception {
-        FixedFeeDto cmcUnspecifiedFee = getCmcUnspecifiedFee();
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
         Fee savedFee = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
 
         Fee fee = feeService.get(savedFee.getCode());
@@ -191,7 +194,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test(expected = BadRequestException.class)
     @Transactional
     public void testCreateDuplicateCmcUnspecifiedFee() throws Exception {
-        FixedFeeDto cmcUnspecifiedFee = getCmcUnspecifiedFee();
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
         Fee savedFee = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
 
         assertNotNull(savedFee);
@@ -203,7 +206,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test
     @Transactional
     public void testCreateCmcUnspecifiedFeeWithSameReferenceDataAndKeyword() throws Exception {
-        FixedFeeDto cmcUnspecifiedFee = getCmcUnspecifiedFee();
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
         Fee savedFee1 = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
         assertNotNull(savedFee1);
 

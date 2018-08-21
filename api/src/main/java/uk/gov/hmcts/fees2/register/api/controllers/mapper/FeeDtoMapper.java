@@ -7,7 +7,6 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
@@ -100,23 +99,6 @@ public class FeeDtoMapper {
     }
 
     public Fee toFee(RangedFeeDto request, String author) {
-        RangedFee fee = new RangedFee();
-        fillFee(request, fee, author);
-
-        fee.setUnspecifiedClaimAmount(false);
-        fee.setMaxRange(request.getMaxRange());
-        fee.setMinRange(request.getMinRange());
-
-        if(request.getRangeUnit() == null) {
-            request.setRangeUnit("GBP");
-        }
-
-        fee.setRangeUnit(new RangeUnit(request.getRangeUnit()));
-
-        return fee;
-    }
-
-    public Fee toFee(LoaderRangedFeeDto request, String author) {
         RangedFee fee = new RangedFee();
         fillFee(request, fee, author);
 

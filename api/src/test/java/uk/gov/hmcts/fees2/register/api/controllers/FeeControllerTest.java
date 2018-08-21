@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -12,6 +13,7 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
+import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
@@ -37,6 +39,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Rule
     public ExpectedException thrown= ExpectedException.none();
+
+    private FeeDataUtils feeDataUtils;
 
     @Test
     public synchronized void readFeeTest() throws Exception {
@@ -251,7 +255,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void findFeeWithVolume_inWholeNumber_shouldReturnValidFee() throws Exception {
-        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateProbateCopiesFeeJson().getBytes(), FixedFeeDto.class);
+        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateProbateCopiesFeeRequest();
         String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] arr = loc.split("/");
 
@@ -301,10 +305,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     private void loadFees() throws Exception {
-        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateFixedFeeJson().getBytes(), FixedFeeDto.class);
+        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateFixedFeeRequest();
         saveFeeAndCheckStatusIsCreated(fixedFeeDto);
 
-        RangedFeeDto rangedFeeDto = objectMapper.readValue(getCreateRangedFeeJson().getBytes(), RangedFeeDto.class);
+        RangedFeeDto rangedFeeDto = new FeeDataUtils().getCreateRangedFeeRequest();
         saveFeeAndCheckStatusIsCreated(rangedFeeDto);
     }
 
@@ -312,7 +316,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void createNewProbateCopiesFeeWithExistingReferenceDataFailureTest() throws Exception {
-        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateRangedFeeJson().getBytes(), FixedFeeDto.class);
+        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateFixedFeeRequest();
 
         String locHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] arr = locHeader.split("/");
@@ -332,7 +336,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void createNewProbateCopiesFeeWithExistingReferenceDataAndNewKeywordSuccessTest() throws Exception {
-        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateProbateCopiesFeeJson().getBytes(), FixedFeeDto.class);
+        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateProbateCopiesFeeRequest();
 
         String locHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] fee1 = locHeader.split("/");
@@ -353,7 +357,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void createNewProbateCopiesFeeWithExistingReferenceDataAndKeywordFailureTest() throws Exception {
-        FixedFeeDto fixedFeeDto = objectMapper.readValue(getCreateProbateCopiesFeeJson().getBytes(), FixedFeeDto.class);
+        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateProbateCopiesFeeRequest();
         fixedFeeDto.setKeyword("KY-1");
 
         String newLocHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
@@ -374,7 +378,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void createNewFixedFeeWithKeywordTest() throws Exception {
-        List<FixedFeeDto> fixedFeeDtos = objectMapper.readValue(getCreateFixedFeeWithKeywordJson().getBytes(), new TypeReference<List<FixedFeeDto>>(){});
+        List<FixedFeeDto> fixedFeeDtos = new FeeDataUtils().getCreateFixedFeesWithKeywordRequest();
 
         List<String> feeCodes = new ArrayList<>();
         fixedFeeDtos.stream()
