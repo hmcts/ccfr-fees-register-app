@@ -453,4 +453,128 @@ public abstract class BaseTest {
         return objectMapper.readValue(csvFees, fixedFeeDtos);
     }
 
+    public String getCreateProbateCopiesFeeJson() {
+        return "{\n" +
+            "      \"version\": {\n" +
+            "        \"valid_from\" : \"2014-04-22T00:00:00.511Z\",\n" +
+            "        \"description\": \"Additional copies of the grant representation\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"direction\": \"reduced churn\",\n" +
+            "        \"statutory_instrument\": \"2014 No 876(L19)\",\n" +
+            "        \"fee_order_name\": \"Non-Contentious Probate Fees\",\n" +
+            "        \"si_ref_id\": \"8b\",\n" +
+            "        \"memo_line\": \"Additional sealed copy of grant\",\n" +
+            "        \"natural_account_code\": \"4481102171\",\n" +
+            "        \"volume_amount\": {\n" +
+            "          \"amount\": 0.5\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"probate registry\",\n" +
+            "      \"service\": \"probate\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"copies\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    }";
+    }
+
+    public String getCreateRangedFeeJson() {
+        return "{\n" +
+            "      \"min_range\": 5000.01,\n" +
+            "      \"version\": {\n" +
+            "        \"version\": 1,\n" +
+            "        \"valid_from\" : \"2011-04-04T00:00:00.000Z\",\n" +
+            "        \"description\": \"Personal Application for grant of Probate\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"memo_line\":\"Personal Application for grant of Probate\",\n" +
+            "        \"natural_account_code\":\"4481102158\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"fee_order_name\": \"Non-Contentious Probate Fees\",\n" +
+            "        \"statutory_instrument\":\"2011 No. 588 (L. 4)\",\n" +
+            "        \"si_ref_id\": \"2\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 215.00\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"range_unit\":\"GBP\",\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"probate registry\",\n" +
+            "      \"service\": \"probate\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"issue\",\n" +
+            "      \"applicant_type\": \"personal\"\n" +
+            "    }";
+    }
+
+    public String getCreateFixedFeeJson() {
+        return "{\n" +
+            "      \"version\": {\n" +
+            "        \"version\": 1,\n" +
+            "        \"valid_from\" : \"2014-04-22T00:00:00.000Z\",\n" +
+            "        \"description\": \"Civil Court fees - Money Claims - Claim Amount - Unspecified\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"memo_line\":\"GOV - Paper fees - Money claim >£200,000\",\n" +
+            "        \"natural_account_code\":\"4481102133\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 10000.00\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"civil\",\n" +
+            "      \"jurisdiction2\": \"county court\",\n" +
+            "      \"service\": \"civil money claims\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"issue\",\n" +
+            "      \"unspecified_claim_amount\": \"true\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    }";
+    }
+
+    public String getCreateFixedFeeWithKeywordJson() {
+        return "[{\n" +
+            "      \"version\": {\n" +
+            "        \"valid_from\" : \"2014-04-22T00:00:00.000Z\",\n" +
+            "        \"description\": \"General fees - Money Claims - Claim Amount - Unspecified\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"memo_line\":\"GOV - Paper fees - Money claim >£200,000\",\n" +
+            "        \"natural_account_code\":\"4481102133\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 199.99\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"family court\",\n" +
+            "      \"service\": \"general\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"miscellaneous\",\n" +
+            "      \"keyword\": \"financial-order\",\n" +
+            "      \"unspecified_claim_amount\": \"true\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"version\": {\n" +
+            "        \"valid_from\": \"2016-03-21T00:00:00.000Z\",\n" +
+            "        \"description\": \"Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"memo_line\": \"GOV - App for divorce/nullity of marriage or CP\",\n" +
+            "        \"statutory_instrument\": \"2016 No. 402 (L. 5)\",\n" +
+            "        \"si_ref_id\": \"1.2\",\n" +
+            "        \"fee_order_name\": \"The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016\",\n" +
+            "        \"natural_account_code\":\"4481102159\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 550.00\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"family\",\n" +
+            "      \"jurisdiction2\": \"family court\",\n" +
+            "      \"service\": \"general\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"general application\",\n" +
+            "      \"keyword\": \"without-notice\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    }]";
+    }
+
 }
