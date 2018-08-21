@@ -15,6 +15,7 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -403,23 +404,29 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public void createNewFixedFeeWithKeywordTest() throws Exception {
         List<FixedFeeDto> fixedFeeDtos = objectMapper.readValue(getCreateFixedFeeWithKeywordJson().getBytes(), new TypeReference<List<FixedFeeDto>>(){});
 
+        List<String> feeCodes = new ArrayList<>();
         fixedFeeDtos.stream()
             .forEach(f -> {
                 try {
-                    restActions
+                    String header = restActions
                         .withUser("admin")
                         .post("/fees-register/fixed-fees", f)
-                        .andExpect(status().isCreated());
+                        .andExpect(status().isCreated())
+                        .andReturn().getResponse().getHeader("Location");
+
+                    String[] arr = header.split("/");
+                    feeCodes.add(arr[3]);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
 
-        MvcResult result = restActions
-            .withUser("admin")
-            .get("/fees-register/fees/lookup?service=general&jurisdiction1=family&jurisdiction2=family court&channel=default&event=miscellaneous")
-            .andExpect(status().isOk())
-            .andReturn();
+        assertNotNull(feeCodes);
+        assertEquals(feeCodes.size(),2);
+
+        feeCodes.stream().forEach(f -> {
+            forceDeleteFee(f);
+        });
     }
 
     private String getCreateProbateCopiesFeeJson() {

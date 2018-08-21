@@ -327,6 +327,31 @@ public abstract class BaseTest {
         return new PercentageAmountDto(new BigDecimal(4.5));
     }
 
+    public FixedFeeDto getCmcUnspecifiedFee() throws Exception {
+        String cmcFeeJson = "{\n" +
+            "      \"version\": {\n" +
+            "        \"valid_from\" : \"2014-04-22T00:00:00.000Z\",\n" +
+            "        \"description\": \"Civil Court fees - Money Claims - Claim Amount - Unspecified\",\n" +
+            "        \"status\": \"approved\",\n" +
+            "        \"memo_line\":\"GOV - Paper fees - Money claim >£200,000\",\n" +
+            "        \"natural_account_code\":\"4481102133\",\n" +
+            "        \"direction\": \"enhanced\",\n" +
+            "        \"flat_amount\": {\n" +
+            "          \"amount\": 10000.00\n" +
+            "        }\n" +
+            "      },\n" +
+            "      \"jurisdiction1\": \"civil\",\n" +
+            "      \"jurisdiction2\": \"county court\",\n" +
+            "      \"service\": \"civil money claims\",\n" +
+            "      \"channel\": \"default\",\n" +
+            "      \"event\": \"issue\",\n" +
+            "      \"unspecified_claim_amount\": \"true\",\n" +
+            "      \"applicant_type\": \"all\"\n" +
+            "    }";
+
+        return objectMapper.readValue(cmcFeeJson.getBytes(), FixedFeeDto.class);
+    }
+
 
     public List<FixedFeeDto> getFixedFeesDto() throws IOException {
         String  csvFees = "[\n" +
@@ -377,7 +402,6 @@ public abstract class BaseTest {
         TypeReference<List<FixedFeeDto>> fixedFeeDtos = new TypeReference<List<FixedFeeDto>>(){};
         return objectMapper.readValue(csvFees, fixedFeeDtos);
     }
-
 
     public List<FixedFeeDto> getIncorrectFixedFeesDto() throws IOException {
         String  csvFees = "[\n" +
