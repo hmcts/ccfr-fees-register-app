@@ -1,6 +1,5 @@
 package uk.gov.hmcts.fees2.register.data.service.validator;
 
-import org.apache.commons.lang3.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersion
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.math.BigDecimal;
 import java.util.*;
 
 @Component

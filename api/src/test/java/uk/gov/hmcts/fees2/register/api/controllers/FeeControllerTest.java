@@ -18,6 +18,7 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -206,11 +207,16 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void createInvalidDateVersionTest() throws Exception {
-        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, null, FeeVersionStatus.approved);
-        rangedFeeDto.getVersion().setValidTo(DateTime.now().plus(365*10).toDate());
-        rangedFeeDto.getVersion().setValidFrom(DateTime.now().toDate());
+        Date date = new Date();
 
-        saveFeeAndCheckStatusIsCreated(rangedFeeDto);
+        RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, null, FeeVersionStatus.approved);
+        rangedFeeDto.getVersion().setValidTo(date);
+        rangedFeeDto.getVersion().setValidFrom(date);
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isBadRequest());
     }
 
 
