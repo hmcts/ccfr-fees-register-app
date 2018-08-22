@@ -2,12 +2,16 @@ package uk.gov.hmcts.fees2.register.api.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
+import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -43,6 +47,8 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Autowired
     private ChannelTypeService channelTypeService;
 
+    private FeeDataUtils feeDataUtils;
+
     /**
      *
      */
@@ -52,6 +58,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         assertNotNull(savedFee);
+        feeService.delete(savedFee.getCode());
     }
 
 
@@ -67,6 +74,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
         assertEquals(feeVersionDtoResult.getFlatAmount().getAmount(), new BigDecimal(2500));
+
+        feeService.delete(savedFee.getCode());
     }
 
     @Test
@@ -83,6 +92,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
+
+        feeService.delete(savedFee.getCode());
     }
 
     @Test
@@ -95,6 +106,8 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         boolean result = feeVersionService.approve(fee.getCode(), 1, AUTHOR);
         assertTrue(result);
+
+        feeService.delete(savedFee.getCode());
     }
 
     @Test
@@ -112,6 +125,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertEquals(feeVersion.getMemoLine(), "Test memo line");
         FlatAmount flatAmount = (FlatAmount) feeVersion.getAmount();
         assertEquals(flatAmount.getAmount(), new BigDecimal(2500));
+
+        feeService.delete(savedFee.getCode());
     }
 
     @Test
@@ -141,12 +156,17 @@ public class Fee2CrudComponentTest extends BaseTest {
             FlatAmount flatAmount = (FlatAmount) v.getAmount();
             assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("199.99"));
         });
+
+        feeService.delete(fee.getCode());
     }
 
     @Test
     @Transactional
     public void testUpdateFeeVersion() throws Exception {
-        Fee fee = feeService.get("FEE0001");
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+
+        Fee fee = feeService.get(savedFee.getCode());
         FeeVersion version = fee.getCurrentVersion(true);
         assertThat(version.getDirectionType().getName()).isEqualTo("enhanced");
         assertThat(version.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - Unspecified");
@@ -158,7 +178,7 @@ public class Fee2CrudComponentTest extends BaseTest {
             "new memo line", "new nac", "new fee order name", "new si",
             "new sirefid");
 
-        FeeVersion updateVersion = feeService.get("FEE0001").getCurrentVersion(true);
+        FeeVersion updateVersion = feeService.get(savedFee.getCode()).getCurrentVersion(true);
         assertThat(updateVersion.getVersion()).isEqualTo(2);
         assertThat(updateVersion.getDirectionType().getName()).isEqualTo("cost recovery");
         assertThat(updateVersion.getAmount()).isEqualTo(new FlatAmount(new BigDecimal("99.89")));
@@ -168,8 +188,32 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertThat(updateVersion.getStatutoryInstrument()).isEqualTo("new si");
         assertThat(updateVersion.getSiRefId()).isEqualTo("new sirefid");
 
+        feeService.delete(savedFee.getCode());
+    }
 
+    @Test(expected = BadRequestException.class)
+    @Transactional
+    public void createDuplicateCmcUnspecifiedFeeFailureTest() throws Exception {
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
 
+        assertNotNull(savedFee);
+
+        cmcUnspecifiedFee.getVersion().setFlatAmount(new FlatAmountDto(new BigDecimal("40000.00")));
+        feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+    }
+
+    @Test
+    @Transactional
+    public void createCmcUnspecifiedFeeWithSameReferenceDataAndKeywordSuccessTest() throws Exception {
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
+        Fee savedFee1 = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+        assertNotNull(savedFee1);
+
+        cmcUnspecifiedFee.setKeyword("KY-1");
+        cmcUnspecifiedFee.getVersion().setFlatAmount(new FlatAmountDto(new BigDecimal("40000.00")));
+        Fee savedFee2 = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+        assertNotNull(savedFee2);
     }
 
 }

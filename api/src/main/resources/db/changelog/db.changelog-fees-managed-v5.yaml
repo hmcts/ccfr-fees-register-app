@@ -163,3 +163,44 @@ databaseChangeLog:
           sql: >
             INSERT INTO service_type (name,creation_time,last_updated)
             VALUES ('other',current_timestamp,current_timestamp) ON CONFLICT DO NOTHING
+
+- changeSet:
+      id: 1534341462258
+      author: tarun
+      changes:
+      - addColumn:
+            columns:
+            - column:
+                  name: keyword
+                  type: VARCHAR(255)
+            tableName: fee
+
+- changeSet:
+      id: 1534927449688
+      author: tarun
+      changes:
+      - createIndex:
+            columns:
+            - column:
+                name: keyword
+                type: varchar(255)
+            - column:
+                 name: channel_type
+                 type: varchar(255)
+            - column:
+                  name: event_type
+                  type: varchar(255)
+            - column:
+                  name: jurisdiction1
+                  type: varchar(255)
+            - column:
+                  name: jurisdiction2
+                  type: varchar(255)
+            - column:
+                  name: service
+                  type: varchar(255)
+            indexName: idx_ref_ky
+            tableName: fee
+            unique: true
+
+

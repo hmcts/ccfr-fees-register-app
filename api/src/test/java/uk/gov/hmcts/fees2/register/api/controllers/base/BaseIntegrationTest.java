@@ -244,6 +244,4 @@ public abstract class BaseIntegrationTest extends BaseTest{
         .setApplicantType("all");
     }
 
-
-
 }

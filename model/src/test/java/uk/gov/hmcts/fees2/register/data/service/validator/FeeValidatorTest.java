@@ -1,10 +1,12 @@
 package uk.gov.hmcts.fees2.register.data.service.validator;
 
 import org.junit.Test;
+import org.mockito.Mock;
 import org.springframework.context.ApplicationContext;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 
+import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.FeeVersionDateRangeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersionValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.RangedFeeValidator;
@@ -31,7 +33,10 @@ public class FeeValidatorTest {
         versionValidators.add(new FeeVersionDateRangeValidator());
     }
 
-    private FeeValidator validator = new FeeValidator(context, null, versionValidators);
+    @Mock
+    private Fee2Repository feeRepository;
+
+    private FeeValidator validator = new FeeValidator(context, null, versionValidators, feeRepository);
 
     @Test(expected = BadRequestException.class)
     public void testWrongDateInFeeVersionRangeIsRejected(){
