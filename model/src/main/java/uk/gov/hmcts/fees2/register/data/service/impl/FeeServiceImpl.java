@@ -3,7 +3,6 @@ package uk.gov.hmcts.fees2.register.data.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -78,13 +76,16 @@ public class FeeServiceImpl implements FeeService {
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
+
     @Override
-    public Fee saveAndGenerateFeeCode(Fee fee) {
+    public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
 
-//        savedFee.setCode("FEE" + StringUtils.leftPad(savedFee.getFeeNumber().toString(), 4, "0"));
+        Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
+        fee.setFeeNumber(nextFeeNumber);
+        fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
 
-        return fee2Repository.saveAndFlush(fee);
+        return fee2Repository.save(fee);
     }
 
     @Override
@@ -94,6 +95,7 @@ public class FeeServiceImpl implements FeeService {
             feeValidator.validateAndDefaultNewFee(fee);
 
             Matcher matcher = pattern.matcher(fee.getCode());
+            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
             fee2Repository.save(fee);
         }
     }
@@ -115,11 +117,11 @@ public class FeeServiceImpl implements FeeService {
             fee.setCode(newCode);
 
             Matcher matcher = pattern.matcher(newCode);
-//            fee.setFeeNumber(matcher.find() ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
         } else { // If the new feeCode is not present in the request, then auto generate the code.
             Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
-//            fee.setFeeNumber(nextFeeNumber);
-            fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0")); // move to /get
+            fee.setFeeNumber(nextFeeNumber);
+            fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
         }
     }
 
@@ -128,7 +130,7 @@ public class FeeServiceImpl implements FeeService {
      * @param fees list
      */
     @Transactional
-    public void saveAndGenerateFeeCode(List<Fee> fees) {
+    public void save(List<Fee> fees) {
 
         fees.stream().forEach(fee -> {
             feeValidator.validateAndDefaultNewFee(fee);
@@ -169,7 +171,10 @@ public class FeeServiceImpl implements FeeService {
 
         defaults(dto);
 
-        List<Fee> fees = search(dto);
+        dto.setVersionStatus(FeeVersionStatus.approved);
+
+        List<Fee> fees = search(dto).stream().filter(fee -> fee.getCurrentVersion(true) != null)
+            .collect(Collectors.toList());
 
         if (fees.isEmpty()) {
             throw new FeeNotFoundException(dto);
@@ -181,15 +186,7 @@ public class FeeServiceImpl implements FeeService {
 
         Fee fee = fees.get(0);
 
-        if (dto.getVersionStatus() == null) {
-            dto.setVersionStatus(FeeVersionStatus.approved);
-        }
-
-        FeeVersion version = fee.getCurrentVersion(dto.getVersionStatus().equals(FeeVersionStatus.approved));
-
-        if (version == null) {
-            throw new FeeNotFoundException(dto);
-        }
+        FeeVersion version = fee.getCurrentVersion(true);
 
         return new FeeLookupResponseDto(
             fee.getCode(),
@@ -298,4 +295,6 @@ public class FeeServiceImpl implements FeeService {
         return builder.and(predicates.toArray(REF));
 
     }
+
+
 }
