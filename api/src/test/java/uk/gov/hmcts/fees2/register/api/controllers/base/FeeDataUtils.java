@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
@@ -21,10 +22,7 @@ import static uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto.rang
 
 public class FeeDataUtils {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    public FixedFeeDto getCreateProbateCopiesFeeRequest() {
+    public static FixedFeeDto getCreateProbateCopiesFeeRequest() {
         return fixedFeeDtoWith()
             .channel("default")
             .event("copies")
@@ -47,7 +45,7 @@ public class FeeDataUtils {
             .build();
     }
 
-    public RangedFeeDto getCreateRangedFeeRequest() {
+    public static RangedFeeDto getCreateRangedFeeRequest() {
         return rangedFeeDtoWith()
             .minRange(new BigDecimal("5000.01"))
             .jurisdiction1("family")
@@ -71,7 +69,7 @@ public class FeeDataUtils {
             .build();
     }
 
-    public FixedFeeDto getCreateFixedFeeRequest() {
+    public static FixedFeeDto getCreateFixedFeeRequest() {
         return fixedFeeDtoWith()
             .channel("default")
             .event("issue")
@@ -92,7 +90,7 @@ public class FeeDataUtils {
             .build();
     }
 
-    public List<FixedFeeDto> getCreateFixedFeesWithKeywordRequest() {
+    public static List<FixedFeeDto> getCreateFixedFeesWithKeywordRequest() {
         List<FixedFeeDto> fixedFeeDtos = new ArrayList<>();
 
         fixedFeeDtos.add(fixedFeeDtoWith()
@@ -139,7 +137,7 @@ public class FeeDataUtils {
         return fixedFeeDtos;
     }
 
-    public FixedFeeDto getCmcUnspecifiedFee() throws Exception {
+    public static FixedFeeDto getCmcUnspecifiedFee() throws Exception {
         return fixedFeeDtoWith()
             .channel("default")
             .event("issue")
@@ -161,53 +159,47 @@ public class FeeDataUtils {
             .build();
     }
 
-    public List<FixedFeeDto> getIncorrectFixedFeesDto() throws IOException {
-        String  csvFees = "[\n" +
-            "  {\n" +
-            "    \"version\": {\n" +
-            "     \"version\": \"1\",\n" +
-            "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
-            "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
-            "     \"description\": \"Testing1\",\n" +
-            "     \"status\": \"draft\",\n" +
-            "     \"direction\": \"enhanced1\",\n" +
-            "     \"memoLine\": \"Test memo line\",\n" +
-            "     \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "     \"naturalAccountCode\": \"Natural code 001\",\n" +
-            "      \"flatAmount\": {\n" +
-            "      \"amount\": \"150\"\n" +
-            "      }\n" +
-            "   },\n" +
-            "   \"jurisdiction1\": \"family\",\n" +
-            "   \"jurisdiction2\": \"court of protection\",\n" +
-            "   \"service\": \"divorce\",\n" +
-            "   \"channel\": \"default\",\n" +
-            "   \"event\": \"issue\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"version\": {\n" +
-            "   \"version\": \"1\",\n" +
-            "   \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
-            "   \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
-            "   \"description\": \"Testing2\",\n" +
-            "   \"status\": \"approved\",\n" +
-            "   \"direction\": \"enhanced\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 002\",\n" +
-            "   \"flatAmount\": {\n" +
-            "     \"amount\": \"300\"\n" +
-            "   }\n" +
-            " },\n" +
-            "   \"jurisdiction1\": \"family\",\n" +
-            "   \"jurisdiction2\": \"court of protection\",\n" +
-            "   \"service\": \"civil money claims\",\n" +
-            "   \"channel\": \"default\",\n" +
-            "   \"event\": \"issue\"\n" +
-            "  }\n" +
-            "]";
+    public static List<FixedFeeDto> getIncorrectFixedFeesDto() throws IOException {
+        List<FixedFeeDto> fixedFeeDtos = new ArrayList<>();
 
-        TypeReference<List<FixedFeeDto>> fixedFeeDtos = new TypeReference<List<FixedFeeDto>>(){};
-        return objectMapper.readValue(csvFees, fixedFeeDtos);
+        fixedFeeDtos.add(fixedFeeDtoWith()
+            .jurisdiction1("family")
+            .jurisdiction2("court of protection")
+            .service("divorce")
+            .channel("default")
+            .event("issue")
+            .version(FeeVersionDto.feeVersionDtoWith()
+                .validFrom(DateTime.parse("2017-11-06T16:33:37.040Z").toDate())
+                .validTo(DateTime.parse("2020-11-06T16:33:37.040Z").toDate())
+                .description("Testing")
+                .status(FeeVersionStatus.draft)
+                .direction("enhanced1")
+                .memoLine("Test memo line")
+                .feeOrderName("CMC online fee order name")
+                .naturalAccountCode("Natural code 001")
+                .flatAmount(new FlatAmountDto(new BigDecimal("150.00")))
+                .build())
+            .build());
+
+        fixedFeeDtos.add(fixedFeeDtoWith()
+            .jurisdiction1("family")
+            .jurisdiction2("court of protection")
+            .service("civil money claims")
+            .channel("default")
+            .event("issue")
+            .version(FeeVersionDto.feeVersionDtoWith()
+                .validFrom(DateTime.parse("2017-11-06T16:33:37.040Z").toDate())
+                .validTo(DateTime.parse("2020-11-06T16:33:37.040Z").toDate())
+                .description("Testing2")
+                .status(FeeVersionStatus.approved)
+                .direction("enhanced")
+                .memoLine("Test memo line")
+                .feeOrderName("CMC online fee order name")
+                .naturalAccountCode("Natural code 002")
+                .flatAmount(new FlatAmountDto(new BigDecimal("300.00")))
+                .build())
+            .build());
+
+        return fixedFeeDtos;
     }
 }

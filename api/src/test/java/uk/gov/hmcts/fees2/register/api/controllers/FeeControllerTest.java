@@ -40,8 +40,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Rule
     public ExpectedException thrown= ExpectedException.none();
 
-    private FeeDataUtils feeDataUtils;
-
     @Test
     public synchronized void readFeeTest() throws Exception {
         RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(100, 199, null, FeeVersionStatus.approved);
@@ -229,7 +227,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         restActions
             .withUser("admin")
-            .post("/fees-register/fixed-fees/bulk", getIncorrectFixedFeesDto())
+            .post("/fees-register/fixed-fees/bulk", FeeDataUtils.getIncorrectFixedFeesDto())
             .andExpect(status().is4xxClientError());
     }
 
@@ -255,7 +253,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void findFeeWithVolume_inWholeNumber_shouldReturnValidFee() throws Exception {
-        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateProbateCopiesFeeRequest();
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
         String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] arr = loc.split("/");
 
@@ -305,10 +303,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     private void loadFees() throws Exception {
-        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateFixedFeeRequest();
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest();
         saveFeeAndCheckStatusIsCreated(fixedFeeDto);
 
-        RangedFeeDto rangedFeeDto = new FeeDataUtils().getCreateRangedFeeRequest();
+        RangedFeeDto rangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
         saveFeeAndCheckStatusIsCreated(rangedFeeDto);
     }
 
@@ -316,7 +314,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void createNewProbateCopiesFeeWithExistingReferenceDataFailureTest() throws Exception {
-        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateFixedFeeRequest();
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest();
 
         String locHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] arr = locHeader.split("/");
@@ -336,7 +334,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void createNewProbateCopiesFeeWithExistingReferenceDataAndNewKeywordSuccessTest() throws Exception {
-        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateProbateCopiesFeeRequest();
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
 
         String locHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
         String[] fee1 = locHeader.split("/");
@@ -357,7 +355,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void createNewProbateCopiesFeeWithExistingReferenceDataAndKeywordFailureTest() throws Exception {
-        FixedFeeDto fixedFeeDto = new FeeDataUtils().getCreateProbateCopiesFeeRequest();
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
         fixedFeeDto.setKeyword("KY-1");
 
         String newLocHeader = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
@@ -378,7 +376,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void createNewFixedFeeWithKeywordTest() throws Exception {
-        List<FixedFeeDto> fixedFeeDtos = new FeeDataUtils().getCreateFixedFeesWithKeywordRequest();
+        List<FixedFeeDto> fixedFeeDtos = FeeDataUtils.getCreateFixedFeesWithKeywordRequest();
 
         List<String> feeCodes = new ArrayList<>();
         fixedFeeDtos.stream()

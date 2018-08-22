@@ -193,7 +193,7 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Test(expected = BadRequestException.class)
     @Transactional
-    public void testCreateDuplicateCmcUnspecifiedFee() throws Exception {
+    public void createDuplicateCmcUnspecifiedFeeFailureTest() throws Exception {
         FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
         Fee savedFee = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
 
@@ -205,7 +205,7 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Test
     @Transactional
-    public void testCreateCmcUnspecifiedFeeWithSameReferenceDataAndKeyword() throws Exception {
+    public void createCmcUnspecifiedFeeWithSameReferenceDataAndKeywordSuccessTest() throws Exception {
         FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
         Fee savedFee1 = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
         assertNotNull(savedFee1);
