@@ -136,6 +136,7 @@ public class FeeDtoMapper {
         fee2Dto.setJurisdiction1Dto(fee.getJurisdiction1());
         fee2Dto.setJurisdiction2Dto(fee.getJurisdiction2());
         fee2Dto.setServiceTypeDto(fee.getService());
+        fee2Dto.setKeyword(fee.getKeyword());
         fee2Dto.setApplicantTypeDto(fee.getApplicantType());
 
         fee2Dto.setUnspecifiedClaimAmount(fee.isUnspecifiedClaimAmount());
