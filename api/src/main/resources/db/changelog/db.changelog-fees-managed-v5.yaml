@@ -175,3 +175,32 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: fee
 
+- changeSet:
+      id: 1534927449688
+      author: tarun
+      changes:
+      - createIndex:
+            columns:
+            - column:
+                name: keyword
+                type: varchar(255)
+            - column:
+                 name: channel_type
+                 type: varchar(255)
+            - column:
+                  name: event_type
+                  type: varchar(255)
+            - column:
+                  name: jurisdiction1
+                  type: varchar(255)
+            - column:
+                  name: jurisdiction2
+                  type: varchar(255)
+            - column:
+                  name: service
+                  type: varchar(255)
+            indexName: idx_ref_ky
+            tableName: fee
+            unique: true
+
+
