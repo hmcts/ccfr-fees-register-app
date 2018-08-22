@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,7 +32,8 @@ import java.util.List;
  * Created by tarun on 10/11/2017.
  */
 
-//@Component
+@Component
+@ConditionalOnProperty(name = "enable.fee.loader", havingValue = "true")
 public class FeeLoader implements ApplicationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(FeeLoader.class);
 
