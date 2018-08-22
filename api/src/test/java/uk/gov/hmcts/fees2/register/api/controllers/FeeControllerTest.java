@@ -8,11 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.BandedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RateableFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RelationalFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -416,11 +412,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
             .andExpect(status().isCreated());
 
-        restActions
+        assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+        .andReturn());
     }
 
 
@@ -442,11 +439,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
             .andExpect(status().isCreated());
 
-        restActions
+        assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
     }
 
 
@@ -468,11 +466,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
             .andExpect(status().isCreated());
 
-        restActions
+        assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
     }
 
     // min max
@@ -493,11 +492,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
             .andExpect(status().isCreated());
 
-        restActions
+        assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
     }
 
     // min max
@@ -518,11 +518,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
             .andExpect(status().isCreated());
 
-        restActions
+        assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
     }
 
     // min max
@@ -543,11 +544,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
             .andExpect(status().isCreated());
 
-        restActions
+        assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
     }
 
     // min max1
@@ -568,11 +570,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
             .andExpect(status().isCreated());
 
-        restActions
+        assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
     }
 
     // min max
@@ -593,10 +596,11 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
             .andExpect(status().isCreated());
 
-        restActions
+        assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
     }
 }
