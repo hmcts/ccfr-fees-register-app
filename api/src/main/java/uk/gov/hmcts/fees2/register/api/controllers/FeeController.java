@@ -28,6 +28,7 @@ import uk.gov.hmcts.fees2.register.data.model.FixedFee;
 import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.util.SecurityUtil;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -45,6 +46,7 @@ public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
 
     public static final String LOCATION = "Location";
+    public static final String FREG_ADMIN = "freg-admin";
 
     @Autowired
     private final FeeService feeService;
@@ -247,9 +249,10 @@ public class FeeController {
     })
     @DeleteMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFee(@PathVariable("code") String code, HttpServletResponse response) {
-        // check if fee has any approved versions before deleting
-        if (!feeService.safeDelete(code)) {
+    public void deleteFee(@PathVariable("code") String code) {
+        if (SecurityUtil.hasRole(FREG_ADMIN)) { // force delete
+            feeService.delete(code);
+        } else if (!feeService.safeDelete(code)) { // check if fee has any approved versions before deleting
             throw new ForbiddenException();
         }
     }

@@ -21,6 +21,7 @@ import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -181,6 +182,20 @@ public class FeeControllerSecurityTest {
             delete("/fees-register/fees/testCode")
                 .with(authentication(authentication)))
             .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void testDeleteFee_shouldReturnOkWhenUserHasFeeAdminAuthority() throws Exception {
+        // given
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-admin");
+
+        // when
+        this.mockMvc.perform(
+            delete("/fees-register/fees/testCode")
+                .with(authentication(authentication)))
+            .andExpect(status().isNoContent());
+        // then
+        verify(feeService).delete("testCode");
     }
 
     @Test
