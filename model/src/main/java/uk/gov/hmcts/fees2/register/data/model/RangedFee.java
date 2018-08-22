@@ -45,12 +45,14 @@ public class RangedFee extends Fee{
     @Override
     public boolean isADuplicateOf(Fee anotherFee) {
 
-        /** Check for duplicate ranged fee goes */
-//        if(super.isADuplicateOf(anotherFee)) {
-//            return true;
-//        }
+        if(!super.isADuplicateOf(anotherFee)) {
+            return false;
+        }
 
-        return false;
+        RangedFee anotherRangedFee = (RangedFee) anotherFee;
+
+        return anotherRangedFee.minRange != null && maxRange != null && anotherRangedFee.minRange.compareTo(maxRange) >= 0 ||
+            anotherRangedFee.maxRange != null && minRange != null && anotherRangedFee.maxRange.compareTo(minRange) <= 0;
     }
 
     /* KISS for now */
