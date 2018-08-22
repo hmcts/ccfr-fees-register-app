@@ -46,7 +46,7 @@ public class FeeControllerSecurityTest {
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         given(feeDtoMapper.toFee(any(RangedFeeDto.class), anyString())).willReturn(aRangedFee());
-        given(feeService.save(any(Fee.class))).willReturn(aRangedFee());
+        given(feeService.saveAndGenerateFeeCode(any(Fee.class))).willReturn(aRangedFee());
 
         // when & then
         this.mockMvc.perform(
@@ -76,7 +76,7 @@ public class FeeControllerSecurityTest {
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(aFixedFee());
-        given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
+        given(feeService.saveAndGenerateFeeCode(any(Fee.class))).willReturn(aFixedFee());
 
         // when & then
         this.mockMvc.perform(
@@ -135,7 +135,7 @@ public class FeeControllerSecurityTest {
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
         given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(aFixedFee());
-        given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
+        given(feeService.saveAndGenerateFeeCode(any(Fee.class))).willReturn(aFixedFee());
 
         // when & then
         this.mockMvc.perform(

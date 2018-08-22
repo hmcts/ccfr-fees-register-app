@@ -49,7 +49,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test
     public void createRangedFeeTest() {
         rangedFeeDto = getRangedFeeDto(null);
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
+        Fee savedFee = feeService.saveAndGenerateFeeCode(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         assertNotNull(savedFee);
     }
@@ -58,7 +58,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Test
     public void createRangedFeeWithAllReferenceDataTest() {
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, null, FeeVersionStatus.approved);
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
+        Fee savedFee = feeService.saveAndGenerateFeeCode(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(savedFee);
 
@@ -74,7 +74,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     public void ReadRangedFeeWithAllReferenceDataTest() {
         // Insert a new ranged fee
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, null, FeeVersionStatus.approved);
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
+        Fee savedFee = feeService.saveAndGenerateFeeCode(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee fee = feeService.get(savedFee.getCode());
 
@@ -89,7 +89,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     public void createDraftFeeAndApproveTheFeeTest() {
         // Insert a new ranged fee
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, null, FeeVersionStatus.draft);
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
+        Fee savedFee = feeService.saveAndGenerateFeeCode(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee fee = feeService.get(savedFee.getCode());
 
@@ -102,7 +102,7 @@ public class Fee2CrudComponentTest extends BaseTest {
     public void createFee_withSingleFeeVersionTest() throws Exception {
         // Insert a new ranged fee
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, null, FeeVersionStatus.approved);
-        Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
+        Fee savedFee = feeService.saveAndGenerateFeeCode(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee fee = feeService.get(savedFee.getCode());
         assertNotNull(fee);
@@ -123,7 +123,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         FlatAmountDto flatAmountDto = new FlatAmountDto();
         flatAmountDto.setAmount(new BigDecimal("99.99"));
         versionDto.setFlatAmount(flatAmountDto);
-        Fee fee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
+        Fee fee = feeService.saveAndGenerateFeeCode(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         Fee savedFee = feeService.get(fee.getCode());
         assertThat(savedFee.getCode()).isEqualTo(fee.getCode());

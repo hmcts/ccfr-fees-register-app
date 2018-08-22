@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeValidator;
@@ -25,11 +26,11 @@ import java.util.stream.Collectors;
 @Table(name = "fee")
 public abstract class Fee extends AbstractEntity{
 
+    @Transient
+    private boolean isFeeCodeUnset;
+
     @Column(name = "code", unique = true)
     private String code;
-
-    @Column(name = "fee_number", unique = true)
-    private Integer feeNumber;
 
     @ManyToOne
     @JoinColumn(name = "jurisdiction1")
@@ -71,6 +72,13 @@ public abstract class Fee extends AbstractEntity{
     private Date lastUpdated;
 
     /* --- */
+    public void setId(Long id) {
+        this.id = id;
+        if(isFeeCodeUnset) {
+            setCode("CustomFeeCode".concat(id.toString()));// TODO: put fee code generation logic here
+            this.isFeeCodeUnset = false;
+        }
+    }
 
     public abstract String getTypeCode();
 
@@ -109,7 +117,15 @@ public abstract class Fee extends AbstractEntity{
         Date now = new Date();
         creationTime = now;
         lastUpdated = now;
+        if(code == null || code.isEmpty()) {
+            isFeeCodeUnset = true;
+        }
     }
+
+//    @PostPersist
+//    public void postPersist() {
+//        setCode("FEE" + StringUtils.leftPad(getFeeNumber().toString(), 4, "0"));
+//    }
 
     /** Added toString method to avoid StackOverFlow error on debugger */
     @Override

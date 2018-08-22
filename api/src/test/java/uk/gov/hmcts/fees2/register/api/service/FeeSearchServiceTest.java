@@ -63,7 +63,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 
@@ -95,7 +95,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 
@@ -128,7 +128,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 
@@ -161,7 +161,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 
@@ -193,7 +193,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 
@@ -224,7 +224,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 
@@ -255,7 +255,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 
@@ -288,7 +288,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 
@@ -320,7 +320,7 @@ public class FeeSearchServiceTest {
         feeVersion.setFee(fee);
         fee.setFeeVersions(Collections.singletonList(feeVersion));
 
-        feeService.save(fee);
+        feeService.saveAndGenerateFeeCode(fee);
 
         Fee savedFee = feeService.get(fee.getCode());
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 @Repository
@@ -20,7 +21,7 @@ public interface Fee2Repository extends JpaRepository<Fee, Long>, JpaSpecificati
 
     void deleteFeeByCode(String code);
 
-    @Query("SELECT coalesce(max(f.feeNumber), 0) FROM uk.gov.hmcts.fees2.register.data.model.Fee f")
+    @Query("SELECT coalesce(max(f.id), 0) FROM uk.gov.hmcts.fees2.register.data.model.Fee f")
     Integer getMaxFeeNumber();
 
 }

@@ -165,7 +165,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         dto.setVersion(versionDto);
 
-        String code = feeService.save(dtoMapper.toFee(dto, AUTHOR)).getCode();
+        String code = feeService.saveAndGenerateFeeCode(dtoMapper.toFee(dto, AUTHOR)).getCode();
 
         dto.setCode(code);
 

@@ -29,7 +29,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     And I have specified "online" channel
     And I have specified the fee codeAnd I have specified the fee description
     And the fee amount is £10,000
-    When I save this fee
+    When I saveAndGenerateFeeCode this fee
     Then the fee is SAVED successfully
     And the fee status is Draft
     And the fee version is 1
@@ -89,7 +89,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     And I have specified "online" channel
     And I have specified the fee codeAnd I have specified the fee description
     And the fee amount is £10,000
-    When I save this fee
+    When I saveAndGenerateFeeCode this fee
     Then the fee is SAVED successfully
     And the fee status is Draft
     And the fee version is 1

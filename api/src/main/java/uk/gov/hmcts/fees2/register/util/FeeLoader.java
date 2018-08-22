@@ -87,7 +87,7 @@ public class FeeLoader implements ApplicationRunner {
 
         try {
             if (feeService.get(r.getCode()) == null) {
-                feeService.save(fee);
+                feeService.saveAndGenerateFeeCode(fee);
                 LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
             } else {
                 try {
@@ -131,7 +131,7 @@ public class FeeLoader implements ApplicationRunner {
 
         try {
             if (feeService.get(f.getCode()) == null) {
-                feeService.save(fee);
+                feeService.saveAndGenerateFeeCode(fee);
                 LOG.info("Fixed fee with code " + f.getNewCode() + " inserted into database.");
             } else {
                 try {

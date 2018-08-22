@@ -22,5 +22,5 @@ public class AbstractEntity extends Object implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    private Long id;
+    protected Long id;
 }

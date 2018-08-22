@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
