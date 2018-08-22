@@ -59,3 +59,7 @@ variable "common_tags" {
 variable "external_host_name" {
   default = "fees-register-api.nonprod.platform.hmcts.net"
 }
+
+variable "enable_fee_loader" {
+  default = "false"
+}
