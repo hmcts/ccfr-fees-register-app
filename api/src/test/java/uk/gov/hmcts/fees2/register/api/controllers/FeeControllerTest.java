@@ -1,8 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -11,7 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.*;
+import uk.gov.hmcts.fees2.register.api.contract.request.BandedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RateableFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RelationalFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -24,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -38,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FeeControllerTest extends BaseIntegrationTest {
 
     @Rule
-    public ExpectedException thrown= ExpectedException.none();
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public synchronized void readFeeTest() throws Exception {
@@ -57,7 +58,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         forceDeleteFee(arr[3]);
     }
-
 
 
     @Test
@@ -80,7 +80,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void createRelationalFeeTest() throws Exception {
-       RelationalFeeDto relationalFeeDto = getRelationalFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
+        RelationalFeeDto relationalFeeDto = getRelationalFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
 
         String loc = saveFeeAndCheckStatusIsCreated(relationalFeeDto);
         String[] arr = loc.split("/");
@@ -178,7 +178,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
                 assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
-                        assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
+                    assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
                         assertThat(feeVersionDto.getStatus().equals(FeeVersionStatus.approved));
                     });
                 });
@@ -324,8 +324,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .post("/fees-register/fixed-fees", fixedFeeDto)
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data already exists")));
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
 
         forceDeleteFee(arr[3]);
     }
@@ -367,10 +367,9 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .post("/fees-register/fixed-fees", fixedFeeDto)
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data already exists")));
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
     }
-
 
 
     @Test
@@ -392,12 +391,212 @@ public class FeeControllerTest extends BaseIntegrationTest {
             });
 
         assertNotNull(feeCodes);
-        assertEquals(feeCodes.size(),2);
+        assertEquals(feeCodes.size(), 2);
 
         feeCodes.stream().forEach(f -> {
             forceDeleteFee(f);
         });
     }
 
+    // min null
+    // min null
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateRangedFeeMinSameForBothMaxInfinityForBothTest() throws Exception {
+        RangedFeeDto firstRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+        RangedFeeDto secondRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
 
+        firstRangedFeeDto.setMinRange(new BigDecimal("0"));
+        firstRangedFeeDto.setMaxRange(null);
+        secondRangedFeeDto.setMinRange(new BigDecimal("0"));
+        secondRangedFeeDto.setMaxRange(null);
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", firstRangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", secondRangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+    }
+
+
+    // min1 null
+    // min2 null
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateRangedFeeMinDifferentForBothMaxInfinityForBothTest() throws Exception {
+        RangedFeeDto firstRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+        RangedFeeDto secondRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+
+        firstRangedFeeDto.setMinRange(new BigDecimal("10"));
+        firstRangedFeeDto.setMaxRange(null);
+        secondRangedFeeDto.setMinRange(new BigDecimal("0"));
+        secondRangedFeeDto.setMaxRange(null);
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", firstRangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", secondRangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+    }
+
+
+    // min max
+    // minBetween null
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateRangedFeeMinMaxSetForFirstMinBetweenRangeToInfinityForSecondTest() throws Exception {
+        RangedFeeDto firstRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+        RangedFeeDto secondRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+
+        firstRangedFeeDto.setMinRange(new BigDecimal("0"));
+        firstRangedFeeDto.setMaxRange(new BigDecimal("100"));
+        secondRangedFeeDto.setMinRange(new BigDecimal("50"));
+        secondRangedFeeDto.setMaxRange(null);
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", firstRangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", secondRangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+    }
+
+    // min max
+    // min max
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateRangedFeeMinMaxSetSameForBothTest() throws Exception {
+        RangedFeeDto firstRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+        RangedFeeDto secondRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+
+        firstRangedFeeDto.setMinRange(new BigDecimal("0"));
+        firstRangedFeeDto.setMaxRange(new BigDecimal("100"));
+        secondRangedFeeDto.setMinRange(new BigDecimal("0"));
+        secondRangedFeeDto.setMaxRange(new BigDecimal("100"));
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", firstRangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", secondRangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+    }
+
+    // min max
+    // minBetween maxAbove
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateRangedFeeMinMaxForFirstMinBetweenAndMaxAboveForSecondTest() throws Exception {
+        RangedFeeDto firstRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+        RangedFeeDto secondRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+
+        firstRangedFeeDto.setMinRange(new BigDecimal("0"));
+        firstRangedFeeDto.setMaxRange(new BigDecimal("100"));
+        secondRangedFeeDto.setMinRange(new BigDecimal("50"));
+        secondRangedFeeDto.setMaxRange(new BigDecimal("150"));
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", firstRangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", secondRangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+    }
+
+    // min max
+    // minBelow maxBetween
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateRangedFeeFirstMinMaxSecondMinBelowMaxBetweenTest() throws Exception {
+        RangedFeeDto firstRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+        RangedFeeDto secondRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+
+        firstRangedFeeDto.setMinRange(new BigDecimal("25"));
+        firstRangedFeeDto.setMaxRange(new BigDecimal("100"));
+        secondRangedFeeDto.setMinRange(new BigDecimal("0"));
+        secondRangedFeeDto.setMaxRange(new BigDecimal("50"));
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", firstRangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", secondRangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+    }
+
+    // min max1
+    // max1 max2
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateRangedFeeFirstMinMax1SecondMax1Max2Test() throws Exception {
+        RangedFeeDto firstRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+        RangedFeeDto secondRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+
+        firstRangedFeeDto.setMinRange(new BigDecimal("0"));
+        firstRangedFeeDto.setMaxRange(new BigDecimal("50"));
+        secondRangedFeeDto.setMinRange(new BigDecimal("50"));
+        secondRangedFeeDto.setMaxRange(new BigDecimal("100"));
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", firstRangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", secondRangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+    }
+
+    // min max
+    // minBelow maxAbove
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateRangedFeeFirstMinMaxSecondMinBelowMaxAboveTest() throws Exception {
+        RangedFeeDto firstRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+        RangedFeeDto secondRangedFeeDto = FeeDataUtils.getCreateRangedFeeRequest();
+
+        firstRangedFeeDto.setMinRange(new BigDecimal("25"));
+        firstRangedFeeDto.setMaxRange(new BigDecimal("75"));
+        secondRangedFeeDto.setMinRange(new BigDecimal("0"));
+        secondRangedFeeDto.setMaxRange(new BigDecimal("100"));
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", firstRangedFeeDto)
+            .andExpect(status().isCreated());
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", secondRangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+    }
 }

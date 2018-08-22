@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
@@ -18,6 +19,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     */
 
     @Test
+    @Transactional
     public void testBorderCase299_98() throws Exception{
 
         initFees();
@@ -37,6 +39,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void testBorderCase299_99() throws Exception{
 
         initFees();
@@ -56,6 +59,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void testBorderCase300_00() throws Exception{
 
         initFees();
@@ -74,6 +78,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void testBorderCase299_951() throws Exception{
 
         initFees();
@@ -93,6 +98,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void testBorderCase299_98971() throws Exception{
 
         initFees();
@@ -112,6 +118,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void testBorderCase500() throws Exception{
 
         initFees();
@@ -131,6 +138,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void testBorderCase20000() throws Exception{
 
         initFees();
@@ -150,6 +158,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     }
 
     @Test
+    @Transactional
     public void testBorderCase300_01() throws Exception{
 
         initFees();
@@ -176,9 +185,9 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
 
     /** Create 3 ranged-percent fees to test all border cases */
     private void initFees() throws Exception{
-        createFee("T1", null, new BigDecimal(300), new BigDecimal(5));
-        createFee("T2", new BigDecimal(300), new BigDecimal(500), new BigDecimal(10));
-        createFee("T3", new BigDecimal(500), null, new BigDecimal(20));
+        createFee("T1", new BigDecimal(0.01), new BigDecimal(300), new BigDecimal(5));
+        createFee("T2", new BigDecimal(300.01), new BigDecimal(500), new BigDecimal(10));
+        createFee("T3", new BigDecimal(500.01), null, new BigDecimal(20));
     }
 
     protected void createFee(String code, BigDecimal minRange, BigDecimal maxRange, BigDecimal percent) throws Exception{

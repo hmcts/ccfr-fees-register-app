@@ -44,17 +44,22 @@ public class RangedFee extends Fee{
 
     @Override
     public boolean isADuplicateOf(Fee anotherFee) {
+        if(!super.isADuplicateOf(anotherFee)) {
+            return false;
+        }
 
-        return false;
+        RangedFee anotherRangedFee = (RangedFee) anotherFee;
 
-//        if(!super.isADuplicateOf(anotherFee)) {
-//            return false;
-//        }
-//
-//        RangedFee anotherRangedFee = (RangedFee) anotherFee;
-//
-//        return anotherRangedFee.minRange != null && maxRange != null && anotherRangedFee.minRange.compareTo(maxRange) >= 0 ||
-//            anotherRangedFee.maxRange != null && minRange != null && anotherRangedFee.maxRange.compareTo(minRange) <= 0;
+        return (anotherRangedFee.minRange != null && minRange != null
+            && anotherRangedFee.maxRange == null && maxRange == null)
+            ||
+            (anotherRangedFee.maxRange != null && maxRange != null
+                && anotherRangedFee.minRange == null && minRange == null)
+            ||
+            (anotherRangedFee.maxRange != null && maxRange != null
+                && anotherRangedFee.minRange != null && minRange != null
+            &&
+                anotherRangedFee.isInRange(minRange) || anotherRangedFee.isInRange(maxRange));
     }
 
     /* KISS for now */

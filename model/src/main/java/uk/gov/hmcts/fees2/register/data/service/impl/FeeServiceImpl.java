@@ -4,22 +4,30 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
-import uk.gov.hmcts.fees2.register.data.exceptions.FeeCodeAlreadyExistsException;
+import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
-import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.repository.*;
+import uk.gov.hmcts.fees2.register.data.model.ChannelType;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeCodeHistory;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.repository.ApplicantTypeRepository;
+import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
+import uk.gov.hmcts.fees2.register.data.repository.EventTypeRepository;
+import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
+import uk.gov.hmcts.fees2.register.data.repository.FeeCodeHistoryRepository;
+import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
+import uk.gov.hmcts.fees2.register.data.repository.Jurisdiction1Repository;
+import uk.gov.hmcts.fees2.register.data.repository.Jurisdiction2Repository;
+import uk.gov.hmcts.fees2.register.data.repository.ServiceTypeRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
-import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -51,9 +59,6 @@ public class FeeServiceImpl implements FeeService {
     private Jurisdiction2Repository jurisdiction2Repository;
 
     @Autowired
-    private DirectionTypeRepository directionTypeRepository;
-
-    @Autowired
     private EventTypeRepository eventTypeRepository;
 
     @Autowired
@@ -71,12 +76,6 @@ public class FeeServiceImpl implements FeeService {
     @Autowired
     private FeeValidator feeValidator;
 
-    @Autowired
-    private FeeVersionService feeVersionService;
-
-    @Autowired
-    private Environment environment;
-
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
 
@@ -85,7 +84,7 @@ public class FeeServiceImpl implements FeeService {
         feeValidator.validateAndDefaultNewFee(fee);
 
         if (feeValidator.isExistingFee(fee)) {
-            throw new BadRequestException("Fee with the given reference data already exists");
+            throw new ConflictException("Fee with the given reference data/overlapping range already exists");
         }
 
         Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
