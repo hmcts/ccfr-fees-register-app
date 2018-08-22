@@ -41,7 +41,7 @@ variable "postgresql_user" {
 
 // disabled liquibase temporarily - enable for new db changes build and then disable again
 variable "liquibase_enabled" {
-  default = "false"
+  default = "true"
 }
 
 variable "idam_api_url" {
@@ -58,4 +58,8 @@ variable "common_tags" {
 
 variable "external_host_name" {
   default = "fees-register-api.nonprod.platform.hmcts.net"
+}
+
+variable "enable_fee_loader" {
+  default = "false"
 }

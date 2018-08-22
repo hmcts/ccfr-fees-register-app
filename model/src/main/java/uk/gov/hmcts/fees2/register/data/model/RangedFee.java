@@ -42,6 +42,21 @@ public class RangedFee extends Fee{
             && (maxRange == null || amount.compareTo(maxRange) <= 0);
     }
 
+    @Override
+    public boolean isADuplicateOf(Fee anotherFee) {
+
+        return false;
+
+//        if(!super.isADuplicateOf(anotherFee)) {
+//            return false;
+//        }
+//
+//        RangedFee anotherRangedFee = (RangedFee) anotherFee;
+//
+//        return anotherRangedFee.minRange != null && maxRange != null && anotherRangedFee.minRange.compareTo(maxRange) >= 0 ||
+//            anotherRangedFee.maxRange != null && minRange != null && anotherRangedFee.maxRange.compareTo(minRange) <= 0;
+    }
+
     /* KISS for now */
     private final static List<Class<? extends IFeeValidator>> VALIDATORS = Arrays.asList(RangedFeeValidator.class);
 

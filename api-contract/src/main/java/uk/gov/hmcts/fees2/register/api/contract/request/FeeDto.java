@@ -45,4 +45,6 @@ public abstract class FeeDto {
     @JsonProperty("unspecified_claim_amount")
     protected Boolean unspecifiedClaimAmount;
 
+    protected String keyword;
+
 }

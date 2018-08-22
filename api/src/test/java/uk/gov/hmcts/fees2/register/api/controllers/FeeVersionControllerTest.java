@@ -47,11 +47,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
-        String loc = restActions
-                        .withUser("admin")
-                        .post("/fees-register/fixed-fees", dto)
-                        .andExpect(status().isCreated())
-                        .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
 
         try {
@@ -75,11 +71,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
-        String loc = restActions
-                        .withUser("admin")
-                        .post("/fees-register/fixed-fees", dto)
-                        .andExpect(status().isCreated())
-                        .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
 
         try {
@@ -101,11 +93,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/fixed-fees", dto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
 
 
@@ -141,17 +129,15 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             "natural account code2", "SI_2", "siRefId2", DirectionType.directionWith().name("enhanced").build());
         version2.setVersion(2);
 
-        String loc = restActions
-                        .withUser("admin")
-                        .post("/fees-register/fixed-fees", dto)
-                        .andExpect(status().isCreated())
-                        .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
 
 
         Fee2Dto feeDto = feeController.getFee(arr[3], response);
         assertNotNull(feeDto);
         assertEquals(feeDto.getFeeVersionDtos().size(), 1);
+
+        forceDeleteFee(arr[3]);
     }
 
     private FixedFeeDto getFee() {

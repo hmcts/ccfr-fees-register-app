@@ -34,6 +34,9 @@ module "fees-register-api" {
     REFORM_TEAM = "cc"
     REFORM_ENVIRONMENT = "${var.env}"
     ROOT_APPENDER = "JSON_CONSOLE"
+
+    # enable fee loader
+    ENABLE_FEE_LOADER = "${var.enable_fee_loader}"
   }
 }
 

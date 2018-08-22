@@ -2,11 +2,14 @@ package uk.gov.hmcts.fees2.register.api.contract.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
 import java.math.BigDecimal;
 
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 public class RangedFeeDto extends FeeDto{
@@ -20,8 +23,9 @@ public class RangedFeeDto extends FeeDto{
     @JsonProperty("range_unit")
     private String rangeUnit;
 
-    public RangedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, BigDecimal maxRange, BigDecimal minRange) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false);
+    @Builder(builderMethodName = "rangedFeeDtoWith")
+    public RangedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, BigDecimal maxRange, BigDecimal minRange, String keyword) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false, keyword);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }
@@ -96,6 +100,9 @@ public class RangedFeeDto extends FeeDto{
         return this;
     }
 
-
+    public RangedFeeDto setKeyword(String keyword) {
+        this.keyword = keyword;
+        return this;
+    }
 
 }

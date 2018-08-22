@@ -70,13 +70,30 @@ public abstract class Fee extends AbstractEntity{
     @Column(name = "last_updated", nullable = false)
     private Date lastUpdated;
 
+    @Column(name = "keyword")
+    private String keyword;
+
     /* --- */
+
 
     public abstract String getTypeCode();
 
     public abstract List<Class<? extends IFeeValidator>> getValidators();
 
     public abstract boolean isInRange(BigDecimal amount);
+
+    public boolean isADuplicateOf(Fee newFee) {
+
+        return getClass() == newFee.getClass() &&
+            channelType.equals(newFee.channelType) &&
+            eventType.equals(newFee.getEventType()) &&
+            jurisdiction1.equals(newFee.jurisdiction1) &&
+            jurisdiction2.equals(newFee.jurisdiction2) &&
+            service.equals(newFee.service) &&
+            ( keyword == null && newFee.keyword == null ||
+                keyword != null && keyword.equals(newFee.keyword)
+                );
+    }
 
     public boolean isDraft() {
         List<FeeVersion> feeVersions = getFeeVersions()

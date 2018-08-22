@@ -44,6 +44,9 @@ public class Fee2Dto {
     @JsonProperty("applicant_type")
     private ApplicantType applicantTypeDto;
 
+    @JsonProperty("keyword")
+    private String keyword;
+
     @JsonProperty("fee_versions")
     private List<FeeVersionDto> feeVersionDtos;
 
