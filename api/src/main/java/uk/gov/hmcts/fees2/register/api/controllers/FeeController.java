@@ -318,7 +318,7 @@ public class FeeController {
                                                        @RequestParam String event,
                                                        @RequestParam(required = false, name = "applicant_type") String applicantType,
                                                        @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume,
-                                                       HttpServletResponse response) {
+                                                       @RequestParam(required = false, name = "keyword") String keyword) {
 
         if (amountOrVolume != null && amountOrVolume.compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
@@ -328,7 +328,20 @@ public class FeeController {
             throw new BadRequestException("Volume cannot be in fractions.");
         }
 
-        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amountOrVolume, false, FeeVersionStatus.approved, null));
+        LookupFeeDto lookupFeeDto = LookupFeeDto.lookupWith()
+            .service(service)
+            .jurisdiction1(jurisdiction1)
+            .jurisdiction2(jurisdiction2)
+            .channel(channel)
+            .event(event)
+            .applicantType(applicantType)
+            .amountOrVolume(amountOrVolume)
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .keyword(keyword)
+            .build();
+
+        final FeeLookupResponseDto responseDto = feeService.lookup(lookupFeeDto);
 
         if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -351,8 +364,19 @@ public class FeeController {
                                                   @RequestParam String channel,
                                                   @RequestParam String event,
                                                   @RequestParam(required = false, name = "applicant_type") String applicantType,
-                                                  HttpServletResponse response) {
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, null, true, FeeVersionStatus.approved, null));
+                                                  @RequestParam(required = false, name = "keyword") String keyword) {
+        LookupFeeDto lookupFeeDto = LookupFeeDto.lookupWith()
+            .service(service)
+            .jurisdiction1(jurisdiction1)
+            .jurisdiction2(jurisdiction2)
+            .channel(channel)
+            .event(event)
+            .applicantType(applicantType)
+            .unspecifiedClaimAmount(true)
+            .versionStatus(FeeVersionStatus.approved)
+            .keyword(keyword)
+            .build();
+        return feeService.lookup(lookupFeeDto);
     }
 
     /* --- */

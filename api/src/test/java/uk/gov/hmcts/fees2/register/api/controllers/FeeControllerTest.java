@@ -1,8 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -268,6 +265,99 @@ public class FeeControllerTest extends BaseIntegrationTest {
         assertEquals(fee.getDescription(), "Additional copies of the grant representation");
         assertEquals(fee.getVersion(), new Integer(1));
         assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
+
+        forceDeleteFee(arr[3]);
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithKeyword_whenFeeHasKeyword() throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        fixedFeeDto.setKeyword("testKeyword");
+        String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
+
+        String[] arr = loc.split("/");
+
+        MvcResult result = restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=testKeyword")
+            .andExpect(status().isOk())
+            .andReturn();
+
+        forceDeleteFee(arr[3]);
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithWrongKeyword_whenFeeHasKeyword() throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        fixedFeeDto.setKeyword("testKeyword");
+        String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
+
+        String[] arr = loc.split("/");
+
+        MvcResult result = restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=wrongKey")
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+        forceDeleteFee(arr[3]);
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithOutKeyword_whenFeeHasKeyword() throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        fixedFeeDto.setKeyword("testKeyword");
+        String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
+
+        String[] arr = loc.split("/");
+
+        MvcResult result = restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .andExpect(status().isNotFound())
+            .andReturn();
+
+        forceDeleteFee(arr[3]);
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithOutKeyword_whenOneFeeHasKeywordAndOtherNot() throws Exception {
+        // fee with same reference data plus keyword
+        FixedFeeDto feeDto1 = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        feeDto1.setKeyword("testKeyword");
+        String code1 = saveFeeAndCheckStatusIsCreated(feeDto1).split("/")[3];
+
+        // fee with same reference data no keyword
+        FixedFeeDto feeDto2 = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        String code2 = saveFeeAndCheckStatusIsCreated(feeDto2).split("/")[3];
+
+        MvcResult result = restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .andExpect(status().isOk())
+            .andReturn();
+
+        forceDeleteFee(code1);
+        forceDeleteFee(code2);
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithOutKeyword_whenFeeHasNoKeyword() throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
+
+        String[] arr = loc.split("/");
+
+        MvcResult result = restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .andExpect(status().isOk())
+            .andReturn();
 
         forceDeleteFee(arr[3]);
     }
