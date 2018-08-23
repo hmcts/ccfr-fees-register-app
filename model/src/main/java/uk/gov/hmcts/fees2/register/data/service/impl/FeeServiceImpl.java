@@ -301,6 +301,4 @@ public class FeeServiceImpl implements FeeService {
         return builder.and(predicates.toArray(REF));
 
     }
-
-
 }
