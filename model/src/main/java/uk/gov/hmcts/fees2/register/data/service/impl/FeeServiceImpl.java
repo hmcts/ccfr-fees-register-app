@@ -298,7 +298,16 @@ public class FeeServiceImpl implements FeeService {
             );
         }
 
+        predicates.add(getKeywordPredicate(fee, builder, dto));
+
         return builder.and(predicates.toArray(REF));
 
+    }
+
+    private Predicate getKeywordPredicate(Root<Fee> fee, CriteriaBuilder builder, LookupFeeDto dto) {
+        if (dto.getKeyword() != null) {
+            return builder.equal(fee.get(fee.getModel().getSingularAttribute("keyword")), dto.getKeyword());
+        }
+        return builder.isNull(fee.get(fee.getModel().getSingularAttribute("keyword")));
     }
 }

@@ -2,10 +2,7 @@ package uk.gov.hmcts.fees2.register.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
@@ -14,6 +11,7 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(builderMethodName = "lookupWith")
 @ToString
 public class LookupFeeDto {
 
@@ -26,6 +24,8 @@ public class LookupFeeDto {
     private String channel;
 
     private String event;
+
+    private String keyword;
 
     //private String direction;
 
