@@ -63,6 +63,18 @@ public abstract class BaseIntegrationTest extends BaseTest{
             .andReturn().getResponse().getHeader("Location");
     }
 
+    protected String createFee(FeeDto dto) throws Exception {
+        String methodName = getMethodName(dto);
+        return restActions
+            .withUser("admin")
+            .post(
+                URIUtils.getUrlForPostMethod(FeeController.class, methodName),
+                dto
+            )
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location").split("/")[3];
+    }
+
     protected ResultActions saveFee(FeeDto dto) throws Exception {
 
         String methodName = getMethodName(dto);
