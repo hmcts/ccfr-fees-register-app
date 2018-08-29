@@ -1,8 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -465,12 +462,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andReturn();
     }
 
-    private String createAFeeWithKeyword(String keyword) throws Exception {
-        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
-        fixedFeeDto.setKeyword(keyword);
-        return createFee(fixedFeeDto);
-    }
-
     // min null
     // min null
     @Test
@@ -497,7 +488,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andReturn());
     }
 
-
     // min1 null
     // min2 null
     @Test
@@ -523,7 +513,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
-
 
     // min max
     // minBetween null
@@ -653,6 +642,14 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isConflict())
             .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
+    }
+
+
+
+    private String createAFeeWithKeyword(String keyword) throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        fixedFeeDto.setKeyword(keyword);
+        return createFee(fixedFeeDto);
     }
 
     // min max
