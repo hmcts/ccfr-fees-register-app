@@ -44,7 +44,7 @@ public class RangedFee extends Fee{
 
     @Override
     public boolean isADuplicateOf(Fee anotherFee) {
-        if(!super.isADuplicateOf(anotherFee)) {
+        if(!super.isADuplicateOf(anotherFee) || ! (anotherFee instanceof RangedFee)) {
             return false;
         }
 

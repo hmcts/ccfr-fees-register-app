@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "fee_type")
 @Table(name = "fee")
-public abstract class Fee extends AbstractEntity{
+public abstract class Fee extends AbstractEntity {
 
     @Column(name = "code", unique = true)
     private String code;
@@ -84,15 +84,14 @@ public abstract class Fee extends AbstractEntity{
 
     public boolean isADuplicateOf(Fee newFee) {
 
-        return getClass() == newFee.getClass() &&
-            channelType.equals(newFee.channelType) &&
-            eventType.equals(newFee.getEventType()) &&
+        return channelType.equals(newFee.channelType) &&
+            eventType.equals(newFee.eventType) &&
             jurisdiction1.equals(newFee.jurisdiction1) &&
             jurisdiction2.equals(newFee.jurisdiction2) &&
             service.equals(newFee.service) &&
-            ( keyword == null && newFee.keyword == null ||
+            (keyword == null && newFee.keyword == null ||
                 keyword != null && keyword.equals(newFee.keyword)
-                );
+            );
     }
 
     public boolean isDraft() {
@@ -128,7 +127,9 @@ public abstract class Fee extends AbstractEntity{
         lastUpdated = now;
     }
 
-    /** Added toString method to avoid StackOverFlow error on debugger */
+    /**
+     * Added toString method to avoid StackOverFlow error on debugger
+     */
     @Override
     public String toString() {
         return "Fee{" +
