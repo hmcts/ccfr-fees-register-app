@@ -9,10 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
+
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
-import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.FeeCodeHistory;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -298,7 +299,17 @@ public class FeeServiceImpl implements FeeService {
             );
         }
 
+        predicates.add(getKeywordPredicate(fee, builder, dto));
+
         return builder.and(predicates.toArray(REF));
 
     }
+
+    private Predicate getKeywordPredicate(Root<Fee> fee, CriteriaBuilder builder, LookupFeeDto dto) {
+        if (dto.getKeyword() != null) {
+            return builder.equal(fee.get(fee.getModel().getSingularAttribute("keyword")), dto.getKeyword());
+        }
+        return builder.isNull(fee.get(fee.getModel().getSingularAttribute("keyword")));
+    }
+
 }
