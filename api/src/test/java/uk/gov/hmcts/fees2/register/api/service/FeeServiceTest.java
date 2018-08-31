@@ -10,6 +10,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
@@ -22,7 +23,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-
 
 public class FeeServiceTest extends BaseTest{
 
@@ -65,7 +65,7 @@ public class FeeServiceTest extends BaseTest{
     @Transactional
     public void testRefinedSearch() {
 
-        String code = createDetailedFee("divorce", FeeVersionStatus.approved);
+        String code = createDetailedFee("divorce", FeeVersionStatus.approved, BigDecimal.ONE, BigDecimal.TEN);
 
         LookupFeeDto dto = new LookupFeeDto();
 
@@ -89,7 +89,7 @@ public class FeeServiceTest extends BaseTest{
     @Transactional
     public void testRefinedLookup() {
 
-        String code = createDetailedFee("civil money claims", FeeVersionStatus.approved);
+        String code = createDetailedFee("civil money claims", FeeVersionStatus.approved, BigDecimal.ONE, BigDecimal.TEN);
 
         LookupFeeDto dto = new LookupFeeDto();
 
@@ -113,8 +113,8 @@ public class FeeServiceTest extends BaseTest{
     @Test
     @Transactional
     public void testLookupSearchesOnlyApprovedFees() {
-        createDetailedFee("civil money claims", FeeVersionStatus.approved);
-        createDetailedFee("civil money claims", FeeVersionStatus.draft);
+        createDetailedFee("civil money claims", FeeVersionStatus.approved, BigDecimal.ONE, BigDecimal.valueOf(5));
+        createDetailedFee("civil money claims", FeeVersionStatus.draft, BigDecimal.valueOf(6), BigDecimal.TEN);
 
         LookupFeeDto dto = new LookupFeeDto();
 
@@ -129,6 +129,13 @@ public class FeeServiceTest extends BaseTest{
         FeeLookupResponseDto fee = feeService.lookup(dto);
 
         assertNotEquals(null, fee);
+
+        dto.setAmountOrVolume(new BigDecimal(6));
+        try {
+            feeService.lookup(dto);
+        } catch (FeeNotFoundException ex) {
+            assertEquals("Exception is fee not found", FeeNotFoundException.class, ex.getClass());
+        }
     }
 
     @Test
@@ -235,7 +242,7 @@ public class FeeServiceTest extends BaseTest{
 
     }
 
-    private String createDetailedFee(String service, FeeVersionStatus status) {
+    private String createDetailedFee(String service, FeeVersionStatus status, BigDecimal minRange, BigDecimal maxRange) {
 
         RangedFeeDto dto = new RangedFeeDto();
 
@@ -246,8 +253,8 @@ public class FeeServiceTest extends BaseTest{
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
         dto.setJurisdiction2("high court");
-        dto.setMinRange(BigDecimal.ONE);
-        dto.setMaxRange(BigDecimal.TEN);
+        dto.setMinRange(minRange);
+        dto.setMaxRange(maxRange);
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));

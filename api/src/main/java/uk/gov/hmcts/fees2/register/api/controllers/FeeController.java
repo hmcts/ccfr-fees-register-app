@@ -61,7 +61,8 @@ public class FeeController {
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 409, message = "Conflict")
     })
     @PostMapping("/ranged-fees")
     @ResponseStatus(HttpStatus.CREATED)
