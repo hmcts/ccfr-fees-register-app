@@ -740,11 +740,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
         FixedFeeDto dto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
         dto.setKeyword("xxx");
 
-        restActions
-            .withUser("admin")
-            .post("/fees-register/fixed-fees", dto)
-            .andExpect(status().isCreated());
-
         assertNotNull(
             restActions
                 .withUser("admin")
@@ -762,10 +757,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         assertNotNull(restActions
             .withUser("admin")
             .post("/fees-register/fixed-fees", dto)
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(status().isCreated())
             .andReturn());
-
     }
 
 

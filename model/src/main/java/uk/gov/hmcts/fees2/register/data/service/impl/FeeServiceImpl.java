@@ -318,7 +318,7 @@ public class FeeServiceImpl implements FeeService {
     /** Validation for pre-save fees */
     public void prevalidate(Fee fee) {
 
-        if (!feeValidator.isExistingFee(fee)) {
+        if (feeValidator.isExistingFee(fee)) {
             throw new ConflictException("One or more fees exist already with the same metadata");
         }
 

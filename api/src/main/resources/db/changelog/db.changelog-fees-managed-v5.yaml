@@ -225,6 +225,6 @@ databaseChangeLog:
             - column:
                 name: service
                 type: varchar(255)
-            indexName: ix_refdata
+            indexName: ix_fee_refdata
             tableName: fee
             unique: false
