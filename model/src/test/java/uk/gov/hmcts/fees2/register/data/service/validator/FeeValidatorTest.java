@@ -8,6 +8,7 @@ import uk.gov.hmcts.fees2.register.data.model.*;
 
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.FeeVersionDateRangeValidator;
+import uk.gov.hmcts.fees2.register.data.service.validator.validators.GenericFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersionValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.RangedFeeValidator;
 
@@ -25,6 +26,7 @@ public class FeeValidatorTest {
 
     {
         when(context.getBean(RangedFeeValidator.class)).thenReturn(new RangedFeeValidator());
+        when(context.getBean(GenericFeeValidator.class)).thenReturn(new GenericFeeValidator());
     }
 
     List<IFeeVersionValidator> versionValidators = new ArrayList<>();
@@ -51,6 +53,49 @@ public class FeeValidatorTest {
         v.setValidTo(new Date(millis));
 
         fee.setFeeVersions(Arrays.asList(v));
+
+        validator.validateAndDefaultNewFee(fee);
+
+    }
+
+    @Test
+    public void testKeywordWithSpecialCharactersIsValid(){
+
+        long millis = System.currentTimeMillis();
+
+        Fee fee = new FixedFee();
+        fee.setUnspecifiedClaimAmount(false);
+        fee.setChannelType(new ChannelType("default", new Date(), new Date()));
+
+        FeeVersion v = new FeeVersion();
+        v.setValidFrom(new Date(millis + 1000));
+        v.setValidTo(new Date(millis + 5000));
+
+        fee.setFeeVersions(Arrays.asList(v));
+
+        fee.setKeyword("xxx-xxx_xxx");
+
+        validator.validateAndDefaultNewFee(fee);
+
+    }
+
+
+    @Test(expected = BadRequestException.class)
+    public void testKeywordWithSpacesIsRejected(){
+
+        long millis = System.currentTimeMillis();
+
+        Fee fee = new FixedFee();
+        fee.setUnspecifiedClaimAmount(false);
+        fee.setChannelType(new ChannelType("default", new Date(), new Date()));
+
+        FeeVersion v = new FeeVersion();
+        v.setValidFrom(new Date(millis + 1000));
+        v.setValidTo(new Date(millis));
+
+        fee.setFeeVersions(Arrays.asList(v));
+
+        fee.setKeyword("xxx xxx");
 
         validator.validateAndDefaultNewFee(fee);
 

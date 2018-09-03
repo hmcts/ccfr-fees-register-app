@@ -653,6 +653,32 @@ public class FeeControllerTest extends BaseIntegrationTest {
         return createFee(fixedFeeDto);
     }
 
+
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateFeeMetadataOnDifferentTypes() throws Exception {
+
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        fixedFeeDto.setKeyword("xxx");
+
+        RangedFeeDto rangedFeeDto = FeeDataUtils.getRangedCreateProbateCopiesFeeRequest();
+        rangedFeeDto.setKeyword("xxx");
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated());
+
+        assertNotNull(restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
+
+    }
+
+
     // min max
     // minBelow maxAbove
     @Test

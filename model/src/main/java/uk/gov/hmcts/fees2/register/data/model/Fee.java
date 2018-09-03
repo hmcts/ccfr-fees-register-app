@@ -22,7 +22,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "fee_type")
-@Table(name = "fee")
+@Table(
+    name = "fee",
+    indexes = {
+        @Index(name = "ix_refdata", columnList = "channel_type,event_type,jurisdiction1,jurisdiction2,service")
+    }
+)
 public abstract class Fee extends AbstractEntity {
 
     @Column(name = "code", unique = true)
@@ -90,7 +95,7 @@ public abstract class Fee extends AbstractEntity {
             jurisdiction2.equals(newFee.jurisdiction2) &&
             service.equals(newFee.service) &&
             (keyword == null && newFee.keyword == null ||
-                keyword != null && keyword.equals(newFee.keyword)
+                keyword != null && keyword.equalsIgnoreCase(newFee.keyword)
             );
     }
 

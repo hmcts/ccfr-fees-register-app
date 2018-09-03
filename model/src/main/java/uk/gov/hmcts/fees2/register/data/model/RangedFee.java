@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import uk.gov.hmcts.fees2.register.data.service.validator.validators.GenericFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.RangedFeeValidator;
 
@@ -62,8 +63,7 @@ public class RangedFee extends Fee{
                 anotherRangedFee.isInRange(minRange) || anotherRangedFee.isInRange(maxRange));
     }
 
-    /* KISS for now */
-    private final static List<Class<? extends IFeeValidator>> VALIDATORS = Arrays.asList(RangedFeeValidator.class);
+    private final static List<Class<? extends IFeeValidator>> VALIDATORS = Arrays.asList(RangedFeeValidator.class, GenericFeeValidator.class);
 
     @Override
     public List<Class<? extends IFeeValidator>> getValidators() {

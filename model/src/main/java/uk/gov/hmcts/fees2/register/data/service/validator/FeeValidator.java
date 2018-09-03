@@ -87,13 +87,13 @@ public class FeeValidator {
 
     public boolean isExistingFee(Fee newFee) {
          return feeRepository.
-             findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndServiceAndKeyword(
+             findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndService(
                  newFee.getChannelType(),
                  newFee.getEventType(),
                  newFee.getJurisdiction1(),
                  newFee.getJurisdiction2(),
-                 newFee.getService(),
-                 newFee.getKeyword())
+                 newFee.getService()
+                 )
              .stream()
              .anyMatch(f -> f.isADuplicateOf(newFee));
     }
