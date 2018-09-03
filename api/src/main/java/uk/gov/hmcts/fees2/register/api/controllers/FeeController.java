@@ -22,10 +22,7 @@ import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeVersionDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.model.FixedFee;
-import uk.gov.hmcts.fees2.register.data.model.RangedFee;
+import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.util.SecurityUtil;
@@ -137,6 +134,7 @@ public class FeeController {
             response.setHeader(LOCATION, getResourceLocation(fee));
         }
     }
+
     @ApiOperation(value = "Create rateable fee")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
@@ -146,8 +144,8 @@ public class FeeController {
     @PostMapping(value = "/rateable-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRateableFee(@RequestBody @Validated final RateableFeeDto request,
-                             HttpServletResponse response,
-                             Principal principal) {
+                                  HttpServletResponse response,
+                                  Principal principal) {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
@@ -168,8 +166,8 @@ public class FeeController {
     @PostMapping(value = "/relational-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRelationalFee(@RequestBody @Validated final RelationalFeeDto request,
-                             HttpServletResponse response,
-                             Principal principal) {
+                                    HttpServletResponse response,
+                                    Principal principal) {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
@@ -189,8 +187,8 @@ public class FeeController {
     @PostMapping(value = "/banded-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createBandedFee(@RequestBody @Validated final BandedFeeDto request,
-                             HttpServletResponse response,
-                             Principal principal) {
+                                HttpServletResponse response,
+                                Principal principal) {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
@@ -200,7 +198,6 @@ public class FeeController {
             response.setHeader(LOCATION, getResourceLocation(fee));
         }
     }
-
 
 
     @ApiOperation(value = "Create bulk fees")
@@ -378,6 +375,31 @@ public class FeeController {
             .keyword(keyword)
             .build();
         return feeService.lookup(lookupFeeDto);
+    }
+
+    /* --- */
+
+    @ApiOperation(value = "Prevalidates a fee based on its reference data", response = FeeLookupResponseDto.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
+    @GetMapping("/fees/prevalidate")
+    @ResponseStatus(HttpStatus.OK)
+    public void prevalidate(@RequestParam String service,
+                            @RequestParam String jurisdiction1,
+                            @RequestParam String jurisdiction2,
+                            @RequestParam String channel,
+                            @RequestParam String event,
+                            @RequestParam String keyword,
+                            @RequestParam(required = false) BigDecimal rangeFrom,
+                            @RequestParam(required = false) BigDecimal rangeTo
+    ) {
+
+        feeService.prevalidate(
+            Fee.fromMetadata(service, channel, event, jurisdiction1, jurisdiction2, keyword, rangeFrom, rangeTo)
+        );
     }
 
     /* --- */

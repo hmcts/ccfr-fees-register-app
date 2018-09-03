@@ -1,9 +1,6 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.GenericFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.RangedFeeValidator;
@@ -18,6 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(builderMethodName = "rangedFeeWith")
 @Table(name = "ranged_fee")
 public class RangedFee extends Fee{
 

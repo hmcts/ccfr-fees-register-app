@@ -7,11 +7,13 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 @Component
 public class GenericFeeValidator implements IFeeValidator<Fee>{
 
+    private final static String REGEX =  "^[a-zA-Z0-9_-]*$";
+
     @Override
     public void validateFee(Fee fee) {
 
-        if(fee.getKeyword() != null && fee.getKeyword().contains(" ")) {
-            throw new BadRequestException("Keyword cannot contain blank spaces");
+        if(fee.getKeyword() != null && !fee.getKeyword().matches(REGEX)) {
+            throw new BadRequestException("Keyword must be a combination of only numbers, letters and hyphens");
         }
 
     }

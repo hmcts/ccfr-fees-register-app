@@ -157,4 +157,20 @@ public abstract class Fee extends AbstractEntity {
     @JoinColumn(name = "fee_id", referencedColumnName = "id", nullable = false)
     private List<FeeCodeHistory> feeCodeHistories;
 
+    public final static Fee fromMetadata(String service, String channel, String event, String jurisdiction1, String jurisdiction2, String keyword, BigDecimal rangeFrom, BigDecimal rangeTo){
+
+        Fee fee =
+            (rangeFrom == null & rangeTo == null ?
+                new FixedFee() : RangedFee.rangedFeeWith().minRange(rangeFrom).maxRange(rangeTo).build());
+
+        fee.setService(new ServiceType(service, null, null));
+        fee.setJurisdiction1(new Jurisdiction1(jurisdiction1, null, null));
+        fee.setJurisdiction2(new Jurisdiction2(jurisdiction2, null, null));
+        fee.setChannelType(new ChannelType(channel, null, null));
+        fee.setEventType(new EventType(event, null, null));
+        fee.setKeyword(keyword);
+
+        return fee;
+    }
+
 }

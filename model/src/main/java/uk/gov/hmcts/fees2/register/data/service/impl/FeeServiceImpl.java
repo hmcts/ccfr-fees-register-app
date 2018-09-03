@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+
 import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
 
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
@@ -32,6 +33,7 @@ import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -312,4 +314,13 @@ public class FeeServiceImpl implements FeeService {
         return builder.isNull(fee.get(fee.getModel().getSingularAttribute("keyword")));
     }
 
+    @Override
+    /** Validation for pre-save fees */
+    public void prevalidate(Fee fee) {
+
+        if (!feeValidator.isExistingFee(fee)) {
+            throw new ConflictException("One or more fees exist already with the same metadata");
+        }
+
+    }
 }

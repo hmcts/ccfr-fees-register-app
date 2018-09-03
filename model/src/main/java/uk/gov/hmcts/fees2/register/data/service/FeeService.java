@@ -4,6 +4,7 @@ import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface FeeService  {
@@ -17,6 +18,8 @@ public interface FeeService  {
     boolean safeDelete(String code);
 
     FeeLookupResponseDto lookup(LookupFeeDto dto);
+
+    void prevalidate(Fee fee);
 
     List<Fee> search(LookupFeeDto dto);
 
