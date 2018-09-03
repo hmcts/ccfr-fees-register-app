@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 public class FeeValidatorTest {
@@ -75,8 +76,11 @@ public class FeeValidatorTest {
 
         fee.setKeyword("xxx-xxx_xxx");
 
-        validator.validateAndDefaultNewFee(fee);
-
+        try{
+            validator.validateAndDefaultNewFee(fee);
+        }catch(Exception e){
+            fail();
+        }
     }
 
 

@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * An entity class which contains the information of a ChannelType
@@ -19,7 +18,7 @@ import java.util.Objects;
 @Builder(builderMethodName = "channelWith")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "channel_type")
-public class ChannelType implements Serializable{
+public class ChannelType implements Serializable {
 
     public static final String DEFAULT = "default";
 

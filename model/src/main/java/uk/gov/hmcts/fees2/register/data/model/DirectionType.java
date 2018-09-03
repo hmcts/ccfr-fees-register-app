@@ -6,12 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 /**
- *
  * An entity class which contains the information of a DirectionType
- *
  */
 
 @Data
@@ -21,7 +18,7 @@ import java.util.Objects;
 @Builder(builderMethodName = "directionWith")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "direction_type")
-public class DirectionType implements Serializable{
+public class DirectionType implements Serializable {
 
     @Id
     @Column(name = "name", nullable = false)

@@ -6,10 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 /**
- *  An entity class which contains the information of a EventType
+ * An entity class which contains the information of a EventType
  */
 
 @Data
@@ -19,7 +18,7 @@ import java.util.Objects;
 @Builder(builderMethodName = "eventWith")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "event_type")
-public class EventType implements Serializable{
+public class EventType implements Serializable {
 
     @Id
     @Column(name = "name", nullable = false)
