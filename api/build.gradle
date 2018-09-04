@@ -78,6 +78,7 @@ dependencies {
     testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
     testCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
+    testCompile group: 'org.testcontainers', name: 'postgresql', version: '1.8.3'
 
     // smoke
     smokeTestCompile sourceSets.test.runtimeClasspath
