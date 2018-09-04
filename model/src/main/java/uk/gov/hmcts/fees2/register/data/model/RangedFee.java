@@ -19,6 +19,8 @@ import java.util.List;
 @Table(name = "ranged_fee")
 public class RangedFee extends Fee{
 
+    private final static List<Class<? extends IFeeValidator>> VALIDATORS = Arrays.asList(RangedFeeValidator.class, GenericFeeValidator.class);
+
     @Column(name = "min_range")
     private BigDecimal minRange;
 
@@ -60,8 +62,6 @@ public class RangedFee extends Fee{
             &&
                 anotherRangedFee.isInRange(minRange) || anotherRangedFee.isInRange(maxRange));
     }
-
-    private final static List<Class<? extends IFeeValidator>> VALIDATORS = Arrays.asList(RangedFeeValidator.class, GenericFeeValidator.class);
 
     @Override
     public List<Class<? extends IFeeValidator>> getValidators() {
