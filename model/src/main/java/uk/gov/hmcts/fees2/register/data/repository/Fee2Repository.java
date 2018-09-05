@@ -24,7 +24,7 @@ public interface Fee2Repository extends JpaRepository<Fee, Long>, JpaSpecificati
     @Query("SELECT coalesce(max(f.feeNumber), 0) FROM uk.gov.hmcts.fees2.register.data.model.Fee f")
     Integer getMaxFeeNumber();
 
-    List<Fee> findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndServiceAndKeyword(ChannelType channelType, EventType eventType, Jurisdiction1 jurisdiction1,
-                                                                                                Jurisdiction2 jurisdiction2, ServiceType serviceType, String keyword);
+    List<Fee> findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndService(ChannelType channelType, EventType eventType, Jurisdiction1 jurisdiction1,
+                                                                                                Jurisdiction2 jurisdiction2, ServiceType serviceType);
 
 }

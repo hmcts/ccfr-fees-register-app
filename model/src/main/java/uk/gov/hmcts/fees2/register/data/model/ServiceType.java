@@ -1,10 +1,7 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,11 +17,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(builderMethodName = "serviceWith")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "service_type")
 public class ServiceType implements Serializable{
 
     @Id
     @Column(name = "name", nullable = false)
+    @EqualsAndHashCode.Include
     private String name;
 
     @Column(name = "creation_time", nullable = false)

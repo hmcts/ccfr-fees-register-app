@@ -22,7 +22,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "fee_type")
-@Table(name = "fee")
+@Table(
+    name = "fee",
+    indexes = {
+        @Index(name = "ix_refdata", columnList = "channel_type,event_type,jurisdiction1,jurisdiction2,service")
+    }
+)
 public abstract class Fee extends AbstractEntity {
 
     @Column(name = "code", unique = true)
@@ -90,7 +95,7 @@ public abstract class Fee extends AbstractEntity {
             jurisdiction2.equals(newFee.jurisdiction2) &&
             service.equals(newFee.service) &&
             (keyword == null && newFee.keyword == null ||
-                keyword != null && keyword.equals(newFee.keyword)
+                keyword != null && keyword.equalsIgnoreCase(newFee.keyword)
             );
     }
 
@@ -151,5 +156,21 @@ public abstract class Fee extends AbstractEntity {
     @Cascade(CascadeType.ALL)
     @JoinColumn(name = "fee_id", referencedColumnName = "id", nullable = false)
     private List<FeeCodeHistory> feeCodeHistories;
+
+    public final static Fee fromMetadata(String service, String channel, String event, String jurisdiction1, String jurisdiction2, String keyword, BigDecimal rangeFrom, BigDecimal rangeTo){
+
+        Fee fee =
+            (rangeFrom == null & rangeTo == null ?
+                new FixedFee() : RangedFee.rangedFeeWith().minRange(rangeFrom).maxRange(rangeTo).build());
+
+        fee.setService(new ServiceType(service, null, null));
+        fee.setJurisdiction1(new Jurisdiction1(jurisdiction1, null, null));
+        fee.setJurisdiction2(new Jurisdiction2(jurisdiction2, null, null));
+        fee.setChannelType(new ChannelType(channel, null, null));
+        fee.setEventType(new EventType(event, null, null));
+        fee.setKeyword(keyword);
+
+        return fee;
+    }
 
 }
