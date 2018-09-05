@@ -39,7 +39,7 @@ public class FeeValidatorTest {
     @Mock
     private Fee2Repository feeRepository;
 
-    private FeeValidator validator = new FeeValidator(context, null, versionValidators, feeRepository);
+    private FeeValidator validator = new FeeValidator(context, versionValidators, feeRepository);
 
     @Test(expected = BadRequestException.class)
     public void testWrongDateInFeeVersionRangeIsRejected(){

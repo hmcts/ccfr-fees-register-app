@@ -377,13 +377,11 @@ public class FeeController {
         return feeService.lookup(lookupFeeDto);
     }
 
-    /* --- */
-
     @ApiOperation(value = "Prevalidates a fee based on its reference data", response = FeeLookupResponseDto.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(code = 409, message = "Fee conflicts with one or more existing fees")
     })
     @GetMapping("/fees/prevalidate")
     @ResponseStatus(HttpStatus.OK)

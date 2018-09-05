@@ -20,37 +20,26 @@ import java.util.*;
 @Component
 public class FeeValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FeeValidator.class);
-
     protected ApplicationContext context;
-
-    private ChannelTypeRepository channelTypeRepository;
-
-    private ApplicantTypeRepository applicantTypeRepository;
 
     private List<IFeeVersionValidator> versionValidators;
 
     private Fee2Repository feeRepository;
 
-    private static final Predicate[] REF = new Predicate[0];
-
     @Autowired
-    public FeeValidator(ApplicationContext context, ChannelTypeRepository channelTypeRepository, List<IFeeVersionValidator> versionValidators, Fee2Repository feeRepository) {
+    public FeeValidator(ApplicationContext context, List<IFeeVersionValidator> versionValidators, Fee2Repository feeRepository) {
         this.context = context;
-        this.channelTypeRepository = channelTypeRepository;
         this.versionValidators = versionValidators;
         this.feeRepository = feeRepository;
     }
 
     public void validateAndDefaultNewFee(Fee fee) {
 
-        /* Specific Fee Type Validator */
-        if (fee.getValidators() != null) {
-            fee.getValidators().forEach(
-                validatorClass ->
-                    context.getBean(validatorClass).validateFee(fee)
-            );
-        }
+        fee.getValidators().forEach(
+            validatorClass ->
+                context.getBean(validatorClass).validateFee(fee)
+        );
+
 
         /* Fee Version Validators */
         fee.getFeeVersions().forEach(v -> {
@@ -66,7 +55,7 @@ public class FeeValidator {
     private void setDefaultValues(Fee fee) {
 
         if (fee.getChannelType() == null) {
-            fee.setChannelType(channelTypeRepository.getOne(ChannelType.DEFAULT));
+            fee.setChannelType(new ChannelType(ChannelType.DEFAULT, null, null));
         }
 
         if (fee.getApplicantType() == null) {
@@ -86,16 +75,16 @@ public class FeeValidator {
     }
 
     public boolean isExistingFee(Fee newFee) {
-         return feeRepository.
-             findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndService(
-                 newFee.getChannelType(),
-                 newFee.getEventType(),
-                 newFee.getJurisdiction1(),
-                 newFee.getJurisdiction2(),
-                 newFee.getService()
-                 )
-             .stream()
-             .anyMatch(f -> f.isADuplicateOf(newFee));
+        return feeRepository.
+            findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndService(
+                newFee.getChannelType(),
+                newFee.getEventType(),
+                newFee.getJurisdiction1(),
+                newFee.getJurisdiction2(),
+                newFee.getService()
+            )
+            .stream()
+            .anyMatch(f -> f.isADuplicateOf(newFee));
     }
 
 
