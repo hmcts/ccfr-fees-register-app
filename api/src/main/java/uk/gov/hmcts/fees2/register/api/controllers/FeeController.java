@@ -22,7 +22,10 @@ import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeVersionDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
-import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.FixedFee;
+import uk.gov.hmcts.fees2.register.data.model.RangedFee;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.util.SecurityUtil;
@@ -34,7 +37,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "FeesRegister", description = "Operations pertaining to fees")
+@Api(value = "FeesRegister")
 @RestController
 @RequestMapping(value = "/fees-register")
 @AllArgsConstructor

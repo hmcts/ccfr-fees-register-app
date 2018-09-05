@@ -1,39 +1,22 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-
 import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
-
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
-import uk.gov.hmcts.fees2.register.data.model.ChannelType;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
-import uk.gov.hmcts.fees2.register.data.model.FeeCodeHistory;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.repository.ApplicantTypeRepository;
-import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
-import uk.gov.hmcts.fees2.register.data.repository.EventTypeRepository;
-import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
-import uk.gov.hmcts.fees2.register.data.repository.FeeCodeHistoryRepository;
-import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
-import uk.gov.hmcts.fees2.register.data.repository.Jurisdiction1Repository;
-import uk.gov.hmcts.fees2.register.data.repository.Jurisdiction2Repository;
-import uk.gov.hmcts.fees2.register.data.repository.ServiceTypeRepository;
+import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -102,7 +85,7 @@ public class FeeServiceImpl implements FeeService {
             feeValidator.validateAndDefaultNewFee(fee);
 
             Matcher matcher = pattern.matcher(fee.getCode());
-            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee.setFeeNumber(matcher.find() ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
             fee2Repository.save(fee);
         }
     }
@@ -154,11 +137,11 @@ public class FeeServiceImpl implements FeeService {
     @Transactional
     public boolean safeDelete(String code) {
         Optional<Fee> optFeeToDelete = fee2Repository.findByCode(code);
-        if (optFeeToDelete.isPresent()) {
-            if (feeVersionRepository.findByFee_CodeAndStatus(code, FeeVersionStatus.approved).isEmpty()) {
-                delete(code);
-                return true;
-            }
+        if (optFeeToDelete.isPresent() &&
+            feeVersionRepository.findByFee_CodeAndStatus(code, FeeVersionStatus.approved).isEmpty()) {
+            delete(code);
+            return true;
+
         }
         return false;
     }
