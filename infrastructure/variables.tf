@@ -45,7 +45,7 @@ variable "liquibase_enabled" {
 }
 
 variable "idam_api_url" {
-  default = "http://betaDevAccidamAppLB.reform.hmcts.net"
+  default = "https://preprod-idamapi.reform.hmcts.net:3511"
 }
 
 variable "capacity" {

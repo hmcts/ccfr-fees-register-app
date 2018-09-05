@@ -54,7 +54,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
         forceDeleteFee(arr[3]);
     }
 
-
     @Test
     public synchronized void createBandedFeeTest() throws Exception {
         BandedFeeDto bandedFeeDto = getBandedFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
@@ -366,7 +365,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
     }
 
-
     @Test
     @Transactional
     public void createNewFixedFeeWithKeywordTest() throws Exception {
@@ -386,13 +384,86 @@ public class FeeControllerTest extends BaseIntegrationTest {
             });
 
         assertNotNull(feeCodes);
-        assertEquals(feeCodes.size(), 2);
+        assertEquals(feeCodes.size(),2);
 
         feeCodes.stream().forEach(f -> {
             forceDeleteFee(f);
         });
     }
 
+    @Test
+    @Transactional
+    public void findFeeLookupWithKeyword_whenFeeHasKeyword() throws Exception {
+        // given
+        String feeCode = createAFeeWithKeyword("testKeyword");
+
+        // when & then
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=testKeyword")
+            .andExpect(status().isOk())
+            .andReturn();
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithWrongKeyword_whenFeeHasKeyword() throws Exception {
+        // given
+        String feeCode = createAFeeWithKeyword("testKeyword");
+
+        // when & then
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=wrongKey")
+            .andExpect(status().isNotFound())
+            .andReturn();
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithOutKeyword_whenFeeHasKeyword() throws Exception {
+        // given
+        String feeCode = createAFeeWithKeyword("testKeyword");
+
+        // when & then
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .andExpect(status().isNotFound())
+            .andReturn();
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithOutKeyword_whenOneFeeHasKeywordAndOtherNot() throws Exception {
+        // given - one fee with same reference data plus keyword and another no keyword
+        String feeCode = createAFeeWithKeyword("testKeyword");
+        String feeCode2 = createAFeeWithKeyword(null);
+
+        // when & then
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .andExpect(status().isOk())
+            .andReturn();
+    }
+
+    @Test
+    @Transactional
+    public void findFeeLookupWithOutKeyword_whenFeeHasNoKeyword() throws Exception {
+        // given
+        String feeCode = createAFeeWithKeyword(null);
+
+        // when & then
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .andExpect(status().isOk())
+            .andReturn();
+    }
+
+    // min null
+    // min null
     @Test
     @Transactional
     public void rejectAddingDuplicateRangedFeeMinSameForBothMaxInfinityForBothTest() throws Exception {
@@ -416,7 +487,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
-
 
     // min1 null
     // min2 null
@@ -443,7 +513,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
-
 
     // min max
     // minBetween null
@@ -573,79 +642,9 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isConflict())
             .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
-
     }
 
-    @Test
-    @Transactional
-    public void findFeeLookupWithKeyword_whenFeeHasKeyword() throws Exception {
-        // given
-        String feeCode = createAFeeWithKeyword("testKeyword");
 
-        // when & then
-        restActions
-            .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=testKeyword")
-            .andExpect(status().isOk())
-            .andReturn();
-    }
-
-    @Test
-    @Transactional
-    public void findFeeLookupWithWrongKeyword_whenFeeHasKeyword() throws Exception {
-        // given
-        String feeCode = createAFeeWithKeyword("testKeyword");
-
-        // when & then
-        restActions
-            .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=wrongKey")
-            .andExpect(status().isNotFound())
-            .andReturn();
-    }
-
-    @Test
-    @Transactional
-    public void findFeeLookupWithOutKeyword_whenFeeHasKeyword() throws Exception {
-        // given
-        String feeCode = createAFeeWithKeyword("testKeyword");
-
-        // when & then
-        restActions
-            .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
-            .andExpect(status().isNotFound())
-            .andReturn();
-    }
-
-    @Test
-    @Transactional
-    public void findFeeLookupWithOutKeyword_whenOneFeeHasKeywordAndOtherNot() throws Exception {
-        // given - one fee with same reference data plus keyword and another no keyword
-        String feeCode = createAFeeWithKeyword("testKeyword");
-        String feeCode2 = createAFeeWithKeyword(null);
-
-        // when & then
-        restActions
-            .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
-            .andExpect(status().isOk())
-            .andReturn();
-    }
-
-    @Test
-    @Transactional
-    public void findFeeLookupWithOutKeyword_whenFeeHasNoKeyword() throws Exception {
-        // given
-        String feeCode = createAFeeWithKeyword(null);
-
-        // when & then
-        restActions
-            .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
-            .andExpect(status().isOk())
-            .andReturn();
-    }
 
     private String createAFeeWithKeyword(String keyword) throws Exception {
         FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
