@@ -1,56 +1,37 @@
 package uk.gov.hmcts.fees2.register.data.service.validator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.repository.ApplicantTypeRepository;
-import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersionValidator;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.*;
+import java.util.List;
 
 @Component
 public class FeeValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FeeValidator.class);
-
     protected ApplicationContext context;
-
-    private ChannelTypeRepository channelTypeRepository;
-
-    private ApplicantTypeRepository applicantTypeRepository;
 
     private List<IFeeVersionValidator> versionValidators;
 
     private Fee2Repository feeRepository;
 
-    private static final Predicate[] REF = new Predicate[0];
-
     @Autowired
-    public FeeValidator(ApplicationContext context, ChannelTypeRepository channelTypeRepository, List<IFeeVersionValidator> versionValidators, Fee2Repository feeRepository) {
+    public FeeValidator(ApplicationContext context, List<IFeeVersionValidator> versionValidators, Fee2Repository feeRepository) {
         this.context = context;
-        this.channelTypeRepository = channelTypeRepository;
         this.versionValidators = versionValidators;
         this.feeRepository = feeRepository;
     }
 
     public void validateAndDefaultNewFee(Fee fee) {
 
-        /* Specific Fee Type Validator */
-        if (fee.getValidators() != null) {
-            fee.getValidators().forEach(
-                validatorClass ->
-                    context.getBean(validatorClass).validateFee(fee)
-            );
-        }
+        fee.getValidators().forEach(
+            validatorClass ->
+                context.getBean(validatorClass).validateFee(fee)
+        );
+
 
         /* Fee Version Validators */
         fee.getFeeVersions().forEach(v -> {
@@ -66,7 +47,7 @@ public class FeeValidator {
     private void setDefaultValues(Fee fee) {
 
         if (fee.getChannelType() == null) {
-            fee.setChannelType(channelTypeRepository.getOne(ChannelType.DEFAULT));
+            fee.setChannelType(new ChannelType(ChannelType.DEFAULT, null, null));
         }
 
         if (fee.getApplicantType() == null) {
@@ -86,16 +67,16 @@ public class FeeValidator {
     }
 
     public boolean isExistingFee(Fee newFee) {
-         return feeRepository.
-             findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndServiceAndKeyword(
-                 newFee.getChannelType(),
-                 newFee.getEventType(),
-                 newFee.getJurisdiction1(),
-                 newFee.getJurisdiction2(),
-                 newFee.getService(),
-                 newFee.getKeyword())
-             .stream()
-             .anyMatch(f -> f.isADuplicateOf(newFee));
+        return feeRepository.
+            findByChannelTypeAndEventTypeAndJurisdiction1AndJurisdiction2AndService(
+                newFee.getChannelType(),
+                newFee.getEventType(),
+                newFee.getJurisdiction1(),
+                newFee.getJurisdiction2(),
+                newFee.getService()
+            )
+            .stream()
+            .anyMatch(f -> f.isADuplicateOf(newFee));
     }
 
 

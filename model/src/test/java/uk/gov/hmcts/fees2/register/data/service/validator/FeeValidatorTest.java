@@ -8,6 +8,7 @@ import uk.gov.hmcts.fees2.register.data.model.*;
 
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.FeeVersionDateRangeValidator;
+import uk.gov.hmcts.fees2.register.data.service.validator.validators.GenericFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeVersionValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.RangedFeeValidator;
 
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 public class FeeValidatorTest {
@@ -25,6 +27,7 @@ public class FeeValidatorTest {
 
     {
         when(context.getBean(RangedFeeValidator.class)).thenReturn(new RangedFeeValidator());
+        when(context.getBean(GenericFeeValidator.class)).thenReturn(new GenericFeeValidator());
     }
 
     List<IFeeVersionValidator> versionValidators = new ArrayList<>();
@@ -36,7 +39,7 @@ public class FeeValidatorTest {
     @Mock
     private Fee2Repository feeRepository;
 
-    private FeeValidator validator = new FeeValidator(context, null, versionValidators, feeRepository);
+    private FeeValidator validator = new FeeValidator(context, versionValidators, feeRepository);
 
     @Test(expected = BadRequestException.class)
     public void testWrongDateInFeeVersionRangeIsRejected(){
@@ -51,6 +54,52 @@ public class FeeValidatorTest {
         v.setValidTo(new Date(millis));
 
         fee.setFeeVersions(Arrays.asList(v));
+
+        validator.validateAndDefaultNewFee(fee);
+
+    }
+
+    @Test
+    public void testKeywordWithSpecialCharactersIsValid(){
+
+        long millis = System.currentTimeMillis();
+
+        Fee fee = new FixedFee();
+        fee.setUnspecifiedClaimAmount(false);
+        fee.setChannelType(new ChannelType("default", new Date(), new Date()));
+
+        FeeVersion v = new FeeVersion();
+        v.setValidFrom(new Date(millis + 1000));
+        v.setValidTo(new Date(millis + 5000));
+
+        fee.setFeeVersions(Arrays.asList(v));
+
+        fee.setKeyword("xxx-xxx_xxx");
+
+        try{
+            validator.validateAndDefaultNewFee(fee);
+        }catch(Exception e){
+            fail();
+        }
+    }
+
+
+    @Test(expected = BadRequestException.class)
+    public void testKeywordWithSpacesIsRejected(){
+
+        long millis = System.currentTimeMillis();
+
+        Fee fee = new FixedFee();
+        fee.setUnspecifiedClaimAmount(false);
+        fee.setChannelType(new ChannelType("default", new Date(), new Date()));
+
+        FeeVersion v = new FeeVersion();
+        v.setValidFrom(new Date(millis + 1000));
+        v.setValidTo(new Date(millis));
+
+        fee.setFeeVersions(Arrays.asList(v));
+
+        fee.setKeyword("xxx xxx");
 
         validator.validateAndDefaultNewFee(fee);
 

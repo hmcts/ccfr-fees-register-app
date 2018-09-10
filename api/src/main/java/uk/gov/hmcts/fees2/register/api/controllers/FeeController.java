@@ -37,7 +37,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "FeesRegister", description = "Operations pertaining to fees")
+@Api(value = "FeesRegister")
 @RestController
 @RequestMapping(value = "/fees-register")
 @AllArgsConstructor
@@ -137,6 +137,7 @@ public class FeeController {
             response.setHeader(LOCATION, getResourceLocation(fee));
         }
     }
+
     @ApiOperation(value = "Create rateable fee")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
@@ -146,8 +147,8 @@ public class FeeController {
     @PostMapping(value = "/rateable-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRateableFee(@RequestBody @Validated final RateableFeeDto request,
-                             HttpServletResponse response,
-                             Principal principal) {
+                                  HttpServletResponse response,
+                                  Principal principal) {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
@@ -168,8 +169,8 @@ public class FeeController {
     @PostMapping(value = "/relational-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRelationalFee(@RequestBody @Validated final RelationalFeeDto request,
-                             HttpServletResponse response,
-                             Principal principal) {
+                                    HttpServletResponse response,
+                                    Principal principal) {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
@@ -189,8 +190,8 @@ public class FeeController {
     @PostMapping(value = "/banded-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createBandedFee(@RequestBody @Validated final BandedFeeDto request,
-                             HttpServletResponse response,
-                             Principal principal) {
+                                HttpServletResponse response,
+                                Principal principal) {
 
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
@@ -200,7 +201,6 @@ public class FeeController {
             response.setHeader(LOCATION, getResourceLocation(fee));
         }
     }
-
 
 
     @ApiOperation(value = "Create bulk fees")
@@ -378,6 +378,29 @@ public class FeeController {
             .keyword(keyword)
             .build();
         return feeService.lookup(lookupFeeDto);
+    }
+
+    @ApiOperation(value = "Prevalidates a fee based on its reference data", response = FeeLookupResponseDto.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 409, message = "Fee conflicts with one or more existing fees")
+    })
+    @GetMapping("/fees/prevalidate")
+    @ResponseStatus(HttpStatus.OK)
+    public void prevalidate(@RequestParam String service,
+                            @RequestParam String jurisdiction1,
+                            @RequestParam String jurisdiction2,
+                            @RequestParam String channel,
+                            @RequestParam String event,
+                            @RequestParam String keyword,
+                            @RequestParam(required = false) BigDecimal rangeFrom,
+                            @RequestParam(required = false) BigDecimal rangeTo
+    ) {
+
+        feeService.prevalidate(
+            Fee.fromMetadata(service, channel, event, jurisdiction1, jurisdiction2, keyword, rangeFrom, rangeTo)
+        );
     }
 
     /* --- */
