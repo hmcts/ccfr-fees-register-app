@@ -161,8 +161,7 @@ public class FeeLoader implements ApplicationRunner {
             return loadFromResource(feesJsonInputFile);
 
         } catch (IOException | NullPointerException ex) {
-            LOG.error("Error is loading fee json loader");
-            throw new Exception("Error in loading fee into the database.", ex);
+            LOG.error("Error is loading fee json loader", ex);
         }
     }
 
