@@ -187,7 +187,7 @@ public class FeeControllerSecurityTest {
     @Test
     public void testDeleteFee_shouldReturnOkWhenUserHasFeeAdminAuthority() throws Exception {
         // given
-        Authentication authentication = testAuthenticationTokenWithAuthority("freg-admin");
+        Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor", "freg-admin");
 
         // when
         this.mockMvc.perform(

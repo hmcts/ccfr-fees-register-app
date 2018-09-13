@@ -252,10 +252,10 @@ public class FeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFee(@PathVariable("code") String code) {
         if (SecurityUtil.hasRole(FREG_ADMIN)) { // force delete
-            LOG.info("Force deleting fee:{} with admin role", code);
+            LOG.info("Force deleting a fee:{} with admin role", code);
             feeService.delete(code);
         } else if (!feeService.safeDelete(code)) { // check if fee has any approved versions before deleting
-            throw new ForbiddenException("Cannot delete a fee with approved version");
+            throw new ForbiddenException("Cannot delete a fee with an approved version");
         }
     }
 
