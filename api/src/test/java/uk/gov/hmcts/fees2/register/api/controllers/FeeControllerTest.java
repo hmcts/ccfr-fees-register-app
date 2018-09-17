@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -319,7 +321,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/fixed-fees", fixedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")));
 
         forceDeleteFee(arr[3]);
     }
@@ -362,7 +364,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/fixed-fees", fixedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")));
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")));
     }
 
     @Test
@@ -484,7 +486,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
 
@@ -510,7 +512,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
 
@@ -536,7 +538,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
 
@@ -562,7 +564,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
 
@@ -588,7 +590,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
 
@@ -614,7 +616,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
 
@@ -640,7 +642,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
 
@@ -674,7 +676,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", secondRangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
 }
