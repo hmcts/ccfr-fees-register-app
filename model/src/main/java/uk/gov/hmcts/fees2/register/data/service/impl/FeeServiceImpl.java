@@ -86,7 +86,8 @@ public class FeeServiceImpl implements FeeService {
         feeValidator.validateAndDefaultNewFee(fee);
 
         if (feeValidator.isExistingFee(fee)) {
-            throw new ConflictException("Fee with the given reference data/overlapping range already exists");
+            throw new ConflictException("Fee with the given reference data/overlapping range already exists: " +
+                "feeDescription= \"" + fee.getCurrentVersion(false).getDescription() + "\"");
         }
 
         Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;

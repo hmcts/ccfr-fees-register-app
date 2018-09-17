@@ -175,7 +175,7 @@ public class FeeSearchServiceImpl implements FeeSearchService {
                 return false;
             } else if (sfvDto.getDescription() != null && StringUtils.containsIgnoreCase(fee.getDescription(), sfvDto.getDescription())
                 || sfvDto.getSiRefId() != null && StringUtils.containsIgnoreCase(fee.getSiRefId(), sfvDto.getSiRefId())
-                || sfvDto.getFeeVersionAmount() != null && fee.calculateFee(sfvDto.getFeeVersionAmount()).floatValue() == sfvDto
+                || sfvDto.getFeeVersionAmount() != null && fee.calculateFee(sfvDto.getFeeVersionAmount()) != null && fee.calculateFee(sfvDto.getFeeVersionAmount()).floatValue() == sfvDto
                 .getFeeVersionAmount().floatValue()) {
                 return true;
             }
