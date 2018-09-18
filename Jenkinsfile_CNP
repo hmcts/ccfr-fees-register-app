@@ -16,7 +16,7 @@ def app = "api"
 
 withPipeline(type, product, app) {
     enableDockerBuild()
-    enableDeployToAKS()
+//    enableDeployToAKS()
 }
 
 withPipeline(type, product, app) {
