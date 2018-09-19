@@ -45,6 +45,31 @@ public class FeeDataUtils {
             .build();
     }
 
+    public static RangedFeeDto getRangedCreateProbateCopiesFeeRequest() {
+        return rangedFeeDtoWith()
+            .channel("default")
+            .event("copies")
+            .jurisdiction1("family")
+            .jurisdiction2("probate registry")
+            .service("probate")
+            .applicantType("all")
+            .minRange(BigDecimal.ONE)
+            .maxRange(BigDecimal.TEN)
+            .version(feeVersionDtoWith()
+                .validFrom(DateTime.parse("2014-04-22T00:00:00.511Z").toDate())
+                .description("Additional copies of the grant representation")
+                .status(FeeVersionStatus.approved)
+                .memoLine("Additional sealed copy of grant")
+                .direction("enhanced")
+                .naturalAccountCode("4481102171")
+                .siRefId("8b")
+                .statutoryInstrument("2014 No 876(L19)")
+                .feeOrderName("Non-Contentious Probate Fees")
+                .volumeAmount(new VolumeAmountDto(new BigDecimal("0.5")))
+                .build())
+            .build();
+    }
+
     public static RangedFeeDto getCreateRangedFeeRequest() {
         return rangedFeeDtoWith()
             .minRange(new BigDecimal("5000.01"))

@@ -70,8 +70,10 @@ public class FeeLoader implements ApplicationRunner {
     public void loadFees() throws Exception {
         FeeLoaderJsonMapper feeLoaderMapper = loadFile();
 
-        loadFixedFees(feeLoaderMapper);
-        loadRangedFees(feeLoaderMapper);
+        if(feeLoaderMapper != null) {
+            loadFixedFees(feeLoaderMapper);
+            loadRangedFees(feeLoaderMapper);
+        }
     }
 
     private void loadRangedFees(FeeLoaderJsonMapper feeLoaderMapper) {
@@ -161,8 +163,8 @@ public class FeeLoader implements ApplicationRunner {
             return loadFromResource(feesJsonInputFile);
 
         } catch (IOException | NullPointerException ex) {
-            LOG.error("Error is loading fee json loader");
-            throw new Exception("Error in loading fee into the database.", ex);
+            LOG.error("Error is loading fee json loader", ex);
+            return null;
         }
     }
 
