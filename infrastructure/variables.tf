@@ -63,3 +63,9 @@ variable "external_host_name" {
 variable "enable_fee_loader" {
   default = "false"
 }
+
+variable "frontend_url" {
+  type = "string"
+  default = "https://fees-register-frontend-aat.service.core-compute-aat.internal"
+  description = "Optional front end URL to use for building redirect URI"
+}
