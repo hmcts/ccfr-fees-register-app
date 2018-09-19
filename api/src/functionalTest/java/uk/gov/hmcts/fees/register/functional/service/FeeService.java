@@ -24,7 +24,7 @@ public class FeeService {
         return RestAssured.given()
             .header(HttpHeaders.AUTHORIZATION, approver.getAuthorisationToken())
             .when()
-            .patch("/fees/{feeCode}/versions/{version}/submit-for-review", feeCode, version);
+            .patch("/fees/{feeCode}/versions/{version}/approve", feeCode, version);
     }
 
     public static Response deleteAFee(User user, String feeCode) {

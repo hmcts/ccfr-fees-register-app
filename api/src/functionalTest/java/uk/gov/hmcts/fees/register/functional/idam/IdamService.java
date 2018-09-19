@@ -17,7 +17,7 @@ import java.util.Base64;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest.*;
+import static uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest.userRequestWith;
 
 @Service
 public class IdamService {
@@ -26,7 +26,7 @@ public class IdamService {
     public static final String AUTHORIZATION_CODE = "authorization_code";
     public static final String CODE = "code";
     public static final String BASIC = "Basic ";
-    public static final String USER_GROUP = "freg-finance-admin";
+    public static final String USER_GROUP = "freg-users";
 
     private final IdamApi idamApi;
     private final TestConfigProperties testConfig;
