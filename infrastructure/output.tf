@@ -11,7 +11,7 @@ output "idam_api_url" {
 }
 
 output "OAUTH2_CLIENT_ID" {
-  value = "ccd_gateway"
+  value = "fees_admin_frontend"
 }
 
 output "OAUTH2_REDIRECT_URI" {
