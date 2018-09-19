@@ -9,6 +9,7 @@ ENV APPLICATION_SIZE_ON_DISK_IN_MB 128
 ENV JAVA_OPTS ""
 
 COPY build/libs/$APP /opt/app/
+COPY build/libs/$APP /app.jar
 
 COPY docker/entrypoint.sh /
 
