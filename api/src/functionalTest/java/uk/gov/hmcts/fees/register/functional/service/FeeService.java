@@ -7,9 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees.register.functional.idam.models.User;
 
-import static uk.gov.hmcts.fees.register.functional.fixture.FixedFeeFixture.aFixedFee;
-
-
 @Component
 public class FeeService {
 
