@@ -10,9 +10,9 @@ properties([
 ])
 
 List<LinkedHashMap<String, Object>> secrets = [
-        secret('fee-admin-test-user-password', 'FEE_ADMIN_TEST_USER_PASSWORD')
-        secret('generated-user-email-pattern', 'GENERATED_USER_EMAIL_PATTERN'),
-        secret('fees-oauth-client-secret', 'OAUTH2_CLIENT_SECRET')
+        secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD')
+        secret('freg-idam-generated-user-email-pattern', 'GENERATED_USER_EMAIL_PATTERN'),
+        secret('freg-idam-client-secret', 'OAUTH2_CLIENT_SECRET')
 ]
  static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',

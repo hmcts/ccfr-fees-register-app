@@ -34,6 +34,12 @@ public class FeeService {
             .delete("/fees-register/fees/{feeCode}", feeCode);
     }
 
+    public static Response getAFee(String feeCode) {
+        return RestAssured.given()
+            .when()
+            .get("/fees-register/fees/{feeCode}", feeCode);
+    }
+
     public static Response createAFee(User editor, String feeJson) {
         return RestAssured
             .given()

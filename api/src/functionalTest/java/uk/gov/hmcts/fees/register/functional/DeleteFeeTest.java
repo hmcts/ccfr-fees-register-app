@@ -22,19 +22,29 @@ public class DeleteFeeTest extends IntegrationTestBase {
         assertThat(feeCode).isNotBlank();
 
         // editor submits a fee for review
-        response = feeService.submitAFee(userBootstrap.getEditor(), feeCode, 1);
-        response.then()
+        feeService.submitAFee(userBootstrap.getEditor(), feeCode, 1)
+            .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
 
         // approver approves a fee
-        response = feeService.approveAFee(userBootstrap.getApprover(), feeCode, 1);
-        response.then()
+        feeService.approveAFee(userBootstrap.getApprover(), feeCode, 1)
+            .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
 
-        // admin deletes a fee an approved fee
-        response = feeService.deleteAFee(userBootstrap.getAdmin(), feeCode);
-        response.then()
+        // editor try to delete an approved fee - fail 403 Forbidden
+        feeService.deleteAFee(userBootstrap.getEditor(), feeCode)
+            .then()
+            .statusCode(HttpStatus.FORBIDDEN.value());
+
+        // admin deletes an approved fee - success
+        feeService.deleteAFee(userBootstrap.getAdmin(), feeCode)
+            .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
+
+        // verify with get - fail 404 not found
+        feeService.getAFee(feeCode)
+            .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
 }
