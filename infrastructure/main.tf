@@ -3,6 +3,15 @@ locals {
 
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
+
+  previewVaultName = "fees-shared-aat"
+  nonPreviewVaultName = "fees-shared-${var.env}"
+  vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+}
+
+data "azurerm_key_vault" "fees_key_vault" {
+  name = "${local.vaultName}"
+  resource_group_name = "fees-${local.local_env}"
 }
 
 module "fees-register-api" {
