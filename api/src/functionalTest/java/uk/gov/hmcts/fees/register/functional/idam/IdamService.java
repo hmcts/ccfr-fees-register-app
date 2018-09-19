@@ -3,7 +3,7 @@ package uk.gov.hmcts.fees.register.functional.idam;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees.register.functional.config.TestConfigProperties;
@@ -16,7 +16,6 @@ import uk.gov.hmcts.fees.register.functional.idam.models.*;
 import java.util.Base64;
 import java.util.stream.Stream;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest.*;
 
@@ -44,7 +43,6 @@ public class IdamService {
 
     public User createUserWith(String... roles) {
         String email = nextUserEmail();
-       // String email = "fee-test-aUser@feemail.com";
         CreateUserRequest userRequest = userRequest(email, roles);
         idamApi.createUser(userRequest);
 
@@ -89,6 +87,6 @@ public class IdamService {
     }
 
     private String nextUserEmail() {
-        return format(testConfig.getGeneratedUserEmailPattern(), RandomStringUtils.randomAlphanumeric(10));
+        return String.format(testConfig.getGeneratedUserEmailPattern(), RandomStringUtils.randomAlphanumeric(10));
     }
 }
