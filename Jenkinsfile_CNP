@@ -13,8 +13,23 @@ def product = "fees-register"
 
 def app = "api"
 
+List<LinkedHashMap<String, Object>> secrets = [
+        secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD'),
+        secret('freg-idam-generated-user-email-pattern', 'GENERATED_USER_EMAIL_PATTERN'),
+        secret('freg-idam-client-secret', 'OAUTH2_CLIENT_SECRET')
+]
+ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+    [ $class: 'AzureKeyVaultSecret',
+      secretType: 'Secret',
+      name: secretName,
+      version: '',
+      envVariable: envVar
+    ]
+}
+
 withPipeline(type, product, app) {
+    loadVaultSecrets(secrets)
     enableDockerBuild()
-//    enableDeployToAKS()
+//  enableDeployToAKS()
     enableSlackNotifications('#cc-payments-tech')
 }
