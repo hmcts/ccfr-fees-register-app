@@ -8,6 +8,7 @@ api-contract/build
 api-contract/out
 client/target
 client/build
+client/out/
 model/target
 model/build
 model/out

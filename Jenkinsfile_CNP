@@ -13,6 +13,12 @@ def product = "fees-register"
 
 def app = "api"
 
+
+withPipeline(type, product, app) {
+    enableDockerBuild()
+//    enableDeployToAKS()
+}
+
 withPipeline(type, product, app) {
     enableSlackNotifications('#cc-payments-tech')
 }
