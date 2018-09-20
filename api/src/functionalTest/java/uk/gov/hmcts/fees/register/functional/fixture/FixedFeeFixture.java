@@ -1,38 +1,38 @@
 package uk.gov.hmcts.fees.register.functional.fixture;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class FixedFeeFixture {
 
-    public static String aFixedFee() {
+    public static FixedFeeDto aFixedFee() {
         String keyword = RandomStringUtils.randomAlphanumeric(10);
-
-        String jsonString =  "{\n" +
-            "  \"applicant_type\": \"all\",\n" +
-            "  \"channel\": \"online\",\n" +
-            "  \"event\": \"issue\",\n" +
-            "  \"jurisdiction1\": \"tribunal\",\n" +
-            "  \"jurisdiction2\": \"gambling tribunal\",\n" +
-            "  \"service\": \"gambling\",\n" +
-            "  \"keyword\": \"%s\",\n" +
-            "  \"unspecified_claim_amount\": true,\n" +
-            "  \"version\": {\n" +
-            "    \"version\": 0,\n" +
-            "    \"valid_from\": \"2018-09-17T14:17:48.504Z\",\n" +
-            "    \"valid_to\": \"2018-10-17T14:17:48.504Z\",\n" +
-            "    \"description\": \"Test fee - Filing an application for a divorce\",\n" +
-            "    \"status\": \"draft\",\n" +
-            "    \"flat_amount\": {\n" +
-            "      \"amount\": 300\n" +
-            "    },\n" +
-            "    \"memo_line\": \"Test memo line\",\n" +
-            "    \"statutory_instrument\": \"2016 No. 402\",\n" +
-            "    \"si_ref_id\": \"Test 1.2\",\n" +
-            "    \"natural_account_code\": \"Test nac\",\n" +
-            "    \"fee_order_name\": \"The Civil Proceedings\",\n" +
-            "    \"direction\": \"enhanced\"\n" +
-            "  }\n" +
-            "}";
-        return String.format(jsonString, keyword);
+        return FixedFeeDto.fixedFeeDtoWith()
+            .applicantType("all")
+            .channel("online")
+            .event("issue")
+            .jurisdiction1("tribunal")
+            .jurisdiction2("gambling tribunal")
+            .service("gambling")
+            .keyword(keyword)
+            .unspecifiedClaimAmount(true)
+            .version(FeeVersionDto.feeVersionDtoWith()
+                .version(1)
+                .validFrom(new Date())
+                .description("Test fee - Filing an application for a divorce")
+                .status(FeeVersionStatus.draft)
+                .flatAmount(new FlatAmountDto(BigDecimal.valueOf(300)))
+                .memoLine("Test memo line")
+                .statutoryInstrument("2016 No. 402")
+                .feeOrderName("The Civil Proceedings")
+                .direction("enhanced")
+                .build())
+            .build();
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees.register.functional.idam.models.User;
+import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
 
 @Component
 public class FeeService {
@@ -37,12 +38,12 @@ public class FeeService {
             .get("/fees-register/fees/{feeCode}", feeCode);
     }
 
-    public static Response createAFee(User editor, String feeJson) {
+    public static Response createAFee(User editor, FeeDto feeDto) {
         return RestAssured
             .given()
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, editor.getAuthorisationToken())
-            .body(feeJson)
+            .body(feeDto)
             .when()
             .post("/fees-register/fixed-fees");
     }
