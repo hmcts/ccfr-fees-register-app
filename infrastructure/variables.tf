@@ -41,7 +41,7 @@ variable "postgresql_user" {
 
 // disabled liquibase temporarily - enable for new db changes build and then disable again
 variable "liquibase_enabled" {
-  default = "false"
+  default = "true"
 }
 
 variable "idam_api_url" {

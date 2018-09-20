@@ -6,7 +6,7 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 
 import java.util.List;
 
-public interface FeeService  {
+public interface FeeService {
 
     Fee save(Fee fee);
 
@@ -17,6 +17,8 @@ public interface FeeService  {
     boolean safeDelete(String code);
 
     FeeLookupResponseDto lookup(LookupFeeDto dto);
+
+    void prevalidate(Fee fee);
 
     List<Fee> search(LookupFeeDto dto);
 

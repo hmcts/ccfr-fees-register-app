@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 //import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 //import static uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto.*;
 
-
+@Ignore
 public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
     @Autowired
@@ -37,6 +37,10 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void createRangedFees201() throws IOException {
 
         feeCode = UUID.randomUUID().toString();
+
+
+
+
 
         proposeRangedFees = getRangedFeeDto(feeCode);
       //  approveFeeCode = getApproveFeeDto(feeCode);
