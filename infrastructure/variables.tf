@@ -69,3 +69,7 @@ variable "frontend_url" {
   default = "https://fees-register-frontend-aat.service.core-compute-aat.internal"
   description = "Optional front end URL to use for building redirect URI"
 }
+
+variable "restrict_fee_api_gw_calls_per_ip_per_minute" {
+  default = "20"
+}

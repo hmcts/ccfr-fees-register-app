@@ -7,6 +7,11 @@ locals {
   previewVaultName = "fees-shared-aat"
   nonPreviewVaultName = "fees-shared-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+
+  #region API gateway
+  api_policy = "${replace(file("template/api-policy.xml"), "CAllS_PER_IP_PER_MINUTE", var.restrict_fee_api_gw_calls_per_ip_per_minute)}"
+  api_base_path = "fees-api"
+  #endregion
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
@@ -60,4 +65,27 @@ module "fees-register-database" {
   sku_tier = "GeneralPurpose"
   common_tags     = "${var.common_tags}"
 }
+
+# region API (gateway)
+data "template_file" "api_template" {
+  template = "${file("${path.module}/template/api.json")}"
+}
+
+resource "azurerm_template_deployment" "api" {
+  template_body       = "${data.template_file.api_template.rendered}"
+  name                = "${var.product}-api-${var.env}"
+  deployment_mode     = "Incremental"
+  resource_group_name = "core-infra-${var.env}"
+  count               = "${var.env != "preview" ? 1: 0}"
+
+  parameters = {
+    apiManagementServiceName  = "core-api-mgmt-${var.env}"
+    apiName                   = "${var.product}-api"
+    apiProductName            = "${var.product}"
+    serviceUrl                = "http://${var.product}-api-${var.env}.service.core-compute-${var.env}.internal"
+    apiBasePath               = "${local.api_base_path}"
+    policy                    = "${local.api_policy}"
+  }
+}
+# endregion
 
