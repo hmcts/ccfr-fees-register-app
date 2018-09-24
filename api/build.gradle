@@ -79,6 +79,8 @@ dependencies {
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
     testCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
 
+    testCompile 'io.github.openfeign:feign-jackson:9.7.0'
+
     // smoke
     smokeTestCompile sourceSets.test.runtimeClasspath
 

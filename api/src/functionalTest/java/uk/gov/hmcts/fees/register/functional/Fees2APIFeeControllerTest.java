@@ -38,6 +38,10 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
         feeCode = UUID.randomUUID().toString();
 
+
+
+
+
         proposeRangedFees = getRangedFeeDto(feeCode);
       //  approveFeeCode = getApproveFeeDto(feeCode);
         createFeeDto = getCreateFeeDto(feeCode);
