@@ -7,6 +7,11 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.context.annotation.Bean;
+
+import javax.servlet.ServletContextListener;
+import javax.validation.constraints.NotNull;
 
 @SpringBootApplication
 public class FeesRegisterServiceApplication {
@@ -20,5 +25,13 @@ public class FeesRegisterServiceApplication {
             LOG.error(fatal, "Application crashed with error message: ", ex);
             throw ex;
         }
+    }
+
+    @NotNull
+    @Bean
+    ServletListenerRegistrationBean<ServletContextListener> myServletListener() {
+        ServletListenerRegistrationBean<ServletContextListener> srb = new ServletListenerRegistrationBean<>();
+        srb.setListener(new FeesServletContextListener());
+        return srb;
     }
 }
