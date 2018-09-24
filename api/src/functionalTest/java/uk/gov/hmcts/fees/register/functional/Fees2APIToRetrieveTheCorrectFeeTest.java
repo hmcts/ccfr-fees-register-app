@@ -20,8 +20,8 @@ import static uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.percentag
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.rangeGroupUpdateDtoWith;
 
-
-public class Fees2APIToRetrieveTheCorrectFeeTest extends IntegrationTestBase{
+@Ignore
+public class Fees2APIToRetrieveTheCorrectFeeTest {
     @Autowired
     private FeesRegisterTestDsl scenario;
 

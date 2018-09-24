@@ -41,7 +41,7 @@ variable "postgresql_user" {
 
 // disabled liquibase temporarily - enable for new db changes build and then disable again
 variable "liquibase_enabled" {
-  default = "false"
+  default = "true"
 }
 
 variable "idam_api_url" {
@@ -62,4 +62,10 @@ variable "external_host_name" {
 
 variable "enable_fee_loader" {
   default = "false"
+}
+
+variable "frontend_url" {
+  type = "string"
+  default = "https://fees-register-frontend-aat.service.core-compute-aat.internal"
+  description = "Optional front end URL to use for building redirect URI"
 }
