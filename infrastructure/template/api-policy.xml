@@ -5,7 +5,7 @@
     <inbound>
         <base/>
         <rewrite-uri template="/fees-register/fees/lookup" copy-unmatched-params="true" />
-        <rate-limit-by-key  calls="{CAllS_PER_IP_PER_MINUTE}" renewal-period="60" counter-key="@(context.Request.IpAddress)" />
+        <rate-limit-by-key  calls="CAllS_PER_IP_PER_MINUTE" renewal-period="60" counter-key="@(context.Request.IpAddress)" />
     </inbound>
     <outbound>
         <base/>
