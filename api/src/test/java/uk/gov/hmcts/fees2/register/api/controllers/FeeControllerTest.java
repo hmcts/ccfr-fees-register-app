@@ -674,7 +674,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .post("/fees-register/ranged-fees", rangedFeeDto)
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andExpect(jsonPath("$.cause", containsString("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
 
     }
