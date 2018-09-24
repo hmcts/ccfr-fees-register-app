@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import uk.gov.hmcts.logging.Markers;
 
 import javax.servlet.ServletContextListener;
 import javax.validation.constraints.NotNull;
@@ -21,8 +22,7 @@ public class FeesRegisterServiceApplication {
         try {
             SpringApplication.run(FeesRegisterServiceApplication.class, args);
         } catch (RuntimeException ex) {
-            Marker fatal = MarkerFactory.getMarker("FATAL");
-            LOG.error(fatal, "Application crashed with error message: ", ex);
+            LOG.error(Markers.fatal, "Application crashed with error message: ", ex);
             throw ex;
         }
     }
