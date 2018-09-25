@@ -28,6 +28,7 @@ List<LinkedHashMap<String, Object>> secrets = [
 }
 
 withPipeline(type, product, app) {
+    setVaultName('rhubarb')
     loadVaultSecrets(secrets)
     enableDockerBuild()
     enableDeployToAKS()
