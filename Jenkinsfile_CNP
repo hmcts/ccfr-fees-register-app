@@ -28,9 +28,9 @@ List<LinkedHashMap<String, Object>> secrets = [
 }
 
 withPipeline(type, product, app) {
-    //setVaultName('infra-vault-nonprod')
+    setVaultName('fees-shared-aat')
     loadVaultSecrets(secrets)
     enableDockerBuild()
-    //enableDeployToAKS()
+    enableDeployToAKS()
     enableSlackNotifications('#cc-payments-tech')
 }
