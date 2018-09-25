@@ -12,7 +12,9 @@ public class FeesServletContextListener implements ServletContextListener{
     private static final Logger LOG = LoggerFactory.getLogger(FeesServletContextListener.class);
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {}
+    public void contextInitialized(ServletContextEvent sce) {
+        // unused
+    }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
