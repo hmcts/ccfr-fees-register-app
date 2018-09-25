@@ -18,6 +18,6 @@ public class FeesServletContextListener implements ServletContextListener{
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        LOG.error(Markers.fatal, "Fees register application shutting down {}");
+        LOG.error(Markers.fatal, "Fees register application shutting down {}", sce);
     }
 }
