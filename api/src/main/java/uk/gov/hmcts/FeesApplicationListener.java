@@ -14,6 +14,6 @@ public class FeesApplicationListener implements ApplicationListener<ContextClose
 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
-        LOG.error(Markers.fatal, "Fees register application closing context with object: ", event.getSource());
+        LOG.error(Markers.fatal, "Fees register application closing context with object: %s", event.getSource());
     }
 }
