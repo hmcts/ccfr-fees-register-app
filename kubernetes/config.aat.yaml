@@ -4,4 +4,13 @@ metadata:
   name: ${SERVICE_NAME}-config
   namespace: ${NAMESPACE}
 data:
+  ENABLE_FEE_LOADER: "false"
+  IDAM_CLIENT_BASE_URL: "https://preprod-idamapi.reform.hmcts.net:3511"
+  REFORM_SERVICE_NAME: "fees-register-api"
+  REFORM_TEAM: "cc"
   RECIPE_BACKEND_URL: "http://fees-register-app-aat.service.core-compute-aat.internal"
+  REFORM_ENVIRONMENT: "aat"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://fees-register-postgres-db-aat.postgres.database.azure.com:5432/fees_register?ssl=true"
+  SPRING_LIQUIBASE_ENABLED: "true"
+  SPRING_DATASOURCE_PASSWORD: "5(jfFAHSTOU>0vSs"
+  SPRING_DATASOURCE_USERNAME: "fees_register@fees-register-postgres-db-aat"
