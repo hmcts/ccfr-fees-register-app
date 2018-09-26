@@ -27,33 +27,9 @@ spec:
       containers:
       - image: ${IMAGE_NAME}
         name: ${SERVICE_NAME}
-
-        # These are obtained from environment variables.  If it's
-        # an environment variable, it can be used here.  Projects
-        # would usually source custom values from:
-        #   - Jenkins Azure Keyvault plugin (e.g. secrets)
-        #   - Your project's Jenkinsfile
-        env:
-        - name: ENABLE_FEE_LOADER
-          value: "${ENABLE_FEE_LOADER}"
-        - name: IDAM_CLIENT_BASE_URL
-          value: "${IDAM_CLIENT_BASE_URL}"
-        - name: REFORM_SERVICE_NAME
-          value: "${REFORM_SERVICE_NAME}"
-        - name: REFORM_TEAM
-          value: "${REFORM_TEAM}"
-        - name: RECIPE_BACKEND_URL
-          value: "${RECIPE_BACKEND_URL}"
-        - name: REFORM_ENVIRONMENT
-          value: "${REFORM_ENVIRONMENT}"
-        - name: SPRING_DATASOURCE_URL
-          value: "${SPRING_DATASOURCE_URL}"
-        - name: SPRING_LIQUIBASE_ENABLED
-          value: "${SPRING_LIQUIBASE_ENABLED}"
-        - name: SPRING_DATASOURCE_PASSWORD
-          value: "${SPRING_DATASOURCE_PASSWORD}"
-        - name: SPRING_DATASOURCE_USERNAME
-          value: "${SPRING_DATASOURCE_USERNAME}"
+        envFrom:
+        - configMapRef:
+            name: ${SERVICE_NAME}-config
 
         # These may be adjusted, but be mindful please
         resources:
