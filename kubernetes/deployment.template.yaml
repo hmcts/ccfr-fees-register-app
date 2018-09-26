@@ -34,14 +34,26 @@ spec:
         #   - Jenkins Azure Keyvault plugin (e.g. secrets)
         #   - Your project's Jenkinsfile
         env:
-        - name: POSTGRES_HOST
-          value: "${POSTGRES_HOST}"
-        - name: POSTGRES_DATABASE
-          value: "${POSTGRES_DATABASE}"
-        - name: POSTGRES_USER
-          value: "${POSTGRES_USER}"
-        - name: POSTGRES_PASSWORD
-          value: "${POSTGRES_PASSWORD}"
+        - name: ENABLE_FEE_LOADER
+          value: "${ENABLE_FEE_LOADER}"
+        - name: IDAM_CLIENT_BASE_URL
+          value: "${IDAM_CLIENT_BASE_URL}"
+        - name: REFORM_SERVICE_NAME
+          value: "${REFORM_SERVICE_NAME}"
+        - name: REFORM_TEAM
+          value: "${REFORM_TEAM}"
+        - name: RECIPE_BACKEND_URL
+          value: "${RECIPE_BACKEND_URL}"
+        - name: REFORM_ENVIRONMENT
+          value: "${REFORM_ENVIRONMENT}"
+        - name: SPRING_DATASOURCE_URL
+          value: "${SPRING_DATASOURCE_URL}"
+        - name: SPRING_LIQUIBASE_ENABLED
+          value: "${SPRING_LIQUIBASE_ENABLED}"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "${SPRING_DATASOURCE_PASSWORD}"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "${SPRING_DATASOURCE_USERNAME}"
 
         # These may be adjusted, but be mindful please
         resources:
