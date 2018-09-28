@@ -11,4 +11,3 @@ data:
   RECIPE_BACKEND_URL: "http://fees-register-app-aat.service.core-compute-aat.internal"
   REFORM_ENVIRONMENT: "aat"
   SPRING_LIQUIBASE_ENABLED: "true"
-

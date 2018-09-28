@@ -1,13 +1,3 @@
-# Kubernetes resource template
-#
-# All variables are replaced at deployment time with environment variables.
-#
-# The following variables are derived as follows by the pipeline. DO NOT CHANGE:
-#
-#   - NAMESPACE:    product
-#   - SERVICE_NAME: product-component-branch
-#   - IMAGE_NAME:   registry-name/hmcts/product-component:branch
-#
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,7 +39,7 @@ spec:
         - name: SPRING_DATASOURCE_USERNAME
           value: '${SERVICE_NAME}'
         - name: SPRING_DATASOURCE_URL
-          value: 'jdbc:postgresql://localhost:5432/${SERVICE_NAME}?ssl=true'
+          value: 'jdbc:postgresql://localhost:5432/${SERVICE_NAME}'
         envFrom:
         - configMapRef:
             name: ${SERVICE_NAME}-config
