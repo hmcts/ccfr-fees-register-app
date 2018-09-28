@@ -3,7 +3,7 @@ FROM hmcts/cnp-java-base:openjdk-jre-8-alpine-1.4
 # Mandatory!
 ENV APP fees-register-app.jar
 ENV APPLICATION_TOTAL_MEMORY 1024M
-ENV APPLICATION_SIZE_ON_DISK_IN_MB 256
+ENV APPLICATION_SIZE_ON_DISK_IN_MB 2560
 
 # Optional
 ENV JAVA_OPTS ""
