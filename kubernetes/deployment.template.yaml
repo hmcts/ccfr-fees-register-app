@@ -42,7 +42,7 @@ spec:
 
         # This is the port your process is listening on in the container
         ports:
-        - containerPort: 4550
+        - containerPort: 8080
           name: http
         imagePullPolicy: Always
 
