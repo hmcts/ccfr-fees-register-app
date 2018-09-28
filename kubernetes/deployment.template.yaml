@@ -25,22 +25,22 @@ spec:
     spec:
       containers:
       - image: postgres:10-alpine
-          name: postgresdb
-          env:
-            - name: POSTGRES_DB
-              value: '${SERVICE_NAME}'
-            - name: POSTGRES_USER
-              value: '${SERVICE_NAME}'
-            - name: POSTGRES_PASSWORD
-              value: '${SERVICE_NAME}'
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "200m"
-            limits:
-              memory: "1024Mi"
-              cpu: "1000m"
-          imagePullPolicy: Always
+        name: postgresdb
+        env:
+        - name: POSTGRES_DB
+          value: '${SERVICE_NAME}'
+        - name: POSTGRES_USER
+          value: '${SERVICE_NAME}'
+        - name: POSTGRES_PASSWORD
+          value: '${SERVICE_NAME}'
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+        imagePullPolicy: Always
       - image: ${IMAGE_NAME}
         name: ${SERVICE_NAME}
         env:
