@@ -8,6 +8,18 @@
 #   - SERVICE_NAME: product-component-branch
 #   - IMAGE_NAME:   registry-name/hmcts/product-component:branch
 #
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: ${NAMESPACE}
+data:
+  POSTGRES_HOST: ${SERVICE_NAME}-db
+  POSTGRES_DATABASE: ${SERVICE_NAME}
+  POSTGRES_DB: ${SERVICE_NAME}
+  POSTGRES_USER: ${SERVICE_NAME}
+  POSTGRES_PASSWORD: ${SERVICE_NAME}
+  POSTGRES_SSL_MODE: disable
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,12 +37,24 @@ spec:
         app: ${SERVICE_NAME}
     spec:
       containers:
+      - image: postgres:10-alpine
+          name: ${SERVICE_NAME}-db
+          envFrom:
+          - configMapRef:
+              name: postgres-config
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+          imagePullPolicy: Always
       - image: ${IMAGE_NAME}
         name: ${SERVICE_NAME}
         envFrom:
         - configMapRef:
             name: ${SERVICE_NAME}-config
-
         # These may be adjusted, but be mindful please
         resources:
           requests:
