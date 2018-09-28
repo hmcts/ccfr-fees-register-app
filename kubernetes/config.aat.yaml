@@ -10,7 +10,5 @@ data:
   REFORM_TEAM: "cc"
   RECIPE_BACKEND_URL: "http://fees-register-app-aat.service.core-compute-aat.internal"
   REFORM_ENVIRONMENT: "aat"
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://${SERVICE_NAME}-db:5432/${SERVICE_NAME}?ssl=true"
   SPRING_LIQUIBASE_ENABLED: "true"
-  SPRING_DATASOURCE_PASSWORD: "${SERVICE_NAME}"
-  SPRING_DATASOURCE_USERNAME: "${SERVICE_NAME}@${SERVICE_NAME}-db"
+

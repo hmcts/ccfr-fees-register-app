@@ -8,19 +8,6 @@
 #   - SERVICE_NAME: product-component-branch
 #   - IMAGE_NAME:   registry-name/hmcts/product-component:branch
 #
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: postgres-config
-  namespace: ${NAMESPACE}
-data:
-  POSTGRES_HOST: ${SERVICE_NAME}-db
-  POSTGRES_DATABASE: ${SERVICE_NAME}
-  POSTGRES_DB: ${SERVICE_NAME}
-  POSTGRES_USER: ${SERVICE_NAME}
-  POSTGRES_PASSWORD: ${SERVICE_NAME}
-  POSTGRES_SSL_MODE: disable
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -39,9 +26,13 @@ spec:
       containers:
       - image: postgres:10-alpine
           name: ${SERVICE_NAME}-db
-          envFrom:
-          - configMapRef:
-              name: postgres-config
+          env:
+            - name: POSTGRES_DB
+              value: '${SERVICE_NAME}'
+            - name: POSTGRES_USER
+              value: '${SERVICE_NAME}'
+            - name: POSTGRES_PASSWORD
+              value: '${SERVICE_NAME}'
           resources:
             requests:
               memory: "256Mi"
@@ -52,6 +43,13 @@ spec:
           imagePullPolicy: Always
       - image: ${IMAGE_NAME}
         name: ${SERVICE_NAME}
+        env:
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: '${SERVICE_NAME}'
+        - name: SPRING_DATASOURCE_USERNAME
+          value: '${SERVICE_NAME}@${SERVICE_NAME}-db'
+        - name: SPRING_DATASOURCE_URL
+          value: 'jdbc:postgresql://${SERVICE_NAME}-db:5432/${SERVICE_NAME}?ssl=true'
         envFrom:
         - configMapRef:
             name: ${SERVICE_NAME}-config
@@ -63,7 +61,6 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "2500m"
-
         # This is the port your process is listening on in the container
         ports:
         - containerPort: 8080
