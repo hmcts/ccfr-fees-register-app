@@ -65,6 +65,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
         if (feeVersion.getFee().getFeeVersions().size() == 1) {
             feeRepository.delete(feeVersion.getFee());
         } else {
+            feeVersion.getFee().getFeeVersions().remove(feeVersion);
             feeVersionRepository.delete(feeVersion);
         }
 

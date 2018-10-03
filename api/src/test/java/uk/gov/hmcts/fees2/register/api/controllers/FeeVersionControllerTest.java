@@ -111,7 +111,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
             feeVersionController.deleteFeeVersion(arr[3], 2);
 
-            assertThat(feeController.getFee(arr[3],response)).isNotNull();
+            assertThat(feeController.getFee(arr[3],response).getFeeVersionDtos().size()).isEqualTo(1);
 
         } finally {
             forceDeleteFee(arr[3]);
