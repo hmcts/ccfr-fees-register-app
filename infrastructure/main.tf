@@ -12,6 +12,9 @@ locals {
   api_policy = "${replace(file("template/api-policy.xml"), "CAllS_PER_IP_PER_MINUTE", var.restrict_fee_api_gw_calls_per_ip_per_minute)}"
   api_base_path = "fees-api"
   #endregion
+
+  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.product}-${var.env}"}"
+  asp_rg = "${var.env == "prod" ? "fees-register-api-prod" : "${var.product}-${var.env}"}"
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
@@ -31,6 +34,8 @@ module "fees-register-api" {
   https_only="false"
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
+  asp_name = "${local.asp_name}"
+  asp_rg = "${local.asp_rg}"
 
   app_settings = {
     # db
