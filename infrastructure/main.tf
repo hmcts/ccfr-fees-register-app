@@ -13,13 +13,13 @@ locals {
   api_base_path = "fees-api"
   #endregion
 
-  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.product}-${var.env}"}"
-  asp_rg = "${var.env == "prod" ? "fees-register-api-prod" : "${var.product}-${var.env}"}"
+  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
+  asp_rg = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
   name = "${local.vaultName}"
-  resource_group_name = "fees-${local.local_env}"
+  resource_group_name = "${var.core_product}-${local.local_env}"
 }
 
 module "fees-register-api" {
