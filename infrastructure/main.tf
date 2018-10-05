@@ -13,8 +13,7 @@ locals {
   api_base_path = "fees-api"
   #endregion
 
-  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
-  asp_rg = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
+  asp_name = "${(var.env == "prod" || var.env == "aat") ? (var.env == "prod" ) ? "fees-register-api-prod" : "fees-register-api-aat" : ${var.core_product}-${var.env}}"
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
@@ -35,7 +34,7 @@ module "fees-register-api" {
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
   asp_name = "${local.asp_name}"
-  asp_rg = "${local.asp_rg}"
+  asp_rg = "${local.asp_name}"
 
   app_settings = {
     # db
