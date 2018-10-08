@@ -13,7 +13,7 @@ locals {
   api_base_path = "fees-api"
   #endregion
 
-  asp_name = "${(var.env == "prod" || var.env == "preview") ? (var.env == "prod" ) ? "fees-register-api-prod" : ${var.core_product}-aat : "${var.core_product}-${var.env}"}"
+  asp_name = "${(var.env == "prod" || var.env == "preview") ? (var.env == "prod" ) ? "fees-register-api-prod" : "${var.core_product}-aat" : "${var.core_product}-${var.env}"}"
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
