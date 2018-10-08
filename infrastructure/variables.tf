@@ -76,5 +76,5 @@ variable "restrict_fee_api_gw_calls_per_ip_per_minute" {
 
 variable "core_product" {
   type    = "string"
-  default = "fees"
+  default = "ccpay"
 }

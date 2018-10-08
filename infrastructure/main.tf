@@ -18,7 +18,7 @@ locals {
 
 data "azurerm_key_vault" "fees_key_vault" {
   name = "${local.vaultName}"
-  resource_group_name = "${var.core_product}-${local.local_env}"
+  resource_group_name = "fees-${local.local_env}"
 }
 
 module "fees-register-api" {
