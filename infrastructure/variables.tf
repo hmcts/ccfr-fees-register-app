@@ -73,7 +73,6 @@ variable "frontend_url" {
 variable "restrict_fee_api_gw_calls_per_ip_per_minute" {
   default = "20"
 }
-
 variable "core_product" {
   type    = "string"
   default = "ccpay"
