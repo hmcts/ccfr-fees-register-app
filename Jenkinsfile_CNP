@@ -28,7 +28,7 @@ List<LinkedHashMap<String, Object>> secrets = [
 }
 
 withPipeline(type, product, app) {
-    setVaultName('fees-shared')
+    setVaultName('ccpay')
     loadVaultSecrets(secrets)
     enableDockerBuild()
     enableDeployToAKS()
