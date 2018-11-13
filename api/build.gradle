@@ -62,7 +62,7 @@ dependencies {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
-    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.6.2'
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: javaLoggingVersion
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: javaLoggingVersion
 
