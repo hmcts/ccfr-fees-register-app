@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
-import uk.gov.hmcts.fees2.register.data.exceptions.FeeVersionNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -15,10 +14,7 @@ import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FeeVersionServiceImpl implements FeeVersionService {

@@ -3,8 +3,6 @@ package uk.gov.hmcts.fees2.register.data.service;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 public interface FeeVersionService {
