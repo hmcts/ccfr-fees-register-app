@@ -18,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FeeVersionServiceImpl implements FeeVersionService {
@@ -38,16 +39,11 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     @Override
     @Transactional
     public boolean approve(String code, Integer version, String name) {
+        FeeVersion feeVersion = feeVersionRepository.findFeeVersionByCodeAndVersionOrThrow(code, version);
 
-        FeeVersion ver = feeVersionRepository.findByFee_CodeAndVersion(code, version);
+        feeVersion.setApprovedBy(name);
 
-        if (ver == null) {
-            throw new FeeVersionNotFoundException(code);
-        }
-
-        ver.setApprovedBy(name);
-
-        ver.setStatus(FeeVersionStatus.approved);
+        feeVersion.setStatus(FeeVersionStatus.approved);
 
         return true;
     }
@@ -55,8 +51,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     @Override
     @Transactional
     public boolean deleteDraftVersion(String feeCode, Integer version) {
-
-        FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
+        FeeVersion feeVersion = feeVersionRepository.findFeeVersionByCodeAndVersionOrThrow(feeCode, version);
 
         if (!feeVersion.getStatus().equals(FeeVersionStatus.draft)) {
             throw new BadRequestException("Non draft fee versions can not be deleted by this operation");
@@ -103,7 +98,8 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     @Override
     @Transactional
     public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
-        FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
+        FeeVersion feeVersion = feeVersionRepository.findFeeVersionByCodeAndVersionOrThrow(feeCode, version);
+
 
         if (feeVersion.getStatus() == FeeVersionStatus.approved) {
             throw new BadRequestException("Approved fees cannot change their status");
@@ -146,24 +142,23 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     @Transactional
-    public void updateVersion(String feeCode, Integer versionId, Integer newVersionId, Date validFrom, BigDecimal amount, String directionType, String description,
-                              String memoLine, String nac, String feeOrderName, String statutoryInstrument, String siRefId) {
-        FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
+    public void updateVersion(String feeCode, Integer versionId, FeeVersion version) {
+        FeeVersion feeVersion = feeVersionRepository.findFeeVersionByCodeAndVersionOrThrow(feeCode, versionId);
 
-        if (version != null) {
-            if (newVersionId != null) {
-                version.setVersion(newVersionId);
-            }
-            version.getAmount().setAmountValue(amount);
-            version.setValidFrom(validFrom);
-            version.setDirectionType(directionTypeRepository.findByNameOrThrow(directionType.toLowerCase()));
-            version.setDescription(description);
-            version.setMemoLine(memoLine);
-            version.setNaturalAccountCode(nac);
-            version.setFeeOrderName(feeOrderName);
-            version.setStatutoryInstrument(statutoryInstrument);
-            version.setSiRefId(siRefId);
+        if (!feeVersion.getStatus().equals(FeeVersionStatus.draft)) {
+            throw new BadRequestException("The fee version with " + feeVersion.getStatus() + " status cannot be updated.");
         }
+
+        feeVersion.setAmount(version.getAmount());
+        feeVersion.setValidFrom(version.getValidFrom());
+        feeVersion.setValidTo(version.getValidTo());
+        feeVersion.setDirectionType(version.getDirectionType());
+        feeVersion.setDescription(version.getDescription());
+        feeVersion.setMemoLine(version.getMemoLine());
+        feeVersion.setNaturalAccountCode(version.getNaturalAccountCode());
+        feeVersion.setFeeOrderName(version.getFeeOrderName());
+        feeVersion.setStatutoryInstrument(version.getStatutoryInstrument());
+        feeVersion.setSiRefId(version.getSiRefId());
     }
 
 }

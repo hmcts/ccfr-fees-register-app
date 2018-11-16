@@ -16,7 +16,12 @@ import java.util.Optional;
 @Repository
 public interface FeeVersionRepository extends JpaRepository<FeeVersion, Long> {
 
-    FeeVersion findByFee_CodeAndVersion(String feeCode, Integer version);
+    Optional<FeeVersion> findByFee_CodeAndVersion(String feeCode, Integer version);
+
+    default FeeVersion findFeeVersionByCodeAndVersionOrThrow(String feeCode, Integer version) {
+        return findByFee_CodeAndVersion(feeCode, version).orElseThrow(() -> new FeeVersionNotFoundException(feeCode));
+    }
+
 
     List<FeeVersion> findByStatus(FeeVersionStatus status);
 

@@ -10,7 +10,9 @@ import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -130,7 +132,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         feeService.delete(savedFee.getCode());
     }
 
-    @Test
+    @Test(expected = BadRequestException.class)
     @Transactional
     public void createFee_andUpdateFlatAmount() throws Exception {
         rangedFeeDto = getRangedFeeDtoWithReferenceData(499, 999, null, FeeVersionStatus.approved);
@@ -148,20 +150,15 @@ public class Fee2CrudComponentTest extends BaseTest {
             assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("99.99"));
         });
 
-        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(),  savedFee.getFeeVersions().get(0).getVersion() + 1,null,
-            new BigDecimal("199.99"), "cost recovery",
-            "new description", "new memo line", "xxx", "test fee" , "xxx", "2.1ci");
-        Fee updatedFee = feeService.get(fee.getCode());
-        assertThat(updatedFee.getCode()).isEqualTo(fee.getCode());
-        updatedFee.getFeeVersions().stream().forEach(v -> {
-            FlatAmount flatAmount = (FlatAmount) v.getAmount();
-            assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("199.99"));
-        });
+        FeeVersion version = savedFee.getFeeVersions().get(0);
+        version.setAmount(new FlatAmount(new BigDecimal("199.99")));
+        version.setDirectionType(DirectionType.directionWith().name("cost recovery").build());
+        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(),  version);
 
         feeService.delete(fee.getCode());
     }
 
-    @Test
+    @Test(expected = BadRequestException.class)
     @Transactional
     public void testUpdateFeeVersion() throws Exception {
         FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
@@ -173,21 +170,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertThat(version.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - Unspecified");
         assertThat(version.getMemoLine()).isEqualTo("GOV - Paper fees - Money claim >£200,000");
 
-        Integer newVersion = version.getVersion() + 1;
-        feeVersionService.updateVersion(fee.getCode(), version.getVersion(), newVersion,
-            version.getValidFrom(), new BigDecimal("99.89"), "cost recovery", "New version description",
-            "new memo line", "new nac", "new fee order name", "new si",
-            "new sirefid");
-
-        FeeVersion updateVersion = feeService.get(savedFee.getCode()).getCurrentVersion(true);
-        assertThat(updateVersion.getVersion()).isEqualTo(2);
-        assertThat(updateVersion.getDirectionType().getName()).isEqualTo("cost recovery");
-        assertThat(updateVersion.getAmount()).isEqualTo(new FlatAmount(new BigDecimal("99.89")));
-        assertThat(updateVersion.getMemoLine()).isEqualTo("new memo line");
-        assertThat(updateVersion.getNaturalAccountCode()).isEqualTo("new nac");
-        assertThat(updateVersion.getFeeOrderName()).isEqualTo("new fee order name");
-        assertThat(updateVersion.getStatutoryInstrument()).isEqualTo("new si");
-        assertThat(updateVersion.getSiRefId()).isEqualTo("new sirefid");
+        version.setAmount(new FlatAmount(new BigDecimal("99.89")));
+        feeVersionService.updateVersion(fee.getCode(), version.getVersion(), version);
 
         feeService.delete(savedFee.getCode());
     }

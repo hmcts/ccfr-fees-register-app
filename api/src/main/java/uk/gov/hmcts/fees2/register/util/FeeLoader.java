@@ -31,7 +31,6 @@ import java.util.List;
 /**
  * Created by tarun on 10/11/2017.
  */
-
 @Component
 @ConditionalOnProperty(name = "enable.fee.loader", havingValue = "true")
 public class FeeLoader implements ApplicationRunner {
@@ -175,9 +174,7 @@ public class FeeLoader implements ApplicationRunner {
 
     private void updateFeeVersion(String code, LoaderFeeVersionDto feeVersionDto) {
         if (feeVersionDto.getAmount() != null) {
-            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getNewVersion(), feeVersionDto.getValidFrom(),
-                feeVersionDto.getAmount(), feeVersionDto.getDirection(), feeVersionDto.getDescription(), feeVersionDto.getMemoLine(),
-                feeVersionDto.getNaturalAccountCode(), feeVersionDto.getFeeOrderName(), feeVersionDto.getStatutoryInstrument(), feeVersionDto.getSiRefId());
+            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeDtoMapper.toFeeVersion(feeVersionDto, null));
         }
     }
 
