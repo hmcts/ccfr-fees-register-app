@@ -3,7 +3,7 @@ description = ''
 dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
-    compile group: 'com.google.guava', name: 'guava', version:'22.0'
+    compile group: 'com.google.guava', name: 'guava', version:'27.0-jre'
     compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.7'
     compile group: 'org.springframework', name: 'spring-test'
     testCompile group: 'org.mockito', name: 'mockito-all', version:'1.10.19'
