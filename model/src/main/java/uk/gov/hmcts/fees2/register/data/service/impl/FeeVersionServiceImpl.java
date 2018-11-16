@@ -23,13 +23,11 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     private final FeeVersionRepository feeVersionRepository;
 
     private final Fee2Repository feeRepository;
-    private final DirectionTypeRepository directionTypeRepository;
 
     @Autowired
     public FeeVersionServiceImpl(FeeVersionRepository feeVersionRepository, Fee2Repository feeRepository, DirectionTypeRepository directionTypeRepository) {
         this.feeVersionRepository = feeVersionRepository;
         this.feeRepository = feeRepository;
-        this.directionTypeRepository = directionTypeRepository;
     }
 
     @Override
