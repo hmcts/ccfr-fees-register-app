@@ -228,3 +228,9 @@ databaseChangeLog:
             indexName: ix_fee_refdata
             tableName: fee
             unique: false
+- changeSet:
+    id: 1534927449690
+    author: Sateesh
+    changes:
+    - sql: >
+        UPDATE fee SET keyword = NULL WHERE keyword = ''
