@@ -40,7 +40,7 @@ module "fees-register-api" {
     # db
     SPRING_DATASOURCE_USERNAME = "${module.fees-register-database.user_name}"
     SPRING_DATASOURCE_PASSWORD = "${module.fees-register-database.postgresql_password}"
-    SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.fees-register-database.host_name}:${module.fees-register-database.postgresql_listen_port}/${module.fees-register-database.postgresql_database}?ssl=true"
+    SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.fees-register-database.host_name}:${module.fees-register-database.postgresql_listen_port}/${module.fees-register-database.postgresql_database}?sslmode=require"
 
     # disables liquibase run
     SPRING_LIQUIBASE_ENABLED = "${var.liquibase_enabled}"
