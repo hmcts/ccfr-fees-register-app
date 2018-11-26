@@ -15,8 +15,6 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static com.fasterxml.jackson.annotation.JsonProperty.*;
-
 @Data
 @Builder(builderMethodName = "feeVersionDtoWith")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,7 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonProperty.*;
 @NoArgsConstructor
 public class FeeVersionDto {
 
-    @JsonProperty(access = Access.READ_ONLY)
+    @JsonProperty("version")
     private Integer version;
 
     @JsonProperty("valid_from")
