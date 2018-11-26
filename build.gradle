@@ -9,7 +9,7 @@ plugins {
     id 'findbugs'
     id 'jacoco'
     id 'maven-publish'
-    id 'com.jfrog.bintray' version '1.8.0'
+    id 'com.jfrog.bintray' version '1.8.4'
 }
 allprojects {
     apply plugin: 'maven'
