@@ -4,7 +4,7 @@ metadata:
   name: ${SERVICE_NAME}-config
   namespace: ${NAMESPACE}
 data:
-  ENABLE_FEE_LOADER: "false"
+  ENABLE_FEE_LOADER: "true"
   IDAM_CLIENT_BASE_URL: "http://idam-api.aat.platform.hmcts.net"
   REFORM_SERVICE_NAME: "fees-register-api"
   REFORM_TEAM: "cc"
