@@ -652,6 +652,32 @@ public class FeeControllerTest extends BaseIntegrationTest {
         return createFee(fixedFeeDto);
     }
 
+
+    @Test
+    @Transactional
+    public void rejectAddingDuplicateFeeMetadataOnDifferentTypes() throws Exception {
+
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        fixedFeeDto.setKeyword("xxx");
+
+        RangedFeeDto rangedFeeDto = FeeDataUtils.getRangedCreateProbateCopiesFeeRequest();
+        rangedFeeDto.setKeyword("xxx");
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", fixedFeeDto)
+            .andExpect(status().isCreated());
+
+        assertNotNull(restActions
+            .withUser("admin")
+            .post("/fees-register/ranged-fees", rangedFeeDto)
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
+            .andReturn());
+
+    }
+
+
     // min max
     // minBelow maxAbove
     @Test
@@ -677,4 +703,62 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(jsonPath("$.cause", is("Fee with the given reference data/overlapping range already exists")))
             .andReturn());
     }
+
+    @Test
+    @Transactional
+    public void testValidatingDuplicateFeeMetadataOnDifferentTypes() throws Exception {
+
+        FixedFeeDto dto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        dto.setKeyword("xxx");
+
+        restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated());
+
+        assertNotNull(
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees/prevalidate"
+                + "?service=" + dto.getService()
+                + "&event=" + dto.getEvent()
+                + "&channel=" + dto.getChannel()
+                + "&keyword=" + dto.getKeyword()
+                + "&jurisdiction1=" + dto.getJurisdiction1()
+                + "&jurisdiction2=" + dto.getJurisdiction2()
+                + "&fromRange=1&toRange=1000")
+            .andExpect(status().isConflict())
+        );
+
+    }
+
+    @Test
+    @Transactional
+    public void testValidatingANewFeeBeforeInsertingItWorks() throws Exception {
+
+        FixedFeeDto dto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
+        dto.setKeyword("xxx");
+
+        assertNotNull(
+            restActions
+                .withUser("admin")
+                .get("/fees-register/fees/prevalidate"
+                    + "?service=" + dto.getService()
+                    + "&event=" + dto.getEvent()
+                    + "&channel=" + dto.getChannel()
+                    + "&keyword=" + dto.getKeyword()
+                    + "&jurisdiction1=" + dto.getJurisdiction1()
+                    + "&jurisdiction2=" + dto.getJurisdiction2()
+                )
+                .andExpect(status().isOk())
+        );
+
+        assertNotNull(restActions
+            .withUser("admin")
+            .post("/fees-register/fixed-fees", dto)
+            .andExpect(status().isCreated())
+            .andReturn());
+    }
+
+
 }

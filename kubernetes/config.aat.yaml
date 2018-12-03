@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${SERVICE_NAME}-config
+  namespace: ${NAMESPACE}
+data:
+  ENABLE_FEE_LOADER: "false"
+  IDAM_CLIENT_BASE_URL: "https://preprod-idamapi.reform.hmcts.net:3511"
+  REFORM_SERVICE_NAME: "fees-register-api"
+  REFORM_TEAM: "cc"
+  RECIPE_BACKEND_URL: "http://fees-register-app-aat.service.core-compute-aat.internal"
+  REFORM_ENVIRONMENT: "aat"
+  SPRING_LIQUIBASE_ENABLED: "true"

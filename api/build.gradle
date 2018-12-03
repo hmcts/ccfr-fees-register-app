@@ -58,11 +58,11 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
-    compile(group: 'org.postgresql', name: 'postgresql', version: '42.1.4') {
+    compile(group: 'org.postgresql', name: 'postgresql', version: '42.2.2') {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
-    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.6.2'
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: javaLoggingVersion
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: javaLoggingVersion
 
@@ -78,6 +78,8 @@ dependencies {
     testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
     testCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
+
+    testCompile 'io.github.openfeign:feign-jackson:9.7.0'
 
     // smoke
     smokeTestCompile sourceSets.test.runtimeClasspath

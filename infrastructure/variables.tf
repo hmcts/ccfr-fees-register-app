@@ -63,3 +63,17 @@ variable "external_host_name" {
 variable "enable_fee_loader" {
   default = "false"
 }
+
+variable "frontend_url" {
+  type = "string"
+  default = "https://fees-register-frontend-aat.service.core-compute-aat.internal"
+  description = "Optional front end URL to use for building redirect URI"
+}
+
+variable "restrict_fee_api_gw_calls_per_ip_per_minute" {
+  default = "20"
+}
+variable "core_product" {
+  type    = "string"
+  default = "ccpay"
+}
