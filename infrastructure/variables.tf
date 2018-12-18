@@ -8,6 +8,10 @@ variable "location" {
   default = "UK South"
 }
 
+variable "component" {
+  type    = "string"
+}
+
 variable "env" {
   type = "string"
 }
@@ -37,11 +41,6 @@ variable "database_name" {
 variable "postgresql_user" {
   type    = "string"
   default = "fees_register"
-}
-
-// disabled liquibase temporarily - enable for new db changes build and then disable again
-variable "liquibase_enabled" {
-  default = "true"
 }
 
 variable "idam_api_url" {

@@ -196,6 +196,13 @@ task printVersion {
     }
 }
 
+task migratePostgresDatabase(type: GradleBuild, description: 'Migrates Postgres Database', group: 'liquibase') {
+    //forward projectProperties
+    startParameter.projectProperties = project.gradle.startParameter.projectProperties
+    buildFile = './api/build.gradle'
+    tasks = ['migratePostgresDatabase']
+}
+
 run {
     def debug = System.getProperty("debug")
     if (debug == 'true') {
