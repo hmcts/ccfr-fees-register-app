@@ -16,7 +16,6 @@ import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -145,9 +144,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     }
 
     @Override
-    @Transactional
-    public void updateVersion(String feeCode, Integer versionId, Integer newVersionId, Date validFrom, BigDecimal amount, String directionType, String description,
-                              String memoLine, String nac, String feeOrderName, String statutoryInstrument, String siRefId) {
+    public void updateVersion(String feeCode, Integer versionId, Integer newVersionId, BigDecimal amount, FeeVersion feeVersion) {
         FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
 
         if (version != null) {
@@ -155,15 +152,16 @@ public class FeeVersionServiceImpl implements FeeVersionService {
                 version.setVersion(newVersionId);
             }
             version.getAmount().setAmountValue(amount);
-            version.setValidFrom(validFrom);
-            version.setDirectionType(directionTypeRepository.findByNameOrThrow(directionType.toLowerCase()));
-            version.setDescription(description);
-            version.setMemoLine(memoLine);
-            version.setNaturalAccountCode(nac);
-            version.setFeeOrderName(feeOrderName);
-            version.setStatutoryInstrument(statutoryInstrument);
-            version.setSiRefId(siRefId);
+            version.setValidFrom(feeVersion.getValidFrom());
+            version.setDirectionType(directionTypeRepository.findByNameOrThrow(feeVersion.getDirectionType().getName().toLowerCase()));
+            version.setDescription(feeVersion.getDescription());
+            version.setMemoLine(feeVersion.getMemoLine());
+            version.setNaturalAccountCode(feeVersion.getNaturalAccountCode());
+            version.setFeeOrderName(feeVersion.getFeeOrderName());
+            version.setStatutoryInstrument(feeVersion.getStatutoryInstrument());
+            version.setSiRefId(feeVersion.getSiRefId());
         }
     }
+
 
 }
