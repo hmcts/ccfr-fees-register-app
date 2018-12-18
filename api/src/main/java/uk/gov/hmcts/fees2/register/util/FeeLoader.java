@@ -179,7 +179,6 @@ public class FeeLoader implements ApplicationRunner {
         if (feeVersionDto.getAmount() != null) {
             FeeVersion updatedFeeVersionInfo = FeeVersion.feeVersionWith()
                 .validFrom(feeVersionDto.getValidFrom())
-                .validTo(feeVersionDto.getValidTo())
                 .directionType(DirectionType.directionWith().name(feeVersionDto.getDirection()).build())
                 .description(feeVersionDto.getDescription())
                 .memoLine(feeVersionDto.getMemoLine())
