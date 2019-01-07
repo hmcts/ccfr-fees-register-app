@@ -33,6 +33,7 @@ module "fees-register-api" {
   https_only="false"
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
+  appinsights_instrumentation_key = "${var.appinsights_instrumentation_key}"
   asp_name = "${local.asp_name}"
   asp_rg = "${local.asp_name}"
 
