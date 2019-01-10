@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 //import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
 //import static uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto.*;
 
-@Ignore
 public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
     @Autowired
