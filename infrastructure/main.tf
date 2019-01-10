@@ -1,17 +1,29 @@
+provider "azurerm" {
+  version = "1.19.0"
+}
+
 locals {
+  app_full_name = "${var.product}-${var.component}"
   aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
 
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "fees-shared-aat"
-  nonPreviewVaultName = "fees-shared-${var.env}"
+  previewVaultName = "${var.core_product}-aat"
+  nonPreviewVaultName = "${var.core_product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+
+  #region API gateway
+  api_policy = "${replace(file("template/api-policy.xml"), "CAllS_PER_IP_PER_MINUTE", var.restrict_fee_api_gw_calls_per_ip_per_minute)}"
+  api_base_path = "fees-api"
+  #endregion
+
+  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
   name = "${local.vaultName}"
-  resource_group_name = "fees-${local.local_env}"
+  resource_group_name = "${var.core_product}-${local.local_env}"
 }
 
 module "fees-register-api" {
@@ -26,15 +38,17 @@ module "fees-register-api" {
   https_only="false"
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
+  asp_name = "${local.asp_name}"
+  asp_rg = "${local.asp_name}"
 
   app_settings = {
     # db
     SPRING_DATASOURCE_USERNAME = "${module.fees-register-database.user_name}"
     SPRING_DATASOURCE_PASSWORD = "${module.fees-register-database.postgresql_password}"
-    SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.fees-register-database.host_name}:${module.fees-register-database.postgresql_listen_port}/${module.fees-register-database.postgresql_database}?ssl=true"
+    SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.fees-register-database.host_name}:${module.fees-register-database.postgresql_listen_port}/${module.fees-register-database.postgresql_database}?sslmode=require"
 
-    # disables liquibase run
-    SPRING_LIQUIBASE_ENABLED = "${var.liquibase_enabled}"
+    # disabled liquibase at startup as there is a separate pipleline step (enableDbMigration)
+    SPRING_LIQUIBASE_ENABLED = "false"
 
     # idam
     IDAM_CLIENT_BASE_URL = "${var.idam_api_url}"
@@ -61,3 +75,57 @@ module "fees-register-database" {
   common_tags     = "${var.common_tags}"
 }
 
+# region API (gateway)
+data "template_file" "api_template" {
+  template = "${file("${path.module}/template/api.json")}"
+}
+
+resource "azurerm_template_deployment" "api" {
+  template_body       = "${data.template_file.api_template.rendered}"
+  name                = "${var.product}-api-${var.env}"
+  deployment_mode     = "Incremental"
+  resource_group_name = "core-infra-${var.env}"
+  count               = "${var.env != "preview" ? 1: 0}"
+
+  parameters = {
+    apiManagementServiceName  = "core-api-mgmt-${var.env}"
+    apiName                   = "${var.product}-api"
+    apiProductName            = "${var.product}"
+    serviceUrl                = "http://${var.product}-api-${var.env}.service.core-compute-${var.env}.internal"
+    apiBasePath               = "${local.api_base_path}"
+    policy                    = "${local.api_policy}"
+  }
+}
+# endregion
+
+# Populate Vault with DB info
+
+resource "azurerm_key_vault_secret" "POSTGRES-USER" {
+  name      = "${local.app_full_name}-POSTGRES-USER"
+  value     = "${module.fees-register-database.user_name}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
+  name      = "${local.app_full_name}-POSTGRES-PASS"
+  value     = "${module.fees-register-database.postgresql_password}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
+  name      = "${local.app_full_name}-POSTGRES-HOST"
+  value     = "${module.fees-register-database.host_name}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
+  name      = "${local.app_full_name}-POSTGRES-PORT"
+  value     = "${module.fees-register-database.postgresql_listen_port}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
+  name      = "${local.app_full_name}-POSTGRES-DATABASE"
+  value     = "${module.fees-register-database.postgresql_database}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
