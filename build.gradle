@@ -163,6 +163,7 @@ def sonarExclusions = [
         '**/fees2/register/data/model/**',
         '**/fees2/register/data/dto/**',
         '**/fees2/register/api/contract/loader/**',
+        '**/fees2/register/data/repository/FeeVersionRepository.java',
         '**/fees2/register/util/*Loader.java'
 ]
 
@@ -194,6 +195,13 @@ task printVersion {
     doLast {
         print project.version
     }
+}
+
+task migratePostgresDatabase(type: GradleBuild, description: 'Migrates Postgres Database', group: 'liquibase') {
+    //forward projectProperties
+    startParameter.projectProperties = project.gradle.startParameter.projectProperties
+    buildFile = './api/build.gradle'
+    tasks = ['migratePostgresDatabase']
 }
 
 run {

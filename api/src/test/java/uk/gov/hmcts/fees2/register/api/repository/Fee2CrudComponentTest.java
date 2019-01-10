@@ -11,6 +11,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
@@ -148,9 +149,19 @@ public class Fee2CrudComponentTest extends BaseTest {
             assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("99.99"));
         });
 
-        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(),  savedFee.getFeeVersions().get(0).getVersion() + 1,null,
-            new BigDecimal("199.99"), "cost recovery",
-            "new description", "new memo line", "xxx", "test fee" , "xxx", "2.1ci");
+        FeeVersion updatedFeeVersionInfo = FeeVersion.feeVersionWith()
+            .validFrom(null)
+            .directionType(DirectionType.directionWith().name("cost recovery").build())
+            .description("new description")
+            .memoLine("new memo line")
+            .naturalAccountCode("xxx")
+            .feeOrderName("test fee")
+            .statutoryInstrument("xxx")
+            .siRefId("2.1ci")
+            .build();
+
+        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(),
+            savedFee.getFeeVersions().get(0).getVersion() + 1,new BigDecimal("199.99"), updatedFeeVersionInfo);
         Fee updatedFee = feeService.get(fee.getCode());
         assertThat(updatedFee.getCode()).isEqualTo(fee.getCode());
         updatedFee.getFeeVersions().stream().forEach(v -> {
@@ -174,10 +185,18 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertThat(version.getMemoLine()).isEqualTo("GOV - Paper fees - Money claim >£200,000");
 
         Integer newVersion = version.getVersion() + 1;
-        feeVersionService.updateVersion(fee.getCode(), version.getVersion(), newVersion,
-            version.getValidFrom(), new BigDecimal("99.89"), "cost recovery", "New version description",
-            "new memo line", "new nac", "new fee order name", "new si",
-            "new sirefid");
+        FeeVersion updatedFeeVersionInfo = FeeVersion.feeVersionWith()
+            .validFrom(version.getValidFrom())
+            .directionType(DirectionType.directionWith().name("cost recovery").build())
+            .description("New version description")
+            .memoLine("new memo line")
+            .naturalAccountCode("new nac")
+            .feeOrderName("new fee order name")
+            .statutoryInstrument("new si")
+            .siRefId("new sirefid")
+            .build();
+
+        feeVersionService.updateVersion(fee.getCode(), version.getVersion(), newVersion, new BigDecimal("99.89"), updatedFeeVersionInfo);
 
         FeeVersion updateVersion = feeService.get(savedFee.getCode()).getCurrentVersion(true);
         assertThat(updateVersion.getVersion()).isEqualTo(2);

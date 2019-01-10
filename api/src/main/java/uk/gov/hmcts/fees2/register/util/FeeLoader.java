@@ -19,7 +19,9 @@ import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDt
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeLoaderJsonMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
@@ -70,7 +72,7 @@ public class FeeLoader implements ApplicationRunner {
     public void loadFees() throws Exception {
         FeeLoaderJsonMapper feeLoaderMapper = loadFile();
 
-        if(feeLoaderMapper != null) {
+        if (feeLoaderMapper != null) {
             loadFixedFees(feeLoaderMapper);
             loadRangedFees(feeLoaderMapper);
         }
@@ -119,7 +121,7 @@ public class FeeLoader implements ApplicationRunner {
             List<LoaderFixedFeeDto> fixedFees = feeLoaderMapper.getFixedFees();
             fixedFees.forEach(f -> {
 
-               saveFixedFee(f);
+                saveFixedFee(f);
             });
         }
 
@@ -175,9 +177,18 @@ public class FeeLoader implements ApplicationRunner {
 
     private void updateFeeVersion(String code, LoaderFeeVersionDto feeVersionDto) {
         if (feeVersionDto.getAmount() != null) {
-            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getNewVersion(), feeVersionDto.getValidFrom(),
-                feeVersionDto.getAmount(), feeVersionDto.getDirection(), feeVersionDto.getDescription(), feeVersionDto.getMemoLine(),
-                feeVersionDto.getNaturalAccountCode(), feeVersionDto.getFeeOrderName(), feeVersionDto.getStatutoryInstrument(), feeVersionDto.getSiRefId());
+            FeeVersion updatedFeeVersionInfo = FeeVersion.feeVersionWith()
+                .validFrom(feeVersionDto.getValidFrom())
+                .directionType(DirectionType.directionWith().name(feeVersionDto.getDirection()).build())
+                .description(feeVersionDto.getDescription())
+                .memoLine(feeVersionDto.getMemoLine())
+                .naturalAccountCode(feeVersionDto.getNaturalAccountCode())
+                .feeOrderName(feeVersionDto.getFeeOrderName())
+                .statutoryInstrument(feeVersionDto.getStatutoryInstrument())
+                .siRefId(feeVersionDto.getSiRefId())
+                .build();
+
+            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getNewVersion(), feeVersionDto.getAmount(), updatedFeeVersionInfo);
         }
     }
 
