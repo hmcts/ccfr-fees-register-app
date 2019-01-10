@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import uk.gov.hmcts.logging.Markers;
 
 import javax.servlet.ServletContextListener;
-import javax.validation.constraints.NotNull;
 
 @SpringBootApplication
 public class FeesRegisterServiceApplication {
@@ -21,11 +20,9 @@ public class FeesRegisterServiceApplication {
             SpringApplication.run(FeesRegisterServiceApplication.class, args);
         } catch (RuntimeException ex) {
             LOG.error(Markers.fatal, "Application crashed with error message: ", ex);
-            throw ex;
         }
     }
 
-    @NotNull
     @Bean
     ServletListenerRegistrationBean<ServletContextListener> myServletListener() {
         ServletListenerRegistrationBean<ServletContextListener> srb = new ServletListenerRegistrationBean<>();
