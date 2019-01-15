@@ -5,95 +5,15 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees.register.functional.dsl.FeesRegisterTestDsl;
-import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-//import uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto;
-//import static uk.gov.hmcts.fees2.register.api.contract.request.ApproveFeeDto.*;
-
 public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
     @Autowired
     private FeesRegisterTestDsl scenario;
-
-    private String feeCode;
-    private String feeCode1;
-    private String feeCode2;
-
-    private RangedFeeDto proposeRangedFees;//new RangedFeeDto("X0011", version, "civil","county court", "civil money claims", "online", "enhanced","issue", "Test memo line", "CMC online fee order name","Natural code 001", new BigDecimal(1), new BigDecimal(10000));
-
-    private FixedFeeDto proposeFixedFees;
-
-    //  ApproveFeeDto approveFeeCode;
-    private FeeDto createFeeDto;
-
-  /*  @Test
-    public void createRangedFees201() throws IOException {
-
-        feeCode = UUID.randomUUID().toString();
-
-
-
-
-
-        proposeRangedFees = getRangedFeeDto(feeCode);
-      //  approveFeeCode = getApproveFeeDto(feeCode);
-        createFeeDto = getCreateFeeDto(feeCode);
-
-        scenario.given().userId("1")
-                .when().createRangedFee(proposeRangedFees)
-                .then().noContent().getFeeCodeAndVerifyStatus1(feeCode).got(Fee2Dto.class, fee2Dtos -> {
-            assertThat(fee2Dtos.getFeeVersionDtos().get(0).getStatus()).isEqualTo(FeeVersionStatus.approved);
-        }).deleteFeeCode1(feeCode).isDeleted();
-    }
-
-    private RangedFeeDto getRangedFeeDto(String feeCode) {
-        //feeCode = UUID.randomUUID().toString();
-        FlatAmountDto amount = new FlatAmountDto(new BigDecimal(100));
-
-        MutableDateTime validTo = new MutableDateTime(new Date());
-        validTo.addDays(90);
-
-        FeeVersionDto version = new FeeVersionDto(1, new Date(), validTo.toDate(), "Testing", FeeVersionStatus.draft, amount, null);
-        return new RangedFeeDto(feeCode, version, "civil","family court", "civil money claims", "online", "enhanced","issue", "Test memo line", "CMC online fee order name","Natural code 001", new BigDecimal(10000), new BigDecimal(1));
-    }
-
-  //  private ApproveFeeDto getApproveFeeDto(String feeCode){
-    //    return new ApproveFeeDto(feeCode, 1);
-   // }
-
-    private CreateFeeDto getCreateFeeDto(String feeCode){
-        return new CreateFeeDto(feeCode, 1);
-    }
-
-    @Ignore
-    @Test
-    public void createFixedFees201() throws IOException {
-
-        feeCode1 = UUID.randomUUID().toString();
-        proposeFixedFees = getFixedFeeDto(feeCode1);
-
-        scenario.given().userId("1")
-                .when().createFixedFee(proposeFixedFees)
-                .then().isCreated()
-                .deleteFeeCode1(feeCode1).isDeleted();
-    }
-
-    private FixedFeeDto getFixedFeeDto(String feeCode) {
-        FlatAmountDto amount = new FlatAmountDto(new BigDecimal(550));
-        DateTime to = new DateTime();
-        to.plusDays(90);
-        FeeVersionDto version = new FeeVersionDto(1, new Date(), to.toDate(), "Testing", FeeVersionStatus.approved, amount, null);
-        //FixedFeeDto createfixedfee = new FixedFeeDto(feeCode, version, "family","family court", "divorce", "online", "enhanced","issue", "Test memo line", "CMC online fee order name","Natural code 001");
-        FixedFeeDto createfixedfee = new FixedFeeDto(feeCode, version, "family","family court", "divorce", "online", "enhanced","issue", "Test memo line", "feeOrderName","naturalAccountCode","statutory","CMC online fee order name",false);
-        createfixedfee.setUnspecifiedClaimAmount(false);
-        return createfixedfee;
-    } */
 
     @Test
     public void getlookupresponseMessageForDivorce() throws IOException {
@@ -719,28 +639,4 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("550.00");
         });
     }
-
-   /* @Ignore
-    @Test
-    public void createFixedFeesForUnspecifiedAmount201() throws IOException {
-
-        feeCode2 = UUID.randomUUID().toString();
-        proposeFixedFees = getFixedFeeUnspecifiedDto(feeCode2);
-
-        scenario.given().userId("1")
-                .when().createFixedFee(proposeFixedFees)
-                .then().isCreated()
-                .deleteFeeCode1(feeCode2).isDeleted();
-    }
-
-    private FixedFeeDto getFixedFeeUnspecifiedDto(String feeCode2) {
-        FlatAmountDto amount = new FlatAmountDto(new BigDecimal(550));
-        DateTime to = new DateTime();
-        to.plusDays(90);
-        FeeVersionDto version = new FeeVersionDto(1, new Date(), to.toDate(), "Testing", FeeVersionStatus.approved, amount, null);
-        FixedFeeDto createfixedfeeforunspecified = new FixedFeeDto(feeCode2, version, "family","family court", "divorce", "online", "enhanced","issue", "Test memo line","feeOrderName","naturalAccountCode", "CMC online fee order name","siRefId",true);
-        createfixedfeeforunspecified.setUnspecifiedClaimAmount(true);
-        return createfixedfeeforunspecified;
-    }*/
-
 }
