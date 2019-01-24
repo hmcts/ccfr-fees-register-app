@@ -25,5 +25,5 @@ List<LinkedHashMap<String, Object>> secrets = [
 
 withParameterizedPipeline('java', 'fees-register', 'api', params.ENVIRONMENT, 'sandbox') {
     loadVaultSecrets(secrets)
-    enableDbMigration()
+    // enableDbMigration()
 }
