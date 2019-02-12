@@ -1,4 +1,5 @@
 # Fees Register for HMCTS online services
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uk.gov.hmcts.reform.fees-register%3Afees-register-app&metric=alert_status)](https://sonarcloud.io/dashboard?id=uk.gov.hmcts.reform.fees-register%3Afees-register-app)
 [![Build Status](https://travis-ci.org/hmcts/ccfr-fees-register-app.svg?branch=master)](https://travis-ci.org/hmcts/ccfr-fees-register-app)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0cb10a161dc24d0092470cda7c304c87)](https://app.codacy.com/app/HMCTS/ccfr-fees-register-app)
 [![codecov](https://codecov.io/gh/hmcts/ccfr-fees-register-app/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/ccfr-fees-register-app)
