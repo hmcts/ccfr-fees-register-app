@@ -3,6 +3,7 @@ postgresql:
     init.sql: |-
       CREATE USER fees_register WITH PASSWORD 'fees_register';
       CREATE DATABASE fees_register WITH OWNER = fees_register ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+  nameOverride: fees-register-db
   persistence:
     enabled: false
 
@@ -13,11 +14,11 @@ java:
 
   applicationPort: 8080
   memoryRequests: 256Mi
-  cpuRequests: 0.2
+  cpuRequests: 25m
   memoryLimits: 1024Mi
-  cpuLimits: 1
+  cpuLimits: 2500m
   environment:
-    SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-postgresql:5432/fees_register
+    SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-fees-register-db:5432/fees_register
     SPRING_DATASOURCE_USERNAME: fees_register
     SPRING_DATASOURCE_PASSWORD: fees_register
 
