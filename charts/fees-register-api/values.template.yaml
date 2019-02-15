@@ -8,8 +8,7 @@ postgresql:
     enabled: false
 
 java:
-  # Don't modify below here
-  image: ${IMAGE_NAME}
+  image: hmcts.azurecr.io/hmcts/fees-register-api
   ingressHost: ${SERVICE_FQDN}
 
   applicationPort: 8080
