@@ -36,6 +36,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/v2/**",
             "/health",
+            "/health/liveness",
             "/info");
     }
 
