@@ -8,14 +8,11 @@ postgresql:
     enabled: false
 
 java:
-  image: hmcts.azurecr.io/hmcts/fees-register-api
+  # Don't modify below here
+  image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
 
   applicationPort: 8080
-  memoryRequests: 256Mi
-  cpuRequests: 25m
-  memoryLimits: 1024Mi
-  cpuLimits: 2500m
   environment:
     SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-fees-register-db:5432/fees_register
     SPRING_DATASOURCE_USERNAME: fees_register
