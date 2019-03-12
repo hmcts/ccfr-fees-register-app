@@ -3,6 +3,11 @@ variable "product" {
   default = "fees-register"
 }
 
+variable "component" {
+  type    = "string"
+  default = "api"
+}
+
 variable "location" {
   type    = "string"
   default = "UK South"
