@@ -639,4 +639,17 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("550.00");
         });
     }
+
+
+    @Test
+    public void getLookupResponseForProbateFeeWithMaxRangeAs5000() {
+
+        scenario.given().userId("1")
+            .when().getLookUpForProbateResponse("probate", "family", "probate registry", "default", "issue", "personal", new BigDecimal("5000.00"))
+            .then().ok().got(FeeLookupResponseDto.class, feeLookupResponseDto -> {
+                Assertions.assertThat(feeLookupResponseDto.getDescription()).isEqualTo("Personal Application for grant of Probate");
+                Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();
+                Assertions.assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo("0");
+        });
+    }
 }

@@ -345,9 +345,9 @@ public class FeeController {
 
         final FeeLookupResponseDto responseDto = feeService.lookup(lookupFeeDto);
 
-        if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+//        if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
