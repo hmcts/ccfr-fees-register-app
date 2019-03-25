@@ -2,9 +2,9 @@ databaseChangeLog:
   - changeSet:
       id: 1553279380310-01
       author: tarun
-      failOnError: false
       changes:
       - sql:
+          dbms: postgresql
           sql: >
             WITH q0 AS(
             	SELECT max(fee_number) + 1 as fn FROM fee
