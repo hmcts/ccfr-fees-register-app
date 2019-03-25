@@ -2,8 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 1553279380310-01
       author: tarun
-      preConditions:
-        - onError: MARK_RAN
+      failOnError: false
       changes:
       - sql:
           sql: >
