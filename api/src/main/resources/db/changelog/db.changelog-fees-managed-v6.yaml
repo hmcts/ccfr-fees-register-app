@@ -2,6 +2,10 @@ databaseChangeLog:
   - changeSet:
       id: 1553279380310-01
       author: tarun
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: hsqldb
       changes:
       - sql:
           sql: >
