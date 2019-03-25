@@ -649,7 +649,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, feeLookupResponseDto -> {
                 Assertions.assertThat(feeLookupResponseDto.getDescription()).isEqualTo("Personal Application for grant of Probate");
                 Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();
-                Assertions.assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo(new BigDecimal("0"));
+                Assertions.assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo(new BigDecimal("0.00"));
         });
     }
 }
