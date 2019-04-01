@@ -252,7 +252,7 @@ public class FeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFee(@PathVariable("code") String code) {
         if (SecurityUtil.hasRole(FREG_ADMIN)) { // force delete
-            LOG.info("Force deleting a fee:{} with admin role", code);
+            LOG.info("Force deleting a fee with admin role");
             feeService.delete(code);
         } else if (!feeService.safeDelete(code)) { // check if fee has any approved versions before deleting
             throw new ForbiddenException("Cannot delete a fee with an approved version");
@@ -344,10 +344,6 @@ public class FeeController {
             .build();
 
         final FeeLookupResponseDto responseDto = feeService.lookup(lookupFeeDto);
-
-        if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
