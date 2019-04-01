@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
@@ -116,7 +117,7 @@ public class MockUtils {
         FlatAmountDto flatAmountDto = new FlatAmountDto(new BigDecimal("150.00"));
         FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
             null,
-            null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
+            null, "Testing1", FeeVersionStatusDto.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
             "Test memo line", null, null, "Natural code 001", "CMC online fee order name",
             "enhanced");
         FixedFeeDto fixedFeeDto = new FixedFeeDto("X0MOCK1", null, feeVersionDto, "family",

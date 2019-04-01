@@ -3,7 +3,6 @@ package uk.gov.hmcts.fees2.register.api.contract;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uk.gov.hmcts.fees2.register.data.model.RangeUnit;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class AllReferenceDataDto {
 
     private List<Jurisdiction2Dto> jurisdictions2;
 
-    private List<RangeUnit> rangeUnits;
+    private List<RangeUnitDto> rangeUnits;
 
     private List<ApplicantTypeDto> applicantTypes;
 }

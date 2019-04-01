@@ -19,7 +19,7 @@ public class ReferenceDataDtoMapper {
      * @return
      */
     public ChannelTypeDto toChannelTypeDto(ChannelType channelType) {
-        return ChannelTypeDto.channelTypeDtoWith()
+        return channelType == null ? null : ChannelTypeDto.channelTypeDtoWith()
                 .name(channelType.getName())
                 .build();
     }
@@ -30,7 +30,7 @@ public class ReferenceDataDtoMapper {
      * @return
      */
     public DirectionTypeDto toDirectionTypeDto(DirectionType directionType) {
-        return DirectionTypeDto.directionTypeDtoWith()
+        return directionType == null ? null : DirectionTypeDto.directionTypeDtoWith()
                 .name(directionType.getName())
                 .build();
     }
@@ -41,7 +41,7 @@ public class ReferenceDataDtoMapper {
      * @return
      */
     public EventTypeDto toEventTypeDto(EventType eventType) {
-        return EventTypeDto.eventTypeDtoWith()
+        return eventType == null ? null : EventTypeDto.eventTypeDtoWith()
                 .name(eventType.getName())
                 .build();
     }
@@ -52,7 +52,7 @@ public class ReferenceDataDtoMapper {
      * @return
      */
     public Jurisdiction1Dto toJuridiction1Dto(Jurisdiction1 jurisdiction1) {
-        return Jurisdiction1Dto.jurisdiction1TypeDtoWith()
+        return jurisdiction1 == null ? null : Jurisdiction1Dto.jurisdiction1TypeDtoWith()
                 .name(jurisdiction1.getName())
                 .build();
     }
@@ -63,7 +63,7 @@ public class ReferenceDataDtoMapper {
      * @return
      */
     public Jurisdiction2Dto toJurisdiction2Dto(Jurisdiction2 jurisdiction2) {
-        return Jurisdiction2Dto.jurisdiction2TypeDtoWith()
+        return jurisdiction2 == null ? null : Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                 .name(jurisdiction2.getName())
                 .build();
     }
@@ -74,7 +74,7 @@ public class ReferenceDataDtoMapper {
      * @return
      */
     public ServiceTypeDto toServiceTypeDto(ServiceType serviceType) {
-        return ServiceTypeDto.serviceTypeDtoWith()
+        return serviceType == null ? null : ServiceTypeDto.serviceTypeDtoWith()
                 .name(serviceType.getName())
                 .build();
     }
@@ -85,8 +85,9 @@ public class ReferenceDataDtoMapper {
      * @return
      */
     public ApplicantTypeDto toApplicantTypeDto(ApplicantType applicantType) {
-        return ApplicantTypeDto.applicantTypeDtoWith()
+        return applicantType == null ? null : ApplicantTypeDto.applicantTypeDtoWith()
             .name(applicantType.getName())
             .build();
     }
+
  }

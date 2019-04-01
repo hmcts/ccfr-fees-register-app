@@ -2,8 +2,7 @@ package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
@@ -13,6 +12,7 @@ import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
@@ -34,6 +34,7 @@ public class FeeDtoMapper {
     private EventTypeRepository eventTypeRepository;
     private DirectionTypeRepository directionTypeRepository;
     private ApplicantTypeRepository applicantTypeRepository;
+    private ReferenceDataDtoMapper referenceDataDtoMapper;
 
     @Autowired
     public FeeDtoMapper(
@@ -43,7 +44,8 @@ public class FeeDtoMapper {
         ServiceTypeRepository serviceTypeRepository,
         ChannelTypeRepository channelTypeRepository,
         EventTypeRepository eventTypeRepository,
-        ApplicantTypeRepository applicantTypeRepository) {
+        ApplicantTypeRepository applicantTypeRepository,
+        ReferenceDataDtoMapper referenceDataDtoMapper) {
 
         this.jurisdiction1Repository = jurisdiction1Repository;
         this.jurisdiction2Repository = jurisdiction2Repository;
@@ -52,6 +54,7 @@ public class FeeDtoMapper {
         this.eventTypeRepository = eventTypeRepository;
         this.directionTypeRepository = directionTypeRepository;
         this.applicantTypeRepository = applicantTypeRepository;
+        this.referenceDataDtoMapper = referenceDataDtoMapper;
     }
 
     private void fillFee(FeeDto request, Fee fee, String author) {
@@ -131,14 +134,13 @@ public class FeeDtoMapper {
 
         fee2Dto.setFeeType(fee.getTypeCode());
 
-        fee2Dto.setChannelTypeDto(fee.getChannelType());
-
-        fee2Dto.setEventTypeDto(fee.getEventType());
-        fee2Dto.setJurisdiction1Dto(fee.getJurisdiction1());
-        fee2Dto.setJurisdiction2Dto(fee.getJurisdiction2());
-        fee2Dto.setServiceTypeDto(fee.getService());
+        fee2Dto.setChannelTypeDto(referenceDataDtoMapper.toChannelTypeDto(fee.getChannelType()));
+        fee2Dto.setEventTypeDto(referenceDataDtoMapper.toEventTypeDto(fee.getEventType()));
+        fee2Dto.setJurisdiction1Dto(referenceDataDtoMapper.toJuridiction1Dto(fee.getJurisdiction1()));
+        fee2Dto.setJurisdiction2Dto(referenceDataDtoMapper.toJurisdiction2Dto(fee.getJurisdiction2()));
+        fee2Dto.setServiceTypeDto(referenceDataDtoMapper.toServiceTypeDto(fee.getService()));
         fee2Dto.setKeyword(fee.getKeyword());
-        fee2Dto.setApplicantTypeDto(fee.getApplicantType());
+        fee2Dto.setApplicantTypeDto(referenceDataDtoMapper.toApplicantTypeDto(fee.getApplicantType()));
 
         fee2Dto.setUnspecifiedClaimAmount(fee.isUnspecifiedClaimAmount());
 
@@ -236,7 +238,7 @@ public class FeeDtoMapper {
         feeVersionDto.setValidTo(feeVersion.getValidTo());
 
         feeVersionDto.setVersion(feeVersion.getVersion());
-        feeVersionDto.setStatus(feeVersion.getStatus());
+        feeVersionDto.setStatus(FeeVersionStatusDto.valueOf(feeVersion.getStatus().name()));
         feeVersionDto.setDescription(feeVersion.getDescription());
 
         feeVersionDto.setMemoLine(feeVersion.getMemoLine());
@@ -301,12 +303,12 @@ public class FeeDtoMapper {
         }
     }
 
-    private void fillVersionStatus(FeeVersion version, FeeVersionStatus status) {
+    private void fillVersionStatus(FeeVersion version, FeeVersionStatusDto status) {
 
         if(status == null) {
             version.setStatus(FeeVersionStatus.draft);
         }else{
-            version.setStatus(status);
+            version.setStatus(FeeVersionStatus.valueOf(status.name()));
         }
     }
 

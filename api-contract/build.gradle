@@ -3,5 +3,4 @@ description = ''
 dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations'
     compile group: 'org.hibernate', name: 'hibernate-validator', version:'5.3.6.Final'
-  compile project(':fees-register-model')
 }

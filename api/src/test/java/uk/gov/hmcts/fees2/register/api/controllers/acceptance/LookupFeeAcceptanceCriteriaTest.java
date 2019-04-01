@@ -2,11 +2,11 @@ package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
@@ -43,7 +43,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
         versionDto.setDescription(versionDto.getMemoLine());
-        versionDto.setStatus(FeeVersionStatus.approved);
+        versionDto.setStatus(FeeVersionStatusDto.approved);
 
         dto.setVersion(versionDto);
 
@@ -90,7 +90,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal(10)));
         versionDto.setDescription(versionDto.getMemoLine());
-        versionDto.setStatus(FeeVersionStatus.approved);
+        versionDto.setStatus(FeeVersionStatusDto.approved);
         dto.setVersion(versionDto);
 
         String loc = restActions
@@ -133,7 +133,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
         versionDto.setDescription(versionDto.getMemoLine());
-        versionDto.setStatus(FeeVersionStatus.approved);
+        versionDto.setStatus(FeeVersionStatusDto.approved);
         dto.setVersion(versionDto);
         dto.setChannel("default");
         dto.setApplicantType("all");
@@ -174,7 +174,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal(10))); // 10%
         versionDto.setDescription(versionDto.getMemoLine());
-        versionDto.setStatus(FeeVersionStatus.approved);
+        versionDto.setStatus(FeeVersionStatusDto.approved);
         dto.setVersion(versionDto);
         dto.setChannel("default");
         dto.setApplicantType("all");
@@ -257,7 +257,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
         versionDto.setDescription(versionDto.getMemoLine());
-        versionDto.setStatus(FeeVersionStatus.approved);
+        versionDto.setStatus(FeeVersionStatusDto.approved);
 
         dto.setVersion(versionDto);
 

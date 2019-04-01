@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
@@ -33,7 +34,7 @@ public class FeeDataUtils {
             .version(feeVersionDtoWith()
                 .validFrom(DateTime.parse("2014-04-22T00:00:00.511Z").toDate())
                 .description("Additional copies of the grant representation")
-                .status(FeeVersionStatus.approved)
+                .status(FeeVersionStatusDto.approved)
                 .memoLine("Additional sealed copy of grant")
                 .direction("enhanced")
                 .naturalAccountCode("4481102171")
@@ -58,7 +59,7 @@ public class FeeDataUtils {
             .version(feeVersionDtoWith()
                 .validFrom(DateTime.parse("2014-04-22T00:00:00.511Z").toDate())
                 .description("Additional copies of the grant representation")
-                .status(FeeVersionStatus.approved)
+                .status(FeeVersionStatusDto.approved)
                 .memoLine("Additional sealed copy of grant")
                 .direction("enhanced")
                 .naturalAccountCode("4481102171")
@@ -82,7 +83,7 @@ public class FeeDataUtils {
             .version(feeVersionDtoWith()
                 .validFrom(DateTime.parse("2011-04-04T00:00:00.000Z").toDate())
                 .description("Personal Application for grant of Probate")
-                .status(FeeVersionStatus.approved)
+                .status(FeeVersionStatusDto.approved)
                 .memoLine("Personal Application for grant of Probate")
                 .naturalAccountCode("4481102158")
                 .direction("enhanced")
@@ -106,7 +107,7 @@ public class FeeDataUtils {
             .version(feeVersionDtoWith()
                 .validFrom(DateTime.parse("2014-04-22T00:00:00.000Z").toDate())
                 .description("Civil Court fees - Money Claims - Claim Amount - Unspecified")
-                .status(FeeVersionStatus.approved)
+                .status(FeeVersionStatusDto.approved)
                 .memoLine("GOV - Paper fees - Money claim >£200,000")
                 .direction("enhanced")
                 .naturalAccountCode("4481102133")
@@ -130,7 +131,7 @@ public class FeeDataUtils {
             .version(feeVersionDtoWith()
                 .validFrom(DateTime.parse("2014-04-22T00:00:00.000Z").toDate())
                 .description("General fees - Money Claims - Claim Amount - Unspecified")
-                .status(FeeVersionStatus.approved)
+                .status(FeeVersionStatusDto.approved)
                 .memoLine("GOV - Paper fees - Money claim >£200,000")
                 .direction("enhanced")
                 .naturalAccountCode("4481102133")
@@ -150,7 +151,7 @@ public class FeeDataUtils {
             .version(feeVersionDtoWith()
                 .validFrom(DateTime.parse("2016-03-21T00:00:00.000Z").toDate())
                 .description("Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.")
-                .status(FeeVersionStatus.approved)
+                .status(FeeVersionStatusDto.approved)
                 .memoLine("GOV - App for divorce/nullity of marriage or CP")
                 .direction("enhanced")
                 .naturalAccountCode("4481102159")
@@ -174,7 +175,7 @@ public class FeeDataUtils {
             .version(feeVersionDtoWith()
                 .validFrom(DateTime.parse("2014-04-22T00:00:00.000Z").toDate())
                 .description("Civil Court fees - Money Claims - Claim Amount - Unspecified")
-                .status(FeeVersionStatus.approved)
+                .status(FeeVersionStatusDto.approved)
                 .memoLine("GOV - Paper fees - Money claim >£200,000")
                 .direction("enhanced")
                 .naturalAccountCode("4481102133")
@@ -197,7 +198,7 @@ public class FeeDataUtils {
                 .validFrom(DateTime.parse("2017-11-06T16:33:37.040Z").toDate())
                 .validTo(DateTime.parse("2020-11-06T16:33:37.040Z").toDate())
                 .description("Testing")
-                .status(FeeVersionStatus.draft)
+                .status(FeeVersionStatusDto.draft)
                 .direction("enhanced1")
                 .memoLine("Test memo line")
                 .feeOrderName("CMC online fee order name")
@@ -216,7 +217,7 @@ public class FeeDataUtils {
                 .validFrom(DateTime.parse("2017-11-06T16:33:37.040Z").toDate())
                 .validTo(DateTime.parse("2020-11-06T16:33:37.040Z").toDate())
                 .description("Testing2")
-                .status(FeeVersionStatus.approved)
+                .status(FeeVersionStatusDto.approved)
                 .direction("enhanced")
                 .memoLine("Test memo line")
                 .feeOrderName("CMC online fee order name")

@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
@@ -71,9 +72,9 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(savedFee);
 
-        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
+        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
-        assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
+        assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatusDto.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
         assertEquals(feeVersionDtoResult.getFlatAmount().getAmount(), new BigDecimal(2500));
 
@@ -90,9 +91,9 @@ public class Fee2CrudComponentTest extends BaseTest {
         Fee fee = feeService.get(savedFee.getCode());
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(fee);
-        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatus.approved)).findAny().orElse(null);
+        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
-        assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
+        assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatusDto.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
 
         feeService.delete(savedFee.getCode());
