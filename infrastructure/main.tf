@@ -3,6 +3,7 @@ provider "azurerm" {
 }
 
 locals {
+  app_full_name = "${var.product}-${var.component}"
   aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
 
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
@@ -72,6 +73,12 @@ module "fees-register-database" {
   sku_name = "GP_Gen5_2"
   sku_tier = "GeneralPurpose"
   common_tags     = "${var.common_tags}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
+  name      = "${local.app_full_name}-POSTGRES-PASS"
+  value     = "${module.fees-register-database.postgresql_password}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
 }
 
 # region API (gateway)

@@ -26,4 +26,5 @@ java:
     SPRING_LIQUIBASE_ENABLED: true
     IDAM_CLIENT_BASE_URL: https://preprod-idamapi.reform.hmcts.net:3511
 
-    APPINSIGHTS_INSTRUMENTATIONKEY: fake-key
+tags:
+  postgresql-pod: true
