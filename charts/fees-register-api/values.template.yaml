@@ -24,7 +24,7 @@ java:
 
     ENABLE_FEE_LOADER: true
     SPRING_LIQUIBASE_ENABLED: true
-    IDAM_CLIENT_BASE_URL: https://preprod-idamapi.reform.hmcts.net:3511
+    IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
 
 tags:
   postgresql-pod: true
