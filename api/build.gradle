@@ -45,7 +45,7 @@ sonarqube {
     }
 }
 
-def javaLoggingVersion = '3.0.1'
+def javaLoggingVersion = '5.0.1'
 
 dependencies {
     compile project(':fees-register-model')
