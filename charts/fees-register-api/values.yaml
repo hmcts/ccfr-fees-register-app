@@ -9,7 +9,6 @@ postgresql:
 
 java:
   image: 'https://hmcts.azurecr.io/hmcts/fees-register-api:latest'
-
   applicationPort: 8080
   environment:
     SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-fees-register-db:5432/fees_register"
@@ -18,7 +17,6 @@ java:
 
     REFORM_SERVICE_NAME: fees-register-api
     REFORM_TEAM: cc
-    REFORM_ENVIRONMENT: preview
 
     ENABLE_FEE_LOADER: true
     SPRING_LIQUIBASE_ENABLED: true
