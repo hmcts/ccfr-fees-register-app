@@ -4,8 +4,7 @@ provider "azurerm" {
 
 locals {
   app_full_name = "${var.product}-${var.component}"
-  aseName = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
-
+  aseName = "core-compute-${var.env}"
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
@@ -38,6 +37,7 @@ module "fees-register-api" {
   https_only="false"
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
+  appinsights_instrumentation_key = "${var.appinsights_instrumentation_key}"
   asp_name = "${local.asp_name}"
   asp_rg = "${local.asp_name}"
 
@@ -56,7 +56,6 @@ module "fees-register-api" {
     REFORM_SERVICE_NAME = "fees-register-api"
     REFORM_TEAM = "cc"
     REFORM_ENVIRONMENT = "${var.env}"
-    ROOT_APPENDER = "JSON_CONSOLE"
 
     # enable fee loader
     ENABLE_FEE_LOADER = "${var.enable_fee_loader}"

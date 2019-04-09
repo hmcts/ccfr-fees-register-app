@@ -8,23 +8,19 @@ postgresql:
     enabled: false
 
 java:
-  # Don't modify below here
-  image: ${IMAGE_NAME}
-  ingressHost: ${SERVICE_FQDN}
-
+  image: 'https://hmcts.azurecr.io/hmcts/fees-register-api:latest'
   applicationPort: 8080
   environment:
-    SPRING_DATASOURCE_URL: jdbc:postgresql://${SERVICE_NAME}-fees-register-db:5432/fees_register
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-fees-register-db:5432/fees_register"
     SPRING_DATASOURCE_USERNAME: fees_register
     SPRING_DATASOURCE_PASSWORD: fees_register
 
     REFORM_SERVICE_NAME: fees-register-api
     REFORM_TEAM: cc
-    REFORM_ENVIRONMENT: preview
 
     ENABLE_FEE_LOADER: true
     SPRING_LIQUIBASE_ENABLED: true
-    IDAM_CLIENT_BASE_URL: https://preprod-idamapi.reform.hmcts.net:3511
+    IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
 
 tags:
   postgresql-pod: true
