@@ -26,6 +26,11 @@ data "azurerm_key_vault" "fees_key_vault" {
   resource_group_name = "${var.core_product}-${local.local_env}"
 }
 
+data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
+  name = "AppInsightsInstrumentationKey"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
 module "fees-register-api" {
   source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product  = "${var.product}-api"
@@ -38,7 +43,7 @@ module "fees-register-api" {
   https_only="false"
   capacity = "${var.capacity}"
   common_tags     = "${var.common_tags}"
-  appinsights_instrumentation_key = "${var.appinsights_instrumentation_key}"
+  appinsights_instrumentation_key = "${data.azurerm_key_vault_secret.appinsights_instrumentation_key.value}"
   asp_name = "${local.asp_name}"
   asp_rg = "${local.asp_name}"
 
