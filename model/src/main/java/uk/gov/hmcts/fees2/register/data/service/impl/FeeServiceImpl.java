@@ -1,15 +1,12 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.*;
@@ -17,19 +14,19 @@ import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class FeeServiceImpl implements FeeService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(FeeServiceImpl.class);
 
     private static final Predicate[] REF = new Predicate[0];
 
@@ -44,9 +41,6 @@ public class FeeServiceImpl implements FeeService {
 
     @Autowired
     private Jurisdiction2Repository jurisdiction2Repository;
-
-    @Autowired
-    private DirectionTypeRepository directionTypeRepository;
 
     @Autowired
     private EventTypeRepository eventTypeRepository;
@@ -66,15 +60,16 @@ public class FeeServiceImpl implements FeeService {
     @Autowired
     private FeeValidator feeValidator;
 
-    @Autowired
-    private Environment environment;
-
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
-    /* --- */
 
+    @Override
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
+
+        if (feeValidator.isExistingFee(fee)) {
+            throw new ConflictException("Fee with the given reference data/overlapping range already exists");
+        }
 
         Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
         fee.setFeeNumber(nextFeeNumber);
@@ -84,8 +79,20 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
+    public void saveLoaderFee(Fee fee) {
+
+        if (fee.getCode() != null && !fee2Repository.findByCode(fee.getCode()).isPresent()) {
+            feeValidator.validateAndDefaultNewFee(fee);
+
+            Matcher matcher = pattern.matcher(fee.getCode());
+            fee.setFeeNumber(matcher.find() ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee2Repository.save(fee);
+        }
+    }
+
+    @Override
     @Transactional
-    public void updateFeeLoaderData(Fee updateFee, String newCode) {
+    public void updateLoaderFee(Fee updateFee, String newCode) {
         Fee fee = get(updateFee.getCode());
 
         if (newCode != null) {  // If the new feeCode is provided in the request.
@@ -106,7 +113,6 @@ public class FeeServiceImpl implements FeeService {
             fee.setFeeNumber(nextFeeNumber);
             fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
         }
-
     }
 
     /***
@@ -131,11 +137,11 @@ public class FeeServiceImpl implements FeeService {
     @Transactional
     public boolean safeDelete(String code) {
         Optional<Fee> optFeeToDelete = fee2Repository.findByCode(code);
-        if (optFeeToDelete.isPresent()) {
-            if (feeVersionRepository.findByFee_CodeAndStatus(code, FeeVersionStatus.approved).isEmpty()) {
-                delete(code);
-                return true;
-            }
+        if (optFeeToDelete.isPresent() &&
+            feeVersionRepository.findByFee_CodeAndStatus(code, FeeVersionStatus.approved).isEmpty()) {
+            delete(code);
+            return true;
+
         }
         return false;
     }
@@ -155,7 +161,10 @@ public class FeeServiceImpl implements FeeService {
 
         defaults(dto);
 
-        List<Fee> fees = search(dto);
+        dto.setVersionStatus(FeeVersionStatus.approved);
+
+        List<Fee> fees = search(dto).stream().filter(fee -> fee.getCurrentVersion(true) != null)
+            .collect(Collectors.toList());
 
         if (fees.isEmpty()) {
             throw new FeeNotFoundException(dto);
@@ -167,15 +176,7 @@ public class FeeServiceImpl implements FeeService {
 
         Fee fee = fees.get(0);
 
-        if (dto.getVersionStatus() == null) {
-            dto.setVersionStatus(FeeVersionStatus.approved);
-        }
-
-        FeeVersion version = fee.getCurrentVersion(dto.getVersionStatus().equals(FeeVersionStatus.approved));
-
-        if (version == null) {
-            throw new FeeNotFoundException(dto);
-        }
+        FeeVersion version = fee.getCurrentVersion(true);
 
         return new FeeLookupResponseDto(
             fee.getCode(),
@@ -212,7 +213,7 @@ public class FeeServiceImpl implements FeeService {
             ) &&
                 (dto.getAuthor() == null
                     || dto.getAuthor().equals(
-                        fee.getCurrentVersion(dto.getVersionStatus() == FeeVersionStatus.approved).getAuthor())));
+                    fee.getCurrentVersion(dto.getVersionStatus() == FeeVersionStatus.approved).getAuthor())));
     }
 
     private Predicate buildFirstLevelPredicate(Root<Fee> fee, CriteriaBuilder builder, LookupFeeDto dto) {
@@ -281,9 +282,26 @@ public class FeeServiceImpl implements FeeService {
             );
         }
 
+        predicates.add(getKeywordPredicate(fee, builder, dto));
+
         return builder.and(predicates.toArray(REF));
 
     }
 
+    private Predicate getKeywordPredicate(Root<Fee> fee, CriteriaBuilder builder, LookupFeeDto dto) {
+        if (dto.getKeyword() != null) {
+            return builder.equal(fee.get(fee.getModel().getSingularAttribute("keyword")), dto.getKeyword());
+        }
+        return builder.isNull(fee.get(fee.getModel().getSingularAttribute("keyword")));
+    }
 
+    @Override
+    /** Validation for pre-save fees */
+    public void prevalidate(Fee fee) {
+
+        if (feeValidator.isExistingFee(fee)) {
+            throw new ConflictException("One or more fees exist already with the same metadata");
+        }
+
+    }
 }

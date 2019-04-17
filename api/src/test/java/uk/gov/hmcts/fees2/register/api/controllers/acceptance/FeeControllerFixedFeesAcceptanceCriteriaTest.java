@@ -1,19 +1,17 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegrationTest {
 
@@ -38,7 +36,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
     @Test
     public synchronized void testFixedFee() throws Exception{
 
-        CreateFixedFeeDto dto = new CreateFixedFeeDto();
+        FixedFeeDto dto = new FixedFeeDto();
         dto.setService("divorce");
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
@@ -77,7 +75,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
 //        getFeeAndExpectStatusIsOk(uri[3])
 //            .andExpect(versionIsOneAndStatusIsDraft());
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
 
     }
 

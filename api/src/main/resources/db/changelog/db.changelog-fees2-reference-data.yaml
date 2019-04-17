@@ -186,3 +186,31 @@ databaseChangeLog:
                   ('probate'),
                   ('general'),
                   ('magistrates');
+    - changeSet:
+        id: 15082018
+        author: eduardo
+        changes:
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO service_type (name, creation_time, last_updated)
+                VALUES
+                  ('appeal', now(), now()),
+                  ('judicial review', now(), now());
+                DELETE FROM service_type WHERE NAME = 'tax';
+                DELETE FROM jurisdiction2 WHERE NAME = 'tax chamber';
+                INSERT INTO jurisdiction2 (name, creation_time, last_updated)
+                VALUES
+                  ('civil', now(), now()),
+                  ('employment appeal tribunal', now(), now()),
+                  ('employment tribunal', now(), now());
+    - changeSet:
+        id: 16082018
+        author: eduardo
+        changes:
+          - sql:
+              splitStatements: true
+              sql: >
+                INSERT INTO service_type (name, creation_time, last_updated)
+                VALUES
+                  ('civil', now(), now());

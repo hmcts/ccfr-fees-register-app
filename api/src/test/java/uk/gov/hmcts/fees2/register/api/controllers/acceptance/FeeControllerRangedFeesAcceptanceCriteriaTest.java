@@ -1,18 +1,17 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrationTest {
@@ -41,7 +40,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     @Test
     public synchronized void testCreateRangedFeeWithPercentAmount() throws Exception {
 
-        CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
+        RangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
         dto.setChannel("online");
 
         FeeVersionDto versionDto = new FeeVersionDto();
@@ -70,7 +69,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
                 });
             }));
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 2: Creating a % fee for the DEFAULT channel
@@ -95,7 +94,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     @Test
     public synchronized void testCreateRangedFeeWithPercentAmountAndDefaultChannel() throws Exception {
 
-        CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
+        RangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setPercentageAmount(new PercentageAmountDto(new BigDecimal("10")));
@@ -124,7 +123,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
             }));
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
     }
 
     /* PAY-444 */
@@ -151,7 +150,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     @Test
     public synchronized void testCreateRangedFeeWithFlatAmount() throws Exception {
 
-        CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
+        RangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
         dto.setChannel("online");
 
         FeeVersionDto versionDto = new FeeVersionDto();
@@ -176,7 +175,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
             }));
 
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
     }
 
     /* Scenario 2: Creating a FLAT fee for the DEFAULT channel
@@ -200,7 +199,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     @Test
     public synchronized void testCreateRangedFeeWithFlatAmountAndDefaultChannel() throws Exception {
 
-        CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
+        RangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
@@ -229,11 +228,11 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
                 });
             }));
 
-        deleteFee(uri[3]);
+        forceDeleteFee(uri[3]);
     }
 
-    private CreateRangedFeeDto createCMCIssueCivilCountyRangedFee() {
-        CreateRangedFeeDto dto = new CreateRangedFeeDto();
+    private RangedFeeDto createCMCIssueCivilCountyRangedFee() {
+        RangedFeeDto dto = new RangedFeeDto();
         dto.setService("civil money claims");
         dto.setEvent("issue");
         dto.setJurisdiction1("civil");
@@ -249,7 +248,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     @Test
     public synchronized void testInvalidRange() throws Exception {
 
-        CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
+        RangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
         dto.setMaxRange(BigDecimal.ZERO);
         dto.setMinRange(BigDecimal.TEN);
 
@@ -265,7 +264,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
     @Test
     public synchronized void testInvalidRangeSameRange() throws Exception {
 
-        CreateRangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
+        RangedFeeDto dto = createCMCIssueCivilCountyRangedFee();
         dto.setMaxRange(BigDecimal.TEN);
         dto.setMinRange(BigDecimal.TEN);
 

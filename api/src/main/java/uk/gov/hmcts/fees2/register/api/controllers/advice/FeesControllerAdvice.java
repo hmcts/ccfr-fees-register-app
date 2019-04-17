@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
 import uk.gov.hmcts.fees2.register.data.exceptions.ReferenceDataNotFoundException;
 import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 
@@ -27,10 +28,16 @@ public class FeesControllerAdvice {
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({ConflictException.class})
+    public ResponseEntity<Map<String,String>> conflict(ConflictException e){
+        LOG.error("Conflict: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler({ReferenceDataNotFoundException.class})
     public ResponseEntity<Map<String,String>> referenceDataNotFound(ReferenceDataNotFoundException e){
         LOG.error(e.toString());
-        return new ResponseEntity<>(Collections.singletonMap("cause", e.getIdValue() + " is not a valid value for " + e.getIdName()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Collections.singletonMap("cause", "\"" + e.getIdValue() + "\" is not a valid value for " + e.getIdName()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({TooManyResultsException.class})

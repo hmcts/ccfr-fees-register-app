@@ -4,7 +4,7 @@ import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
@@ -35,7 +35,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         BigDecimal claimValue = new BigDecimal(5);
 
-        CreateFixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
+        FixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
         dto.setChannel("online");
         dto.setApplicantType("all");
 
@@ -82,7 +82,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         BigDecimal claimValue = new BigDecimal(5);
 
-        CreateFixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
+        FixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
         dto.setChannel("online");
         dto.setApplicantType("all");
 
@@ -127,7 +127,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         BigDecimal claimValue = new BigDecimal(5);
 
-        CreateFixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
+        FixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
 
@@ -168,7 +168,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         BigDecimal claimValue = new BigDecimal(5);
 
-        CreateFixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
+        FixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
 
@@ -210,7 +210,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         BigDecimal claimValue = new BigDecimal(5);
 
-        CreateFixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
+        FixedFeeDto dto = createCMCIssueCivilCountyFixedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
 
@@ -250,7 +250,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         BigDecimal claimValue = new BigDecimal(5);
 
-        CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
+        FixedFeeDto dto = createDivorceIssueFamilyFixedFee();
         dto.setChannel("online");
         dto.setApplicantType("all");
 
@@ -291,7 +291,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         BigDecimal claimValue = new BigDecimal(5);
 
-        CreateFixedFeeDto dto = createDivorceIssueFamilyFixedFee();
+        FixedFeeDto dto = createDivorceIssueFamilyFixedFee();
         dto.setChannel("online");
 
         FeeVersionDto versionDto = new FeeVersionDto();

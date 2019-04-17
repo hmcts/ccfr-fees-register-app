@@ -7,11 +7,10 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
@@ -19,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
+import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,112 +29,77 @@ public class FeeDtoMapper {
 
     private Jurisdiction1Repository jurisdiction1Repository;
     private Jurisdiction2Repository jurisdiction2Repository;
-    private Fee2Repository fee2Repository;
     private ServiceTypeRepository serviceTypeRepository;
     private ChannelTypeRepository channelTypeRepository;
     private EventTypeRepository eventTypeRepository;
     private DirectionTypeRepository directionTypeRepository;
-    private FeeVersionRepository feeVersionRepository;
     private ApplicantTypeRepository applicantTypeRepository;
-
-    public static final String CODE_ALREADY_IN_USE  = "Code is already in use";
 
     @Autowired
     public FeeDtoMapper(
         Jurisdiction1Repository jurisdiction1Repository,
         Jurisdiction2Repository jurisdiction2Repository,
         DirectionTypeRepository directionTypeRepository,
-        Fee2Repository fee2Repository,
         ServiceTypeRepository serviceTypeRepository,
         ChannelTypeRepository channelTypeRepository,
         EventTypeRepository eventTypeRepository,
-        ApplicantTypeRepository applicantTypeRepository,
-        FeeVersionRepository feeVersionRepository) {
+        ApplicantTypeRepository applicantTypeRepository) {
 
         this.jurisdiction1Repository = jurisdiction1Repository;
         this.jurisdiction2Repository = jurisdiction2Repository;
-        this.fee2Repository = fee2Repository;
         this.serviceTypeRepository = serviceTypeRepository;
         this.channelTypeRepository = channelTypeRepository;
         this.eventTypeRepository = eventTypeRepository;
         this.directionTypeRepository = directionTypeRepository;
-        this.feeVersionRepository = feeVersionRepository;
         this.applicantTypeRepository = applicantTypeRepository;
     }
 
-    private void fillFee(CreateFeeDto request, Fee fee, String author) {
-        updateFeeDetails(request, fee, author);
+    private void fillFee(FeeDto request, Fee fee, String author) {
+        updateFeeDetails(request, fee);
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
         fee.setFeeVersions(Arrays.asList(version));
+        fee.setKeyword(request.getKeyword());
     }
 
-    private void updateFeeDetails(CreateFeeDto request, Fee fee, String author) {
+    private void updateFeeDetails(FeeDto request, Fee fee) {
         fillJuridistiction1(fee, request.getJurisdiction1());
         fillJuridistiction2(fee, request.getJurisdiction2());
-
         fillServiceType(fee, request.getService());
         fillEventType(fee, request.getEvent());
         fillChannelType(fee, request.getChannel());
         fillApplicationType(fee, request.getApplicantType());
     }
 
-    public Fee toFee(CreateFixedFeeDto request, String author) {
-        FixedFee fee = new FixedFee();
-
-        fee.setUnspecifiedClaimAmount(
-            request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
-        );
-
-        fillFee(request, fee, author);
-        return fee;
-    }
-
-    public Fee toFee(LoaderFixedFeeDto request, String author) {
-        FixedFee fee = new FixedFee();
-
-        fee.setUnspecifiedClaimAmount(
-            request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
-        );
-
-        fillFee(request, fee, author);
-        return fee;
-    }
-
-
-    public void updateRangedFee(CreateRangedFeeDto request, RangedFee fee, String author) {
-        updateFeeDetails(request, fee, author);
-
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
-    }
-
-    public void updateFixedFee(CreateFixedFeeDto request, FixedFee fee, String author) {
-        updateFeeDetails(request, fee, author);
-
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
-    }
-
-    public Fee toFee(CreateRangedFeeDto request, String author) {
-        RangedFee fee = new RangedFee();
+    public Fee toFee(FeeDto request, String author) {
+        Fee fee = FeeFactory.getFee(request);
         fillFee(request, fee, author);
 
-        fee.setUnspecifiedClaimAmount(false);
-        fee.setMaxRange(request.getMaxRange());
-        fee.setMinRange(request.getMinRange());
-
-        if(request.getRangeUnit() == null) {
-            request.setRangeUnit("GBP");
+        if (fee instanceof FixedFee){
+            fee.setUnspecifiedClaimAmount(
+                request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
+            );
         }
 
-        fee.setRangeUnit(new RangeUnit(request.getRangeUnit()));
-
         return fee;
     }
 
-    public Fee toFee(LoaderRangedFeeDto request, String author) {
+    public void updateRangedFee(RangedFeeDto request, RangedFee fee, String author) {
+        updateFeeDetails(request, fee);
+
+        FeeVersion currentVersion = fee.getCurrentVersion(true);
+        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
+    }
+
+    public void updateFixedFee(FixedFeeDto request, FixedFee fee, String author) {
+        updateFeeDetails(request, fee);
+
+        FeeVersion currentVersion = fee.getCurrentVersion(true);
+        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
+    }
+
+    public Fee toFee(RangedFeeDto request, String author) {
         RangedFee fee = new RangedFee();
         fillFee(request, fee, author);
 
@@ -153,7 +118,9 @@ public class FeeDtoMapper {
 
     public Fee2Dto toFeeDto(FeeVersion version) {
         Fee2Dto fee2Dto = toFeeDto(version.getFee());
-        fee2Dto.setCurrentVersion(toFeeVersionDto(version));
+        FeeVersionDto feeVersionDto = toFeeVersionDto(version);
+        fee2Dto.setCurrentVersion(feeVersionDto);
+        fee2Dto.setMatchingVersion(feeVersionDto);
         return fee2Dto;
     }
 
@@ -170,6 +137,7 @@ public class FeeDtoMapper {
         fee2Dto.setJurisdiction1Dto(fee.getJurisdiction1());
         fee2Dto.setJurisdiction2Dto(fee.getJurisdiction2());
         fee2Dto.setServiceTypeDto(fee.getService());
+        fee2Dto.setKeyword(fee.getKeyword());
         fee2Dto.setApplicantTypeDto(fee.getApplicantType());
 
         fee2Dto.setUnspecifiedClaimAmount(fee.isUnspecifiedClaimAmount());
@@ -193,7 +161,7 @@ public class FeeDtoMapper {
         FeeVersion currentVersion = fee.getCurrentVersion(false);
 
         if(currentVersion != null) {
-            fee2Dto.setCurrentVersion(toFeeVersionDto(fee.getCurrentVersion(false)));
+            fee2Dto.setCurrentVersion(toFeeVersionDto(currentVersion));
         }
 
         return fee2Dto;
@@ -241,6 +209,23 @@ public class FeeDtoMapper {
         if(version.getStatus() == FeeVersionStatus.approved){
             version.setApprovedBy(author);
         }
+    }
+
+    public Fee toFee(LoaderRangedFeeDto request, String author) {
+        RangedFee fee = new RangedFee();
+        fillFee(request, fee, author);
+
+        fee.setUnspecifiedClaimAmount(false);
+        fee.setMaxRange(request.getMaxRange());
+        fee.setMinRange(request.getMinRange());
+
+        if(request.getRangeUnit() == null) {
+            request.setRangeUnit("GBP");
+        }
+
+        fee.setRangeUnit(new RangeUnit(request.getRangeUnit()));
+
+        return fee;
     }
 
     public FeeVersionDto toFeeVersionDto(FeeVersion feeVersion) {

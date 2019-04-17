@@ -3,11 +3,10 @@ package uk.gov.hmcts.fees2.register.data.service;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 
 import java.util.List;
 
-public interface FeeService  {
+public interface FeeService {
 
     Fee save(Fee fee);
 
@@ -19,12 +18,16 @@ public interface FeeService  {
 
     FeeLookupResponseDto lookup(LookupFeeDto dto);
 
+    void prevalidate(Fee fee);
+
     List<Fee> search(LookupFeeDto dto);
 
     Fee get(String code);
 
     Integer getMaxFeeNumber();
 
-    void updateFeeLoaderData(Fee fee, String code);
+    void updateLoaderFee(Fee fee, String code);
+
+    void saveLoaderFee(Fee fee);
 
 }

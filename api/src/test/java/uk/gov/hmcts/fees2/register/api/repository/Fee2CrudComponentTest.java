@@ -1,21 +1,20 @@
 package uk.gov.hmcts.fees2.register.api.repository;
 
-import org.joda.time.DateTime;
-import org.joda.time.MutableDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
-import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
+import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.model.RangedFee;
-import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.service.ChannelTypeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
@@ -23,12 +22,11 @@ import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -46,10 +44,12 @@ public class Fee2CrudComponentTest extends BaseTest {
     @Autowired
     private FeeDtoMapper feeDtoMapper;
 
-    private CreateRangedFeeDto rangedFeeDto;
+    private RangedFeeDto rangedFeeDto;
 
     @Autowired
     private ChannelTypeService channelTypeService;
+
+    private FeeDataUtils feeDataUtils;
 
     /**
      *
@@ -60,6 +60,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
         assertNotNull(savedFee);
+        feeService.delete(savedFee.getCode());
     }
 
 
@@ -75,6 +76,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
         assertEquals(feeVersionDtoResult.getFlatAmount().getAmount(), new BigDecimal(2500));
+
+        feeService.delete(savedFee.getCode());
     }
 
     @Test
@@ -91,6 +94,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatus.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
+
+        feeService.delete(savedFee.getCode());
     }
 
     @Test
@@ -103,6 +108,8 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         boolean result = feeVersionService.approve(fee.getCode(), 1, AUTHOR);
         assertTrue(result);
+
+        feeService.delete(savedFee.getCode());
     }
 
     @Test
@@ -120,6 +127,113 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertEquals(feeVersion.getMemoLine(), "Test memo line");
         FlatAmount flatAmount = (FlatAmount) feeVersion.getAmount();
         assertEquals(flatAmount.getAmount(), new BigDecimal(2500));
+
+        feeService.delete(savedFee.getCode());
+    }
+
+    @Test
+    @Transactional
+    public void createFee_andUpdateFlatAmount() throws Exception {
+        rangedFeeDto = getRangedFeeDtoWithReferenceData(499, 999, null, FeeVersionStatus.approved);
+        FeeVersionDto versionDto = rangedFeeDto.getVersion();
+
+        FlatAmountDto flatAmountDto = new FlatAmountDto();
+        flatAmountDto.setAmount(new BigDecimal("99.99"));
+        versionDto.setFlatAmount(flatAmountDto);
+        Fee fee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
+
+        Fee savedFee = feeService.get(fee.getCode());
+        assertThat(savedFee.getCode()).isEqualTo(fee.getCode());
+        savedFee.getFeeVersions().stream().forEach(v -> {
+            FlatAmount flatAmount = (FlatAmount) v.getAmount();
+            assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("99.99"));
+        });
+
+        FeeVersion updatedFeeVersionInfo = FeeVersion.feeVersionWith()
+            .validFrom(null)
+            .directionType(DirectionType.directionWith().name("cost recovery").build())
+            .description("new description")
+            .memoLine("new memo line")
+            .naturalAccountCode("xxx")
+            .feeOrderName("test fee")
+            .statutoryInstrument("xxx")
+            .siRefId("2.1ci")
+            .build();
+
+        feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(),
+            savedFee.getFeeVersions().get(0).getVersion() + 1,new BigDecimal("199.99"), updatedFeeVersionInfo);
+        Fee updatedFee = feeService.get(fee.getCode());
+        assertThat(updatedFee.getCode()).isEqualTo(fee.getCode());
+        updatedFee.getFeeVersions().stream().forEach(v -> {
+            FlatAmount flatAmount = (FlatAmount) v.getAmount();
+            assertThat(flatAmount.getAmount()).isEqualTo(new BigDecimal("199.99"));
+        });
+
+        feeService.delete(fee.getCode());
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateFeeVersion() throws Exception {
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+
+        Fee fee = feeService.get(savedFee.getCode());
+        FeeVersion version = fee.getCurrentVersion(true);
+        assertThat(version.getDirectionType().getName()).isEqualTo("enhanced");
+        assertThat(version.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - Unspecified");
+        assertThat(version.getMemoLine()).isEqualTo("GOV - Paper fees - Money claim >£200,000");
+
+        Integer newVersion = version.getVersion() + 1;
+        FeeVersion updatedFeeVersionInfo = FeeVersion.feeVersionWith()
+            .validFrom(version.getValidFrom())
+            .directionType(DirectionType.directionWith().name("cost recovery").build())
+            .description("New version description")
+            .memoLine("new memo line")
+            .naturalAccountCode("new nac")
+            .feeOrderName("new fee order name")
+            .statutoryInstrument("new si")
+            .siRefId("new sirefid")
+            .build();
+
+        feeVersionService.updateVersion(fee.getCode(), version.getVersion(), newVersion, new BigDecimal("99.89"), updatedFeeVersionInfo);
+
+        FeeVersion updateVersion = feeService.get(savedFee.getCode()).getCurrentVersion(true);
+        assertThat(updateVersion.getVersion()).isEqualTo(2);
+        assertThat(updateVersion.getDirectionType().getName()).isEqualTo("cost recovery");
+        assertThat(updateVersion.getAmount()).isEqualTo(new FlatAmount(new BigDecimal("99.89")));
+        assertThat(updateVersion.getMemoLine()).isEqualTo("new memo line");
+        assertThat(updateVersion.getNaturalAccountCode()).isEqualTo("new nac");
+        assertThat(updateVersion.getFeeOrderName()).isEqualTo("new fee order name");
+        assertThat(updateVersion.getStatutoryInstrument()).isEqualTo("new si");
+        assertThat(updateVersion.getSiRefId()).isEqualTo("new sirefid");
+
+        feeService.delete(savedFee.getCode());
+    }
+
+    @Test(expected = ConflictException.class)
+    @Transactional
+    public void createDuplicateCmcUnspecifiedFeeFailureTest() throws Exception {
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
+        Fee savedFee = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+
+        assertNotNull(savedFee);
+
+        cmcUnspecifiedFee.getVersion().setFlatAmount(new FlatAmountDto(new BigDecimal("40000.00")));
+        feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+    }
+
+    @Test
+    @Transactional
+    public void createCmcUnspecifiedFeeWithSameReferenceDataAndKeywordSuccessTest() throws Exception {
+        FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
+        Fee savedFee1 = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+        assertNotNull(savedFee1);
+
+        cmcUnspecifiedFee.setKeyword("KY-1");
+        cmcUnspecifiedFee.getVersion().setFlatAmount(new FlatAmountDto(new BigDecimal("40000.00")));
+        Fee savedFee2 = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
+        assertNotNull(savedFee2);
     }
 
 }

@@ -1,6 +1,10 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,62 +14,66 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
+import uk.gov.hmcts.fees2.register.data.dto.SearchFeeVersionDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
-import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.FixedFee;
+import uk.gov.hmcts.fees2.register.data.model.RangedFee;
+import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
-import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.SecurityUtil;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
-import javax.annotation.RegEx;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "FeesRegister", description = "Operations pertaining to fees")
+@Api(value = "FeesRegister")
 @RestController
 @RequestMapping(value = "/fees-register")
-
+@AllArgsConstructor
 @Validated
 public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
 
     public static final String LOCATION = "Location";
+    public static final String FREG_ADMIN = "freg-admin";
 
+    @Autowired
     private final FeeService feeService;
 
-    private final FeeVersionService feeVersionService;
-
+    @Autowired
     private final FeeDtoMapper feeDtoMapper;
 
     @Autowired
-    public FeeController(FeeService feeService, FeeVersionService feeVersionService, FeeDtoMapper feeDtoMapper) {
-        this.feeService = feeService;
-        this.feeVersionService = feeVersionService;
-        this.feeDtoMapper = feeDtoMapper;
-    }
+    private final FeeSearchService feeSearchService;
 
     @ApiOperation(value = "Create ranged fee")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 409, message = "Conflict")
     })
     @PostMapping("/ranged-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createRangedFee(
-        @RequestBody @Validated final CreateRangedFeeDto request,
+        @RequestBody @Validated final RangedFeeDto request,
         HttpServletResponse response,
         Principal principal) {
+
         Fee fee = feeService.save(
-            feeDtoMapper.toFee(request, principal != null ? principal.getName() : null));
+            feeDtoMapper.toFee(request, principal != null ? principal.getName() : null)
+        );
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
@@ -83,7 +91,7 @@ public class FeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void updateRangedFee(@PathVariable("code") String code,
-                                @RequestBody @Validated final CreateRangedFeeDto request,
+                                @RequestBody @Validated final RangedFeeDto request,
                                 HttpServletResponse response,
                                 Principal principal) {
         RangedFee fee = (RangedFee) feeService.get(code);
@@ -101,9 +109,9 @@ public class FeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void updateFixedFee(@PathVariable("code") String code,
-                                @RequestBody @Validated final CreateFixedFeeDto request,
-                                HttpServletResponse response,
-                                Principal principal) {
+                               @RequestBody @Validated final FixedFeeDto request,
+                               HttpServletResponse response,
+                               Principal principal) {
         FixedFee fee = (FixedFee) feeService.get(code);
         feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
     }
@@ -117,7 +125,7 @@ public class FeeController {
     })
     @PostMapping(value = "/fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createFixedFee(@RequestBody @Validated final CreateFixedFeeDto request,
+    public void createFixedFee(@RequestBody @Validated final FixedFeeDto request,
                                HttpServletResponse response,
                                Principal principal) {
 
@@ -127,9 +135,73 @@ public class FeeController {
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
-
         }
     }
+
+    @ApiOperation(value = "Create rateable fee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PostMapping(value = "/rateable-fees")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createRateableFee(@RequestBody @Validated final RateableFeeDto request,
+                                  HttpServletResponse response,
+                                  Principal principal) {
+
+        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
+    }
+
+
+    @ApiOperation(value = "Create relational fee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PostMapping(value = "/relational-fees")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createRelationalFee(@RequestBody @Validated final RelationalFeeDto request,
+                                    HttpServletResponse response,
+                                    Principal principal) {
+
+        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
+    }
+
+    @ApiOperation(value = "Create banded fee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(code = 403, message = "Forbidden")
+    })
+    @PostMapping(value = "/banded-fees")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createBandedFee(@RequestBody @Validated final BandedFeeDto request,
+                                HttpServletResponse response,
+                                Principal principal) {
+
+        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
+    }
+
 
     @ApiOperation(value = "Create bulk fees")
     @ApiResponses(value = {
@@ -140,10 +212,10 @@ public class FeeController {
     @Transactional
     @PostMapping(value = "/bulk-fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createFixedFees(@RequestBody final List<CreateFixedFeeDto> createFixedFeeDtos, Principal principal) {
-        LOG.info("No. of csv import fees: " + createFixedFeeDtos.size());
+    public void createFixedFees(@RequestBody final List<FixedFeeDto> fixedFeeDtos, Principal principal) {
+        LOG.info("No. of csv import fees: " + fixedFeeDtos.size());
 
-        List<Fee> fixedFees = createFixedFeeDtos
+        List<Fee> fixedFees = fixedFeeDtos
             .stream()
             .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, principal != null ? principal.getName() : null))
             .collect(Collectors.toList());
@@ -178,10 +250,12 @@ public class FeeController {
     })
     @DeleteMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFee(@PathVariable("code") String code, HttpServletResponse response) {
-        // check if fee has any approved versions before deleting
-        if (!feeService.safeDelete(code)) {
-            throw new ForbiddenException();
+    public void deleteFee(@PathVariable("code") String code) {
+        if (SecurityUtil.hasRole(FREG_ADMIN)) { // force delete
+            LOG.info("Force deleting a fee with admin role");
+            feeService.delete(code);
+        } else if (!feeService.safeDelete(code)) { // check if fee has any approved versions before deleting
+            throw new ForbiddenException("Cannot delete a fee with an approved version");
         }
     }
 
@@ -193,32 +267,42 @@ public class FeeController {
     })
     @GetMapping("/fees")
     @ResponseStatus(HttpStatus.OK)
-
     public List<Fee2Dto> search(@RequestParam(required = false) String service,
                                 @RequestParam(required = false) String jurisdiction1,
                                 @RequestParam(required = false) String jurisdiction2,
                                 @RequestParam(required = false) String channel,
                                 @RequestParam(required = false) String event,
-                                @RequestParam(required = false) String direction,
                                 @RequestParam(required = false, name = "applicant_type") String applicantType,
                                 @RequestParam(required = false) BigDecimal amount,
                                 @RequestParam(required = false) Boolean unspecifiedClaimAmounts,
                                 @RequestParam(required = false) FeeVersionStatus feeVersionStatus,
+                                @RequestParam(required = false) String approvedBy,
                                 @RequestParam(required = false) String author,
-                                                                HttpServletResponse response) {
-        /* These are provisional hacks, in reality we need to lookup versions not fees so we require a massive refactor of search */
+                                @RequestParam(required = false) Boolean isDraft,
+                                @RequestParam(required = false) Boolean isActive,
+                                @RequestParam(required = false) Boolean isExpired,
+                                @RequestParam(required = false) String description,
+                                @RequestParam(required = false) String siRefId,
+                                @RequestParam(required = false) BigDecimal feeVersionAmount,
+                                HttpServletResponse response) {
+        List<Fee2Dto> result;
+        SearchFeeDto searchFeeDto = new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts, isDraft);
+        SearchFeeVersionDto searchFeeVersionDto = new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, feeVersionStatus, description, siRefId, feeVersionAmount);
 
-        return feeService
-            .search(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amount, unspecifiedClaimAmounts, feeVersionStatus, author))
-            .stream()
-            .filter(f -> {
-                if (feeVersionStatus!=null) {
-                    return f.getFeeVersions().stream().anyMatch(v -> v.getStatus().equals(feeVersionStatus));
-                }
-                return true;
-            })
-            .map(feeDtoMapper::toFeeDto)
-            .collect(Collectors.toList());
+        if (searchFeeVersionDto.isNoFieldSet()) {
+            result = feeSearchService.search(searchFeeDto)
+                .stream()
+                .map(feeDtoMapper::toFeeDto)
+                .collect(Collectors.toList());
+        } else {
+            result = feeSearchService
+                .search(searchFeeDto, searchFeeVersionDto)
+                .stream()
+                .map(feeDtoMapper::toFeeDto)
+                .collect(Collectors.toList());
+        }
+
+        return result;
     }
 
     @ApiOperation(value = "Fee lookup based on reference data and amount", response = FeeLookupResponseDto.class)
@@ -236,7 +320,7 @@ public class FeeController {
                                                        @RequestParam String event,
                                                        @RequestParam(required = false, name = "applicant_type") String applicantType,
                                                        @RequestParam(required = false, name = "amount_or_volume") BigDecimal amountOrVolume,
-                                                       HttpServletResponse response) {
+                                                       @RequestParam(required = false, name = "keyword") String keyword) {
 
         if (amountOrVolume != null && amountOrVolume.compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Amount or volume should be greater than or equal to zero.");
@@ -246,11 +330,20 @@ public class FeeController {
             throw new BadRequestException("Volume cannot be in fractions.");
         }
 
-        final FeeLookupResponseDto responseDto = feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, amountOrVolume, false, FeeVersionStatus.approved, null));
+        LookupFeeDto lookupFeeDto = LookupFeeDto.lookupWith()
+            .service(service)
+            .jurisdiction1(jurisdiction1)
+            .jurisdiction2(jurisdiction2)
+            .channel(channel)
+            .event(event)
+            .applicantType(applicantType)
+            .amountOrVolume(amountOrVolume)
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .keyword(keyword)
+            .build();
 
-        if (responseDto.getFeeAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        final FeeLookupResponseDto responseDto = feeService.lookup(lookupFeeDto);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
@@ -269,8 +362,42 @@ public class FeeController {
                                                   @RequestParam String channel,
                                                   @RequestParam String event,
                                                   @RequestParam(required = false, name = "applicant_type") String applicantType,
-                                                  HttpServletResponse response) {
-        return feeService.lookup(new LookupFeeDto(service, jurisdiction1, jurisdiction2, channel, event, applicantType, null, true, FeeVersionStatus.approved, null));
+                                                  @RequestParam(required = false, name = "keyword") String keyword) {
+        LookupFeeDto lookupFeeDto = LookupFeeDto.lookupWith()
+            .service(service)
+            .jurisdiction1(jurisdiction1)
+            .jurisdiction2(jurisdiction2)
+            .channel(channel)
+            .event(event)
+            .applicantType(applicantType)
+            .unspecifiedClaimAmount(true)
+            .versionStatus(FeeVersionStatus.approved)
+            .keyword(keyword)
+            .build();
+        return feeService.lookup(lookupFeeDto);
+    }
+
+    @ApiOperation(value = "Prevalidates a fee based on its reference data", response = FeeLookupResponseDto.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 409, message = "Fee conflicts with one or more existing fees")
+    })
+    @GetMapping("/fees/prevalidate")
+    @ResponseStatus(HttpStatus.OK)
+    public void prevalidate(@RequestParam String service,
+                            @RequestParam String jurisdiction1,
+                            @RequestParam String jurisdiction2,
+                            @RequestParam String channel,
+                            @RequestParam String event,
+                            @RequestParam String keyword,
+                            @RequestParam(required = false) BigDecimal rangeFrom,
+                            @RequestParam(required = false) BigDecimal rangeTo
+    ) {
+
+        feeService.prevalidate(
+            Fee.fromMetadata(service, channel, event, jurisdiction1, jurisdiction2, keyword, rangeFrom, rangeTo)
+        );
     }
 
     /* --- */

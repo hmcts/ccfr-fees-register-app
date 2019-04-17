@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
@@ -17,7 +17,8 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FeeVersionControllerTest extends BaseIntegrationTest {
@@ -42,15 +43,11 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = FeeNotFoundException.class)
     public synchronized void testDeleteFeeAndVersion() throws Exception {
 
-        CreateFixedFeeDto dto = getFee("1234");
+        FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
-        String loc = restActions
-                        .withUser("admin")
-                        .post("/fees-register/fixed-fees", dto)
-                        .andExpect(status().isCreated())
-                        .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
 
         try {
@@ -70,20 +67,16 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test(expected = BadRequestException.class)
     public synchronized void testDeleteApprovedVersionFails() throws Exception {
 
-        CreateFixedFeeDto dto = getFee("2345");
+        FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
-        String loc = restActions
-                        .withUser("admin")
-                        .post("/fees-register/fixed-fees", dto)
-                        .andExpect(status().isCreated())
-                        .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
 
         try {
 
-            feeVersionController.changeVersionStatus(arr[3], 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
+            feeVersionController.approve(arr[3], 1, new PrincipalImpl(AUTHOR));
 
             feeVersionController.deleteFeeVersion(arr[3], 1);
 
@@ -96,21 +89,17 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void testDeleteVersionDoesNotDeleteFee() throws Exception {
 
-        CreateFixedFeeDto dto = getFee("3456");
+        FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
-        String loc = restActions
-            .withUser("admin")
-            .post("/fees-register/fixed-fees", dto)
-            .andExpect(status().isCreated())
-            .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
 
 
         try {
 
-            feeVersionController.changeVersionStatus(arr[3], 1, FeeVersionStatus.approved, new PrincipalImpl(AUTHOR));
+            feeVersionController.approve(arr[3], 1, new PrincipalImpl(AUTHOR));
 
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
@@ -122,7 +111,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
             feeVersionController.deleteFeeVersion(arr[3], 2);
 
-            assertThat(feeController.getFee(arr[3],response)).isNotNull();
+            assertThat(feeController.getFee(arr[3],response).getFeeVersionDtos().size()).isEqualTo(1);
 
         } finally {
             forceDeleteFee(arr[3]);
@@ -132,7 +121,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
     @Test
     public synchronized void createFeeWithMultipleVersions() throws Exception {
-        CreateFixedFeeDto dto = getFee(null);
+        FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1",
             "natural account code1", "SI_1", "siRefId1", DirectionType.directionWith().name("enhanced").build()));
 
@@ -140,22 +129,20 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             "natural account code2", "SI_2", "siRefId2", DirectionType.directionWith().name("enhanced").build());
         version2.setVersion(2);
 
-        String loc = restActions
-                        .withUser("admin")
-                        .post("/fees-register/fixed-fees", dto)
-                        .andExpect(status().isCreated())
-                        .andReturn().getResponse().getHeader("Location");
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
 
 
         Fee2Dto feeDto = feeController.getFee(arr[3], response);
         assertNotNull(feeDto);
         assertEquals(feeDto.getFeeVersionDtos().size(), 1);
+
+        forceDeleteFee(arr[3]);
     }
 
-    private CreateFixedFeeDto getFee(String feeCode) {
+    private FixedFeeDto getFee() {
 
-        CreateFixedFeeDto dto = new CreateFixedFeeDto();
+        FixedFeeDto dto = new FixedFeeDto();
 
         dto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         dto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());

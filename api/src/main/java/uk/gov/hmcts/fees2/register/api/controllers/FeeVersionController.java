@@ -71,17 +71,6 @@ public class FeeVersionController {
         feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
     }
 
-    @PatchMapping("/fees/{feeCode}/versions/{version}/status/{status}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void changeVersionStatus(
-        @PathVariable("feeCode") String feeCode,
-        @PathVariable("version") Integer version,
-        @PathVariable("status") FeeVersionStatus status,
-        Principal principal) {
-
-        feeVersionService.changeStatus(feeCode, version, status, principal.getName());
-    }
-
     @ApiOperation(value = "Approve a fee version")
     @ApiResponses(value = {
         @ApiResponse(code = 204, message = "Fee version is Approved"),
@@ -105,7 +94,7 @@ public class FeeVersionController {
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version) {
-        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.rejected, null);
+        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null);
     }
 
     @ApiOperation(value = "Submit a fee version to approval")
@@ -119,5 +108,4 @@ public class FeeVersionController {
     public void submitForReview(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version) {
         feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.pending_approval, null);
     }
-
 }

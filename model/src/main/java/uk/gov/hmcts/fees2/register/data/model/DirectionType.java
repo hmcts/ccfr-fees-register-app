@@ -1,19 +1,14 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- *
  * An entity class which contains the information of a DirectionType
- *
  */
 
 @Data
@@ -21,12 +16,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(builderMethodName = "directionWith")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "direction_type")
-public class DirectionType implements Serializable{
-
+public class DirectionType implements Serializable {
 
     @Id
     @Column(name = "name", nullable = false)
+    @EqualsAndHashCode.Include
     private String name;
 
     @Column(name = "creation_time", nullable = false)
@@ -49,4 +45,5 @@ public class DirectionType implements Serializable{
         creationTime = now;
         lastUpdated = now;
     }
+
 }

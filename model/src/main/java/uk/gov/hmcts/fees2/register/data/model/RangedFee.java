@@ -1,9 +1,7 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import uk.gov.hmcts.fees2.register.data.service.validator.validators.GenericFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.RangedFeeValidator;
 
@@ -17,8 +15,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(builderMethodName = "rangedFeeWith")
 @Table(name = "ranged_fee")
 public class RangedFee extends Fee{
+
+    private final static List<Class<? extends IFeeValidator>> VALIDATORS = Arrays.asList(RangedFeeValidator.class, GenericFeeValidator.class);
 
     @Column(name = "min_range")
     private BigDecimal minRange;
@@ -42,8 +43,25 @@ public class RangedFee extends Fee{
             && (maxRange == null || amount.compareTo(maxRange) <= 0);
     }
 
-    /* KISS for now */
-    private final static List<Class<? extends IFeeValidator>> VALIDATORS = Arrays.asList(RangedFeeValidator.class);
+    @Override
+    public boolean isADuplicateOf(Fee anotherFee) {
+        if(!super.isADuplicateOf(anotherFee) || ! (anotherFee instanceof RangedFee)) {
+            return false;
+        }
+
+        RangedFee anotherRangedFee = (RangedFee) anotherFee;
+
+        return (anotherRangedFee.minRange != null && minRange != null
+            && anotherRangedFee.maxRange == null && maxRange == null)
+            ||
+            (anotherRangedFee.maxRange != null && maxRange != null
+                && anotherRangedFee.minRange == null && minRange == null)
+            ||
+            (anotherRangedFee.maxRange != null && maxRange != null
+                && anotherRangedFee.minRange != null && minRange != null
+            &&
+                anotherRangedFee.isInRange(minRange) || anotherRangedFee.isInRange(maxRange));
+    }
 
     @Override
     public List<Class<? extends IFeeValidator>> getValidators() {

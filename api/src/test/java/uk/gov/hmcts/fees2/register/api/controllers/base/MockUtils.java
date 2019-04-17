@@ -3,16 +3,10 @@ package uk.gov.hmcts.fees2.register.api.controllers.base;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.auth.AUTH;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.CreateFixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 
@@ -21,8 +15,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
-
 public class MockUtils {
 
     private static final String AUTHOR = "TEST";
@@ -30,7 +22,7 @@ public class MockUtils {
     protected ObjectMapper objectMapper;
 
 
-    public List<CreateFixedFeeDto> getCsvImportFees() throws IOException {
+    public List<FixedFeeDto> getCsvImportFees() throws IOException {
         String  csvFees = "[\n" +
             "  {\n" +
             "    \"code\": \"X0MOCK1\",\n" +
@@ -56,7 +48,7 @@ public class MockUtils {
             "  }\n" +
             "]";
 
-        TypeReference<List<CreateFixedFeeDto>> fixedFeeDtos = new TypeReference<List<CreateFixedFeeDto>>(){};
+        TypeReference<List<FixedFeeDto>> fixedFeeDtos = new TypeReference<List<FixedFeeDto>>(){};
         return objectMapper.readValue(csvFees, fixedFeeDtos);
     }
 
@@ -119,7 +111,7 @@ public class MockUtils {
         return new FlatAmount(new BigDecimal("150.00"));
     }
 
-    public CreateFixedFeeDto getFixedFeeDto() {
+    public FixedFeeDto getFixedFeeDto() {
 
         FlatAmountDto flatAmountDto = new FlatAmountDto(new BigDecimal("150.00"));
         FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
@@ -127,8 +119,8 @@ public class MockUtils {
             null, "Testing1", FeeVersionStatus.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
             "Test memo line", null, null, "Natural code 001", "CMC online fee order name",
             "enhanced");
-        CreateFixedFeeDto fixedFeeDto = new CreateFixedFeeDto("X0MOCK1", null, feeVersionDto, "family",
-            "court of protection", "civil money claims", "default", "issue", "all",false);
+        FixedFeeDto fixedFeeDto = new FixedFeeDto("X0MOCK1", null, feeVersionDto, "family",
+            "court of protection", "civil money claims", "default", "issue", "all",false, null);
 
         return fixedFeeDto;
     }

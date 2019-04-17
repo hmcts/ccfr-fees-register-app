@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    propertiesvolume:
+      paths: /mnt/secrets/ccpay
+      aliases:
+        ccpay.fees-register-api-POSTGRES-PASS: spring.datasource.password

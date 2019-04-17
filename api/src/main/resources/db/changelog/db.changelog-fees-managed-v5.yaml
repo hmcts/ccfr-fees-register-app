@@ -51,3 +51,186 @@ databaseChangeLog:
             type: BIGINT
         tableName: fee
 
+
+- changeSet:
+    id: 1527062539722-1
+    author: tarun
+    changes:
+    - addUniqueConstraint:
+        columnNames: code, fee_number
+        constraintName: const_code
+        deferrable: false
+        initiallyDeferred: false
+        tableName: fee
+
+- changeSet:
+    id: 1529663169707
+    author: sachi
+    changes:
+    - dropUniqueConstraint:
+        constraintName: const_code
+        tableName: fee
+    - addUniqueConstraint:
+        columnNames: code, fee_number
+        constraintName: const_code
+        tableName: fee
+
+
+- changeSet:
+    id: 1529663519366
+    author: sachi
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: BIGINT
+        tableName: rateable_fee
+    - addForeignKeyConstraint:
+        baseColumnNames: id
+        baseTableName: rateable_fee
+        constraintName: fk_fee_rateable_fee
+        referencedColumnNames: id
+        referencedTableName: fee
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: BIGINT
+        tableName: relational_fee
+    - addForeignKeyConstraint:
+        baseColumnNames: id
+        baseTableName: relational_fee
+        constraintName: fk_fee_relational_fee
+        referencedColumnNames: id
+        referencedTableName: fee
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: id
+            type: BIGINT
+        tableName: banded_fee
+    - addForeignKeyConstraint:
+        baseColumnNames: id
+        baseTableName: banded_fee
+        constraintName: fk_fee_banded_fee
+        referencedColumnNames: id
+        referencedTableName: fee
+
+
+
+- changeSet:
+    id: 1530529796319
+    author: sachi
+    preConditions:
+      - onFail: MARK_RAN
+      - dbms:
+          type: hsqldb
+    changes:
+      - sql:
+          sql: >
+            INSERT INTO service_type (name,creation_time,last_updated)
+            VALUES ('other',current_timestamp,current_timestamp)
+
+- changeSet:
+    id: 1530529796320
+    author: sachi
+    preConditions:
+      - onFail: MARK_RAN
+      - dbms:
+          type: postgres
+    changes:
+      - sql:
+          sql: >
+            INSERT INTO service_type (name,creation_time,last_updated)
+            VALUES ('other',current_timestamp,current_timestamp) ON CONFLICT DO NOTHING
+
+- changeSet:
+    id: 1530721907440
+    author: sachi
+    preConditions:
+      - onFail: MARK_RAN
+      - dbms:
+          type: postgresql
+    changes:
+      - sql:
+          sql: >
+            INSERT INTO service_type (name,creation_time,last_updated)
+            VALUES ('other',current_timestamp,current_timestamp) ON CONFLICT DO NOTHING
+
+- changeSet:
+      id: 1534341462258
+      author: tarun
+      changes:
+      - addColumn:
+            columns:
+            - column:
+                  name: keyword
+                  type: VARCHAR(255)
+            tableName: fee
+
+- changeSet:
+      id: 1534927449688
+      author: tarun
+      changes:
+      - createIndex:
+            columns:
+            - column:
+                name: keyword
+                type: varchar(255)
+            - column:
+                 name: channel_type
+                 type: varchar(255)
+            - column:
+                  name: event_type
+                  type: varchar(255)
+            - column:
+                  name: jurisdiction1
+                  type: varchar(255)
+            - column:
+                  name: jurisdiction2
+                  type: varchar(255)
+            - column:
+                  name: service
+                  type: varchar(255)
+            indexName: idx_ref_ky
+            tableName: fee
+            unique: true
+- changeSet:
+      id: 1534927449689
+      author: Eduardo
+      changes:
+      - dropIndex:
+            indexName: idx_ref_ky
+      - createIndex:
+            columns:
+            - column:
+                name: channel_type
+                type: varchar(255)
+            - column:
+                name: event_type
+                type: varchar(255)
+            - column:
+                name: jurisdiction1
+                type: varchar(255)
+            - column:
+                name: jurisdiction2
+                type: varchar(255)
+            - column:
+                name: service
+                type: varchar(255)
+            indexName: ix_fee_refdata
+            tableName: fee
+            unique: false
+- changeSet:
+    id: 1534927449690
+    author: Sateesh
+    changes:
+    - sql: >
+        UPDATE fee SET keyword = NULL WHERE keyword = ''
