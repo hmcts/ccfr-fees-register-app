@@ -41,4 +41,11 @@
         <cve>CVE-2014-3488</cve>
         <cve>CVE-2015-2156</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+   temporarily disabled
+   ]]></notes>
+        <gav regex="true">.*</gav>
+        <cve>CVE-2018-1196</cve>
+    </suppress>
 </suppressions>
