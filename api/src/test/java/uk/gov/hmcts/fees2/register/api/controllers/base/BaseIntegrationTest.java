@@ -8,12 +8,12 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 import uk.gov.hmcts.reform.auth.checker.core.user.UserRequestAuthorizer;
@@ -207,7 +207,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
         return body().as(Fee2Dto.class, (feeDto) -> {
             FeeVersionDto v = feeDto.getFeeVersionDtos().get(0);
             assertTrue(v.getVersion().equals(new Integer(1)));
-            assertTrue(v.getStatus() == FeeVersionStatus.draft);
+            assertTrue(v.getStatus() == FeeVersionStatusDto.draft);
         });
     }
 

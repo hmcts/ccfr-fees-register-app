@@ -175,8 +175,11 @@ public class ReferenceDataController {
     })
     @GetMapping("/range-units")
     @ResponseStatus(HttpStatus.OK)
-    public List<RangeUnit> getAllRangeUnits() {
-        return rangeUnitRepository.findAll();
+    public List<RangeUnitDto> getAllRangeUnits() {
+        List<RangeUnit> units = rangeUnitRepository.findAll();
+        return units.stream()
+            .map(e -> new RangeUnitDto(e.getName()))
+            .collect(toList());
     }
 
 }

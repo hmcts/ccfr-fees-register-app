@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
@@ -258,7 +259,7 @@ public class FeeServiceTest extends BaseTest{
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setStatus(status);
+        versionDto.setStatus(FeeVersionStatusDto.valueOf(status.name()));
         versionDto.setDirection("licence");
         versionDto.setMemoLine("Hello");
 
