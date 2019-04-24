@@ -27,6 +27,12 @@ You can run the tests using './gradlew test'
 
 See Jenkinsfile for the deployment details
 
+## DB migration task
+
+To run the DB migration task locally, run
+
+```./gradlew --no-daemon '-Pdburl=localhost:5432/fees_register' -Pflyway.user=fees_register -Pflyway.password=fees_register migratePostgresDatabase```
+
 ## Run the application
 To run the application at local developer machine use following command
 
