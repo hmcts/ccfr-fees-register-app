@@ -3,6 +3,8 @@ plugins {
 }
 description = 'api module'
 
+apply from: 'liquibase.gradle'
+
 sourceSets {
 
     smokeTest {
