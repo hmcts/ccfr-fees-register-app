@@ -85,6 +85,30 @@ resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
 }
 
+resource "azurerm_key_vault_secret" "POSTGRES-USER" {
+  name      = "${local.app_full_name}-POSTGRES-USER"
+  value     = "${module.fees-register-database.user_name}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
+  name      = "${local.app_full_name}-POSTGRES-HOST"
+  value     = "${module.fees-register-database.host_name}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
+  name      = "${local.app_full_name}-POSTGRES-PORT"
+  value     = "${module.fees-register-database.postgresql_listen_port}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
+  name      = "${local.app_full_name}-POSTGRES-DATABASE"
+  value     = "${module.fees-register-database.postgresql_database}"
+  vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
+}
+
 # region API (gateway)
 data "template_file" "api_template" {
   template = "${file("${path.module}/template/api.json")}"
@@ -107,4 +131,6 @@ resource "azurerm_template_deployment" "api" {
   }
 }
 # endregion
+
+# Populate Vault with DB info
 
