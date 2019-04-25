@@ -1,6 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.controllers.base;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.MutableDateTime;
 import org.junit.Before;
@@ -14,8 +13,8 @@ import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
-import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
@@ -23,10 +22,8 @@ import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -253,22 +250,6 @@ public abstract class BaseTest {
         return rangedFeeDto;
     }
 
-    public Fee2Dto getFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
-
-        Fee2Dto feeDto = new Fee2Dto();
-        feeDto.setMinRange(new BigDecimal(minRange));
-        feeDto.setMaxRange(new BigDecimal(maxRange));
-        feeDto.setFeeVersionDtos(Arrays.asList(getFeeVersionDto(status, "memoLine", "fee order name", "natural account code",
-            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build())));
-        feeDto.setJurisdiction1Dto(jurisdiction1Service.findByNameOrThrow("civil"));
-        feeDto.setJurisdiction2Dto(jurisdiction2Service.findByNameOrThrow("county court"));
-        feeDto.setEventTypeDto(eventTypeService.findByNameOrThrow("issue"));
-        feeDto.setServiceTypeDto(serviceTypeService.findByNameOrThrow("civil money claims"));
-        feeDto.setChannelTypeDto(channelTypeService.findByNameOrThrow("online"));
-
-        return feeDto;
-    }
-
     public BandedFeeDto getBandedFeeDtoWithReferenceData(String feeCode, FeeVersionStatus status) {
 
         BandedFeeDto bandedFeeDto = new BandedFeeDto();
@@ -313,7 +294,7 @@ public abstract class BaseTest {
         MutableDateTime validTo = new MutableDateTime(new Date());
         validTo.addDays(90);
 
-        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", status, getFlatAmountDto(), null, null, AUTHOR, AUTHOR,
+        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", FeeVersionStatusDto.valueOf(status.name()), getFlatAmountDto(), null, null, AUTHOR, AUTHOR,
             memoLine, statutoryInstrument, siRefId, naturalAccountCode, feeOrderName, direction.getName());
     }
 

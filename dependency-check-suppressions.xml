@@ -43,7 +43,6 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-   temporarily disabled
    ]]></notes>
         <gav regex="true">.*</gav>
         <cve>CVE-2018-1196</cve>

@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
@@ -194,7 +195,7 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
 
         FeeVersionDto version = new FeeVersionDto();
         version.setPercentageAmount(new PercentageAmountDto(percent));
-        version.setStatus(FeeVersionStatus.approved);
+        version.setStatus(FeeVersionStatusDto.approved);
 
         saveFeeAndCheckStatusIsCreated(new RangedFeeDto()
             .setService("divorce")

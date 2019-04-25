@@ -3,10 +3,10 @@ package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
@@ -69,7 +69,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
                 assertThat(feeDto.getJurisdiction2Dto().getName()).isEqualTo("high court");
                 feeDto.getFeeVersionDtos().stream().forEach(v -> {
                     assertThat(v.getFlatAmount().getAmount()).isEqualTo("10.00");
-                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatus.draft);
+                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatusDto.draft);
                 });
             }));
 //        getFeeAndExpectStatusIsOk(uri[3])

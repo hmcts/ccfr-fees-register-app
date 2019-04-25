@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uk.gov.hmcts.fees2.register.data.model.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -27,22 +26,22 @@ public class Fee2Dto {
     private String feeType;
 
     @JsonProperty("channel_type")
-    private ChannelType channelTypeDto;
+    private ChannelTypeDto channelTypeDto;
 
     @JsonProperty("event_type")
-    private EventType eventTypeDto;
+    private EventTypeDto eventTypeDto;
 
     @JsonProperty("jurisdiction1")
-    private Jurisdiction1 jurisdiction1Dto;
+    private Jurisdiction1Dto jurisdiction1Dto;
 
     @JsonProperty("jurisdiction2")
-    private Jurisdiction2 jurisdiction2Dto;
+    private Jurisdiction2Dto jurisdiction2Dto;
 
     @JsonProperty("service_type")
-    private ServiceType serviceTypeDto;
+    private ServiceTypeDto serviceTypeDto;
 
     @JsonProperty("applicant_type")
-    private ApplicantType applicantTypeDto;
+    private ApplicantTypeDto applicantTypeDto;
 
     @JsonProperty("keyword")
     private String keyword;

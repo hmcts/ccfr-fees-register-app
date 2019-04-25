@@ -30,6 +30,7 @@ List<LinkedHashMap<String, Object>> secrets = [
 withPipeline(type, product, app) {
     setVaultName('ccpay')
     loadVaultSecrets(secrets)
+    enableDbMigration()
     enableDockerBuild()
     installCharts()
     enableSlackNotifications('#cc-payments-tech')

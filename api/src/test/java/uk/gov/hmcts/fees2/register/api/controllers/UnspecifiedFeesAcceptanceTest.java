@@ -3,12 +3,12 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
@@ -72,7 +72,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
                 assertThat(fee.getJurisdiction2Dto().getName()).isEqualTo("magistrates court");
                 assertThat(fee.getChannelTypeDto().getName()).isEqualTo("online");
                 fee.getFeeVersionDtos().stream().forEach(v -> {
-                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatus.draft);
+                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatusDto.draft);
                     assertThat(v.getFlatAmount().getAmount()).isEqualTo("10000.00");
                 });
             }));
@@ -130,7 +130,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
                 assertThat(fee2Dto.getCode()).isEqualTo(arr[3]);
                 assertThat(fee2Dto.isUnspecifiedClaimAmount()).isEqualTo(true);
                 fee2Dto.getFeeVersionDtos().stream().forEach(v -> {
-                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatus.draft);
+                    assertThat(v.getStatus()).isEqualTo(FeeVersionStatusDto.draft);
                     assertThat(v.getFlatAmount().getAmount()).isEqualTo(new BigDecimal("10000.00"));
                 });
             }));
@@ -191,7 +191,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         version.setMemoLine("description");
         version.setDescription(version.getMemoLine());
         version.setDirection("licence");
-        version.setStatus(FeeVersionStatus.approved);
+        version.setStatus(FeeVersionStatusDto.approved);
         version.setFlatAmount(new FlatAmountDto(new BigDecimal(25000)));
 
         dto.setVersion(version);

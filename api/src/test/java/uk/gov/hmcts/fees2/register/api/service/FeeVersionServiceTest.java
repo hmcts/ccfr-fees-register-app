@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
@@ -85,7 +86,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setVersion(2);
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.ONE));
-        versionDto.setStatus(FeeVersionStatus.pending_approval);
+        versionDto.setStatus(FeeVersionStatusDto.pending_approval);
         versionDto.setDirection("licence");
         versionDto.setMemoLine("Hello");
         versionDto.setValidFrom(date);
@@ -119,7 +120,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
                 FeeVersionDto versionDto = new FeeVersionDto();
                 versionDto.setVersion(2);
                 versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.ONE));
-                versionDto.setStatus(FeeVersionStatus.pending_approval);
+                versionDto.setStatus(FeeVersionStatusDto.pending_approval);
                 versionDto.setDirection("licence");
                 versionDto.setMemoLine("Hello");
                 versionDto.setValidFrom(new Date());
@@ -158,7 +159,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setVersion(1);
         versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.TEN));
-        versionDto.setStatus(FeeVersionStatus.approved);
+        versionDto.setStatus(FeeVersionStatusDto.approved);
         versionDto.setDirection("licence");
         versionDto.setMemoLine("Hello");
         versionDto.setValidFrom(new Date());
