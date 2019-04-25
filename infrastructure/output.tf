@@ -1,3 +1,7 @@
+output "microserviceName" {
+  value = "${local.app_full_name}"
+}
+
 output "vaultUri" {
   value = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
 }
