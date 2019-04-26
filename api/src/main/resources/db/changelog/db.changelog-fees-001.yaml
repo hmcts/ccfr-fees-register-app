@@ -1,0 +1,578 @@
+databaseChangeLog:
+    - changeSet:
+        validCheckSum: ANY
+        id: 1
+        author: jalald
+        changes:
+          - createTable:
+              tableName: fee
+              columns:
+                - column:
+                    name: id
+                    type: int
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: code
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: description
+                    type: varchar(2000)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: type
+                    type: varchar(20)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: amount
+                    type: int
+                - column:
+                    name: percentage
+                    type: decimal(3,2)
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 2
+        author: kazyss
+        changes:
+        - sql:
+            splitStatements: true
+            sql: >
+              INSERT INTO fee (id, code, description, type, amount, percentage)
+              VALUES
+                (1, 'X0024', 'Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP', 'fixed', 2500, null),
+                (2, 'X0025', 'Civil Court fees - Money Claims Online - Claim Amount - 300.01 upto 500 GBP', 'fixed', 3500, null),
+                (3, 'X0026', 'Civil Court fees - Money Claims Online - Claim Amount - 500.01 upto 1000 GBP', 'fixed', 6000, null),
+                (4, 'X0027', 'Civil Court fees - Money Claims Online - Claim Amount - 1000.01 upto 1500 GBP', 'fixed', 7000, null),
+                (5, 'X0028', 'Civil Court fees - Money Claims Online - Claim Amount - 1500.01 upto 3000 GBP', 'fixed', 10500, null),
+                (6, 'X0029', 'Civil Court fees - Money Claims Online - Claim Amount - 3000.01 upto 5000 GBP', 'fixed', 18500, null),
+                (7, 'X0433', 'Civil Court fees - Money Claims Online - Claim Amount - 5000.01 upto 10000 GBP', 'fixed', 41000, null),
+                (8, 'X0434', 'Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value', 'percentage', null, 4.5);
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 3
+        author: kazyss
+        changes:
+        - sql:
+            sql: >
+              INSERT INTO fee (id, code, description, type, amount, percentage)
+              VALUES
+                (9, 'X0048', 'Civil Court fees - Hearing fees - Claim Amount - 0.01 upto 300 GBP', 'fixed', 2500, null),
+                (10, 'X0049', 'Civil Court fees - Hearing fees - Claim Amount - 300.01 upto 500 GBP', 'fixed', 5500, null),
+                (11, 'X0050', 'Civil Court fees - Hearing fees - Claim Amount - 500.01 upto 1000 GBP', 'fixed', 8000, null),
+                (12, 'X0051', 'Civil Court fees - Hearing fees - Claim Amount - 1000.01 upto 1500 GBP', 'fixed', 11500, null),
+                (13, 'X0052', 'Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP', 'fixed', 17000, null),
+                (14, 'X0053', 'Civil Court fees - Hearing fees - Claim Amount - 3000.01 upto 100000 GBP', 'fixed', 33500, null),
+                (15, 'X0046', 'Civil Court fees - Hearing fees - Multi track claim', 'fixed', 109000, null),
+                (16, 'X0047', 'Civil Court fees - Hearing fees - Fast track claim', 'fixed', 54500, null),
+                (17, 'X0249', 'If the net estate as above is under £5,000', 'fixed', 0, null),
+                (18, 'X0250', 'In all cases where the net estate (ie the amount remaining in the deceased’s sole name after funeral expenses and debts owing have been deducted) is over £5,000. Note: Joint assets passing automatically', 'fixed', 21500, null),
+                (19, 'X0251', 'Application for a second grant in an estate where a previous grant has been issued.', 'fixed', 2000, null),
+                (20, 'X0251-1', 'First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.', 'fixed', 1000, null),
+                (21, 'X0251-2', 'Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.', 'fixed', 50, null),
+                (22, 'X0251-3', 'Additional Copies -Official (sealed) copies of the Grant of Representation if ordered when you lodge your application for a Grant of Representation. Note: You should decide how many copies you will need and add the cost to your application fee – this will give you the total amount payable. See examples below. It can save you a lot of time when collecting in the deceased’s assets if you have a few extra copies of the grant to produce to the organisations holding the assets.', 'fixed', 50, null),
+                (23, 'X0251-4', '‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering.', 'fixed', 50, null),
+                (24, 'X0165', 'Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.', 'fixed', 55000, null),
+                (25, 'X0165-1', 'Filing an application to start proceedings where no other fee is specified e.g. Application to transfer a tenancy - fees order 1.1.', 'fixed', 24500, null),
+                (26, 'X0165-2', 'Application by consent for a financial order – fees order 5.1.', 'fixed', 5000, null),
+                (27, 'X0165-3', 'Application for a financial order, other than by consent – fees order 5.4.', 'fixed', 25500, null),
+                (28, 'X0165-4', 'Application for an occupation order.', 'fixed', 0, null),
+                (29, 'X0165-5', 'Application for a non-molestation order. First attempt is free.', 'fixed', 0, null),
+                (30, 'X0165-6', 'Application for a non-molestation order - Second or subsequent attempt.', 'fixed', 9500, null),
+                (31, 'X0166', 'Filing an application for judicial separation – fees order 1.3.', 'fixed', 36500, null),
+                (32, 'X0166-1', 'Filing a Declaration as to marital status, parentage, legitimacy or adoptions effected overseas – fees order 1.3.', 'fixed', 36500, null),
+                (33, 'X0168', 'Filing an amended application for a matrimonial or civil partnership order – fees order 1.5.', 'fixed', 9500, null),
+                (34, 'X0168-1', 'Filing an application for a second or subsequent matrimonial or civil partnership order with permission granted under Family Procedure Rules 2010 rule 7.7 (1)(b) – fees order 1.5.', 'fixed', 9500, null),
+                (35, 'X0169', 'Filing an answer to an application for a matrimonial or civil partnership order – fees order 1.6.', 'fixed', 24500, null),
+                (36, 'X0206', 'Filing an application to make a decree nisi, absolute (divorce), or a conditional order, final (dissolution) - only payable if the original application for divorce, nullity or civil partnership dissolution was filed before 1 July 2013 – fees order 5.1.', 'fixed', 5000, null);
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 4
+        author: kazyss
+        changes:
+          - createTable:
+              tableName: range_group
+              columns:
+                - column:
+                    name: id
+                    type: int
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: description
+                    type: varchar(2000)
+                    constraints:
+                      nullable: false
+          - createTable:
+              tableName: range
+              columns:
+                - column:
+                    name: id
+                    type: int
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: range_group_id
+                    type: int
+                    constraints:
+                      foreignKeyName: fk_range_group_id
+                      references: range_group(id)
+                - column:
+                    name: value_from
+                    type: int
+                    constraints:
+                      nullable: false
+                - column:
+                    name: value_to
+                    type: int
+                - column:
+                    name: fee_id
+                    type: int
+                    constraints:
+                      foreignKeyName: fk_range_fee_id
+                      references: fee(id)
+          - sql: >
+              INSERT INTO range_group (id, description)
+              VALUES
+                (1, 'CMC - Online'),
+                (2, 'CMC - Hearing'),
+                (3, 'Probate - Estate'),
+                (4, 'Probate - Copies');
+          - sql: >
+              INSERT INTO range (range_group_id, value_from, value_to, fee_id)
+              VALUES
+                (1, 1, 30000, 1),
+                (1, 30001, 50000, 2),
+                (1, 50001, 100000, 3),
+                (1, 100001, 150000, 4),
+                (1, 150001, 300000, 5),
+                (1, 300001, 500000, 6),
+                (1, 500001, 1000000, 7),
+                (1, 1000001, 1500000, 8),
+                (2, 1, 30000, 9),
+                (2, 30001, 50000, 10),
+                (2, 50001, 100000, 11),
+                (2, 100001, 150000, 12),
+                (2, 150001, 300000, 13),
+                (2, 300001, 10000000, 14),
+                (3, 0, 499999, 17),
+                (3, 500000, null, 18),
+                (4, 0, 1, 20),
+                (4, 2, null, 21);
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 5
+        author: sachi
+        changes:
+          - createTable:
+              tableName: category
+              columns:
+                - column:
+                    name: id
+                    type: int
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: code
+                    type: varchar(100)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: description
+                    type: varchar(2000)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: range_group_id
+                    type: int
+                    constraints:
+                      foreignKeyName: fk_cat_range_group_id
+                      references: range_group(id)
+                      nullable: true
+          - createTable:
+              tableName: category_fee
+              columns:
+                - column:
+                    name: id
+                    type: int
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: category_id
+                    type: int
+                    constraints:
+                      foreignKeyName: fk_category_id
+                      references: category(id)
+                - column:
+                    name: fee_id
+                    type: int
+                    constraints:
+                       foreignKeyName: fk_fee_id
+                       references: fee(id)
+                - addUniqueConstraint:
+                    columnNames: category_id, fee_id
+                    constraintName: category_fee
+          - sql: >
+              INSERT INTO category (id, code, description, range_group_id)
+              VALUES
+                (1, 'cmc-online', 'CMC - Online fees', 1),
+                (2, 'cmc-hearing', 'CMC - Hearing fees', 2),
+                (3, 'probate-estate', 'Probate - Estate', 3),
+                (4, 'probate-copies', 'Probate - Copies', 4),
+                (5, 'divorce', 'Divorce', null);
+          - sql: >
+              INSERT INTO category_fee (category_id, fee_id)
+              VALUES
+                (2, 15), (2, 16),
+                (3, 19),
+                (4, 22), (4, 23),
+                (5, 24), (5, 25), (5, 26), (5, 27), (5, 28), (5, 29), (5, 30), (5, 31), (5, 32), (5, 33), (5, 34), (5, 35), (5, 36);
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 6
+        author: kazyss
+        changes:
+          - modifyDataType:
+              tableName: fee
+              columnName: percentage
+              newDataType: decimal(5,2)
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 7
+        author: kazyss
+        changes:
+          - addColumn:
+              columns:
+              - column:
+                  name: code
+                  type: varchar(50)
+              tableName: range_group
+          - sql: >
+              UPDATE range_group SET code = 'cmc-online' WHERE id = 1;
+              UPDATE range_group SET code = 'cmc-hearing' WHERE id = 2;
+              UPDATE range_group SET code = 'probate-estate' WHERE id = 3;
+              UPDATE range_group SET code = 'probate-copies' WHERE id = 4;
+    - changeSet:
+        validCheckSum: ANY
+        id: 8
+        author: jalaldeen
+        changes:
+          - sql: >
+              INSERT INTO fee (id, code, description, type, amount, percentage)
+              VALUES
+                (101, 'X0001', 'Civil Court fees - Money Claims - Claim Amount - 0.01 up to 300 GBP', 'fixed', 3500, null),
+                (102, 'X0002', 'Civil Court fees - Money Claims - Claim Amount - 300.01 up to 500 GBP', 'fixed', 5000, null),
+                (103, 'X0003', 'Civil Court fees - Money Claims - Claim Amount - 500.01 up to 1000 GBP', 'fixed', 7000, null),
+                (104, 'X0004', 'Civil Court fees - Money Claims - Claim Amount - 1000.01 up to 1500 GBP', 'fixed', 8000, null),
+                (105, 'X0005', 'Civil Court fees - Money Claims - Claim Amount - 1500.01 up to 3000 GBP', 'fixed', 11500, null),
+                (106, 'X0006', 'Civil Court fees - Money Claims - Claim Amount - 3000.01 up to 5000 GBP', 'fixed', 20500, null),
+                (107, 'X0007', 'Civil Court fees - Money Claims - Claim Amount - 5000.01 up to 10000 GBP', 'fixed', 455000, null),
+                (108, 'X0008-1', 'Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP. Fees are 5% of the claim value', 'percentage', null, 5.0),
+                (109, 'X0012', 'Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more', 'fixed', 1000000, null);
+          - sql: >
+              INSERT INTO range_group (id, description)
+              VALUES (101, 'CMC - Paper');
+          - sql: >
+              INSERT INTO range (range_group_id, value_from, value_to, fee_id)
+              VALUES
+               (101, 1, 30000, 101),
+               (101, 30001, 50000, 102),
+               (101, 50001, 100000, 103),
+               (101, 100001, 150000, 104),
+               (101, 150001, 300000, 105),
+               (101, 300001, 500000, 106),
+               (101, 500001, 1000000, 107),
+               (101, 1000001, 20000000, 108),
+               (101, 20000001, null,  109);
+          - sql: >
+              INSERT INTO category (id, code, description, range_group_id)
+              VALUES
+               (6, 'cmc-paper', 'CMC - Paper fees', 101);
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 9
+        author: kazyss
+        changes:
+          - sql: >
+              UPDATE range_group SET code = 'cmc-paper' WHERE id = 101;
+          - addNotNullConstraint:
+              tableName: range_group
+              columnName: code
+    - changeSet:
+        validCheckSum: ANY
+        id: 10
+        author: jalaldeen
+        changes:
+          - sql: >
+              UPDATE fee SET amount = 45500 WHERE id = 107;
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 11
+        author: kazyss
+        changes:
+          - sql:
+             dbms: postgresql
+             sql: >
+               SELECT setval('fee_id_seq', max(id)) FROM fee;
+               SELECT setval('category_id_seq', max(id)) FROM category;
+               SELECT setval('category_fee_id_seq', max(id)) FROM category_fee;
+               SELECT setval('range_id_seq', max(id)) FROM range;
+               SELECT setval('range_group_id_seq', max(id)) FROM range_group;
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 12
+        author: sachi
+        changes:
+          - sql: >
+              INSERT INTO fee (id, code, description, type, amount, percentage)
+              VALUES
+                (201, 'X0201', 'Solicitor fixed fees - claim form served by court - Claim Amount - 0.01 up to 25 GBP', 'fixed', 0, null),
+                (202, 'X0202', 'Solicitor fixed fees - claim form served by court - Claim Amount - 25.01 up to 500 GBP', 'fixed', 5000, null),
+                (203, 'X0203', 'Solicitor fixed fees - claim form served by court - Claim Amount - 500.01 up to 1000 GBP', 'fixed', 7000, null),
+                (204, 'X0204', 'Solicitor fixed fees - claim form served by court - Claim Amount - 1000.01 up to 5000 GBP', 'fixed', 8000, null),
+                (205, 'X0205', 'Solicitor fixed fees - claim form served by court - Claim Amount - 5000.01 GBP or more', 'fixed', 10000, null),
+                (206, 'X0206', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 0.01 up to 25 GBP', 'fixed', 0, null),
+                (207, 'X0207', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 25.01 up to 500 GBP', 'fixed', 6000, null),
+                (208, 'X0208', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 500.01 up to 1000 GBP', 'fixed', 8000, null),
+                (209, 'X0209', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 1000.01 up to 5000 GBP', 'fixed', 9000, null),
+                (210, 'X0210', 'Solicitor fixed fees - claim form served by claimant, single defendant - Claim Amount - 5000.01 GBP or more', 'fixed', 11000, null),
+                (211, 'X0211', 'Solicitor fixed fees - claim form served by claimant, multiple defendant - Claim Amount - 0.01 up to 25 GBP', 'fixed', 0, null),
+                (212, 'X0212', 'Solicitor fixed fees - claim form served by claimant, multiple defendant - Claim Amount - 25.01 GBP or more', 'fixed', 1500, null);
+          - sql: >
+              INSERT INTO range_group (id, code, description)
+              VALUES
+              (201, 'cmc-sfc-court', 'CMC - Solicitor fixed cost - Claim form served by court'),
+              (202, 'cmc-sfc-single-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - single defendant'),
+              (203, 'cmc-sfc-multiple-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - multiple defendant');
+          - sql: >
+              INSERT INTO range (range_group_id, value_from, value_to, fee_id)
+              VALUES
+               (201, 1, 2500, 201),
+               (201, 2501, 50000, 202),
+               (201, 50001, 100000, 203),
+               (201, 100001, 500000, 204),
+               (201, 500001, null, 205),
+               (202, 1, 2500, 206),
+               (202, 2501, 50000, 207),
+               (202, 50001, 100000, 208),
+               (202, 100001, 500000, 209),
+               (202, 500001, null, 210),
+               (203, 1, 2500, 211),
+               (203, 2501, null, 212);
+          - sql: >
+              INSERT INTO category (id, code, description, range_group_id)
+              VALUES
+               (7, 'cmc-sfc-court', 'CMC - Solicitor fixed cost - claim form served by court', 201),
+               (8, 'cmc-sfc-single-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - single defendant', 202),
+               (9, 'cmc-sfc-multiple-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - multiple defendant', 203);
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 13
+        author: kazyss
+        changes:
+          - sql:
+             dbms: postgresql
+             sql: >
+               SELECT setval('fee_id_seq', max(id)) FROM fee;
+               SELECT setval('category_id_seq', max(id)) FROM category;
+               SELECT setval('category_fee_id_seq', max(id)) FROM category_fee;
+               SELECT setval('range_id_seq', max(id)) FROM range;
+               SELECT setval('range_group_id_seq', max(id)) FROM range_group;
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 14
+        author: sachi
+        changes:
+          - sql: >
+             UPDATE fee SET code = 'X0206-1' WHERE id = 206
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 15
+        author: sachi
+        changes:
+          - sql: >
+              UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served by court or claimant.' WHERE id = 7;
+              UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - single defendant.' WHERE id = 8;
+              UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - multiple defendant.' WHERE id = 9;
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 16
+        author: tarun
+        changes:
+          - sql: >
+              UPDATE fee SET amount = 15500 WHERE id = 18;
+          - sql: >
+              INSERT INTO fee (id, code, description, type, amount, percentage)
+              VALUES
+                (213, 'X0250-1', 'Personal application where the net estate value is under 5000.00 GBP', 'fixed', 0, null),
+                (214, 'X0250-2', 'Personal application where the net estate value is greater than 5000.00 GBP', 'fixed', 6000, null);
+          - sql: >
+              INSERT INTO range_group (id, code, description)
+              VALUES
+                (204, 'probate-personal', 'Probate - personal application cost');
+          - sql: >
+              INSERT INTO range (range_group_id, value_from, value_to, fee_id)
+              VALUES
+                (204, 1, 499999, 213),
+                (204, 500000, null, 214);
+          - sql: >
+              INSERT INTO category (code, description, range_group_id)
+              VALUES
+                ('probate-personal', 'Probate - personal application cost', 204);
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 18
+        author: tarunp
+        changes:
+          - renameTable:
+              newTableName: fee_old
+              oldTableName: fee
+
+    - include:
+        file: db/changelog/db.changelog-fees2-reference-data.yaml
+
+    - include:
+        file: db/changelog/db.changelog-fees-managed.yaml
+
+    - include:
+        file: db/changelog/db.changelog-fees-managed-v2.yaml
+
+    - include:
+        file: db/changelog/db.changelog-fees-managed-v3.yaml
+
+    - include:
+        file: db/changelog/db.changelog-fees-managed-v4.yaml
+
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 19
+        author: tarun
+        changes:
+          - sql: >
+              DELETE FROM fixed_fee;
+              DELETE FROM fee_version;
+              DELETE FROM ranged_fee;
+              DELETE FROM fee;
+              DELETE FROM flat_amount;
+              DELETE FROM percentage_amount;
+              DELETE FROM amount;
+
+    - include:
+        file: db/changelog/db.changelog-fees-range-units.yaml
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 1513271153416-1
+        author: Eduardo (generated)
+        changes:
+        - createTable:
+            columns:
+            - column:
+                name: amount
+                type: numeric(19, 2)
+            - column:
+                constraints:
+                  nullable: false
+                name: id
+                type: BIGINT
+            tableName: volume_amount
+    - changeSet:
+        validCheckSum: ANY
+        id: 1513271153416-2
+        author: Eduardo (generated)
+        changes:
+        - addPrimaryKey:
+            columnNames: id
+            constraintName: volume_amountPK
+            tableName: volume_amount
+    - changeSet:
+        validCheckSum: ANY
+        id: 1513271153416-3
+        author: Eduardo (generated)
+        changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: id
+            baseTableName: volume_amount
+            constraintName: FK_ltj7mq2uivtds6v0i84hj26br
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: amount
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 21
+        author: eduardo
+        changes:
+          - sql: >
+             UPDATE ranged_fee SET min_range = 5000 WHERE id = (SELECT id FROM fee WHERE code = 'X0249');
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 1516108652088-1
+        author: Eduardo (generated)
+        changes:
+        - addColumn:
+            columns:
+            - column:
+                name: approved_by
+                type: varchar(255)
+            tableName: fee_version
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 1516108652088-2
+        author: Eduardo (generated)
+        changes:
+        - addColumn:
+            columns:
+            - column:
+                name: author
+                type: varchar(255)
+            tableName: fee_version
+
+    - changeSet:
+        validCheckSum: ANY
+        id: 1516108652088-3333
+        author: eduardo
+        changes:
+          - sql: >
+              DELETE FROM fee_version WHERE amount_id IS NULL;
+              DELETE FROM ranged_fee f WHERE NOT EXISTS (SELECT 1 FROM fee_version WHERE fee_id = f.id);
+              DELETE FROM fee f WHERE NOT EXISTS (SELECT 1 FROM fee_version WHERE fee_id = f.id);
+
+
+    - include:
+        file: db/changelog/db.changelog-fees-managed-v5.yaml
+
+    - include:
+        file: db/changelog/db.changelog-fees-managed-v6.yaml
+
