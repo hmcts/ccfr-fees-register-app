@@ -1,6 +1,6 @@
 databaseChangeLog:
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1
         author: jalald
         changes:
@@ -37,7 +37,7 @@ databaseChangeLog:
                     type: decimal(3,2)
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 2
         author: kazyss
         changes:
@@ -56,7 +56,7 @@ databaseChangeLog:
                 (8, 'X0434', 'Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value', 'percentage', null, 4.5);
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 3
         author: kazyss
         changes:
@@ -94,7 +94,7 @@ databaseChangeLog:
                 (36, 'X0206', 'Filing an application to make a decree nisi, absolute (divorce), or a conditional order, final (dissolution) - only payable if the original application for divorce, nullity or civil partnership dissolution was filed before 1 July 2013 – fees order 5.1.', 'fixed', 5000, null);
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 4
         author: kazyss
         changes:
@@ -173,7 +173,7 @@ databaseChangeLog:
                 (4, 2, null, 21);
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 5
         author: sachi
         changes:
@@ -246,7 +246,7 @@ databaseChangeLog:
                 (5, 24), (5, 25), (5, 26), (5, 27), (5, 28), (5, 29), (5, 30), (5, 31), (5, 32), (5, 33), (5, 34), (5, 35), (5, 36);
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 6
         author: kazyss
         changes:
@@ -256,7 +256,7 @@ databaseChangeLog:
               newDataType: decimal(5,2)
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 7
         author: kazyss
         changes:
@@ -272,7 +272,7 @@ databaseChangeLog:
               UPDATE range_group SET code = 'probate-estate' WHERE id = 3;
               UPDATE range_group SET code = 'probate-copies' WHERE id = 4;
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 8
         author: jalaldeen
         changes:
@@ -309,7 +309,7 @@ databaseChangeLog:
                (6, 'cmc-paper', 'CMC - Paper fees', 101);
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 9
         author: kazyss
         changes:
@@ -319,7 +319,7 @@ databaseChangeLog:
               tableName: range_group
               columnName: code
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 10
         author: jalaldeen
         changes:
@@ -327,7 +327,7 @@ databaseChangeLog:
               UPDATE fee SET amount = 45500 WHERE id = 107;
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 11
         author: kazyss
         changes:
@@ -341,7 +341,7 @@ databaseChangeLog:
                SELECT setval('range_group_id_seq', max(id)) FROM range_group;
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 12
         author: sachi
         changes:
@@ -389,7 +389,7 @@ databaseChangeLog:
                (9, 'cmc-sfc-multiple-defendant', 'CMC - Solicitor fixed cost - Claim form served by claimant - multiple defendant', 203);
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 13
         author: kazyss
         changes:
@@ -403,7 +403,7 @@ databaseChangeLog:
                SELECT setval('range_group_id_seq', max(id)) FROM range_group;
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 14
         author: sachi
         changes:
@@ -411,7 +411,7 @@ databaseChangeLog:
              UPDATE fee SET code = 'X0206-1' WHERE id = 206
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 15
         author: sachi
         changes:
@@ -421,7 +421,7 @@ databaseChangeLog:
               UPDATE category SET description = 'CMC - Solicitor fixed cost - Claim form served personally by claimant - multiple defendant.' WHERE id = 9;
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 16
         author: tarun
         changes:
@@ -447,7 +447,7 @@ databaseChangeLog:
                 ('probate-personal', 'Probate - personal application cost', 204);
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 18
         author: tarunp
         changes:
@@ -472,7 +472,7 @@ databaseChangeLog:
 
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 19
         author: tarun
         changes:
@@ -489,7 +489,7 @@ databaseChangeLog:
         file: db/changelog/db.changelog-fees-range-units.yaml
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1513271153416-1
         author: Eduardo (generated)
         changes:
@@ -505,7 +505,7 @@ databaseChangeLog:
                 type: BIGINT
             tableName: volume_amount
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1513271153416-2
         author: Eduardo (generated)
         changes:
@@ -514,7 +514,7 @@ databaseChangeLog:
             constraintName: volume_amountPK
             tableName: volume_amount
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1513271153416-3
         author: Eduardo (generated)
         changes:
@@ -528,7 +528,7 @@ databaseChangeLog:
             referencedTableName: amount
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 21
         author: eduardo
         changes:
@@ -536,7 +536,7 @@ databaseChangeLog:
              UPDATE ranged_fee SET min_range = 5000 WHERE id = (SELECT id FROM fee WHERE code = 'X0249');
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1516108652088-1
         author: Eduardo (generated)
         changes:
@@ -548,7 +548,7 @@ databaseChangeLog:
             tableName: fee_version
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1516108652088-2
         author: Eduardo (generated)
         changes:
@@ -560,7 +560,7 @@ databaseChangeLog:
             tableName: fee_version
 
     - changeSet:
-        validCheckSum: ANY
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1516108652088-3333
         author: eduardo
         changes:
