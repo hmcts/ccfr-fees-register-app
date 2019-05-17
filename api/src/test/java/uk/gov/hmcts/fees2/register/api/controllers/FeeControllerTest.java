@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -760,5 +761,44 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andReturn());
     }
 
+    @Test
+    @Transactional
+    public void searchFee_WithDiscontinuedFlagTrue() throws Exception {
+        FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
+        saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+
+        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
+        fixedFeeDto2.setKeyword("testFixedDtoFee");
+        // discontinued fee
+        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -1));
+        saveFeeAndCheckStatusIsCreated(fixedFeeDto2);
+
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees?discontinued=true")
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()", is(1)))
+            .andReturn();
+    }
+
+    @Test
+    @Transactional
+    public void searchFee_WithDiscontinuedFlagFlag() throws Exception {
+        FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
+        saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+
+        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
+        fixedFeeDto2.setKeyword("testFixedDtoFee");
+        // discontinued fee
+        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -1));
+        saveFeeAndCheckStatusIsCreated(fixedFeeDto2);
+
+        restActions
+            .withUser("admin")
+            .get("/fees-register/fees?discontinued=false")
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()", is(2)))
+            .andReturn();
+    }
 
 }

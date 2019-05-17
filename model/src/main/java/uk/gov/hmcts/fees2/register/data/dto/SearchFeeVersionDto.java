@@ -26,6 +26,8 @@ public class SearchFeeVersionDto {
 
     private Boolean isExpired;
 
+    private boolean discontinued;
+
     @JsonProperty("version_status")
     private FeeVersionStatus versionStatus;
 
@@ -36,7 +38,7 @@ public class SearchFeeVersionDto {
     private BigDecimal feeVersionAmount;
 
     public boolean isNoFieldSet() {
-        return Stream.of(author, approvedBy, isActive, isExpired, versionStatus, description, siRefId, feeVersionAmount)
+        return Stream.of(author, approvedBy, isActive, isExpired, versionStatus, description, siRefId, feeVersionAmount, discontinued)
             .allMatch(Objects::isNull);
     }
 }
