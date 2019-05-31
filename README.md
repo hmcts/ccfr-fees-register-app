@@ -8,11 +8,11 @@ This project provides REST based web services for exposing fees related informat
 
 ## Getting Started
 
-This is SpringBoot+maven based java application. Please see the Jenkinsfile in root folder to see the build and deployment pipeline.
+This is SpringBoot based java application. Please see the Jenkinsfile in root folder to see the build and deployment pipeline.
 
 ### Prerequisites
 
-You will need jdk and maven installed on your machine or use mvnw to install the prerequisites
+You will need jdk installed on your machine.
 
 ### Installing
 1. Clone the repo to your machine using git clone git@git.reform.hmcts.net:fees-register/fees-register-app.git
@@ -53,10 +53,6 @@ Some of the end points are as below. These might be out of date. Please look at 
 - GET /fees-register/cmc/categories/{id}/ranges/{amount}/fees
 - GET /fees-register/cmc/flat
 - GET /fees-register/cmc/flat/{id}
-
-## Built With
-
-* [Maven](https://maven.apache.org/) - Dependency Management
 
 ## Service Versioning
 
