@@ -69,4 +69,11 @@
         <gav regex="true">^.*org.apache.tomcat.embed.*$</gav>
         <cve>CVE-2019-0221</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+            jackson-databind-2.9.8, included by uk.gov.hmcts.reform:properties-volume-spring-boot-starter:0.0.4, no update available
+			]]></notes>
+        <gav regex="true">^.*com.fasterxml.jackson.core.*$</gav>
+        <cve>CVE-2019-12086</cve>
+    </suppress>
 </suppressions>
