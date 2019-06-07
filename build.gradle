@@ -2,7 +2,7 @@ plugins {
     id 'application'
     id 'checkstyle'
     id "org.sonarqube" version "2.6.1"
-    id 'org.springframework.boot' version '2.1.2.RELEASE'
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.5.RELEASE'
     id 'org.owasp.dependencycheck' version '4.0.2'
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
@@ -28,7 +28,7 @@ allprojects {
     }
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:2.1.2.RELEASE"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.1.5.RELEASE"
         }
         dependencies {
             // solves CVE-2019-12086
