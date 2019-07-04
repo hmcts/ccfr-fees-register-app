@@ -18,6 +18,8 @@ locals {
   #endregion
 
   asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
+
+  sku_size = "${var.env == "prod" || var.env == "sprod" || var.env == "aat" ? "I2" : "I1"}"
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
@@ -45,6 +47,7 @@ module "fees-register-api" {
   appinsights_instrumentation_key = "${data.azurerm_key_vault_secret.appinsights_instrumentation_key.value}"
   asp_name = "${local.asp_name}"
   asp_rg = "${local.asp_name}"
+  instance_size = "${local.sku_size}"
 
   app_settings = {
     # db
@@ -77,6 +80,7 @@ module "fees-register-database" {
   sku_name = "GP_Gen5_2"
   sku_tier = "GeneralPurpose"
   common_tags     = "${var.common_tags}"
+  subscription = "${var.subscription}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
