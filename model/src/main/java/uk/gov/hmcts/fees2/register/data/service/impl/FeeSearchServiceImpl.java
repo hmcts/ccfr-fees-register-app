@@ -165,7 +165,7 @@ public class FeeSearchServiceImpl implements FeeSearchService {
                 ||
                 !versionCriteria.getIsExpired() && v.getValidTo().after(new Date())
             )
-            .filter(v -> !versionCriteria.isDiscontinued() || v.getFee().getCurrentVersion(true) == null)
+            .filter(v -> versionCriteria.getDiscontinued() == null || v.getFee().getCurrentVersion(true) == null)
             .collect(Collectors.toList());
     }
 
