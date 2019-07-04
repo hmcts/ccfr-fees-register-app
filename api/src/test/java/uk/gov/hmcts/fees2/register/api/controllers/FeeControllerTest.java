@@ -790,15 +790,17 @@ public class FeeControllerTest extends BaseIntegrationTest {
         FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
         fixedFeeDto2.setKeyword("testFixedDtoFee");
         // discontinued fee
-        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -1));
+        fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
+        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
         saveFeeAndCheckStatusIsCreated(fixedFeeDto2);
 
         restActions
             .withUser("admin")
             .get("/fees-register/fees?discontinued=false")
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.length()", is(2)))
+            .andExpect(jsonPath("$.length()", is(1)))
             .andReturn();
+
     }
 
 }

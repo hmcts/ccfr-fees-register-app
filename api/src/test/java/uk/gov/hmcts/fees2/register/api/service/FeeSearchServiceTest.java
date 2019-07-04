@@ -69,7 +69,7 @@ public class FeeSearchServiceTest {
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
-            true, null, false, null, null, null, null);
+            true, null, null, null, null, null, null);
 
         List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
         List<Fee2Dto> result = searchedFees
@@ -326,7 +326,7 @@ public class FeeSearchServiceTest {
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
-            true, false, false, null, null, null, null);
+            true, false, null, null, null, null, null);
 
         List<FeeVersion> searchedFees = feeSearchService.search(searchFeeCriteria, searchFeeVersionCriteria);
         List<Fee2Dto> result = searchedFees
