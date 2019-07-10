@@ -26,7 +26,7 @@ public class SearchFeeVersionDto {
 
     private Boolean isExpired;
 
-    private boolean discontinued;
+    private Boolean discontinued;
 
     @JsonProperty("version_status")
     private FeeVersionStatus versionStatus;
