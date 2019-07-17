@@ -2,9 +2,9 @@ plugins {
     id 'application'
     id 'checkstyle'
     id "org.sonarqube" version "2.6.1"
-    id 'org.springframework.boot' version '2.1.5.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.5.RELEASE'
-    id 'org.owasp.dependencycheck' version '4.0.2'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.owasp.dependencycheck' version '5.1.1'
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
     id 'findbugs'
     id 'jacoco'
@@ -59,7 +59,7 @@ subprojects {
     }
 
     dependencies {
-        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.9'
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.9.1'
         compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'
         testCompile group: 'junit', name: 'junit', version: '4.12'
         testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
