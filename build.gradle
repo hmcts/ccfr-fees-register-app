@@ -14,6 +14,15 @@ plugins {
 allprojects {
     apply plugin: 'maven'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'checkstyle'
+
+    checkstyle {
+        maxWarnings = 0
+
+        toolVersion = '8.18'
+        // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
+        //configDir = new File(rootDir, 'config/checkstyle')
+    }
 
     group = 'uk.gov.hmcts.reform.fees-register'
     ext {
