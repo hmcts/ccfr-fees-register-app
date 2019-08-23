@@ -62,6 +62,8 @@
         <cve>CVE-2019-0232</cve>
         <cve>CVE-2019-0199</cve>
         <cve>CVE-2019-0221</cve>
+    </suppress>
+    <suppress>
         <cve>CVE-2019-14379</cve>
         <cve>CVE-2019-14439</cve>
         <cve>CVE-2019-12384</cve>
