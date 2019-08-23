@@ -63,4 +63,9 @@
         <cve>CVE-2019-0199</cve>
         <cve>CVE-2019-0221</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[file name: jackson-databind-2.9.9.jar]]></notes>
+        <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
+        <cve>CVE-2019-12814</cve>
+    </suppress>
 </suppressions>
