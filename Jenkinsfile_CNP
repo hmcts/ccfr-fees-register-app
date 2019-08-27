@@ -13,7 +13,7 @@ def product = "fees-register"
 
 def app = "api"
 
-List<LinkedHashMap<String, Object>> secrets = [
+List<LinkedHashMap<String, Object>> secrets1 = [
         secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD'),
         secret('freg-idam-generated-user-email-pattern', 'GENERATED_USER_EMAIL_PATTERN'),
         secret('freg-idam-client-secret', 'OAUTH2_CLIENT_SECRET')
@@ -23,6 +23,14 @@ def vaultOverrides = [
     'preview': 'aat',
     'hmctsdemo': 'aat',
 
+]
+
+def secrets = [
+    'ccpay-${env}': [
+        secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD'),
+        secret('freg-idam-generated-user-email-pattern', 'GENERATED_USER_EMAIL_PATTERN'),
+        secret('freg-idam-client-secret', 'OAUTH2_CLIENT_SECRET')
+    ]
 ]
 
  static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -35,10 +43,8 @@ def vaultOverrides = [
 }
 
 withPipeline(type, product, app) {
-    //setVaultName('ccpay')
     overrideVaultEnvironments(vaultOverrides)
     loadVaultSecrets(secrets)
-   //enableDbMigration()
     enableDbMigration('ccpay')
     enableDockerBuild()
     installCharts()
