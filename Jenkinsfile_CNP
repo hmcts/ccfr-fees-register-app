@@ -18,6 +18,13 @@ List<LinkedHashMap<String, Object>> secrets = [
         secret('freg-idam-generated-user-email-pattern', 'GENERATED_USER_EMAIL_PATTERN'),
         secret('freg-idam-client-secret', 'OAUTH2_CLIENT_SECRET')
 ]
+
+def vaultOverrides = [
+    'preview': 'aat',
+    'hmctsdemo': 'aat',
+
+]
+
  static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
       secretType: 'Secret',
@@ -28,8 +35,9 @@ List<LinkedHashMap<String, Object>> secrets = [
 }
 
 withPipeline(type, product, app) {
-    setVaultName('ccpay')
-    loadVaultSecrets(secrets)
+    //setVaultName('ccpay')
+    //loadVaultSecrets(secrets)
+        loadVaultSecrets(vaultOverrides)
     enableDbMigration()
     enableDockerBuild()
     installCharts()
