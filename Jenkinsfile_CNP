@@ -36,9 +36,9 @@ def vaultOverrides = [
 
 withPipeline(type, product, app) {
     //setVaultName('ccpay')
-    //loadVaultSecrets(secrets)
-        loadVaultSecrets(vaultOverrides)
-    //enableDbMigration()
+    overrideVaultEnvironments(vaultOverrides)
+    loadVaultSecrets(secrets)
+   //enableDbMigration()
     enableDbMigration('ccpay')
     enableDockerBuild()
     installCharts()
