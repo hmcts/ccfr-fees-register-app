@@ -19,7 +19,6 @@ List<LinkedHashMap<String, Object>> secrets1 = [
         secret('freg-idam-client-secret', 'OAUTH2_CLIENT_SECRET')
 ]
 
-
 def vaultOverrides = [
     'preview': 'aat',
     'hmctsdemo': 'aat',
