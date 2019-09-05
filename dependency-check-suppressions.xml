@@ -52,7 +52,7 @@
 			Not applicable - Randomness vulnerability when using SecureRandomFactoryBean
 			]]></notes>
         <gav regex="true">.*</gav>
-        <cve>CVE-2019-3795</cve>        
+        <cve>CVE-2019-3795</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -72,5 +72,6 @@
         <notes><![CDATA[file name: jackson-databind-2.9.9.jar]]></notes>
         <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
         <cve>CVE-2019-12814</cve>
+        <cve>CVE-2019-15052</cve>
     </suppress>
 </suppressions>
