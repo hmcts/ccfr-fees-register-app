@@ -84,31 +84,31 @@ module "fees-register-database" {
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
-  name      = "${local.app_full_name}-POSTGRES-PASS"
+  name      = "${var.component}-POSTGRES-PASS"
   value     = "${module.fees-register-database.postgresql_password}"
   vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
-  name      = "${local.app_full_name}-POSTGRES-USER"
+  name      = "${var.component}-POSTGRES-USER"
   value     = "${module.fees-register-database.user_name}"
   vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
-  name      = "${local.app_full_name}-POSTGRES-HOST"
+  name      = "${var.component}-POSTGRES-HOST"
   value     = "${module.fees-register-database.host_name}"
   vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
-  name      = "${local.app_full_name}-POSTGRES-PORT"
+  name      = "${var.component}-POSTGRES-PORT"
   value     = "${module.fees-register-database.postgresql_listen_port}"
   vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
-  name      = "${local.app_full_name}-POSTGRES-DATABASE"
+  name      = "${var.component}-POSTGRES-DATABASE"
   value     = "${module.fees-register-database.postgresql_database}"
   vault_uri = "${data.azurerm_key_vault.fees_key_vault.vault_uri}"
 }
