@@ -2,5 +2,3 @@ java:
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  environment:
-    IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net

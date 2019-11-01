@@ -1,6 +1,20 @@
 java:
-  # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
+  aadIdentityName:
   environment:
+    POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
+    POSTGRES_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
+    POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
+    POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+    POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
+    SPRING_LIQUIBASE_ENABLED: true
     IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
+  postgresql:
+    postgresqlUsername: fees-register
+    postgresqlPassword: fees-register
+    postgresqlDatabase: fees-register
+
+postgresql:
+  enabled: true
+

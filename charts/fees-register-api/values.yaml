@@ -1,24 +1,23 @@
-postgresql:
-  initdbScripts:
-    init.sql: |-
-      CREATE USER fees_register WITH PASSWORD 'fees_register';
-      CREATE DATABASE fees_register WITH OWNER = fees_register ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
-  nameOverride: fees-register-db
-  persistence:
-    enabled: false
-
 java:
-  image: ${IMAGE_NAME}
-  ingressHost: ${SERVICE_FQDN}
+  image: 'hmctspublic.azurecr.io/fees-register/api:latest'
   applicationPort: 8080
+  ingressHost: fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+  aadIdentityName: fees-pay
   environment:
-    SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Release.Name }}-fees-register-db:5432/fees_register"
-    SPRING_DATASOURCE_USERNAME: fees_register
-    SPRING_DATASOURCE_PASSWORD: fees_register
+    POSTGRES_PORT: 5432
+    POSTGRES_HOST: fees-register-postgres-db-{{ .Values.global.environment }}.postgres.database.azure.com
+    POSTGRES_NAME: fees-register
+    POSTGRES_USERNAME: fees-register@fees-register-postgres-db-{{ .Values.global.environment }}
+    POSTGRES_CONNECTION_OPTIONS: ?sslmode=require
+    SPRING_LIQUIBASE_ENABLED: false
 
     REFORM_SERVICE_NAME: fees-register-api
     REFORM_TEAM: cc
-
     ENABLE_FEE_LOADER: true
-    SPRING_LIQUIBASE_ENABLED: true
-    IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
+    IDAM_CLIENT_BASE_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+  keyVaults:
+    "ccpay":
+      resourceGroup: ccpay
+      secrets:
+        - api-POSTGRES-PASS
+        - AppInsightsInstrumentationKey

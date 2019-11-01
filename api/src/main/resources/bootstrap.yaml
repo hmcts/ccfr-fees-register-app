@@ -1,6 +1,9 @@
 spring:
   cloud:
     propertiesvolume:
+      prefixed: false
+      enabled: true
       paths: /mnt/secrets/ccpay
       aliases:
-        ccpay.fees-register-api-POSTGRES-PASS: spring.datasource.password
+        ccpay.api-POSTGRES-PASS: POSTGRES_PASSWORD
+        AppInsightsInstrumentationKey: azure.app_insights_key
