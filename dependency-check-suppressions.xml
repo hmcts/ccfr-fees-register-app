@@ -70,17 +70,10 @@
         <cve>CVE-2019-12384</cve>
         <cve>CVE-2019-15052</cve>
     </suppress>
-    <suppress>
-        <cve>CVE-2019-16942</cve>
-        <cve>CVE-2019-16943</cve>
-        <cve>CVE-2019-16370</cve>
-        <cve>CVE-2019-17531</cve>
-
-        <!--need to check below suppression-->
-
-        <cve>CVE-2019-17267</cve>
-        <cve>CVE-2019-16335</cve>
-        <cve>CVE-2019-14540</cve>
-        <cve>CVE-2019-16869</cve>
-    </suppress>
+    <!--Pittest gradle plugin related vulnerabilities using latest jar but still appearing
+    hence no solution present currently-->
+   <suppress>
+       <cve>CVE-2019-16370</cve>
+       <cve>CVE-2019-11065</cve>
+   </suppress>
 </suppressions>
