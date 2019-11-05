@@ -28,7 +28,7 @@ data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
 }
 
 module "fees-register-api" {
-  source   = "git@github.com:hmcts/moj-module-webapp?ref=master"
+  source   = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product  = "${var.product}-api"
   location = "${var.location}"
   env      = "${var.env}"
@@ -66,7 +66,7 @@ module "fees-register-api" {
 }
 
 module "fees-register-database" {
-  source = "git@github.com:hmcts/moj-module-postgres?ref=master"
+  source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
   product = "${var.product}-postgres-db"
   location = "${var.location}"
   env = "${var.env}"
