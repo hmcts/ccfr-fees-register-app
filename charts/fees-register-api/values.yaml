@@ -2,7 +2,7 @@ java:
   image: 'hmctspublic.azurecr.io/fees-register/api:latest'
   applicationPort: 8080
   ingressHost: fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-  aadIdentityName: fees-pay
+  aadIdentityName: ccpay
   environment:
     POSTGRES_PORT: 5432
     POSTGRES_HOST: fees-register-postgres-db-{{ .Values.global.environment }}.postgres.database.azure.com
