@@ -49,5 +49,4 @@ withPipeline(type, product, app) {
     enableDockerBuild()
     installCharts()
     enableSlackNotifications('#cc-payments-tech')
-    enableAksStagingDeployment()
 }
