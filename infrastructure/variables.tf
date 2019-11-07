@@ -5,7 +5,6 @@ variable "product" {
 
 variable "component" {
   type    = "string"
-  default = "feesregister-api"
 }
 
 variable "location" {
