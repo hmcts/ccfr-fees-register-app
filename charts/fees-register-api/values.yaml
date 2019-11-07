@@ -19,5 +19,5 @@ java:
     "ccpay":
       resourceGroup: ccpay
       secrets:
-        - api-POSTGRES-PASS
+        - feesregister-api-POSTGRES-PASS
         - AppInsightsInstrumentationKey
