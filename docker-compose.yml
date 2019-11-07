@@ -8,7 +8,7 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: hmctspublic.azurecr.io/fees-register/feesregister-api
+    image: hmctspublic.azurecr.io/fees-register/api
     container_name: fees-api
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register

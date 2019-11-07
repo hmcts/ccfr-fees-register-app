@@ -11,7 +11,7 @@ def type = "java"
 
 def product = "fees-register"
 
-def app = "feesregister-api"
+def app = "api"
 
 List<LinkedHashMap<String, Object>> secrets1 = [
         secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD'),
