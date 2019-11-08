@@ -38,8 +38,8 @@ data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
 }
 
 resource "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
-  name = "AppInsightsInstrumentationKey"
-  value "${data.azurerm_key_vault_secret.appinsights_instrumentation_key.value}"
+  name  = "AppInsightsInstrumentationKey"
+  value = "${data.azurerm_key_vault_secret.appinsights_instrumentation_key.value}"
   key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
 }
 

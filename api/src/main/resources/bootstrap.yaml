@@ -6,3 +6,4 @@ spring:
       paths: /mnt/secrets/fees-register
       aliases:
         api-POSTGRES-PASS: POSTGRES_PASSWORD
+        AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
