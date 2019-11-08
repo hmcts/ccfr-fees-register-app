@@ -17,7 +17,7 @@ locals {
   core_product_nonPreviewVaultName = "${var.core_product}-${var.env}"
   core_product_vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.core_product_previewVaultName : local.core_product_nonPreviewVaultName}"
 
-  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.product}-${var.env}"}"
+  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
 
   sku_size = "${var.env == "prod" || var.env == "sprod" || var.env == "aat" ? "I2" : "I1"}"
 }
