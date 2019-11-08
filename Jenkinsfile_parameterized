@@ -24,7 +24,7 @@ List<LinkedHashMap<String, Object>> secrets = [
 }
 
 withParameterizedPipeline('java', 'fees-register', 'api', params.ENVIRONMENT, 'sandbox') {
-    setVaultName('ccpay')
+    setVaultName('fees-register')
     loadVaultSecrets(secrets)
     enableDbMigration()
 }

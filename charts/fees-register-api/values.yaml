@@ -16,8 +16,8 @@ java:
     ENABLE_FEE_LOADER: true
     IDAM_CLIENT_BASE_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
   keyVaults:
-    "ccpay":
+    "fees-register":
       resourceGroup: ccpay
       secrets:
-        - fees-register-api-POSTGRES-PASS
+        - api-POSTGRES-PASS
         - AppInsightsInstrumentationKey
