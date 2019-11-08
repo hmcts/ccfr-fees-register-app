@@ -12,6 +12,11 @@ locals {
   nonPreviewVaultName = "${var.product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
 
+  //ccpay key vault configuration
+  core_product_previewVaultName = "${var.core_product}-aat"
+  core_product_nonPreviewVaultName = "${var.core_product}-${var.env}"
+  core_product_vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.core_product_previewVaultName : local.core_product_nonPreviewVaultName}"
+
   asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.product}-${var.env}"}"
 
   sku_size = "${var.env == "prod" || var.env == "sprod" || var.env == "aat" ? "I2" : "I1"}"
@@ -22,9 +27,14 @@ data "azurerm_key_vault" "fees_key_vault" {
   resource_group_name = "${var.product}-${local.local_env}"
 }
 
+data "azurerm_key_vault" "payment_key_vault" {
+  name = "${local.core_product_vaultName}"
+  resource_group_name = "ccpay-${var.env}"
+}
+
 data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
   name = "AppInsightsInstrumentationKey"
-  key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
+  key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
 }
 
 module "fees-register-api" {

@@ -3,7 +3,6 @@ spring:
     propertiesvolume:
       prefixed: false
       enabled: true
-      paths: /mnt/secrets/ccpay
+      paths: /mnt/secrets/fees-register
       aliases:
         api-POSTGRES-PASS: POSTGRES_PASSWORD
-        AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
