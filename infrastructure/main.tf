@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 locals {
-  app_full_name = "${var.product}-${var.component}"
+  app_full_name = "${var.product}-api"
   aseName = "core-compute-${var.env}"
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
