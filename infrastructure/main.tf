@@ -37,6 +37,12 @@ data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
   key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
 }
 
+resource "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
+  name = "AppInsightsInstrumentationKey"
+  value "${data.azurerm_key_vault_secret.appinsights_instrumentation_key.value}"
+  key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
+}
+
 module "fees-register-api" {
   source   = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product  = "${var.product}-api"
