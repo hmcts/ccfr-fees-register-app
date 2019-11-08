@@ -5,6 +5,7 @@ variable "product" {
 
 variable "component" {
   type    = "string"
+  default = "ccfr-api"
 }
 
 variable "location" {
