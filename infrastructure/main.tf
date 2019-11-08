@@ -3,23 +3,23 @@ provider "azurerm" {
 }
 
 locals {
-  app_full_name = "${var.product}-api"
+  app_full_name = "${var.product}-${var.component}"
   aseName = "core-compute-${var.env}"
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "${var.core_product}-aat"
-  nonPreviewVaultName = "${var.core_product}-${var.env}"
+  previewVaultName = "${var.product}-aat"
+  nonPreviewVaultName = "${var.product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
 
-  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
+  asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.product}-${var.env}"}"
 
   sku_size = "${var.env == "prod" || var.env == "sprod" || var.env == "aat" ? "I2" : "I1"}"
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
   name = "${local.vaultName}"
-  resource_group_name = "${var.core_product}-${local.local_env}"
+  resource_group_name = "${var.product}-${local.local_env}"
 }
 
 data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
@@ -79,31 +79,31 @@ module "fees-register-database" {
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
-  name      = "${var.product}-${var.component}-POSTGRES-PASS"
+  name      = "${var.component}-POSTGRES-PASS"
   value     = "${module.fees-register-database.postgresql_password}"
   key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
-  name      = "${var.product}-${var.component}-POSTGRES-USER"
+  name      = "${var.component}-POSTGRES-USER"
   value     = "${module.fees-register-database.user_name}"
   key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
-  name      = "${var.product}-${var.component}-POSTGRES-HOST"
+  name      = "${var.component}-POSTGRES-HOST"
   value     = "${module.fees-register-database.host_name}"
   key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
-  name      = "${var.product}-${var.component}-POSTGRES-PORT"
+  name      = "${var.component}-POSTGRES-PORT"
   value     = "${module.fees-register-database.postgresql_listen_port}"
   key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
-  name      = "${var.product}-${var.component}-POSTGRES-DATABASE"
+  name      = "${var.component}-POSTGRES-DATABASE"
   value     = "${module.fees-register-database.postgresql_database}"
   key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
 }
