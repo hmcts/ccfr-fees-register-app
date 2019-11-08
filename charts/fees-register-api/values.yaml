@@ -1,5 +1,5 @@
 java:
-  image: 'hmctspublic.azurecr.io/fees-register/ccfr-api:latest'
+  image: 'hmctspublic.azurecr.io/fees-register/api:latest'
   applicationPort: 8080
   ingressHost: fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   aadIdentityName: ccpay
