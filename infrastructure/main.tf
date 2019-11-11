@@ -37,11 +37,48 @@ data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
   key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
 }
 
+//copy below secrets from payment app
 resource "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
   name  = "AppInsightsInstrumentationKey"
   value = "${data.azurerm_key_vault_secret.appinsights_instrumentation_key.value}"
   key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
 }
+
+
+//copy below secrets from payment app for functional tests
+data "azurerm_key_vault_secret" "freg-idam-test-user-password" {
+  name = "freg-idam-test-user-password"
+  key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
+}
+
+resource "azurerm_key_vault_secret" "freg-idam-test-user-password" {
+  name  = "freg-idam-test-user-password"
+  value = "${data.azurerm_key_vault_secret.freg-idam-test-user-password.value}"
+  key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
+}
+
+data "azurerm_key_vault_secret" "freg-idam-generated-user-email-pattern" {
+  name = "freg-idam-generated-user-email-pattern"
+  key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
+}
+
+resource "azurerm_key_vault_secret" "freg-idam-generated-user-email-pattern" {
+  name  = "freg-idam-generated-user-email-pattern"
+  value = "${data.azurerm_key_vault_secret.freg-idam-generated-user-email-pattern.value}"
+  key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
+}
+
+data "azurerm_key_vault_secret" "freg-idam-client-secret" {
+  name = "freg-idam-client-secret"
+  key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
+}
+
+resource "azurerm_key_vault_secret" "freg-idam-client-secret" {
+  name  = "freg-idam-client-secret"
+  value = "${data.azurerm_key_vault_secret.freg-idam-client-secret.value}"
+  key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
+}
+
 
 module "fees-register-api" {
   source   = "git@github.com:hmcts/cnp-module-webapp?ref=master"
