@@ -20,7 +20,7 @@ You will need jdk installed on your machine.
 
 ## Running the tests
 
-You can run the tests using './gradlew test' 
+You can run the tests using './gradlew test'  
 
 
 ## Deployment
