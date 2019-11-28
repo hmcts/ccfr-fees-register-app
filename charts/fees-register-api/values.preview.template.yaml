@@ -11,11 +11,11 @@ java:
     SPRING_LIQUIBASE_ENABLED: true
     IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
     SPRING_CLOUD_PROPERTIESVOLUME_ENABLED: false
-  postgresql:
-    postgresqlUsername: fees-register
-    postgresqlPassword: fees-register
-    postgresqlDatabase: fees-register
+    postgresql:
+      postgresqlUsername: fees-register
+      postgresqlPassword: fees-register
+      postgresqlDatabase: fees-register
 
-postgresql:
-  enabled: true
+  postgresql:
+    enabled: true
 
