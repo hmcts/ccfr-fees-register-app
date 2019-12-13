@@ -65,7 +65,7 @@
     </suppress>
     <suppress>
         <!--The following vulnerability can be removed by upgrading the version of gradle that we are using-->
-        <cve>CVE-2019-15052</cve>
+        <!--cve>CVE-2019-15052</cve-->
     </suppress>
     <!--Pittest gradle plugin related vulnerabilities using latest jar but still appearing
     hence no solution present currently-->
