@@ -7,13 +7,13 @@
         <gav regex="true">^com\.apple:AppleJavaExtensions:.*$</gav>
         <cve>CVE-2010-0538</cve><!-- the apple update jar, with fix for this issue, is still not available (as checked on 15th Jan, 2019).-->
     </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: dom4j-1.6.1.jar  we are on latest version. fixes not available yet.
-   ]]></notes>
-        <gav regex="true">^.*:dom4j:1\.6\.1$</gav>
-        <cve>CVE-2018-1000632</cve>
-    </suppress>
+<!--    <suppress>-->
+<!--        <notes><![CDATA[-->
+<!--   file name: dom4j-2.1.1.jar  we are on latest version. fixes not available yet.-->
+<!--   ]]></notes>-->
+<!--        <gav regex="true">^.*:dom4j:1\.6\.1$</gav>-->
+<!--        <cve>CVE-2018-1000632</cve>-->
+<!--    </suppress>-->
     <suppress>
         <notes><![CDATA[
          Shadowed dependency from AppInsights-Core. Unfortunately, not propagating and applying an override for transitive dependencies.
