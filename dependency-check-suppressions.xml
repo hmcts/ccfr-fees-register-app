@@ -60,6 +60,14 @@
        <cve>CVE-2019-16370</cve>
        <cve>CVE-2019-11065</cve>
    </suppress>
+	
+   <!-- Added after December 2019 -->
+   <suppress>
+       <cpe>cpe:/a:apache_tomcat:apache_tomcat:9.0.21</cpe>
+       <cve>CVE-2019-12418</cve>
+       <cve>CVE-2019-17563</cve>
+   </suppress>
+   <!-- Added after December 2019 -->
 </suppressions>
 
 
