@@ -16,11 +16,6 @@
     </suppress>
 
     <suppress>
-        <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see https://pivotal.io/security/cve-2018-1258</notes>
-        <cve>CVE-2018-1258</cve>
-    </suppress>
-
-    <suppress>
         <notes><![CDATA[
     Suppressing as it seems a false positive as per https://github.com/jeremylong/DependencyCheck/issues/1573
     ]]></notes>
