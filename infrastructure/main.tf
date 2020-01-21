@@ -8,9 +8,14 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.aseName}"
 
-  previewVaultName = "${var.core_product}-aat"
-  nonPreviewVaultName = "${var.core_product}-${var.env}"
+  previewVaultName = "${var.product}-aat"
+  nonPreviewVaultName = "${var.product}-${var.env}"
   vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+
+  //ccpay key vault configuration
+  core_product_previewVaultName = "${var.core_product}-aat"
+  core_product_nonPreviewVaultName = "${var.core_product}-${var.env}"
+  core_product_vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.core_product_previewVaultName : local.core_product_nonPreviewVaultName}"
 
   asp_name = "${var.env == "prod" ? "fees-register-api-prod" : "${var.core_product}-${var.env}"}"
 
@@ -22,10 +27,58 @@ data "azurerm_key_vault" "fees_key_vault" {
   resource_group_name = "${var.core_product}-${local.local_env}"
 }
 
+data "azurerm_key_vault" "payment_key_vault" {
+  name = "${local.core_product_vaultName}"
+  resource_group_name = "ccpay-${var.env}"
+}
+
 data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
   name = "AppInsightsInstrumentationKey"
+  key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
+}
+
+//copy below secrets from payment app
+resource "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
+  name  = "AppInsightsInstrumentationKey"
+  value = "${data.azurerm_key_vault_secret.appinsights_instrumentation_key.value}"
   key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
 }
+
+
+//copy below secrets from payment app for functional tests
+data "azurerm_key_vault_secret" "freg-idam-test-user-password" {
+  name = "freg-idam-test-user-password"
+  key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
+}
+
+resource "azurerm_key_vault_secret" "freg-idam-test-user-password" {
+  name  = "freg-idam-test-user-password"
+  value = "${data.azurerm_key_vault_secret.freg-idam-test-user-password.value}"
+  key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
+}
+
+data "azurerm_key_vault_secret" "freg-idam-generated-user-email-pattern" {
+  name = "freg-idam-generated-user-email-pattern"
+  key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
+}
+
+resource "azurerm_key_vault_secret" "freg-idam-generated-user-email-pattern" {
+  name  = "freg-idam-generated-user-email-pattern"
+  value = "${data.azurerm_key_vault_secret.freg-idam-generated-user-email-pattern.value}"
+  key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
+}
+
+data "azurerm_key_vault_secret" "freg-idam-client-secret" {
+  name = "freg-idam-client-secret"
+  key_vault_id = "${data.azurerm_key_vault.payment_key_vault.id}"
+}
+
+resource "azurerm_key_vault_secret" "freg-idam-client-secret" {
+  name  = "freg-idam-client-secret"
+  value = "${data.azurerm_key_vault_secret.freg-idam-client-secret.value}"
+  key_vault_id = "${data.azurerm_key_vault.fees_key_vault.id}"
+}
+
 
 module "fees-register-api" {
   source   = "git@github.com:hmcts/cnp-module-webapp?ref=master"
