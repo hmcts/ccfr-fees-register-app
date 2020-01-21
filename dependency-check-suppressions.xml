@@ -5,11 +5,11 @@
    file name: AppleJavaExtensions-1.4.jar  we are onl latest version. fixes not available yet.
    ]]></notes>
         <gav regex="true">^com\.apple:AppleJavaExtensions:.*$</gav>
-        <cve>CVE-2010-0538</cve>
+        <cve>CVE-2010-0538</cve><!-- the apple update jar, with fix for this issue, is still not available (as checked on 15th Jan, 2020).-->
     </suppress>
     <suppress>
         <notes><![CDATA[
-   file name: dom4j-1.6.1.jar  we are on latest version. fixes not available yet.
+   file name: dom4j-2.1.1.jar  we are on latest version. fixes not available yet.
    ]]></notes>
         <gav regex="true">^.*:dom4j:1\.6\.1$</gav>
         <cve>CVE-2018-1000632</cve>
@@ -51,11 +51,8 @@
         <cve>CVE-2019-0221</cve>
     </suppress>
     <suppress>
-        <cve>CVE-2019-14379</cve>
-        <cve>CVE-2019-14439</cve>
-        <cve>CVE-2019-12384</cve>
+	<!--The following vulnerability can be removed by upgrading the version of gradle that we are using-->
         <cve>CVE-2019-15052</cve>
-        <cve>CVE-2019-12814</cve>
     </suppress>
     <!--Pittest gradle plugin related vulnerabilities using latest jar but still appearing
     hence no solution present currently-->
