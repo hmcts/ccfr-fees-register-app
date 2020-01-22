@@ -59,7 +59,7 @@ subprojects {
 
     dependencies {
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.10.0'
-        compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'{
+        compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
             exclude(module: 'netty-tcnative-boringssl-static')
         }
         testCompile group: 'junit', name: 'junit', version: '4.12'
