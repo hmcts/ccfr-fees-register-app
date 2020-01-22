@@ -22,15 +22,6 @@
     </suppress>
 
     <suppress>
-        <notes><![CDATA[
-   command line injections on windows - fixed on spring boot master but not released
-   ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed.*$</gav>
-        <cve>CVE-2019-0232</cve>
-        <cve>CVE-2019-0199</cve>
-        <cve>CVE-2019-0221</cve>
-    </suppress>
-    <suppress>
         <!--The following vulnerability can be removed by upgrading the version of gradle that we are using-->
         <cve>CVE-2019-15052</cve>
     </suppress>
