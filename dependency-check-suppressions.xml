@@ -23,13 +23,6 @@
 
     <suppress>
         <notes><![CDATA[
-			Not applicable - Randomness vulnerability when using SecureRandomFactoryBean
-			]]></notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2019-3795</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
    command line injections on windows - fixed on spring boot master but not released
    ]]></notes>
         <gav regex="true">^org\.apache\.tomcat\.embed.*$</gav>
