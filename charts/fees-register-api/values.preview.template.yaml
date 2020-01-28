@@ -3,10 +3,10 @@ java:
   ingressHost: ${SERVICE_FQDN}
   aadIdentityName:
   environment:
-    POSTGRES_HOST: fees-register-postgres-db-aat.postgres.database.azure.com
-    POSTGRES_NAME: fees_register
-    POSTGRES_USERNAME: fees_register@fees-register-postgres-db-aat
-    POSTGRES_PASSWORD: 5(jfFAHSTOU>0vSs
+    POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
+    POSTGRES_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
+    POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
+    POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
     POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
     SPRING_LIQUIBASE_ENABLED: true
     IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
