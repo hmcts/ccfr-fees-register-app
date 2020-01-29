@@ -16,47 +16,19 @@
     </suppress>
     
     <suppress>
-        <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see https://pivotal.io/security/cve-2018-1258</notes>
+        <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see https://pivotal.io/security/cve-2018-1258.
+	    However if we still want to get rid of this vulnerability, it would need a spring boot version upgrade.</notes>
         <cve>CVE-2018-1258</cve>
     </suppress>
 
     <suppress>
-        <notes><![CDATA[
-    Suppressing as it seems a false positive as per https://github.com/jeremylong/DependencyCheck/issues/1573
-    ]]></notes>
-        <gav regex="true">^io\.netty:netty-tcnative-boringssl-static:.*</gav>
-        <cve>CVE-2014-3488</cve>
-        <cve>CVE-2015-2156</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   ]]></notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2018-1196</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-			Not applicable - Randomness vulnerability when using SecureRandomFactoryBean
-			]]></notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2019-3795</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   command line injections on windows - fixed on spring boot master but not released
-   ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed.*$</gav>
-        <cve>CVE-2019-0232</cve>
-        <cve>CVE-2019-0199</cve>
-        <cve>CVE-2019-0221</cve>
-    </suppress>
-    <suppress>
-	<!--The following vulnerability can be removed by upgrading the version of gradle that we are using-->
+	<notes>To remove the following vulnerability we need to upgrade the gradle from current version to 6.0 or above.</notes>
         <cve>CVE-2019-15052</cve>
     </suppress>
     <!--Pittest gradle plugin related vulnerabilities using latest jar but still appearing
     hence no solution present currently-->
    <suppress>
+       <notes>To remove the following two vulnerabilities we need to upgrade the gradle from current version to 6.0 or above.</notes>
        <cve>CVE-2019-16370</cve>
        <cve>CVE-2019-11065</cve>
    </suppress>
@@ -68,6 +40,10 @@
        <cve>CVE-2019-17563</cve>
    </suppress>
    <!-- Added after December 2019 -->
+   
+    <suppress>
+       <cve>CVE-2020-5398</cve>
+    </suppress>
 </suppressions>
 
 
