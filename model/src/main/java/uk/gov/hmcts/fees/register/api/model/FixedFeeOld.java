@@ -13,14 +13,14 @@ import javax.persistence.Entity;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("fixed")
-public class FixedFee extends FeeOld {
+public class FixedFeeOld extends FeeOld {
     private int amount;
 
-    public FixedFee() {
+    public FixedFeeOld() {
     }
 
     @Builder(builderMethodName = "fixedFeeWith")
-    public FixedFee(Integer id, String code, String description, int amount) {
+    public FixedFeeOld(Integer id, String code, String description, int amount) {
         super(id, code, description);
         this.amount = amount;
     }
