@@ -652,4 +652,17 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
                 Assertions.assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo(new BigDecimal("0.00"));
         });
     }
+
+    @Test
+    public void getlookupresponseMessageForFPL() throws IOException {
+
+        scenario.given()
+            .when().getLookUpResponse("public law", "family", "family court", "default", "issue")
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0314");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Application for proceedings under Section 31 of Act");
+            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("2055.00");
+        });
+    }
 }

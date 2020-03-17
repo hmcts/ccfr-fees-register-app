@@ -67,7 +67,7 @@ public class SwaggerConfiguration {
         return new ApiInfoBuilder()
             .title("FeeOld Register API")
             .description("FeeOld Register API to retrieve the correct fee.")
-            .contact(new Contact("Sachi Kuppuswami, Kazys Sketrys, Jalal ul Deen ", "", "jalal.deen@hmcts.net"))
+            .contact(new Contact("Yashar Rahvar", "", "Yashar.Rahvar@hmcts.net"))
             .version("1.0")
             .build();
     }
@@ -76,7 +76,7 @@ public class SwaggerConfiguration {
         return new ApiInfoBuilder()
             .title("New Fee API")
             .description("New Fee API to retrieve the correct fee.")
-            .contact(new Contact("Eduardo Magdalena, Tarun Palisetty", "", "eduardo.magdalena@hmcts.net, tarun.palisetty@hmcts.net"))
+            .contact(new Contact("Yashar Rahvar", "", "Yashar.Rahvar@hmcts.net"))
             .version("1.0")
             .build();
     }
