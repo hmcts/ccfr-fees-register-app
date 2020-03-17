@@ -6042,6 +6042,35 @@
       "event":"issue",
       "unspecified_claim_amount":false,
       "applicant_type": "all"
+    },
+    {
+      "code":"X0198",
+      "new_code": "FEE0314",
+      "version":{
+        "version":1,
+        "description": "Application for proceedings under Section 31 of Act",
+        "status": "approved",
+        "author": "126172",
+        "approvedBy": "126175",
+        "version": 1,
+        "valid_from": "2014-04-21T00:00:00.000+0000",
+        "flat_amount": {
+          "amount": 2055
+        },
+        "memo_line": "RECEIPT OF FEES - Family issue public",
+        "statutory_instrument": "2014 No 877 ",
+        "si_ref_id": "2.2",
+        "natural_account_code": "4481102160",
+        "fee_order_name": "Family Proceedings",
+        "direction": "cost recovery"
+      },
+      "jurisdiction1":"Family",
+      "jurisdiction2":"Family court",
+      "service":"Public Law",
+      "channel":"DEFAULT",
+      "event":"issue",
+      "unspecified_claim_amount":false,
+      "applicant_type": "all"
     }
   ]
 }

@@ -12,7 +12,7 @@ java:
     SPRING_LIQUIBASE_ENABLED: false
     REFORM_SERVICE_NAME: fees-register-api
     REFORM_TEAM: cc
-    ENABLE_FEE_LOADER: true
+    ENABLE_FEE_LOADER: false
     IDAM_CLIENT_BASE_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
   keyVaults:
     "fees-register":

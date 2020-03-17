@@ -6,11 +6,11 @@ import uk.gov.hmcts.fees.register.api.model.exceptions.RangeNotFoundException;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static uk.gov.hmcts.fees.register.api.model.FixedFee.fixedFeeWith;
+import static uk.gov.hmcts.fees.register.api.model.FixedFeeOld.fixedFeeWith;
 
 public class RangeGroupTest {
 
-    public static final FixedFee ANY_FEE = fixedFeeWith().amount(0).code("any").description("any").build();
+    public static final FixedFeeOld ANY_FEE = fixedFeeWith().amount(0).code("any").description("any").build();
 
     @Test(expected = RangeGroupNotContinuousException.class)
     public void overlappingRangesNotAllowed() {

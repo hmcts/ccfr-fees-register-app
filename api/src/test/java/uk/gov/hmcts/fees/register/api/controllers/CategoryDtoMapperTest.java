@@ -11,7 +11,7 @@ import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
 import uk.gov.hmcts.fees.register.api.controllers.rangegroups.RangeGroupsDtoMapper;
 import uk.gov.hmcts.fees.register.api.model.Category;
 import uk.gov.hmcts.fees.register.api.model.FeeOld;
-import uk.gov.hmcts.fees.register.api.model.FixedFee;
+import uk.gov.hmcts.fees.register.api.model.FixedFeeOld;
 import uk.gov.hmcts.fees.register.api.model.RangeGroup;
 
 import java.util.Arrays;
@@ -20,13 +20,13 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
-import static uk.gov.hmcts.fees.register.api.model.FixedFee.fixedFeeWith;
+import static uk.gov.hmcts.fees.register.api.model.FixedFeeOld.fixedFeeWith;
 
 public class CategoryDtoMapperTest {
 
     private static final RangeGroup SOME_RANGE_GROUP = RangeGroup.rangeGroupWith().code("any").description("any").ranges(Collections.emptyList()).build();
     private static final RangeGroupDto MAPPED_RANGE_GROUP_DTO = rangeGroupDtoWith().code("any").description("any").build();
-    private static final FixedFee SOME_FEE = fixedFeeWith().code("any").description("any").build();
+    private static final FixedFeeOld SOME_FEE = fixedFeeWith().code("any").description("any").build();
     private static final FixedFeeDto MAPPED_FEE_DTO = fixedFeeDtoWith().code("any").description("any").build();
 
     private final CategoryDtoMapper categoryDtoMapper = new CategoryDtoMapper(

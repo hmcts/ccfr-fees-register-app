@@ -5,7 +5,7 @@ import uk.gov.hmcts.fees.register.api.contract.FeeDto;
 import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
 import uk.gov.hmcts.fees.register.api.controllers.rangegroups.RangeGroupsDtoMapper;
 import uk.gov.hmcts.fees.register.api.model.FeeOld;
-import uk.gov.hmcts.fees.register.api.model.FixedFee;
+import uk.gov.hmcts.fees.register.api.model.FixedFeeOld;
 
 import java.util.Arrays;
 
@@ -17,7 +17,7 @@ import static uk.gov.hmcts.fees.register.api.model.RangeGroup.rangeGroupWith;
 
 public class RangeGroupsDtoMapperTest {
 
-    private static final FeeOld ANY_FEE = new FixedFee();
+    private static final FeeOld ANY_FEE = new FixedFeeOld();
     private static final FeeDto MAPPED_FEE_DTO = new FeeDto("ANY", "ANY");
     private RangeGroupsDtoMapper rangeGroupsDtoMapper = new RangeGroupsDtoMapper(new FeesDtoMapper() {
         @Override
