@@ -43,4 +43,8 @@
     <suppress>
         <cve>CVE-2020-5398</cve>
     </suppress>
+
+    <suppress>
+        <cve>CVE-2019-17195</cve>
+    </suppress>
 </suppressions>
