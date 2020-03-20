@@ -13,6 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
 import uk.gov.hmcts.reform.auth.checker.core.user.User;
 import uk.gov.hmcts.reform.auth.checker.spring.useronly.AuthCheckerUserOnlyFilter;
+import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
+import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
+
+import java.util.List;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -20,13 +24,14 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private AuthCheckerUserOnlyFilter authCheckerFilter;
+
+    private ServiceAuthFilter serviceAuthFilter;
 
     @Autowired
-    public SpringSecurityConfiguration(RequestAuthorizer<User> userRequestAuthorizer,
-                                 AuthenticationManager authenticationManager) {
-        authCheckerFilter = new AuthCheckerUserOnlyFilter(userRequestAuthorizer);
-        authCheckerFilter.setAuthenticationManager(authenticationManager);
+    public SpringSecurityConfiguration(final AuthTokenValidator authTokenValidator) {
+
+        serviceAuthFilter = new ServiceAuthFilter(authTokenValidator, null);
+
     }
 
     @Override
@@ -43,10 +48,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     @SuppressFBWarnings(value = "SPRING_CSRF_PROTECTION_DISABLED", justification = "It's safe to disable CSRF protection as application is not being hit directly from the browser")
     protected void configure(HttpSecurity http) throws Exception {
-        authCheckerFilter.setAuthenticationManager(authenticationManager());
 
         http
-            .addFilter(authCheckerFilter)
+            .addFilter(serviceAuthFilter)
             .sessionManagement().sessionCreationPolicy(STATELESS).and()
             .csrf().disable()
             .formLogin().disable()
