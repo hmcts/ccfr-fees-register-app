@@ -10,12 +10,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
 import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
 import uk.gov.hmcts.reform.auth.checker.core.user.User;
 import uk.gov.hmcts.reform.auth.checker.spring.useronly.AuthCheckerUserOnlyFilter;
 import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -26,11 +28,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     private ServiceAuthFilter serviceAuthFilter;
+    private List<String> authorisedServices = new ArrayList<>();
 
     @Autowired
     public SpringSecurityConfiguration(final AuthTokenValidator authTokenValidator) {
-
-        serviceAuthFilter = new ServiceAuthFilter(authTokenValidator, null);
+        authorisedServices.add("ccpay-bubble");
+        serviceAuthFilter = new ServiceAuthFilter(authTokenValidator, authorisedServices);
 
     }
 
@@ -50,7 +53,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-            .addFilter(serviceAuthFilter)
+            .addFilterBefore(serviceAuthFilter, BearerTokenAuthenticationFilter.class)
             .sessionManagement().sessionCreationPolicy(STATELESS).and()
             .csrf().disable()
             .formLogin().disable()

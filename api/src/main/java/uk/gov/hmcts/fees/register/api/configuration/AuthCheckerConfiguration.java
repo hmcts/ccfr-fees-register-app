@@ -1,11 +1,15 @@
 package uk.gov.hmcts.fees.register.api.configuration;
 
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 import uk.gov.hmcts.reform.authorisation.validators.ServiceAuthTokenValidator;
+import uk.gov.hmcts.reform.idam.client.IdamApi;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -15,6 +19,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Configuration
+@Lazy
+@EnableFeignClients(basePackageClasses = {IdamApi.class, ServiceAuthorisationApi.class})
 public class AuthCheckerConfiguration {
 
     @Bean
@@ -28,10 +34,8 @@ public class AuthCheckerConfiguration {
     }
 
     @Bean
-    public AuthTokenValidator authTokenValidator() {
-        //return new ServiceAuthTokenValidator(new ServiceAuthorisationApi() {
-        return null;
+    public AuthTokenValidator authTokenValidator(final ServiceAuthorisationApi serviceAuthorisationApi) {
+        return new ServiceAuthTokenValidator(serviceAuthorisationApi);
     }
-
 
 }
