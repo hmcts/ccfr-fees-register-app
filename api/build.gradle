@@ -66,7 +66,7 @@ dependencies {
     compile (group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: '2.1.2') {
         exclude(module: 'java-logging-spring')
     }
-    //compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.1'
+    
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
