@@ -3,17 +3,17 @@ package uk.gov.hmcts.fees.register.api.configuration;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
-import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
-import uk.gov.hmcts.reform.auth.checker.core.user.User;
-import uk.gov.hmcts.reform.auth.checker.spring.useronly.AuthCheckerUserOnlyFilter;
 import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
 import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 
@@ -24,15 +24,15 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
+@PropertySource("classpath:application.properties")
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     private ServiceAuthFilter serviceAuthFilter;
-    private List<String> authorisedServices = new ArrayList<>();
+
 
     @Autowired
-    public SpringSecurityConfiguration(final AuthTokenValidator authTokenValidator) {
-        authorisedServices.add("ccpay-bubble");
+    public SpringSecurityConfiguration(final AuthTokenValidator authTokenValidator, final @Value("${idam.s2s-authorised.services}") List<String> authorisedServices) {
         serviceAuthFilter = new ServiceAuthFilter(authTokenValidator, authorisedServices);
 
     }
@@ -67,5 +67,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/submit-for-review").hasAuthority("freg-editor")
             .antMatchers(HttpMethod.DELETE, "/fees-register/fees/**", "/fees/**/versions/**").hasAnyAuthority("freg-editor", "freg-admin")
             .antMatchers(HttpMethod.GET, "/fees-register/fees/**").permitAll();
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 }
