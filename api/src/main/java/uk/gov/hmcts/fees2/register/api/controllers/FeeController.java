@@ -30,7 +30,6 @@ import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.util.SecurityUtil;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
-
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
