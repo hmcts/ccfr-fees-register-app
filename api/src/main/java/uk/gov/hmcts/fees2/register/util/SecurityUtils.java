@@ -18,18 +18,15 @@ import java.util.stream.Collectors;
 @Service
 public class SecurityUtils {
 
-    private final AuthTokenGenerator authTokenGenerator;
     private final IdamRepository idamRepository;
 
     @Autowired
-    public SecurityUtils(final AuthTokenGenerator authTokenGenerator, IdamRepository idamRepository) {
-        this.authTokenGenerator = authTokenGenerator;
+    public SecurityUtils(final IdamRepository idamRepository) {
         this.idamRepository = idamRepository;
     }
 
     public HttpHeaders authorizationHeaders() {
         final HttpHeaders headers = new HttpHeaders();
-        headers.add("ServiceAuthorization", authTokenGenerator.generate());
         headers.add("user-id", getUserId());
         headers.add("user-roles", getUserRolesHeader());
 

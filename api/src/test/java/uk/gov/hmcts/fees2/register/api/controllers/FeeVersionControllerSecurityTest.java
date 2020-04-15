@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.SecurityUtils;
 import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -160,6 +161,11 @@ public class FeeVersionControllerSecurityTest {
         @Bean
         public RequestAuthorizer requestAuthorizer() {
             return Mockito.mock(RequestAuthorizer.class);
+        }
+
+        @Bean
+        public SecurityUtils securityUtils(){
+            return Mockito.mock(SecurityUtils.class);
         }
     }
 

@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+import uk.gov.hmcts.fees.register.api.componenttests.backdoors.SecurityUtilsMock;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
@@ -47,6 +48,9 @@ public abstract class BaseTest {
 
     @Autowired
     protected UserResolverBackdoor userRequestAuthorizer;
+
+    @Autowired
+    protected SecurityUtilsMock securityUtilsMock;
 
     @Autowired
     protected WebApplicationContext webApplicationContext;
@@ -94,8 +98,7 @@ public abstract class BaseTest {
     @Before
     public void setUp() {
         this.mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-
-        this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
+        this.restActions = new RestActions(mvc, userRequestAuthorizer, securityUtilsMock, objectMapper);
     }
 
     protected CustomResultMatcher body() {

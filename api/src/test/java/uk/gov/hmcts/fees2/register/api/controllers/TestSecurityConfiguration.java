@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import uk.gov.hmcts.fees.register.api.configuration.AuthCheckerConfiguration;
 import uk.gov.hmcts.fees.register.api.configuration.SpringSecurityConfiguration;
+import uk.gov.hmcts.fees2.register.util.SecurityUtils;
 import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
 
 @TestConfiguration
@@ -22,4 +23,11 @@ public class TestSecurityConfiguration {
     public AuthenticationManager authenticationManager() {
         return Mockito.mock(AuthenticationManager.class);
     }
+
+    @Bean
+    public SecurityUtils securityUtils() {
+        return Mockito.mock(SecurityUtils.class);
+    }
+
+
 }

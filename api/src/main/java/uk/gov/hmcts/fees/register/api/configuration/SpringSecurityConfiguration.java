@@ -3,8 +3,8 @@ package uk.gov.hmcts.fees.register.api.configuration;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -14,15 +14,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
-import uk.gov.hmcts.fees.register.api.filter.V1EndpointsPathParamSecurityFilter;
+import uk.gov.hmcts.fees.register.api.filter.UserAuthVerificationFilter;
 import uk.gov.hmcts.fees2.register.util.SecurityUtils;
-import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
-import uk.gov.hmcts.reform.authorisation.validators.AuthTokenValidator;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -34,14 +30,14 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
-    private V1EndpointsPathParamSecurityFilter v1EndpointsPathParamSecurityFilter;
+    private UserAuthVerificationFilter userAuthVerificationFilter;
 
 
     @Autowired
     public SpringSecurityConfiguration(final Function<HttpServletRequest, Optional<String>> userIdExtractor,
                                        final Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor,
                                        final SecurityUtils securityUtils) {
-        this.v1EndpointsPathParamSecurityFilter = new V1EndpointsPathParamSecurityFilter(userIdExtractor, authorizedRolesExtractor, securityUtils);
+        this.userAuthVerificationFilter = new UserAuthVerificationFilter(userIdExtractor, authorizedRolesExtractor, securityUtils);
     }
 
     @Override
@@ -59,7 +55,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @SuppressFBWarnings(value = "SPRING_CSRF_PROTECTION_DISABLED", justification = "It's safe to disable CSRF protection as application is not being hit directly from the browser")
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .addFilterAfter(v1EndpointsPathParamSecurityFilter, BearerTokenAuthenticationFilter.class)
+            .addFilterAfter(userAuthVerificationFilter, BearerTokenAuthenticationFilter.class)
             .sessionManagement().sessionCreationPolicy(STATELESS).and()
             .csrf().disable()
             .formLogin().disable()
