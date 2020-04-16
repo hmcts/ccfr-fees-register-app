@@ -47,7 +47,7 @@ public class LegacyFeesRegisterControllerComponentTest {
     @Before
     public void setUp() {
         MockMvc mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        this.restActions = new RestActions(mvc, userRequestAuthorizer, securityUtilsMock, objectMapper);
+        this.restActions = new RestActions(mvc, securityUtilsMock, objectMapper);
     }
 
     CustomResultMatcher body() {

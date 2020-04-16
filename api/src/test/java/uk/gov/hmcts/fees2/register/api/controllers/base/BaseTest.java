@@ -98,7 +98,7 @@ public abstract class BaseTest {
     @Before
     public void setUp() {
         this.mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        this.restActions = new RestActions(mvc, userRequestAuthorizer, securityUtilsMock, objectMapper);
+        this.restActions = new RestActions(mvc, securityUtilsMock, objectMapper);
     }
 
     protected CustomResultMatcher body() {

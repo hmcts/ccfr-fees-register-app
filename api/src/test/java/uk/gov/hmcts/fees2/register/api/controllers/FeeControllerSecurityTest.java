@@ -2,11 +2,14 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,10 +21,13 @@ import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
+import java.util.Collection;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -226,7 +232,12 @@ public class FeeControllerSecurityTest {
     }
 
     private Authentication testAuthenticationTokenWithAuthority(String... authorities) {
-        return new TestingAuthenticationToken("principal", "anonymous", authorities);
+        final TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken("principal", "anonymous", authorities);
+        final Collection<GrantedAuthority> roles = testingAuthenticationToken.getAuthorities();
+        final Authentication authentication = Mockito.mock(Authentication.class);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        when(authentication.getAuthorities()).thenReturn((Collection)roles);
+        return testingAuthenticationToken;
     }
 
 

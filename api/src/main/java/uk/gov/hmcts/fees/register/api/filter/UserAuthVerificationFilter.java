@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import uk.gov.hmcts.fees.register.api.exception.UnauthorizedException;
@@ -67,4 +70,5 @@ public class UserAuthVerificationFilter extends OncePerRequestFilter {
             }
         });
     }
+
 }

@@ -13,11 +13,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
 import uk.gov.hmcts.fees.register.api.filter.UserAuthVerificationFilter;
 import uk.gov.hmcts.fees2.register.util.SecurityUtils;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Function;
@@ -48,7 +55,13 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/**",
             "/health",
             "/health/liveness",
-            "/info");
+            "/info","/error",
+            "/fees-register/ranged-fees",
+            "/fees-register/fixed-fees",
+            "/fees-register/banded-fees",
+            "/fees-register/relational-fees",
+            "/fees-register/rateable-fees",
+            "/fees-register/fees/**");
     }
 
     @Override
@@ -75,4 +88,20 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
+
+    /*@Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+
+        chain.doFilter(request, response);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
+
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+            "Authentication Failed");
+    }*/
 }

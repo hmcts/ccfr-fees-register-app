@@ -1,12 +1,19 @@
 package uk.gov.hmcts.fees.register.api.componenttests.backdoors;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
+import org.mockito.Mockito;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
 import uk.gov.hmcts.reform.idam.client.IdamClient;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.mockito.Mockito.when;
 
 public class IdamRepositoryMock extends IdamRepository {
 
@@ -23,8 +30,23 @@ public class IdamRepositoryMock extends IdamRepository {
     }
 
     public void registerToken(String token, String userId) {
-        final UserInfo userDetails = new UserInfo(null, userId, null, null, null, ImmutableList.of("freg-editor", "freg-approver"));
+        final ImmutableList<String> roles = ImmutableList.of("freg-editor", "freg-approver");
+        populateSecurityContextHolder(roles);
+        final UserInfo userDetails = new UserInfo(null, userId, null, null, null, roles);
         tokenToUserMap.put(token, userDetails);
+    }
+
+    private void populateSecurityContextHolder(ImmutableList<String> roles) {
+        final List<RoleMock> authorities = new ArrayList<>();
+
+        for (final String role : roles) {
+            final RoleMock r = new RoleMock();
+            r.setAuthority(role);
+            authorities.add(r);
+        }
+        final Authentication authentication = Mockito.mock(Authentication.class);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        when(authentication.getAuthorities()).thenReturn((Collection)authorities);
     }
 
 }
