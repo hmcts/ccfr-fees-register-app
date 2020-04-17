@@ -15,8 +15,9 @@ import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.ChannelType;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.util.SecurityUtils;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
-import uk.gov.hmcts.reform.auth.checker.core.user.UserRequestAuthorizer;
+
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -111,8 +112,8 @@ public abstract class BaseIntegrationTest extends BaseTest{
         HttpHeaders httpHeaders = new HttpHeaders();
 
         String token = UUID.randomUUID().toString();
-        userRequestAuthorizer.registerToken(token, "admin");
-        httpHeaders.add(UserRequestAuthorizer.AUTHORISATION, token);
+        securityUtilsMock.registerToken(token, "admin");
+        httpHeaders.add(SecurityUtils.AUTHORISATION, token);
 
         MockHttpServletRequestBuilder lookup = MockMvcRequestBuilders
             .get(URIUtils.getUrlForGetMethod(FeeController.class, method))
@@ -160,8 +161,8 @@ public abstract class BaseIntegrationTest extends BaseTest{
         HttpHeaders httpHeaders = new HttpHeaders();
 
         String token = UUID.randomUUID().toString();
-        userRequestAuthorizer.registerToken(token, "admin");
-        httpHeaders.add(UserRequestAuthorizer.AUTHORISATION, token);
+        securityUtilsMock.registerToken(token, "admin");
+        httpHeaders.add(SecurityUtils.AUTHORISATION, token);
 
         MockHttpServletRequestBuilder lookup = MockMvcRequestBuilders
             .get(URIUtils.getUrlForGetMethod(FeeController.class, method))

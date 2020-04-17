@@ -32,7 +32,7 @@ import java.util.function.Function;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @PropertySource("classpath:application.properties")
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -55,13 +55,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/**",
             "/health",
             "/health/liveness",
-            "/info","/error",
-            "/fees-register/ranged-fees",
-            "/fees-register/fixed-fees",
-            "/fees-register/banded-fees",
-            "/fees-register/relational-fees",
-            "/fees-register/rateable-fees",
-            "/fees-register/fees/**");
+            "/info","/error");
     }
 
     @Override
@@ -74,7 +68,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .formLogin().disable()
             .logout().disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/fees-register/ranged-fees", "/fees-register/fixed-fees", "/fees-register/banded-fees", "/fees-register/relational-fees", "/fees-register/rateable-fees", "/fees/**/versions").hasAnyAuthority("freg-editor")
+            .antMatchers(HttpMethod.POST, "/fees-register/ranged-fees", "/fees-register/fixed-fees", "/fees-register/banded-fees", "/fees-register/relational-fees", "/fees-register/rateable-fees", "/fees/**/versions").hasAuthority("freg-editor")
             .antMatchers(HttpMethod.POST, "/fees-register/bulk-fixed-fees").hasAuthority("freg-editor")
             .antMatchers(HttpMethod.PUT, "/fees-register/ranged-fees/**", "/fees-register/fixed-fees/**", "/fees-register/banded-fees/**", "/fees-register/relational-fees/**", "/fees-register/rateable-fees/**").hasAuthority("freg-editor")
             .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/approve").hasAuthority("freg-approver")

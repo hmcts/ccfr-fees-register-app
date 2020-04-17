@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import io.jsonwebtoken.lang.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -13,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import uk.gov.hmcts.fees.register.api.componenttests.backdoors.SecurityUtilsMock;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -20,7 +23,10 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.SecurityUtils;
+import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static org.mockito.BDDMockito.given;
@@ -52,12 +58,12 @@ public class FeeControllerSecurityTest {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
-        given(feeDtoMapper.toFee(any(RangedFeeDto.class), anyString())).willReturn(aRangedFee());
+        given(feeDtoMapper.toFee(any(RangedFeeDto.class), any())).willReturn(aRangedFee());
         given(feeService.save(any(Fee.class))).willReturn(aRangedFee());
 
         // when & then
-        this.mockMvc.perform(
-            post("/fees-register/ranged-fees")
+        this.mockMvc.perform(/*MockMvcRequestBuilders
+                .*/post("/fees-register/ranged-fees")
                 .contentType(APPLICATION_JSON)
                 .content(aRangeFeePayload())
                 .with(authentication(authentication)))
@@ -68,6 +74,7 @@ public class FeeControllerSecurityTest {
     public void testCreateRangedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
+
         // when & then
         this.mockMvc.perform(
             post("/fees-register/ranged-fees")
@@ -82,7 +89,7 @@ public class FeeControllerSecurityTest {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
-        given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(aFixedFee());
+        given(feeDtoMapper.toFee(any(FixedFeeDto.class), any())).willReturn(aFixedFee());
         given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
 
         // when & then
@@ -98,6 +105,7 @@ public class FeeControllerSecurityTest {
     public void testCreateFixedFee_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
+
         // when & then
         this.mockMvc.perform(
             post("/fees-register/fixed-fees")
@@ -231,12 +239,8 @@ public class FeeControllerSecurityTest {
             .andExpect(status().isForbidden());
     }
 
-    private Authentication testAuthenticationTokenWithAuthority(String... authorities) {
+    private Authentication testAuthenticationTokenWithAuthority(final String... authorities) {
         final TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken("principal", "anonymous", authorities);
-        final Collection<GrantedAuthority> roles = testingAuthenticationToken.getAuthorities();
-        final Authentication authentication = Mockito.mock(Authentication.class);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        when(authentication.getAuthorities()).thenReturn((Collection)roles);
         return testingAuthenticationToken;
     }
 

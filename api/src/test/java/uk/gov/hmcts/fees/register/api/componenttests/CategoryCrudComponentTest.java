@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.SecurityUtilsMock;
-import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
@@ -40,9 +39,6 @@ public class CategoryCrudComponentTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    protected UserResolverBackdoor userRequestAuthorizer;
 
     @Autowired
     private WebApplicationContext webApplicationContext;

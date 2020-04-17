@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import org.mockito.Mockito;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
 import uk.gov.hmcts.reform.idam.client.IdamClient;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
@@ -31,12 +32,14 @@ public class IdamRepositoryMock extends IdamRepository {
 
     public void registerToken(String token, String userId) {
         final ImmutableList<String> roles = ImmutableList.of("freg-editor", "freg-approver");
-        populateSecurityContextHolder(roles);
+
         final UserInfo userDetails = new UserInfo(null, userId, null, null, null, roles);
+        //PreAuthenticatedAuthenticationToken auth = new PreAuthenticatedAuthenticationToken(userDetails,  token);
+        populateSecurityContextHolder(roles/*, auth*/);
         tokenToUserMap.put(token, userDetails);
     }
 
-    private void populateSecurityContextHolder(ImmutableList<String> roles) {
+    private void populateSecurityContextHolder(ImmutableList<String> roles/*, Authentication auth*/) {
         final List<RoleMock> authorities = new ArrayList<>();
 
         for (final String role : roles) {
@@ -44,9 +47,8 @@ public class IdamRepositoryMock extends IdamRepository {
             r.setAuthority(role);
             authorities.add(r);
         }
-        final Authentication authentication = Mockito.mock(Authentication.class);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        when(authentication.getAuthorities()).thenReturn((Collection)authorities);
+        //SecurityContextHolder.getContext().setAuthentication(auth);
+
     }
 
 }

@@ -6,7 +6,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.SecurityUtilsMock;
-import uk.gov.hmcts.reform.auth.checker.core.user.UserRequestAuthorizer;
+
 
 import java.util.UUID;
 
@@ -29,7 +29,7 @@ public class RestActions {
     public RestActions withUser(String userId) {
         String token = UUID.randomUUID().toString();
         securityUtilsMock.registerToken(token, userId);
-        httpHeaders.add(UserRequestAuthorizer.AUTHORISATION, token);
+        httpHeaders.add(SecurityUtilsMock.AUTHORISATION, token);
         return this;
     }
 

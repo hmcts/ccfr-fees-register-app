@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class SecurityUtils {
 
+    public static final String AUTHORISATION = "Authorization";
+
     private final IdamRepository idamRepository;
 
     @Autowired
