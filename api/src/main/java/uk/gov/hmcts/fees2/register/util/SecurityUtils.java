@@ -29,10 +29,6 @@ public class SecurityUtils {
         return idamRepository.getUserInfo(userToken);
     }
 
-    public String getUserId() {
-        return getUserInfo().getUid();
-    }
-
     public String getUserToken() {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return jwt.getTokenValue();
