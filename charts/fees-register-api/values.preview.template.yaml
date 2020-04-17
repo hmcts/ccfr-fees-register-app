@@ -8,7 +8,6 @@ java:
     POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
     POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
     SPRING_LIQUIBASE_ENABLED: true
-    IDAM_CLIENT_BASE_URL: https://idam-api.aat.platform.hmcts.net
     SPRING_CLOUD_PROPERTIESVOLUME_ENABLED: false
     ENABLE_FEE_LOADER: true
     postgresql:
