@@ -5,6 +5,5 @@ EXPOSE 8080
 
 COPY build/libs/fees-register-app.jar /opt/app/
 COPY lib/AI-Agent.xml /opt/app/
-COPY --chown=root ./fees-register-audit.log /opt/app
 
 CMD ["fees-register-app.jar"]
