@@ -1,20 +1,13 @@
 package uk.gov.hmcts.fees2.register.util;
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.fees.register.api.exception.BearerTokenMissingException;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
-import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
-import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class SecurityUtils {
@@ -26,23 +19,6 @@ public class SecurityUtils {
     @Autowired
     public SecurityUtils(final IdamRepository idamRepository) {
         this.idamRepository = idamRepository;
-    }
-
-    public HttpHeaders authorizationHeaders() {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.add("user-id", getUserId());
-        headers.add("user-roles", getUserRolesHeader());
-
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            headers.add(HttpHeaders.AUTHORIZATION, getUserBearerToken());
-        }
-        return headers;
-    }
-
-    public HttpHeaders userAuthorizationHeaders() {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, getUserBearerToken());
-        return headers;
     }
 
     public UserInfo getUserInfo() {
@@ -66,14 +42,4 @@ public class SecurityUtils {
         return Objects.nonNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
-    private String getUserBearerToken() {
-        return "Bearer " + getUserToken();
-    }
-
-    public String getUserRolesHeader() {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        return authorities.stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining(","));
-    }
 }
