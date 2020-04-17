@@ -63,9 +63,6 @@ dependencies {
     
     compile project(':fees-register-model')
     compile project(':fees-register-api-contract')
-    compile (group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: '2.1.2') {
-        exclude(module: 'java-logging-spring')
-    }
     
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
