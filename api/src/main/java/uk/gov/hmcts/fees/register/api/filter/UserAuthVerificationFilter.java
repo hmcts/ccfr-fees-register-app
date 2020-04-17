@@ -60,7 +60,8 @@ public class UserAuthVerificationFilter extends OncePerRequestFilter {
 
     private UserInfo verifyRoleAndUserId(Collection<String> authorizedRoles, Optional<String> userIdOptional) {
         UserInfo userInfo = securityUtils.getUserInfo();
-        if (!authorizedRoles.isEmpty() && Collections.disjoint(authorizedRoles, userInfo.getRoles())) {
+
+        if (userInfo != null && !authorizedRoles.isEmpty() && Collections.disjoint(authorizedRoles, userInfo.getRoles())) {
             throw new UnauthorizedException("Unauthorised role in the path");
         }
         userIdOptional.ifPresent(resourceUserId -> {

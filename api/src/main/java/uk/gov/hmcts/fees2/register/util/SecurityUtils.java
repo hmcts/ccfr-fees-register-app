@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.fees.register.api.exception.BearerTokenMissingException;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
@@ -45,7 +46,11 @@ public class SecurityUtils {
     }
 
     public UserInfo getUserInfo() {
-        return idamRepository.getUserInfo(getUserToken());
+        final String userToken = getUserToken();
+        if (userToken == null) {
+            return null;
+        }
+        return idamRepository.getUserInfo(userToken);
     }
 
     public String getUserId() {

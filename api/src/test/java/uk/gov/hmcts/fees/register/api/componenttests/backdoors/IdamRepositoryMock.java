@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import uk.gov.hmcts.fees.register.api.exception.AuthCheckerException;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
 import uk.gov.hmcts.reform.idam.client.IdamClient;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
@@ -27,6 +28,9 @@ public class IdamRepositoryMock extends IdamRepository {
     }
 
     public UserInfo getUserInfo(final String token) {
+        if (token == null) {
+            return null;
+        }
         return tokenToUserMap.get(token);
     }
 
