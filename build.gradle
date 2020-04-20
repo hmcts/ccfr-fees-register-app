@@ -20,6 +20,9 @@ allprojects {
     }
     version = rootProject.file('version.txt').text.trim() + ".${buildNumber}"
 
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
     repositories {
         mavenLocal()
         maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
@@ -51,8 +54,6 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
     }
@@ -216,3 +217,6 @@ run {
     }
 }
 
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
