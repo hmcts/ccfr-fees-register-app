@@ -657,7 +657,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getlookupresponseMessageForFPL() throws IOException {
 
         scenario.given()
-            .when().getLookUpResponse("public law", "family", "family court", "default", "issue")
+            .when().getLookUpResponsewithkeyword("public law", "family", "family court", "default", "issue", "CareOrder")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0314");
             Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Application for proceedings under Section 31 of Act");

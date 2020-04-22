@@ -3,6 +3,9 @@ package uk.gov.hmcts.fees.register.functional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.config.ObjectMapperConfig;
+import io.restassured.filter.log.ErrorLoggingFilter;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees.register.functional.config.TestConfigProperties;
@@ -38,6 +41,7 @@ public class UserBootstrap {
             .objectMapperConfig(
                 ObjectMapperConfig.objectMapperConfig().jackson2ObjectMapperFactory((cls, charset) -> new ObjectMapper())
             );
+        RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter(), new ErrorLoggingFilter());
         RestAssured.useRelaxedHTTPSValidation();
         editor = idamService.createUserWith(FREG_EDITOR);
         approver = idamService.createUserWith(FREG_APPROVER);
