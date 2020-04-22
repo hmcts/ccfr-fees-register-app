@@ -4014,7 +4014,8 @@
       "channel":"DEFAULT",
       "event":"Miscellaneous",
       "unspecified_claim_amount":false,
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "CareOrder"
     },
     {
       "code":"X0131",
