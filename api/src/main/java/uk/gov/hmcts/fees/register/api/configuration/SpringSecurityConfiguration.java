@@ -20,7 +20,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
-import uk.gov.hmcts.fees.register.api.configuration.security.converter.BSJwtGrantedAuthoritiesConverter;
+import uk.gov.hmcts.fees.register.api.configuration.security.converter.FRJwtGrantedAuthoritiesConverter;
 import uk.gov.hmcts.fees.register.api.configuration.security.validator.AudienceValidator;
 import uk.gov.hmcts.fees.register.api.filter.UserAuthVerificationFilter;
 import uk.gov.hmcts.fees2.register.util.SecurityUtils;
@@ -56,7 +56,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public SpringSecurityConfiguration(final Function<HttpServletRequest, Optional<String>> userIdExtractor,
                                        final Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor,
-                                       final SecurityUtils securityUtils, final BSJwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter) {
+                                       final SecurityUtils securityUtils, final FRJwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter) {
         jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         this.userAuthVerificationFilter = new UserAuthVerificationFilter(userIdExtractor, authorizedRolesExtractor, securityUtils);

@@ -21,22 +21,16 @@ public interface IdamApi {
     @Headers("Content-Type: application/json")
     void createUser(CreateUserRequest createUserRequest);
 
-    @RequestLine("POST /oauth2/authorize")
-    @Headers({"Authorization: {authorization}", "Content-Type: application/x-www-form-urlencoded"})
-    @Body("response_type={response_type}&redirect_uri={redirect_uri}&client_id={client_id}")
-    AuthenticateUserResponse authenticateUser(@Param("authorization") String authorization,
-                                              @Param("response_type") String responseType,
-                                              @Param("client_id") String clientId,
-                                              @Param("redirect_uri") String redirectUri);
-
     @RequestLine("POST /o/token")
-    @Headers("Content-Type: application/x-www-form-urlencoded")
-    @Body("code={code}&grant_type={grant_type}&client_id={client_id}&client_secret={client_secret}&redirect_uri={redirect_uri}")
-    TokenExchangeResponse exchangeCode(@Param("code") String code,
-                                       @Param("grant_type") String grantType,
-                                       @Param("client_id") String clientId,
-                                       @Param("client_secret") String clientSecret,
-                                       @Param("redirect_uri") String redirectUri);
+    @Headers({"Authorization: {authorization}", "Content-Type: application/x-www-form-urlencoded"})
+    @Body("response_type={response_type}&username={username}&password={password}&grant_type={grant_type}&client_id={client_id}&client_secret={client_secret}&scope={scope}&redirect_uri={redirect_uri}")
+    AuthenticateUserResponse authenticateUser(@Param("username") String username,
+                                              @Param("password") String password,
+                                              @Param("grant_type") String grantType,
+                                              @Param("client_id") String clientId,
+                                              @Param("client_secret") String clientSecret,
+                                              @Param("scope") String scope,
+                                              @Param("redirect_uri") String redirectUri);
 
     @Data
     @AllArgsConstructor
@@ -64,13 +58,16 @@ public interface IdamApi {
 
     @Data
     class AuthenticateUserResponse {
-        @JsonProperty("code")
-        private String code;
-    }
+        @JsonProperty("id_token")
+        private String idToken;
 
-    @Data
-    class TokenExchangeResponse {
         @JsonProperty("access_token")
         private String accessToken;
     }
+
+    /*@Data
+    class TokenExchangeResponse {
+        @JsonProperty("access_token")
+        private String accessToken;
+    }*/
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees.register.functional.config.TestConfigProperties;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.Role;
-import uk.gov.hmcts.fees.register.functional.idam.IdamApi.TokenExchangeResponse;
+//import uk.gov.hmcts.fees.register.functional.idam.IdamApi.TokenExchangeResponse;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.UserGroup;
 import uk.gov.hmcts.fees.register.functional.idam.models.*;
 
@@ -27,6 +27,8 @@ public class IdamService {
     public static final String CODE = "code";
     public static final String BASIC = "Basic ";
     public static final String USER_GROUP = "freg-users";
+    public static final String GRANT_TYPE = "password";
+    public static final String SCOPE = "openid profile roles";
 
     private final IdamApi idamApi;
     private final TestConfigProperties testConfig;
@@ -53,25 +55,19 @@ public class IdamService {
             .build();
     }
 
-    public String authenticateUser(String username, String password) {
-        String authorisation = username + ":" + password;
-        String base64Authorisation = Base64.getEncoder().encodeToString(authorisation.getBytes());
+    public String authenticateUser(final String username, final String password) {
 
-        IdamApi.AuthenticateUserResponse authenticateUserResponse = idamApi.authenticateUser(
-            BASIC + base64Authorisation,
-            CODE,
-            testConfig.getOauth2().getClientId(),
-            testConfig.getOauth2().getRedirectUrl());
-
-        TokenExchangeResponse tokenExchangeResponse = idamApi.exchangeCode(
-            authenticateUserResponse.getCode(),
-            AUTHORIZATION_CODE,
+        final IdamApi.AuthenticateUserResponse authenticateUserResponse = idamApi.authenticateUser(
+            username,
+            password,
+            GRANT_TYPE,
             testConfig.getOauth2().getClientId(),
             testConfig.getOauth2().getClientSecret(),
+            SCOPE,
             testConfig.getOauth2().getRedirectUrl()
-        );
+            );
 
-        return BEARER + tokenExchangeResponse.getAccessToken();
+        return BEARER + authenticateUserResponse.getAccessToken();
     }
 
 
