@@ -28,7 +28,7 @@ public class SecurityUtils {
 
     public UserInfo getUserInfo() {
         final String userToken = getUserToken();
-        LOG.info("The value of accessToken: " + userToken);
+        //LOG.info("The value of accessToken: " + userToken);
         if (userToken == null) {
             return null;
         }
@@ -37,7 +37,7 @@ public class SecurityUtils {
 
     public String getUserToken() {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return jwt != null?jwt.getTokenValue():null;
+        return jwt != null ? jwt.getTokenValue() : null;
     }
 
     public boolean isAuthenticated() {
