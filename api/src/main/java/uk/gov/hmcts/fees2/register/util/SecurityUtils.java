@@ -31,7 +31,7 @@ public class SecurityUtils {
 
     public String getUserToken() {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return jwt.getTokenValue();
+        return jwt != null?jwt.getTokenValue():null;
     }
 
     public boolean isAuthenticated() {

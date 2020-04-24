@@ -48,7 +48,7 @@ public class FeeControllerSecurityWithSecUtilsTest {
 
 
     @Test
-    public void testUpdateFixedFee_shouldReturnOkWhenUserHasFeeEditorAuthority() throws Exception {
+    public void testUpdateFixedFee_shouldThrowClassCastExceptionkWhenUserHasFeeEditorAuthority() throws Exception {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
@@ -71,6 +71,30 @@ public class FeeControllerSecurityWithSecUtilsTest {
         Assert.assertTrue(result instanceof ClassCastException);
     }
 
+    @Test
+    public void testUpdateFixedFee_shouldReturnNullWhenUserHasFeeEditorAuthority() throws Exception {
+        // given
+        Authentication authentication = testAuthenticationTokenWithNullPrincipal("freg-editor");
+
+        given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(aFixedFee());
+        given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
+
+        // when & then
+        Exception result = null;
+
+        this.mockMvc.perform(
+            put("/fees-register/fixed-fees/testCode")
+                .contentType(APPLICATION_JSON)
+                .content(aRangeFeePayload())
+                .with(authentication(authentication)))
+            .andExpect(status().isUnauthorized());
+
+    }
+
+    private Authentication testAuthenticationTokenWithNullPrincipal(final String... authorities) {
+        final TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(null, "anonymous", authorities);
+        return testingAuthenticationToken;
+    }
 
     private Authentication testAuthenticationTokenWithAuthority(final String... authorities) {
         final TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken("principal", "anonymous", authorities);
