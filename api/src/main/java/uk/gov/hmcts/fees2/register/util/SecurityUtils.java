@@ -1,9 +1,12 @@
 package uk.gov.hmcts.fees2.register.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.fees.register.api.filter.UserAuthVerificationFilter;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
@@ -11,6 +14,8 @@ import java.util.Objects;
 
 @Service
 public class SecurityUtils {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtils.class);
 
     public static final String AUTHORISATION = "Authorization";
 
@@ -23,6 +28,7 @@ public class SecurityUtils {
 
     public UserInfo getUserInfo() {
         final String userToken = getUserToken();
+        LOG.info("The value of accessToken: " + userToken);
         if (userToken == null) {
             return null;
         }

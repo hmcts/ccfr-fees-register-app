@@ -39,7 +39,7 @@ public class UserAuthVerificationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
         throws ServletException, IOException {
-
+        LOG.info("Inside filter: UserAuthVerificationFilter");
         Collection<String> authorizedRoles = authorizedRolesExtractor.apply(request);
         Optional<String> userIdOptional = userIdExtractor.apply(request);
         UserInfo userInfo = null;
