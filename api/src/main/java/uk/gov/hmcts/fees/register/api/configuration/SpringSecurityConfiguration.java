@@ -35,7 +35,7 @@ import java.util.function.Function;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @PropertySource("classpath:application.properties")
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -70,7 +70,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/**",
             "/health",
             "/health/liveness",
-            "/info","/error");
+            "/info");
     }
 
     @Override
@@ -97,13 +97,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .jwtAuthenticationConverter(jwtAuthenticationConverter)
             .and()
             .and()
-            /*.oauth2Client()*/;
+            .oauth2Client();
     }
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
+    
 
     @Bean
     @SuppressWarnings("unchecked")

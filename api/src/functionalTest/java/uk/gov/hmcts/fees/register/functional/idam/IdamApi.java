@@ -65,9 +65,4 @@ public interface IdamApi {
         private String accessToken;
     }
 
-    /*@Data
-    class TokenExchangeResponse {
-        @JsonProperty("access_token")
-        private String accessToken;
-    }*/
 }

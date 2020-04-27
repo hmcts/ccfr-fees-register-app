@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees.register.api.configuration;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,6 +13,7 @@ import uk.gov.hmcts.reform.idam.client.IdamApi;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,9 +24,12 @@ import java.util.stream.Stream;
 @EnableFeignClients(basePackageClasses = {IdamApi.class})
 public class AuthCheckerConfiguration {
 
+    @Value("#{'${trusted.user.roles}'.split(',')}")
+    private List<String> authorizedRoles;
+
     @Bean
     public Function<HttpServletRequest, Collection<String>> authorizedRolesExtractor() {
-        return (any) -> Stream.of("freg-editor", "freg-approver", "freg-admin").collect(Collectors.toList());
+        return (any) -> authorizedRoles;
     }
 
     @Bean

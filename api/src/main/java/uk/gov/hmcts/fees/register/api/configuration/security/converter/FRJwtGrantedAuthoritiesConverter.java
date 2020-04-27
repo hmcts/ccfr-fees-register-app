@@ -2,7 +2,6 @@ package uk.gov.hmcts.fees.register.api.configuration.security.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -14,7 +13,6 @@ import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.ACCESS_TOKEN;
@@ -46,7 +44,7 @@ public class FRJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collecti
         List<GrantedAuthority> authorities = new ArrayList<>();
         if (jwt.containsClaim(TOKEN_NAME) && jwt.getClaim(TOKEN_NAME).equals(ACCESS_TOKEN)) {
             UserInfo userInfo = idamRepository.getUserInfo(jwt.getTokenValue());
-            authorities = extractAuthorityFromClaims(userInfo.getRoles());
+            authorities = extractRoles(userInfo.getRoles());
         }
         return authorities;
     }
@@ -56,7 +54,7 @@ public class FRJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collecti
      * @param roles
      * @return
      */
-    private List<GrantedAuthority> extractAuthorityFromClaims(List<String> roles) {
+    private List<GrantedAuthority> extractRoles(List<String> roles) {
         return roles.stream()
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
