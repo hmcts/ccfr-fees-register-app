@@ -99,7 +99,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
             .oauth2Client();
     }
-    
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Bean
     @SuppressWarnings("unchecked")
