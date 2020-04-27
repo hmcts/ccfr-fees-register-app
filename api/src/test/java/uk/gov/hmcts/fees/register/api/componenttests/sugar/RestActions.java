@@ -15,7 +15,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 public class RestActions {
     private final HttpHeaders httpHeaders = new HttpHeaders();
     private final MockMvc mvc;
-    //private final UserResolverBackdoor userRequestAuthorizer;
+
     private final SecurityUtilsMock securityUtilsMock;
     private final ObjectMapper objectMapper;
 

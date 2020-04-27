@@ -9,15 +9,13 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees.register.functional.config.TestConfigProperties;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.Role;
-//import uk.gov.hmcts.fees.register.functional.idam.IdamApi.TokenExchangeResponse;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.UserGroup;
-import uk.gov.hmcts.fees.register.functional.idam.models.*;
+import uk.gov.hmcts.fees.register.functional.idam.models.User;
 
-import java.util.Base64;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest.*;
+import static uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest.userRequestWith;
 
 @Service
 public class IdamService {
