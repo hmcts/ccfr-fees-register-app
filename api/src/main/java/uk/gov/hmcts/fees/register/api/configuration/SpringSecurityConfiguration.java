@@ -94,15 +94,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
             .oauth2ResourceServer()
             .jwt()
-            .jwtAuthenticationConverter(jwtAuthenticationConverter)
-            .and()
-            .and()
-            .oauth2Client();
-    }
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
+            .jwtAuthenticationConverter(jwtAuthenticationConverter);
     }
 
     @Bean
