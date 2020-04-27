@@ -10,12 +10,12 @@ import uk.gov.hmcts.fees.register.functional.config.TestConfigProperties;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.Role;
 import uk.gov.hmcts.fees.register.functional.idam.IdamApi.UserGroup;
-import uk.gov.hmcts.fees.register.functional.idam.models.User;
+import uk.gov.hmcts.fees.register.functional.idam.models.*;
 
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest.userRequestWith;
+import static uk.gov.hmcts.fees.register.functional.idam.IdamApi.CreateUserRequest.*;
 
 @Service
 public class IdamService {
