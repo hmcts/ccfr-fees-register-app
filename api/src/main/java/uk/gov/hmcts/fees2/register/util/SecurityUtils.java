@@ -28,7 +28,7 @@ public class SecurityUtils {
 
     public UserInfo getUserInfo() {
         final String userToken = getUserToken();
-        //LOG.info("The value of accessToken: " + userToken);
+        LOG.info("The value of accessToken: " + userToken);
         if (userToken == null) {
             return null;
         }
