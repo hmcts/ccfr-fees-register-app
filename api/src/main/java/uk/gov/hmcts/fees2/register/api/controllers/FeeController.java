@@ -97,7 +97,7 @@ public class FeeController {
         LOG.info("Inside updateRangedFee() method: /ranged-fees/{code}");
         RangedFee fee = (RangedFee) feeService.get(code);
         feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
-        LOG.info("Ranged Fee updated successfully. Code:" + fee.getCode());
+        LOG.info("Ranged Fee updated successfully.");
     }
 
 
@@ -117,7 +117,7 @@ public class FeeController {
         LOG.info("Inside updateFixedFee() method: /fixed-fees/{code}");
         FixedFee fee = (FixedFee) feeService.get(code);
         feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
-        LOG.info("Fee updated successfully. Code:" + fee.getCode());
+        LOG.info("Fee updated successfully.");
     }
 
 
@@ -242,7 +242,7 @@ public class FeeController {
     @Transactional
     public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response) {
         Fee fee = feeService.get(code);
-        LOG.info("Fee fetched successfully. Code:" + fee.getCode());
+        LOG.info("Fee fetched successfully.");
         return feeDtoMapper.toFeeDto(fee);
     }
 
