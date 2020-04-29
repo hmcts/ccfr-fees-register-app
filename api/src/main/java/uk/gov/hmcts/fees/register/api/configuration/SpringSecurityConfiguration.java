@@ -70,8 +70,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/**",
             "/health",
             "/health/liveness",
-            "/info",
-            "/fees-register/fees");
+            "/info");
     }
 
     @Override
