@@ -47,4 +47,8 @@
     <suppress>
         <cve>CVE-2019-17195</cve>
     </suppress>
+    
+    <suppress>
+        <cve>CVE-2020-9488</cve>
+    </suppress>
 </suppressions>
