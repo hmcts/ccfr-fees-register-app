@@ -40,6 +40,9 @@
         <cve>CVE-2019-17563</cve>
     </suppress>
     <!-- Added after December 2019 -->
+    <suppress>
+        <cve>CVE-2019-17195</cve>
+    </suppress>
 
     <suppress>
        <cve>CVE-2020-5398</cve>
