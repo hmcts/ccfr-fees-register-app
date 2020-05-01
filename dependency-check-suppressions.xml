@@ -48,6 +48,10 @@
     <suppress>
         <cve>CVE-2020-9488</cve>
     </suppress>
+    
+    <suppress>
+        <cve>CVE-2020-9488</cve>
+    </suppress>
 </suppressions>
 
 
