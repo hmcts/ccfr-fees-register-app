@@ -13,9 +13,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
-import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
+import uk.gov.hmcts.fees2.register.util.SecurityUtils;
+
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
@@ -119,6 +121,7 @@ public class FeeVersionControllerSecurityTest {
     public void testCreateFeeVersion_shouldReturnForbiddenWhenUserDoesNotHaveFeeEditorAuthority() throws Exception {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-unknown");
+
         // when & then
         this.mockMvc.perform(
             post("/fees/testCode/versions")
@@ -158,8 +161,15 @@ public class FeeVersionControllerSecurityTest {
     @TestConfiguration
     public static class MockConfiguration {
         @Bean
-        public RequestAuthorizer requestAuthorizer() {
-            return Mockito.mock(RequestAuthorizer.class);
+        public SecurityUtils securityUtils(){
+            final SecurityUtils securityUtils = Mockito.mock(SecurityUtils.class);
+            Mockito.when(securityUtils.isAuthenticated()).thenReturn(true);
+            return securityUtils;
+        }
+
+        @Bean
+        public IdamRepository idamRepository() {
+            return Mockito.mock(IdamRepository.class);
         }
     }
 

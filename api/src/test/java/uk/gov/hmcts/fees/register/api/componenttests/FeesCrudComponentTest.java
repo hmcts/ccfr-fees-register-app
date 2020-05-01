@@ -10,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
-import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
+import uk.gov.hmcts.fees.register.api.componenttests.backdoors.SecurityUtilsMock;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
 import uk.gov.hmcts.fees.register.api.contract.FeeDto;
@@ -42,17 +42,18 @@ public class FeesCrudComponentTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    protected UserResolverBackdoor userRequestAuthorizer;
+    private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    private SecurityUtilsMock securityUtilsMock;
 
     RestActions restActions;
 
     @Before
     public void setUp() {
         MockMvc mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
+        securityUtilsMock.setAuthenticated(false);
+        this.restActions = new RestActions(mvc, securityUtilsMock, objectMapper);
     }
 
     CustomResultMatcher body() {

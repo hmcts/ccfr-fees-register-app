@@ -5,31 +5,31 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
-import uk.gov.hmcts.reform.auth.checker.core.user.UserRequestAuthorizer;
+import uk.gov.hmcts.fees.register.api.componenttests.backdoors.SecurityUtilsMock;
+
 
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class RestActions {
     private final HttpHeaders httpHeaders = new HttpHeaders();
     private final MockMvc mvc;
-    private final UserResolverBackdoor userRequestAuthorizer;
+
+    private final SecurityUtilsMock securityUtilsMock;
     private final ObjectMapper objectMapper;
 
-    public RestActions(MockMvc mvc, UserResolverBackdoor userRequestAuthorizer, ObjectMapper objectMapper) {
+    public RestActions(final MockMvc mvc, final SecurityUtilsMock securityUtilsMock, final ObjectMapper objectMapper) {
         this.mvc = mvc;
-        this.userRequestAuthorizer = userRequestAuthorizer;
+        this.securityUtilsMock = securityUtilsMock;
         this.objectMapper = objectMapper;
         httpHeaders.add("Accept","application/vnd.uk.gov.hmcts.cc.fr.v2+json");
     }
 
     public RestActions withUser(String userId) {
         String token = UUID.randomUUID().toString();
-        userRequestAuthorizer.registerToken(token, userId);
-        httpHeaders.add(UserRequestAuthorizer.AUTHORISATION, token);
+        securityUtilsMock.registerToken(token, userId);
+        httpHeaders.add(SecurityUtilsMock.AUTHORISATION, token);
         return this;
     }
 

@@ -1,7 +1,7 @@
 plugins {
     id 'application'
     id "org.sonarqube" version "2.6.1"
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'org.owasp.dependencycheck' version '5.2.4'
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
@@ -20,6 +20,9 @@ allprojects {
     }
     version = rootProject.file('version.txt').text.trim() + ".${buildNumber}"
 
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
     repositories {
         mavenLocal()
         maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
@@ -27,7 +30,7 @@ allprojects {
     }
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:2.1.5.RELEASE"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.2.5.RELEASE"
         }
         dependencies {
             // solves CVE-2019-12086
@@ -51,8 +54,6 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
     }
@@ -216,3 +217,6 @@ run {
     }
 }
 
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}

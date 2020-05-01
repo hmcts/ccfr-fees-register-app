@@ -6,7 +6,7 @@ import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto;
 import uk.gov.hmcts.fees.register.api.controllers.fees.FeesDtoMapper;
 import uk.gov.hmcts.fees.register.api.model.FeeOld;
-import uk.gov.hmcts.fees.register.api.model.FixedFee;
+import uk.gov.hmcts.fees.register.api.model.FixedFeeOld;
 import uk.gov.hmcts.fees.register.api.model.PercentageFee;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ public class FeesDtoMapperTest {
 
     @Test
     public void convertsFixedFee() {
-        assertThat(mapper.toFeeDto(new FixedFee(1, "code", "description", 999)))
+        assertThat(mapper.toFeeDto(new FixedFeeOld(1, "code", "description", 999)))
             .isEqualTo(new FixedFeeDto("code", "description", 999));
     }
 
@@ -42,7 +42,7 @@ public class FeesDtoMapperTest {
     @Test
     public void convertsFixedFeeDto() {
         assertThat(mapper.toFee("code", new FixedFeeDto("otherCode", "description", 999)))
-            .isEqualTo(new FixedFee(null, "code", "description", 999));
+            .isEqualTo(new FixedFeeOld(null, "code", "description", 999));
     }
 
     @Test

@@ -46,9 +46,9 @@ withPipeline(type, product, app) {
     overrideVaultEnvironments(vaultOverrides)
     loadVaultSecrets(secrets)
     enableDbMigration('fees-register')
-    enableDockerBuild()
+    //enableDockerBuild()
     installCharts()
     enableSlackNotifications('#cc-payments-tech')
     enableAksStagingDeployment()
-    disableLegacyDeploymentOnAAT()
+    disableLegacyDeployment()
 }
