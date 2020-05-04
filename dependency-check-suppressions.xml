@@ -24,18 +24,9 @@
     <suppress>
         <notes>To remove the following vulnerability we need to upgrade the gradle from current version to 6.0 or above.</notes>
         <cve>CVE-2019-15052</cve>
+        <cve>CVE-2019-16370</cve>
     </suppress>
-
-   <suppress>
-       <notes>To remove the following two vulnerabilities we need to upgrade the gradle from current version to 6.0 or above.</notes>
-       <cve>CVE-2019-16370</cve>
-   </suppress>
 
     <!-- Added after December 2019 -->
-    <suppress>
-        <cpe>cpe:/a:apache_tomcat:apache_tomcat:9.0.21</cpe>
-        <cve>CVE-2019-12418</cve>
-        <cve>CVE-2019-17563</cve>
-    </suppress>
     <!-- Added after December 2019 -->
 </suppressions>
