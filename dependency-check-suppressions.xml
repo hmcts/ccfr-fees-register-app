@@ -35,7 +35,4 @@
     </suppress>
     <!-- Added after December 2019 -->
 
-    <suppress>
-        <cve>CVE-2020-9488</cve>
-    </suppress>
 </suppressions>
