@@ -8,17 +8,9 @@
         <cve>CVE-2010-0538</cve><!-- the apple update jar, with fix for this issue, is still not available (as checked on 15th Jan, 2020).-->
     </suppress>
     <suppress>
-        <notes><![CDATA[
-   file name: dom4j-2.1.1.jar  we are on latest version. fixes not available yet.
-   ]]></notes>
+        <notes><![CDATA[file name: dom4j-2.1.1.jar  we are on latest version. fixes not available yet.]]></notes>
         <gav regex="true">^.*:dom4j:1\.6\.1$</gav>
         <cve>CVE-2018-1000632</cve>
-    </suppress>
-
-    <suppress>
-        <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see https://pivotal.io/security/cve-2018-1258.
-        However if we still want to get rid of this vulnerability, it would need a spring boot version upgrade.</notes>
-        <cve>CVE-2018-1258</cve>
     </suppress>
 
     <suppress>
