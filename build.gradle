@@ -31,6 +31,7 @@ allprojects {
     dependencyManagement {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:2.2.5.RELEASE"
+
             mavenBom 'org.apache.logging.log4j:log4j-bom:2.13.2'
         }
         dependencies {
