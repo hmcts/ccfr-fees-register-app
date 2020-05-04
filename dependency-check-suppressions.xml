@@ -9,7 +9,7 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-   file name: dom4j-2.1.1.jar  we are on latest version. fixes not available yet. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-1000632
+   file name: dom4j-2.1.1.jar  we are on latest version. fixes not available yet.
    ]]></notes>
         <gav regex="true">^.*:dom4j:1\.6\.1$</gav>
         <cve>CVE-2018-1000632</cve>
@@ -24,8 +24,12 @@
     <suppress>
         <notes>To remove the following vulnerability we need to upgrade the gradle from current version to 6.0 or above.</notes>
         <cve>CVE-2019-15052</cve>
-        <cve>CVE-2019-16370</cve>
     </suppress>
+
+   <suppress>
+       <notes>To remove the following two vulnerabilities we need to upgrade the gradle from current version to 6.0 or above.</notes>
+       <cve>CVE-2019-16370</cve>
+   </suppress>
 
     <!-- Added after December 2019 -->
     <suppress>
