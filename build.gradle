@@ -59,6 +59,10 @@ subprojects {
     }
 
     dependencies {
+
+        compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.2'
+        compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.2'
+
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.10.0'
         compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
             exclude(module: 'netty-tcnative-boringssl-static')
