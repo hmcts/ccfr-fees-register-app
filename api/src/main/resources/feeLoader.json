@@ -6064,13 +6064,14 @@
         "fee_order_name": "Family Proceedings",
         "direction": "cost recovery"
       },
-      "jurisdiction1":"Family",
-      "jurisdiction2":"Family court",
-      "service":"Public Law",
-      "channel":"DEFAULT",
+      "jurisdiction1":"family",
+      "jurisdiction2":"family court",
+      "service":"public Law",
+      "channel":"default",
       "event":"issue",
       "unspecified_claim_amount":false,
-      "applicant_type": "all"
+      "applicant_type":"all",
+      "keyword":"CareOrder"
     }
   ]
 }
