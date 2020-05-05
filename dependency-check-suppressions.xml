@@ -20,14 +20,4 @@
         However if we still want to get rid of this vulnerability, it would need a spring boot version upgrade.</notes>
         <cve>CVE-2018-1258</cve>
     </suppress>
-
-    <suppress>
-        <notes>To remove the following vulnerability we need to upgrade the gradle from current version to 6.0 or above.</notes>
-        <cve>CVE-2019-15052</cve>
-    </suppress>
-
-   <suppress>
-       <notes>To remove the following two vulnerabilities we need to upgrade the gradle from current version to 6.0 or above.</notes>
-       <cve>CVE-2019-16370</cve>
-   </suppress>
 </suppressions>
