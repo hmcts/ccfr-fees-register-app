@@ -83,8 +83,8 @@ dependencies {
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
 
     testCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
+    //annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    //testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
     functionalTestAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
     smokeTestAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
 
