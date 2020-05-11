@@ -5,6 +5,10 @@
         <cve>CVE-2010-0538</cve><!-- the apple update jar, with fix for this issue, is still not available.-->
     </suppress>
     <suppress>
+        <notes>file name: dom4j-2.1.1.jar  we are on latest stable version. fixes not available yet. refer : https://www.cvedetails.com/cve/CVE-2018-1000632</notes>
+        <cve>CVE-2018-1000632</cve>
+    </suppress>
+    <suppress>
         <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see https://pivotal.io/security/cve-2018-1258.
         we are on latest Spring Framework version : 5.2.2.RELEASE : https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Versions</notes>
         <cve>CVE-2018-1258</cve>
