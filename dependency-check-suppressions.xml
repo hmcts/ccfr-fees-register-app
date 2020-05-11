@@ -5,8 +5,10 @@
         <cve>CVE-2010-0538</cve><!-- the apple update jar, with fix for this issue, is still not available.-->
     </suppress>
     <suppress>
-        <notes>file name: dom4j-2.1.1.jar  we are on latest stable version. fixes not available yet. refer : https://www.cvedetails.com/cve/CVE-2018-1000632</notes>
+        <notes>it is referring  to com.google.code.findbugs:findbugs:3.0.1 -->  dom4j:dom4j:1.6.1  due to this this cve is coming ,
+            can not remove to load the dom4:j1.6.1</notes>
         <cve>CVE-2018-1000632</cve>
+        <cve>CVE-2020-10683</cve>
     </suppress>
     <suppress>
         <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see https://pivotal.io/security/cve-2018-1258.
