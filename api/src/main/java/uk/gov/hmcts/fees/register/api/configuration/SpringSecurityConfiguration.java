@@ -104,12 +104,11 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             JwtDecoders.fromOidcIssuerLocation(issuerUri);
 
         OAuth2TokenValidator<Jwt> audienceValidator = new AudienceValidator(Arrays.asList(allowedAudiences));
-        // We are using issuerOverride instead of issuerUri as SIDAM has the wrong issuer at the moment
+
         OAuth2TokenValidator<Jwt> withTimestamp = new JwtTimestampValidator();
-        OAuth2TokenValidator<Jwt> withIssuer = new JwtIssuerValidator(issuerOverride);
-        OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withTimestamp,
-            withIssuer,
-            audienceValidator);
+        //OAuth2TokenValidator<Jwt> withIssuer = new JwtIssuerValidator(issuerOverride);
+        // Commented issuer validation as confirmed by IDAM
+        OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withTimestamp, audienceValidator);
         jwtDecoder.setJwtValidator(withAudience);
 
         return jwtDecoder;
