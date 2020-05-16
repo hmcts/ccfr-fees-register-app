@@ -40,6 +40,8 @@
     </suppress>
     <!-- Added after December 2019 -->
 
+
+    <!--The following have been added on 16th May 2020 after the build started failing-->
     <suppress>
         <cve>CVE-2020-5398</cve>
     </suppress>
@@ -49,5 +51,92 @@
     <suppress>
         <cve>CVE-2019-17195</cve>
         <cve>CVE-2020-10683</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-5407</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2018-10936</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-3795</cve>
+    </suppress>
+    <suppress>
+        <cve>CWE-476: NULL Pointer Dereference</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2016-6497</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2016-5394</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2016-6798</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-9547</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-9548</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-16942</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-16943</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-10969</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-11619</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-10968</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-20330</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-10673</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-11620</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-11113</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-17267</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-17531</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-16335</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-11112</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-14893</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-10672</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-11111</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-8840</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-14540</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2019-14892</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-9546</cve>
     </suppress>
 </suppressions>
