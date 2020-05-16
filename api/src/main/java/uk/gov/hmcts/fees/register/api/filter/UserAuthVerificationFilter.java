@@ -42,10 +42,11 @@ public class UserAuthVerificationFilter extends OncePerRequestFilter {
         LOG.info("Inside filter: UserAuthVerificationFilter");
         Collection<String> authorizedRoles = authorizedRolesExtractor.apply(request);
         Optional<String> userIdOptional = userIdExtractor.apply(request);
+        final String bearerToken = request.getHeader(SecurityUtils.AUTHORISATION);
         UserInfo userInfo = null;
-        if (securityUtils.isAuthenticated() && (!authorizedRoles.isEmpty() || userIdOptional.isPresent())) {
+        if ((securityUtils.isAuthenticated() || bearerToken != null) && (!authorizedRoles.isEmpty() || userIdOptional.isPresent())) {
             try {
-                userInfo = verifyRoleAndUserId(authorizedRoles, userIdOptional);
+                userInfo = verifyRoleAndUserId(authorizedRoles, userIdOptional, request);
             } catch (UnauthorizedException ex) {
                 LOG.warn("Unauthorised roles or userId in the request path", ex);
                 response.sendError(HttpStatus.FORBIDDEN.value(), "Access Denied");
@@ -58,8 +59,8 @@ public class UserAuthVerificationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private UserInfo verifyRoleAndUserId(Collection<String> authorizedRoles, Optional<String> userIdOptional) {
-        UserInfo userInfo = securityUtils.getUserInfo();
+    private UserInfo verifyRoleAndUserId(Collection<String> authorizedRoles, Optional<String> userIdOptional, HttpServletRequest httpRequest) {
+        UserInfo userInfo = securityUtils.getUserInfo(httpRequest);
 
         if (userInfo != null && !authorizedRoles.isEmpty() && Collections.disjoint(authorizedRoles, userInfo.getRoles())) {
             throw new UnauthorizedException("Unauthorised role in the path");
