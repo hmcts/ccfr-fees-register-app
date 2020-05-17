@@ -29,7 +29,6 @@ public class SecurityUtils {
 
     public UserInfo getUserInfo(final HttpServletRequest httpRequest) {
         final String userToken = getUserToken(httpRequest);
-        LOG.info("The value of accessToken: " + userToken);
         if (userToken == null) {
             return null;
         }
