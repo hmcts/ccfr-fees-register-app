@@ -6,8 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
 import uk.gov.hmcts.fees2.register.util.SecurityUtils;
 
-import javax.servlet.http.HttpServletRequest;
-
 public class SecurityUtilsMock extends SecurityUtils {
 
     private final IdamRepositoryMock idamRepositoryMock;
@@ -23,7 +21,7 @@ public class SecurityUtilsMock extends SecurityUtils {
         return isAuthenticated;
     }
 
-    public String getUserToken(final HttpServletRequest httpRequest) {
+    public String getUserToken() {
         return userToken;
     }
 
