@@ -62,7 +62,7 @@
         <cve>CVE-2019-3795</cve>
     </suppress>
     <suppress>
-        <cwe>CWE-476</cwe>
+        <cwe>476</cwe>
     </suppress>
     <suppress>
         <cve>CVE-2016-6497</cve>
