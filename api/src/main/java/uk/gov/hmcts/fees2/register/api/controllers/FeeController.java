@@ -308,7 +308,6 @@ public class FeeController {
                 .map(feeDtoMapper::toFeeDto)
                 .collect(Collectors.toList());
         }
-        LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count:" + result.size());
         return result;
     }
 
