@@ -221,8 +221,6 @@ public class FeeController {
     @PostMapping(value = "/bulk-fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFees(@RequestBody final List<FixedFeeDto> fixedFeeDtos, Principal principal) {
-        LOG.info("No. of csv import fees: " + fixedFeeDtos.size());
-
         List<Fee> fixedFees = fixedFeeDtos
             .stream()
             .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, principal != null ? principal.getName() : null))
