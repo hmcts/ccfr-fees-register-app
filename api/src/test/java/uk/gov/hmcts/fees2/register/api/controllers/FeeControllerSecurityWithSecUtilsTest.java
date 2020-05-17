@@ -71,7 +71,7 @@ public class FeeControllerSecurityWithSecUtilsTest {
         Assert.assertTrue(result instanceof ClassCastException);
     }
 
-    //@Test
+    @Test
     public void testUpdateFixedFee_shouldReturnNullWhenUserHasFeeEditorAuthority() throws Exception {
         // given
         Authentication authentication = testAuthenticationTokenWithNullPrincipal("freg-editor");
