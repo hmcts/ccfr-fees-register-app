@@ -16,8 +16,6 @@ import java.util.Objects;
 @Service
 public class SecurityUtils {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtils.class);
-
     public static final String AUTHORISATION = "Authorization";
 
     private final IdamRepository idamRepository;
