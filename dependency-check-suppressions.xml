@@ -73,7 +73,7 @@
         <cve>CVE-2019-3795</cve>
     </suppress>
     <suppress>
-        <cve>CWE-476: NULL Pointer Dereference</cve>
+        <cve>CWE-476</cve>
     </suppress>
     <suppress>
         <cve>CVE-2016-6497</cve>
