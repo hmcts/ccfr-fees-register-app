@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,6 +19,9 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.SecurityUtils;
+
+import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
@@ -85,6 +89,30 @@ public class FeeControllerSecurityWithSecUtilsTest {
         this.mockMvc.perform(
             put("/fees-register/fixed-fees/testCode")
                 .contentType(APPLICATION_JSON)
+                .content(aRangeFeePayload())
+                .with(authentication(authentication)))
+            .andExpect(status().isUnauthorized());
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testUpdateFixedFee_shouldReturnNullWhenAuthenticationInstanceNull() throws Exception {
+        // given
+        final HttpHeaders httpHeaders = new HttpHeaders();
+        final String token = UUID.randomUUID().toString();
+        httpHeaders.add(SecurityUtils.AUTHORISATION, token);
+        Authentication authentication = null;
+
+        given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(aFixedFee());
+        given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
+
+        // when & then
+        Exception result = null;
+
+        this.mockMvc.perform(
+            put("/fees-register/fixed-fees/testCode")
+                .contentType(APPLICATION_JSON)
+                .headers(httpHeaders)
                 .content(aRangeFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isUnauthorized());
