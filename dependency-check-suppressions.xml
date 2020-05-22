@@ -139,4 +139,7 @@
     <suppress>
         <cve>CVE-2020-9546</cve>
     </suppress>
+    <suppress>
+        <cve>CVE-2020-5408</cve>
+    </suppress>
 </suppressions>
