@@ -135,11 +135,7 @@ public class FeeController {
         LOG.info("Inside createFixedFee() method: /fixed-fees");
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        fee = feeService.save(fee);
-
-        if (response != null) {
-            response.setHeader(LOCATION, getResourceLocation(fee));
-        }
+        persistFee(response, fee);
         LOG.info("Fixed Fee created successfully");
     }
 
@@ -157,11 +153,7 @@ public class FeeController {
         LOG.info("Inside createRateableFee() method: /rateable-fees");
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        fee = feeService.save(fee);
-
-        if (response != null) {
-            response.setHeader(LOCATION, getResourceLocation(fee));
-        }
+        persistFee(response, fee);
         LOG.info("Rateable Fee created successfully");
     }
 
@@ -180,12 +172,16 @@ public class FeeController {
         LOG.info("Inside createRelationalFee() method: /relational-fees");
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
+        persistFee(response, fee);
+        LOG.info("Relational Fee created successfully");
+    }
+
+    private void persistFee(HttpServletResponse response, Fee fee) {
         fee = feeService.save(fee);
 
         if (response != null) {
             response.setHeader(LOCATION, getResourceLocation(fee));
         }
-        LOG.info("Relational Fee created successfully");
     }
 
     @ApiOperation(value = "Create banded fee")
@@ -202,11 +198,7 @@ public class FeeController {
         LOG.info("Inside createBandedFee() method: /banded-fees");
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        fee = feeService.save(fee);
-
-        if (response != null) {
-            response.setHeader(LOCATION, getResourceLocation(fee));
-        }
+        persistFee(response, fee);
         LOG.info("Banded Fee created successfully");
     }
 
@@ -221,8 +213,6 @@ public class FeeController {
     @PostMapping(value = "/bulk-fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFees(@RequestBody final List<FixedFeeDto> fixedFeeDtos, Principal principal) {
-        LOG.info("No. of csv import fees: " + fixedFeeDtos.size());
-
         List<Fee> fixedFees = fixedFeeDtos
             .stream()
             .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, principal != null ? principal.getName() : null))
