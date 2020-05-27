@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,7 +214,8 @@ public class FeeController {
     @PostMapping(value = "/bulk-fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFees(@RequestBody final List<FixedFeeDto> fixedFeeDtos, Principal principal) {
-        LOG.info("No. of csv import fees: " + fixedFeeDtos.size());
+        final String encodedDtoSize = Encode.forJava(String.valueOf(fixedFeeDtos.size()));
+        LOG.info("No. of csv import fees: {}", encodedDtoSize);
 
         List<Fee> fixedFees = fixedFeeDtos
             .stream()
