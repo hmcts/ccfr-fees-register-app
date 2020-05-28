@@ -5,7 +5,8 @@
    file name: AppleJavaExtensions-1.4.jar  we are onl latest version. fixes not available yet.
    ]]></notes>
         <gav regex="true">^com\.apple:AppleJavaExtensions:.*$</gav>
-        <cve>CVE-2010-0538</cve><!-- the apple update jar, with fix for this issue, is still not available (as checked on 15th Jan, 2020).-->
+        <cve>CVE-2010-0538
+        </cve><!-- the apple update jar, with fix for this issue, is still not available (as checked on 15th Jan, 2020).-->
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -16,22 +17,28 @@
     </suppress>
 
     <suppress>
-        <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see https://pivotal.io/security/cve-2018-1258.
-        However if we still want to get rid of this vulnerability, it would need a spring boot version upgrade.</notes>
+        <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see
+            https://pivotal.io/security/cve-2018-1258.
+            However if we still want to get rid of this vulnerability, it would need a spring boot version upgrade.
+        </notes>
         <cve>CVE-2018-1258</cve>
     </suppress>
 
     <suppress>
-        <notes>To remove the following vulnerability we need to upgrade the gradle from current version to 6.0 or above.</notes>
+        <notes>To remove the following vulnerability we need to upgrade the gradle from current version to 6.0 or
+            above.
+        </notes>
         <cve>CVE-2019-15052</cve>
     </suppress>
     <!--Pittest gradle plugin related vulnerabilities using latest jar but still appearing
     hence no solution present currently-->
-   <suppress>
-       <notes>To remove the following two vulnerabilities we need to upgrade the gradle from current version to 6.0 or above.</notes>
-       <cve>CVE-2019-16370</cve>
-       <cve>CVE-2019-11065</cve>
-   </suppress>
+    <suppress>
+        <notes>To remove the following two vulnerabilities we need to upgrade the gradle from current version to 6.0 or
+            above.
+        </notes>
+        <cve>CVE-2019-16370</cve>
+        <cve>CVE-2019-11065</cve>
+    </suppress>
 
     <!-- Added after December 2019 -->
     <suppress>
@@ -45,7 +52,7 @@
     </suppress>
 
     <suppress>
-       <cve>CVE-2020-5398</cve>
+        <cve>CVE-2020-5398</cve>
     </suppress>
 
     <suppress>
@@ -152,6 +159,9 @@
     </suppress>
     <suppress>
         <cve>CVE-2020-5408</cve>
+    </suppress>
+    <suppress>
+        <cve>CVE-2020-9484</cve>
     </suppress>
 
 </suppressions>
