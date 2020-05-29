@@ -85,21 +85,5 @@
     <suppress>
         <cve>CVE-2019-14893</cve>
     </suppress>
-    <suppress>
-        <cve>CVE-2020-10672</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2020-11111</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2020-8840</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2019-14892</cve>
-    </suppress>
-    <!--suppress>
-        <notes>updated version of com.fasterxml.jackson.core from 2.9.9.2 to 2.10.0</notes>
-        <cve>CVE-2020-9546</cve>
-        <cve>CVE-2019-14540</cve>
-    </suppress-->
+
 </suppressions>
