@@ -17,18 +17,23 @@
     </suppress>
     <suppress>
         <cve>CVE-2019-17195</cve>
-        <cve>CVE-2020-10683</cve>
     </suppress>
+
+    <!--suppress>
+        <notes>upgraded dom4j version</notes>
+    <cve>CVE-2020-10683</cve>
+    </suppress-->
+
 
     <!--suppress>
     <notes>upgraded version of org.postgresql from 42.2.2 to 42.2.5</notes>
         <cve>CVE-2018-10936</cve>
     </suppress-->
 
-    <!--suppress>
-        <notes>we are already on Spring Security versions 5.2.2</notes>
+    <suppress>
+        <notes>we are already on Spring Security versions 5.2.2 still its showing</notes>
         <cve>CVE-2019-3795</cve>
-    </suppress-->
+    </suppress>
 
     <suppress>
         <notes>Need to look</notes>
