@@ -44,26 +44,6 @@
         <cve>CVE-2020-9548</cve>
     </suppress>
     <suppress>
-        <cve>CVE-2019-16942</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2019-16943</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2020-10969</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2020-11619</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2020-10968</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2019-20330</cve>
-    </suppress>
-    <suppress>
-        <cve>CVE-2020-10673</cve>
-    </suppress>
 
 
 
@@ -75,7 +55,6 @@
         <cve>CVE-2020-8840</cve>
         <cve>CVE-2020-11111</cve>
         <cve>CVE-2020-10672</cve>
-
         <cve>CVE-2019-14893</cve>
         <cve>CVE-2020-11112</cve>
         <cve>CVE-2019-16335</cve>
@@ -83,6 +62,16 @@
         <cve>CVE-2019-17267</cve>
         <cve>CVE-2020-11113</cve>
         <cve>CVE-2020-11620</cve>
+
+        <cve>CVE-2020-10673</cve>
+        <cve>CVE-2019-20330</cve>
+        <cve>CVE-2020-10968</cve>
+        <cve>CVE-2020-11619</cve>
+        <cve>CVE-2020-10969</cve>
+        <cve>CVE-2019-16943</cve>
+        <cve>CVE-2019-16942</cve>
+
+
     </suppress-->
 
 </suppressions>
