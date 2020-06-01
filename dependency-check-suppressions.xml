@@ -7,26 +7,26 @@
         <cve>CVE-2020-5407</cve>
         <cve>CVE-2020-5408</cve>
         <cve>CVE-2020-9484</cve>
-    </suppress>
-    <!--The following CVE's have been added on 21st May 2020 after the build started failing-->
-    <suppress>
         <cve>CVE-2020-5398</cve>
     </suppress>
-    <suppress>
+    <!--The following CVE's have been added on 21st May 2020 after the build started failing-->
+
+    <!--suppress>
+    <notes>upgraded version of org.apache.logging.log4j from 2.13.2 to 2.13.3</notes>
         <cve>CVE-2020-9488</cve>
-    </suppress>
+    </suppress-->
     <suppress>
         <cve>CVE-2019-17195</cve>
     </suppress>
 
-    <!--suppress>
-        <notes>upgraded dom4j version</notes>
+    <suppress>
+        <notes>upgraded dom4j version, still its coming </notes>
     <cve>CVE-2020-10683</cve>
-    </suppress-->
+    </suppress>
 
 
     <!--suppress>
-    <notes>upgraded version of org.postgresql from 42.2.2 to 42.2.5</notes>
+    <notes>upgraded version of org.postgresql driver from 42.2.2 to 42.2.5</notes>
         <cve>CVE-2018-10936</cve>
     </suppress-->
 
