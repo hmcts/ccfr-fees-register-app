@@ -17,10 +17,10 @@
         <cve>CVE-2020-10683</cve>
     </suppress>
 
-    <suppress>
+    <!--suppress>
         <notes>Need to look</notes>
         <cwe>476</cwe>
-    </suppress>
+    </suppress-->
 
 
 
