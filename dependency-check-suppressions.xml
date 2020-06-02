@@ -9,46 +9,7 @@
         <cve>CVE-2020-9484</cve>
         <cve>CVE-2020-5398</cve>
     </suppress>
-    <!--suppress>
-        <notes>we are already on Spring Security versions 5.2.2 still its showing</notes>
-        <cve>CVE-2019-3795</cve>
-    </suppress-->
-    <!--suppress>
-        <notes>Connect2id Nimbus JOSE+JWT before v7.9 can throw various uncaught exceptions while parsing a JWT,
-            which could result in an application crash (potential information disclosure) or a potential authentication bypass.
-        </notes>
-        <cve>CVE-2019-17195</cve>
-    </suppress-->
 
-    <!--suppress>
-        <notes>Need to look</notes>
-        <cwe>476</cwe>
-    </suppress-->
-    <!--suppress>
-        <notes>Need to look: Caused by Groovy</notes>
-        <cve>CVE-2016-6497</cve>
-    </suppress-->
-
-    <!--suppress>
-        <notes>Need to look: apache:sling:0.1.0</notes>
-        <cve>CVE-2016-5394</cve>
-        <cve>CVE-2016-6798</cve>
-    </suppress-->
-
-    <!--suppress>
-        <notes>upgraded dom4j version, still its coming </notes>
-        <cve>CVE-2020-10683</cve>
-    </suppress-->
-
-
-
-
-
-
-
-
-
-<!-- By Anil-->
 
     <!--suppress>
     <notes>upgraded version of org.apache.logging.log4j from 2.13.2 to 2.13.3</notes>
