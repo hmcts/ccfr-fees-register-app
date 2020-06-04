@@ -35,7 +35,7 @@ import java.util.function.Function;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @PropertySource("classpath:application.properties")
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
