@@ -303,7 +303,8 @@ public class FeeController {
                 .map(feeDtoMapper::toFeeDto)
                 .collect(Collectors.toList());
         }
-
+        final String encodedCount = Encode.forJava(String.valueOf(result.size()));
+        LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count:" + encodedCount);
         return result;
     }
 
