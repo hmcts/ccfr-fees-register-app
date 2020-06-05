@@ -47,6 +47,7 @@ withPipeline(type, product, app) {
     loadVaultSecrets(secrets)
     enableDbMigration('fees-register')
     //enableDockerBuild()
+    //installCharts()
     enableSlackNotifications('#cc-payments-tech')
     enableAksStagingDeployment()
     disableLegacyDeployment()

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,10 +95,8 @@ public class FeeController {
                                 @RequestBody @Validated final RangedFeeDto request,
                                 HttpServletResponse response,
                                 Principal principal) {
-        LOG.info("Inside updateRangedFee() method: /ranged-fees/{code}");
         RangedFee fee = (RangedFee) feeService.get(code);
         feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
-        LOG.info("Ranged Fee updated successfully.");
     }
 
 
@@ -114,10 +113,8 @@ public class FeeController {
                                @RequestBody @Validated final FixedFeeDto request,
                                HttpServletResponse response,
                                Principal principal) {
-        LOG.info("Inside updateFixedFee() method: /fixed-fees/{code}");
         FixedFee fee = (FixedFee) feeService.get(code);
         feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
-        LOG.info("Fee updated successfully.");
     }
 
 
@@ -132,11 +129,14 @@ public class FeeController {
     public void createFixedFee(@RequestBody @Validated final FixedFeeDto request,
                                HttpServletResponse response,
                                Principal principal) {
-        LOG.info("Inside createFixedFee() method: /fixed-fees");
+
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        persistFee(response, fee);
-        LOG.info("Fixed Fee created successfully");
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
     }
 
     @ApiOperation(value = "Create rateable fee")
@@ -150,11 +150,14 @@ public class FeeController {
     public void createRateableFee(@RequestBody @Validated final RateableFeeDto request,
                                   HttpServletResponse response,
                                   Principal principal) {
-        LOG.info("Inside createRateableFee() method: /rateable-fees");
+
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        persistFee(response, fee);
-        LOG.info("Rateable Fee created successfully");
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
     }
 
 
@@ -169,11 +172,14 @@ public class FeeController {
     public void createRelationalFee(@RequestBody @Validated final RelationalFeeDto request,
                                     HttpServletResponse response,
                                     Principal principal) {
-        LOG.info("Inside createRelationalFee() method: /relational-fees");
+
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        persistFee(response, fee);
-        LOG.info("Relational Fee created successfully");
+        fee = feeService.save(fee);
+
+        if (response != null) {
+            response.setHeader(LOCATION, getResourceLocation(fee));
+        }
     }
 
     @ApiOperation(value = "Create banded fee")
@@ -187,14 +193,9 @@ public class FeeController {
     public void createBandedFee(@RequestBody @Validated final BandedFeeDto request,
                                 HttpServletResponse response,
                                 Principal principal) {
-        LOG.info("Inside createBandedFee() method: /banded-fees");
+
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
-        persistFee(response, fee);
-        LOG.info("Banded Fee created successfully");
-    }
-
-    private void persistFee(HttpServletResponse response, Fee fee) {
         fee = feeService.save(fee);
 
         if (response != null) {
@@ -213,6 +214,9 @@ public class FeeController {
     @PostMapping(value = "/bulk-fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createFixedFees(@RequestBody final List<FixedFeeDto> fixedFeeDtos, Principal principal) {
+        final String encodedDtoSize = Encode.forJava(String.valueOf(fixedFeeDtos.size()));
+        LOG.info("No. of csv import fees: {}", encodedDtoSize);
+
         List<Fee> fixedFees = fixedFeeDtos
             .stream()
             .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, principal != null ? principal.getName() : null))
@@ -232,7 +236,6 @@ public class FeeController {
     @Transactional
     public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response) {
         Fee fee = feeService.get(code);
-        LOG.info("Fee fetched successfully.");
         return feeDtoMapper.toFeeDto(fee);
     }
 
@@ -287,7 +290,7 @@ public class FeeController {
         List<Fee2Dto> result;
         SearchFeeDto searchFeeDto = new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts, isDraft);
         SearchFeeVersionDto searchFeeVersionDto = new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, discontinued, feeVersionStatus, description, siRefId, feeVersionAmount);
-        LOG.info("Inside getAllFees() method: /fees-register/fees");
+
         if (searchFeeVersionDto.isNoFieldSet()) {
             result = feeSearchService.search(searchFeeDto)
                 .stream()
@@ -300,6 +303,7 @@ public class FeeController {
                 .map(feeDtoMapper::toFeeDto)
                 .collect(Collectors.toList());
         }
+
         return result;
     }
 

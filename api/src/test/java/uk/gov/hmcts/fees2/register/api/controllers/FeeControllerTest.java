@@ -196,7 +196,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 fee2Dtos.stream().forEach(f -> {
                     assertEquals(f.getServiceTypeDto().getName(), "civil money claims");
                     f.getFeeVersionDtos().stream().forEach(v -> {
-                        assertEquals(FeeVersionStatusDto.approved, v.getStatus());
+                        assertEquals(v.getStatus(), FeeVersionStatusDto.approved);
                     });
                 });
             }));

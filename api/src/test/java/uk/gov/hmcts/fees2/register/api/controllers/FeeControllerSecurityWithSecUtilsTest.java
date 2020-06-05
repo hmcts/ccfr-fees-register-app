@@ -119,6 +119,7 @@ public class FeeControllerSecurityWithSecUtilsTest {
 
     }
 
+
     private Authentication testAuthenticationTokenWithNullPrincipal(final String... authorities) {
         final TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(null, "anonymous", authorities);
         return testingAuthenticationToken;

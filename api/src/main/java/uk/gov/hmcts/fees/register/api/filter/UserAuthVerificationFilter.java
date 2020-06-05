@@ -44,7 +44,7 @@ public class UserAuthVerificationFilter extends OncePerRequestFilter {
         Optional<String> userIdOptional = userIdExtractor.apply(request);
         final String bearerToken = request.getHeader(SecurityUtils.AUTHORISATION);
         UserInfo userInfo = null;
-        if ((securityUtils.isAuthenticated() || bearerToken != null)&& (!authorizedRoles.isEmpty() || userIdOptional.isPresent())) {
+        if ((securityUtils.isAuthenticated() || bearerToken != null) && (!authorizedRoles.isEmpty() || userIdOptional.isPresent())) {
             try {
                 userInfo = verifyRoleAndUserId(authorizedRoles, userIdOptional, request);
             } catch (UnauthorizedException ex) {
@@ -52,7 +52,7 @@ public class UserAuthVerificationFilter extends OncePerRequestFilter {
                 response.sendError(HttpStatus.FORBIDDEN.value(), "Access Denied");
                 return;
             }
-            PreAuthenticatedAuthenticationToken authResult = new PreAuthenticatedAuthenticationToken(userInfo, request.getHeader(SecurityUtils.AUTHORISATION));
+            PreAuthenticatedAuthenticationToken authResult = new PreAuthenticatedAuthenticationToken(userInfo, bearerToken);
             SecurityContextHolder.getContext().setAuthentication(authResult);
         }
 
