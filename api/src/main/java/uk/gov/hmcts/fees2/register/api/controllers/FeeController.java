@@ -315,7 +315,8 @@ public class FeeController {
         LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count: {}", encodedCount);
         for (Fee2Dto fee: result) {
             final FeeVersionDto currentVersion = fee.getCurrentVersion();
-            final String encodedauthor = Encode.forJava(currentVersion.getAuthor());
+            final String authorName = currentVersion.getAuthor();
+            final String encodedauthor = Encode.forJava(authorName != null?authorName:"");
             final String encodedStatus = Encode.forJava(currentVersion.getStatus().toString());
             LOG.info("Author: {}, Status {}",encodedauthor, encodedStatus);
         }
