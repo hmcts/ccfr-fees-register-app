@@ -1,6 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import com.oracle.tools.packager.Log;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -297,20 +296,20 @@ public class FeeController {
         LOG.info("SearchFeeVersionDto: " + Encode.forJava(searchFeeVersionDto.toString()));
 
         if (searchFeeVersionDto.isNoFieldSet()) {
-            Log.info("Inside if block, when no field is set... ");
+            LOG.info("Inside if block, when no field is set... ");
             result = feeSearchService.search(searchFeeDto)
                 .stream()
                 .map(feeDtoMapper::toFeeDto)
                 .collect(Collectors.toList());
-            Log.info("Query executed when no field is set... ");
+            LOG.info("Query executed when no field is set... ");
         } else {
-            Log.info("Inside else block, when fields are set... ");
+            LOG.info("Inside else block, when fields are set... ");
             result = feeSearchService
                 .search(searchFeeDto, searchFeeVersionDto)
                 .stream()
                 .map(feeDtoMapper::toFeeDto)
                 .collect(Collectors.toList());
-            Log.info("Query executed when fields are set... ");
+            LOG.info("Query executed when fields are set... ");
         }
         final String encodedCount = Encode.forJava(String.valueOf(result.size()));
         LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count:" + encodedCount);
@@ -318,7 +317,7 @@ public class FeeController {
             final FeeVersionDto currentVersion = fee.getCurrentVersion();
             final String encodedauthor = Encode.forJava(currentVersion.getAuthor());
             final String encodedStatus = Encode.forJava(currentVersion.getStatus().toString());
-            Log.info("Author: {"+ encodedauthor +"}, Status {"+ encodedStatus +"}");
+            LOG.info("Author: {"+ encodedauthor +"}, Status {"+ encodedStatus +"}");
         }
         return result;
     }
