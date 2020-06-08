@@ -317,7 +317,7 @@ public class FeeController {
             final FeeVersionDto currentVersion = fee.getCurrentVersion();
             final String encodedauthor = Encode.forJava(currentVersion.getAuthor());
             final String encodedStatus = Encode.forJava(currentVersion.getStatus().toString());
-            LOG.info("Author: {0}, Status {1}",encodedauthor, encodedStatus);
+            LOG.info("Author: {}, Status {}",encodedauthor, encodedStatus);
         }
         return result;
     }
