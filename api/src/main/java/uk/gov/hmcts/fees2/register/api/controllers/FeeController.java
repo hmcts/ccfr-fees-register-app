@@ -292,8 +292,8 @@ public class FeeController {
         SearchFeeDto searchFeeDto = new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts, isDraft);
         SearchFeeVersionDto searchFeeVersionDto = new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, discontinued, feeVersionStatus, description, siRefId, feeVersionAmount);
 
-        LOG.info("SearchFeeDto: " + Encode.forJava(searchFeeDto.toString()));
-        LOG.info("SearchFeeVersionDto: " + Encode.forJava(searchFeeVersionDto.toString()));
+        LOG.info("SearchFeeDto: {}", Encode.forJava(searchFeeDto.toString()));
+        LOG.info("SearchFeeVersionDto {}: ", Encode.forJava(searchFeeVersionDto.toString()));
 
         if (searchFeeVersionDto.isNoFieldSet()) {
             LOG.info("Inside if block, when no field is set... ");
@@ -312,12 +312,12 @@ public class FeeController {
             LOG.info("Query executed when fields are set... ");
         }
         final String encodedCount = Encode.forJava(String.valueOf(result.size()));
-        LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count:" + encodedCount);
+        LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count: {}", encodedCount);
         for (Fee2Dto fee: result) {
             final FeeVersionDto currentVersion = fee.getCurrentVersion();
             final String encodedauthor = Encode.forJava(currentVersion.getAuthor());
             final String encodedStatus = Encode.forJava(currentVersion.getStatus().toString());
-            LOG.info("Author: {"+ encodedauthor +"}, Status {"+ encodedStatus +"}");
+            LOG.info("Author: {0}, Status {1}",encodedauthor, encodedStatus);
         }
         return result;
     }
