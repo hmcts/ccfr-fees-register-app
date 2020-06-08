@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import com.oracle.tools.packager.Log;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -291,20 +293,33 @@ public class FeeController {
         SearchFeeDto searchFeeDto = new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts, isDraft);
         SearchFeeVersionDto searchFeeVersionDto = new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, discontinued, feeVersionStatus, description, siRefId, feeVersionAmount);
 
+        LOG.info("SearchFeeDto: " + Encode.forJava(searchFeeDto.toString()));
+        LOG.info("SearchFeeVersionDto: " + Encode.forJava(searchFeeVersionDto.toString()));
+
         if (searchFeeVersionDto.isNoFieldSet()) {
+            Log.info("Inside if block, when no field is set... ");
             result = feeSearchService.search(searchFeeDto)
                 .stream()
                 .map(feeDtoMapper::toFeeDto)
                 .collect(Collectors.toList());
+            Log.info("Query executed when no field is set... ");
         } else {
+            Log.info("Inside else block, when fields are set... ");
             result = feeSearchService
                 .search(searchFeeDto, searchFeeVersionDto)
                 .stream()
                 .map(feeDtoMapper::toFeeDto)
                 .collect(Collectors.toList());
+            Log.info("Query executed when fields are set... ");
         }
         final String encodedCount = Encode.forJava(String.valueOf(result.size()));
         LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count:" + encodedCount);
+        for (Fee2Dto fee: result) {
+            final FeeVersionDto currentVersion = fee.getCurrentVersion();
+            final String encodedauthor = Encode.forJava(currentVersion.getAuthor());
+            final String encodedStatus = Encode.forJava(currentVersion.getStatus().toString());
+            Log.info("Author: {"+ encodedauthor +"}, Status {"+ encodedStatus +"}");
+        }
         return result;
     }
 
