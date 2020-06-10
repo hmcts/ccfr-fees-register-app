@@ -12,10 +12,10 @@
 
 
 
-    <!--suppress>
+    <suppress>
         <notes>upgraded dom4j version, still its coming </notes>
         <cve>CVE-2020-10683</cve>
-    </suppress-->
+    </suppress>
 
 
     <!--suppress>
