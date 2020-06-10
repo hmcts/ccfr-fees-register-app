@@ -10,19 +10,17 @@
         <!--cve>CVE-2020-5398</cve-->
     </suppress>
 
-
-
     <suppress>
         <notes>upgraded dom4j version, still its coming </notes>
         <cve>CVE-2020-10683</cve>
     </suppress>
 
 
-    <!--suppress>
+    <suppress>
         <notes>upgraded the org.apache.sling.javax.activation from 0,1.0 to 1.0.12</notes>
         <cve>CVE-2016-5394</cve>
         <cve>CVE-2016-6798</cve>
-    </suppress-->
+    </suppress>
 
 
     <!--suppress>

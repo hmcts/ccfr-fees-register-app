@@ -74,8 +74,6 @@ subprojects {
 
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
-
-        compile group: 'org.apache.sling', name: 'org.apache.sling.javax.activation', version: '1.0.12'
     }
 
     test {
