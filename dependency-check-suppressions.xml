@@ -7,71 +7,13 @@
         <cve>CVE-2020-5407</cve>
         <cve>CVE-2020-5408</cve>
         <cve>CVE-2020-9484</cve>
-        <!--cve>CVE-2020-5398</cve-->
     </suppress>
 
     <suppress>
-        <notes>upgraded dom4j version, still its coming </notes>
+        <notes>We are on latest version , but these are coming form mvn:pkg </notes>
         <cve>CVE-2020-10683</cve>
-    </suppress>
-
-
-    <suppress>
-        <notes>upgraded the org.apache.sling.javax.activation from 0,1.0 to 1.0.12</notes>
         <cve>CVE-2016-5394</cve>
         <cve>CVE-2016-6798</cve>
-    </suppress>
-
-    <suppress>
         <cve>CVE-2020-13692</cve>
     </suppress>
-
-
-    <!--suppress>
-            <notes>upgraded spring-security-test from 5.0.4.RELEASE to 5.2.1.RELEASE</notes>
-            <cve>CVE-2019-3795</cve>
-        </suppress-->
-
-    <!--suppress>
-        <notes>upgraded org.assertj 3.8.0 from 3.11.1/notes>
-        <cwe>476</cwe>
-    </suppress-->
-
-    <!--suppress>
-    <notes>upgraded version of org.apache.logging.log4j from 2.13.2 to 2.13.3</notes>
-        <cve>CVE-2020-9488</cve>
-    </suppress-->
-
-    <!--suppress>
-        <notes>upgraded version of org.postgresql driver from 42.2.2 to 42.2.5</notes>
-            <cve>CVE-2018-10936</cve>
-            <cve>CVE-2020-13692</cve>
-        </suppress-->
-
-    <!--suppress>
-        <notes>upgraded version of com.fasterxml.jackson.core from 2.9.9.2 to 2.10.0</notes>
-        <cve>CVE-2020-9546</cve>
-        <cve>CVE-2019-14540</cve>
-        <cve>CVE-2019-14892</cve>
-        <cve>CVE-2020-8840</cve>
-        <cve>CVE-2020-11111</cve>
-        <cve>CVE-2020-10672</cve>
-        <cve>CVE-2019-14893</cve>
-        <cve>CVE-2020-11112</cve>
-        <cve>CVE-2019-16335</cve>
-        <cve>CVE-2019-17531</cve>
-        <cve>CVE-2019-17267</cve>
-        <cve>CVE-2020-11113</cve>
-        <cve>CVE-2020-11620</cve>
-        <cve>CVE-2020-10673</cve>
-        <cve>CVE-2019-20330</cve>
-        <cve>CVE-2020-10968</cve>
-        <cve>CVE-2020-11619</cve>
-        <cve>CVE-2020-10969</cve>
-        <cve>CVE-2019-16943</cve>
-        <cve>CVE-2019-16942</cve>
-        <cve>CVE-2020-9548</cve>
-        <cve>CVE-2020-9547</cve>
-    </suppress-->
-
 </suppressions>
