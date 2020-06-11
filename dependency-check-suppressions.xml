@@ -22,6 +22,10 @@
         <cve>CVE-2016-6798</cve>
     </suppress>
 
+    <suppress>
+        <cve>CVE-2020-13692</cve>
+    </suppress>
+
 
     <!--suppress>
             <notes>upgraded spring-security-test from 5.0.4.RELEASE to 5.2.1.RELEASE</notes>
