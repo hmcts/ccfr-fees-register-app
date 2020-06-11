@@ -41,6 +41,7 @@
     <!--suppress>
         <notes>upgraded version of org.postgresql driver from 42.2.2 to 42.2.5</notes>
             <cve>CVE-2018-10936</cve>
+            <cve>CVE-2020-13692</cve>
         </suppress-->
 
     <!--suppress>
