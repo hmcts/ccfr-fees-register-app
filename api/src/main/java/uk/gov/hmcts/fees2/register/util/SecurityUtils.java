@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.Objects;
 
 @Service
@@ -39,6 +41,17 @@ public class SecurityUtils {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final Jwt jwt = authentication != null ? (Jwt) authentication.getPrincipal():null;
         return jwt != null ? jwt.getTokenValue() : httpRequest.getHeader(AUTHORISATION);
+    }
+
+    public static String getFeesAuthor(Principal authenticationToken) {
+        if (authenticationToken != null && authenticationToken instanceof PreAuthenticatedAuthenticationToken) {
+            Object principal = ((PreAuthenticatedAuthenticationToken) authenticationToken).getPrincipal();
+
+            if (principal != null && principal instanceof UserInfo) {
+                return ((UserInfo) principal).getUid();
+            }
+        }
+        return "";
     }
 
     public boolean isAuthenticated() {

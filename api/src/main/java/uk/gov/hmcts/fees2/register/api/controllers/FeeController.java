@@ -38,6 +38,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static uk.gov.hmcts.fees2.register.util.SecurityUtils.getFeesAuthor;
+
 @Api(value = "FeesRegister")
 @RestController
 @RequestMapping(value = "/fees-register")
@@ -73,7 +75,7 @@ public class FeeController {
         Principal principal) {
 
         Fee fee = feeService.save(
-            feeDtoMapper.toFee(request, principal != null ? principal.getName() : null)
+            feeDtoMapper.toFee(request, getFeesAuthor(principal))
         );
 
         if (response != null) {
@@ -96,7 +98,7 @@ public class FeeController {
                                 HttpServletResponse response,
                                 Principal principal) {
         RangedFee fee = (RangedFee) feeService.get(code);
-        feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
+        feeDtoMapper.updateRangedFee(request, fee, getFeesAuthor(principal));
     }
 
 
@@ -114,7 +116,7 @@ public class FeeController {
                                HttpServletResponse response,
                                Principal principal) {
         FixedFee fee = (FixedFee) feeService.get(code);
-        feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
+        feeDtoMapper.updateFixedFee(request, fee, getFeesAuthor(principal));
     }
 
 
@@ -130,7 +132,7 @@ public class FeeController {
                                HttpServletResponse response,
                                Principal principal) {
 
-        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+        Fee fee = feeDtoMapper.toFee(request, getFeesAuthor(principal));
 
         fee = feeService.save(fee);
 
@@ -151,7 +153,7 @@ public class FeeController {
                                   HttpServletResponse response,
                                   Principal principal) {
 
-        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+        Fee fee = feeDtoMapper.toFee(request, getFeesAuthor(principal));
 
         fee = feeService.save(fee);
 
@@ -173,7 +175,7 @@ public class FeeController {
                                     HttpServletResponse response,
                                     Principal principal) {
 
-        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+        Fee fee = feeDtoMapper.toFee(request, getFeesAuthor(principal));
 
         fee = feeService.save(fee);
 
@@ -194,7 +196,7 @@ public class FeeController {
                                 HttpServletResponse response,
                                 Principal principal) {
 
-        Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
+        Fee fee = feeDtoMapper.toFee(request, getFeesAuthor(principal));
 
         fee = feeService.save(fee);
 
@@ -219,7 +221,7 @@ public class FeeController {
 
         List<Fee> fixedFees = fixedFeeDtos
             .stream()
-            .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, principal != null ? principal.getName() : null))
+            .map(fixedFeeDto -> feeDtoMapper.toFee(fixedFeeDto, getFeesAuthor(principal)))
             .collect(Collectors.toList());
 
         feeService.save(fixedFees);
