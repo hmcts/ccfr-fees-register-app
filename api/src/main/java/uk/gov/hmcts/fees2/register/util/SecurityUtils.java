@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
+import uk.gov.hmcts.fees.register.api.security.model.UserDetails;
 import uk.gov.hmcts.reform.idam.client.models.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +50,10 @@ public class SecurityUtils {
 
             if (principal != null && principal instanceof UserInfo) {
                 return ((UserInfo) principal).getUid();
+            }
+
+            if (principal != null && principal instanceof UserDetails) {
+                return ((UserDetails) principal).getUsername();
             }
         }
         return "";
