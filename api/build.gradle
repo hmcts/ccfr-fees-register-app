@@ -60,7 +60,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
-    compile(group: 'org.postgresql', name: 'postgresql', version: '42.2.2') {
+    compile (group: 'org.postgresql', name: 'postgresql', version: '42.2.13') {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
@@ -78,10 +78,10 @@ dependencies {
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
     }
-    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.0.4.RELEASE'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
     testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
-    testCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
+    testCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
 
     testCompile 'io.github.openfeign:feign-jackson:9.7.0'
 
