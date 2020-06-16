@@ -16,14 +16,4 @@
         <cve>CVE-2016-6798</cve>
         <cve>CVE-2020-13692</cve>
     </suppress>
-
-
-    <suppress>
-        <notes>removed find bug </notes>
-        <cve>CVE-2018-1000632</cve>
-        <cve>CVE-2010-0538</cve>
-    </suppress>
-
-
-
 </suppressions>
