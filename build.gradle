@@ -192,7 +192,7 @@ def sonarExclusions = [
         '**/fees2/register/util/*Loader.java'
 ]
 
-project.tasks['sonarqube'].dependsOn jacocoTestReport
+//project.tasks['sonarqube'].dependsOn jacocoTestReport
 
 sonarqube {
     properties {
