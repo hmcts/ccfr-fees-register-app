@@ -83,9 +83,9 @@ sonarqube {
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
         property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
-        property "sonar.exclusions", sonarExclusions.join(", ")
-        property "sonar.test.exclusions", sonarExclusions.join(", ")
-        property "sonar.coverage.exclusions", sonarExclusions.join(", ")
+        //property "sonar.exclusions", sonarExclusions.join(", ")
+        //property "sonar.test.exclusions", sonarExclusions.join(", ")
+        //property "sonar.coverage.exclusions", sonarExclusions.join(", ")
         property "sonar.pitest.mode", "reuseReport"
 
     }
