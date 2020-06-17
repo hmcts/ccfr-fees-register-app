@@ -84,6 +84,11 @@ subprojects {
         }
     }
 
+    jacoco {
+        toolVersion = "0.8.4"
+        reportsDir = file("${project.rootDir}/build/jacoco")
+    }
+
     jacocoTestReport {
         executionData(test)
         reports {
@@ -91,6 +96,16 @@ subprojects {
             html.enabled true
         }
     }
+
+
+    jacoco {
+        toolVersion = "0.8.4"
+        reportsDir = file("${project.rootDir}/build/jacoco")
+    }
+
+
+
+
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -176,6 +191,8 @@ def sonarExclusions = [
         '**/fees2/register/data/repository/FeeVersionRepository.java',
         '**/fees2/register/util/*Loader.java'
 ]
+
+project.tasks['sonarqube'].dependsOn jacocoTestReport
 
 sonarqube {
     properties {
