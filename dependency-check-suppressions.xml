@@ -16,4 +16,13 @@
         <cve>CVE-2016-6798</cve>
         <cve>CVE-2020-13692</cve>
     </suppress>
+
+    <suppress>
+        <notes>added </notes>
+        <cve>CVE-2018-10237</cve>
+    </suppress>
+
 </suppressions>
+
+
+
