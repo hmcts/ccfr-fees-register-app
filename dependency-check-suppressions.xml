@@ -46,7 +46,7 @@
     <suppress>
         <cve>CVE-2020-9488</cve>
     </suppress>
-    
+
     <!--The following have been added on 21st May 2020 after the build started failing-->
     <suppress>
         <cve>CVE-2020-5398</cve>
@@ -153,5 +153,8 @@
     </suppress>
     <suppress>
         <cve>CVE-2020-13692</cve>
+        <cve>CVE-2020-14060</cve>
+        <cve>CVE-2020-14061</cve>
+        <cve>CVE-2020-14062</cve>
     </suppress>
 </suppressions>
