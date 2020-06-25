@@ -313,15 +313,11 @@ public class FeeController {
                 .collect(Collectors.toList());
             LOG.info("Query executed when fields are set... ");
         }
-        final String encodedCount = Encode.forJava(String.valueOf(result.size()));
-        LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count: {}", encodedCount);
-        for (Fee2Dto fee: result) {
-            final FeeVersionDto currentVersion = fee.getCurrentVersion();
-            final String authorName = currentVersion.getAuthor();
-            final String encodedauthor = Encode.forJava(authorName != null?authorName:"");
-            final String encodedStatus = Encode.forJava(currentVersion.getStatus().toString());
-            LOG.info("Author: {}, Status {}",encodedauthor, encodedStatus);
+        if (result != null) {
+            final String encodedCount = Encode.forJava(String.valueOf(result.size()));
+            LOG.info("getAllFees() method: /fees-register/fees: Executed successfully. Count: {}", encodedCount);
         }
+
         return result;
     }
 
