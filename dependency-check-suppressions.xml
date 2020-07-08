@@ -159,6 +159,7 @@
         <cve>CVE-2020-14061</cve>
         <cve>CVE-2020-14062</cve>
         <cve>CVE-2020-14195</cve>
+        <cve>CVE-2020-11996</cve>
     </suppress>
 </suppressions>
 
