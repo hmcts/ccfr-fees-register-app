@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +11,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
-import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
+import uk.gov.hmcts.fees.register.api.componenttests.backdoors.SecurityUtilsMock;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
+import uk.gov.hmcts.fees2.register.util.SecurityUtils;
 
 import javax.transaction.Transactional;
 
@@ -31,17 +33,17 @@ public class SecurityComponentTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    protected UserResolverBackdoor userRequestAuthorizer;
+    private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    private SecurityUtilsMock securityUtilsMock;
 
     RestActions restActions;
 
     @Before
     public void setUp() {
         MockMvc mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
+        this.restActions = new RestActions(mvc, securityUtilsMock, objectMapper);
     }
 
     CustomResultMatcher body() {
@@ -86,5 +88,14 @@ public class SecurityComponentTest {
             .withUser("admin")
             .put("/categories/cmc-online", "any body")
             .andExpect(status().isBadRequest());
+    }
+
+    @Autowired
+    private SecurityUtils securityUtils;
+
+    @Test
+    public void shouldReturnFalseWhenIsAuthenticationInvoked() {
+        final boolean authenticated = securityUtils.isAuthenticated();
+        Assert.assertTrue(authenticated);
     }
 }
