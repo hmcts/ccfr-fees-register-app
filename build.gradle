@@ -10,6 +10,13 @@ plugins {
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
 }
+
+
+def versions = [
+        lombok: '1.18.12'
+]
+
+
 allprojects {
     apply plugin: 'maven'
     apply plugin: 'io.spring.dependency-management'
@@ -72,21 +79,55 @@ subprojects {
         compileOnly 'org.projectlombok:lombok:1.18.10'
         //must
         annotationProcessor 'org.projectlombok:lombok:1.18.10'
+
+
+
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+        testCompileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+
     }
 
+
+
+    /*test {
+        finalizedBy jacocoTestReport
+        jacoco {
+          //  append = true
+            destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
+        }
+    }
+
+    jacocoTestReport {
+        executionData(test)
+        reports {
+            xml.enabled true
+            csv.enabled = false
+            html.enabled true
+        }
+    }*/
+
+
     jacoco {
-        toolVersion = "0.8.5"
+        toolVersion = "0.8.4"
         reportsDir = file("${project.rootDir}/build/jacoco")
+    }
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+            csv.enabled false
+            html.destination file("${buildDir}/build/jacoco")
+        }
     }
 
     test {
         finalizedBy jacocoTestReport
         jacoco {
-           // append = true
+            //append = true
             destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
         }
     }
-
     jacocoTestReport {
         executionData(test)
         reports {
