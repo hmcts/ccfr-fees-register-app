@@ -95,12 +95,8 @@ dependencies {
     compile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.5'
     compile 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
 
-
-    compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
     functionalTestAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
-    smokeTestAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
 }
 
 test {
