@@ -74,6 +74,11 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.10'
     }
 
+    jacoco {
+        toolVersion = "0.8.5"
+        reportsDir = file("${project.rootDir}/build/jacoco")
+    }
+
     test {
         finalizedBy jacocoTestReport
         jacoco {
@@ -190,6 +195,7 @@ sonarqube {
         property "sonar.dynamicAnalysis", "reuseReports"
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
         property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
         property "sonar.exclusions", sonarExclusions.join(", ")
         property "sonar.test.exclusions", sonarExclusions.join(", ")
