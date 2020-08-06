@@ -41,6 +41,13 @@ public class FeeLoader implements ApplicationRunner {
 
    // private Principal AUTHOR = new PrincipalImpl("LOADER");
 
+    private Principal AUTHOR = new Principal() {
+        @Override
+        public String getName() {
+            return "LOADER";
+        }
+    };
+
     @Value("classpath:${fees.loader.json}")
     private String feesJsonInputFile;
 

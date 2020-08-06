@@ -66,6 +66,7 @@ subprojects {
     }
 
     dependencies {
+        compile ('com.sun.xml.bind:jaxb-osgi:2.3.1')
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.10.0'
         compile group: 'org.owasp.encoder', name: 'encoder', version: '1.2'
         compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
