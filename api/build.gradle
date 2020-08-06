@@ -92,7 +92,7 @@ dependencies {
     // functional
     functionalTestCompile sourceSets.test.runtimeClasspath
 
-    compile group: 'org.pitest', name: 'pitest', version: '1.5.1'
+    compile group: 'org.pitest', name: 'pitest', version: versions.pitest
     compile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.5'
     compile 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
 
@@ -133,7 +133,7 @@ pitest {
     historyOutputLocation = 'build/reports/pitest/fastermutationtestingoutput'
     outputFormats = ['XML', 'HTML']
     timestampedReports = true
-    mutationThreshold = 90
+    mutationThreshold = 50
 }
 
 

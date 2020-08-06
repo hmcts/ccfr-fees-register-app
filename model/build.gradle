@@ -7,10 +7,4 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.7'
     compile group: 'org.springframework', name: 'spring-test'
     testCompile group: 'org.mockito', name: 'mockito-all', version:'1.10.19'
-
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-
 }
