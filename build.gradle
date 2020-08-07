@@ -1,11 +1,10 @@
 plugins {
     id 'application'
-    id "org.sonarqube" version "2.6.1"
+    id "org.sonarqube" version "3.0"
     id 'org.springframework.boot' version '2.2.5.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'org.owasp.dependencycheck' version '5.2.4'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'org.owasp.dependencycheck' version '5.3.0'
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
-   // id 'findbugs'
     id 'jacoco'
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
@@ -13,7 +12,9 @@ plugins {
 
 
 def versions = [
-        lombok: '1.18.12'
+        lombok: '1.18.12',
+        javaVersion: '11',
+        jacocoVersion: '0.8.4'
 ]
 
 
@@ -27,8 +28,8 @@ allprojects {
     }
     version = rootProject.file('version.txt').text.trim() + ".${buildNumber}"
 
-    sourceCompatibility = 11
-    targetCompatibility = 11
+    sourceCompatibility = versions.javaVersion
+    targetCompatibility = versions.javaVersion
 
     repositories {
         mavenLocal()
@@ -57,7 +58,6 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: "jacoco"
-    //apply plugin: "findbugs"
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
 
@@ -74,24 +74,16 @@ subprojects {
         }
         testCompile group: 'junit', name: 'junit', version: '4.12'
         testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
-        //compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
 
-        compileOnly 'org.projectlombok:lombok:1.18.10'
-        //must
-        annotationProcessor 'org.projectlombok:lombok:1.18.10'
-
-
-
         compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-        testCompileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
         testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     }
 
     jacoco {
-        toolVersion = "0.8.4"
+        toolVersion = versions.jacocoVersion
         reportsDir = file("${project.rootDir}/build/jacoco")
     }
 
@@ -110,16 +102,6 @@ subprojects {
             html.enabled true
         }
     }
-
-
-    /* findbugs {
-         ignoreFailures = false
-         reportsDir = file("$project.buildDir/reports/findbugs")
-         effort = "max"
-         reportLevel = "high"
-         includeFilter = file("$rootProject.projectDir/findbugs-security-include.xml")
-         excludeFilter = file("$rootProject.projectDir/findbugs-security-exclude.xml")
-     }*/
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'

@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-//import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
@@ -13,15 +12,11 @@ import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-
 import javax.servlet.http.HttpServletResponse;
-
 import java.security.Principal;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FeeVersionControllerTest extends BaseIntegrationTest {
 
@@ -78,8 +73,6 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         try {
 
-            //feeVersionController.approve(arr[3], 1, new PrincipalImpl(AUTHOR));
-
             feeVersionController.approve(arr[3], 1, new Principal() {
                 @Override
                 public String getName() {
@@ -108,8 +101,6 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         try {
 
-            //feeVersionController.approve(arr[3], 1, new PrincipalImpl(AUTHOR));
-
             feeVersionController.approve(arr[3], 1, new Principal() {
                 @Override
                 public String getName() {
@@ -120,8 +111,6 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
             feeVersionDto2.setVersion(2);
-
-            //feeVersionController.createVersion(arr[3], feeVersionDto2, new PrincipalImpl(AUTHOR));
 
             feeVersionController.createVersion(arr[3], feeVersionDto2, new Principal() {
                 @Override
