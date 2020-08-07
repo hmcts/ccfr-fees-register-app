@@ -57,7 +57,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: "jacoco"
+    //apply plugin: "jacoco"
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
 
@@ -82,7 +82,7 @@ subprojects {
         testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     }
 
-    jacoco {
+    /*jacoco {
         toolVersion = versions.jacocoVersion
         reportsDir = file("${project.rootDir}/build/jacoco")
     }
@@ -101,7 +101,7 @@ subprojects {
             xml.enabled true
             html.enabled true
         }
-    }
+    }*/
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -169,7 +169,31 @@ bootJar {
 springBoot {
     buildInfo()
 }
-//    OWASP (./gradlew dependencyCheck -DdependencyCheck.failBuild=true)
+
+
+/*//    OWASP (./gradlew dependencyCheck -DdependencyCheck.failBuild=true)
+dependencyCheck {
+    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
+    // range of 0-10 fails the build, anything greater and it doesn't fail the build
+    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
+    suppressionFile = 'dependency-check-suppressions.xml'
+    format='ALL'
+}*/
+
+
+
+jacoco {
+    toolVersion = "0.8.4"
+    reportsDir = file("${project.rootDir}/build/jacoco")
+}
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/build/jacoco")
+    }
+}
+
 dependencyCheck {
     // Specifies if the build should be failed if a CVSS score above a specified level is identified.
     // range of 0-10 fails the build, anything greater and it doesn't fail the build
@@ -177,6 +201,24 @@ dependencyCheck {
     suppressionFile = 'dependency-check-suppressions.xml'
     format='ALL'
 }
+
+
+test {
+    finalizedBy jacocoTestReport
+    jacoco {
+        //append = true
+          destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
+    }
+}
+jacocoTestReport {
+    executionData(test)
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+
+
 
 def sonarExclusions = [
         '**/fees/**',
