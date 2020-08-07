@@ -57,7 +57,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-    //apply plugin: "jacoco"
+    apply plugin: "jacoco"
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
 
@@ -65,24 +65,8 @@ subprojects {
         options.encoding = 'UTF-8'
     }
 
-    dependencies {
-        compile ('com.sun.xml.bind:jaxb-osgi:2.3.1')
-        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.10.0'
-        compile group: 'org.owasp.encoder', name: 'encoder', version: '1.2'
-        compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
-            exclude(module: 'netty-tcnative-boringssl-static')
-        }
-        testCompile group: 'junit', name: 'junit', version: '4.12'
-        testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
-        compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
-        compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
 
-        compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    }
-
-    /*jacoco {
+    jacoco {
         toolVersion = versions.jacocoVersion
         reportsDir = file("${project.rootDir}/build/jacoco")
     }
@@ -101,7 +85,25 @@ subprojects {
             xml.enabled true
             html.enabled true
         }
-    }*/
+    }
+
+
+    dependencies {
+        compile ('com.sun.xml.bind:jaxb-osgi:2.3.1')
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.10.0'
+        compile group: 'org.owasp.encoder', name: 'encoder', version: '1.2'
+        compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
+            exclude(module: 'netty-tcnative-boringssl-static')
+        }
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+        testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
+        compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
+        compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
+
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -171,29 +173,9 @@ springBoot {
 }
 
 
-/*//    OWASP (./gradlew dependencyCheck -DdependencyCheck.failBuild=true)
-dependencyCheck {
-    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
-    // range of 0-10 fails the build, anything greater and it doesn't fail the build
-    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
-    suppressionFile = 'dependency-check-suppressions.xml'
-    format='ALL'
-}*/
 
 
-
-jacoco {
-    toolVersion = "0.8.4"
-    reportsDir = file("${project.rootDir}/build/jacoco")
-}
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled false
-        html.destination file("${buildDir}/build/jacoco")
-    }
-}
-
+//    OWASP (./gradlew dependencyCheck -DdependencyCheck.failBuild=true)
 dependencyCheck {
     // Specifies if the build should be failed if a CVSS score above a specified level is identified.
     // range of 0-10 fails the build, anything greater and it doesn't fail the build
@@ -201,24 +183,6 @@ dependencyCheck {
     suppressionFile = 'dependency-check-suppressions.xml'
     format='ALL'
 }
-
-
-test {
-    finalizedBy jacocoTestReport
-    jacoco {
-        //append = true
-          destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
-    }
-}
-jacocoTestReport {
-    executionData(test)
-    reports {
-        xml.enabled true
-        html.enabled true
-    }
-}
-
-
 
 def sonarExclusions = [
         '**/fees/**',
