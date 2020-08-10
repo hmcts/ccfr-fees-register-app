@@ -10,8 +10,6 @@ plugins {
     id 'com.jfrog.bintray' version '1.8.4'
 }
 
-apply plugin: 'org.sonarqube'
-
 def versions = [
         lombok: '1.18.12',
         javaVersion: '11',
@@ -22,7 +20,6 @@ def versions = [
 allprojects {
     apply plugin: 'maven'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'org.sonarqube'
 
     group = 'uk.gov.hmcts.reform.fees-register'
     ext {
@@ -62,8 +59,6 @@ subprojects {
     apply plugin: "jacoco"
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
-    apply plugin: 'org.sonarqube'
-
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
@@ -94,7 +89,6 @@ subprojects {
 
     dependencies {
 
-        compile group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '3.0'
         compile ('com.sun.xml.bind:jaxb-osgi:2.3.1')
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.10.0'
         compile group: 'org.owasp.encoder', name: 'encoder', version: '1.2'
