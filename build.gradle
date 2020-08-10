@@ -13,7 +13,7 @@ plugins {
 def versions = [
         lombok: '1.18.12',
         javaVersion: '11',
-        jacocoVersion: '0.8.4'
+        jacocoVersion: '0.8.5'
 ]
 
 
