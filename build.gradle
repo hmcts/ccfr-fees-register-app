@@ -97,7 +97,7 @@ subprojects {
     }
 
     jacocoTestReport {
-        dependsOn test
+        //dependsOn test
         executionData(test)
         reports {
             html.enabled = true
