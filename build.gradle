@@ -62,32 +62,6 @@ subprojects {
         options.encoding = 'UTF-8'
     }
 
-
-    jacoco {
-        toolVersion = '0.8.5'
-        reportsDir = file("${project.rootDir}/build/jacoco")
-    }
-
-    test {
-        finalizedBy jacocoTestReport
-        jacoco {
-            //append = true
-            destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
-        }
-    }
-
-    jacocoTestReport {
-        dependsOn test
-        executionData(test)
-        reports {
-            xml.enabled true
-            html.enabled true
-            //html.enabled = true
-            //xml.enabled = true
-            //html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
-        }
-    }
-
     dependencies {
         compile ('com.sun.xml.bind:jaxb-osgi:2.3.1')
         compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
@@ -109,7 +83,7 @@ subprojects {
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
     }
 
-    /*test {
+    test {
         finalizedBy jacocoTestReport
         jacoco {
             //append = true
@@ -119,6 +93,7 @@ subprojects {
 
     jacoco {
         toolVersion = '0.8.5'
+        reportsDir = file("${project.rootDir}/build/jacoco")
     }
 
    jacocoTestReport {
@@ -127,9 +102,9 @@ subprojects {
         reports {
             xml.enabled true
             html.enabled true
-            //html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
+            html.destination = file("${project.rootDir}/build/jacoco/test/html")
         }
-    }*/
+    }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -175,6 +150,7 @@ subprojects {
             }
         }
     }
+
 }
 
     dependencies {
