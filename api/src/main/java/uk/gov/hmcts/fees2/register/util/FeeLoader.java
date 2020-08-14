@@ -12,7 +12,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-import sun.security.acl.PrincipalImpl;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
@@ -24,7 +23,6 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
@@ -39,7 +37,12 @@ import java.util.List;
 public class FeeLoader implements ApplicationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(FeeLoader.class);
 
-    private Principal AUTHOR = new PrincipalImpl("LOADER");
+    private Principal AUTHOR = new Principal() {
+        @Override
+        public String getName() {
+            return "LOADER";
+        }
+    };
 
     @Value("classpath:${fees.loader.json}")
     private String feesJsonInputFile;
