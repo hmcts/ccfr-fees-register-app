@@ -98,8 +98,7 @@ subprojects {
 
     jacocoTestReport {
         dependsOn test
-        executionData(test)
-
+        executionData(test,functionalTest)
         reports {
             html.enabled = true
             xml.enabled = true
