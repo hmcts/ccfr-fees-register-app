@@ -199,7 +199,7 @@ subprojects {
         }
     }
 
-//project.tasks['sonarqube'].dependsOn test, jacocoTestReport
+    project.tasks['sonarqube'].dependsOn test, jacocoTestReport
 
     task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
         buildFile = './api/build.gradle'
@@ -229,4 +229,3 @@ subprojects {
         distributionType = Wrapper.DistributionType.ALL
     }
 
-project.tasks['sonarqube'].dependsOn test, jacocoTestReport
