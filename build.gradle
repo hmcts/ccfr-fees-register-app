@@ -66,24 +66,35 @@ subprojects {
         testCompile group: 'junit', name: 'junit', version: '4.12'
         testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
         compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-        annotationProcessor 'org.projectlombok:lombok:1.18.12'
+        //annotationProcessor 'org.projectlombok:lombok:1.18.12'
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
+
+        compileOnly group: 'org.projectlombok', name: 'lombok', '1.18.12'
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+
     }
 
     test {
         finalizedBy jacocoTestReport
         jacoco {
-            append = true
+            //append = true
             destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
         }
     }
 
+    jacoco {
+        toolVersion = '0.8.5'
+    }
+
     jacocoTestReport {
+        dependsOn test
         executionData(test)
         reports {
-            xml.enabled true
-            html.enabled true
+            html.enabled = true
+            xml.enabled = true
+           // html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
         }
     }
 
@@ -179,6 +190,8 @@ subprojects {
             property "sonar.coverage.exclusions", sonarExclusions.join(", ")
         }
     }
+
+    project.tasks['sonarqube'].dependsOn test, jacocoTestReport
 
     task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
         buildFile = './api/build.gradle'
