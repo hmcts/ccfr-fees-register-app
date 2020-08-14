@@ -1,11 +1,10 @@
 plugins {
     id 'application'
     id "org.sonarqube" version "2.6.1"
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'org.owasp.dependencycheck' version '5.2.4'
+    id "uk.gov.hmcts.java" version '0.8.0'
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
-    id 'findbugs'
     id 'jacoco'
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
@@ -30,15 +29,13 @@ allprojects {
     }
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:2.2.5.RELEASE"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.2.6.RELEASE"
+            mavenBom 'org.apache.logging.log4j:log4j-bom:2.13.3'
         }
         dependencies {
-            // solves CVE-2019-12086
-            // remove once spring manager incorporates this changes
             dependencySet(
                     group: 'com.fasterxml.jackson.core',
                     version: '2.10.1'
-                    //version: dependencyManagement.importedProperties['jackson.version'] solves CVE-2019-12086
             ) {
                 entry 'jackson-core'
                 entry 'jackson-databind'
@@ -50,7 +47,6 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: "jacoco"
-    apply plugin: "findbugs"
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
 
@@ -59,14 +55,18 @@ subprojects {
     }
 
     dependencies {
+        compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+        compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.10.0'
+        compile group:'org.dom4j',name:'dom4j',version: '2.1.3'
         compile group: 'org.owasp.encoder', name: 'encoder', version: '1.2'
         compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
             exclude(module: 'netty-tcnative-boringssl-static')
         }
         testCompile group: 'junit', name: 'junit', version: '4.12'
-        testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
-        compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
+        testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+        annotationProcessor 'org.projectlombok:lombok:1.18.12'
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
     }
@@ -85,15 +85,6 @@ subprojects {
             xml.enabled true
             html.enabled true
         }
-    }
-
-    findbugs {
-        ignoreFailures = false
-        reportsDir = file("$project.buildDir/reports/findbugs")
-        effort = "max"
-        reportLevel = "high"
-        includeFilter = file("$rootProject.projectDir/findbugs-security-include.xml")
-        excludeFilter = file("$rootProject.projectDir/findbugs-security-exclude.xml")
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
@@ -142,82 +133,77 @@ subprojects {
     }
 }
 
-dependencies {
-    compile project(':fees-register-api')
-}
-
-mainClassName = 'uk.gov.hmcts.FeesRegisterServiceApplication'
-
-jar {
-    enabled = true
-}
-
-bootJar {
-    archiveName 'fees-register-app.jar'
-    manifest {
-        attributes 'Implementation-Title': project.name, 'Implementation-Version': project.version
+    dependencies {
+        compile project(':fees-register-api')
     }
-}
 
-springBoot {
-    buildInfo()
-}
-//    OWASP (./gradlew dependencyCheck -DdependencyCheck.failBuild=true)
-dependencyCheck {
-    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
-    // range of 0-10 fails the build, anything greater and it doesn't fail the build
-    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
-    suppressionFile = 'dependency-check-suppressions.xml'
-    format='ALL'
-}
+    mainClassName = 'uk.gov.hmcts.FeesRegisterServiceApplication'
 
-def sonarExclusions = [
-        '**/fees/**',
-        '**/fees2/register/api/contract/**',
-        '**/fees2/register/data/model/**',
-        '**/fees2/register/data/dto/**',
-        '**/fees2/register/api/contract/loader/**',
-        '**/fees2/register/data/repository/FeeVersionRepository.java',
-        '**/fees2/register/util/*Loader.java'
-]
-
-sonarqube {
-    properties {
-        property "sonar.host.url", "https://sonar.reform.hmcts.net/"
-        property "sonar.dynamicAnalysis", "reuseReports"
-        property "sonar.java.coveragePlugin", "jacoco"
-        property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
-        property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
-        property "sonar.exclusions", sonarExclusions.join(", ")
-        property "sonar.test.exclusions", sonarExclusions.join(", ")
-        property "sonar.coverage.exclusions", sonarExclusions.join(", ")
+    jar {
+        enabled = true
     }
-}
 
-task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
-    buildFile = './api/build.gradle'
-    tasks = ['smokeTest']
-}
-
-task functional(type: GradleBuild, description: 'Runs Functional tests', group: 'Verification') {
-    buildFile = './api/build.gradle'
-    tasks = ['functionalTest']
-}
-
-task printVersion {
-    description 'Prints the version of this project'
-    doLast {
-        print project.version
+    bootJar {
+        archiveName 'fees-register-app.jar'
+        manifest {
+            attributes 'Implementation-Title': project.name, 'Implementation-Version': project.version
+        }
     }
-}
 
-run {
-    def debug = System.getProperty("debug")
-    if (debug == 'true') {
-        jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+    springBoot {
+        buildInfo()
     }
-}
+    dependencyCheck {
+        suppressionFile = 'dependency-check-suppressions.xml'
+    }
 
-wrapper {
-    distributionType = Wrapper.DistributionType.ALL
-}
+    def sonarExclusions = [
+            '**/fees/**',
+            '**/fees2/register/api/contract/**',
+            '**/fees2/register/data/model/**',
+            '**/fees2/register/data/dto/**',
+            '**/fees2/register/api/contract/loader/**',
+            '**/fees2/register/data/repository/FeeVersionRepository.java',
+            '**/fees2/register/util/*Loader.java'
+    ]
+
+    sonarqube {
+        properties {
+            property "sonar.host.url", "https://sonar.reform.hmcts.net/"
+            property "sonar.dynamicAnalysis", "reuseReports"
+            property "sonar.java.coveragePlugin", "jacoco"
+            property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
+            property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
+            property "sonar.exclusions", sonarExclusions.join(", ")
+            property "sonar.test.exclusions", sonarExclusions.join(", ")
+            property "sonar.coverage.exclusions", sonarExclusions.join(", ")
+        }
+    }
+
+    task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
+        buildFile = './api/build.gradle'
+        tasks = ['smokeTest']
+    }
+
+    task functional(type: GradleBuild, description: 'Runs Functional tests', group: 'Verification') {
+        buildFile = './api/build.gradle'
+        tasks = ['functionalTest']
+    }
+
+    task printVersion {
+        description 'Prints the version of this project'
+        doLast {
+            print project.version
+        }
+    }
+
+    run {
+        def debug = System.getProperty("debug")
+        if (debug == 'true') {
+            jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+        }
+    }
+
+    wrapper {
+        distributionType = Wrapper.DistributionType.ALL
+    }
