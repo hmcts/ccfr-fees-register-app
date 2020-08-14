@@ -90,7 +90,7 @@ subprojects {
     }
 
     jacocoTestReport {
-        dependsOn test
+        //dependsOn test
         executionData(test)
         reports {
             html.enabled = true
@@ -192,7 +192,7 @@ subprojects {
         }
     }
 
-    project.tasks['sonarqube'].dependsOn test, jacocoTestReport
+    //project.tasks['sonarqube'].dependsOn test, jacocoTestReport
 
     task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
         buildFile = './api/build.gradle'
