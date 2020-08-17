@@ -58,9 +58,36 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
 
+
+    jacoco {
+        toolVersion = '0.8.5'
+    }
+
+    test {
+        finalizedBy jacocoTestReport
+        jacoco {
+            //append = true
+            destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
+        }
+    }
+
+    jacocoTestReport {
+        dependsOn test
+        executionData(test)
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            //html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
+        }
+    }
+
+
+
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
     }
+
+
 
 
     dependencies {
@@ -151,7 +178,7 @@ subprojects {
         }
     }
 
-    test {
+    /*test {
         finalizedBy jacocoTestReport
         jacoco {
             //append = true
@@ -159,9 +186,9 @@ subprojects {
         }
     }
 
-    /*jacoco {
+    *//*jacoco {
         toolVersion = '0.8.5'
-    }*/
+    }*//*
 
     jacocoTestReport {
         dependsOn test
@@ -171,7 +198,7 @@ subprojects {
             xml.enabled = true
             html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
         }
-    }
+    }*/
 
 }
 
