@@ -84,7 +84,7 @@ subprojects {
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
     }
 
-    test {
+    /*test {
         finalizedBy jacocoTestReport
         jacoco {
             //append = true
@@ -104,7 +104,7 @@ subprojects {
             xml.enabled = true
             html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
         }
-    }
+    }*/
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -150,6 +150,29 @@ subprojects {
             }
         }
     }
+
+    test {
+        finalizedBy jacocoTestReport
+        jacoco {
+            //append = true
+            destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
+        }
+    }
+
+    jacoco {
+        toolVersion = '0.8.5'
+    }
+
+    jacocoTestReport {
+        dependsOn test
+        executionData(test)
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
+        }
+    }
+
 }
 
     dependencies {
