@@ -106,14 +106,6 @@ subprojects {
         }
     }
 
-    jacocoTestReport.dependsOn += 'test'
-
-    //try out
-    //jacocoTestReport.dependsOn += 'test'
-    //executionData(integration)
-    //executionData(test, integration)
-
-
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
         from sourceSets.main.allSource
@@ -207,7 +199,7 @@ subprojects {
         }
     }
 
-    project.tasks['sonarqube'].dependsOn test, jacocoTestReport
+    project.tasks['sonarqube'].dependsOn test,jacocoTestReport
 
     task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
         buildFile = './api/build.gradle'

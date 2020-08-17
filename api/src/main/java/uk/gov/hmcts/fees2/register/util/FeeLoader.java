@@ -37,13 +37,6 @@ import java.util.List;
 public class FeeLoader implements ApplicationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(FeeLoader.class);
 
-   /* private Principal AUTHOR = new Principal() {
-        @Override
-        public String getName() {
-            return "LOADER";
-        }
-    };*/
-
     @Value("classpath:${fees.loader.json}")
     private String feesJsonInputFile;
 
