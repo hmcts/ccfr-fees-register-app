@@ -228,14 +228,17 @@ subprojects {
     }
 
     def sonarExclusions = [
-            //'**/fees/**',
-            //'**/fees2/register/api/contract/**',
-            //'**/fees2/register/data/model/**',
+            '**/fees/**',
+            '**/fees2/register/api/contract/**',
+            '**/fees2/register/data/model/**',
             '**/fees2/register/data/dto/**',
             '**/fees2/register/api/contract/loader/**',
             '**/fees2/register/data/repository/FeeVersionRepository.java',
             '**/fees2/register/util/*Loader.java',
-            '**/fees2/register/data/service/**'
+            '**/fees2/register/data/service/**',
+            '**/fees2/register/data/service/**',
+            '**/fees2/register/data/service/impl/*',
+            '**/fees2/register/data/service/validator/*'
     ]
 
     sonarqube {
