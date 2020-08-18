@@ -1,6 +1,6 @@
 plugins {
     id "info.solidsoft.pitest" version '1.5.1'
-    //id 'jacoco'
+    id 'jacoco'
 }
 description = 'api module'
 
