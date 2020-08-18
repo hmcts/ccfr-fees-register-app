@@ -237,8 +237,6 @@ subprojects {
             '**/fees2/register/util/*Loader.java',
             '**/fees2/register/data/service/**',
             '**/fees2/register/data/service/**',
-            '**/fees2/register/data/service/impl/*',
-            '**/fees2/register/data/service/validator/*'
     ]
 
     sonarqube {
@@ -254,7 +252,7 @@ subprojects {
         }
     }
 
-   // project.tasks['sonarqube'].dependsOn test,jacocoTestReport
+    project.tasks['sonarqube'].dependsOn test,jacocoTestReport
 
     task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
         buildFile = './api/build.gradle'
