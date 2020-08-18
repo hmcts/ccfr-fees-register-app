@@ -190,9 +190,6 @@ subprojects {
             property "sonar.host.url", "https://sonar.reform.hmcts.net/"
             property "sonar.dynamicAnalysis", "reuseReports"
             property "sonar.java.coveragePlugin", "jacoco"
-
-            property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/test/jacocoTestReport.xml"
-
             property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
             property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
             property "sonar.exclusions", sonarExclusions.join(", ")
