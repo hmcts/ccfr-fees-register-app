@@ -93,6 +93,7 @@ subprojects {
 
     jacoco {
         toolVersion = '0.8.5'
+        reportsDir = file("${project.rootDir}/build/jacoco")
     }
 
     jacocoTestReport {
@@ -190,11 +191,15 @@ subprojects {
             property "sonar.host.url", "https://sonar.reform.hmcts.net/"
             property "sonar.dynamicAnalysis", "reuseReports"
             property "sonar.java.coveragePlugin", "jacoco"
+
+            property "sonar.coverage.jacoco.xmlReportPaths", "${project.rootDir}/build/jacoco/test/jacocoTestReport.xml"
+
             property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
             property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
             property "sonar.exclusions", sonarExclusions.join(", ")
             property "sonar.test.exclusions", sonarExclusions.join(", ")
             property "sonar.coverage.exclusions", sonarExclusions.join(", ")
+
         }
     }
 
