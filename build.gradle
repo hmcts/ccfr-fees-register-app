@@ -61,6 +61,7 @@ subprojects {
 
     jacoco {
         toolVersion = '0.8.5'
+        reportsDir = file("${project.rootDir}/build/jacoco")
     }
 
     test {
@@ -227,13 +228,14 @@ subprojects {
     }
 
     def sonarExclusions = [
-            '**/fees/**',
-            '**/fees2/register/api/contract/**',
-            '**/fees2/register/data/model/**',
+            //'**/fees/**',
+            //'**/fees2/register/api/contract/**',
+            //'**/fees2/register/data/model/**',
             '**/fees2/register/data/dto/**',
             '**/fees2/register/api/contract/loader/**',
             '**/fees2/register/data/repository/FeeVersionRepository.java',
-            '**/fees2/register/util/*Loader.java'
+            '**/fees2/register/util/*Loader.java',
+            '**/fees2/register/data/service/**'
     ]
 
     sonarqube {
@@ -249,7 +251,7 @@ subprojects {
         }
     }
 
-    project.tasks['sonarqube'].dependsOn test,jacocoTestReport
+   // project.tasks['sonarqube'].dependsOn test,jacocoTestReport
 
     task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
         buildFile = './api/build.gradle'
