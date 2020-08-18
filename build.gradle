@@ -50,29 +50,31 @@ allprojects {
             }
         }
     }
-}
 
-test {
-    finalizedBy jacocoTestReport
+
+    test {
+        finalizedBy jacocoTestReport
+        jacoco {
+            //append = true
+            destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
+        }
+    }
+
     jacoco {
-        //append = true
-        destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
+        toolVersion = '0.8.5'
+        //reportsDir = file("$buildDir/reports/jacoco")
     }
-}
 
-jacoco {
-    toolVersion = '0.8.5'
-    //reportsDir = file("$buildDir/reports/jacoco")
-}
-
-jacocoTestReport {
-    dependsOn test
-    executionData(test)
-    reports {
-        html.enabled = true
-        xml.enabled = true
-        html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
+    jacocoTestReport {
+        dependsOn test
+        executionData(test)
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
+        }
     }
+
 }
 
 subprojects {
