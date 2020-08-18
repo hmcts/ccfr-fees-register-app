@@ -1,7 +1,8 @@
 plugins {
     id "info.solidsoft.pitest" version '1.5.1'
-    id 'jacoco'
+    //apply plugin: 'jacoco'
 }
+apply plugin: 'jacoco'
 description = 'api module'
 
 apply from: 'liquibase.gradle'
