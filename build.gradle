@@ -242,11 +242,13 @@ subprojects {
             property "sonar.exclusions", sonarExclusions.join(", ")
             property "sonar.test.exclusions", sonarExclusions.join(", ")
             property "sonar.coverage.exclusions", sonarExclusions.join(", ")
+            property "sonar.projectName", "fees-register-app"
+            property "sonar.projectKey", "uk.gov.hmcts.reform.fees-register:fees-register-app"
 
         }
     }
 
-    project.tasks['sonarqube'].dependsOn test,jacocoTestReport
+    project.tasks['sonarqube'].dependsOn codeCoverageReport
 
     task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
         buildFile = './api/build.gradle'
