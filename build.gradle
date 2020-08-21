@@ -80,6 +80,7 @@ tasks.register("codeCoverageReport", JacocoReport) {
         // HTML reports can be used to see code coverage
         // without any external tools
         html.enabled true
+        xml.destination = file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
