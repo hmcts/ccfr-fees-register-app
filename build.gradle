@@ -56,18 +56,13 @@ tasks.register("codeCoverageReport", JacocoReport) {
     // If a subproject applies the 'jacoco' plugin, add the result it to the report
     subprojects { subproject ->
         subproject.plugins.withType(JacocoPlugin).configureEach {
-            subproject.tasks.matching({ t -> t.extensions.findByType(JacocoTaskExtension) }).configureEach { testTask ->
-                sourceSets subproject.sourceSets.main
-                executionData(testTask)
+            subproject.tasks.matching({ t -> t.extensions.findByType(JacocoTaskExtension) }).configureEach {
+                testTask ->
+                if (testTask.getTaskIdentity().name == "test") {
+                    sourceSets subproject.sourceSets.main
+                    executionData(testTask)
+                }
             }
-
-            // To automatically run `test` every time `./gradlew codeCoverageReport` is called,
-            // you may want to set up a task dependency between them as shown below.
-            // Note that this requires the `test` tasks to be resolved eagerly (see `forEach`) which
-            // may have a negative effect on the configuration time of your build.
-           /* subproject.tasks.matching({ t -> t.extensions.findByType(JacocoTaskExtension) }).forEach {
-                rootProject.tasks.codeCoverageReport.dependsOn(it)
-            }*/
         }
     }
 
@@ -118,39 +113,6 @@ subprojects {
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
     }
-
-   /* test {
-        finalizedBy jacocoTestReport
-        jacoco {
-            //append = true
-          *//*  append = true*//*
-            destinationFile = file("${project.rootDir}/build/jacoco/test.exec")
-        }
-    }
-
-    jacoco {
-        toolVersion = '0.8.5'
-    }
-
-    jacocoTestReport {
-        dependsOn test
-        executionData(test)
-        reports {
-            html.enabled = true
-            xml.enabled = true
-            html.destination = file("${project.buildDir}/build/jacoco/jacocoTestReport.html")
-        }
-    }
-    }*/
-
-   /* findbugs {
-        ignoreFailures = false
-        reportsDir = file("$project.buildDir/reports/findbugs")
-        effort = "max"
-        reportLevel = "high"
-        includeFilter = file("$rootProject.projectDir/findbugs-security-include.xml")
-        excludeFilter = file("$rootProject.projectDir/findbugs-security-exclude.xml")
-    }*/
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -237,7 +199,6 @@ subprojects {
             property "sonar.host.url", "https://sonar.reform.hmcts.net/"
             property "sonar.dynamicAnalysis", "reuseReports"
             property "sonar.java.coveragePlugin", "jacoco"
-           /* property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"*/
             property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
             property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
             property "sonar.exclusions", sonarExclusions.join(", ")

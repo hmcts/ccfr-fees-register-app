@@ -101,7 +101,7 @@ test {
     exclude '**/ComponentTestBase*'
 }
 
-/*task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verification') {
+task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verification') {
     testClassesDirs = sourceSets.smokeTest.output.classesDirs
     classpath = sourceSets.smokeTest.runtimeClasspath
 }
@@ -109,7 +109,7 @@ test {
 task functionalTest(type: Test, description: 'Runs the smoke functional', group: 'Verification') {
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
-}*/
+}
 
 pitest {
     targetClasses = ['uk.gov.hmcts.fees.register.api.*']

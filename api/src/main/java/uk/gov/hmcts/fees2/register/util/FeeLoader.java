@@ -25,7 +25,6 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import java.io.IOException;
 import java.io.InputStream;
-//import java.security.Principal;
 import java.util.List;
 
 /**
