@@ -16,6 +16,11 @@
     </suppress>
 
     <suppress>
+        <notes> Transitively dependent on Current SpringBoot Version : need Spring boot 2.2.10</notes>
+        <cve>CVE-2020-5421</cve>
+    </suppress>
+
+    <suppress>
         <notes>Latest CVE's </notes>
         <cve>CVE-2020-11996</cve>
         <cve>CVE-2019-14900</cve>
