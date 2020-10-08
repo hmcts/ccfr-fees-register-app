@@ -4,20 +4,20 @@ provider "azurerm" {
 }
 
 locals {
-  vaultName = "${var.product}-${var.env}"
+  vaultName = join("-", [var.product, var.env])
 
   //ccpay key vault configuration
-  core_product_vaultName = "${var.core_product}-${var.env}"
+  core_product_vaultName = join("-", [var.core_product, var.env])
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
   name = local.vaultName
-  resource_group_name = "${var.core_product}-${var.env}"
+  resource_group_name = join("-", [var.core_product, var.env])
 }
 
 data "azurerm_key_vault" "payment_key_vault" {
   name = local.core_product_vaultName
-  resource_group_name = "ccpay-${var.env}"
+  resource_group_name = join("-", ["ccpay", var.env])
 }
 
 data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
@@ -69,7 +69,7 @@ resource "azurerm_key_vault_secret" "freg-idam-client-secret" {
 
 module "fees-register-database" {
   source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
-  product = "${var.product}-postgres-db"
+  product = join("-", [var.product, "postgres-db"])
   location = var.location
   env = var.env
   postgresql_user = var.postgresql_user
