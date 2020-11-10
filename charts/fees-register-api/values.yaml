@@ -5,9 +5,9 @@ java:
   aadIdentityName: ccpay
   environment:
     POSTGRES_PORT: 5432
-    POSTGRES_HOST: fees-register-postgres-db-v11-{{ .Values.global.environment }}.postgres.database.azure.com
+    POSTGRES_HOST: fees-register-postgres-db-{{ .Values.global.environment }}.postgres.database.azure.com
     POSTGRES_NAME: fees_register
-    POSTGRES_USERNAME: fees_register@fees-register-postgres-db-v11-{{ .Values.global.environment }}
+    POSTGRES_USERNAME: fees_register@fees-register-postgres-db-{{ .Values.global.environment }}
     POSTGRES_CONNECTION_OPTIONS: ?sslmode=require
     SPRING_LIQUIBASE_ENABLED: false
     REFORM_SERVICE_NAME: fees-register-api
