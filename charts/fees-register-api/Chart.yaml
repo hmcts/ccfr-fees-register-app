@@ -7,3 +7,7 @@ version: 0.2.9
 maintainers:
   - name: HMCTS Fees & Payments Dev Team
     email: ccpay@hmcts.net
+dependencies:
+  - name: java
+    version: ~3.0.0-beta
+    repository: https://hmctspublic.azurecr.io/helm/v1/repo/
