@@ -71,7 +71,7 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.0'
 
     //compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: versions.springBoot
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.3.0.RELEASE'
 
     runtime group: 'org.springframework.boot', name: 'spring-boot-devtools'
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
