@@ -112,6 +112,8 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.12'
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
+
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
