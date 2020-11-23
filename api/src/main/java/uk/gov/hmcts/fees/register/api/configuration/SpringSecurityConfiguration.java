@@ -37,7 +37,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/v2/**",
             "/health",
             "/health/liveness",
-            "/health/readiness",
             "/info");
     }
 
