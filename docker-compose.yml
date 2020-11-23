@@ -31,6 +31,8 @@ services:
       - POSTGRES_DB=fees_register
     ports:
       - 5182:5432
+    volumes:
+      - fees-database-data:/var/lib/postgresql/data
 
   fr-am:
     image: hmctsprivate.azurecr.io/idam/idam-fr-am:latest
@@ -57,8 +59,7 @@ services:
       - POSTGRES_USER=openidm
       - POSTGRES_PASSWORD=openidm
       - POSTGRES_DB=openidm
-    volumes:
-      - shared-data:/var/lib/postgresql/data
+
   smtp-server:
     image: mailhog/mailhog
     ports:
@@ -115,9 +116,5 @@ services:
       - STRATEGIC_SERVICE_URL=http://idam-api:5000
       - STRATEGIC_PUBLIC_URL=http://idam-web-public:9002
 volumes:
-  shared-data:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/Users/m_663860/Documents/Projects/HMCTS/docker'
+  fees-database-data:
+
