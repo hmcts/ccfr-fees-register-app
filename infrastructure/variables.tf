@@ -37,3 +37,7 @@ variable "common_tags" {
 variable "core_product" {
   default = "ccpay"
 }
+
+variable "postgresql_version" {
+  default = "11"
+}
