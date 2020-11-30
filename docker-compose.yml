@@ -14,7 +14,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
       - SPRING_DATASOURCE_USERNAME=fees_register
       - SPRING_DATASOURCE_PASSWORD=fees_register
-      - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:5000
+      - auth.idam.client.baseUrl=http://idam-api:5000
     ports:
      - 8182:8080
     depends_on:
