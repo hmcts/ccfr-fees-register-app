@@ -79,33 +79,48 @@ module "fees-register-database" {
   subscription = var.subscription
 }
 
+
+module "fees-register-database-v11" {
+  source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
+  product = join("-", [var.product, "postgres-db-v11"])
+  location = var.location
+  env = var.env
+  postgresql_user = var.postgresql_user
+  database_name = var.database_name
+  sku_name = "GP_Gen5_2"
+  sku_tier = "GeneralPurpose"
+  common_tags     = var.common_tags
+  subscription = var.subscription
+  postgresql_version = var.postgresql_version
+}
+
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name      = join("-", [var.component, "POSTGRES-PASS"])
-  value     = module.fees-register-database.postgresql_password
+  value     = module.fees-register-database-v11.postgresql_password
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
   name      = join("-", [var.component, "POSTGRES-USER"])
-  value     = module.fees-register-database.user_name
+  value     = module.fees-register-database-v11.user_name
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
   name      = join("-", [var.component, "POSTGRES-HOST"])
-  value     = module.fees-register-database.host_name
+  value     = module.fees-register-database-v11.host_name
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
   name      = join("-", [var.component, "POSTGRES-PORT"])
-  value     = module.fees-register-database.postgresql_listen_port
+  value     = module.fees-register-database-v11.postgresql_listen_port
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   name      = join("-", [var.component, "POSTGRES-DATABASE"])
-  value     = module.fees-register-database.postgresql_database
+  value     = module.fees-register-database-v11.postgresql_database
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
