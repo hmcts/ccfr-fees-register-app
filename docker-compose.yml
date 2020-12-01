@@ -21,8 +21,6 @@ services:
       - fees-database
 
   fees-database:
-#    build:
-#      context: docker/database
     container_name: fees-database
     image: postgres:11-alpine
     environment:
