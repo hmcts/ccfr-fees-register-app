@@ -8,7 +8,7 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
-    id "au.com.dius.pact" version "4.1.2"
+    id "au.com.dius.pact" version "4.1.7"
 }
 
 def versions = [
@@ -215,7 +215,7 @@ subprojects {
     project.tasks['sonarqube'].dependsOn codeCoverageReport
 
 
-    def pactBrokerUrl = "http://pact-broker.platform.hmcts.net "
+    def pactBrokerUrl = System.getenv("PACT_BROKER_URL")
 
     pact {
         serviceProviders {
@@ -223,13 +223,14 @@ subprojects {
                 protocol = 'http'
                 host = 'fees-register-api-aat.service.core-compute-aat.internal'
                 port = 80
-                project.version = '2.0.0'
-                hasPactsFromPactBroker('http://pact-broker.platform.hmcts.net')
+                project.version = "2.0.0"
+                if (pactBrokerUrl) hasPactsFromPactBroker(pactBrokerUrl)
                 publish {
                     if (pactBrokerUrl) pactBrokerUrl = pactBrokerUrl
-                    pactBrokerUrl = System.getProperty("pact.broker.url") ?: 'http://localhost:80'
+                    pactBrokerUrl = System.getProperty("PACT_BROKER_URL") ?: 'http://localhost:80'
                     tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
                 }
+                providerVersion = { "2.0.0"}
             }
         }
         reports {
@@ -239,8 +240,9 @@ subprojects {
         }
     }
 
-    task runProviderPactVerification(type: GradleBuild){
+    task runProviderPactVerification(){
         logger.lifecycle("Running Pact provider verification Tests")
+        System.setProperty("pact.verifier.publishResults", "true");
     }
 
     runProviderPactVerification.finalizedBy pactVerify

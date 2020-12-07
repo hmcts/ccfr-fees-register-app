@@ -14,6 +14,8 @@ def product = "fees-register"
 
 def app = "api"
 
+env.PACT_BROKER_URL = 'https://pact-broker.platform.hmcts.net'
+
 List<LinkedHashMap<String, Object>> secrets1 = [
         secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD'),
         secret('freg-idam-generated-user-email-pattern', 'GENERATED_USER_EMAIL_PATTERN'),
