@@ -49,6 +49,16 @@ sonarqube {
 
 def javaLoggingVersion = '5.1.1'
 
+configurations.all {
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails det ->
+            if (det.requested.name == 'micrometer-core' && det.requested.group == 'io.micrometer') {
+                det.useVersion '1.6.1'
+            }
+        }
+    }
+}
+
 dependencies {
     compile project(':fees-register-model')
     compile project(':fees-register-api-contract')
@@ -66,7 +76,7 @@ dependencies {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
-    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.7.0'
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '4.2.1'
     compile group: 'uk.gov.hmcts.reform', name: 'logging', version: javaLoggingVersion
     compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: javaLoggingVersion
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.0'

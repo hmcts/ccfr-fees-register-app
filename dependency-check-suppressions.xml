@@ -50,4 +50,24 @@
         <notes>file name: junit-4.13.1.jar Awaiting patch for Junit : https://deb.freexian.com/extended-lts/tracker/CVE-2020-15250</notes>
         <cve>CVE-2020-15250</cve>
     </suppress>
+
+    <suppress>
+        <notes>Hibernate core 5.4.12 related issue, its transitive dependency coming from spring boot starter JPA</notes>
+        <cve>CVE-2020-25638</cve>
+    </suppress>
+
+    <suppress>
+        <notes>HTTP Client 4.5.11 suppression, root cause and fix needs to be carried out separately</notes>
+        <cve>CVE-2020-13956</cve>
+    </suppress>
+
+    <suppress>
+        <notes>This is because of the transitive dependency fasterxml:jackson for which mitigation is not yet available</notes>
+        <cve>CVE-2020-25649</cve>
+    </suppress>
+
+    <suppress>
+        <notes>This supression is added as the CVE appears despite tomcat-embed-core is upgraded</notes>
+        <cve>CVE-2020-17527</cve>
+    </suppress>
 </suppressions>
