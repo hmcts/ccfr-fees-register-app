@@ -1,5 +1,30 @@
 
 description = ''
+configurations.all {
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails det ->
+            if (det.requested.name == 'micrometer-core' && det.requested.group == 'io.micrometer') {
+                det.useVersion '1.6.1'
+            }
+
+            if (det.requested.name == 'tomcat-embed-core') {
+                det.useVersion '9.0.41'
+            }
+
+            if (det.requested.name == 'tomcat-embed-websocket') {
+                det.useVersion '9.0.41'
+            }
+
+            if (det.requested.group == 'com.fasterxml.jackson.core') {
+                det.useVersion '2.12.0'
+            }
+
+            if (det.requested.name == 'liquibase-core') {
+                det.useVersion '4.2.2'
+            }
+        }
+    }
+}
 dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.9.9'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.10.0'
