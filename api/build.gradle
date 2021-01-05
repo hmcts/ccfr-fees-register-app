@@ -49,34 +49,6 @@ sonarqube {
 
 def javaLoggingVersion = '5.1.1'
 
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails det ->
-
-            if (det.requested.name == 'tomcat-embed-core') {
-                det.useVersion '9.0.41'
-            }
-
-            if (det.requested.name == 'tomcat-embed-websocket') {
-                det.useVersion '9.0.41'
-            }
-
-            if (det.requested.name == 'liquibase-core') {
-                det.useVersion '4.2.2'
-            }
-
-            if (det.requested.name == 'guava') {
-                det.useVersion '30.1-jre'
-            }
-
-            if (det.requested.name == 'jackson-databind') {
-                det.useVersion '2.11.2'
-            }
-
-        }
-    }
-}
-
 dependencies {
     compile project(':fees-register-model')
     compile project(':fees-register-api-contract')
