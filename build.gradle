@@ -35,6 +35,35 @@ allprojects {
         maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
         jcenter()
     }
+
+    configurations.all {
+        resolutionStrategy {
+            eachDependency { DependencyResolveDetails det ->
+
+                if (det.requested.name == 'tomcat-embed-core') {
+                    det.useVersion '9.0.41'
+                }
+
+                if (det.requested.name == 'tomcat-embed-websocket') {
+                    det.useVersion '9.0.41'
+                }
+
+                if (det.requested.name == 'guava') {
+                    det.useVersion '30.1-jre'
+                }
+
+                if (det.requested.name == 'liquibase-core') {
+                    det.useVersion '4.2.2'
+                }
+
+                if (det.requested.name == 'jackson-databind') {
+                    det.useVersion '2.11.2'
+                }
+
+            }
+        }
+    }
+
     dependencyManagement {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:2.2.6.RELEASE"
