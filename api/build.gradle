@@ -49,6 +49,24 @@ sonarqube {
 
 def javaLoggingVersion = '5.1.1'
 
+configurations.all {
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails det ->
+            if (det.requested.name == 'micrometer-core' && det.requested.group == 'io.micrometer') {
+                det.useVersion '1.6.1'
+            }
+
+            if (det.requested.name == 'tomcat-embed-core') {
+                det.useVersion '9.0.41'
+            }
+
+            if (det.requested.name == 'tomcat-embed-websocket') {
+                det.useVersion '9.0.41'
+            }
+        }
+    }
+}
+
 dependencies {
     compile project(':fees-register-model')
     compile project(':fees-register-api-contract')
@@ -64,12 +82,11 @@ dependencies {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
-    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.7.0'
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '4.2.1'
     compile group: 'uk.gov.hmcts.reform', name: 'logging', version: javaLoggingVersion
     compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: javaLoggingVersion
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.0'
-    compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'
     runtime group: 'org.springframework.boot', name: 'spring-boot-devtools'
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
