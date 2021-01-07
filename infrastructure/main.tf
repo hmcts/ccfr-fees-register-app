@@ -66,20 +66,6 @@ resource "azurerm_key_vault_secret" "freg-idam-client-secret" {
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
-module "fees-register-database" {
-  source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
-  product = join("-", [var.product, "postgres-db"])
-  location = var.location
-  env = var.env
-  postgresql_user = var.postgresql_user
-  database_name = var.database_name
-  sku_name = "GP_Gen5_2"
-  sku_tier = "GeneralPurpose"
-  common_tags     = var.common_tags
-  subscription = var.subscription
-}
-
-
 module "fees-register-database-v11" {
   source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
   product = join("-", [var.product, "postgres-db-v11"])
