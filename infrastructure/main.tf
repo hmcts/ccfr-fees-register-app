@@ -68,9 +68,7 @@ resource "azurerm_key_vault_secret" "freg-idam-client-secret" {
 
 module "fees-register-database" {
   source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
-  product = var.product
-  component = var.component
-  name = join("-", [var.product, "postgres-db"])
+  product = join("-", [var.product, "postgres-db"])
   location = var.location
   env = var.env
   postgresql_user = var.postgresql_user
@@ -129,4 +127,3 @@ resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
 }
 
 # Populate Vault with DB info
-
