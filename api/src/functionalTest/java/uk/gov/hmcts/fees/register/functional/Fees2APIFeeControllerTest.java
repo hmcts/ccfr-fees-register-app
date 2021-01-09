@@ -657,7 +657,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getLookupResponseForProbateFeeWithvolumeAmount() {
 
         scenario.given()
-            .when().getLookUpResponsewithkeywordvolumeamount("probate", "family", "probate registry", "default", "copies", "NewFee", 2, "all")
+            .when().getLookUpResponsewithkeywordvolumeamount("probate", "family", "probate registry", "default", "copies", "NewFee", new BigDecimal("2"), "all")
             .then().ok().got(FeeLookupResponseDto.class, feeLookupResponseDto -> {
             Assertions.assertThat(feeLookupResponseDto.getDescription()).isEqualTo("Copy of a document (for each copy)");
             Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();

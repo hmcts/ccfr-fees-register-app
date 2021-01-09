@@ -114,7 +114,7 @@ public class FeesRegisterTestDsl {
             return this;
         }
 
-        public FeesRegisterWhenDsl getLookUpResponsewithkeywordvolumeamount(String service, String jurisdiction1, String jurisdiction2, String channel, String event, String keyword, double amount_or_volume, String applicant_type) {
+        public FeesRegisterWhenDsl getLookUpResponsewithkeywordvolumeamount(String service, String jurisdiction1, String jurisdiction2, String channel, String event, String keyword, BigDecimal amount_or_volume, String applicant_type) {
             response = newRequest().get("/fees-register/fees/lookup?service={service}&jurisdiction1={jurisdiction1}&jurisdiction2={jurisdiction2}&channel={channel}&event={event}&keyword={keyword}&applicant_type={applicant_type}&amount_or_volume={amount_or_volume}",
                 service, jurisdiction1, jurisdiction2, channel, event, keyword, applicant_type, amount_or_volume);
             return this;
