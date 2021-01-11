@@ -31,4 +31,29 @@
         <cve>CVE-2017-18640</cve>
         <cve>CVE-2020-5421</cve>
     </suppress>
+    <suppress>
+        <notes> False positive reported at https://github.com/jeremylong/DependencyCheck/issues/1658 </notes>
+        <cve>CVE-2007-1651</cve>
+        <cve>CVE-2007-1652</cve>
+    </suppress>
+    <suppress>
+        <notes>Jetty jar vulnerability 9.4.27 Need to suppress, This is transitive dependency coming from properties-volume-spring-boot-starter project which is under reform</notes>
+        <cve>CVE-2020-27216</cve>
+    </suppress>
+
+    <suppress>
+        <notes>file name: junit-4.13.1.jar Awaiting patch for Junit : https://deb.freexian.com/extended-lts/tracker/CVE-2020-15250</notes>
+        <cve>CVE-2020-15250</cve>
+    </suppress>
+
+    <suppress>
+        <notes>Hibernate core 5.4.12 related issue, its transitive dependency coming from spring boot starter JPA</notes>
+        <cve>CVE-2020-25638</cve>
+    </suppress>
+
+    <suppress>
+        <notes>HTTP Client 4.5.11 suppression, root cause and fix needs to be carried out separately</notes>
+        <cve>CVE-2020-13956</cve>
+    </suppress>
+
 </suppressions>
