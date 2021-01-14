@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
     <!-- Below are the supressions added fpr False Positive CVEs -->
-    <suppress>
+    <suppress until="2021-01-28">
         <notes>The CVE-2018-1258 occurs from spring security libraries, despite the latest versions are used. This is confirmed as false positive
             and hence it is suppressed (https://github.com/jeremylong/DependencyCheck/issues/2952)
         </notes>

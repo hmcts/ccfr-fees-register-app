@@ -17,27 +17,7 @@ def versions = [
         jacocoVersion: '0.8.5'
 ]
 
-configurations.all {
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails det ->
-            if (det.requested.name == 'micrometer-core' && det.requested.group == 'io.micrometer') {
-                det.useVersion '1.6.1'
-            }
 
-            if (det.requested.group == 'com.fasterxml.jackson.core') {
-                det.useVersion '2.12.0'
-            }
-
-            if (det.requested.name == 'tomcat-embed-core') {
-                det.useVersion '9.0.41'
-            }
-
-            if (det.requested.name == 'tomcat-embed-websocket') {
-                det.useVersion '9.0.41'
-            }
-        }
-    }
-}
 
 allprojects {
     apply plugin: 'maven'
