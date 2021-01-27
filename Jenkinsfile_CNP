@@ -1,4 +1,5 @@
 #!groovy
+import uk.gov.hmcts.contino.AppPipelineDsl
 
 properties(
     [[$class: 'GithubProjectProperty', projectUrlStr: 'https://github.com/hmcts/fees-register-app.git'],
@@ -12,6 +13,8 @@ def type = "java"
 def product = "fees-register"
 
 def app = "api"
+
+env.PACT_BROKER_URL = 'https://pact-broker.platform.hmcts.net'
 
 List<LinkedHashMap<String, Object>> secrets1 = [
         secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD'),
@@ -51,4 +54,8 @@ withPipeline(type, product, app) {
     enableSlackNotifications('#cc-payments-tech')
     enableAksStagingDeployment()
     disableLegacyDeployment()
+    onMaster()
+        {
+            enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
+        }
 }
