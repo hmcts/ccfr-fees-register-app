@@ -1,5 +1,5 @@
 plugins {
-    id "info.solidsoft.pitest" version '1.3.0'
+    id "info.solidsoft.pitest" version '1.5.1'
 }
 description = 'api module'
 
@@ -34,7 +34,7 @@ idea {
 }
 
 def versions = [
-        pitest: '1.3.2',
+        pitest: '1.5.1',
         gradlePitest: '1.3.0',
         sonarPitest: '0.5'
 ]
@@ -48,6 +48,24 @@ sonarqube {
 }
 
 def javaLoggingVersion = '5.1.1'
+
+configurations.all {
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails det ->
+            if (det.requested.name == 'micrometer-core' && det.requested.group == 'io.micrometer') {
+                det.useVersion '1.6.1'
+            }
+
+            if (det.requested.name == 'tomcat-embed-core') {
+                det.useVersion '9.0.41'
+            }
+
+            if (det.requested.name == 'tomcat-embed-websocket') {
+                det.useVersion '9.0.41'
+            }
+        }
+    }
+}
 
 dependencies {
     // for open id connect
@@ -69,39 +87,38 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
-    compile(group: 'org.postgresql', name: 'postgresql', version: '42.2.2') {
+    compile (group: 'org.postgresql', name: 'postgresql', version: '42.2.13') {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
-    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.7.0'
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '4.2.1'
     compile group: 'uk.gov.hmcts.reform', name: 'logging', version: javaLoggingVersion
     compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: javaLoggingVersion
-
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.0'
-
-    compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'
-
     runtime group: 'org.springframework.boot', name: 'spring-boot-devtools'
-
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
     }
-    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.0.4.RELEASE'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
     testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
-    testCompile group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
+    testCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+
+
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    smokeTestCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    smokeTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+
 
     testCompile 'io.github.openfeign:feign-jackson:9.7.0'
-
     // smoke
     smokeTestCompile sourceSets.test.runtimeClasspath
-
     // functional
     functionalTestCompile sourceSets.test.runtimeClasspath
-
-    compile group: 'org.pitest', name: 'pitest', version: '1.3.2'
-    compile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.5'
+    compile group: 'org.pitest', name: 'pitest', version: versions.pitest
+    compile 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6'
     compile 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
 }
 
@@ -124,7 +141,10 @@ pitest {
     targetClasses = ['uk.gov.hmcts.fees.register.api.*']
     excludedClasses = ['uk.gov.hmcts.fees.register.api.config.*']
     threads = 10
+    enableDefaultIncrementalAnalysis = true
+    historyInputLocation = 'build/reports/pitest/fastermutationtesting'
+    historyOutputLocation = 'build/reports/pitest/fastermutationtestingoutput'
     outputFormats = ['XML', 'HTML']
-    timestampedReports = false
+    timestampedReports = true
     mutationThreshold = 50
 }
