@@ -8,5 +8,10 @@
         </notes>
         <cve>CVE-2018-1258</cve>
     </suppress>
+
+    <suppress  until="2021-02-14">
+        <notes>CVE-2020-25638: This needs further study as JAR upgrade on hibernate-core brings down the application sometime.</notes>
+        <cve>CVE-2020-25638</cve>
+    </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
