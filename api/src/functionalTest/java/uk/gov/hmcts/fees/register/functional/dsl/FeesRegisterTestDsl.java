@@ -114,6 +114,18 @@ public class FeesRegisterTestDsl {
             return this;
         }
 
+        public FeesRegisterWhenDsl getLookUpResponsewithkeywordAmount(String service, String jurisdiction1, String jurisdiction2, String channel, String event, String keyword, double amount_or_volume) {
+            response = newRequest().get("/fees-register/fees/lookup?service={service}&jurisdiction1={jurisdiction1}&jurisdiction2={jurisdiction2}&channel={channel}&event={event}&keyword={keyword}&amount_or_volume={amount_or_volume}",
+                service, jurisdiction1, jurisdiction2, channel, event, keyword,amount_or_volume);
+            return this;
+        }
+
+        public FeesRegisterWhenDsl getLookUpResponsewithKeywordFixedFee(String service, String jurisdiction1, String jurisdiction2, String channel, String event, String keyword) {
+            response = newRequest().get("/fees-register/fees/lookup?service={service}&jurisdiction1={jurisdiction1}&jurisdiction2={jurisdiction2}&channel={channel}&event={event}&keyword={keyword}",
+                service, jurisdiction1, jurisdiction2, channel, event, keyword);
+            return this;
+        }
+
         public FeesRegisterWhenDsl getLookUpForCMCResponse(String service, String jurisdiction1, String jurisdiction2, String channel, String event, double amount_or_volume) {
             response = newRequest().get("/fees-register/fees/lookup?service={service}&jurisdiction1={jurisdiction1}&jurisdiction2={jurisdiction2}&channel={channel}&event={event}&amount_or_volume={amount_or_volume}",
                     service, jurisdiction1, jurisdiction2, channel, event, amount_or_volume);
@@ -123,6 +135,18 @@ public class FeesRegisterTestDsl {
         public FeesRegisterWhenDsl getLookUpForProbateResponse(String service, String jurisdiction1, String jurisdiction2, String channel, String event, String applicant_type, BigDecimal amount_or_volume) {
             response = newRequest().get("/fees-register/fees/lookup?service={service}&jurisdiction1={jurisdiction1}&jurisdiction2={jurisdiction2}&channel={channel}&event={event}&applicant_type={applicant_type}&amount_or_volume={amount_or_volume}",
                     service, jurisdiction1, jurisdiction2, channel, event,applicant_type, amount_or_volume);
+            return this;
+        }
+
+        public FeesRegisterWhenDsl getLookUpForProbateResponseWithKeywordApplicationType(String service, String jurisdiction1, String jurisdiction2, String channel, String event, String applicant_type, double amount_or_volume, String keyword) {
+            response = newRequest().get("/fees-register/fees/lookup?service={service}&jurisdiction1={jurisdiction1}&jurisdiction2={jurisdiction2}&channel={channel}&event={event}&applicant_type={applicant_type}&amount_or_volume={amount_or_volume}&keyword={keyword}",
+                service, jurisdiction1, jurisdiction2, channel, event,applicant_type, amount_or_volume, keyword);
+            return this;
+        }
+
+        public FeesRegisterWhenDsl getLookUpForProbateResponseCopiesGrantWill(String service, String jurisdiction1, String jurisdiction2, String channel, String event, String applicant_type, BigDecimal amount_or_volume, String keyword) {
+            response = newRequest().get("/fees-register/fees/lookup?service={service}&jurisdiction1={jurisdiction1}&jurisdiction2={jurisdiction2}&channel={channel}&event={event}&applicant_type={applicant_type}&amount_or_volume={amount_or_volume}&keyword={keyword}",
+                service, jurisdiction1, jurisdiction2, channel, event,applicant_type, amount_or_volume,keyword);
             return this;
         }
 
