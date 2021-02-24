@@ -41,12 +41,12 @@ withNightlyPipeline("java", product, component) {
     enableMutationTest()
     enableFullFunctionalTest()
 
-    after('functionalTest:aat') {
+    after('functionalTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
         publishHTML target: [
             reportDir            : "api/target/site/serenity/",
             reportFiles          : "index.html",
-            reportName           : "AAT Functional Tests",
+            reportName           : "Functional Tests Report",
             alwaysLinkToLastBuild: true
         ]
 

@@ -55,27 +55,16 @@ withPipeline(type, product, app) {
     enableAksStagingDeployment()
 
 
-    after('functionalTest:aat') {
+    after('functionalTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
         publishHTML target: [
             reportDir            : "api/target/site/serenity/",
             reportFiles          : "index.html",
-            reportName           : "AAT Functional Tests",
+            reportName           : "Functional Tests Report",
             alwaysLinkToLastBuild: true
         ]
 
     }
-
-    after('functionalTest:preview') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
-        publishHTML target: [
-            reportDir            : "api/target/site/serenity/",
-            reportFiles          : "index.html",
-            reportName           : "Preview Functional Tests",
-            alwaysLinkToLastBuild: true
-        ]
-    }
-
     disableLegacyDeployment()
     onMaster()
         {
