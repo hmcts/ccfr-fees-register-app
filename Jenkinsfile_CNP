@@ -53,6 +53,29 @@ withPipeline(type, product, app) {
     //installCharts()
     enableSlackNotifications('#cc-payments-tech')
     enableAksStagingDeployment()
+
+
+    after('functionalTest:aat') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+        publishHTML target: [
+            reportDir            : "api/target/site/serenity/",
+            reportFiles          : "index.html",
+            reportName           : "AAT Functional Tests",
+            alwaysLinkToLastBuild: true
+        ]
+
+    }
+
+    after('functionalTest:preview') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+        publishHTML target: [
+            reportDir            : "api/target/site/serenity/",
+            reportFiles          : "index.html",
+            reportName           : "Preview Functional Tests",
+            alwaysLinkToLastBuild: true
+        ]
+    }
+
     disableLegacyDeployment()
     onMaster()
         {

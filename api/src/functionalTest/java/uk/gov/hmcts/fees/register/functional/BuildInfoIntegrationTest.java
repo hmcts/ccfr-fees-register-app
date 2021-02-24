@@ -1,21 +1,24 @@
 package uk.gov.hmcts.fees.register.functional;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees.register.functional.dsl.FeesRegisterTestDsl;
 
 import java.io.IOException;
 
-@Ignore
+@RunWith(SpringIntegrationSerenityRunner.class)
+
 public class BuildInfoIntegrationTest extends IntegrationTestBase{
 
     @Autowired
     private FeesRegisterTestDsl scenario;
 
-    @Test
+    @Test @Ignore
     public void buildInfoShouldBePresent() throws IOException, NoSuchFieldException {
         scenario.given()
                 .when().getBuildInfo()

@@ -1,7 +1,9 @@
 package uk.gov.hmcts.fees.register.functional;
 
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees.register.functional.dsl.FeesRegisterTestDsl;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -9,6 +11,7 @@ import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+@RunWith(SpringIntegrationSerenityRunner.class)
 public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
     @Autowired
