@@ -36,7 +36,7 @@ jobs:
       - name: Generate code coverage report
         run: ./gradlew codeCoverageReport
       - name: Publish report to Codecov
-        run: bash <(curl -s https://codecov.io/bash) -t "${{ secrets.CODECOV_TOKEN }}"
+        run: bash <(curl -s https://codecov.io/bash)
       - name: Release
         env:
           BINTRAY_USER: jenkins-reform-hmcts
