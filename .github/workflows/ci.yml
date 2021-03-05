@@ -1,6 +1,9 @@
 # This workflow will have a CI flow for FeeRegister Java(Gradle) project
 name: fees register - CI
 on:
+  pull_request:
+    branches:
+      - master
   push:
     branches:
       - master
