@@ -1,0 +1,63 @@
+package uk.gov.hmcts.fees.register.api.configuration.security.converter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Component;
+
+import uk.gov.hmcts.fees.register.api.repositories.IdamRepository;
+import uk.gov.hmcts.reform.idam.client.models.UserInfo;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.ACCESS_TOKEN;
+
+/**
+ * Class is designed to fetch authorities from access token
+ */
+
+@Component
+public class FRJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
+
+    public static final String TOKEN_NAME = "tokenName";
+
+    private final IdamRepository idamRepository;
+
+    @Autowired
+    public FRJwtGrantedAuthoritiesConverter(IdamRepository idamRepository) {
+        this.idamRepository = idamRepository;
+    }
+
+    /**
+     * Method responsible to extract authorities from access token received
+     * @param jwt
+     * @return
+     */
+
+    @Override
+    public Collection<GrantedAuthority> convert(Jwt jwt) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if (jwt.containsClaim(TOKEN_NAME) && jwt.getClaim(TOKEN_NAME).equals(ACCESS_TOKEN)) {
+            UserInfo userInfo = idamRepository.getUserInfo(jwt.getTokenValue());
+            authorities = extractRoles(userInfo.getRoles());
+        }
+        return authorities;
+    }
+
+    /**
+     * Method responsible to get stream of authorities based on claims
+     * @param roles
+     * @return
+     */
+    private List<GrantedAuthority> extractRoles(List<String> roles) {
+        return roles.stream()
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toList());
+    }
+
+}

@@ -14,5 +14,26 @@
         <notes>CVE-2020-25638: This needs further study as JAR upgrade on hibernate-core brings down the application sometime.</notes>
         <cve>CVE-2020-25638</cve>
     </suppress>
+
+    <suppress>
+        <notes> False positive reported at https://github.com/jeremylong/DependencyCheck/issues/1658 </notes>
+        <cve>CVE-2007-1651</cve>
+        <cve>CVE-2007-1652</cve>
+    </suppress>
+
+    <suppress until="2021-03-02">
+        <notes><![CDATA[
+            This CVE is related to file type tag parsing. However, the associated CVE seems to be a false positive on the lang-tag jar.
+        ]]></notes>
+        <cve>CVE-2020-29242</cve>
+        <cve>CVE-2020-29243</cve>
+        <cve>CVE-2020-29244</cve>
+        <cve>CVE-2020-29245</cve>
+    </suppress>
+    <suppress><notes><![CDATA[file name: bcprov-jdk15on-1.56.jar]]></notes>
+        <gav regex="true">^org\.bouncycastle:bcprov-jdk15on:.*$</gav>
+        <cve>CVE-2020-26939</cve>
+    </suppress>
+
     <!-- Supression group ends here  -->
 </suppressions>
