@@ -208,6 +208,12 @@ subprojects {
 
     project.tasks['sonarqube'].dependsOn codeCoverageReport
 
+    project.ext {
+        pactVersion = getCheckedOutGitCommitHash()
+    }
+    def getCheckedOutGitCommitHash() {
+        'git rev-parse --verify --short HEAD'.execute().text.trim()
+    }
 
     def pactBrokerUrl = System.getenv("PACT_BROKER_URL")
 
@@ -217,14 +223,13 @@ subprojects {
                 protocol = 'http'
                 host = 'fees-register-api-aat.service.core-compute-aat.internal'
                 port = 80
-                project.version = "2.0.0"
                 if (pactBrokerUrl) hasPactsFromPactBroker(pactBrokerUrl)
                 publish {
                     if (pactBrokerUrl) pactBrokerUrl = pactBrokerUrl
                     pactBrokerUrl = System.getProperty("PACT_BROKER_URL") ?: 'http://localhost:80'
-                    tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
+                    tags = ['master']
                 }
-                providerVersion = { "2.0.0"}
+                project.version = pactVersion.toString();
             }
         }
         reports {
@@ -234,9 +239,9 @@ subprojects {
         }
     }
 
-    task runProviderPactVerification(){
+    task runProviderPactVerification(type: Test){
         logger.lifecycle("Running Pact provider verification Tests")
-        System.setProperty("pact.verifier.publishResults", "true");
+        systemProperty 'pact.verifier.publishResults',System.getProperty("pact.verifier.publishResults")
     }
 
     runProviderPactVerification.finalizedBy pactVerify
