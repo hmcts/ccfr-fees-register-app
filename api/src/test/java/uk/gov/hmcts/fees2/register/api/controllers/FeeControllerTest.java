@@ -18,6 +18,7 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -206,8 +207,11 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public synchronized void createInvalidDateVersionTest() throws Exception {
         Date date = new Date();
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+
         RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, null, FeeVersionStatus.approved);
-        rangedFeeDto.getVersion().setValidTo(date);
+        rangedFeeDto.getVersion().setValidTo(calendar.getTime());
         rangedFeeDto.getVersion().setValidFrom(date);
 
         restActions

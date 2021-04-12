@@ -185,6 +185,7 @@ public class FeeDtoMapper {
     private void fillFeeVersionDetails(FeeVersionDto versionDto, FeeVersion version, String author) {
         version.setValidFrom(versionDto.getValidFrom());
         version.setValidTo(FeesDateUtil.addEODTimeToDate(versionDto.getValidTo()));
+       // version.setValidTo(versionDto.getValidTo());
 
         version.setMemoLine(versionDto.getMemoLine());
         version.setFeeOrderName(versionDto.getFeeOrderName());
