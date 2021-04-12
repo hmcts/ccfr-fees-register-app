@@ -36,6 +36,7 @@ allprojects {
         mavenLocal()
         maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
         jcenter()
+        maven { url 'https://jitpack.io' }
     }
 
     apply from: "${rootDir}/cve-resolution-strategy.gradle"
