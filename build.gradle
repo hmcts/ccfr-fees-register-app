@@ -34,7 +34,6 @@ allprojects {
 
     repositories {
         mavenLocal()
-        maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
         jcenter()
         maven { url 'https://jitpack.io' }
     }
