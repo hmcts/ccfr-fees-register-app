@@ -20,9 +20,11 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FeeVersionServiceTest extends BaseIntegrationTest {
@@ -80,7 +82,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
     public synchronized void testThatWhenANewVersionIsApprovedTheCurrentOneIsMarkedForExpiration() throws Exception{
 
         Date date = new Date(System.currentTimeMillis() + 60000);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         RangedFeeDto dto = createDetailedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
@@ -95,7 +97,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "tarun");
 
-        assertEquals(date, feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo());
+        assertTrue(sdf.format(date).equals(sdf.format(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())));
 
         forceDeleteFee(dto.getCode());
     }
