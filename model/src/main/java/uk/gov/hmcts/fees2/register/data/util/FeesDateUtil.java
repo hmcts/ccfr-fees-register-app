@@ -6,26 +6,24 @@ import java.util.Date;
 
 public class FeesDateUtil {
 
-    private static int DAY_OF_YEAR = -1;
-    private static int START_MINUTE = 0;
-    private static int START_SECOND = 0;
-    private static int END_HOURS = 23;
-    private static int END_MINUTE = 59;
-    private static int END_SECOND = 59;
+    private static int DAYOFYEAR = -1;
+    private static int STARTMINUTE = 0;
+    private static int STARTSECOND = 0;
+    private static int EODHOURS = 23;
+    private static int EODMINUTE = 59;
+    private static int EODSECOND = 59;
 
     public static Date addEODTime(Date dateReceived) {
         if (dateReceived != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dateReceived);
-            calendar.add(Calendar.DAY_OF_YEAR, DAY_OF_YEAR);
-            //calendar.set(Calendar.HOUR, 1);
-            calendar.set(Calendar.MINUTE, START_MINUTE);
-            calendar.set(Calendar.SECOND, START_SECOND);
+            calendar.add(Calendar.DAY_OF_YEAR, DAYOFYEAR);
+            calendar.set(Calendar.MINUTE, STARTMINUTE);
+            calendar.set(Calendar.SECOND, STARTSECOND);
 
-            calendar.add(Calendar.HOUR_OF_DAY, END_HOURS);
-            calendar.add(Calendar.MINUTE, END_MINUTE);
-            calendar.add(Calendar.SECOND, END_SECOND);
-
+            calendar.add(Calendar.HOUR_OF_DAY, EODHOURS);
+            calendar.add(Calendar.MINUTE, EODMINUTE);
+            calendar.add(Calendar.SECOND, EODSECOND);
             return calendar.getTime();
         } else {
             return null;
@@ -36,9 +34,9 @@ public class FeesDateUtil {
         if (toDateReceived != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(toDateReceived);
-            calendar.add(Calendar.HOUR_OF_DAY, END_HOURS);
-            calendar.add(Calendar.MINUTE, END_MINUTE);
-            calendar.add(Calendar.SECOND, END_SECOND);
+            calendar.add(Calendar.HOUR_OF_DAY, EODHOURS);
+            calendar.add(Calendar.MINUTE, EODMINUTE);
+            calendar.add(Calendar.SECOND, EODSECOND);
             return calendar.getTime();
         } else {
             return null;

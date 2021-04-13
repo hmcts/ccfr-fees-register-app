@@ -138,7 +138,6 @@ public class FeeVersionServiceImpl implements FeeVersionService {
             FeeVersion currentVersion = newFeeVersion.getFee().getCurrentVersion(true);
 
             if (currentVersion != null && currentVersion.getValidTo() == null) {
-                //currentVersion.setValidTo(newFeeVersion.getValidFrom());
                 if(sdf.format(currentVersion.getValidFrom()).equals(sdf.format(newFeeVersion.getValidFrom()))){
                     currentVersion.setValidTo(newFeeVersion.getValidFrom());
                 }else {
