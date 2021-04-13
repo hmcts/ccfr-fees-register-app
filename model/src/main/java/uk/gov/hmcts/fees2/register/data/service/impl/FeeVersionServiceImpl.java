@@ -28,7 +28,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     private final Fee2Repository feeRepository;
     private final DirectionTypeRepository directionTypeRepository;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     @Autowired
     public FeeVersionServiceImpl(FeeVersionRepository feeVersionRepository, Fee2Repository feeRepository, DirectionTypeRepository directionTypeRepository) {
