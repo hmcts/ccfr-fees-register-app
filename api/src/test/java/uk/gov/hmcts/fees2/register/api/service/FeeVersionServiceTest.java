@@ -20,9 +20,12 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FeeVersionServiceTest extends BaseIntegrationTest {
@@ -80,7 +83,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
     public synchronized void testThatWhenANewVersionIsApprovedTheCurrentOneIsMarkedForExpiration() throws Exception{
 
         Date date = new Date(System.currentTimeMillis() + 60000);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         RangedFeeDto dto = createDetailedFee();
 
         FeeVersionDto versionDto = new FeeVersionDto();
@@ -95,8 +98,32 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "tarun");
 
-        assertEquals(date, feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo());
+        assertTrue(sdf.format(date).equals(sdf.format(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())));
 
+        forceDeleteFee(dto.getCode());
+    }
+
+    @Test
+    @Transactional
+    public synchronized void testThatWhenANewVersionFutureDateIsApprovedTheCurrentOneIsMarkedForExpiration() throws Exception{
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, 5);
+        Date date = calendar.getTime();
+        RangedFeeDto dto = createDetailedFee();
+
+        FeeVersionDto versionDto = new FeeVersionDto();
+        versionDto.setVersion(2);
+        versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.ONE));
+        versionDto.setStatus(FeeVersionStatusDto.pending_approval);
+        versionDto.setDirection("licence");
+        versionDto.setMemoLine("Hello");
+        versionDto.setValidFrom(date);
+
+        FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "tarun"), dto.getCode());
+        feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "tarun");
+        assertTrue(date.after(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo()));
         forceDeleteFee(dto.getCode());
     }
 
