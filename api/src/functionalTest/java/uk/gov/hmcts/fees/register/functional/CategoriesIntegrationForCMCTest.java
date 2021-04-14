@@ -1,7 +1,9 @@
 package uk.gov.hmcts.fees.register.functional;
 
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees.register.api.contract.*;
 import uk.gov.hmcts.fees.register.functional.dsl.FeesRegisterTestDsl;
@@ -18,6 +20,7 @@ import static uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.percentag
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.rangeGroupUpdateDtoWith;
 
+@RunWith(SpringIntegrationSerenityRunner.class)
 public class CategoriesIntegrationForCMCTest extends IntegrationTestBase {
 
     @Autowired

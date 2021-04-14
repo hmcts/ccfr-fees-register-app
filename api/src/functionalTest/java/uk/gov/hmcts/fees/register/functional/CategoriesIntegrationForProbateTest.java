@@ -1,7 +1,9 @@
 package uk.gov.hmcts.fees.register.functional;
 
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees.register.api.contract.CalculationDto;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
@@ -16,7 +18,7 @@ import static uk.gov.hmcts.fees.register.api.contract.CategoryDto.categoryDtoWit
 import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
 import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
 
-
+@RunWith(SpringIntegrationSerenityRunner.class)
 public class CategoriesIntegrationForProbateTest extends IntegrationTestBase {
 
     @Autowired
