@@ -599,7 +599,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getlookupresponseMessageForProbateCopies() throws IOException {
 
         scenario.given()
-            .when().getLookUpForProbateResponseCopiesGrantWill("probate", "family", "probate registry", "default", "copies", "all", new BigDecimal(5000),"GrantWill")
+            .when().getLookUpForProbateResponseCopiesGrantWill("probate", "family", "probate registry", "default", "copies", "all", new BigDecimal("5000"),"GrantWill")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0546");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
@@ -611,7 +611,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getlookupresponseMessageForProbateCopies2() throws IOException {
 
         scenario.given()
-            .when().getLookUpForProbateResponseCopiesGrantWill("probate", "family", "probate registry", "default", "copies", "all", new BigDecimal(1),"GrantWill")
+            .when().getLookUpForProbateResponseCopiesGrantWill("probate", "family", "probate registry", "default", "copies", "all", new BigDecimal("1"),"GrantWill")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0546");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
