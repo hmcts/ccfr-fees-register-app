@@ -18,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
+import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
@@ -183,7 +184,7 @@ public class FeeDtoMapper {
 
     private void fillFeeVersionDetails(FeeVersionDto versionDto, FeeVersion version, String author) {
         version.setValidFrom(versionDto.getValidFrom());
-        version.setValidTo(versionDto.getValidTo());
+        version.setValidTo(FeesDateUtil.addEODTimeToDate(versionDto.getValidTo()));
 
         version.setMemoLine(versionDto.getMemoLine());
         version.setFeeOrderName(versionDto.getFeeOrderName());

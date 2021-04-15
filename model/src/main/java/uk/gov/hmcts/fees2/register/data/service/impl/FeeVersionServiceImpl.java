@@ -14,8 +14,10 @@ import uk.gov.hmcts.fees2.register.data.repository.DirectionTypeRepository;
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.repository.FeeVersionRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -26,6 +28,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     private final Fee2Repository feeRepository;
     private final DirectionTypeRepository directionTypeRepository;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     @Autowired
     public FeeVersionServiceImpl(FeeVersionRepository feeVersionRepository, Fee2Repository feeRepository, DirectionTypeRepository directionTypeRepository) {
@@ -135,8 +138,11 @@ public class FeeVersionServiceImpl implements FeeVersionService {
             FeeVersion currentVersion = newFeeVersion.getFee().getCurrentVersion(true);
 
             if (currentVersion != null && currentVersion.getValidTo() == null) {
-
-                currentVersion.setValidTo(newFeeVersion.getValidFrom());
+                if(sdf.format(currentVersion.getValidFrom()).equals(sdf.format(newFeeVersion.getValidFrom()))){
+                    currentVersion.setValidTo(newFeeVersion.getValidFrom());
+                }else {
+                    currentVersion.setValidTo(FeesDateUtil.addEODTime(newFeeVersion.getValidFrom()));
+                }
             }
 
         }
