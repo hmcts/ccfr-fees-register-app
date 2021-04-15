@@ -1,13 +1,16 @@
 package uk.gov.hmcts.fees.register.functional;
 
 import io.restassured.response.Response;
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static uk.gov.hmcts.fees.register.functional.fixture.FixedFeeFixture.aFixedFee;
 
+@RunWith(SpringIntegrationSerenityRunner.class)
 public class DeleteFeeTest extends IntegrationTestBase {
 
     @Test
