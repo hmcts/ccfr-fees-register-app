@@ -35,10 +35,6 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Build gradle application
         run: ./gradlew build
-      - name: Generate code coverage report
-        run: ./gradlew codeCoverageReport
-      - name: Publish report to Codecov
-        run: bash <(curl -s https://codecov.io/bash)
       - name: Release Build in JitPack
         run: |
           echo "Triggering JitPack build"
