@@ -68,6 +68,7 @@ subprojects {
         compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
+        compileOnly group: 'com.sun.xml.bind', name: 'jaxb-osgi', version: '3.0.0-M5'
     }
 
     test {
