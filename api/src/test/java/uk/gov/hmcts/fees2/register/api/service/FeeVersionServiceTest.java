@@ -105,13 +105,10 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    public synchronized void testThatWhenANewVersionFutureDateIsApprovedTheCurrentOneIsMarkedForExpiration() throws Exception{
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DATE, 5);
-        Date date = calendar.getTime();
+    public synchronized void testThatWhenANewVersionFutureDateIsApprovedTheCurrentOneIsMarkedToDatePreviousDayEndTime() throws Exception{
         RangedFeeDto dto = createDetailedFee();
+        Date newVersionFromDate = createFutureDate(Calendar.getInstance(),new Date());
+        Date expectedOldVersionToDate = createPreviousDate(Calendar.getInstance(),newVersionFromDate);
 
         FeeVersionDto versionDto = new FeeVersionDto();
         versionDto.setVersion(2);
@@ -119,11 +116,35 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
         versionDto.setStatus(FeeVersionStatusDto.pending_approval);
         versionDto.setDirection("licence");
         versionDto.setMemoLine("Hello");
-        versionDto.setValidFrom(date);
+        versionDto.setValidFrom(newVersionFromDate);
 
-        FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "tarun"), dto.getCode());
-        feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "tarun");
-        assertTrue(date.after(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo()));
+        FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "testUser"), dto.getCode());
+        FeeVersion currentVersion = v.getFee().getCurrentVersion(true);
+        feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "testUser");
+        assertTrue( expectedOldVersionToDate.compareTo(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())==0);
+        forceDeleteFee(dto.getCode());
+    }
+
+    @Test
+    @Transactional
+    public synchronized void testWhenNewVersionFutureFromDateAndToDateIsApprovedTheCurrentOneIsMarkedToDatePreviousDayEndTimeAndNewVersionToDateIsEOD() throws Exception{
+        RangedFeeDto dto = createDetailedFee();
+        Date newVersionFromDate = createFutureDate(Calendar.getInstance(),new Date());
+        Date expectedOldVersionToDate = createPreviousDate(Calendar.getInstance(),newVersionFromDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        FeeVersionDto versionDto = new FeeVersionDto();
+        versionDto.setVersion(2);
+        versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.ONE));
+        versionDto.setStatus(FeeVersionStatusDto.pending_approval);
+        versionDto.setDirection("licence");
+        versionDto.setMemoLine("Hello");
+        versionDto.setValidFrom(newVersionFromDate);
+        versionDto.setValidTo (createFutureDate(Calendar.getInstance(),newVersionFromDate));
+
+        FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "testUser"), dto.getCode());
+        feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "testUser");
+        assertTrue(expectedOldVersionToDate.compareTo(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())==0);
+        assertTrue(v.getValidTo().compareTo(setEODTime(Calendar.getInstance(),versionDto.getValidTo()))==0);
         forceDeleteFee(dto.getCode());
     }
 
@@ -199,6 +220,30 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         return dto;
 
+    }
+
+    private Date createFutureDate(Calendar calendar, Date date){
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 5);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
+    }
+    private Date createPreviousDate(Calendar calendar, Date date){
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        return setEODTime(calendar,calendar.getTime());
+    }
+    private Date setEODTime(Calendar calendar, Date date){
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.add(Calendar.HOUR_OF_DAY, 23);
+        calendar.add(Calendar.MINUTE, 59);
+        calendar.add(Calendar.SECOND, 59);
+        return calendar.getTime();
     }
 
 }

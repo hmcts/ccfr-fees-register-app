@@ -141,7 +141,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
                 if(sdf.format(currentVersion.getValidFrom()).equals(sdf.format(newFeeVersion.getValidFrom()))){
                     currentVersion.setValidTo(newFeeVersion.getValidFrom());
                 }else {
-                    currentVersion.setValidTo(FeesDateUtil.addEODTime(newFeeVersion.getValidFrom()));
+                    currentVersion.setValidTo(FeesDateUtil.addPreviousDateEODTime(newFeeVersion.getValidFrom()));
                 }
             }
 
