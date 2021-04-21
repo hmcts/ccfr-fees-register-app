@@ -6096,7 +6096,8 @@
       "service": "probate",
       "channel": "default",
       "event": "copies",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword":"GrantWill"
     }
   ]
 }
