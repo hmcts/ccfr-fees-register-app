@@ -6072,6 +6072,31 @@
       "unspecified_claim_amount":false,
       "applicant_type":"all",
       "keyword":"CareOrder"
+    },
+    {
+      "code":"X0214",
+      "new_code": "FEE0315",
+      "version": {
+        "version": 1,
+        "valid_from" : "2014-04-22T00:00:00.511Z",
+        "description": "Application for a grant of probate (Estate over £5000)",
+        "status": "approved",
+        "statutory_instrument": "2014 No 876",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "si_ref_id": "1",
+        "direction": "cost recovery",
+        "memo_line": "Non Personal Application for grant of Probate",
+        "natural_account_code": "4481102158",
+        "flat_amount": {
+          "amount": 155
+        }
+      },
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "copies",
+      "applicant_type": "all"
     }
   ]
 }
