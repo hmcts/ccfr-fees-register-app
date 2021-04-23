@@ -25,7 +25,8 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "personal"
+      "applicant_type": "personal",
+      "keyword":"PA"
     },
     {
       "min_range": 0.01,
@@ -489,7 +490,8 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword":"SA"
     },
     {
       "min_range": 0,
@@ -517,7 +519,8 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword":"SAL5K"
     },
     {
       "min_range": 0.01,
@@ -6045,7 +6048,7 @@
     },
     {
       "code":"X0198",
-      "new_code": "FEE0314",
+      "new_code": "FEE0313",
       "version":{
         "version":1,
         "description": "Application for proceedings under Section 31 of Act",
@@ -6072,6 +6075,35 @@
       "unspecified_claim_amount":false,
       "applicant_type":"all",
       "keyword":"CareOrder"
+    },{
+      "code":"X0214",
+      "new_code": "FEE0546",
+      "version":{
+        "version":1,
+        "description": "Copy of a document (for each copy)",
+        "status": "approved",
+        "author": "b0aa5dff-b1bb-49be-a598-7107b572316f",
+        "approvedBy": "39907",
+        "version": 1,
+        "valid_from": "2019-07-22T00:00:00.000+0000",
+        "flat_amount": {
+          "amount": 2055
+        },
+        "memo_line": "RECEIPT OF FEES - Family copies probate",
+        "statutory_instrument": "8a",
+        "si_ref_id": "2.2",
+        "natural_account_code": "4481102171",
+        "fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2019",
+        "direction": "cost recovery"
+      },
+      "jurisdiction1":"family",
+      "jurisdiction2":"probate registry",
+      "service":"probate",
+      "channel":"default",
+      "event":"copies",
+      "unspecified_claim_amount":false,
+      "applicant_type":"all",
+      "keyword":"GrantWill"
     }
   ]
 }
