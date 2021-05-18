@@ -180,7 +180,7 @@ public class RangeGroupsCrudComponentTest {
 
     @Test
     public void validateRangeFrom() throws Exception {
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(null).to(1000).feeCode("X0047").build()), "ranges[0].from: may not be null");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(null).to(1000).feeCode("X0047").build()), "ranges[0].from: must not be null");
         assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(-1).to(1000).feeCode("X0047").build()), "ranges[0].from: must be greater than or equal to 0");
     }
 

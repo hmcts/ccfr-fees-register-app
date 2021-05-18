@@ -171,13 +171,13 @@ public class FeesCrudComponentTest {
 
     @Test
     public void validateAmount() throws Exception {
-        assertValidationMessage("/fees/X0433", validFixedFeeDto().amount(null).build(), "amount: may not be null");
+        assertValidationMessage("/fees/X0433", validFixedFeeDto().amount(null).build(), "amount: must not be null");
         assertValidationMessage("/fees/X0433", validFixedFeeDto().amount(-1).build(), "amount: must be greater than or equal to 0");
     }
 
     @Test
     public void validatePercentage() throws Exception {
-        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(null).build(), "percentage: may not be null");
+        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(null).build(), "percentage: must not be null");
         assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(-1)).build(), "percentage: must be greater than or equal to 0.01");
         assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(0)).build(), "percentage: must be greater than or equal to 0.01");
         assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(100.01)).build(), "percentage: must be less than or equal to 100.00");
