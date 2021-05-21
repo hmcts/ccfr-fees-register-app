@@ -544,7 +544,6 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0224");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("170.00");
-            
         });
     }
 
