@@ -14,8 +14,8 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 public class FixedFeeDto extends FeeDto{
 
     @Builder(builderMethodName = "fixedFeeDtoWith")
-    public FixedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, boolean unspecifiedClaimAmount, String keyword) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount, keyword);
+    public FixedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, boolean unspecifiedClaimAmount, String keyword, String reasonForUpdate) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount, keyword, reasonForUpdate);
     }
 
     public FixedFeeDto setCode(String code) {
