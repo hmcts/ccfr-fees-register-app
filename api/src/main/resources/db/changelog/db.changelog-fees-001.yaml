@@ -541,7 +541,7 @@ databaseChangeLog:
         author: priyatham
         changes:
           - sql: >
-              ALTER TABLE fee ADD COLUMN reason_for_update VARCHAR;
+              ALTER TABLE fee_version ADD COLUMN reason_for_update VARCHAR;
 
     - changeSet:
         logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
