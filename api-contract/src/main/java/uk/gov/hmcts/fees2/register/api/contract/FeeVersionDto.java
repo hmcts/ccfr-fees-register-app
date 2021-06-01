@@ -78,4 +78,7 @@ public class FeeVersionDto {
     @JsonProperty("direction")
     private String direction;
 
+    @JsonProperty("reason_for_update")
+    private String reasonForUpdate;
+
 }

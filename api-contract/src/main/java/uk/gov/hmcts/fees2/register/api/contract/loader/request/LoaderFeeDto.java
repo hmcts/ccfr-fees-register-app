@@ -19,8 +19,8 @@ public abstract class LoaderFeeDto extends FeeDto {
 
     private LoaderFeeVersionDto version;
 
-    public LoaderFeeDto(String code, String newCode, LoaderFeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, Boolean unspecifiedClaimAmount, String keyword) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount, keyword);
+    public LoaderFeeDto(String code, String newCode, LoaderFeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, Boolean unspecifiedClaimAmount, String keyword, String reasonForUpdate) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount, keyword, reasonForUpdate);
         this.code = code;
         this.newCode = newCode;
         this.version = version;

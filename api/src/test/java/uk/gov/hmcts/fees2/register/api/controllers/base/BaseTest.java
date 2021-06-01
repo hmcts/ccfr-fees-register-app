@@ -295,7 +295,7 @@ public abstract class BaseTest {
         validTo.addDays(90);
 
         return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", FeeVersionStatusDto.valueOf(status.name()), getFlatAmountDto(), null, null, AUTHOR, AUTHOR,
-            memoLine, statutoryInstrument, siRefId, naturalAccountCode, feeOrderName, direction.getName());
+            memoLine, statutoryInstrument, siRefId, naturalAccountCode, feeOrderName, direction.getName(),"test");
     }
 
     public FlatAmountDto getFlatAmountDto() {

@@ -60,6 +60,9 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "si_ref_id")
     private String siRefId;
 
+    @Column(name = "reason_for_update")
+    private String reasonForUpdate;
+
     @ManyToOne
     @JoinColumn(name = "direction_type")
     private DirectionType directionType;
@@ -76,19 +79,22 @@ public class FeeVersion extends AbstractEntity{
     @Override
     public String toString() {
         return "FeeVersion{" +
-            "fee=" + fee.getCode() +
+            "fee=" + fee +
             ", amount=" + amount +
             ", description='" + description + '\'' +
             ", version=" + version +
             ", status=" + status +
+            ", validFrom=" + validFrom +
+            ", validTo=" + validTo +
+            ", author='" + author + '\'' +
+            ", approvedBy='" + approvedBy + '\'' +
             ", memoLine='" + memoLine + '\'' +
-            ", directionType=" + directionType +
             ", feeOrderName='" + feeOrderName + '\'' +
             ", naturalAccountCode='" + naturalAccountCode + '\'' +
             ", statutoryInstrument='" + statutoryInstrument + '\'' +
             ", siRefId='" + siRefId + '\'' +
-            ", validFrom=" + validFrom +
-            ", validTo=" + validTo +
+            ", reasonForUpdate='" + reasonForUpdate + '\'' +
+            ", directionType=" + directionType +
             '}';
     }
 }

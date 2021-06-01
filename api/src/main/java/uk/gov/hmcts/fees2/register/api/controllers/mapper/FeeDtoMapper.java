@@ -63,6 +63,7 @@ public class FeeDtoMapper {
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
+        version.setReasonForUpdate(request.getReasonForUpdate());
         fee.setFeeVersions(Arrays.asList(version));
         fee.setKeyword(request.getKeyword());
     }
