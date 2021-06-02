@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 import uk.gov.hmcts.reform.auth.checker.core.RequestAuthorizer;
 
@@ -30,6 +31,7 @@ public class FeeVersionControllerSecurityTest {
 
     @MockBean private FeeVersionService feeVersionService;
     @MockBean private FeeDtoMapper feeDtoMapper;
+    @MockBean private FeeService feeService;
 
     @Autowired
     private MockMvc mockMvc;
