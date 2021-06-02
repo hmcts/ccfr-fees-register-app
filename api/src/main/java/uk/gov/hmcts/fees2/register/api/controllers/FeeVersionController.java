@@ -85,7 +85,6 @@ public class FeeVersionController {
         @PathVariable("version") Integer version,
         @RequestBody @Validated final FeeVersionDto request) {
         Fee fees = feeService.get(code);
-        // take all updated values from FeeVersionDto request and map to Fees object
         feeService.saveVersion(mapper.fromFeeVersiontoFee(request,fees,version));
     }
 
