@@ -21,7 +21,9 @@ import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
+import javax.persistence.Column;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,6 +120,25 @@ public class FeeDtoMapper {
         fee.setRangeUnit(new RangeUnit(request.getRangeUnit()));
 
         return fee;
+    }
+
+    public Fee fromFeeVersiontoFee(FeeVersionDto request, Fee fees,Integer version) {
+        if(!fees.getFeeVersions().isEmpty()) {
+        for (FeeVersion fee: fees.getFeeVersions()) {
+            if (fee.getVersion().equals(version)) {
+                fee.setAmount(toFlatAmount(request.getFlatAmount()));
+                fee.setMemoLine(request.getMemoLine());
+                fee.setNaturalAccountCode(request.getNaturalAccountCode());
+                fee.setDescription(request.getDescription());
+                fee.setValidFrom(request.getValidFrom());
+                fee.setValidTo(request.getValidTo());
+                fee.setFeeOrderName(request.getFeeOrderName());
+                fee.setNaturalAccountCode(request.getNaturalAccountCode());
+                fee.setSiRefId(request.getSiRefId());
+            }
+          }
+        }
+        return fees;
     }
 
     public Fee2Dto toFeeDto(FeeVersion version) {

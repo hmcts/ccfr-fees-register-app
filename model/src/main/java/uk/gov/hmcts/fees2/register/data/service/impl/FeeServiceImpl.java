@@ -79,6 +79,12 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
+    public Fee saveVersion(Fee fee) {
+        feeValidator.validateAndDefaultNewFee(fee);
+        return fee2Repository.save(fee);
+    }
+
+    @Override
     public void saveLoaderFee(Fee fee) {
 
         if (fee.getCode() != null && !fee2Repository.findByCode(fee.getCode()).isPresent()) {
