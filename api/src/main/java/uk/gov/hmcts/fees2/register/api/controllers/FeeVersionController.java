@@ -14,6 +14,7 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
@@ -33,10 +34,6 @@ public class FeeVersionController {
     private final FeeVersionService feeVersionService;
 
     private final FeeDtoMapper mapper;
-
-    @Autowired
-    private  FeeService feeService;
-
 
     @Autowired
     public FeeVersionController(FeeVersionService feeVersionService, FeeDtoMapper mapper) {
@@ -84,8 +81,8 @@ public class FeeVersionController {
         @PathVariable("code") String code,
         @PathVariable("version") Integer version,
         @RequestBody @Validated final FeeVersionDto request) {
-        Fee fees = feeService.get(code);
-        feeService.saveVersion(mapper.fromFeeVersiontoFee(request,fees,version));
+        var feeVersion =feeVersionService.getFeeVersion(code,version);
+        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request,feeVersion));
     }
 
     @ApiOperation(value = "Approve a fee version")

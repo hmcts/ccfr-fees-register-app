@@ -21,9 +21,7 @@ import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
-import javax.persistence.Column;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -120,25 +118,6 @@ public class FeeDtoMapper {
         fee.setRangeUnit(new RangeUnit(request.getRangeUnit()));
 
         return fee;
-    }
-
-    public Fee fromFeeVersiontoFee(FeeVersionDto request, Fee fees,Integer version) {
-        if(!fees.getFeeVersions().isEmpty()) {
-        for (FeeVersion fee: fees.getFeeVersions()) {
-            if (fee.getVersion().equals(version)) {
-                fee.setAmount(toFlatAmount(request.getFlatAmount()));
-                fee.setMemoLine(request.getMemoLine());
-                fee.setNaturalAccountCode(request.getNaturalAccountCode());
-                fee.setDescription(request.getDescription());
-                fee.setValidFrom(request.getValidFrom());
-                fee.setValidTo(request.getValidTo());
-                fee.setFeeOrderName(request.getFeeOrderName());
-                fee.setNaturalAccountCode(request.getNaturalAccountCode());
-                fee.setSiRefId(request.getSiRefId());
-            }
-          }
-        }
-        return fees;
     }
 
     public Fee2Dto toFeeDto(FeeVersion version) {
@@ -394,4 +373,25 @@ public class FeeDtoMapper {
         fee.setApplicantType(applicantTypeRepository.findByNameOrThrow(application.toLowerCase()));
     }
 
+    public FeeVersion mapDtotoFeeVersion(FeeVersionDto request, FeeVersion feeVersion) {
+        if(request.getFlatAmount()!=null) {
+            feeVersion.setAmount(toFlatAmount(request.getFlatAmount()));
+        }
+         if(request.getPercentageAmount()!=null){
+            feeVersion.setAmount(toPercentageAmount(request.getPercentageAmount()));
+        }
+         if(request.getVolumeAmount()!=null){
+            feeVersion.setAmount(toVolumeAmount(request.getVolumeAmount()));
+        }
+        feeVersion.setMemoLine(request.getMemoLine());
+        feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
+        feeVersion.setDescription(request.getDescription());
+        feeVersion.setValidFrom(request.getValidFrom());
+        feeVersion.setValidTo(request.getValidTo());
+        feeVersion.setFeeOrderName(request.getFeeOrderName());
+        feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
+        feeVersion.setSiRefId(request.getSiRefId());
+        feeVersion.setDirectionType(DirectionType.directionWith().name(request.getDirection()).build());
+        return feeVersion;
+    }
 }
