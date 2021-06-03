@@ -537,7 +537,7 @@ databaseChangeLog:
 
     - changeSet:
         logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
-        id: 23
+        id: 24
         author: priyatham
         changes:
           - sql: >
