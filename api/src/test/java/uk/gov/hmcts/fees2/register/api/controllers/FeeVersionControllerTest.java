@@ -152,6 +152,43 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         forceDeleteFee(arr[3]);
     }
 
+    @Test
+    public synchronized void testEditFeeVersion() throws Exception {
+
+        FixedFeeDto dto = getFee();
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
+
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] arr = loc.split("/");
+        try {
+            feeVersionController.approve(arr[3], 1, new Principal() {
+                @Override
+                public String getName() {
+                    return "AUTHOR";
+                }
+            });
+
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+                "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
+            feeVersionDto2.setVersion(2);
+
+            feeVersionController.createVersion(arr[3], feeVersionDto2, new Principal() {
+                @Override
+                public String getName() {
+                    return "AUTHOR";
+                }
+            });
+
+            feeVersionController.editFeeVersion(arr[3], 2,feeVersionDto2);
+            assertThat(feeController.getFee(arr[3], response).getFeeVersionDtos().get(1).getFlatAmount().getAmount().toString()).isEqualTo("2500.00");
+            feeVersionController.deleteFeeVersion(arr[3], 2);
+        } finally {
+            forceDeleteFee(arr[3]);
+        }
+
+    }
+
     private FixedFeeDto getFee() {
 
         FixedFeeDto dto = new FixedFeeDto();
