@@ -30,5 +30,4 @@ public interface FeeService {
 
     void saveLoaderFee(Fee fee);
 
-    public Fee saveVersion(Fee fee);
 }
