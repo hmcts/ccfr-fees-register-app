@@ -153,7 +153,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    public synchronized void testEditFeeVersion() throws Exception {
+    public synchronized void testFlatAmountEditFeeVersion() throws Exception {
 
         FixedFeeDto dto = getFee();
         dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
@@ -182,6 +182,84 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
             feeVersionController.editFeeVersion(arr[3], 2,feeVersionDto2);
             assertThat(feeController.getFee(arr[3], response).getFeeVersionDtos().get(1).getFlatAmount().getAmount().toString()).isEqualTo("2500.00");
+            feeVersionController.deleteFeeVersion(arr[3], 2);
+        } finally {
+            forceDeleteFee(arr[3]);
+        }
+
+    }
+
+
+    @Test
+    public synchronized void testPercentageAmountEditFeeVersion() throws Exception {
+
+        FixedFeeDto dto = getFee();
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
+
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] arr = loc.split("/");
+        try {
+            feeVersionController.approve(arr[3], 1, new Principal() {
+                @Override
+                public String getName() {
+                    return "AUTHOR";
+                }
+            });
+
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+                "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
+            feeVersionDto2.setVersion(2);
+            feeVersionDto2.setFlatAmount(null);
+            feeVersionDto2.setPercentageAmount(getPercentageAmountDto());
+
+            feeVersionController.createVersion(arr[3], feeVersionDto2, new Principal() {
+                @Override
+                public String getName() {
+                    return "AUTHOR";
+                }
+            });
+
+            feeVersionController.editFeeVersion(arr[3], 2,feeVersionDto2);
+            assertThat(feeController.getFee(arr[3], response).getFeeVersionDtos().get(1).getPercentageAmount().getPercentage().toString()).isEqualTo("4.50");
+            feeVersionController.deleteFeeVersion(arr[3], 2);
+        } finally {
+            forceDeleteFee(arr[3]);
+        }
+    }
+
+    @Test
+    public synchronized void testVolumeAmountEditFeeVersion() throws Exception {
+
+        FixedFeeDto dto = getFee();
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+            "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
+
+        String loc = saveFeeAndCheckStatusIsCreated(dto);
+        String[] arr = loc.split("/");
+        try {
+            feeVersionController.approve(arr[3], 1, new Principal() {
+                @Override
+                public String getName() {
+                    return "AUTHOR";
+                }
+            });
+
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+                "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
+            feeVersionDto2.setVersion(2);
+            feeVersionDto2.setFlatAmount(null);
+            feeVersionDto2.setVolumeAmount(getVolumeAmountDto());
+
+            feeVersionController.createVersion(arr[3], feeVersionDto2, new Principal() {
+                @Override
+                public String getName() {
+                    return "AUTHOR";
+                }
+            });
+
+            feeVersionController.editFeeVersion(arr[3], 2,feeVersionDto2);
+            assertThat(feeController.getFee(arr[3], response).getFeeVersionDtos().get(1).getVolumeAmount().getAmount().toString()).isEqualTo("250.00");
             feeVersionController.deleteFeeVersion(arr[3], 2);
         } finally {
             forceDeleteFee(arr[3]);
