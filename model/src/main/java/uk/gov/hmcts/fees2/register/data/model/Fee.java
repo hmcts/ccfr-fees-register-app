@@ -139,7 +139,6 @@ public abstract class Fee extends AbstractEntity {
     public String toString() {
         return "Fee{" +
             "code='" + code + '\'' +
-            ", reasonForUpdate='" +
             ", feeNumber=" + feeNumber +
             ", jurisdiction1=" + jurisdiction1 +
             ", jurisdiction2=" + jurisdiction2 +
@@ -155,6 +154,7 @@ public abstract class Fee extends AbstractEntity {
             ", feeCodeHistories=" + feeCodeHistories +
             '}';
     }
+
 
     @OneToMany
     @Cascade(CascadeType.ALL)
