@@ -47,7 +47,4 @@ public abstract class FeeDto {
 
     protected String keyword;
 
-    @JsonProperty("reason_for_update")
-    protected String reasonForUpdate;
-
 }
