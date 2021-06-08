@@ -94,7 +94,6 @@ public class FeeVersion extends AbstractEntity{
             ", statutoryInstrument='" + statutoryInstrument + '\'' +
             ", siRefId='" + siRefId + '\'' +
             ", reasonForUpdate='" + reasonForUpdate + '\'' +
-            ", directionType=" + directionType +
             '}';
     }
 }
