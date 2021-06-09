@@ -18,6 +18,13 @@ public class FeeService {
             .patch("/fees/{feeCode}/versions/{version}/submit-for-review", feeCode, version);
     }
 
+    public static Response amendAFee(User editor, String feeCode, int version) {
+        return RestAssured.given()
+            .header(HttpHeaders.AUTHORIZATION, editor.getAuthorisationToken())
+            .when()
+            .put("/fees/{feeCode}/versions/{version}/approve", feeCode, version);
+    }
+
     public static Response approveAFee(User approver, String feeCode, int version) {
         return RestAssured.given()
             .header(HttpHeaders.AUTHORIZATION, approver.getAuthorisationToken())
@@ -46,5 +53,25 @@ public class FeeService {
             .body(feeDto)
             .when()
             .post("/fees-register/fixed-fees");
+    }
+
+    public static Response amendAFee(User editor, FeeDto feeDto) {
+        return RestAssured
+            .given()
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .header(HttpHeaders.AUTHORIZATION, editor.getAuthorisationToken())
+            .body(feeDto)
+            .when()
+            .put("/fees/{code}/versions/{version}", feeDto.getCode(), feeDto.getVersion().getVersion());
+    }
+
+    public static Response rejectAFee(User approver, FeeDto feeDto) {
+        return RestAssured
+            .given()
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .header(HttpHeaders.AUTHORIZATION, approver.getAuthorisationToken())
+            .body(feeDto)
+            .when()
+            .put("/fees/{feeCode}/versions/{version}/reject", feeDto.getCode(), feeDto.getVersion().getVersion());
     }
 }
