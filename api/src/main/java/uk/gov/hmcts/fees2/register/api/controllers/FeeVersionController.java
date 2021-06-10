@@ -94,7 +94,10 @@ public class FeeVersionController {
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, @RequestBody(required = false) String reason) {
-        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, reason);
+        if (null != reason)
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, reason);
+        else
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null);
     }
 
     @ApiOperation(value = "Submit a fee version to approval")
