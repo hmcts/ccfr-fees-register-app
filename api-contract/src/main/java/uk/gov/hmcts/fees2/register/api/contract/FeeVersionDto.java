@@ -80,4 +80,7 @@ public class FeeVersionDto {
     @JsonProperty("reason_for_update")
     private String reasonForUpdate;
 
+    @JsonProperty("reason_for_reject")
+    private String reasonForReject;
+
 }

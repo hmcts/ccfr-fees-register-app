@@ -63,6 +63,9 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "reason_for_update")
     private String reasonForUpdate;
 
+    @Column(name = "reason_for_reject")
+    private String reasonForReject;
+
     @ManyToOne
     @JoinColumn(name = "direction_type")
     private DirectionType directionType;

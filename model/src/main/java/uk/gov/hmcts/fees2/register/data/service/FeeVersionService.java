@@ -22,6 +22,8 @@ public interface FeeVersionService {
 
     void changeStatus(String code, Integer version, FeeVersionStatus status, String name);
 
+    void changeStatus(String code, Integer version, FeeVersionStatus status, String name, String reason);
+
     Integer getMaxFeeVersion(String feeCode);
 
     void updateVersion(String feeCode, Integer versionId, Integer newVersionId, BigDecimal amount, FeeVersion feeVersion);
