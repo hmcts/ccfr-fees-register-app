@@ -36,28 +36,9 @@ public class FixedFeeFixture {
             .build();
     }
 
-    public static FixedFeeDto aModifiedFee(FixedFeeDto fixedFeeDto) {
-        return FixedFeeDto.fixedFeeDtoWith()
-            .code(fixedFeeDto.getCode())
-            .applicantType("all")
-            .channel("online")
-            .event("issue")
-            .jurisdiction1("tribunal")
-            .jurisdiction2("gambling tribunal")
-            .service("gambling")
-            .keyword(fixedFeeDto.getKeyword())
-            .unspecifiedClaimAmount(true)
-            .version(FeeVersionDto.feeVersionDtoWith()
-                .version(fixedFeeDto.getVersion().getVersion() + 1)
-                .validFrom(new Date())
-                .description("Test fee - Filing an application for a divorce")
-                .status(FeeVersionStatusDto.draft)
-                .flatAmount(new FlatAmountDto(BigDecimal.valueOf(500)))
-                .memoLine("Test memo line")
-                .statutoryInstrument("2016 No. 402")
-                .feeOrderName("The Civil Proceedings")
-                .direction("enhanced")
-                .build())
-            .build();
+    public static FeeVersionDto aModifiedFee(String code, long amount, int versionToBeUpdated) {
+        String keyword = RandomStringUtils.randomAlphanumeric(10);
+        return FeeVersionDto.feeVersionDtoWith().build();
+
     }
 }
