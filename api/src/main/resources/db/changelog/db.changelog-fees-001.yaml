@@ -575,4 +575,5 @@ databaseChangeLog:
 
     - include:
         file: db/changelog/db.changelog-fees-managed-v6.yaml
+        //
 
