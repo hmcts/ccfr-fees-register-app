@@ -75,4 +75,20 @@ public class FeeVersionControllerMvcTest {
         // then
         verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null);
     }
+
+    @Test
+    public void shouldRejectWithReason() throws Exception {
+        // given
+        String code = "aCode";
+        int version = 2;
+
+        // when
+        this.mvc.perform(
+            patch("/fees/aCode/versions/2/reject")
+            .content("string"))
+            .andExpect(status().isNoContent());
+
+        // then
+        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, "string");
+    }
 }

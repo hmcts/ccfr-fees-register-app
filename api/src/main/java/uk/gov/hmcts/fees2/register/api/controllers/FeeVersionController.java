@@ -94,9 +94,9 @@ public class FeeVersionController {
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, @RequestBody(required = false) ReasonDto reasonDto) {
-        if (null != reasonDto && null != reasonDto.getReasonForReject())
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, reasonDto.getReasonForReject());
+    public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, @RequestBody(required = false) String reason) {
+        if (null != reason )
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, reason);
         else
             feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null);
     }
