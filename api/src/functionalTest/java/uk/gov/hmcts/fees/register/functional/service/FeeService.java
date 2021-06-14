@@ -83,7 +83,7 @@ public class FeeService {
             .header(HttpHeaders.AUTHORIZATION, approver.getAuthorisationToken())
             .body(fee2Dto)
             .when()
-            .put("/fees/{feeCode}/versions/{version}/reject", fee2Dto.getCode(), getLatestFeeVersion(fee2Dto).getVersion());
+            .patch("/fees/{feeCode}/versions/{version}/reject", fee2Dto.getCode(), getLatestFeeVersion(fee2Dto).getVersion());
     }
 
     @NotNull

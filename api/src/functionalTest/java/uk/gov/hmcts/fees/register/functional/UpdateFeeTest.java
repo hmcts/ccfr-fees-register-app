@@ -169,20 +169,15 @@ public class UpdateFeeTest extends IntegrationTestBase {
             .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
 
-        // approver approves a fee
-        feeService.approveAFee(userBootstrap.getApprover(), feeCode, feeVersionDto.getVersion())
+        // approver rejects the Submitted fee - TODO Rejection mechanism not working properly to Review With Krishna...
+        feeService.rejectAFeeVersion(userBootstrap.getApprover(), fee2Dto)
             .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
 
-        // approver rejects the Submitted fee - TODO Rejection mechanism not working properly to Review With Krishna...
-        /*feeService.rejectAFeeVersion(userBootstrap.getApprover(), fee2Dto)
-            .then()
-            .statusCode(HttpStatus.NO_CONTENT.value());*/
-
         //Ammending only the Amount,automatically increments the version - TODO this amend should only be post the rejection....
-        /*Response amendResponse1 = feeService.amendAFeeVersion(userBootstrap.getEditor(), feeCode, feeVersionDto);
+        Response amendResponse1 = feeService.amendAFeeVersion(userBootstrap.getEditor(), feeCode, feeVersionDto);
         amendResponse1.then()
-            .statusCode(HttpStatus.BAD_REQUEST.value());*/
+            .statusCode(HttpStatus.NO_CONTENT.value());
 
         // admin deletes an approved fee - success
         feeService.deleteAFee(userBootstrap.getAdmin(), feeCode)
