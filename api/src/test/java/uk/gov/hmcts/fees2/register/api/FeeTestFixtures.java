@@ -109,6 +109,7 @@ public class FeeTestFixtures {
             "  \"natural_account_code\": \"string\",\n" +
             "  \"fee_order_name\": \"string\",\n" +
             "  \"direction\": \"string\"\n" +
+            "  \"reason_for_update\": \"string\"\n" +
             "}";
     }
 
