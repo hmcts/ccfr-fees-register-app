@@ -105,6 +105,17 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     @Override
     @Transactional
     public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
+        FeeVersion feeVersion = getFeeVersion(feeCode, version, newStatus, user);
+    }
+
+    @Override
+    public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user, String reason) {
+
+        FeeVersion feeVersion = getFeeVersion(feeCode, version, newStatus, user);
+        feeVersion.setReasonForReject(reason);
+    }
+
+    private FeeVersion getFeeVersion(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
         FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
 
         if (feeVersion.getStatus() == FeeVersionStatus.approved) {
@@ -123,30 +134,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
         }
 
         feeVersion.setStatus(newStatus);
-    }
-
-    @Override
-    public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user, String reason) {
-//        FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
-
-        FeeVersion feeVersion = new FeeVersion();
-        /*if (feeVersion.getStatus() == FeeVersionStatus.approved) {
-            throw new BadRequestException("Approved fees cannot change their status");
-        }*/
-
-        if (newStatus == FeeVersionStatus.approved) {
-
-            if (feeVersion.getStatus() != FeeVersionStatus.pending_approval) {
-                throw new BadRequestException("Only fees pending approval can be approved");
-            }
-
-            feeVersion.setApprovedBy(user);
-
-            setValidToOnPreviousFeeVersion(feeVersion);
-        }
-
-        feeVersion.setStatus(newStatus);
-        feeVersion.setReasonForReject(reason);
+        return feeVersion;
     }
 
 

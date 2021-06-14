@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.ReasonDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
@@ -93,9 +94,9 @@ public class FeeVersionController {
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, @RequestBody(required = false) String reason) {
-        if (null != reason)
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, reason);
+    public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, @RequestBody(required = false) ReasonDto reasonDto) {
+        if (null != reasonDto.getReasonForReject())
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, reasonDto.getReasonForReject());
         else
             feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null);
     }
