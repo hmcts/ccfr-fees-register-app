@@ -120,10 +120,10 @@
       "event": "hearing",
       "applicant_type": "all"
     }
-
-
-  ],
-
+    
+    
+    ],
+    
   "fixedFees": [
     {
       "code": "X0012",
@@ -179,7 +179,7 @@
       "service": "divorce",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all" 
     },
     {
       "code": "X0258",
@@ -208,7 +208,7 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all" 
     },
     {
       "code": "",
@@ -296,6 +296,35 @@
       "event": "issue",
       "applicant_type": "all",
       "keyword": "DEF"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0235",
+      "version": {
+        "version": 1,
+        "valid_from": "2014-04-21T00:00:00.000+00:00",
+        "description": "Appeal (detailed assessment proceedings) - family",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family costs other",
+        "natural_account_code": "4481102169",
+        "direction": "cost recovery",
+        "fee_order_name": "Family Proceedings",
+        "statutory_instrument": "2014 No 877",
+        "si_ref_id": "9.4",
+        "flat_amount": {
+          "amount": 210
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "family court",
+      "service": "other",
+      "channel": "default",
+      "event": "cost assessment",
+      "applicant_type": "all",
+      "keyword": "ABC"
     }
   ]
 }
