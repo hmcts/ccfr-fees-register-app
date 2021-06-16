@@ -109,6 +109,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     }
 
     @Override
+    @Transactional
     public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user, String reason) {
 
         FeeVersion feeVersion = getFeeVersion(feeCode, version, newStatus, user);

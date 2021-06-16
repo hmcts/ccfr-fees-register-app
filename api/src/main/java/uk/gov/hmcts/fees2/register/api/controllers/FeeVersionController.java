@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,11 +95,8 @@ public class FeeVersionController {
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, @RequestBody(required = false) String reason) {
-        if (null != reason )
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, reason);
-        else
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null);
+    public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, @RequestBody(required = false) ReasonDto reasonDto) {
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, (null != reasonDto && null!= reasonDto.getReasonForReject()) ? Encode.forHtml(reasonDto.getReasonForReject()) : "");
     }
 
     @ApiOperation(value = "Submit a fee version to approval")
