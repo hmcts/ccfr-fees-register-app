@@ -718,6 +718,35 @@
   "fixedFees": [
     {
       "code": "",
+      "new_code": "FEE0313",
+      "version": {
+        "version": 1,
+        "valid_from": "2014-04-21T00:00:00.000+00:00",
+        "description": "Application for proceedings under Section 31 of Act",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family issue public",
+        "natural_account_code": "4481102160",
+        "direction": "cost recovery",
+        "fee_order_name": "Family Proceedings",
+        "statutory_instrument": "2014 No 877",
+        "si_ref_id": "2.2",
+        "flat_amount": {
+          "amount": 2055
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "family court",
+      "service": "public law",
+      "channel": "default",
+      "event": "issue",
+      "applicant_type": "all",
+      "keyword": "CareOrder"
+    },
+    {
+      "code": "",
       "new_code": "FEE0280",
       "version": {
         "version": 1,
