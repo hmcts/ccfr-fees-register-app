@@ -505,7 +505,7 @@
       "version": {
         "version": 2,
         "valid_from" : "2011-04-04T00:00:00.000+00:00",
-        "description": "Application for a grant of probate (Estate under £5000 GBP)",
+        "description": "Application for a grant of probate (Estate under 5000 GBP)",
         "status": "approved",
         "author": "124756",
         "approvedBy": "39907",
