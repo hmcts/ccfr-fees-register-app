@@ -5,15 +5,17 @@
       "code": "X0250-1",
       "new_code": "FEE0226",
       "version": {
-        "version": 1,
+        "version": 3,
         "valid_from" : "2011-04-04T00:00:00.000Z",
         "description": "Personal Application for grant of Probate",
         "status": "approved",
-        "memo_line":"Personal Application for grant of Probate",
+        "author": "300856",
+        "approvedBy": "39907",
+        "memo_line":"RECEIPT OF FEES - Family misc probate",
         "natural_account_code":"4481102158",
         "direction": "enhanced",
         "fee_order_name": "Non-Contentious Probate Fees",
-        "statutory_instrument":"2011 No. 588 (L. 4)",
+        "statutory_instrument":"2011 No. 588",
         "si_ref_id": "2",
         "flat_amount": {
           "amount": 215.00
@@ -25,7 +27,8 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "personal"
+      "applicant_type": "personal",
+      "keyword": "PA"
     },
     {
       "min_range": 0.01,
@@ -469,16 +472,17 @@
       "code": "X0249",
       "new_code": "FEE0219",
       "version": {
-        "version": 2,
-        "new_version": 3,
-        "valid_from" : "2014-04-22T00:00:00.511Z",
-        "description": "Application for a grant of probate (Estate over £5000)",
+        "version": 4,
+        "valid_from" : "2014-04-22T00:00:00.000+00:00",
+        "description": "Application for a grant of probate (Estate over 5000 GBP)",
         "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
         "statutory_instrument": "2014 No 876",
         "fee_order_name": "Non-Contentious Probate Fees",
         "si_ref_id": "1",
         "direction": "cost recovery",
-        "memo_line": "Non Personal Application for grant of Probate",
+        "memo_line": "RECEIPT OF FEES - Family issue probate",
         "natural_account_code": "4481102158",
         "flat_amount": {
           "amount": 155
@@ -489,7 +493,8 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "SA"
     },
     {
       "min_range": 0,
@@ -498,15 +503,17 @@
       "code": "X0249_NO_FEE",
       "new_code": "FEE0220",
       "version": {
-        "version": 1,
-        "valid_from" : "2011-04-04T00:00:00.511Z",
-        "description": "Application for a grant of probate (Estate under £5000)",
+        "version": 2,
+        "valid_from" : "2011-04-04T00:00:00.000+00:00",
+        "description": "Application for a grant of probate (Estate under £5000 GBP)",
         "status": "approved",
-        "statutory_instrument": "2011 No. 588 (L. 4)",
+        "author": "124756",
+        "approvedBy": "39907",
+        "statutory_instrument": "2011 No 588",
         "fee_order_name": "Non-Contentious Probate Fees",
         "si_ref_id": "1",
         "direction": "cost recovery",
-        "memo_line": "Non Personal Application for grant of Probate",
+        "memo_line": "RECEIPT OF FEES - Family issue probate",
         "natural_account_code": "4481102158",
         "flat_amount": {
           "amount": 0
@@ -517,7 +524,8 @@
       "service": "probate",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "SAL5K"
     },
     {
       "min_range": 0.01,
@@ -674,9 +682,388 @@
       "channel": "default",
       "event": "hearing",
       "applicant_type": "all"
+    },
+    {
+      "min_range": 0,
+      "max_range": 5000,
+      "code": "",
+      "new_code": "FEE0540",
+      "version": {
+        "version": 2,
+        "valid_from": "2011-04-04T00:00:00.000+00:00",
+        "description": "Personal Application for grant of Probate",
+        "status": "approved",
+        "author": "300856",
+        "approvedBy": "39907",
+        "memo_line": "Personal Application for grant of Probate",
+        "natural_account_code": "4481102158",
+        "direction": "cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2011 No. 588 (L. 4)",
+        "si_ref_id": "2",
+        "flat_amount": {
+          "amount": 0
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "issue",
+      "applicant_type": "personal",
+      "keyword": "PAL5K"
     }
   ],
   "fixedFees": [
+    {
+      "code": "",
+      "new_code": "FEE0313",
+      "version": {
+        "version": 1,
+        "valid_from": "2014-04-21T00:00:00.000+00:00",
+        "description": "Application for proceedings under Section 31 of Act",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family issue public",
+        "natural_account_code": "4481102160",
+        "direction": "cost recovery",
+        "fee_order_name": "Family Proceedings",
+        "statutory_instrument": "2014 No 877",
+        "si_ref_id": "2.2",
+        "flat_amount": {
+          "amount": 2055
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "family court",
+      "service": "public law",
+      "channel": "default",
+      "event": "issue",
+      "applicant_type": "all",
+      "keyword": "CareOrder"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0280",
+      "version": {
+        "version": 1,
+        "valid_from": "2020-08-03T00:00:00.000+00:00",
+        "description": "Settling documents",
+        "status": "approved",
+        "author": "bac06e97-1af0-446b-aa2f-43d022709677",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family misc probate",
+        "natural_account_code": "4481102173",
+        "direction": "cost recovery",
+        "fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2020",
+        "statutory_instrument": "2020 No 720",
+        "si_ref_id": "11",
+        "flat_amount": {
+          "amount": 4
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "miscellaneous",
+      "applicant_type": "all",
+      "keyword": "SASettler"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0281",
+      "version": {
+        "version": 1,
+        "valid_from": "2011-04-03T00:00:00.000+00:00",
+        "description": "For marking each exhibit",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family misc probate",
+        "natural_account_code": "4481102173",
+        "direction": "cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2011 No 588",
+        "si_ref_id": "9.2",
+        "flat_amount": {
+          "amount": 2
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "miscellaneous",
+      "applicant_type": "all",
+      "keyword": "Exhibit"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0282",
+      "version": {
+        "version": 1,
+        "valid_from": "2014-04-21T00:00:00.000+00:00",
+        "description": "For each deponent to each affidavit",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family misc probate",
+        "natural_account_code": "4481102173",
+        "direction": "cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2014 No 876",
+        "si_ref_id": "9.1",
+        "flat_amount": {
+          "amount": 11
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "miscellaneous",
+      "applicant_type": "all",
+      "keyword": "Affidavit"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0284",
+      "version": {
+        "version": 2,
+        "valid_from": "2014-04-21T00:00:00.000+00:00",
+        "description": "Copy of a document in electronic form (for each copy)",
+        "status": "approved",
+        "author": "bac06e97-1af0-446b-aa2f-43d022709677",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family copies probate",
+        "natural_account_code": "4481102171",
+        "direction": "cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2014 No 876",
+        "si_ref_id": "8c",
+        "flat_amount": {
+          "amount": 10
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "copies",
+      "applicant_type": "all",
+      "keyword": "GrantWillDisc"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0285",
+      "version": {
+        "version": 1,
+        "valid_from": "2011-04-03T00:00:00.000+00:00",
+        "description": "Inspection of will/other document retained by the registry",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family search probate",
+        "natural_account_code": "4481102163",
+        "direction": "cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2011 No 588",
+        "si_ref_id": "7",
+        "flat_amount": {
+          "amount": 20
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "search",
+      "applicant_type": "all",
+      "keyword": "Inspection"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0286",
+      "version": {
+        "version": 1,
+        "valid_from": "2011-04-03T00:00:00.000+00:00",
+        "description": "Deposit of wills",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family misc probate",
+        "natural_account_code": "4481102173",
+        "direction": "cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2011 No 588",
+        "si_ref_id": "6",
+        "flat_amount": {
+          "amount": 20
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "miscellaneous",
+      "applicant_type": "all",
+      "keyword": "Deposit"
+    },
+    {
+    "code": "",
+    "new_code": "FEE0287",
+    "version": {
+      "version": 2,
+      "valid_from": "2020-08-03T00:00:00.000+00:00",
+      "description": "Application for a standing search",
+      "status": "approved",
+      "author": "bac06e97-1af0-446b-aa2f-43d022709677",
+      "approvedBy": "39907",
+      "memo_line": "RECEIPT OF FEES - Family search probate",
+      "natural_account_code": "4481102163",
+      "direction": "cost recovery",
+      "fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2020",
+      "statutory_instrument": "2020 No 720",
+      "si_ref_id": "5",
+      "flat_amount": {
+        "amount": 3
+      }
+    },
+    "range_unit": "GBP",
+    "jurisdiction1": "family",
+    "jurisdiction2": "probate registry",
+    "service": "probate",
+    "channel": "default",
+    "event": "search",
+    "applicant_type": "all",
+    "keyword": "StdSearch"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0288",
+      "version": {
+        "version": 2,
+        "valid_from": "2020-08-03T00:00:00.000+00:00",
+        "description": "Application for the entry or extension of a caveat",
+        "status": "approved",
+        "author": "bac06e97-1af0-446b-aa2f-43d022709677",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family misc probate",
+        "natural_account_code": "4481102173",
+        "direction": "cost recovery",
+        "fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2020",
+        "statutory_instrument": "2020 No 720",
+        "si_ref_id": "4",
+        "flat_amount": {
+          "amount": 3
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "miscellaneous",
+      "applicant_type": "all",
+      "keyword": "Caveat"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0289",
+      "version": {
+        "version": 1,
+        "valid_from": "2011-04-03T00:00:00.000+00:00",
+        "description": "Grant for an estate exempt from Inheritance Tax",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family misc probate",
+        "natural_account_code": "4481102173",
+        "direction": "cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2011 No 588",
+        "si_ref_id": "3.2",
+        "flat_amount": {
+          "amount": 10
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "miscellaneous",
+      "applicant_type": "all",
+      "keyword": "IhTExempt"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0290",
+      "version": {
+        "version": 1,
+        "valid_from": "2011-04-03T00:00:00.000+00:00",
+        "description": "Duplicate/second grant for same deceased person",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family misc probate",
+        "natural_account_code": "4481102173",
+        "direction": "cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2011 No 588",
+        "si_ref_id": "3.1",
+        "flat_amount": {
+          "amount": 20
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "miscellaneous",
+      "applicant_type": "all",
+      "keyword": "SecondGrant"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0546",
+      "version": {
+        "version": 1,
+        "valid_from": "2019-07-22T00:00:00.000+00:00",
+        "description": "Copy of a document (for each copy)",
+        "status": "approved",
+        "author": "b0aa5dff-b1bb-49be-a598-7107b572316f",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family copies probate",
+        "natural_account_code": "4481102171",
+        "direction": "cost recovery",
+        "fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2019",
+        "statutory_instrument": "2019 No 1063",
+        "si_ref_id": "8a",
+        "volume_amount": {
+          "amount": 1.5
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "copies",
+      "applicant_type": "all",
+      "keyword": "GrantWill"
+    },
     {
       "code": "X0012",
       "new_code": "FEE0001",
@@ -6072,6 +6459,35 @@
       "unspecified_claim_amount":false,
       "applicant_type":"all",
       "keyword":"CareOrder"
+    },
+    {
+      "code": "",
+      "new_code": "FEE0500",
+      "version": {
+        "version": 1,
+        "valid_from": "2014-04-22T00:00:00.000+00:00",
+        "description": "Determination of costs. FEE AMOUNT =  Use Civil Proceedings Order Section 5",
+        "status": "approved",
+        "author": "124756",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family misc probate",
+        "natural_account_code": "4481102173",
+        "direction": "partial cost recovery",
+        "fee_order_name": "Non-Contentious Probate Fees",
+        "statutory_instrument": "2014 No 876",
+        "si_ref_id": "10",
+        "flat_amount": {
+          "amount": 0
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "miscellaneous",
+      "applicant_type": "all",
+      "keyword": "Costs"
     }
   ]
 }
