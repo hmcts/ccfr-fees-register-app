@@ -6,7 +6,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.gov.hmcts.fees2.register.api.contract.ReasonDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
@@ -73,7 +75,7 @@ public class FeeVersionControllerMvcTest {
             .andExpect(status().isNoContent());
 
         // then
-        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null);
+        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, "");
     }
 
     @Test
@@ -81,14 +83,38 @@ public class FeeVersionControllerMvcTest {
         // given
         String code = "aCode";
         int version = 2;
+        ReasonDto reasonDto = new ReasonDto();
+        reasonDto.setReasonForReject("wrong value");
 
         // when
         this.mvc.perform(
             patch("/fees/aCode/versions/2/reject")
-            .content("string"))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+            .content("{\"reasonForReject\": \"wrong value\"}"))
             .andExpect(status().isNoContent());
 
         // then
-        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, "string");
+        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, reasonDto.getReasonForReject());
+    }
+
+    @Test
+    public void shouldRejectWithEmptyReason() throws Exception {
+        // given
+        String code = "aCode";
+        int version = 2;
+        ReasonDto reasonDto = new ReasonDto();
+        reasonDto.setReasonForReject("");
+
+        // when
+        this.mvc.perform(
+            patch("/fees/aCode/versions/2/reject")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"reasonForReject\": \"\"}"))
+            .andExpect(status().isNoContent());
+
+        // then
+        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, reasonDto.getReasonForReject());
     }
 }
