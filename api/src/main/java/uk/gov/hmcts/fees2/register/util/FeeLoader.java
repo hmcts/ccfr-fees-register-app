@@ -33,7 +33,7 @@ import java.util.List;
  */
 
 @Component
-@ConditionalOnProperty(name = "enable.fee.loader", havingValue = "true")
+@ConditionalOnProperty(name = "enable.fee.loader", havingValue = "false")
 public class FeeLoader implements ApplicationRunner {
     private static final Logger LOG = LoggerFactory.getLogger(FeeLoader.class);
 
