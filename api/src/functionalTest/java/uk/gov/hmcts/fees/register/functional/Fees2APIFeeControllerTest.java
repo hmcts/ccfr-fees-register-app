@@ -19,17 +19,17 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     @Autowired
     private FeesRegisterTestDsl scenario;
 
-//     @Test
-//     public void getlookupresponseMessageForDivorce() throws IOException {
+    @Test
+    public void getlookupresponseMessageForDivorce() throws IOException {
 
-//         scenario.given()
-//             .when().getLookUpResponse("divorce", "family", "family court", "default", "issue")
-//             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-//             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0002");
-//             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("550.00");
-//         });
-//     }
+        scenario.given()
+            .when().getLookUpResponse("divorce", "family", "family court", "default", "issue")
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0002");
+            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("550.00");
+        });
+    }
 
 //     @Test
 //     public void getlookupresponseMessageForCMCDefault1() throws IOException {
