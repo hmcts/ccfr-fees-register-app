@@ -718,6 +718,35 @@
   "fixedFees": [
     {
       "code": "",
+      "new_code": "FEE0238",
+      "version": {
+        "version": 2,
+        "valid_from": "2011-12-18T00:00:00.000+00:00",
+        "description": "Appeal determined with a hearing",
+        "status": "approved",
+        "author": "300856",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Tribunal issue other",
+        "natural_account_code": "4481102178",
+        "direction": "partial cost recovery",
+        "fee_order_name": "The First Tier (immigration & Asylum Chamber)",
+        "statutory_instrument": "2011 No 2841",
+        "si_ref_id": "3(3)(b)",
+        "flat_amount": {
+          "amount": 140
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "tribunal",
+      "jurisdiction2": "immigration and asylum chamber",
+      "service": "other",
+      "channel": "default",
+      "event": "issue",
+      "applicant_type": "all",
+      "keyword": "ABC"
+    },
+    {
+      "code": "",
       "new_code": "FEE0313",
       "version": {
         "version": 1,
