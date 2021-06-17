@@ -86,12 +86,6 @@ public class FeeDtoMapper {
             );
         }
 
-        if (fee instanceof RelationalFee){
-            fee.setUnspecifiedClaimAmount(
-                request.getUnspecifiedClaimAmount() != null && request.getUnspecifiedClaimAmount()
-            );
-        }
-
         return fee;
     }
 
