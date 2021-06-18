@@ -15,8 +15,6 @@ public class FeeFactory {
             fee = new BandedFee();
         if (request instanceof RateableFeeDto)
             fee = new RateableFee();
-        if (request instanceof RelationalFeeDto)
-            fee = new RelationalFee();
         if (request instanceof RelationalFeeDto || request instanceof LoaderRelationalFeeDto)
             fee = new RelationalFee();
         return fee;
