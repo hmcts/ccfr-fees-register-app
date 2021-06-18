@@ -77,8 +77,5 @@ withPipeline(type, product, app) {
 
     }
     disableLegacyDeployment()
-
-    onMaster() {
-        enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
-    }
+    enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
 }
