@@ -1,9 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.contract;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true)
