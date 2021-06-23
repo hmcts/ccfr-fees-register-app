@@ -36,13 +36,13 @@ public class FeeVersionControllerMvcTest {
     @Test
     public void shouldSubmitToReview() throws Exception {
         // given
-        String code = "aCode";
-        int version = 2;
+        final String code = "aCode";
+        final int version = 2;
 
         // when
         this.mvc.perform(
-            patch("/fees/aCode/versions/2/submit-for-review"))
-            .andExpect(status().isNoContent());
+                patch("/fees/aCode/versions/2/submit-for-review"))
+                .andExpect(status().isNoContent());
 
         // then
         verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.pending_approval, null);
@@ -51,13 +51,13 @@ public class FeeVersionControllerMvcTest {
     @Test
     public void shouldApprove() throws Exception {
         // given
-        String code = "aCode";
-        int version = 2;
+        final String code = "aCode";
+        final int version = 2;
 
         // when
         this.mvc.perform(
-            patch("/fees/aCode/versions/2/approve"))
-            .andExpect(status().isNoContent());
+                patch("/fees/aCode/versions/2/approve"))
+                .andExpect(status().isNoContent());
 
         // then
         verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.approved, null);
@@ -66,55 +66,57 @@ public class FeeVersionControllerMvcTest {
     @Test
     public void shouldReject() throws Exception {
         // given
-        String code = "aCode";
-        int version = 2;
+        final String code = "aCode";
+        final int version = 2;
 
         // when
         this.mvc.perform(
-            patch("/fees/aCode/versions/2/reject"))
-            .andExpect(status().isNoContent());
+                patch("/fees/aCode/versions/2/reject"))
+                .andExpect(status().isNoContent());
 
         // then
-        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, "");
+        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, null);
     }
 
     @Test
     public void shouldRejectWithReason() throws Exception {
         // given
-        String code = "aCode";
-        int version = 2;
-        ReasonDto reasonDto = new ReasonDto();
+        final String code = "aCode";
+        final int version = 2;
+        final ReasonDto reasonDto = new ReasonDto();
         reasonDto.setReasonForReject("wrong value");
 
         // when
         this.mvc.perform(
-            patch("/fees/aCode/versions/2/reject")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON)
-            .content("{\"reasonForReject\": \"wrong value\"}"))
-            .andExpect(status().isNoContent());
+                patch("/fees/aCode/versions/2/reject")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content("{\"reasonForReject\": \"wrong value\"}"))
+                .andExpect(status().isNoContent());
 
         // then
-        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, reasonDto.getReasonForReject());
+        verify(feeVersionService)
+                .changeStatus(code, version, FeeVersionStatus.draft, null, reasonDto.getReasonForReject());
     }
 
     @Test
     public void shouldRejectWithEmptyReason() throws Exception {
         // given
-        String code = "aCode";
-        int version = 2;
-        ReasonDto reasonDto = new ReasonDto();
+        final String code = "aCode";
+        final int version = 2;
+        final ReasonDto reasonDto = new ReasonDto();
         reasonDto.setReasonForReject("");
 
         // when
         this.mvc.perform(
-            patch("/fees/aCode/versions/2/reject")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON)
-                .content("{\"reasonForReject\": \"\"}"))
-            .andExpect(status().isNoContent());
+                patch("/fees/aCode/versions/2/reject")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content("{\"reasonForReject\": \"\"}"))
+                .andExpect(status().isNoContent());
 
         // then
-        verify(feeVersionService).changeStatus(code, version, FeeVersionStatus.draft, null, reasonDto.getReasonForReject());
+        verify(feeVersionService)
+                .changeStatus(code, version, FeeVersionStatus.draft, null, reasonDto.getReasonForReject());
     }
 }
