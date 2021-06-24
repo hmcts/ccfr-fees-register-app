@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRelationalFeeDto;
 
 import java.util.List;
 
@@ -27,5 +28,6 @@ public class FeeLoaderJsonMapper {
 
     private List<LoaderRangedFeeDto> rangedFees;
     private List<LoaderFixedFeeDto> fixedFees;
+    private List<LoaderRelationalFeeDto> relationalFees;
 
 }
