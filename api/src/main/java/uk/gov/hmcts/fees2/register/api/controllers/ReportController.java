@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.FeesException;
@@ -49,7 +50,7 @@ public class ReportController {
     })
     @GetMapping("/report/download")
     public ResponseEntity<byte[]> retrieveByReportType(
-//            @RequestHeader("Authorization") final String authorization,
+            @RequestHeader("Authorization") final String authorization,
             final HttpServletResponse response) {
 
         LOG.info("Retrieving Fees");
