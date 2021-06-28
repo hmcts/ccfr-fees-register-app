@@ -49,7 +49,7 @@ public class ReportController {
             @ApiResponse(code = 404, message = "No Data found to generate Report")
     })
     @GetMapping("/report/download")
-    public ResponseEntity<byte[]> retrieveByReportType(
+    public ResponseEntity<byte[]> downloadReport(
             @RequestHeader("Authorization") final String authorization,
             final HttpServletResponse response) {
 
@@ -77,7 +77,7 @@ public class ReportController {
 
             if (Optional.ofNullable(fee2DtoList).isPresent()) {
                 LOG.info("No of Records exists : {}", fee2DtoList.size());
-                workbook = (HSSFWorkbook) ExcelGeneratorUtil.exportToExcel("aa", fee2DtoList);
+                workbook = (HSSFWorkbook) ExcelGeneratorUtil.exportToExcel(fee2DtoList);
             }
 
             if (workbook != null) {

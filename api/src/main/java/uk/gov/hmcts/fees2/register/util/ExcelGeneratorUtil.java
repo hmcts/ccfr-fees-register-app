@@ -12,11 +12,7 @@ import static org.apache.poi.ss.usermodel.IndexedColors.BLACK;
 
 public final class ExcelGeneratorUtil {
 
-    private ExcelGeneratorUtil() {
-        throw new IllegalStateException("Utility class");
-    }
-
-    public static Workbook exportToExcel(final String reportType, final List<Fee2Dto> fee2DtoList) {
+    public static Workbook exportToExcel(final List<Fee2Dto> fee2DtoList) {
         final String[] cols =
                 {"Code", "Description", "Amount", "Statutory Instrument", "SI Ref ID", "Fee Order Name", "Service", "Jurisdiction1", "Jurisdiction2", "Event", "Range from", "Range to", "Unit", "Fee type", "Amount Type", "%", "Channel", "Keyword", "Applicant Type", "Version", "Direction",
                         "Valid From", "Valid To", "Memo", "Status", "Natural Account Code"};
@@ -24,7 +20,7 @@ public final class ExcelGeneratorUtil {
         try (final Workbook workbook = new HSSFWorkbook()) {
             final CreationHelper createHelper = workbook.getCreationHelper();
 
-            final Sheet sheet = workbook.createSheet(reportType);
+            final Sheet sheet = workbook.createSheet();
 
             final Font headerFont = workbook.createFont();
             headerFont.setBold(true);
