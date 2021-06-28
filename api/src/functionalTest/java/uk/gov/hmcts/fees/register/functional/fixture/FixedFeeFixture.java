@@ -35,4 +35,10 @@ public class FixedFeeFixture {
                 .build())
             .build();
     }
+
+    public static FeeVersionDto aModifiedFee(String code, long amount, int versionToBeUpdated) {
+        String keyword = RandomStringUtils.randomAlphanumeric(10);
+        return FeeVersionDto.feeVersionDtoWith().build();
+
+    }
 }

@@ -102,6 +102,20 @@ public class FeeVersionServiceImpl implements FeeVersionService {
         return version;
     }
 
+
+    @Override
+    @Transactional
+    public FeeVersion saveFeeVersion(FeeVersion version) {
+        feeVersionRepository.save(version);
+        return version;
+    }
+
+    @Override
+    @Transactional
+    public FeeVersion getFeeVersion(String feeCode, Integer version) {
+        return  feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
+    }
+
     @Override
     @Transactional
     public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
