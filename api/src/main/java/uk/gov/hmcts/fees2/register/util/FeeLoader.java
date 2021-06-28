@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderFixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRelationalFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeLoaderJsonMapper;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
@@ -70,6 +71,7 @@ public class FeeLoader implements ApplicationRunner {
         if (feeLoaderMapper != null) {
             loadFixedFees(feeLoaderMapper);
             loadRangedFees(feeLoaderMapper);
+            loadRelationalFees(feeLoaderMapper);
         }
     }
 
@@ -134,6 +136,51 @@ public class FeeLoader implements ApplicationRunner {
             if (feeService.get(f.getCode()) == null) {
                 feeService.save(fee);
                 LOG.info("Fixed fee with code " + f.getNewCode() + " inserted into database.");
+            } else {
+                try {
+                    fee.setCode(f.getCode());
+                    feeService.updateLoaderFee(fee, f.getNewCode());
+                } catch (DataIntegrityViolationException ue) {
+                    LOG.error("Fee Update failed for the fee code: {}", f.getNewCode());
+                }
+            }
+
+        } catch (FeeNotFoundException fe) {
+            LOG.debug("Fee with code is not found: {}", fe);
+
+            // Saving as a new fee.
+            fee.setCode(f.getNewCode());
+            feeService.saveLoaderFee(fee);
+
+        }
+
+        updateFeeVersion(f.getNewCode(), f.getVersion());
+    }
+
+    private void loadRelationalFees(FeeLoaderJsonMapper feeLoaderMapper) {
+
+        if (feeLoaderMapper.getRelationalFees().size() > 0) {
+            List<LoaderRelationalFeeDto> relationalFees = feeLoaderMapper.getRelationalFees();
+            relationalFees.forEach(f -> {
+
+                saveRelationalFee(f);
+            });
+        }
+
+    }
+
+    private void saveRelationalFee(LoaderRelationalFeeDto f) {
+
+        Fee fee = feeDtoMapper.toFee(f, null);
+
+        if (f.getUnspecifiedClaimAmount() == null) {
+            f.setUnspecifiedClaimAmount(false);
+        }
+
+        try {
+            if (feeService.get(f.getCode()) == null) {
+                feeService.save(fee);
+                LOG.info("Relational fee with code " + f.getNewCode() + " inserted into database.");
             } else {
                 try {
                     fee.setCode(f.getCode());
