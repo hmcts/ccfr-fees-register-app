@@ -73,6 +73,7 @@ public class ReportControllerTest {
 
         final ResultActions resultActions = mockMvc.perform(get("/report/download")
                 .header("Authorization", "user")
+                .header("ServiceAuthorization", "service")
                 .accept(MediaType.APPLICATION_JSON));
 
         Assert.assertEquals(200, resultActions.andReturn().getResponse().getStatus());
