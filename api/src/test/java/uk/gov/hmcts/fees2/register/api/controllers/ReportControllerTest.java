@@ -18,6 +18,7 @@ import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
+import uk.gov.hmcts.fees2.register.util.UtilityTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,8 @@ public class ReportControllerTest {
     public void testDownloadReport() throws Exception {
 
         final List<Fee> reportDataList = new ArrayList<>();
+
+        reportDataList.add(UtilityTest.buildFixedFee());
 
         when(feeSearchService.search(any(SearchFeeDto.class)))
                 .thenReturn(reportDataList);

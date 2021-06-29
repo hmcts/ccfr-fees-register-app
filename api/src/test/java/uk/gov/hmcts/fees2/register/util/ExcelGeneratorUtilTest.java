@@ -2,14 +2,9 @@ package uk.gov.hmcts.fees2.register.util;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
-import uk.gov.hmcts.fees2.register.api.contract.*;
-import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
-import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +17,7 @@ public class ExcelGeneratorUtilTest {
 
         final List<Fee2Dto> reportDataList = new ArrayList<>();
 
-        reportDataList.add(buildFee2Dto());
+        reportDataList.add(UtilityTest.buildFee2Dto());
 
         final Workbook actual = ExcelGeneratorUtil.exportToExcel(reportDataList);
 
@@ -88,103 +83,6 @@ public class ExcelGeneratorUtilTest {
         assertEquals("JJJ", actual.getSheetAt(0).getRow(1).getCell(23).getStringCellValue());
 //        assertEquals("draft", actual.getSheetAt(0).getRow(1).getCell(24).getStringCellValue());
         assertEquals("KKK", actual.getSheetAt(0).getRow(1).getCell(25).getStringCellValue());
-    }
-
-    private FeeVersionDto buildFeeVersionDto() throws ParseException {
-        final FeeVersionDto feeVersionDto = new FeeVersionDto();
-        feeVersionDto.setVersion(1);
-        feeVersionDto.setApprovedBy("EEE");
-        feeVersionDto.setAuthor("FFF");
-        feeVersionDto.setDescription("GGG");
-        feeVersionDto.setDirection("HHH");
-        feeVersionDto.setFeeOrderName("III");
-
-        final FlatAmountDto flatAmountDto = new FlatAmountDto();
-        flatAmountDto.setAmount(new BigDecimal("111"));
-        feeVersionDto.setFlatAmount(flatAmountDto);
-
-        feeVersionDto.setMemoLine("JJJ");
-        feeVersionDto.setNaturalAccountCode("KKK");
-
-        final PercentageAmountDto percentageAmountDto = new PercentageAmountDto();
-        percentageAmountDto.setPercentage(new BigDecimal("222"));
-        feeVersionDto.setPercentageAmount(percentageAmountDto);
-
-        feeVersionDto.setReasonForReject("LLL");
-        feeVersionDto.setReasonForUpdate("MMM");
-        feeVersionDto.setSiRefId("NNN");
-
-        feeVersionDto.setStatus(FeeVersionStatusDto.draft);
-        feeVersionDto.setStatutoryInstrument("OOO");
-//        feeVersionDto.setValidFrom(new SimpleDateFormat("dd/MM/yyyy").format(new Date("05/05/2021")));
-        feeVersionDto.setValidTo(new SimpleDateFormat("dd/MM/yyyy").parse("06/06/2021"));
-
-        final VolumeAmountDto volumeAmountDto = new VolumeAmountDto();
-        volumeAmountDto.setAmount(new BigDecimal("333"));
-        feeVersionDto.setVolumeAmount(volumeAmountDto);
-
-        return feeVersionDto;
-    }
-
-    private Fee2Dto buildFee2Dto() throws ParseException {
-
-        final Fee2Dto fee2Dto = new Fee2Dto();
-
-        fee2Dto.setCode("AAA");
-
-        final ApplicantTypeDto applicantTypeDto = new ApplicantTypeDto();
-
-        applicantTypeDto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2021"));
-        applicantTypeDto.setName("BBB");
-        applicantTypeDto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("02/02/2021"));
-        fee2Dto.setApplicantTypeDto(applicantTypeDto);
-
-        final ChannelTypeDto channelTypeDto = new ChannelTypeDto();
-        channelTypeDto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("03/03/2021"));
-        channelTypeDto.setName("CCC");
-        channelTypeDto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("04/04/2021"));
-        fee2Dto.setChannelTypeDto(channelTypeDto);
-
-        fee2Dto.setFeeType("DDD");
-
-        final List<FeeVersionDto> feeVersionDtoList = new ArrayList<>();
-        feeVersionDtoList.add(buildFeeVersionDto());
-        fee2Dto.setFeeVersionDtos(feeVersionDtoList);
-
-        final EventTypeDto eventTypeDto = new EventTypeDto();
-        eventTypeDto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("07/07/2021"));
-        eventTypeDto.setName("PPP");
-        eventTypeDto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("08/08/2021"));
-        fee2Dto.setEventTypeDto(eventTypeDto);
-
-        final Jurisdiction1Dto jurisdiction1Dto = new Jurisdiction1Dto();
-        jurisdiction1Dto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("09/09/2021"));
-        jurisdiction1Dto.setName("QQQ");
-        jurisdiction1Dto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("10/10/2021"));
-        fee2Dto.setJurisdiction1Dto(jurisdiction1Dto);
-
-        final Jurisdiction2Dto jurisdiction2Dto = new Jurisdiction2Dto();
-        jurisdiction2Dto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("11/11/2021"));
-        jurisdiction2Dto.setName("RRR");
-        jurisdiction2Dto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("12/12/2021"));
-        fee2Dto.setJurisdiction2Dto(jurisdiction2Dto);
-
-        fee2Dto.setCurrentVersion(buildFeeVersionDto());
-        fee2Dto.setKeyword("SSS");
-        fee2Dto.setMatchingVersion(buildFeeVersionDto());
-        fee2Dto.setMaxRange(new BigDecimal("444"));
-        fee2Dto.setMinRange(new BigDecimal("555"));
-        fee2Dto.setRangeUnit("TTT");
-
-        final ServiceTypeDto serviceTypeDto = new ServiceTypeDto();
-        serviceTypeDto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2020"));
-        serviceTypeDto.setName("UUU");
-        serviceTypeDto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("02/02/2020"));
-        fee2Dto.setServiceTypeDto(serviceTypeDto);
-
-        fee2Dto.setUnspecifiedClaimAmount(true);
-
-        return fee2Dto;
     }
 
 }
