@@ -10,16 +10,21 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 
 import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -29,12 +34,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 public class ReportControllerTest extends BaseIntegrationTest {
 
-    @Before
-    public void setUp() {
-        this.mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
-    }
-
+    private static final String CURRENCY_FORMAT = "^(£)([0-9]*).([0-9]{2})$";
 
     private final List<String> headerValues = Collections
         .unmodifiableList(Arrays.asList("Code",
@@ -64,6 +64,12 @@ public class ReportControllerTest extends BaseIntegrationTest {
             "Status",
             "Natural Account Code"));
 
+    @Before
+    public void setUp() {
+        this.mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        this.restActions = new RestActions(mvc, userRequestAuthorizer, objectMapper);
+    }
+
     @Test
     public void test_excel_streaming_positive_scenario() throws Exception {
 
@@ -74,10 +80,16 @@ public class ReportControllerTest extends BaseIntegrationTest {
 
         byte[] rawDocument = mvcResult.getResponse().getContentAsByteArray();
         Workbook workbook = new HSSFWorkbook(new ByteArrayInputStream(rawDocument));
+        checkTheHTTPResponseHeader(mvcResult.getResponse());
         checkTheHeaderRecord(workbook, workbook.getSheetAt(0));
         checkTheDataTypeOfTheRecords(workbook, workbook.getSheetAt(0));
         checkTheDataDateTypeFormatOfTheRecords(workbook, workbook.getSheetAt(0));
+    }
 
+    private void checkTheHTTPResponseHeader( MockHttpServletResponse response) {
+        assertEquals("application/vnd.ms-excel", response.getContentType());
+        assertTrue(response.containsHeader("Content-Disposition"));
+        assertTrue(response.getHeader("Content-Disposition").startsWith("attachment; filename=Fee_Register_"));
     }
 
     private void checkTheHeaderRecord(Workbook workbook, Sheet workSheet) {
@@ -129,16 +141,61 @@ public class ReportControllerTest extends BaseIntegrationTest {
     }
 
     private void checkTheDataDateTypeFormatOfTheRecords(Workbook workbook, Sheet workSheet) {
+
         int firstRowNum = workSheet.getFirstRowNum();
         int lastRowNumber = workSheet.getLastRowNum();
 
         for (int i = firstRowNum; i <= lastRowNumber; i++) {
             //Check that the Header
             Row hssfRow = workSheet.getRow(i);
-            Cell cell= hssfRow.getCell(21);
-            System.out.println("The value of the cell : "+cell.getStringCellValue());
+            Cell cell = hssfRow.getCell(21);
+            System.out.println("The value of the cell : " + cell.getStringCellValue());
             //TODO - Check the Date Data Type of the Date........
+        }
+    }
 
+    private static final boolean checkDateFormat(final String dateInput) throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+        LocalDate dateTime = LocalDate.parse(dateInput, formatter);
+        return true;
+    }
+
+    private static final boolean checkCurrencyFormat(final String currencyInput) throws Exception {
+        Matcher currencyFormatMatcher
+            = Pattern.compile(
+            CURRENCY_FORMAT,
+            Pattern.CASE_INSENSITIVE
+        ).matcher(currencyInput);
+        return currencyFormatMatcher.matches();
+    }
+
+    public static class HelperLogicTests {
+
+        @Test
+        public void test_check_date_valid_format() throws Exception {
+            assertTrue(checkDateFormat("20 November 1945"));
+            assertTrue(checkDateFormat("01 May 1945"));
+        }
+
+        @Test(expected = DateTimeParseException.class)
+        public void test_check_date_invalid_format_1() throws Exception {
+            assertTrue(checkDateFormat("45 January 1945"));
+        }
+
+        @Test(expected = DateTimeParseException.class)
+        public void test_check_date_invalid_format_2() throws Exception {
+            assertTrue(checkDateFormat("1 May 1945"));
+        }
+
+        @Test(expected = DateTimeParseException.class)
+        public void test_check_date_invalid_format_3() throws Exception {
+            assertTrue(checkDateFormat("30 Jul 1945"));
+        }
+
+        @Test
+        public void test_check_currency_valid_format() throws Exception {
+            assertTrue(checkCurrencyFormat("£100.01"));
+            assertTrue(checkCurrencyFormat("£50000000023.01"));
         }
     }
 }
