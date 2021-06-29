@@ -22,6 +22,13 @@ sourceSets {
             srcDir file('src/smokeTest/java')
         }
     }
+    integrationTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/integrationTest/java')
+        }
+    }
     functionalTest {
         java {
             compileClasspath += main.output
@@ -36,6 +43,8 @@ idea {
     module {
         testSourceDirs += project.sourceSets.smokeTest.java.srcDirs
         testSourceDirs += project.sourceSets.smokeTest.resources.srcDirs
+        testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
+        testSourceDirs += project.sourceSets.integrationTest.resources.srcDirs
         testSourceDirs += project.sourceSets.functionalTest.java.srcDirs
         testSourceDirs += project.sourceSets.functionalTest.resources.srcDirs
     }
@@ -120,8 +129,12 @@ task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verifica
     classpath = sourceSets.smokeTest.runtimeClasspath
 }
 
-serenity {
-    reports = ["single-page-html"]
+task integration(type: Test) {
+    description = "Runs integration tests"
+    group = "Verification"
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    failFast = true
 }
 
 task functionalTest(type: Test, description: 'Runs the smoke functional', group: 'Verification') {
@@ -131,6 +144,10 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
 }
 
 functionalTest.finalizedBy(aggregate)
+
+serenity {
+    reports = ["single-page-html"]
+}
 
 pitest {
     targetClasses = ['uk.gov.hmcts.fees.register.api.*']

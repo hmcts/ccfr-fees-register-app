@@ -10,8 +10,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.FeesException;
@@ -29,10 +29,12 @@ import java.util.stream.Collectors;
 
 import static uk.gov.hmcts.fees2.register.data.util.FeesDateUtil.getDateTimeForReportName;
 
+@Api(value = "Report Controller")
 @RestController
 @SwaggerDefinition(tags = {@Tag(name = "ReportController",
         description = "Fee Register Report API to be used for generating Audit report")})
 @AllArgsConstructor
+@Validated
 public class ReportController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReportController.class);
@@ -50,7 +52,6 @@ public class ReportController {
     })
     @GetMapping("/report/download")
     public ResponseEntity<byte[]> downloadReport(
-            @RequestHeader("Authorization") final String authorization,
             final HttpServletResponse response) {
 
         LOG.info("Retrieving Fees");
