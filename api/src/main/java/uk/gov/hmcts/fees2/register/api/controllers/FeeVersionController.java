@@ -67,6 +67,21 @@ public class FeeVersionController {
         feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
     }
 
+    @ApiOperation(value = "Edit a fee version for the given fee code")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Successfully edited the fee version for the given fee code."),
+    })
+
+    @PutMapping("/fees/{code}/versions/{version}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editFeeVersion(
+            @PathVariable("code") final String code,
+            @PathVariable("version") final Integer version,
+            @RequestBody @Validated final FeeVersionDto request) {
+        final var feeVersion = feeVersionService.getFeeVersion(code, version);
+        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request, feeVersion));
+    }
+
     @ApiOperation(value = "Approve a fee version")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Fee version is Approved"),

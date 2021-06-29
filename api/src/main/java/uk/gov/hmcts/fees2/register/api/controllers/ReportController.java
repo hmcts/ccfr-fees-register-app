@@ -79,7 +79,7 @@ public class ReportController {
 
             if (Optional.ofNullable(fee2DtoList).isPresent()) {
                 LOG.info("No of Records exists : {}", fee2DtoList.size());
-                workbook = (HSSFWorkbook) ExcelGeneratorUtil.exportToExcel("aa", fee2DtoList);
+                workbook = (HSSFWorkbook) ExcelGeneratorUtil.exportToExcel(fee2DtoList);
             }
 
             if (workbook != null) {
