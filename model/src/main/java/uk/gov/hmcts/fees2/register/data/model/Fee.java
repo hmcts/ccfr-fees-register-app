@@ -33,9 +33,6 @@ public abstract class Fee extends AbstractEntity {
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "reason_for_update", nullable = false)
-    private String reasonForUpdate;
-
     @Column(name = "fee_number", unique = true)
     private Integer feeNumber;
 
@@ -142,7 +139,6 @@ public abstract class Fee extends AbstractEntity {
     public String toString() {
         return "Fee{" +
             "code='" + code + '\'' +
-            ", reasonForUpdate='" + reasonForUpdate + '\'' +
             ", feeNumber=" + feeNumber +
             ", jurisdiction1=" + jurisdiction1 +
             ", jurisdiction2=" + jurisdiction2 +
