@@ -3,18 +3,15 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.util.UtilityTest;
@@ -22,43 +19,29 @@ import uk.gov.hmcts.fees2.register.util.UtilityTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles({"local", "test"})
-public class ReportControllerUnitTest {
+public class ReportControllerMockTest {
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private FeeSearchService feeSearchService;
 
-    @MockBean
+    @Mock
     private FeeDtoMapper feeDtoMapper;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
+    @InjectMocks
+    private ReportController reportController;
+
 
     @Before
     public void setUp() {
-        this.mockMvc = webAppContextSetup(webApplicationContext).build();
+        MockitoAnnotations.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(reportController).build();
     }
-
-    /*@Test(expected = FeesException.class)
-    public void testDownloadReport_FeesException() throws Exception {
-
-        //when(feeSearchService.search(any(SearchFeeDto.class)))
-        //      .thenThrow(new FeesException(any(Exception.class)));
-
-        final ResultActions resultActions = mockMvc.perform(get("/report/download")
-                .header("Authorization", "user")
-                .accept(MediaType.APPLICATION_JSON));
-
-        //Assert.assertEquals(400, resultActions.andReturn().getResponse().getStatus());
-    }*/
 
     @Test
     public void testDownloadReportNotFound() throws Exception {
@@ -78,8 +61,8 @@ public class ReportControllerUnitTest {
 
         reportDataList.add(UtilityTest.buildFixedFee());
 
-//        when(feeSearchService.search(any(SearchFeeDto.class)))
-//                .thenReturn(reportDataList);
+        when(feeSearchService.search(any(SearchFeeDto.class)))
+                .thenReturn(reportDataList);
 
 
         final ResultActions resultActions = mockMvc.perform(get("/report/download")
