@@ -56,7 +56,7 @@ public class ReportController {
 
         LOG.info("Retrieving Fees");
 
-        final byte[] reportBytes;
+        byte[] reportBytes = null;
 
         HSSFWorkbook workbook = null;
 
@@ -76,9 +76,11 @@ public class ReportController {
                     .map(feeDtoMapper::toFeeDto)
                     .collect(Collectors.toList());
 
-            if (Optional.ofNullable(fee2DtoList).isPresent()) {
+            if (Optional.ofNullable(fee2DtoList).isPresent() && fee2DtoList.size() > 0) {
                 LOG.info("No of Records exists : {}", fee2DtoList.size());
                 workbook = (HSSFWorkbook) ExcelGeneratorUtil.exportToExcel(fee2DtoList);
+            } else {
+                return new ResponseEntity<>(reportBytes, headers, HttpStatus.NOT_FOUND);
             }
 
             if (workbook != null) {

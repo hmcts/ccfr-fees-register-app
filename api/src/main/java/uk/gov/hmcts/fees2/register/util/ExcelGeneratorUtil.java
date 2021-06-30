@@ -59,45 +59,50 @@ public final class ExcelGeneratorUtil {
 
         for (final Fee2Dto fee2Dto : fee2DtoList) {
 
-            final Row row = sheet.createRow(rowIdx++);
+            if (null != fee2Dto) {
 
-            row.createCell(0).setCellValue(fee2Dto.getCode());
+                final Row row = sheet.createRow(rowIdx++);
 
-            final List<FeeVersionDto> feeVersionDtoList = fee2Dto.getFeeVersionDtos();
+                row.createCell(0).setCellValue(fee2Dto.getCode());
 
-            for (final FeeVersionDto feeVersionDto : feeVersionDtoList) {
+                final List<FeeVersionDto> feeVersionDtoList = fee2Dto.getFeeVersionDtos();
 
-                row.createCell(1).setCellValue(feeVersionDto.getDescription());
-                row.createCell(2).setCellValue(feeVersionDto.getAmount().toString());
-                row.createCell(3).setCellValue(feeVersionDto.getStatutoryInstrument());
-                row.createCell(4).setCellValue(feeVersionDto.getSiRefId());
-                row.createCell(5).setCellValue(feeVersionDto.getFeeOrderName());
-                row.createCell(14).setCellValue(null != feeVersionDto.getFlatAmount() ? feeVersionDto.getFlatAmount()
-                        .toString() : ""); //AmountType??
-                row.createCell(15).setCellValue(
-                        null != feeVersionDto.getPercentageAmount() ? feeVersionDto.getPercentageAmount()
-                                .toString() : "");
-                row.createCell(19).setCellValue(feeVersionDto.getVersion());
-                row.createCell(20).setCellValue(feeVersionDto.getDirection());
-                row.createCell(21).setCellValue(feeVersionDto.getValidFrom());
-                row.createCell(22).setCellValue(feeVersionDto.getValidTo());
-                row.createCell(23).setCellValue(feeVersionDto.getMemoLine());
-                row.createCell(24).setCellValue(feeVersionDto.getStatutoryInstrument());  //status??
-                row.createCell(25).setCellValue(feeVersionDto.getNaturalAccountCode());
+                for (final FeeVersionDto feeVersionDto : feeVersionDtoList) {
+
+                    row.createCell(1).setCellValue(feeVersionDto.getDescription());
+                    row.createCell(2).setCellValue(feeVersionDto.getAmount().toString());
+                    row.createCell(3).setCellValue(feeVersionDto.getStatutoryInstrument());
+                    row.createCell(4).setCellValue(feeVersionDto.getSiRefId());
+                    row.createCell(5).setCellValue(feeVersionDto.getFeeOrderName());
+                    row.createCell(14)
+                            .setCellValue(null != feeVersionDto.getFlatAmount() ? feeVersionDto.getFlatAmount()
+                                    .toString() : ""); //AmountType??
+                    row.createCell(15).setCellValue(
+                            null != feeVersionDto.getPercentageAmount() ? feeVersionDto.getPercentageAmount()
+                                    .toString() : "");
+                    row.createCell(19).setCellValue(feeVersionDto.getVersion());
+                    row.createCell(20).setCellValue(feeVersionDto.getDirection());
+                    row.createCell(21).setCellValue(feeVersionDto.getValidFrom());
+                    row.createCell(22).setCellValue(feeVersionDto.getValidTo());
+                    row.createCell(23).setCellValue(feeVersionDto.getMemoLine());
+                    row.createCell(24).setCellValue(feeVersionDto.getStatutoryInstrument());  //status??
+                    row.createCell(25).setCellValue(feeVersionDto.getNaturalAccountCode());
+                }
+                row.createCell(6).setCellValue(fee2Dto.getServiceTypeDto().getName());
+                row.createCell(7).setCellValue(fee2Dto.getJurisdiction1Dto().getName());
+                row.createCell(8).setCellValue(fee2Dto.getJurisdiction2Dto().getName());
+                row.createCell(9).setCellValue(fee2Dto.getEventTypeDto().getName());
+                row.createCell(10).setCellValue(null != fee2Dto.getMinRange() ? fee2Dto.getMinRange().toString() : "");
+                row.createCell(11).setCellValue(null != fee2Dto.getMaxRange() ? fee2Dto.getMaxRange().toString() : "");
+                row.createCell(12).setCellValue(fee2Dto.getRangeUnit());
+                row.createCell(13).setCellValue(fee2Dto.getFeeType());
+                row.createCell(16)
+                        .setCellValue(null != fee2Dto.getChannelTypeDto() ? fee2Dto.getChannelTypeDto().getName() : "");
+                row.createCell(17).setCellValue(fee2Dto.getKeyword());
+                row.createCell(18)
+                        .setCellValue(
+                                null != fee2Dto.getApplicantTypeDto() ? fee2Dto.getApplicantTypeDto().getName() : "");
             }
-            row.createCell(6).setCellValue(fee2Dto.getServiceTypeDto().getName());
-            row.createCell(7).setCellValue(fee2Dto.getJurisdiction1Dto().getName());
-            row.createCell(8).setCellValue(fee2Dto.getJurisdiction2Dto().getName());
-            row.createCell(9).setCellValue(fee2Dto.getEventTypeDto().getName());
-            row.createCell(10).setCellValue(null != fee2Dto.getMinRange() ? fee2Dto.getMinRange().toString() : "");
-            row.createCell(11).setCellValue(null != fee2Dto.getMaxRange() ? fee2Dto.getMaxRange().toString() : "");
-            row.createCell(12).setCellValue(fee2Dto.getRangeUnit());
-            row.createCell(13).setCellValue(fee2Dto.getFeeType());
-            row.createCell(16)
-                    .setCellValue(null != fee2Dto.getChannelTypeDto() ? fee2Dto.getChannelTypeDto().getName() : "");
-            row.createCell(17).setCellValue(fee2Dto.getKeyword());
-            row.createCell(18)
-                    .setCellValue(null != fee2Dto.getApplicantTypeDto() ? fee2Dto.getApplicantTypeDto().getName() : "");
         }
         for (int i = 0; i < cols.length; i++) {
             sheet.autoSizeColumn(i);
