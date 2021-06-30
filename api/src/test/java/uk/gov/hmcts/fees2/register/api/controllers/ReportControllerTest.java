@@ -71,6 +71,15 @@ public class ReportControllerTest extends BaseIntegrationTest {
     }
 
     @Test
+    public void test_excel_streaming_positive_404_scenario() throws Exception {
+
+        MvcResult mvcResult = restActions
+            .get("/repor/download")
+            .andExpect(status().isNotFound())
+            .andReturn();
+    }
+
+    @Test
     public void test_excel_streaming_positive_scenario() throws Exception {
 
         MvcResult mvcResult = restActions
