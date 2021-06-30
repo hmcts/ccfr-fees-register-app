@@ -537,11 +537,19 @@ databaseChangeLog:
 
     - changeSet:
         logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
-        id: 22
+        id: 24
         author: priyatham
         changes:
           - sql: >
-              ALTER TABLE fee ADD COLUMN reason_for_update VARCHAR;
+              ALTER TABLE fee_version ADD COLUMN reason_for_update VARCHAR(255);
+
+    - changeSet:
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
+        id: 25
+        author: Sayali
+        changes:
+          - sql: >
+              ALTER TABLE fee_version ADD COLUMN reason_for_reject VARCHAR(255);
 
     - changeSet:
         logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"

@@ -102,9 +102,35 @@ public class FeeVersionServiceImpl implements FeeVersionService {
         return version;
     }
 
+
+    @Override
+    @Transactional
+    public FeeVersion saveFeeVersion(FeeVersion version) {
+        feeVersionRepository.save(version);
+        return version;
+    }
+
+    @Override
+    @Transactional
+    public FeeVersion getFeeVersion(String feeCode, Integer version) {
+        return  feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
+    }
+
     @Override
     @Transactional
     public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
+        FeeVersion feeVersion = getFeeVersion(feeCode, version, newStatus, user);
+    }
+
+    @Override
+    @Transactional
+    public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user, String reason) {
+
+        FeeVersion feeVersion = getFeeVersion(feeCode, version, newStatus, user);
+        feeVersion.setReasonForReject(reason);
+    }
+
+    private FeeVersion getFeeVersion(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
         FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
 
         if (feeVersion.getStatus() == FeeVersionStatus.approved) {
@@ -123,6 +149,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
         }
 
         feeVersion.setStatus(newStatus);
+        return feeVersion;
     }
 
 

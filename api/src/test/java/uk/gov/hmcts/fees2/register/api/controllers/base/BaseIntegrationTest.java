@@ -9,7 +9,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.*;
+import uk.gov.hmcts.fees2.register.api.contract.request.BandedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RateableFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.RelationalFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -25,7 +30,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public abstract class BaseIntegrationTest extends BaseTest{
+public abstract class BaseIntegrationTest extends BaseTest {
 
     @Autowired
     FeeService feeService;
@@ -88,22 +93,27 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
     }
 
-    private String getMethodName(FeeDto dto){
+    private String getMethodName(FeeDto dto) {
         String methodName = null;
-        if (dto instanceof FixedFeeDto)
+        if (dto instanceof FixedFeeDto) {
             methodName = "createFixedFee";
-        if (dto instanceof RangedFeeDto)
+        }
+        if (dto instanceof RangedFeeDto) {
             methodName = "createRangedFee";
-        if (dto instanceof RateableFeeDto)
+        }
+        if (dto instanceof RateableFeeDto) {
             methodName = "createRateableFee";
-        if (dto instanceof RelationalFeeDto)
+        }
+        if (dto instanceof RelationalFeeDto) {
             methodName = "createRelationalFee";
-        if (dto instanceof BandedFeeDto)
+        }
+        if (dto instanceof BandedFeeDto) {
             methodName = "createBandedFee";
+        }
         return methodName;
     }
 
-    protected ResultActions lookup(LookupFeeDto lookupFeeDto) throws Exception{
+    protected ResultActions lookup(LookupFeeDto lookupFeeDto) throws Exception {
 
         String method = lookupFeeDto.getUnspecifiedClaimAmount() != null &&
             lookupFeeDto.getUnspecifiedClaimAmount() ? "lookupUnspecified" : "lookup";
@@ -120,31 +130,31 @@ public abstract class BaseIntegrationTest extends BaseTest{
             .accept(APPLICATION_JSON)
             .headers(httpHeaders);
 
-        if(lookupFeeDto.getChannel() != null){
+        if (lookupFeeDto.getChannel() != null) {
             lookup = lookup.param("channel", lookupFeeDto.getChannel());
         }
 
-        if(lookupFeeDto.getService() != null){
+        if (lookupFeeDto.getService() != null) {
             lookup = lookup.param("service", lookupFeeDto.getService());
         }
 
-        if(lookupFeeDto.getJurisdiction1() != null){
+        if (lookupFeeDto.getJurisdiction1() != null) {
             lookup = lookup.param("jurisdiction1", lookupFeeDto.getJurisdiction1());
         }
 
-        if(lookupFeeDto.getJurisdiction2() != null){
+        if (lookupFeeDto.getJurisdiction2() != null) {
             lookup = lookup.param("jurisdiction2", lookupFeeDto.getJurisdiction2());
         }
 
-        if(lookupFeeDto.getEvent() != null){
+        if (lookupFeeDto.getEvent() != null) {
             lookup = lookup.param("event", lookupFeeDto.getEvent());
         }
 
-        if(lookupFeeDto.getApplicantType() != null){
+        if (lookupFeeDto.getApplicantType() != null) {
             lookup = lookup.param("applicant_type", lookupFeeDto.getApplicantType());
         }
 
-        if(lookupFeeDto.getAmountOrVolume() != null){
+        if (lookupFeeDto.getAmountOrVolume() != null) {
             lookup = lookup.param("amount_or_volume", lookupFeeDto.getAmountOrVolume().toString());
         }
 
@@ -152,7 +162,7 @@ public abstract class BaseIntegrationTest extends BaseTest{
     }
 
 
-    protected ResultActions lookupUsingUsingReferenceDataFrom(FeeDto createDto, BigDecimal claimValue) throws Exception{
+    protected ResultActions lookupUsingUsingReferenceDataFrom(FeeDto createDto, BigDecimal claimValue) throws Exception {
 
         String method = createDto.getUnspecifiedClaimAmount() != null &&
             createDto.getUnspecifiedClaimAmount() ? "lookupUnspecified" : "lookup";
@@ -169,31 +179,31 @@ public abstract class BaseIntegrationTest extends BaseTest{
             .accept(APPLICATION_JSON)
             .headers(httpHeaders);
 
-        if(createDto.getUnspecifiedClaimAmount() == null || !createDto.getUnspecifiedClaimAmount()){
+        if (createDto.getUnspecifiedClaimAmount() == null || !createDto.getUnspecifiedClaimAmount()) {
             lookup = lookup.param("amount_or_volume", claimValue.toString());
         }
 
-        if(createDto.getChannel() != null){
+        if (createDto.getChannel() != null) {
             lookup = lookup.param("channel", createDto.getChannel());
         }
 
-        if(createDto.getService() != null){
+        if (createDto.getService() != null) {
             lookup = lookup.param("service", createDto.getService());
         }
 
-        if(createDto.getJurisdiction1() != null){
+        if (createDto.getJurisdiction1() != null) {
             lookup = lookup.param("jurisdiction1", createDto.getJurisdiction1());
         }
 
-        if(createDto.getJurisdiction2() != null){
+        if (createDto.getJurisdiction2() != null) {
             lookup = lookup.param("jurisdiction2", createDto.getJurisdiction2());
         }
 
-        if(createDto.getEvent() != null){
+        if (createDto.getEvent() != null) {
             lookup = lookup.param("event", createDto.getEvent());
         }
 
-        if(createDto.getApplicantType() != null){
+        if (createDto.getApplicantType() != null) {
             lookup = lookup.param("applicant_type", createDto.getApplicantType());
         }
 
@@ -240,20 +250,20 @@ public abstract class BaseIntegrationTest extends BaseTest{
 
     protected FixedFeeDto createCMCIssueCivilCountyFixedFee() {
         return new FixedFeeDto()
-        .setService("civil money claims")
-        .setEvent("issue")
-        .setJurisdiction1("civil")
-        .setJurisdiction2("family court")
-        .setApplicantType("all");
+            .setService("civil money claims")
+            .setEvent("issue")
+            .setJurisdiction1("civil")
+            .setJurisdiction2("family court")
+            .setApplicantType("all");
     }
 
     protected FixedFeeDto createDivorceIssueFamilyFixedFee() {
         return new FixedFeeDto()
-        .setService("divorce")
-        .setEvent("issue")
-        .setJurisdiction1("family")
-        .setJurisdiction2("family court")
-        .setApplicantType("all");
+            .setService("divorce")
+            .setEvent("issue")
+            .setJurisdiction1("family")
+            .setJurisdiction2("family court")
+            .setApplicantType("all");
     }
 
 }

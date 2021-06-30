@@ -63,6 +63,7 @@ public class FeeDtoMapper {
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
+        version.setReasonForUpdate(request.getVersion().getReasonForUpdate());
         fee.setFeeVersions(Arrays.asList(version));
         fee.setKeyword(request.getKeyword());
     }
@@ -241,6 +242,7 @@ public class FeeDtoMapper {
         feeVersionDto.setVersion(feeVersion.getVersion());
         feeVersionDto.setStatus(FeeVersionStatusDto.valueOf(feeVersion.getStatus().name()));
         feeVersionDto.setDescription(feeVersion.getDescription());
+        feeVersionDto.setReasonForUpdate(feeVersion.getReasonForUpdate());
 
         feeVersionDto.setMemoLine(feeVersion.getMemoLine());
         if (feeVersion.getDirectionType() != null) {
@@ -373,4 +375,25 @@ public class FeeDtoMapper {
         fee.setApplicantType(applicantTypeRepository.findByNameOrThrow(application.toLowerCase()));
     }
 
+    public FeeVersion mapDtotoFeeVersion(FeeVersionDto request, FeeVersion feeVersion) {
+        if(request.getFlatAmount()!=null) {
+            feeVersion.setAmount(toFlatAmount(request.getFlatAmount()));
+        }
+         if(request.getPercentageAmount()!=null){
+            feeVersion.setAmount(toPercentageAmount(request.getPercentageAmount()));
+        }
+         if(request.getVolumeAmount()!=null){
+            feeVersion.setAmount(toVolumeAmount(request.getVolumeAmount()));
+        }
+        feeVersion.setMemoLine(request.getMemoLine());
+        feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
+        feeVersion.setDescription(request.getDescription());
+        feeVersion.setValidFrom(request.getValidFrom());
+        feeVersion.setValidTo(request.getValidTo());
+        feeVersion.setFeeOrderName(request.getFeeOrderName());
+        feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
+        feeVersion.setSiRefId(request.getSiRefId());
+        feeVersion.setDirectionType(DirectionType.directionWith().name(request.getDirection()).build());
+        return feeVersion;
+    }
 }
