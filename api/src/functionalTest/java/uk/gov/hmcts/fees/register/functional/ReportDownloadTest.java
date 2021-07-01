@@ -1,92 +1,61 @@
 package uk.gov.hmcts.fees.register.functional;
 
+import io.restassured.response.Response;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Name;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ContextConfiguration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
+
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static uk.gov.hmcts.fees.register.functional.fixture.FixedFeeFixture.aFixedFee;
+import static uk.gov.hmcts.fees.register.functional.service.DownloadHelper.downloadTheReport;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
-@Ignore
-public class ReportDownloadTest {
+@ContextConfiguration(classes = TestContextConfiguration.class)
+public class ReportDownloadTest extends IntegrationTestBase {
+
 
     @Test
-    public void test_trial () throws Exception{
+    public void test_download_report_for_an_editor_creation_and_download() throws Exception {
 
-        /*try(FileInputStream fis
-                = new FileInputStream((new File(System.getProperty("user.home")
-                    + "/Reform/Test-Fees-Download/Fees-Download-Sample.xlsx")))) {
-            //System.out.println("The File is loaded....");
-            *//*Workbook workbook = new XSSFWorkbook(fis);
-            *//**//*List<Name> names = (List<Name>) workbook.getAllNames();
-            for (Name name : names) {
-                System.out.println("The value of the name : "+name.getNameName());
-            }*//**//*
+        //First Check the Number of Records in the Excel as an Admin
+        Response responseBeforeFeeCreated = downloadTheReport(userBootstrap.getAdmin());
+        int rowCountBeforeNewFeeCreated = getRowCountFromDownload(responseBeforeFeeCreated.getBody().asByteArray());
 
-            Sheet firstSheet = workbook.getSheetAt(0);*//*
+        //Now Create a Fee....
+        Response responseForCreateFee = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
+        String feeCode = responseForCreateFee.then()
+            .statusCode(HttpStatus.CREATED.value())
+            .and()
+            .extract().header(HttpHeaders.LOCATION).split("/")[3];
+        assertThat(feeCode).isNotBlank();
 
-            Workbook workbook = WorkbookFactory.create(new File(System.getProperty("user.home")
-                + "/Reform/Test-Fees-Download/Sample CSV Download.xlsx"));
+        //Next Check the Number of Records after create in the Excel...
+        Response responseAfterFeeCreated = downloadTheReport(userBootstrap.getApprover());
+        int rowCountAfterNewFeeCreated = getRowCountFromDownload(responseBeforeFeeCreated.getBody().asByteArray());
+        assertEquals(rowCountBeforeNewFeeCreated + 1, rowCountAfterNewFeeCreated);
 
-            // Retrieving the number of sheets in the Workbook
-            System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
+        // Admin deletes the fee - success,The Editor should use the Excel as the old record count as it is....
+        feeService.deleteAFee(userBootstrap.getAdmin(), feeCode)
+            .then()
+            .statusCode(HttpStatus.NO_CONTENT.value());
+        Response responseAfterFeeDeleted = downloadTheReport(userBootstrap.getEditor());
+        int rowCountAfterNewFeeDeleted = getRowCountFromDownload(responseAfterFeeDeleted.getBody().asByteArray());
+        assertEquals(rowCountBeforeNewFeeCreated, rowCountAfterNewFeeDeleted);
+    }
 
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }*/
-
-        Workbook workbook = new HSSFWorkbook(new FileInputStream((new File(System.getProperty("user.home")
-            + "/Reform/Test-Fees-Download/file_example_XLS_10.xls"))));
+    private static final int getRowCountFromDownload(byte[] rawDocument) throws IOException {
+        Workbook workbook = new HSSFWorkbook(new ByteArrayInputStream(rawDocument));
         Sheet workSheet = workbook.getSheetAt(0);
-        Row hssfRow = workSheet.getRow(0);
-
-        //HSSFCell hssCell = hssfRow.getCell(0);
-        Iterator<Cell> cellIterator = hssfRow.cellIterator();
-
-        while (cellIterator.hasNext()) {
-            Cell cell = cellIterator.next();
-
-
-            switch (cell.getCellType()) {
-                case STRING:
-                    System.out.print(cell.getStringCellValue());
-                    break;
-                case BOOLEAN:
-                    System.out.print(cell.getBooleanCellValue());
-                    break;
-                case NUMERIC:
-                    System.out.print(cell.getNumericCellValue());
-                    break;
-            }
-            HSSFCell hssfCell = (HSSFCell)cell;
-            HSSFCellStyle hssfCellStyle = hssfCell.getCellStyle();
-            HSSFFont hssfFont = hssfCellStyle.getFont(workbook);
-            //hssfFont.getBold();
-            System.out.print(" - ");
-            System.out.print("Assert the Bold : "+hssfFont.getBold());
-        }
-
+        return workSheet.getLastRowNum() - workSheet.getFirstRowNum();
     }
 }
