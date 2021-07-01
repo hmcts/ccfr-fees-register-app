@@ -47,7 +47,4 @@ public abstract class FeeDto {
 
     protected String keyword;
 
-    @NotNull
-    protected String reasonForUpdate;
-
 }

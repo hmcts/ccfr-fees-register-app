@@ -24,64 +24,65 @@ public class MockUtils {
 
 
     public List<FixedFeeDto> getCsvImportFees() throws IOException {
-        String  csvFees = "[\n" +
-            "  {\n" +
-            "    \"code\": \"X0MOCK1\",\n" +
-            "    \"version\": {\n" +
-            "     \"version\": \"1\",\n" +
-            "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
-            "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
-            "     \"description\": \"Testing1\",\n" +
-            "     \"status\": \"draft\",\n" +
-            "   \"direction\": \"enhanced\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 001\",\n" +
-            "      \"flatAmount\": {\n" +
-            "      \"amount\": \"150\"\n" +
-            "      }\n" +
-            "   },\n" +
-            "   \"jurisdiction1\": \"family\",\n" +
-            "   \"jurisdiction2\": \"court of protection\",\n" +
-            "   \"service\": \"divorce\",\n" +
-            "   \"channel\": \"default\",\n" +
-            "   \"event\": \"issue\"\n" +
-            "  }\n" +
-            "]";
+        final String csvFees = "[\n" +
+                "  {\n" +
+                "    \"code\": \"X0MOCK1\",\n" +
+                "    \"version\": {\n" +
+                "     \"version\": \"1\",\n" +
+                "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
+                "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
+                "     \"description\": \"Testing1\",\n" +
+                "     \"status\": \"draft\",\n" +
+                "   \"direction\": \"enhanced\",\n" +
+                "   \"memoLine\": \"Test memo line\",\n" +
+                "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+                "   \"naturalAccountCode\": \"Natural code 001\",\n" +
+                "      \"flatAmount\": {\n" +
+                "      \"amount\": \"150\"\n" +
+                "      }\n" +
+                "   },\n" +
+                "   \"jurisdiction1\": \"family\",\n" +
+                "   \"jurisdiction2\": \"court of protection\",\n" +
+                "   \"service\": \"divorce\",\n" +
+                "   \"channel\": \"default\",\n" +
+                "   \"event\": \"issue\"\n" +
+                "  }\n" +
+                "]";
 
-        TypeReference<List<FixedFeeDto>> fixedFeeDtos = new TypeReference<List<FixedFeeDto>>(){};
+        final TypeReference<List<FixedFeeDto>> fixedFeeDtos = new TypeReference<List<FixedFeeDto>>() {
+        };
         return objectMapper.readValue(csvFees, fixedFeeDtos);
     }
 
     public String getFeeJson() {
         return "[\n" +
-            "  {\n" +
-            "    \"code\": \"X0MOCK1\",\n" +
-            "    \"version\": {\n" +
-            "     \"version\": \"1\",\n" +
-            "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
-            "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
-            "     \"description\": \"Testing1\",\n" +
-            "     \"status\": \"draft\",\n" +
-            "   \"direction\": \"enhanced\",\n" +
-            "   \"memoLine\": \"Test memo line\",\n" +
-            "   \"feeOrderName\": \"CMC online fee order name\",\n" +
-            "   \"naturalAccountCode\": \"Natural code 001\",\n" +
-            "      \"flatAmount\": {\n" +
-            "      \"amount\": \"150\"\n" +
-            "      }\n" +
-            "   },\n" +
-            "   \"jurisdiction1\": \"family\",\n" +
-            "   \"jurisdiction2\": \"court of protection\",\n" +
-            "   \"service\": \"civil money claims\",\n" +
-            "   \"channel\": \"default\",\n" +
-            "   \"event\": \"issue\"\n" +
-            "  }\n" +
-            "]";
+                "  {\n" +
+                "    \"code\": \"X0MOCK1\",\n" +
+                "    \"version\": {\n" +
+                "     \"version\": \"1\",\n" +
+                "     \"validFrom\": \"2017-11-06T16:33:37.040Z\",\n" +
+                "     \"validTo\": \"2020-11-06T16:33:37.040Z\",\n" +
+                "     \"description\": \"Testing1\",\n" +
+                "     \"status\": \"draft\",\n" +
+                "   \"direction\": \"enhanced\",\n" +
+                "   \"memoLine\": \"Test memo line\",\n" +
+                "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+                "   \"naturalAccountCode\": \"Natural code 001\",\n" +
+                "      \"flatAmount\": {\n" +
+                "      \"amount\": \"150\"\n" +
+                "      }\n" +
+                "   },\n" +
+                "   \"jurisdiction1\": \"family\",\n" +
+                "   \"jurisdiction2\": \"court of protection\",\n" +
+                "   \"service\": \"civil money claims\",\n" +
+                "   \"channel\": \"default\",\n" +
+                "   \"event\": \"issue\"\n" +
+                "  }\n" +
+                "]";
     }
 
-    public Fee getFixedFee(String code) {
-        Fee fee = new FixedFee();
+    public Fee getFixedFee(final String code) {
+        final Fee fee = new FixedFee();
         fee.setCode(code);
         fee.setChannelType(new ChannelType("default", null, null));
         fee.setEventType(new EventType("issue", null, null));
@@ -94,8 +95,8 @@ public class MockUtils {
     }
 
     public List<FeeVersion> getFeeVersions() {
-        List<FeeVersion> feeVersions = new ArrayList<>();
-        FeeVersion feeVersion = new FeeVersion();
+        final List<FeeVersion> feeVersions = new ArrayList<>();
+        final FeeVersion feeVersion = new FeeVersion();
         feeVersion.setAmount(getFlatAmount());
         feeVersion.setDescription("Testing1");
         feeVersion.setStatus(FeeVersionStatus.approved);
@@ -114,14 +115,14 @@ public class MockUtils {
 
     public FixedFeeDto getFixedFeeDto() {
 
-        FlatAmountDto flatAmountDto = new FlatAmountDto(new BigDecimal("150.00"));
-        FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
-            null,
-            null, "Testing1", FeeVersionStatusDto.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
-            "Test memo line", null, null, "Natural code 001", "CMC online fee order name",
-            "enhanced","test", "reason for reject");
-        FixedFeeDto fixedFeeDto = new FixedFeeDto("X0MOCK1", null, feeVersionDto, "family",
-            "court of protection", "civil money claims", "default", "issue", "all",false, null,"reasonForUpdate");
+        final FlatAmountDto flatAmountDto = new FlatAmountDto(new BigDecimal("150.00"));
+        final FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
+                null,
+                null, "Testing1", FeeVersionStatusDto.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
+                "Test memo line", null, null, "Natural code 001", "CMC online fee order name",
+                "enhanced", "test", "reason for reject");
+        final FixedFeeDto fixedFeeDto = new FixedFeeDto("X0MOCK1", null, feeVersionDto, "family",
+                "court of protection", "civil money claims", "default", "issue", "all", false, null);
 
         return fixedFeeDto;
     }

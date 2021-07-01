@@ -14,62 +14,76 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 public class RelationalFeeDto extends FixedFeeDto {
 
     @Builder(builderMethodName = "relationalFeeDtoWith")
-    public RelationalFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, boolean unspecifiedClaimAmount, String keyword, String reasonForUpdate) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount, keyword, reasonForUpdate);
+    public RelationalFeeDto(final String code, final String newCode, final FeeVersionDto version, final String jurisdiction1,
+                            final String jurisdiction2, final String service, final String channel, final String event, final String applicantType,
+                            final boolean unspecifiedClaimAmount, final String keyword) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType,
+                unspecifiedClaimAmount, keyword);
     }
 
-    public RelationalFeeDto setCode(String code) {
+    @Override
+    public RelationalFeeDto setCode(final String code) {
         this.code = code;
         return this;
     }
 
-    public RelationalFeeDto setVersion(FeeVersionDto version) {
+    @Override
+    public RelationalFeeDto setVersion(final FeeVersionDto version) {
         this.version = version;
         return this;
     }
 
-    public RelationalFeeDto setJurisdiction1(String jurisdiction1) {
+    @Override
+    public RelationalFeeDto setJurisdiction1(final String jurisdiction1) {
         this.jurisdiction1 = jurisdiction1;
         return this;
     }
 
-    public RelationalFeeDto setJurisdiction2(String jurisdiction2) {
+    @Override
+    public RelationalFeeDto setJurisdiction2(final String jurisdiction2) {
         this.jurisdiction2 = jurisdiction2;
         return this;
     }
 
-    public RelationalFeeDto setService(String service) {
+    @Override
+    public RelationalFeeDto setService(final String service) {
         this.service = service;
         return this;
     }
 
-    public RelationalFeeDto setChannel(String channel) {
+    @Override
+    public RelationalFeeDto setChannel(final String channel) {
         this.channel = channel;
         return this;
     }
 
 
-    public RelationalFeeDto setEvent(String event) {
+    @Override
+    public RelationalFeeDto setEvent(final String event) {
         this.event = event;
         return this;
     }
 
-    public RelationalFeeDto setApplicantType(String applicantType) {
+    @Override
+    public RelationalFeeDto setApplicantType(final String applicantType) {
         this.applicantType = applicantType;
         return this;
     }
 
 
+    @Override
     public Boolean getUnspecifiedClaimAmount() {
         return unspecifiedClaimAmount;
     }
 
-    public RelationalFeeDto setUnspecifiedClaimAmount(Boolean unspecifiedClaimAmount) {
+    @Override
+    public RelationalFeeDto setUnspecifiedClaimAmount(final Boolean unspecifiedClaimAmount) {
         this.unspecifiedClaimAmount = unspecifiedClaimAmount;
         return this;
     }
 
-    public RelationalFeeDto setKeyword(String keyword) {
+    @Override
+    public RelationalFeeDto setKeyword(final String keyword) {
         this.keyword = keyword;
         return this;
     }
