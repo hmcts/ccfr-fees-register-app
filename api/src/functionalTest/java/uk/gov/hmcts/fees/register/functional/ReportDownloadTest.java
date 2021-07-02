@@ -5,6 +5,7 @@ import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +26,7 @@ public class ReportDownloadTest extends IntegrationTestBase {
 
 
     @Test
+    @Ignore("Ignoring the Test for now as it still is undergoing testing....")
     public void test_download_report_for_an_editor_creation_and_download() throws Exception {
 
         //First Check the Number of Records in the Excel as an Admin
