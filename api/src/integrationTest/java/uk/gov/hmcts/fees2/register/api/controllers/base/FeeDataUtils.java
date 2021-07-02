@@ -131,6 +131,7 @@ public class FeeDataUtils {
                 .memoLine("GOV - Paper fees - Money claim >£200,000")
                 .direction("enhanced")
                 .naturalAccountCode("4481102133")
+                .reasonForUpdate("Revised Prices for the First Time")
                 .flatAmount(new FlatAmountDto(new BigDecimal("199.99")))
                 .build())
             .build());
@@ -151,6 +152,7 @@ public class FeeDataUtils {
                 .memoLine("GOV - App for divorce/nullity of marriage or CP")
                 .direction("enhanced")
                 .naturalAccountCode("4481102159")
+                .reasonForUpdate("Revised Prices for the Second Time")
                 .flatAmount(new FlatAmountDto(new BigDecimal("550.00")))
                 .build())
             .build());

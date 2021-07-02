@@ -24,6 +24,19 @@ import static uk.gov.hmcts.fees.register.functional.service.DownloadHelper.downl
 @ContextConfiguration(classes = TestContextConfiguration.class)
 public class ReportDownloadTest extends IntegrationTestBase {
 
+    @Test
+    public void test_download_report_for_data_formats() throws Exception {
+        Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
+        String feeCode = response.then()
+            .statusCode(HttpStatus.CREATED.value())
+            .and()
+            .extract().header(HttpHeaders.LOCATION).split("/")[3];
+        assertThat(feeCode).isNotBlank();
+
+        //First Check the Number of Records in the Excel as an Admin
+        Response responseBeforeFeeCreated = downloadTheReport(userBootstrap.getAdmin());
+    }
+
 
     @Test
     @Ignore("Ignoring the Test for now as it still is undergoing testing....")

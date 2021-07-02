@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -12,11 +13,15 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
+import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
+import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 
+import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -35,32 +40,32 @@ public class ReportControllerTest extends BaseIntegrationTest {
     private static final String CURRENCY_FORMAT = "^(£)([0-9]*).([0-9]{2})$";
 
     private final List<String> headerValues = Collections
-            .unmodifiableList(Arrays.asList("Code",
-                    "Description",
-                    "Amount",
-                    "Statutory Instrument",
-                    "SI Ref ID",
-                    "Fee Order Name",
-                    "Service",
-                    "Jurisdiction1",
-                    "Jurisdiction2",
-                    "Event",
-                    "Range from",
-                    "Range to",
-                    "Unit",
-                    "Fee type",
-                    "Amount Type",
-                    "%",
-                    "Channel",
-                    "Keyword",
-                    "Applicant Type",
-                    "Version",
-                    "Direction",
-                    "Valid From",
-                    "Valid To",
-                    "Memo",
-                    "Status",
-                    "Natural Account Code"));
+        .unmodifiableList(Arrays.asList("Code",
+            "Description",
+            "Amount",
+            "Statutory Instrument",
+            "SI Ref ID",
+            "Fee Order Name",
+            "Service",
+            "Jurisdiction1",
+            "Jurisdiction2",
+            "Event",
+            "Range from",
+            "Range to",
+            "Unit",
+            "Fee type",
+            "Amount Type",
+            "%",
+            "Channel",
+            "Keyword",
+            "Applicant Type",
+            "Version",
+            "Direction",
+            "Valid From",
+            "Valid To",
+            "Memo",
+            "Status",
+            "Natural Account Code"));
 
     private static final boolean checkDateFormat(final String dateInput) throws Exception {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
@@ -70,14 +75,14 @@ public class ReportControllerTest extends BaseIntegrationTest {
 
     private static final boolean checkCurrencyFormat(final String currencyInput) throws Exception {
         final Matcher currencyFormatMatcher
-                = Pattern.compile(
-                CURRENCY_FORMAT,
-                Pattern.CASE_INSENSITIVE
+            = Pattern.compile(
+            CURRENCY_FORMAT,
+            Pattern.CASE_INSENSITIVE
         ).matcher(currencyInput);
         return currencyFormatMatcher.matches();
     }
 
-    /*@Test
+    @Test
     public void test_excel_streaming_positive_scenario() throws Exception {
 
         MvcResult mvcResult = restActions
@@ -89,9 +94,9 @@ public class ReportControllerTest extends BaseIntegrationTest {
         Workbook workbook = new HSSFWorkbook(new ByteArrayInputStream(rawDocument));
         checkTheHTTPResponseHeader(mvcResult.getResponse());
         checkTheHeaderRecord(workbook, workbook.getSheetAt(0));
-        checkTheDataTypeOfTheRecords(workbook, workbook.getSheetAt(0));
-        checkTheDataDateTypeFormatOfTheRecords(workbook, workbook.getSheetAt(0));
-    }*/
+        //checkTheDataTypeOfTheRecords(workbook, workbook.getSheetAt(0));
+        //checkTheDataDateTypeFormatOfTheRecords(workbook, workbook.getSheetAt(0));
+    }
 
     @Override
     @Before
@@ -104,9 +109,9 @@ public class ReportControllerTest extends BaseIntegrationTest {
     public void test_excel_streaming_positive_404_scenario() throws Exception {
 
         final MvcResult mvcResult = restActions
-                .get("/repor/download")
-                .andExpect(status().isNotFound())
-                .andReturn();
+            .get("/repor/download")
+            .andExpect(status().isNotFound())
+            .andReturn();
     }
 
     private void checkTheHTTPResponseHeader(final MockHttpServletResponse response) {
