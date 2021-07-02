@@ -103,6 +103,10 @@ dependencies {
     smokeTestCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     smokeTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
 
+    integrationTestCompile project(':fees-register-model')
+    integrationTestCompile project(':fees-register-api-contract')
+    integrationTestCompile sourceSets.test.runtimeClasspath
+
 
     testCompile 'io.github.openfeign:feign-jackson:9.7.0'
     // smoke
@@ -129,9 +133,10 @@ task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verifica
     classpath = sourceSets.smokeTest.runtimeClasspath
 }
 
-task integration(type: Test) {
+task integrationTest(type: Test) {
     description = "Runs integration tests"
     group = "Verification"
+    include "uk/gov/hmcts/fees2/register/api/controllers/**"
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
     failFast = true
