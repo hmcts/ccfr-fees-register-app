@@ -264,10 +264,11 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "sayali"), dto.getCode());
 
-        feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.discontinued, "sayali", "wrong data");
+        feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.draft, "sayali", "wrong data");
 
-        assertEquals(FeeVersionStatus.discontinued, v.getStatus());
+        assertEquals(FeeVersionStatus.draft, v.getStatus());
         assertEquals("wrong data", v.getReasonForReject());
+        assertEquals("sayali", v.getApprovedBy());
 
         forceDeleteFee(dto.getCode());
     }

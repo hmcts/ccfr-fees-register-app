@@ -106,13 +106,17 @@ public class FeeVersionController {
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void reject(@PathVariable("feeCode") final String feeCode, @PathVariable("version") final Integer version,
-                       @RequestBody(required = false) final ReasonDto reasonDto) {
+                       @RequestBody(required = false) final ReasonDto reasonDto, final Principal principal) {
         if (null != reasonDto) {
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null,
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, ofNullable(principal)
+                            .map(p -> p.getName())
+                            .orElse(null),
                     (null != reasonDto.getReasonForReject()) ? Encode
                             .forHtml(reasonDto.getReasonForReject()) : "");
         } else {
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null, null);
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, ofNullable(principal)
+                    .map(p -> p.getName())
+                    .orElse(null), null);
         }
     }
 
