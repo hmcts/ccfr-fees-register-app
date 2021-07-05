@@ -243,6 +243,7 @@ public class FeeDtoMapper {
         feeVersionDto.setStatus(FeeVersionStatusDto.valueOf(feeVersion.getStatus().name()));
         feeVersionDto.setDescription(feeVersion.getDescription());
         feeVersionDto.setReasonForUpdate(feeVersion.getReasonForUpdate());
+        feeVersionDto.setReasonForReject(feeVersion.getReasonForReject());
 
         feeVersionDto.setMemoLine(feeVersion.getMemoLine());
         if (feeVersion.getDirectionType() != null) {
