@@ -287,6 +287,8 @@ public class FeeController {
                                 @RequestParam(required = false) String siRefId,
                                 @RequestParam(required = false) BigDecimal feeVersionAmount,
                                 @RequestParam(required = false) Boolean discontinued) {
+        LOG.info("Inside /fees API.....");
+
         List<Fee2Dto> result;
         SearchFeeDto searchFeeDto = new SearchFeeDto(amount, service, jurisdiction1, jurisdiction2, channel, event, applicantType, unspecifiedClaimAmounts, isDraft);
         SearchFeeVersionDto searchFeeVersionDto = new SearchFeeVersionDto(author, approvedBy, isActive, isExpired, discontinued, feeVersionStatus, description, siRefId, feeVersionAmount);
