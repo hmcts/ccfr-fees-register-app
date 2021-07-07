@@ -619,7 +619,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         });
     }
 
-    @Test
+   /* @Test
     public void getlookupresponseMessageForProbateApplicatTypePersonal() throws IOException {
 
         scenario.given()
@@ -688,7 +688,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo("155.00");
         });
-    }
+    }*/
 
     @Test
     public void getlookupresponseMessageForFPL() throws IOException {
