@@ -9,17 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.SecurityUtil;
 
 import java.security.Principal;
 
@@ -69,6 +68,21 @@ public class FeeVersionController {
         request.setVersion(newVersion + 1);
 
         feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
+    }
+
+    @ApiOperation(value = "Edit a fee version for the given fee code")
+    @ApiResponses(value = {
+        @ApiResponse(code = 204, message = "Successfully edited the fee version for the given fee code."),
+    })
+
+    @PutMapping("/fees/{code}/versions/{version}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editFeeVersion(
+        @PathVariable("code") String code,
+        @PathVariable("version") Integer version,
+        @RequestBody @Validated final FeeVersionDto request) {
+        var feeVersion =feeVersionService.getFeeVersion(code,version);
+        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request,feeVersion));
     }
 
     @ApiOperation(value = "Approve a fee version")

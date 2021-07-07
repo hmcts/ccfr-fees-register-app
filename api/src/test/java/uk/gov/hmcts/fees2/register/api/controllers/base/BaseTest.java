@@ -17,8 +17,10 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
+import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
@@ -306,4 +308,7 @@ public abstract class BaseTest {
         return new PercentageAmountDto(new BigDecimal(4.5));
     }
 
+    public VolumeAmountDto getVolumeAmountDto() {
+        return new VolumeAmountDto(new BigDecimal(250));
+    }
 }
