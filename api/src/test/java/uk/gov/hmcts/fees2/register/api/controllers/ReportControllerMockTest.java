@@ -44,13 +44,17 @@ public class ReportControllerMockTest {
     }
 
     @Test
-    public void testDownloadReportNotFound() throws Exception {
+    public void testDownloadReportBlank() throws Exception {
 
         final ResultActions resultActions = mockMvc.perform(get("/report/download")
                 .accept(MediaType.APPLICATION_JSON));
 
-        Assert.assertEquals(404, resultActions.andReturn().getResponse().getStatus());
-        Assert.assertNull(resultActions.andReturn().getResponse().getContentType());
+        Assert.assertEquals(200, resultActions.andReturn().getResponse().getStatus());
+        Assert.assertEquals("application/vnd.ms-excel", resultActions.andReturn().getResponse().getContentType());
+        Assert.assertTrue(resultActions.andReturn().getResponse().getHeaderValue("Content-Disposition").toString()
+                .startsWith("attachment; filename=Fee_Register_"));
+
+        resultActions.andReturn().getResponse().getContentLength();
 
     }
 
@@ -72,6 +76,8 @@ public class ReportControllerMockTest {
         Assert.assertEquals("application/vnd.ms-excel", resultActions.andReturn().getResponse().getContentType());
         Assert.assertTrue(resultActions.andReturn().getResponse().getHeaderValue("Content-Disposition").toString()
                 .startsWith("attachment; filename=Fee_Register_"));
+
+        resultActions.andReturn().getResponse().getContentLength();
 
     }
 

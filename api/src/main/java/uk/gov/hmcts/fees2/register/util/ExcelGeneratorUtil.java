@@ -5,12 +5,23 @@ import org.apache.poi.ss.usermodel.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.FeesException;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.apache.poi.ss.usermodel.IndexedColors.BLACK;
 
 public final class ExcelGeneratorUtil {
+
+    private static final String FLAT = "Flat";
+    private static final String VOLUME = "Volume";
+    private static final String PERCENTAGE = "Percentage";
+    private static final String APPROVED_BUT_NOT_LIVE_FEES = "Approved but not live fees";
+    private static final String DISCONTINUED_FEES = "Discontinued fees";
+    private static final String LIVE_FEES = "Live Fees";
 
     public static Workbook exportToExcel(final List<Fee2Dto> fee2DtoList) {
         final String[] cols =
@@ -51,6 +62,8 @@ public final class ExcelGeneratorUtil {
 
         int rowIdx = 1;
 
+        final DateFormat df = new SimpleDateFormat("dd-MMMM-yyyy");
+
         for (int col = 0; col < cols.length; col++) {
             final Cell cell = headerRow.createCell(col);
             cell.setCellValue(cols[col]);
@@ -63,49 +76,78 @@ public final class ExcelGeneratorUtil {
 
                 final Row row = sheet.createRow(rowIdx++);
 
-                row.createCell(0).setCellValue(fee2Dto.getCode());
-
                 final List<FeeVersionDto> feeVersionDtoList = fee2Dto.getFeeVersionDtos();
 
                 for (final FeeVersionDto feeVersionDto : feeVersionDtoList) {
 
-                    row.createCell(1).setCellValue(feeVersionDto.getDescription());
-                    row.createCell(2).setCellValue(feeVersionDto.getAmount().toString());
-                    row.createCell(3).setCellValue(feeVersionDto.getStatutoryInstrument());
-                    row.createCell(4).setCellValue(feeVersionDto.getSiRefId());
-                    row.createCell(5).setCellValue(feeVersionDto.getFeeOrderName());
-                    row.createCell(14)
-                            .setCellValue(null != feeVersionDto.getFlatAmount() ? feeVersionDto.getFlatAmount()
-                                    .toString() : ""); //AmountType??
-                    row.createCell(15).setCellValue(
-                            null != feeVersionDto.getPercentageAmount() ? feeVersionDto.getPercentageAmount()
-                                    .toString() : "");
-                    row.createCell(19).setCellValue(feeVersionDto.getVersion());
-                    row.createCell(20).setCellValue(feeVersionDto.getDirection());
-                    row.createCell(21).setCellValue(feeVersionDto.getValidFrom());
-                    row.createCell(22).setCellValue(feeVersionDto.getValidTo());
-                    row.createCell(23).setCellValue(feeVersionDto.getMemoLine());
-                    row.createCell(24).setCellValue(feeVersionDto.getStatutoryInstrument());  //status??
-                    row.createCell(25).setCellValue(feeVersionDto.getNaturalAccountCode());
+                    if (null != feeVersionDto &&
+                            FeeVersionStatus.approved.name().equals(feeVersionDto.getStatus().name())) {
+
+                        row.createCell(0).setCellValue(fee2Dto.getCode());
+                        row.createCell(1).setCellValue(feeVersionDto.getDescription());
+                        row.createCell(2).setCellValue("£" + feeVersionDto.getAmount().toString());
+                        row.createCell(3).setCellValue(feeVersionDto.getStatutoryInstrument());
+                        row.createCell(4).setCellValue(feeVersionDto.getSiRefId());
+                        row.createCell(5).setCellValue(feeVersionDto.getFeeOrderName());
+                        row.createCell(6).setCellValue(fee2Dto.getServiceTypeDto().getName());
+                        row.createCell(7).setCellValue(fee2Dto.getJurisdiction1Dto().getName());
+                        row.createCell(8).setCellValue(fee2Dto.getJurisdiction2Dto().getName());
+                        row.createCell(9).setCellValue(fee2Dto.getEventTypeDto().getName());
+                        row.createCell(10)
+                                .setCellValue(null != fee2Dto.getMinRange() ? fee2Dto.getMinRange().toString() : "");
+                        row.createCell(11)
+                                .setCellValue(null != fee2Dto.getMaxRange() ? fee2Dto.getMaxRange().toString() : "");
+                        row.createCell(12).setCellValue(fee2Dto.getRangeUnit());
+                        row.createCell(13).setCellValue(fee2Dto.getFeeType());
+                        row.createCell(14).setCellValue(getAmountType(feeVersionDto));
+                        row.createCell(15).setCellValue(
+                                null != feeVersionDto.getPercentageAmount() ? feeVersionDto.getPercentageAmount()
+                                        .toString() : "");
+                        row.createCell(16)
+                                .setCellValue(null != fee2Dto.getChannelTypeDto() ? fee2Dto.getChannelTypeDto()
+                                        .getName() : "");
+                        row.createCell(17).setCellValue(fee2Dto.getKeyword());
+                        row.createCell(18)
+                                .setCellValue(
+                                        null != fee2Dto.getApplicantTypeDto() ? fee2Dto.getApplicantTypeDto()
+                                                .getName() : "");
+                        row.createCell(19).setCellValue(feeVersionDto.getVersion());
+                        row.createCell(20).setCellValue(feeVersionDto.getDirection());
+
+                        row.createCell(21).setCellValue(
+                                (null != feeVersionDto.getValidFrom()) ? df.format(feeVersionDto.getValidFrom()) : "");
+                        row.createCell(22).setCellValue(
+                                (null != feeVersionDto.getValidTo()) ? df.format(feeVersionDto.getValidTo()) : "");
+                        row.createCell(23).setCellValue(feeVersionDto.getMemoLine());
+                        row.createCell(24).setCellValue(getStatus(feeVersionDto));
+                        row.createCell(25).setCellValue(feeVersionDto.getNaturalAccountCode());
+                    }
                 }
-                row.createCell(6).setCellValue(fee2Dto.getServiceTypeDto().getName());
-                row.createCell(7).setCellValue(fee2Dto.getJurisdiction1Dto().getName());
-                row.createCell(8).setCellValue(fee2Dto.getJurisdiction2Dto().getName());
-                row.createCell(9).setCellValue(fee2Dto.getEventTypeDto().getName());
-                row.createCell(10).setCellValue(null != fee2Dto.getMinRange() ? fee2Dto.getMinRange().toString() : "");
-                row.createCell(11).setCellValue(null != fee2Dto.getMaxRange() ? fee2Dto.getMaxRange().toString() : "");
-                row.createCell(12).setCellValue(fee2Dto.getRangeUnit());
-                row.createCell(13).setCellValue(fee2Dto.getFeeType());
-                row.createCell(16)
-                        .setCellValue(null != fee2Dto.getChannelTypeDto() ? fee2Dto.getChannelTypeDto().getName() : "");
-                row.createCell(17).setCellValue(fee2Dto.getKeyword());
-                row.createCell(18)
-                        .setCellValue(
-                                null != fee2Dto.getApplicantTypeDto() ? fee2Dto.getApplicantTypeDto().getName() : "");
             }
         }
         for (int i = 0; i < cols.length; i++) {
             sheet.autoSizeColumn(i);
+        }
+    }
+
+    private static String getAmountType(final FeeVersionDto feeVersionDto) {
+        if (null != feeVersionDto.getFlatAmount()) {
+            return FLAT;
+        } else if (null != feeVersionDto.getVolumeAmount()) {
+            return VOLUME;
+        } else if (null != feeVersionDto.getPercentageAmount()) {
+            return PERCENTAGE;
+        }
+        return "";
+    }
+
+    private static String getStatus(final FeeVersionDto feeVersionDto) {
+        if (null != feeVersionDto.getValidFrom() && feeVersionDto.getValidFrom().after(new Date())) {
+            return APPROVED_BUT_NOT_LIVE_FEES;
+        } else if (null != feeVersionDto.getValidTo() && feeVersionDto.getValidTo().before(new Date())) {
+            return DISCONTINUED_FEES;
+        } else {
+            return LIVE_FEES;
         }
     }
 

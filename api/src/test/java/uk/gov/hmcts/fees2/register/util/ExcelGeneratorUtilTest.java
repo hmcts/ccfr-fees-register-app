@@ -21,9 +21,6 @@ public class ExcelGeneratorUtilTest {
 
         final Workbook actual = ExcelGeneratorUtil.exportToExcel(reportDataList);
 
-//        Assert.assertTrue(actual.getFontAt(0).getBold());
-//        assertEquals(BLACK.getIndex(), actual.getFontAt(0).getColor());
-
         assertEquals("Sheet0", actual.getSheetAt(0).getSheetName());
         assertEquals(1, actual.getSheetAt(0).getLastRowNum());
 
@@ -58,7 +55,7 @@ public class ExcelGeneratorUtilTest {
         // Verify record values
         assertEquals("AAA", actual.getSheetAt(0).getRow(1).getCell(0).getStringCellValue());
         assertEquals("GGG", actual.getSheetAt(0).getRow(1).getCell(1).getStringCellValue());
-        assertEquals("111", actual.getSheetAt(0).getRow(1).getCell(2).getStringCellValue());
+        assertEquals("£111", actual.getSheetAt(0).getRow(1).getCell(2).getStringCellValue());
         assertEquals("OOO", actual.getSheetAt(0).getRow(1).getCell(3).getStringCellValue());
         assertEquals("NNN", actual.getSheetAt(0).getRow(1).getCell(4).getStringCellValue());
         assertEquals("III", actual.getSheetAt(0).getRow(1).getCell(5).getStringCellValue());
@@ -70,18 +67,16 @@ public class ExcelGeneratorUtilTest {
         assertEquals("444", actual.getSheetAt(0).getRow(1).getCell(11).getStringCellValue());
         assertEquals("TTT", actual.getSheetAt(0).getRow(1).getCell(12).getStringCellValue());
         assertEquals("DDD", actual.getSheetAt(0).getRow(1).getCell(13).getStringCellValue());
-//        assertEquals("FlatAmountDto(amount=111)", actual.getSheetAt(0).getRow(1).getCell(14).getStringCellValue());
-//        assertEquals("PercentageAmountDto(percentage=222)",
-//                actual.getSheetAt(0).getRow(1).getCell(15).getStringCellValue());
+        assertEquals("Flat", actual.getSheetAt(0).getRow(1).getCell(14).getStringCellValue());
         assertEquals("CCC", actual.getSheetAt(0).getRow(1).getCell(16).getStringCellValue());
         assertEquals("SSS", actual.getSheetAt(0).getRow(1).getCell(17).getStringCellValue());
         assertEquals("BBB", actual.getSheetAt(0).getRow(1).getCell(18).getStringCellValue());
         assertEquals(1, actual.getSheetAt(0).getRow(1).getCell(19).getNumericCellValue(), 0);
         assertEquals("HHH", actual.getSheetAt(0).getRow(1).getCell(20).getStringCellValue());
-//        assertEquals("05-05-2021", actual.getSheetAt(0).getRow(1).getCell(21).getDateCellValue());
-//        assertEquals("06-06-2021", actual.getSheetAt(0).getRow(1).getCell(22).getDateCellValue());
+        assertEquals("05-May-2021", actual.getSheetAt(0).getRow(1).getCell(21).getStringCellValue());
+        assertEquals("06-June-2021", actual.getSheetAt(0).getRow(1).getCell(22).getStringCellValue());
         assertEquals("JJJ", actual.getSheetAt(0).getRow(1).getCell(23).getStringCellValue());
-//        assertEquals("draft", actual.getSheetAt(0).getRow(1).getCell(24).getStringCellValue());
+        assertEquals("Discontinued fees", actual.getSheetAt(0).getRow(1).getCell(24).getStringCellValue());
         assertEquals("KKK", actual.getSheetAt(0).getRow(1).getCell(25).getStringCellValue());
     }
 

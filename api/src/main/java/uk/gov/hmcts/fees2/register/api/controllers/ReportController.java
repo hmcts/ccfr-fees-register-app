@@ -48,7 +48,7 @@ public class ReportController {
     @ApiOperation("API to generate Report for Fee_Register System")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Report Generated"),
-            @ApiResponse(code = 404, message = "No Data found to generate Report")
+            @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @GetMapping("/report/download")
     public ResponseEntity<byte[]> downloadReport(
@@ -63,6 +63,7 @@ public class ReportController {
         try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 
             final SearchFeeDto searchFeeDto = new SearchFeeDto();
+            searchFeeDto.setIsDraft(false);
 
             final HttpHeaders headers = new HttpHeaders();
 
@@ -76,11 +77,9 @@ public class ReportController {
                     .map(feeDtoMapper::toFeeDto)
                     .collect(Collectors.toList());
 
-            if (Optional.ofNullable(fee2DtoList).isPresent() && fee2DtoList.size() > 0) {
+            if (Optional.ofNullable(fee2DtoList).isPresent()) {
                 LOG.info("No of Records exists : {}", fee2DtoList.size());
                 workbook = (HSSFWorkbook) ExcelGeneratorUtil.exportToExcel(fee2DtoList);
-            } else {
-                return new ResponseEntity<>(reportBytes, headers, HttpStatus.NOT_FOUND);
             }
 
             if (workbook != null) {

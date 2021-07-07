@@ -38,10 +38,10 @@ public class UtilityTest {
         feeVersionDto.setReasonForUpdate("MMM");
         feeVersionDto.setSiRefId("NNN");
 
-        feeVersionDto.setStatus(FeeVersionStatusDto.draft);
+        feeVersionDto.setStatus(FeeVersionStatusDto.approved);
         feeVersionDto.setStatutoryInstrument("OOO");
-//        feeVersionDto.setValidFrom(new SimpleDateFormat("dd/MM/yyyy").format(new Date("05/05/2021")));
-        feeVersionDto.setValidTo(new SimpleDateFormat("dd/MM/yyyy").parse("06/06/2021"));
+        feeVersionDto.setValidFrom(new SimpleDateFormat("dd-MMMM-yyyy").parse("05-May-2021"));
+        feeVersionDto.setValidTo(new SimpleDateFormat("dd-MMMM-yyyy").parse("06-June-2021"));
 
         final VolumeAmountDto volumeAmountDto = new VolumeAmountDto();
         volumeAmountDto.setAmount(new BigDecimal("333"));
@@ -58,9 +58,9 @@ public class UtilityTest {
         feeVersion.setDescription("GGG");
 
         final DirectionType directionType = new DirectionType();
-        directionType.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("06/06/2021"));
+        directionType.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("06-June-2021"));
         directionType.setName("XX");
-        directionType.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("06/06/2021"));
+        directionType.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("06-June-2021"));
         feeVersion.setDirectionType(directionType);
 
         feeVersion.setFeeOrderName("III");
@@ -78,10 +78,10 @@ public class UtilityTest {
         feeVersion.setReasonForUpdate("MMM");
         feeVersion.setSiRefId("NNN");
 
-        feeVersion.setStatus(FeeVersionStatus.draft);
+        feeVersion.setStatus(FeeVersionStatus.approved);
         feeVersion.setStatutoryInstrument("OOO");
-//        feeVersionDto.setValidFrom(new SimpleDateFormat("dd/MM/yyyy").format(new Date("05/05/2021")));
-        feeVersion.setValidTo(new SimpleDateFormat("dd/MM/yyyy").parse("06/06/2021"));
+        feeVersion.setValidFrom(new SimpleDateFormat("dd-MMMM-yyyy").parse("05-May-2021"));
+        feeVersion.setValidTo(new SimpleDateFormat("dd-MMMM-yyyy").parse("06-June-2021"));
 
         final VolumeAmountDto volumeAmountDto = new VolumeAmountDto();
         volumeAmountDto.setAmount(new BigDecimal("333"));
@@ -97,15 +97,15 @@ public class UtilityTest {
 
         final ApplicantTypeDto applicantTypeDto = new ApplicantTypeDto();
 
-        applicantTypeDto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2021"));
+        applicantTypeDto.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("01-January-2021"));
         applicantTypeDto.setName("BBB");
-        applicantTypeDto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("02/02/2021"));
+        applicantTypeDto.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("02-February-2021"));
         fee2Dto.setApplicantTypeDto(applicantTypeDto);
 
         final ChannelTypeDto channelTypeDto = new ChannelTypeDto();
-        channelTypeDto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("03/03/2021"));
+        channelTypeDto.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("03-March-2021"));
         channelTypeDto.setName("CCC");
-        channelTypeDto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("04/04/2021"));
+        channelTypeDto.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("04-April-2021"));
         fee2Dto.setChannelTypeDto(channelTypeDto);
 
         fee2Dto.setFeeType("DDD");
@@ -115,21 +115,21 @@ public class UtilityTest {
         fee2Dto.setFeeVersionDtos(feeVersionDtoList);
 
         final EventTypeDto eventTypeDto = new EventTypeDto();
-        eventTypeDto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("07/07/2021"));
+        eventTypeDto.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("07-July-2021"));
         eventTypeDto.setName("PPP");
-        eventTypeDto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("08/08/2021"));
+        eventTypeDto.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("08-August-2021"));
         fee2Dto.setEventTypeDto(eventTypeDto);
 
         final Jurisdiction1Dto jurisdiction1Dto = new Jurisdiction1Dto();
-        jurisdiction1Dto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("09/09/2021"));
+        jurisdiction1Dto.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("09-September-2021"));
         jurisdiction1Dto.setName("QQQ");
-        jurisdiction1Dto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("10/10/2021"));
+        jurisdiction1Dto.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("10-October-2021"));
         fee2Dto.setJurisdiction1Dto(jurisdiction1Dto);
 
         final Jurisdiction2Dto jurisdiction2Dto = new Jurisdiction2Dto();
-        jurisdiction2Dto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("11/11/2021"));
+        jurisdiction2Dto.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("11-November-2021"));
         jurisdiction2Dto.setName("RRR");
-        jurisdiction2Dto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("12/12/2021"));
+        jurisdiction2Dto.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("12-December-2021"));
         fee2Dto.setJurisdiction2Dto(jurisdiction2Dto);
 
         fee2Dto.setCurrentVersion(buildFeeVersionDto());
@@ -140,9 +140,9 @@ public class UtilityTest {
         fee2Dto.setRangeUnit("TTT");
 
         final ServiceTypeDto serviceTypeDto = new ServiceTypeDto();
-        serviceTypeDto.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2020"));
+        serviceTypeDto.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("01-January-2020"));
         serviceTypeDto.setName("UUU");
-        serviceTypeDto.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("02/02/2020"));
+        serviceTypeDto.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("02-February-2020"));
         fee2Dto.setServiceTypeDto(serviceTypeDto);
 
         fee2Dto.setUnspecifiedClaimAmount(true);
@@ -157,15 +157,15 @@ public class UtilityTest {
         fee.setCode("AAA");
 
         final ApplicantType applicantType = new ApplicantType();
-        applicantType.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2021"));
+        applicantType.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("01-January-2021"));
         applicantType.setName("BBB");
-        applicantType.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("02/02/2021"));
+        applicantType.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("02-February-2021"));
         fee.setApplicantType(applicantType);
 
         final ChannelType channelType = new ChannelType();
-        channelType.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("03/03/2021"));
+        channelType.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("03-March-2021"));
         channelType.setName("CCC");
-        channelType.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("04/04/2021"));
+        channelType.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("04-April-2021"));
         fee.setChannelType(channelType);
 
         final List<FeeVersion> feeVersionDtoList = new ArrayList<>();
@@ -173,29 +173,29 @@ public class UtilityTest {
         fee.setFeeVersions(feeVersionDtoList);
 
         final EventType eventType = new EventType();
-        eventType.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("07/07/2021"));
+        eventType.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("07-July-2021"));
         eventType.setName("PPP");
-        eventType.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("08/08/2021"));
+        eventType.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("08-August-2021"));
         fee.setEventType(eventType);
 
         final Jurisdiction1 jurisdiction1 = new Jurisdiction1();
-        jurisdiction1.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("09/09/2021"));
+        jurisdiction1.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("09-September-2021"));
         jurisdiction1.setName("QQQ");
-        jurisdiction1.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("10/10/2021"));
+        jurisdiction1.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("10-October-2021"));
         fee.setJurisdiction1(jurisdiction1);
 
         final Jurisdiction2 jurisdiction2 = new Jurisdiction2();
-        jurisdiction2.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("11/11/2021"));
+        jurisdiction2.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("11-November-2021"));
         jurisdiction2.setName("RRR");
-        jurisdiction2.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("12/12/2021"));
+        jurisdiction2.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("12-December-2021"));
         fee.setJurisdiction2(jurisdiction2);
 
         fee.setKeyword("SSS");
 
         final ServiceType serviceType = new ServiceType();
-        serviceType.setCreationTime(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2020"));
+        serviceType.setCreationTime(new SimpleDateFormat("dd-MMMM-yyyy").parse("01-January-2020"));
         serviceType.setName("UUU");
-        serviceType.setLastUpdated(new SimpleDateFormat("dd/MM/yyyy").parse("02/02/2020"));
+        serviceType.setLastUpdated(new SimpleDateFormat("dd-MMMM-yyyy").parse("02-February-2020"));
         fee.setService(serviceType);
 
         fee.setUnspecifiedClaimAmount(true);
