@@ -106,7 +106,7 @@ public abstract class BaseTest {
     /**
      * @return
      */
-    public List<ChannelType> getChannelTypes() {
+    public static List<ChannelType> getChannelTypes() {
         return new ArrayList<ChannelType>() {{
             add(new ChannelType("online", new Date(), new Date()));
             add(new ChannelType("bulk", new Date(), new Date()));
@@ -116,7 +116,7 @@ public abstract class BaseTest {
     /**
      * @return
      */
-    public List<DirectionType> getDirectionTypes() {
+    public static List<DirectionType> getDirectionTypes() {
         return new ArrayList<DirectionType>() {{
             add(new DirectionType("cost recovery", new Date(), new Date()));
             add(new DirectionType("enhanced", new Date(), new Date()));
@@ -133,7 +133,7 @@ public abstract class BaseTest {
      *
      * @return
      */
-    public List<ServiceType> getServiceTypes() {
+    public static List<ServiceType> getServiceTypes() {
         return new ArrayList<ServiceType>() {{
             add(new ServiceType("civil money claims", new Date(), new Date()));
             add(new ServiceType("possession claims", new Date(), new Date()));
@@ -156,7 +156,7 @@ public abstract class BaseTest {
         }};
     }
 
-    public List<EventType> getEventTypes() {
+    public static List<EventType> getEventTypes() {
         return new ArrayList<EventType>() {{
             add(new EventType("enforcement", new Date(), new Date()));
             add(new EventType("judicial review", new Date(), new Date()));
@@ -171,7 +171,7 @@ public abstract class BaseTest {
         }};
     }
 
-    public List<Jurisdiction1> getJurisdictions1() {
+    public static List<Jurisdiction1> getJurisdictions1() {
         return new ArrayList<Jurisdiction1>() {{
             add(new Jurisdiction1("civil", new Date(), new Date()));
             add(new Jurisdiction1("family", new Date(), new Date()));
@@ -179,7 +179,7 @@ public abstract class BaseTest {
         }};
     }
 
-    public List<Jurisdiction2> getJurisdictions2() {
+    public static List<Jurisdiction2> getJurisdictions2() {
         return new ArrayList<Jurisdiction2>() {{
             add(new Jurisdiction2("county court", new Date(), new Date()));
             add(new Jurisdiction2("high court", new Date(), new Date()));
