@@ -73,8 +73,8 @@ public class ExcelGeneratorUtilTest {
         assertEquals("BBB", actual.getSheetAt(0).getRow(1).getCell(18).getStringCellValue());
         assertEquals(1, actual.getSheetAt(0).getRow(1).getCell(19).getNumericCellValue(), 0);
         assertEquals("HHH", actual.getSheetAt(0).getRow(1).getCell(20).getStringCellValue());
-        assertEquals("05-May-2021", actual.getSheetAt(0).getRow(1).getCell(21).getStringCellValue());
-        assertEquals("06-June-2021", actual.getSheetAt(0).getRow(1).getCell(22).getStringCellValue());
+        assertEquals("05 May 2021", actual.getSheetAt(0).getRow(1).getCell(21).getStringCellValue());
+        assertEquals("06 June 2021", actual.getSheetAt(0).getRow(1).getCell(22).getStringCellValue());
         assertEquals("JJJ", actual.getSheetAt(0).getRow(1).getCell(23).getStringCellValue());
         assertEquals("Discontinued fees", actual.getSheetAt(0).getRow(1).getCell(24).getStringCellValue());
         assertEquals("KKK", actual.getSheetAt(0).getRow(1).getCell(25).getStringCellValue());

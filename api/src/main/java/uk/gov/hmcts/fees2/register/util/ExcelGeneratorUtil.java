@@ -62,7 +62,7 @@ public final class ExcelGeneratorUtil {
 
         int rowIdx = 1;
 
-        final DateFormat df = new SimpleDateFormat("dd-MMMM-yyyy");
+        final DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
 
         for (int col = 0; col < cols.length; col++) {
             final Cell cell = headerRow.createCell(col);
@@ -85,14 +85,19 @@ public final class ExcelGeneratorUtil {
 
                         row.createCell(0).setCellValue(fee2Dto.getCode());
                         row.createCell(1).setCellValue(feeVersionDto.getDescription());
-                        row.createCell(2).setCellValue("£" + feeVersionDto.getAmount().toString());
-                        row.createCell(3).setCellValue(feeVersionDto.getStatutoryInstrument());
-                        row.createCell(4).setCellValue(feeVersionDto.getSiRefId());
-                        row.createCell(5).setCellValue(feeVersionDto.getFeeOrderName());
+                        row.createCell(2).setCellValue(
+                                null != feeVersionDto.getAmount() ? "£" + feeVersionDto.getAmount().toString() : "");
+                        row.createCell(3).setCellValue(null != feeVersionDto.getStatutoryInstrument() ? feeVersionDto
+                                .getStatutoryInstrument() : "");
+                        row.createCell(4)
+                                .setCellValue(null != feeVersionDto.getSiRefId() ? feeVersionDto.getSiRefId() : "");
+                        row.createCell(5).setCellValue(
+                                null != feeVersionDto.getFeeOrderName() ? feeVersionDto.getFeeOrderName() : "");
                         row.createCell(6).setCellValue(fee2Dto.getServiceTypeDto().getName());
                         row.createCell(7).setCellValue(fee2Dto.getJurisdiction1Dto().getName());
                         row.createCell(8).setCellValue(fee2Dto.getJurisdiction2Dto().getName());
-                        row.createCell(9).setCellValue(fee2Dto.getEventTypeDto().getName());
+                        row.createCell(9).setCellValue(
+                                null != fee2Dto.getEventTypeDto() ? fee2Dto.getEventTypeDto().getName() : "");
                         row.createCell(10)
                                 .setCellValue(null != fee2Dto.getMinRange() ? fee2Dto.getMinRange().toString() : "");
                         row.createCell(11)
@@ -106,14 +111,14 @@ public final class ExcelGeneratorUtil {
                         row.createCell(16)
                                 .setCellValue(null != fee2Dto.getChannelTypeDto() ? fee2Dto.getChannelTypeDto()
                                         .getName() : "");
-                        row.createCell(17).setCellValue(fee2Dto.getKeyword());
+                        row.createCell(17).setCellValue(null != fee2Dto.getKeyword() ? fee2Dto.getKeyword() : "");
                         row.createCell(18)
                                 .setCellValue(
                                         null != fee2Dto.getApplicantTypeDto() ? fee2Dto.getApplicantTypeDto()
                                                 .getName() : "");
                         row.createCell(19).setCellValue(feeVersionDto.getVersion());
-                        row.createCell(20).setCellValue(feeVersionDto.getDirection());
-
+                        row.createCell(20)
+                                .setCellValue(null != feeVersionDto.getDirection() ? feeVersionDto.getDirection() : "");
                         row.createCell(21).setCellValue(
                                 (null != feeVersionDto.getValidFrom()) ? df.format(feeVersionDto.getValidFrom()) : "");
                         row.createCell(22).setCellValue(
