@@ -66,7 +66,7 @@ public class ReportController {
 
         headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
 
-        response.setHeader("Content-Disposition", "attachment; filename=aaa");
+        response.setHeader("Content-Disposition", "attachment; filename=Fee_Register_");
 
         return new ResponseEntity<>(reportBytes, headers, HttpStatus.OK);
 

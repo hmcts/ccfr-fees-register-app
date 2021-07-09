@@ -43,7 +43,7 @@ public class ReportControllerMockTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(reportController).build();
     }
 
-    /*@Test
+    @Test
     public void testDownloadReportBlank() throws Exception {
 
         final ResultActions resultActions = mockMvc.perform(get("/report/download")
@@ -58,7 +58,7 @@ public class ReportControllerMockTest {
 
     }
 
-    @Test
+   /* @Test
     public void testDownloadReport() throws Exception {
 
         final List<Fee> reportDataList = new ArrayList<>();
