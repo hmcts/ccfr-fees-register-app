@@ -72,76 +72,74 @@ public final class ExcelGeneratorUtil {
             cell.setCellStyle(headerCellStyle);
         }
 
-        for (final Fee2Dto fee2Dto : fee2DtoList) {
+//        for (final Fee2Dto fee2Dto : fee2DtoList) {
 
             LOG.info("1");
-            if (null != fee2Dto) {
+            if (null !=  fee2DtoList.get(0)) {
 
                 final Row row = sheet.createRow(rowIdx++);
 
-                final List<FeeVersionDto> feeVersionDtoList = fee2Dto.getFeeVersionDtos();
+                final List<FeeVersionDto> feeVersionDtoList =  fee2DtoList.get(0).getFeeVersionDtos();
 
-                for (final FeeVersionDto feeVersionDto : feeVersionDtoList) {
+//                for (final FeeVersionDto feeVersionDto : feeVersionDtoList) {
 
                     LOG.info("2");
-                    if (null != feeVersionDto &&
-                            FeeVersionStatus.approved.name().equals(feeVersionDto.getStatus().name())) {
+                    if (null != feeVersionDtoList.get(0) &&
+                            FeeVersionStatus.approved.name().equals(feeVersionDtoList.get(0).getStatus().name())) {
 
                         LOG.info("3");
-                        row.createCell(0).setCellValue(fee2Dto.getCode());
-                        row.createCell(1).setCellValue(feeVersionDto.getDescription());
+                        row.createCell(0).setCellValue( fee2DtoList.get(0).getCode());
+                        row.createCell(1).setCellValue(feeVersionDtoList.get(0).getDescription());
                         row.createCell(2).setCellValue(
-                                null != feeVersionDto.getAmount() ? "£" + feeVersionDto.getAmount().toString() : "");
-                        row.createCell(3).setCellValue(null != feeVersionDto.getStatutoryInstrument() ? feeVersionDto
+                                null != feeVersionDtoList.get(0).getAmount() ? "£" + feeVersionDtoList.get(0).getAmount().toString() : "");
+                        row.createCell(3).setCellValue(null != feeVersionDtoList.get(0).getStatutoryInstrument() ? feeVersionDtoList.get(0)
                                 .getStatutoryInstrument() : "");
                         row.createCell(4)
-                                .setCellValue(null != feeVersionDto.getSiRefId() ? feeVersionDto.getSiRefId() : "");
+                                .setCellValue(null != feeVersionDtoList.get(0).getSiRefId() ? feeVersionDtoList.get(0).getSiRefId() : "");
                         row.createCell(5).setCellValue(
-                                null != feeVersionDto.getFeeOrderName() ? feeVersionDto.getFeeOrderName() : "");
+                                null != feeVersionDtoList.get(0).getFeeOrderName() ? feeVersionDtoList.get(0).getFeeOrderName() : "");
                         LOG.info("4");
-                        row.createCell(6).setCellValue(fee2Dto.getServiceTypeDto().getName());
-                        row.createCell(7).setCellValue(fee2Dto.getJurisdiction1Dto().getName());
-                        row.createCell(8).setCellValue(fee2Dto.getJurisdiction2Dto().getName());
+                        row.createCell(6).setCellValue( fee2DtoList.get(0).getServiceTypeDto().getName());
+                        row.createCell(7).setCellValue( fee2DtoList.get(0).getJurisdiction1Dto().getName());
+                        row.createCell(8).setCellValue( fee2DtoList.get(0).getJurisdiction2Dto().getName());
                         row.createCell(9).setCellValue(
-                                null != fee2Dto.getEventTypeDto() ? fee2Dto.getEventTypeDto().getName() : "");
+                                null !=  fee2DtoList.get(0).getEventTypeDto() ?  fee2DtoList.get(0).getEventTypeDto().getName() : "");
                         row.createCell(10)
-                                .setCellValue(null != fee2Dto.getMinRange() ? fee2Dto.getMinRange().toString() : "");
+                                .setCellValue(null !=  fee2DtoList.get(0).getMinRange() ?  fee2DtoList.get(0).getMinRange().toString() : "");
                         LOG.info("5");
                         row.createCell(11)
-                                .setCellValue(null != fee2Dto.getMaxRange() ? fee2Dto.getMaxRange().toString() : "");
-                        row.createCell(12).setCellValue(fee2Dto.getRangeUnit());
-                        row.createCell(13).setCellValue(fee2Dto.getFeeType());
-                        row.createCell(14).setCellValue(getAmountType(feeVersionDto));
+                                .setCellValue(null !=  fee2DtoList.get(0).getMaxRange() ?  fee2DtoList.get(0).getMaxRange().toString() : "");
+                        row.createCell(12).setCellValue( fee2DtoList.get(0).getRangeUnit());
+                        row.createCell(13).setCellValue( fee2DtoList.get(0).getFeeType());
+                        row.createCell(14).setCellValue(getAmountType(feeVersionDtoList.get(0)));
                         row.createCell(15).setCellValue(
-                                null != feeVersionDto.getPercentageAmount() ? feeVersionDto.getPercentageAmount()
+                                null != feeVersionDtoList.get(0).getPercentageAmount() ? feeVersionDtoList.get(0).getPercentageAmount()
                                         .toString() : "");
                         LOG.info("6");
                         row.createCell(16)
-                                .setCellValue(null != fee2Dto.getChannelTypeDto() ? fee2Dto.getChannelTypeDto()
+                                .setCellValue(null !=  fee2DtoList.get(0).getChannelTypeDto() ?  fee2DtoList.get(0).getChannelTypeDto()
                                         .getName() : "");
-                        row.createCell(17).setCellValue(null != fee2Dto.getKeyword() ? fee2Dto.getKeyword() : "");
+                        row.createCell(17).setCellValue(null !=  fee2DtoList.get(0).getKeyword() ?  fee2DtoList.get(0).getKeyword() : "");
                         row.createCell(18)
                                 .setCellValue(
-                                        null != fee2Dto.getApplicantTypeDto() ? fee2Dto.getApplicantTypeDto()
+                                        null !=  fee2DtoList.get(0).getApplicantTypeDto() ?  fee2DtoList.get(0).getApplicantTypeDto()
                                                 .getName() : "");
-                        row.createCell(19).setCellValue(feeVersionDto.getVersion());
+                        row.createCell(19).setCellValue(feeVersionDtoList.get(0).getVersion());
                         row.createCell(20)
-                                .setCellValue(null != feeVersionDto.getDirection() ? feeVersionDto.getDirection() : "");
+                                .setCellValue(null != feeVersionDtoList.get(0).getDirection() ? feeVersionDtoList.get(0).getDirection() : "");
                         LOG.info("7");
                         row.createCell(21).setCellValue(
-                                (null != feeVersionDto.getValidFrom()) ? df.format(feeVersionDto.getValidFrom()) : "");
+                                (null != feeVersionDtoList.get(0).getValidFrom()) ? df.format(feeVersionDtoList.get(0).getValidFrom()) : "");
                         row.createCell(22).setCellValue(
-                                (null != feeVersionDto.getValidTo()) ? df.format(feeVersionDto.getValidTo()) : "");
-                        row.createCell(23).setCellValue(feeVersionDto.getMemoLine());
-                        row.createCell(24).setCellValue(getStatus(feeVersionDto));
-                        row.createCell(25).setCellValue(feeVersionDto.getNaturalAccountCode());
+                                (null != feeVersionDtoList.get(0).getValidTo()) ? df.format(feeVersionDtoList.get(0).getValidTo()) : "");
+                        row.createCell(23).setCellValue(feeVersionDtoList.get(0).getMemoLine());
+                        row.createCell(24).setCellValue(getStatus(feeVersionDtoList.get(0)));
+                        row.createCell(25).setCellValue(feeVersionDtoList.get(0).getNaturalAccountCode());
                         LOG.info("8");
                     }
-                    break;
                 }
-            }
-            break;
-        }
+//            }
+//        }
         for (int i = 0; i < cols.length; i++) {
             sheet.autoSizeColumn(i);
         }
