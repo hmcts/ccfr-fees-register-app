@@ -74,7 +74,8 @@ public class ReportController {
         } catch (Exception exception) {
             throw new FeesException(exception);
         } finally {
-            workbook.close();
+            if (null != workbook)
+                workbook.close();
         }
 
         /*try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
