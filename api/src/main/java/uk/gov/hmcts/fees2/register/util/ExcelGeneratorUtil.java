@@ -142,7 +142,7 @@ public final class ExcelGeneratorUtil {
         } */
     }
 
-    private static String getAmountType(final FeeVersionDto feeVersionDto) {
+    /*private static String getAmountType(final FeeVersionDto feeVersionDto) {
         if (null != feeVersionDto.getFlatAmount()) {
             return FLAT;
         } else if (null != feeVersionDto.getVolumeAmount()) {
@@ -161,6 +161,6 @@ public final class ExcelGeneratorUtil {
         } else {
             return LIVE_FEES;
         }
-    }
+    }*/
 
 }
