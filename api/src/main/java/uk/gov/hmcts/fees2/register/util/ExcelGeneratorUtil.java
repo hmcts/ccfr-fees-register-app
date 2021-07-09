@@ -59,7 +59,14 @@ public final class ExcelGeneratorUtil {
     private static void buildReport(final List<Fee2Dto> fee2DtoList, final String[] cols,
                                     final Sheet sheet,
                                     final CellStyle headerCellStyle, final Row headerRow) {
-
+        final Row row = sheet.createRow(1);
+        row.createCell(0).setCellValue("AAA");
+        for (int col = 0; col < cols.length; col++) {
+            final Cell cell = headerRow.createCell(col);
+            cell.setCellValue(cols[col]);
+            cell.setCellStyle(headerCellStyle);
+        }
+/*
         int rowIdx = 1;
 
         final DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
@@ -132,7 +139,7 @@ public final class ExcelGeneratorUtil {
         }
         for (int i = 0; i < cols.length; i++) {
             sheet.autoSizeColumn(i);
-        }
+        } */
     }
 
     private static String getAmountType(final FeeVersionDto feeVersionDto) {

@@ -58,7 +58,7 @@ public class ReportControllerMockTest {
 
     }
 
-   /* @Test
+    @Test
     public void testDownloadReport() throws Exception {
 
         final List<Fee> reportDataList = new ArrayList<>();
@@ -79,6 +79,6 @@ public class ReportControllerMockTest {
 
         resultActions.andReturn().getResponse().getContentLength();
 
-    }*/
+    }
 
 }

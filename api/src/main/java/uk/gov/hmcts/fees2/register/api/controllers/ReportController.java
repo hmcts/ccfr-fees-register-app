@@ -60,25 +60,8 @@ public class ReportController {
         byte[] reportBytes = null;
 
         HSSFWorkbook workbook = null;
-        try {
-        workbook = new HSSFWorkbook();
-        workbook.createSheet("Test");
-        final HttpHeaders headers = new HttpHeaders();
 
-
-            headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
-
-            response.setHeader("Content-Disposition", "attachment; filename=Fee_Register_");
-
-            return new ResponseEntity<>(reportBytes, headers, HttpStatus.OK);
-        } catch (Exception exception) {
-            throw new FeesException(exception);
-        } finally {
-            if (null != workbook)
-                workbook.close();
-        }
-
-        /*try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 
             final SearchFeeDto searchFeeDto = new SearchFeeDto();
             searchFeeDto.setIsDraft(false);
@@ -114,7 +97,7 @@ public class ReportController {
 
         } catch (final Exception ex) {
             throw new FeesException(ex);
-        }*/
+        }
     }
 
 }
