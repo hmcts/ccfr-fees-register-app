@@ -54,7 +54,7 @@ public class ExcelGeneratorUtilTest {
 
         // Verify record values
         assertEquals("AAA", actual.getSheetAt(0).getRow(1).getCell(0).getStringCellValue());
-        /*assertEquals("GGG", actual.getSheetAt(0).getRow(1).getCell(1).getStringCellValue());
+        assertEquals("GGG", actual.getSheetAt(0).getRow(1).getCell(1).getStringCellValue());
         assertEquals("£111", actual.getSheetAt(0).getRow(1).getCell(2).getStringCellValue());
         assertEquals("OOO", actual.getSheetAt(0).getRow(1).getCell(3).getStringCellValue());
         assertEquals("NNN", actual.getSheetAt(0).getRow(1).getCell(4).getStringCellValue());
@@ -77,7 +77,7 @@ public class ExcelGeneratorUtilTest {
         assertEquals("06 June 2021", actual.getSheetAt(0).getRow(1).getCell(22).getStringCellValue());
         assertEquals("JJJ", actual.getSheetAt(0).getRow(1).getCell(23).getStringCellValue());
         assertEquals("Discontinued fees", actual.getSheetAt(0).getRow(1).getCell(24).getStringCellValue());
-        assertEquals("KKK", actual.getSheetAt(0).getRow(1).getCell(25).getStringCellValue());*/
+        assertEquals("KKK", actual.getSheetAt(0).getRow(1).getCell(25).getStringCellValue());
     }
 
 }

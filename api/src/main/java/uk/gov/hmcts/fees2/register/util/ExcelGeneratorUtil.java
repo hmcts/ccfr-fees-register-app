@@ -2,6 +2,8 @@ package uk.gov.hmcts.fees2.register.util;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.FeesException;
@@ -15,7 +17,7 @@ import java.util.List;
 import static org.apache.poi.ss.usermodel.IndexedColors.BLACK;
 
 public final class ExcelGeneratorUtil {
-
+    private static final Logger LOG = LoggerFactory.getLogger(ExcelGeneratorUtil.class);
     private static final String FLAT = "Flat";
     private static final String VOLUME = "Volume";
     private static final String PERCENTAGE = "Percentage";
@@ -59,14 +61,7 @@ public final class ExcelGeneratorUtil {
     private static void buildReport(final List<Fee2Dto> fee2DtoList, final String[] cols,
                                     final Sheet sheet,
                                     final CellStyle headerCellStyle, final Row headerRow) {
-        final Row row = sheet.createRow(1);
-        row.createCell(0).setCellValue("AAA");
-        for (int col = 0; col < cols.length; col++) {
-            final Cell cell = headerRow.createCell(col);
-            cell.setCellValue(cols[col]);
-            cell.setCellStyle(headerCellStyle);
-        }
-/*
+
         int rowIdx = 1;
 
         final DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
@@ -79,6 +74,7 @@ public final class ExcelGeneratorUtil {
 
         for (final Fee2Dto fee2Dto : fee2DtoList) {
 
+            LOG.info("1");
             if (null != fee2Dto) {
 
                 final Row row = sheet.createRow(rowIdx++);
@@ -87,9 +83,11 @@ public final class ExcelGeneratorUtil {
 
                 for (final FeeVersionDto feeVersionDto : feeVersionDtoList) {
 
+                    LOG.info("2");
                     if (null != feeVersionDto &&
                             FeeVersionStatus.approved.name().equals(feeVersionDto.getStatus().name())) {
 
+                        LOG.info("3");
                         row.createCell(0).setCellValue(fee2Dto.getCode());
                         row.createCell(1).setCellValue(feeVersionDto.getDescription());
                         row.createCell(2).setCellValue(
@@ -100,6 +98,7 @@ public final class ExcelGeneratorUtil {
                                 .setCellValue(null != feeVersionDto.getSiRefId() ? feeVersionDto.getSiRefId() : "");
                         row.createCell(5).setCellValue(
                                 null != feeVersionDto.getFeeOrderName() ? feeVersionDto.getFeeOrderName() : "");
+                        LOG.info("4");
                         row.createCell(6).setCellValue(fee2Dto.getServiceTypeDto().getName());
                         row.createCell(7).setCellValue(fee2Dto.getJurisdiction1Dto().getName());
                         row.createCell(8).setCellValue(fee2Dto.getJurisdiction2Dto().getName());
@@ -107,6 +106,7 @@ public final class ExcelGeneratorUtil {
                                 null != fee2Dto.getEventTypeDto() ? fee2Dto.getEventTypeDto().getName() : "");
                         row.createCell(10)
                                 .setCellValue(null != fee2Dto.getMinRange() ? fee2Dto.getMinRange().toString() : "");
+                        LOG.info("5");
                         row.createCell(11)
                                 .setCellValue(null != fee2Dto.getMaxRange() ? fee2Dto.getMaxRange().toString() : "");
                         row.createCell(12).setCellValue(fee2Dto.getRangeUnit());
@@ -115,6 +115,7 @@ public final class ExcelGeneratorUtil {
                         row.createCell(15).setCellValue(
                                 null != feeVersionDto.getPercentageAmount() ? feeVersionDto.getPercentageAmount()
                                         .toString() : "");
+                        LOG.info("6");
                         row.createCell(16)
                                 .setCellValue(null != fee2Dto.getChannelTypeDto() ? fee2Dto.getChannelTypeDto()
                                         .getName() : "");
@@ -126,6 +127,7 @@ public final class ExcelGeneratorUtil {
                         row.createCell(19).setCellValue(feeVersionDto.getVersion());
                         row.createCell(20)
                                 .setCellValue(null != feeVersionDto.getDirection() ? feeVersionDto.getDirection() : "");
+                        LOG.info("7");
                         row.createCell(21).setCellValue(
                                 (null != feeVersionDto.getValidFrom()) ? df.format(feeVersionDto.getValidFrom()) : "");
                         row.createCell(22).setCellValue(
@@ -133,16 +135,19 @@ public final class ExcelGeneratorUtil {
                         row.createCell(23).setCellValue(feeVersionDto.getMemoLine());
                         row.createCell(24).setCellValue(getStatus(feeVersionDto));
                         row.createCell(25).setCellValue(feeVersionDto.getNaturalAccountCode());
+                        LOG.info("8");
                     }
+                    break;
                 }
             }
+            break;
         }
         for (int i = 0; i < cols.length; i++) {
             sheet.autoSizeColumn(i);
-        } */
+        }
     }
 
-    /*private static String getAmountType(final FeeVersionDto feeVersionDto) {
+    private static String getAmountType(final FeeVersionDto feeVersionDto) {
         if (null != feeVersionDto.getFlatAmount()) {
             return FLAT;
         } else if (null != feeVersionDto.getVolumeAmount()) {
@@ -161,6 +166,6 @@ public final class ExcelGeneratorUtil {
         } else {
             return LIVE_FEES;
         }
-    }*/
+    }
 
 }
