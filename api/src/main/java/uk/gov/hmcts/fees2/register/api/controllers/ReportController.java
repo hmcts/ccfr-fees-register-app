@@ -22,6 +22,7 @@ import uk.gov.hmcts.fees2.register.util.ExcelGeneratorUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -52,23 +53,29 @@ public class ReportController {
     })
     @GetMapping("/report/download")
     public ResponseEntity<byte[]> downloadReport(
-            final HttpServletResponse response) {
+            final HttpServletResponse response) throws IOException {
 
         LOG.info("Retrieving Fees");
 
         byte[] reportBytes = null;
 
         HSSFWorkbook workbook = null;
-
+        try {
         workbook = new HSSFWorkbook();
         workbook.createSheet("Test");
         final HttpHeaders headers = new HttpHeaders();
 
-        headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
 
-        response.setHeader("Content-Disposition", "attachment; filename=Fee_Register_");
+            headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
 
-        return new ResponseEntity<>(reportBytes, headers, HttpStatus.OK);
+            response.setHeader("Content-Disposition", "attachment; filename=Fee_Register_");
+
+            return new ResponseEntity<>(reportBytes, headers, HttpStatus.OK);
+        } catch (Exception exception) {
+            throw new FeesException(exception);
+        } finally {
+            workbook.close();
+        }
 
         /*try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 
