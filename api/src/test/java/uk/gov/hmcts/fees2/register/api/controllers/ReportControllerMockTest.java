@@ -43,7 +43,7 @@ public class ReportControllerMockTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(reportController).build();
     }
 
-    /*@Test
+    @Test
     public void testDownloadReportBlank() throws Exception {
 
         final ResultActions resultActions = mockMvc.perform(get("/report/download")
@@ -56,7 +56,7 @@ public class ReportControllerMockTest {
 
         resultActions.andReturn().getResponse().getContentLength();
 
-    }*/
+    }
 
     @Test
     public void testDownloadReport() throws Exception {

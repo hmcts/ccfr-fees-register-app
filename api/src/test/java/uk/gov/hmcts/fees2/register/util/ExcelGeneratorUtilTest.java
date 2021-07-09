@@ -21,7 +21,7 @@ public class ExcelGeneratorUtilTest {
 
         final Workbook actual = ExcelGeneratorUtil.exportToExcel(reportDataList);
 
-        assertEquals("Sheet0", actual.getSheetAt(0).getSheetName());
+        assertEquals("Sheet1", actual.getSheetAt(0).getSheetName());
         assertEquals(1, actual.getSheetAt(0).getLastRowNum());
 
         // Verify Column headers
@@ -51,6 +51,20 @@ public class ExcelGeneratorUtilTest {
         assertEquals("Memo", actual.getSheetAt(0).getRow(0).getCell(23).getStringCellValue());
         assertEquals("Status", actual.getSheetAt(0).getRow(0).getCell(24).getStringCellValue());
         assertEquals("Natural Account Code", actual.getSheetAt(0).getRow(0).getCell(25).getStringCellValue());
+
+    }
+
+    @Test
+    public void testExportToExcelRecords() throws ParseException {
+
+        final List<Fee2Dto> reportDataList = new ArrayList<>();
+
+        reportDataList.add(UtilityTest.buildFee2Dto());
+
+        final Workbook actual = ExcelGeneratorUtil.exportToExcel(reportDataList);
+
+        assertEquals("Sheet1", actual.getSheetAt(0).getSheetName());
+        assertEquals(1, actual.getSheetAt(0).getLastRowNum());
 
         // Verify record values
         assertEquals("AAA", actual.getSheetAt(0).getRow(1).getCell(0).getStringCellValue());

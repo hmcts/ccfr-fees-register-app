@@ -2,8 +2,6 @@ package uk.gov.hmcts.fees2.register.util;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.FeesException;
@@ -17,7 +15,11 @@ import java.util.List;
 import static org.apache.poi.ss.usermodel.IndexedColors.BLACK;
 
 public final class ExcelGeneratorUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(ExcelGeneratorUtil.class);
+
+    private ExcelGeneratorUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     private static final String FLAT = "Flat";
     private static final String VOLUME = "Volume";
     private static final String PERCENTAGE = "Percentage";
@@ -33,7 +35,7 @@ public final class ExcelGeneratorUtil {
         try (final Workbook workbook = new HSSFWorkbook()) {
             final CreationHelper createHelper = workbook.getCreationHelper();
 
-            final Sheet sheet = workbook.createSheet();
+            final Sheet sheet = workbook.createSheet("Sheet1");
 
             final Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -132,9 +134,6 @@ public final class ExcelGeneratorUtil {
                 }
             }
         }
-        /*for (int i = 0; i < cols.length; i++) {
-            sheet.autoSizeColumn(i);
-        }*/
     }
 
     private static String getAmountType(final FeeVersionDto feeVersionDto) {
