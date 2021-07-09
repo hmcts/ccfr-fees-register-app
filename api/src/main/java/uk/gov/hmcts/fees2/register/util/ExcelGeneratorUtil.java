@@ -140,9 +140,9 @@ public final class ExcelGeneratorUtil {
                 }
 //            }
 //        }
-        for (int i = 0; i < cols.length; i++) {
+        /*for (int i = 0; i < cols.length; i++) {
             sheet.autoSizeColumn(i);
-        }
+        }*/
     }
 
     private static String getAmountType(final FeeVersionDto feeVersionDto) {
