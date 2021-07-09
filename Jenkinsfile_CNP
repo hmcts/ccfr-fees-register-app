@@ -81,7 +81,10 @@ withPipeline(type, product, app) {
 
     }
     disableLegacyDeployment()
-    enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
+    
+    onMaster() {
+        enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
+    }
 
     //Sync demo,ithc and perftest with master branch
     syncBranchesWithMaster(branchesToSync)
