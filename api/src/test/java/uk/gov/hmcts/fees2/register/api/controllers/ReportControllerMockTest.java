@@ -54,8 +54,6 @@ public class ReportControllerMockTest {
         Assert.assertTrue(resultActions.andReturn().getResponse().getHeaderValue("Content-Disposition").toString()
                 .startsWith("attachment; filename=Fee_Register_"));
 
-        resultActions.andReturn().getResponse().getContentLength();
-
     }
 
     @Test
@@ -65,9 +63,9 @@ public class ReportControllerMockTest {
 
         reportDataList.add(UtilityTest.buildFixedFee());
 
-        when(feeSearchService.search(any(SearchFeeDto.class)))
-                .thenReturn(reportDataList);
+        when(feeDtoMapper.toFeeDto(any(Fee.class))).thenReturn(UtilityTest.buildFee2Dto());
 
+        when(feeSearchService.search(any(SearchFeeDto.class))).thenReturn(reportDataList);
 
         final ResultActions resultActions = mockMvc.perform(get("/report/download")
                 .accept(MediaType.APPLICATION_JSON));
@@ -77,7 +75,7 @@ public class ReportControllerMockTest {
         Assert.assertTrue(resultActions.andReturn().getResponse().getHeaderValue("Content-Disposition").toString()
                 .startsWith("attachment; filename=Fee_Register_"));
 
-        resultActions.andReturn().getResponse().getContentLength();
+        Assert.assertTrue(resultActions.andReturn().getResponse().getOutputStream().isReady());
 
     }
 
