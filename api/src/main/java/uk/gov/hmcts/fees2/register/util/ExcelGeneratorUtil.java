@@ -110,7 +110,7 @@ public final class ExcelGeneratorUtil {
                         row.createCell(13).setCellValue(fee2Dto.getFeeType());
                         row.createCell(14).setCellValue(getAmountType(feeVersionDto));
                         row.createCell(15).setCellValue(
-                                null != feeVersionDto.getPercentageAmount() ? feeVersionDto.getPercentageAmount()
+                                null != feeVersionDto.getPercentageAmount() ? feeVersionDto.getPercentageAmount().getPercentage()
                                         .toString() : "");
                         row.createCell(16)
                                 .setCellValue(null != fee2Dto.getChannelTypeDto() ? fee2Dto.getChannelTypeDto()

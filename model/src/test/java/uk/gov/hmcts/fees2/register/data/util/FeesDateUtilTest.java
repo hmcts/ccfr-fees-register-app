@@ -51,13 +51,13 @@ public class FeesDateUtilTest {
     @Test
     public void testDateToLocalDateTime() {
         final LocalDateTime localDateTime = FeesDateUtil.dateToLocalDateTime(date);
-        assertThat(localDateTime.toString()).isEqualTo("2021-01-10T00:00");
+        assertThat(localDateTime).hasToString("2021-01-10T00:00");
     }
 
     @Test
     public void testDateToLocalDateTimeNull() {
         final LocalDateTime localDateTime = FeesDateUtil.dateToLocalDateTime(null);
-        assertThat(localDateTime.toString()).isEqualTo("1970-01-01T00:00");
+        assertThat(localDateTime).hasToString("1970-01-01T00:00");
     }
 
     @Test

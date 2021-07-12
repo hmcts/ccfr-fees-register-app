@@ -120,7 +120,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     @Override
     @Transactional
     public void changeStatus(final String feeCode, final Integer version, final FeeVersionStatus newStatus, final String user) {
-        final FeeVersion feeVersion = getFeeVersion(feeCode, version, newStatus, user);
+        getFeeVersion(feeCode, version, newStatus, user);
     }
 
     @Override

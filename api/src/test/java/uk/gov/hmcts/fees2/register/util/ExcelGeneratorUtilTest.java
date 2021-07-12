@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class ExcelGeneratorUtilTest {
 
     @Test
-    public void testExportToExcel() throws ParseException {
+    public void testExportToExcelSheetDetails() throws ParseException {
 
         final List<Fee2Dto> reportDataList = new ArrayList<>();
 
@@ -26,6 +26,18 @@ public class ExcelGeneratorUtilTest {
 
         // Verify Column headers
         assertEquals("Code", actual.getSheetAt(0).getRow(0).getCell(0).getStringCellValue());
+    }
+
+    @Test
+    public void testExportToExcelCellContents() throws ParseException {
+
+        final List<Fee2Dto> reportDataList = new ArrayList<>();
+
+        reportDataList.add(UtilityTest.buildFee2Dto());
+
+        final Workbook actual = ExcelGeneratorUtil.exportToExcel(reportDataList);
+
+        // Verify Column headers
         assertEquals("Description", actual.getSheetAt(0).getRow(0).getCell(1).getStringCellValue());
         assertEquals("Amount", actual.getSheetAt(0).getRow(0).getCell(2).getStringCellValue());
         assertEquals("Statutory Instrument", actual.getSheetAt(0).getRow(0).getCell(3).getStringCellValue());
@@ -54,8 +66,9 @@ public class ExcelGeneratorUtilTest {
 
     }
 
+
     @Test
-    public void testExportToExcelRecords() throws ParseException {
+    public void testExportToExcelDateRecords() throws ParseException {
 
         final List<Fee2Dto> reportDataList = new ArrayList<>();
 
@@ -63,8 +76,18 @@ public class ExcelGeneratorUtilTest {
 
         final Workbook actual = ExcelGeneratorUtil.exportToExcel(reportDataList);
 
-        assertEquals("Sheet1", actual.getSheetAt(0).getSheetName());
-        assertEquals(1, actual.getSheetAt(0).getLastRowNum());
+        assertEquals("05 May 2021", actual.getSheetAt(0).getRow(1).getCell(21).getStringCellValue());
+        assertEquals("06 June 2021", actual.getSheetAt(0).getRow(1).getCell(22).getStringCellValue());
+    }
+
+        @Test
+    public void testExportToExcelRecords() throws ParseException {
+
+        final List<Fee2Dto> reportDataList = new ArrayList<>();
+
+        reportDataList.add(UtilityTest.buildFee2Dto());
+
+        final Workbook actual = ExcelGeneratorUtil.exportToExcel(reportDataList);
 
         // Verify record values
         assertEquals("AAA", actual.getSheetAt(0).getRow(1).getCell(0).getStringCellValue());
@@ -82,13 +105,12 @@ public class ExcelGeneratorUtilTest {
         assertEquals("TTT", actual.getSheetAt(0).getRow(1).getCell(12).getStringCellValue());
         assertEquals("DDD", actual.getSheetAt(0).getRow(1).getCell(13).getStringCellValue());
         assertEquals("Flat", actual.getSheetAt(0).getRow(1).getCell(14).getStringCellValue());
+        assertEquals("222", actual.getSheetAt(0).getRow(1).getCell(15).getStringCellValue());
         assertEquals("CCC", actual.getSheetAt(0).getRow(1).getCell(16).getStringCellValue());
         assertEquals("SSS", actual.getSheetAt(0).getRow(1).getCell(17).getStringCellValue());
         assertEquals("BBB", actual.getSheetAt(0).getRow(1).getCell(18).getStringCellValue());
         assertEquals(1, actual.getSheetAt(0).getRow(1).getCell(19).getNumericCellValue(), 0);
         assertEquals("HHH", actual.getSheetAt(0).getRow(1).getCell(20).getStringCellValue());
-        assertEquals("05 May 2021", actual.getSheetAt(0).getRow(1).getCell(21).getStringCellValue());
-        assertEquals("06 June 2021", actual.getSheetAt(0).getRow(1).getCell(22).getStringCellValue());
         assertEquals("JJJ", actual.getSheetAt(0).getRow(1).getCell(23).getStringCellValue());
         assertEquals("Discontinued fees", actual.getSheetAt(0).getRow(1).getCell(24).getStringCellValue());
         assertEquals("KKK", actual.getSheetAt(0).getRow(1).getCell(25).getStringCellValue());
