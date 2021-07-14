@@ -13,10 +13,10 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
       - SPRING_DATASOURCE_USERNAME=fees_register
-      - SPRING_DATASOURCE_PASSWORD=fees_register
+      - SPRING_DATASOURCE_PASSWORD=dummy
       - auth.idam.client.baseUrl=http://idam-api:5000
     ports:
-     - 8182:8080
+      - 8182:8080
     depends_on:
       - fees-database
 
@@ -25,7 +25,7 @@ services:
     image: postgres:11-alpine
     environment:
       - POSTGRES_USER=fees_register
-      - POSTGRES_PASSWORD=fees_register
+      - POSTGRES_PASSWORD=dummy
       - POSTGRES_DB=fees_register
     ports:
       - 5182:5432
@@ -55,7 +55,7 @@ services:
       - 5445:5432
     environment:
       - POSTGRES_USER=openidm
-      - POSTGRES_PASSWORD=openidm
+      - POSTGRES_PASSWORD=dummy
       - POSTGRES_DB=openidm
 
   smtp-server:
@@ -80,19 +80,19 @@ services:
       - SPRING_PROFILES_ACTIVE=local
       - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-db:5432/openidm?currentSchema=fridam
       - SPRING_DATASOURCE_USERNAME=openidm
-      - SPRING_DATASOURCE_PASSWORD=openidm
-      - SECURITY_OAUTH2_CLIENT_CLIENTSECRET=password
+      - SPRING_DATASOURCE_PASSWORD=dummy
+      - SECURITY_OAUTH2_CLIENT_CLIENTSECRET=dummy
       - SECURITY_OAUTH2_CLIENT_PRE_ESTABLISHED_REDIRECT_URI=http://idam-web-public:9002/login
       - SECURITY_OAUTH2_CLIENT_REGISTERED_REDIRECT_URI=http://idam-web-public:9002/login
       - IDAM_SPI_FORGEROCK_AM_ROOT=http://fr-am:8080/openam
       - IDAM_SPI_FORGEROCK_AM_TOPLEVELHOST=fr-am
       - IDAM_SPI_FORGEROCK_AM_USERNAME=amadmin
-      - IDAM_SPI_FORGEROCK_AM_PASSWORD=Pa55word11
+      - IDAM_SPI_FORGEROCK_AM_PASSWORD=dummy
       - IDAM_SPI_FORGEROCK_AM_JWKSURIFOROAUTH2CLIENTS=http://fr-am:8080/openam/oauth2/hmcts/connect/jwk_uri
       - IDAM_SPI_FORGEROCK_IDM_ROOT=http://fr-idm:18080/openidm
       - IDAM_SPI_FORGEROCK_IDM_USERNAME=openidm-admin
-      - IDAM_SPI_FORGEROCK_IDM_PASSWORD=openidm-admin
-      - IDAM_SPI_FORGEROCK_IDM_PIN_DEFAULTPASSWORD=BlaBlaBlackSh33p
+      - IDAM_SPI_FORGEROCK_IDM_PASSWORD=dummy
+      - IDAM_SPI_FORGEROCK_IDM_PIN_DEFAULTPASSWORD=dummy
       - APPSETTING_NODE_PATH=/opt/app
   idam-web-public:
     image: hmctspublic.azurecr.io/idam/web-public:stable
