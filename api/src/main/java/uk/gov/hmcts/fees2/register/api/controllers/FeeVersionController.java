@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
+import uk.gov.hmcts.fees2.register.api.contract.ReasonDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
-import uk.gov.hmcts.fees2.register.util.SecurityUtil;
 
 import java.security.Principal;
 
@@ -36,35 +33,35 @@ public class FeeVersionController {
     private final FeeDtoMapper mapper;
 
     @Autowired
-    public FeeVersionController(FeeVersionService feeVersionService, FeeDtoMapper mapper) {
+    public FeeVersionController(final FeeVersionService feeVersionService, final FeeDtoMapper mapper) {
         this.feeVersionService = feeVersionService;
         this.mapper = mapper;
     }
 
     @ApiOperation(value = "Deletes a fee version for the given fee code if its on draft state")
     @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "Successfully deleted the fee version for the given fee code."),
+            @ApiResponse(code = 204, message = "Successfully deleted the fee version for the given fee code."),
     })
     @DeleteMapping("/fees/{code}/versions/{version}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFeeVersion(
-        @PathVariable("code") String code,
-        @PathVariable("version") Integer version) {
+            @PathVariable("code") final String code,
+            @PathVariable("version") final Integer version) {
         feeVersionService.deleteDraftVersion(code, version);
     }
 
     @ApiOperation(value = "Create fee version")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+            @ApiResponse(code = 403, message = "Forbidden")
     })
     @PostMapping("/fees/{feeCode}/versions")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createVersion(@PathVariable("feeCode") String feeCode,
+    public void createVersion(@PathVariable("feeCode") final String feeCode,
                               @RequestBody @Validated final FeeVersionDto request,
-                              Principal principal) {
-        Integer newVersion = feeVersionService.getMaxFeeVersion(feeCode);
+                              final Principal principal) {
+        final Integer newVersion = feeVersionService.getMaxFeeVersion(feeCode);
         request.setVersion(newVersion + 1);
 
         feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
@@ -72,54 +69,67 @@ public class FeeVersionController {
 
     @ApiOperation(value = "Edit a fee version for the given fee code")
     @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "Successfully edited the fee version for the given fee code."),
+            @ApiResponse(code = 204, message = "Successfully edited the fee version for the given fee code."),
     })
 
     @PutMapping("/fees/{code}/versions/{version}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void editFeeVersion(
-        @PathVariable("code") String code,
-        @PathVariable("version") Integer version,
-        @RequestBody @Validated final FeeVersionDto request) {
-        var feeVersion =feeVersionService.getFeeVersion(code,version);
-        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request,feeVersion));
+            @PathVariable("code") final String code,
+            @PathVariable("version") final Integer version,
+            @RequestBody @Validated final FeeVersionDto request) {
+        final var feeVersion = feeVersionService.getFeeVersion(code, version);
+        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request, feeVersion));
     }
 
     @ApiOperation(value = "Approve a fee version")
     @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "Fee version is Approved"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+            @ApiResponse(code = 204, message = "Fee version is Approved"),
+            @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+            @ApiResponse(code = 403, message = "Forbidden")
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approve(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version, Principal principal) {
-        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.approved, ofNullable(principal)
-            .map(p -> p.getName())
-            .orElse(null));
+    public void approve(@PathVariable("feeCode") final String feeCode, @PathVariable("version") final Integer version,
+                        final Principal principal) {
+        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.approved, getUserName(principal));
     }
 
     @ApiOperation(value = "Reject a fee version")
     @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "Fee version is Rejected"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+            @ApiResponse(code = 204, message = "Fee version is Rejected"),
+            @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+            @ApiResponse(code = 403, message = "Forbidden")
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void reject(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version) {
-        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, null);
+    public void reject(@PathVariable("feeCode") final String feeCode, @PathVariable("version") final Integer version,
+                       @RequestBody(required = false) final ReasonDto reasonDto, final Principal principal) {
+        if (null != reasonDto) {
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, getUserName(principal),
+                    (null != reasonDto.getReasonForReject()) ? Encode
+                            .forHtml(reasonDto.getReasonForReject()) : "");
+        } else {
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, getUserName(principal), null);
+        }
     }
 
     @ApiOperation(value = "Submit a fee version to approval")
     @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "Fee version is submitted to approval"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+            @ApiResponse(code = 204, message = "Fee version is submitted to approval"),
+            @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
+            @ApiResponse(code = 403, message = "Forbidden")
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/submit-for-review")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void submitForReview(@PathVariable("feeCode") String feeCode, @PathVariable("version") Integer version) {
+    public void submitForReview(@PathVariable("feeCode") final String feeCode,
+                                @PathVariable("version") final Integer version) {
         feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.pending_approval, null);
+    }
+
+    private String getUserName(final Principal principal) {
+        return ofNullable(principal)
+                .map(p -> p.getName())
+                .orElse(null);
     }
 }

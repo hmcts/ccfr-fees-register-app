@@ -28,10 +28,11 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     private final Fee2Repository feeRepository;
     private final DirectionTypeRepository directionTypeRepository;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     @Autowired
-    public FeeVersionServiceImpl(FeeVersionRepository feeVersionRepository, Fee2Repository feeRepository, DirectionTypeRepository directionTypeRepository) {
+    public FeeVersionServiceImpl(final FeeVersionRepository feeVersionRepository, final Fee2Repository feeRepository,
+                                 final DirectionTypeRepository directionTypeRepository) {
         this.feeVersionRepository = feeVersionRepository;
         this.feeRepository = feeRepository;
         this.directionTypeRepository = directionTypeRepository;
@@ -39,9 +40,9 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     @Transactional
-    public boolean approve(String code, Integer version, String name) {
+    public boolean approve(final String code, final Integer version, final String name) {
 
-        FeeVersion ver = feeVersionRepository.findByFee_CodeAndVersion(code, version);
+        final FeeVersion ver = feeVersionRepository.findByFee_CodeAndVersion(code, version);
 
         if (ver == null) {
             throw new FeeVersionNotFoundException(code);
@@ -56,9 +57,9 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     @Transactional
-    public boolean deleteDraftVersion(String feeCode, Integer version) {
+    public boolean deleteDraftVersion(final String feeCode, final Integer version) {
 
-        FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
+        final FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
 
         if (!feeVersion.getStatus().equals(FeeVersionStatus.draft)) {
             throw new BadRequestException("Non draft fee versions can not be deleted by this operation");
@@ -80,12 +81,12 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     }
 
     @Override
-    public List<FeeVersion> getFeesVersionByStatus(FeeVersionStatus feeVersionStatus) {
+    public List<FeeVersion> getFeesVersionByStatus(final FeeVersionStatus feeVersionStatus) {
         return feeVersionRepository.findByStatus(feeVersionStatus);
     }
 
     @Override
-    public List<FeeVersion> getDraftVersions(String author) {
+    public List<FeeVersion> getDraftVersions(final String author) {
         if (author == null) {
             return feeVersionRepository.findByStatus(FeeVersionStatus.draft);
         } else {
@@ -95,8 +96,8 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     @Transactional
-    public FeeVersion save(FeeVersion version, String feeCode) {
-        Fee fee = feeRepository.findByCodeOrThrow(feeCode);
+    public FeeVersion save(final FeeVersion version, final String feeCode) {
+        final Fee fee = feeRepository.findByCodeOrThrow(feeCode);
         version.setFee(fee);
         feeVersionRepository.save(version);
         return version;
@@ -105,21 +106,34 @@ public class FeeVersionServiceImpl implements FeeVersionService {
 
     @Override
     @Transactional
-    public FeeVersion saveFeeVersion(FeeVersion version) {
+    public FeeVersion saveFeeVersion(final FeeVersion version) {
         feeVersionRepository.save(version);
         return version;
     }
 
     @Override
     @Transactional
-    public FeeVersion getFeeVersion(String feeCode, Integer version) {
-        return  feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
+    public FeeVersion getFeeVersion(final String feeCode, final Integer version) {
+        return feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
     }
 
     @Override
     @Transactional
-    public void changeStatus(String feeCode, Integer version, FeeVersionStatus newStatus, String user) {
-        FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
+    public void changeStatus(final String feeCode, final Integer version, final FeeVersionStatus newStatus, final String user) {
+        getFeeVersion(feeCode, version, newStatus, user);
+    }
+
+    @Override
+    @Transactional
+    public void changeStatus(final String feeCode, final Integer version, final FeeVersionStatus newStatus, final String user, final String reason) {
+
+        final FeeVersion feeVersion = getFeeVersion(feeCode, version, newStatus, user);
+        feeVersion.setReasonForReject(reason);
+        feeVersion.setApprovedBy(user);
+    }
+
+    private FeeVersion getFeeVersion(final String feeCode, final Integer version, final FeeVersionStatus newStatus, final String user) {
+        final FeeVersion feeVersion = feeVersionRepository.findByFee_CodeAndVersion(feeCode, version);
 
         if (feeVersion.getStatus() == FeeVersionStatus.approved) {
             throw new BadRequestException("Approved fees cannot change their status");
@@ -137,24 +151,25 @@ public class FeeVersionServiceImpl implements FeeVersionService {
         }
 
         feeVersion.setStatus(newStatus);
+        return feeVersion;
     }
 
 
     @Override
-    public Integer getMaxFeeVersion(String feeCode) {
+    public Integer getMaxFeeVersion(final String feeCode) {
         return feeVersionRepository.getMaxFeeVersion(feeCode);
     }
 
-    private void setValidToOnPreviousFeeVersion(FeeVersion newFeeVersion) {
+    private void setValidToOnPreviousFeeVersion(final FeeVersion newFeeVersion) {
 
         if (newFeeVersion.getValidFrom() != null) {
 
-            FeeVersion currentVersion = newFeeVersion.getFee().getCurrentVersion(true);
+            final FeeVersion currentVersion = newFeeVersion.getFee().getCurrentVersion(true);
 
             if (currentVersion != null && currentVersion.getValidTo() == null) {
-                if(sdf.format(currentVersion.getValidFrom()).equals(sdf.format(newFeeVersion.getValidFrom()))){
+                if (sdf.format(currentVersion.getValidFrom()).equals(sdf.format(newFeeVersion.getValidFrom()))) {
                     currentVersion.setValidTo(newFeeVersion.getValidFrom());
-                }else {
+                } else {
                     currentVersion.setValidTo(FeesDateUtil.addPreviousDateEODTime(newFeeVersion.getValidFrom()));
                 }
             }
@@ -164,8 +179,9 @@ public class FeeVersionServiceImpl implements FeeVersionService {
     }
 
     @Override
-    public void updateVersion(String feeCode, Integer versionId, Integer newVersionId, BigDecimal amount, FeeVersion feeVersion) {
-        FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
+    public void updateVersion(final String feeCode, final Integer versionId, final Integer newVersionId, final BigDecimal amount,
+                              final FeeVersion feeVersion) {
+        final FeeVersion version = feeVersionRepository.findByFee_CodeAndVersion(feeCode, versionId);
 
         if (version != null) {
             if (newVersionId != null) {
@@ -173,7 +189,8 @@ public class FeeVersionServiceImpl implements FeeVersionService {
             }
             version.getAmount().setAmountValue(amount);
             version.setValidFrom(feeVersion.getValidFrom());
-            version.setDirectionType(directionTypeRepository.findByNameOrThrow(feeVersion.getDirectionType().getName().toLowerCase()));
+            version.setDirectionType(
+                    directionTypeRepository.findByNameOrThrow(feeVersion.getDirectionType().getName().toLowerCase()));
             version.setDescription(feeVersion.getDescription());
             version.setMemoLine(feeVersion.getMemoLine());
             version.setNaturalAccountCode(feeVersion.getNaturalAccountCode());

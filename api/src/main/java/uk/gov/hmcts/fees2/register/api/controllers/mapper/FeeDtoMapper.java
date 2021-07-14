@@ -63,6 +63,7 @@ public class FeeDtoMapper {
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
+        version.setReasonForUpdate(request.getVersion().getReasonForUpdate());
         fee.setFeeVersions(Arrays.asList(version));
         fee.setKeyword(request.getKeyword());
     }
@@ -241,6 +242,8 @@ public class FeeDtoMapper {
         feeVersionDto.setVersion(feeVersion.getVersion());
         feeVersionDto.setStatus(FeeVersionStatusDto.valueOf(feeVersion.getStatus().name()));
         feeVersionDto.setDescription(feeVersion.getDescription());
+        feeVersionDto.setReasonForUpdate(feeVersion.getReasonForUpdate());
+        feeVersionDto.setReasonForReject(feeVersion.getReasonForReject());
 
         feeVersionDto.setMemoLine(feeVersion.getMemoLine());
         if (feeVersion.getDirectionType() != null) {
