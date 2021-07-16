@@ -192,6 +192,7 @@ public class FeeDtoMapper {
         version.setNaturalAccountCode(versionDto.getNaturalAccountCode());
         version.setStatutoryInstrument(versionDto.getStatutoryInstrument());
         version.setSiRefId(versionDto.getSiRefId());
+        version.setReasonForUpdate(versionDto.getReasonForUpdate());
         fillDirectionType(version, versionDto.getDirection());
 
 
@@ -395,6 +396,7 @@ public class FeeDtoMapper {
         feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
         feeVersion.setSiRefId(request.getSiRefId());
         feeVersion.setDirectionType(DirectionType.directionWith().name(request.getDirection()).build());
+        feeVersion.setReasonForUpdate(request.getReasonForUpdate());
         return feeVersion;
     }
 }
