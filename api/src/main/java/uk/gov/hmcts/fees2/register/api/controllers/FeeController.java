@@ -72,6 +72,7 @@ public class FeeController {
         HttpServletResponse response,
         Principal principal) {
 
+        Encode.forHtml(request.getVersion().getReasonForUpdate());
         Fee fee = feeService.save(
             feeDtoMapper.toFee(request, principal != null ? principal.getName() : null)
         );
@@ -95,6 +96,7 @@ public class FeeController {
                                 @RequestBody @Validated final RangedFeeDto request,
                                 HttpServletResponse response,
                                 Principal principal) {
+        Encode.forHtml(request.getVersion().getReasonForUpdate());
         RangedFee fee = (RangedFee) feeService.get(code);
         feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
     }
@@ -113,6 +115,7 @@ public class FeeController {
                                @RequestBody @Validated final FixedFeeDto request,
                                HttpServletResponse response,
                                Principal principal) {
+        Encode.forHtml(request.getVersion().getReasonForUpdate());
         FixedFee fee = (FixedFee) feeService.get(code);
         feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
     }
@@ -130,6 +133,7 @@ public class FeeController {
                                HttpServletResponse response,
                                Principal principal) {
 
+        Encode.forHtml(request.getVersion().getReasonForUpdate());
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
         fee = feeService.save(fee);
@@ -151,6 +155,7 @@ public class FeeController {
                                   HttpServletResponse response,
                                   Principal principal) {
 
+        Encode.forHtml(request.getVersion().getReasonForUpdate());
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
         fee = feeService.save(fee);
@@ -173,6 +178,7 @@ public class FeeController {
                                     HttpServletResponse response,
                                     Principal principal) {
 
+        Encode.forHtml(request.getVersion().getReasonForUpdate());
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
         fee = feeService.save(fee);
@@ -194,6 +200,7 @@ public class FeeController {
                                 HttpServletResponse response,
                                 Principal principal) {
 
+        Encode.forHtml(request.getVersion().getReasonForUpdate());
         Fee fee = feeDtoMapper.toFee(request, principal != null ? principal.getName() : null);
 
         fee = feeService.save(fee);

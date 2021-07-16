@@ -108,7 +108,8 @@ public class FeeTestFixtures {
             "  \"si_ref_id\": \"string\",\n" +
             "  \"natural_account_code\": \"string\",\n" +
             "  \"fee_order_name\": \"string\",\n" +
-            "  \"direction\": \"string\"\n" +
+            "  \"direction\": \"string\",\n" +
+            "  \"reason_for_update\": \"string\"\n" +
             "}";
     }
 

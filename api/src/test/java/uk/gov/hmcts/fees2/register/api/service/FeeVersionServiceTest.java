@@ -246,4 +246,31 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
         return calendar.getTime();
     }
 
+    @Test
+    @Transactional
+    public synchronized void testThatWhenReasonProvidedFeeRejected() throws Exception{
+
+        Date date = new Date(System.currentTimeMillis() + 60000);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        RangedFeeDto dto = createDetailedFee();
+
+        FeeVersionDto versionDto = new FeeVersionDto();
+        versionDto.setVersion(2);
+        versionDto.setFlatAmount(new FlatAmountDto(BigDecimal.ONE));
+        versionDto.setStatus(FeeVersionStatusDto.pending_approval);
+        versionDto.setDirection("licence");
+        versionDto.setMemoLine("Hello");
+        versionDto.setValidFrom(date);
+
+        FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "sayali"), dto.getCode());
+
+        feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.draft, "sayali", "wrong data");
+
+        assertEquals(FeeVersionStatus.draft, v.getStatus());
+        assertEquals("wrong data", v.getReasonForReject());
+        assertEquals("sayali", v.getApprovedBy());
+
+        forceDeleteFee(dto.getCode());
+    }
+
 }

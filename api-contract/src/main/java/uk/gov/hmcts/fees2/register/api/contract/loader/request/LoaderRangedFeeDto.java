@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
 import java.math.BigDecimal;
 
@@ -24,7 +23,10 @@ public class LoaderRangedFeeDto extends LoaderFeeDto {
     @JsonProperty("range_unit")
     private String rangeUnit;
 
-    public LoaderRangedFeeDto(String code, String newCode, LoaderFeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, BigDecimal maxRange, BigDecimal minRange, String keyword) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false, keyword);
+    public LoaderRangedFeeDto(final String code, final String newCode, final LoaderFeeVersionDto version, final String jurisdiction1,
+                              final String jurisdiction2, final String service, final String channel, final String event, final String applicantType,
+                              final BigDecimal maxRange, final BigDecimal minRange, final String keyword) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false,
+                keyword);
     }
 }

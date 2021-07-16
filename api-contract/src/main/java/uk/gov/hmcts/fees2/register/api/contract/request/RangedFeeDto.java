@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
-public class RangedFeeDto extends FeeDto{
+public class RangedFeeDto extends FeeDto {
 
     @JsonProperty("min_range")
     private BigDecimal minRange;
@@ -24,8 +24,11 @@ public class RangedFeeDto extends FeeDto{
     private String rangeUnit;
 
     @Builder(builderMethodName = "rangedFeeDtoWith")
-    public RangedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, BigDecimal maxRange, BigDecimal minRange, String keyword) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false, keyword);
+    public RangedFeeDto(final String code, final String newCode, final FeeVersionDto version, final String jurisdiction1, final String jurisdiction2,
+                        final String service, final String channel, final String event, final String applicantType, final BigDecimal maxRange,
+                        final BigDecimal minRange, final String keyword) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false,
+                keyword);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }
@@ -34,7 +37,7 @@ public class RangedFeeDto extends FeeDto{
         return minRange;
     }
 
-    public RangedFeeDto setMinRange(BigDecimal minRange) {
+    public RangedFeeDto setMinRange(final BigDecimal minRange) {
         this.minRange = minRange;
         return this;
     }
@@ -43,50 +46,50 @@ public class RangedFeeDto extends FeeDto{
         return maxRange;
     }
 
-    public RangedFeeDto setMaxRange(BigDecimal maxRange) {
+    public RangedFeeDto setMaxRange(final BigDecimal maxRange) {
         this.maxRange = maxRange;
         return this;
     }
 
     /* --- */
 
-    public RangedFeeDto setCode(String code) {
+    public RangedFeeDto setCode(final String code) {
         this.code = code;
         return this;
     }
 
-    public RangedFeeDto setVersion(FeeVersionDto version) {
+    public RangedFeeDto setVersion(final FeeVersionDto version) {
         this.version = version;
         return this;
     }
 
-    public RangedFeeDto setJurisdiction1(String jurisdiction1) {
+    public RangedFeeDto setJurisdiction1(final String jurisdiction1) {
         this.jurisdiction1 = jurisdiction1;
         return this;
     }
 
-    public RangedFeeDto setJurisdiction2(String jurisdiction2) {
+    public RangedFeeDto setJurisdiction2(final String jurisdiction2) {
         this.jurisdiction2 = jurisdiction2;
         return this;
     }
 
-    public RangedFeeDto setService(String service) {
+    public RangedFeeDto setService(final String service) {
         this.service = service;
         return this;
     }
 
-    public RangedFeeDto setChannel(String channel) {
+    public RangedFeeDto setChannel(final String channel) {
         this.channel = channel;
         return this;
     }
 
 
-    public RangedFeeDto setEvent(String event) {
+    public RangedFeeDto setEvent(final String event) {
         this.event = event;
         return this;
     }
 
-    public RangedFeeDto setApplicant(String applicantType) {
+    public RangedFeeDto setApplicant(final String applicantType) {
         this.applicantType = applicantType;
         return this;
     }
@@ -95,12 +98,12 @@ public class RangedFeeDto extends FeeDto{
         return rangeUnit;
     }
 
-    public RangedFeeDto setRangeUnit(String rangeUnit) {
+    public RangedFeeDto setRangeUnit(final String rangeUnit) {
         this.rangeUnit = rangeUnit;
         return this;
     }
 
-    public RangedFeeDto setKeyword(String keyword) {
+    public RangedFeeDto setKeyword(final String keyword) {
         this.keyword = keyword;
         return this;
     }

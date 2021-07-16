@@ -11,65 +11,70 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class FixedFeeDto extends FeeDto{
+public class FixedFeeDto extends FeeDto {
 
     @Builder(builderMethodName = "fixedFeeDtoWith")
-    public FixedFeeDto(String code, String newCode, FeeVersionDto version, String jurisdiction1, String jurisdiction2, String service, String channel, String event, String applicantType, boolean unspecifiedClaimAmount, String keyword) {
-        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, unspecifiedClaimAmount, keyword);
+    public FixedFeeDto(final String code, final String newCode, final FeeVersionDto version, final String jurisdiction1,
+                       final String jurisdiction2,
+                       final String service, final String channel, final String event, final String applicantType,
+                       final boolean unspecifiedClaimAmount, final String keyword) {
+        super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType,
+                unspecifiedClaimAmount, keyword);
     }
 
-    public FixedFeeDto setCode(String code) {
+    public FixedFeeDto setCode(final String code) {
         this.code = code;
         return this;
     }
 
-    public FixedFeeDto setVersion(FeeVersionDto version) {
+    public FixedFeeDto setVersion(final FeeVersionDto version) {
         this.version = version;
         return this;
     }
 
-    public FixedFeeDto setJurisdiction1(String jurisdiction1) {
+    public FixedFeeDto setJurisdiction1(final String jurisdiction1) {
         this.jurisdiction1 = jurisdiction1;
         return this;
     }
 
-    public FixedFeeDto setJurisdiction2(String jurisdiction2) {
+    public FixedFeeDto setJurisdiction2(final String jurisdiction2) {
         this.jurisdiction2 = jurisdiction2;
         return this;
     }
 
-    public FixedFeeDto setService(String service) {
+    public FixedFeeDto setService(final String service) {
         this.service = service;
         return this;
     }
 
-    public FixedFeeDto setChannel(String channel) {
+    public FixedFeeDto setChannel(final String channel) {
         this.channel = channel;
         return this;
     }
 
 
-    public FixedFeeDto setEvent(String event) {
+    public FixedFeeDto setEvent(final String event) {
         this.event = event;
         return this;
     }
 
-    public FixedFeeDto setApplicantType(String applicantType) {
+    public FixedFeeDto setApplicantType(final String applicantType) {
         this.applicantType = applicantType;
         return this;
     }
 
 
+    @Override
     public Boolean getUnspecifiedClaimAmount() {
         return unspecifiedClaimAmount;
     }
 
-    public FixedFeeDto setUnspecifiedClaimAmount(Boolean unspecifiedClaimAmount) {
+    public FixedFeeDto setUnspecifiedClaimAmount(final Boolean unspecifiedClaimAmount) {
         this.unspecifiedClaimAmount = unspecifiedClaimAmount;
         return this;
     }
 
-    public FixedFeeDto setKeyword(String keyword) {
+    public FixedFeeDto setKeyword(final String keyword) {
         this.keyword = keyword;
         return this;
     }

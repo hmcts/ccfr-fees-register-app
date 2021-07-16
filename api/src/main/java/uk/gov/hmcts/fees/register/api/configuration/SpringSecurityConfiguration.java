@@ -20,46 +20,52 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private AuthCheckerUserOnlyFilter authCheckerFilter;
+    private final AuthCheckerUserOnlyFilter authCheckerFilter;
 
     @Autowired
-    public SpringSecurityConfiguration(RequestAuthorizer<User> userRequestAuthorizer,
-                                 AuthenticationManager authenticationManager) {
+    public SpringSecurityConfiguration(final RequestAuthorizer<User> userRequestAuthorizer,
+                                       final AuthenticationManager authenticationManager) {
         authCheckerFilter = new AuthCheckerUserOnlyFilter(userRequestAuthorizer);
         authCheckerFilter.setAuthenticationManager(authenticationManager);
     }
 
     @Override
-    public void configure(WebSecurity web) {
+    public void configure(final WebSecurity web) {
         web.ignoring().antMatchers("/swagger-ui.html",
-            "/webjars/springfox-swagger-ui/**",
-            "/swagger-resources/**",
-            "/v2/**",
-            "/health",
-            "/health/liveness",
-            "/health/readiness",
-            "/info");
+                "/webjars/springfox-swagger-ui/**",
+                "/swagger-resources/**",
+                "/v2/**",
+                "/health",
+                "/health/liveness",
+                "/health/readiness",
+                "/info");
     }
 
     @Override
     @SuppressFBWarnings(value = "SPRING_CSRF_PROTECTION_DISABLED", justification = "It's safe to disable CSRF protection as application is not being hit directly from the browser")
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         authCheckerFilter.setAuthenticationManager(authenticationManager());
 
         http
-            .addFilter(authCheckerFilter)
-            .sessionManagement().sessionCreationPolicy(STATELESS).and()
-            .csrf().disable()
-            .formLogin().disable()
-            .logout().disable()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.POST,"/fees-register/ranged-fees", "/fees-register/fixed-fees","/fees-register/banded-fees","/fees-register/relational-fees","/fees-register/rateable-fees", "/fees/**/versions").hasAnyAuthority("freg-editor")
-            .antMatchers(HttpMethod.POST, "/fees-register/bulk-fixed-fees").hasAuthority("freg-editor")
-            .antMatchers(HttpMethod.PUT, "/fees-register/ranged-fees/**", "/fees-register/fixed-fees/**","/fees-register/banded-fees/**","/fees-register/relational-fees/**","/fees-register/rateable-fees/**").hasAuthority("freg-editor")
-            .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/approve").hasAuthority("freg-approver")
-            .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/reject").hasAuthority("freg-approver")
-            .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/submit-for-review").hasAuthority("freg-editor")
-            .antMatchers(HttpMethod.DELETE, "/fees-register/fees/**", "/fees/**/versions/**").hasAnyAuthority("freg-editor", "freg-admin")
-            .antMatchers(HttpMethod.GET, "/fees-register/fees/**").permitAll();
+                .addFilter(authCheckerFilter)
+                .sessionManagement().sessionCreationPolicy(STATELESS).and()
+                .csrf().disable()
+                .formLogin().disable()
+                .logout().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/fees-register/ranged-fees", "/fees-register/fixed-fees",
+                        "/fees-register/banded-fees", "/fees-register/relational-fees", "/fees-register/rateable-fees",
+                        "/fees/**/versions").hasAnyAuthority("freg-editor")
+                .antMatchers(HttpMethod.POST, "/fees-register/bulk-fixed-fees").hasAuthority("freg-editor")
+                .antMatchers(HttpMethod.PUT, "/fees-register/ranged-fees/**", "/fees-register/fixed-fees/**",
+                        "/fees-register/banded-fees/**", "/fees-register/relational-fees/**",
+                        "/fees-register/rateable-fees/**").hasAuthority("freg-editor")
+                .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/approve").hasAuthority("freg-approver")
+                .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/reject").hasAuthority("freg-approver")
+                .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/submit-for-review").hasAuthority("freg-editor")
+                .antMatchers(HttpMethod.DELETE, "/fees-register/fees/**", "/fees/**/versions/**")
+                .hasAnyAuthority("freg-editor", "freg-admin")
+                .antMatchers(HttpMethod.GET, "/fees-register/fees/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/report/download").permitAll();
     }
 }
