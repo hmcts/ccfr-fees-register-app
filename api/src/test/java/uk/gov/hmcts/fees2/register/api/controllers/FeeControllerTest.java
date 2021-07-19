@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by tarun on 02/11/2017.
  */
+@Slf4j
 @Transactional
 public class FeeControllerTest extends BaseIntegrationTest {
 
@@ -54,6 +56,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             }));
 
         forceDeleteFee(arr[3]);
+        log.info("Read Fee Test Executed successfully....");
     }
 
     @Test
