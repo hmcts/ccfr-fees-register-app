@@ -37,12 +37,12 @@ import static uk.gov.hmcts.fees.register.functional.service.FeeService.getLatest
 
 @RunWith(SpringIntegrationSerenityRunner.class)
 @ContextConfiguration(classes = TestContextConfiguration.class)
+@Ignore ("As this solution has been moved to the Front End based Excel Generation")
 public class ReportDownloadTest extends IntegrationTestBase {
 
     private static final String CURRENCY_FORMAT = "^(£)([0-9]*).([0-9]{2})$";
 
     @Test
-    @Ignore("Ignoring this test as the Design is still being revised and formalised ")
     public void test_download_report_for_data_formats() throws Exception {
         Response response = createAFee(userBootstrap.getEditor(), aFixedFee());
         String feeCode = response.then()

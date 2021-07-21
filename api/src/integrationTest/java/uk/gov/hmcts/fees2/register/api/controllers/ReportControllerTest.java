@@ -29,6 +29,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
+@Ignore ("As this solution has been moved to the Front End based Excel Generation")
 public class ReportControllerTest extends BaseIntegrationTest {
 
     private static final String FILE_NAME_FORMAT = "^(attachment; filename=Fee_Register_)([0-9]{6})_([0-9]{6}).(xls)$";
