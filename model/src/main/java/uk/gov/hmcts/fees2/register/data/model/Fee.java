@@ -117,6 +117,14 @@ public abstract class Fee extends AbstractEntity {
         return opt.isPresent() ? opt.get() : null;
     }
 
+    public FeeVersion getVersion(Integer version) {
+        Optional<FeeVersion> opt = getFeeVersions()
+                .stream()
+                .filter(v -> (v.getVersion() == version && v.isInRange(new Date()))).findFirst();
+
+        return opt.isPresent() ? opt.get() : null;
+    }
+
     /* --- */
 
     @PreUpdate

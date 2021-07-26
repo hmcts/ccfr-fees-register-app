@@ -22,7 +22,9 @@ import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -93,15 +95,25 @@ public class FeeDtoMapper {
     public void updateRangedFee(RangedFeeDto request, RangedFee fee, String author) {
         updateFeeDetails(request, fee);
 
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
+        Optional<FeeVersion> opt = fee.getFeeVersions()
+                .stream()
+                .filter(v -> (FeeVersionStatus.approved != v.getStatus())).findFirst();
+
+        if (opt.isPresent()) {
+            fillFeeVersionDetails(request.getVersion(), opt.get(), author);
+        }
     }
 
     public void updateFixedFee(FixedFeeDto request, FixedFee fee, String author) {
         updateFeeDetails(request, fee);
 
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
+        Optional<FeeVersion> opt = fee.getFeeVersions()
+                .stream()
+                .filter(v -> (FeeVersionStatus.approved != v.getStatus())).findFirst();
+
+        if (opt.isPresent()) {
+            fillFeeVersionDetails(request.getVersion(), opt.get(), author);
+        }
     }
 
     public Fee toFee(RangedFeeDto request, String author) {
@@ -184,8 +196,10 @@ public class FeeDtoMapper {
     }
 
     private void fillFeeVersionDetails(FeeVersionDto versionDto, FeeVersion version, String author) {
-        version.setValidFrom(versionDto.getValidFrom());
-        version.setValidTo(FeesDateUtil.addEODTimeToDate(versionDto.getValidTo()));
+        if (null != versionDto.getValidFrom())
+            version.setValidFrom(versionDto.getValidFrom());
+        if (null != versionDto.getValidTo())
+            version.setValidTo(FeesDateUtil.addEODTimeToDate(versionDto.getValidTo()));
 
         version.setMemoLine(versionDto.getMemoLine());
         version.setFeeOrderName(versionDto.getFeeOrderName());
@@ -193,8 +207,8 @@ public class FeeDtoMapper {
         version.setStatutoryInstrument(versionDto.getStatutoryInstrument());
         version.setSiRefId(versionDto.getSiRefId());
         version.setReasonForUpdate(versionDto.getReasonForUpdate());
+        version.setReasonForReject(versionDto.getReasonForReject());
         fillDirectionType(version, versionDto.getDirection());
-
 
         fillVersionStatus(version, versionDto.getStatus());
         fillVersionVersion(version, versionDto.getVersion());
