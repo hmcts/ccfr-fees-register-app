@@ -132,26 +132,6 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
 
 functionalTest.finalizedBy(aggregate)
 
-task runProviderPactVerification(type: Test) {
-    logger.lifecycle("Runs pact provider Tests")
-    testClassesDirs = sourceSets.contractTest.output.classesDirs
-    classpath = sourceSets.contractTest.runtimeClasspath
-}
-
-task runAndPublishConsumerPactTests(type: Test, description: 'Publish pact test to broker.', group: 'Verification') {
-    logger.lifecycle("Runs pact consumer Tests")
-    testClassesDirs = sourceSets.contractTest.output.classesDirs
-    classpath = sourceSets.contractTest.runtimeClasspath
-}
-
-runAndPublishConsumerPactTests.dependsOn consumerContractTest
-
-runAndPublishConsumerPactTests.finalizedBy pactPublish
-
-runProviderPactVerification.dependsOn providerContractTest
-
-runProviderPactVerification.finalizedBy pactVerify
-
 pitest {
     targetClasses = ['uk.gov.hmcts.fees.register.api.*']
     excludedClasses = ['uk.gov.hmcts.fees.register.api.config.*']
