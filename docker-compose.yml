@@ -13,7 +13,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fees-database:5432/fees_register
       - SPRING_DATASOURCE_USERNAME=fees_register
-      - SPRING_DATASOURCE_PASSWORD=dummy
+      - SPRING_DATASOURCE_PASSWORD=${FEE_REGISTER_PASS}
       - auth.idam.client.baseUrl=http://idam-api:5000
     ports:
       - 8182:8080
@@ -25,13 +25,12 @@ services:
     image: postgres:11-alpine
     environment:
       - POSTGRES_USER=fees_register
-      - POSTGRES_PASSWORD=dummy
+      - POSTGRES_PASSWORD=${FEE_REGISTER_PASS}
       - POSTGRES_DB=fees_register
     ports:
       - 5182:5432
     volumes:
       - fees-database-data:/var/lib/postgresql/data
-
   fr-am:
     image: hmctsprivate.azurecr.io/idam/idam-fr-am:latest
     hostname: localam
@@ -52,12 +51,7 @@ services:
   shared-db:
     image: hmctsprivate.azurecr.io/idam/shared-db:latest
     ports:
-      - 5445:5432
-    environment:
-      - POSTGRES_USER=openidm
-      - POSTGRES_PASSWORD=dummy_5
-      - POSTGRES_DB=openidm
-
+      - 5432:5432
   smtp-server:
     image: mailhog/mailhog
     ports:
@@ -80,19 +74,19 @@ services:
       - SPRING_PROFILES_ACTIVE=local
       - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-db:5432/openidm?currentSchema=fridam
       - SPRING_DATASOURCE_USERNAME=openidm
-      - SPRING_DATASOURCE_PASSWORD=dummy_4
-      - SECURITY_OAUTH2_CLIENT_CLIENTSECRET=dummy_3
+      - SPRING_DATASOURCE_PASSWORD=${OPENID_SPRING_DATASOURCE_PASSWORD}
+      - SECURITY_OAUTH2_CLIENT_CLIENTSECRET=${SECURITY_OAUTH2_CLIENT_CLIENTSECRET}
       - SECURITY_OAUTH2_CLIENT_PRE_ESTABLISHED_REDIRECT_URI=http://idam-web-public:9002/login
       - SECURITY_OAUTH2_CLIENT_REGISTERED_REDIRECT_URI=http://idam-web-public:9002/login
       - IDAM_SPI_FORGEROCK_AM_ROOT=http://fr-am:8080/openam
       - IDAM_SPI_FORGEROCK_AM_TOPLEVELHOST=fr-am
       - IDAM_SPI_FORGEROCK_AM_USERNAME=amadmin
-      - IDAM_SPI_FORGEROCK_AM_PASSWORD=dummy_2
+      - IDAM_SPI_FORGEROCK_AM_PASSWORD=${IDAM_SPI_FORGEROCK_AM_PASSWORD}
       - IDAM_SPI_FORGEROCK_AM_JWKSURIFOROAUTH2CLIENTS=http://fr-am:8080/openam/oauth2/hmcts/connect/jwk_uri
       - IDAM_SPI_FORGEROCK_IDM_ROOT=http://fr-idm:18080/openidm
       - IDAM_SPI_FORGEROCK_IDM_USERNAME=openidm-admin
-      - IDAM_SPI_FORGEROCK_IDM_PASSWORD=dummy_1
-      - IDAM_SPI_FORGEROCK_IDM_PIN_DEFAULTPASSWORD=dummy
+      - IDAM_SPI_FORGEROCK_IDM_PASSWORD=${IDAM_SPI_FORGEROCK_IDM_PASSWORD}
+      - IDAM_SPI_FORGEROCK_IDM_PIN_DEFAULTPASSWORD=${IDAM_SPI_FORGEROCK_IDM_PIN_DEFAULTPASSWORD}
       - APPSETTING_NODE_PATH=/opt/app
   idam-web-public:
     image: hmctspublic.azurecr.io/idam/web-public:stable
@@ -113,6 +107,7 @@ services:
       - JAVA_OPTS=-Xms128m -Xms512m
       - STRATEGIC_SERVICE_URL=http://idam-api:5000
       - STRATEGIC_PUBLIC_URL=http://idam-web-public:9002
+
 volumes:
   fees-database-data:
 
