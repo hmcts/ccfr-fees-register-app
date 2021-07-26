@@ -29,4 +29,10 @@ public class FixedFee extends Fee {
     public List<Class<? extends IFeeValidator>> getValidators() {
         return VALIDATORS;
     }
+
+    @Override
+    public String toString() {
+        return "FixedFee{}";
+    }
+
 }
