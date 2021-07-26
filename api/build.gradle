@@ -142,7 +142,7 @@ project.ext {
 task consumerContractTest(type: Test) {
     logger.lifecycle("Running consumer contract Tests")
     useJUnitPlatform()
-    include "uk/gov/hmcts/fees.register/api/controllers/consumer/**"
+//    include "uk/gov/hmcts/fees.register/api/controllers/consumer/**"
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
     systemProperty 'pact.rootDir', "pacts"
@@ -153,7 +153,7 @@ task consumerContractTest(type: Test) {
 task providerContractTest(type: Test) {
     logger.lifecycle("Running contract provider Tests")
     useJUnitPlatform()
-    include "uk/gov/hmcts/fees.register/api/controllers/provider/**"
+//    include "uk/gov/hmcts/fees.register/api/controllers/provider/**"
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
     systemProperty 'pact.rootDir', "pacts"
