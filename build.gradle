@@ -8,7 +8,7 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
-    id "au.com.dius.pact" version "4.1.7"
+    id "au.com.dius.pact" version "4.0.0"
 }
 
 def versions = [
@@ -225,7 +225,7 @@ subprojects {
                 protocol = 'http'
                 host = 'fees-register-api-aat.service.core-compute-aat.internal'
                 port = 80
-                if (pactBrokerUrl) hasPactsFromPactBroker(pactBrokerUrl)
+                if (pactBrokerUrl) hasPactsFromPactBrokerWithTag(pactBrokerUrl, 'master')
                 publish {
                     if (pactBrokerUrl) pactBrokerUrl = pactBrokerUrl
                     pactBrokerUrl = System.getProperty("PACT_BROKER_URL") ?: 'http://localhost:80'
