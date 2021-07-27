@@ -45,6 +45,19 @@ or in dev/test environment you can use this link
 https://dev-proxy.fees-register.reform.hmcts.net/swagger-ui.html
 or https://test-proxy.fees-register.reform.hmcts.net/swagger-ui.html
 
+## Run the application using docker-compose
+
+Please add the below environmental variables in .env in ccfr-fees-register-app/.env
+
+FEE_REGISTER_PASS = fees_register
+OPENID_SPRING_DATASOURCE_PASSWORD = openidm
+IDAM_SPI_FORGEROCK_AM_PASSWORD = Pa55word11
+IDAM_SPI_FORGEROCK_IDM_PASSWORD = openidm-admin
+IDAM_SPI_FORGEROCK_IDM_PIN_DEFAULTPASSWORD = BlaBlaBlackSh33p
+SECURITY_OAUTH2_CLIENT_CLIENTSECRET = password
+
+``` docker-compose up ```
+
 ## Service Endpoints
 Some of the end points are as below. These might be out of date. Please look at the swagger-ui to be sure. 
 

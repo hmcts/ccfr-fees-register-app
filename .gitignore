@@ -27,3 +27,4 @@ buildNumber.properties
 *.iws
 .gradle
 .gradle/*
+.env
