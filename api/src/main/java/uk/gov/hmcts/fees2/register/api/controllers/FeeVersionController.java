@@ -16,6 +16,7 @@ import uk.gov.hmcts.fees2.register.api.contract.ReasonDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.security.Principal;
 
@@ -64,7 +65,7 @@ public class FeeVersionController {
         final Integer newVersion = feeVersionService.getMaxFeeVersion(feeCode);
         request.setVersion(newVersion + 1);
 
-        feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
+        feeVersionService.save(mapper.toFeeVersion(URIUtils.encodeVersionDetails(request), principal != null ? principal.getName() : null), feeCode);
     }
 
     @ApiOperation(value = "Edit a fee version for the given fee code")
@@ -79,7 +80,7 @@ public class FeeVersionController {
             @PathVariable("version") final Integer version,
             @RequestBody @Validated final FeeVersionDto request) {
         final var feeVersion = feeVersionService.getFeeVersion(code, version);
-        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request, feeVersion));
+        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(URIUtils.encodeVersionDetails(request), feeVersion));
     }
 
     @ApiOperation(value = "Approve a fee version")
