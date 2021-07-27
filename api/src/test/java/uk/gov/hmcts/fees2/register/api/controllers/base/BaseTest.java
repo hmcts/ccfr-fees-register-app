@@ -25,6 +25,8 @@ import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -208,6 +210,140 @@ public abstract class BaseTest {
         return rangedFeeDto;
     }
 
+    public RangedFeeDto getRangedFeeDtoValues(String feeCode) {
+
+
+        RangedFeeDto rangedFeeDto = new RangedFeeDto();
+
+        rangedFeeDto.setMinRange(new BigDecimal(1));
+        rangedFeeDto.setMaxRange(new BigDecimal(3000));
+        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line", "CMC online fee order name",
+                "Natural code 001", "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
+        rangedFeeDto.setJurisdiction1("BBB");
+        rangedFeeDto.setJurisdiction2("CCC");
+        rangedFeeDto.setEvent("DDD");
+        rangedFeeDto.setService("EEE");
+        rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+        rangedFeeDto.setApplicant("AAA");
+
+        return rangedFeeDto;
+    }
+
+    public FixedFee getFixedFee(String feeCode) throws ParseException {
+
+
+        FixedFee fixedFee = new FixedFee();
+
+        fixedFee.setCode(feeCode);
+        fixedFee.setKeyword("Test Keyword");
+        ApplicantType applicantType = new ApplicantType();
+        applicantType.setName("AAA");
+        fixedFee.setApplicantType(applicantType);
+
+        Jurisdiction1 jurisdiction1 = new Jurisdiction1();
+        jurisdiction1.setName("BBB");
+        fixedFee.setJurisdiction1(jurisdiction1);
+
+        Jurisdiction2 jurisdiction2 = new Jurisdiction2();
+        jurisdiction2.setName("CCC");
+        fixedFee.setJurisdiction2(jurisdiction2);
+
+        fixedFee.setService(null);
+
+        List<FeeVersion> feeVersionList = new ArrayList<>();
+        feeVersionList.add(getFeeVersion());
+        fixedFee.setFeeVersions(feeVersionList);
+
+        ChannelType channelType = new ChannelType();
+        channelType.setName("DDD");
+        fixedFee.setChannelType(channelType);
+
+        EventType eventType = new EventType();
+        eventType.setName("CCC");
+        fixedFee.setEventType(eventType);
+
+        fixedFee.setFeeNumber(111);
+
+        return fixedFee;
+    }
+
+    public RangedFee getRangedFee(String feeCode) throws ParseException {
+
+
+        RangedFee rangedFee = new RangedFee();
+
+        rangedFee.setCode(feeCode);
+        rangedFee.setKeyword("Test Keyword");
+        ApplicantType applicantType = new ApplicantType();
+        applicantType.setName("AAA");
+        rangedFee.setApplicantType(applicantType);
+
+        Jurisdiction1 jurisdiction1 = new Jurisdiction1();
+        jurisdiction1.setName("BBB");
+        rangedFee.setJurisdiction1(jurisdiction1);
+
+        Jurisdiction2 jurisdiction2 = new Jurisdiction2();
+        jurisdiction2.setName("CCC");
+        rangedFee.setJurisdiction2(jurisdiction2);
+
+        rangedFee.setService(null);
+
+        List<FeeVersion> feeVersionList = new ArrayList<>();
+        feeVersionList.add(getFeeVersion());
+        rangedFee.setFeeVersions(feeVersionList);
+
+        ChannelType channelType = new ChannelType();
+        channelType.setName("DDD");
+        rangedFee.setChannelType(channelType);
+
+        EventType eventType = new EventType();
+        eventType.setName("CCC");
+        rangedFee.setEventType(eventType);
+
+        rangedFee.setFeeNumber(111);
+
+        return rangedFee;
+    }
+
+    public static FeeVersion getFeeVersion() throws ParseException {
+        final FeeVersion feeVersion = new FeeVersion();
+        feeVersion.setVersion(1);
+        feeVersion.setApprovedBy("EEE");
+        feeVersion.setAuthor("FFF");
+        feeVersion.setDescription("GGG");
+
+        final DirectionType directionType = new DirectionType();
+        directionType.setCreationTime(new SimpleDateFormat("dd MMMM yyyy").parse("06 June 2021"));
+        directionType.setName("XX");
+        directionType.setLastUpdated(new SimpleDateFormat("dd MMMM yyyy").parse("06 June 2021"));
+        feeVersion.setDirectionType(directionType);
+
+        feeVersion.setFeeOrderName("III");
+
+        final FlatAmountDto flatAmountDto = new FlatAmountDto();
+        flatAmountDto.setAmount(new BigDecimal("111"));
+
+        feeVersion.setMemoLine("JJJ");
+        feeVersion.setNaturalAccountCode("KKK");
+
+        final PercentageAmountDto percentageAmountDto = new PercentageAmountDto();
+        percentageAmountDto.setPercentage(new BigDecimal("222"));
+
+        feeVersion.setReasonForReject("LLL");
+        feeVersion.setReasonForUpdate("MMM");
+        feeVersion.setSiRefId("NNN");
+
+        feeVersion.setStatus(FeeVersionStatus.approved);
+        feeVersion.setStatutoryInstrument("OOO");
+        feeVersion.setValidFrom(new SimpleDateFormat("dd MMMM yyyy").parse("05 May 2021"));
+        feeVersion.setValidTo(new SimpleDateFormat("dd MMMM yyyy").parse("06 June 2021"));
+
+        final VolumeAmountDto volumeAmountDto = new VolumeAmountDto();
+        volumeAmountDto.setAmount(new BigDecimal("333"));
+
+        return feeVersion;
+    }
+
     public RangedFeeDto getRangedFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
 
         RangedFeeDto rangedFeeDto = new RangedFeeDto();
@@ -221,6 +357,25 @@ public abstract class BaseTest {
         rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
 
         return rangedFeeDto;
+    }
+
+    public FixedFeeDto getFixedFeeDto(String feeCode) {
+
+
+        FixedFeeDto fixedFeeDto = new FixedFeeDto();
+
+        fixedFeeDto.setCode(feeCode);
+        fixedFeeDto.setKeyword("Test Keyword");
+        fixedFeeDto.setApplicantType("Test Applicant");
+        fixedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line", "CMC online fee order name",
+                "Natural code 001", "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
+        fixedFeeDto.setJurisdiction1("BBB");
+        fixedFeeDto.setJurisdiction2("CCC");
+        fixedFeeDto.setEvent("CCC");
+        fixedFeeDto.setService(null);
+        fixedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
+
+        return fixedFeeDto;
     }
 
     public RangedFeeDto getRangeFeeDtoForSearch(int minRange, int maxRange, String feeCode, FeeVersionStatus status, String service) {
