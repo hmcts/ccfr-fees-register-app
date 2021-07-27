@@ -132,60 +132,6 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
 
 functionalTest.finalizedBy(aggregate)
 
-project.ext {
-    pactVersion = getCheckedOutGitCommitHash()
-    pacticipant = 'feesregister_App'
-    pacticipantVersion = getCheckedOutGitCommitHash()
-}
-
-
-task consumerContractTest(type: Test) {
-    logger.lifecycle("Running consumer contract Tests")
-    useJUnitPlatform()
-//    include "uk/gov/hmcts/fees.register/api/controllers/consumer/**"
-    testClassesDirs = sourceSets.contractTest.output.classesDirs
-    classpath = sourceSets.contractTest.runtimeClasspath
-    systemProperty 'pact.rootDir', "pacts"
-    systemProperty 'pact.provider.version', project.pactVersion
-
-}
-
-task providerContractTest(type: Test) {
-    logger.lifecycle("Running contract provider Tests")
-    useJUnitPlatform()
-//    include "uk/gov/hmcts/fees.register/api/controllers/provider/**"
-    testClassesDirs = sourceSets.contractTest.output.classesDirs
-    classpath = sourceSets.contractTest.runtimeClasspath
-    systemProperty 'pact.rootDir', "pacts"
-    systemProperty 'pact.verifier.publishResults', System.getProperty('pact.verifier.publishResults')
-    systemProperty 'pact.provider.version', project.pactVersion
-
-}
-
-task runProviderPactVerification(type: Test) {
-    logger.lifecycle("Runs pact provider Tests")
-    testClassesDirs = sourceSets.contractTest.output.classesDirs
-    classpath = sourceSets.contractTest.runtimeClasspath
-}
-
-task runAndPublishConsumerPactTests(type: Test, description: 'Publish pact test to broker.', group: 'Verification') {
-    logger.lifecycle("Runs pact consumer Tests")
-    testClassesDirs = sourceSets.contractTest.output.classesDirs
-    classpath = sourceSets.contractTest.runtimeClasspath
-}
-
-runAndPublishConsumerPactTests.dependsOn consumerContractTest
-
-runAndPublishConsumerPactTests.finalizedBy pactPublish
-
-runProviderPactVerification.dependsOn providerContractTest
-
-runProviderPactVerification.finalizedBy pactVerify
-
-def getCheckedOutGitCommitHash() {
-    'git rev-parse --verify --short HEAD'.execute().text.trim()
-}
-
 pitest {
     targetClasses = ['uk.gov.hmcts.fees.register.api.*']
     excludedClasses = ['uk.gov.hmcts.fees.register.api.config.*']
