@@ -2,7 +2,9 @@ package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.fees2.register.api.contract.*;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
@@ -12,7 +14,6 @@ import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
@@ -22,7 +23,6 @@ import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -200,14 +200,12 @@ public class FeeDtoMapper {
             version.setValidFrom(versionDto.getValidFrom());
         if (null != versionDto.getValidTo())
             version.setValidTo(FeesDateUtil.addEODTimeToDate(versionDto.getValidTo()));
-
         version.setMemoLine(versionDto.getMemoLine());
         version.setFeeOrderName(versionDto.getFeeOrderName());
         version.setNaturalAccountCode(versionDto.getNaturalAccountCode());
         version.setStatutoryInstrument(versionDto.getStatutoryInstrument());
         version.setSiRefId(versionDto.getSiRefId());
         version.setReasonForUpdate(versionDto.getReasonForUpdate());
-        version.setReasonForReject(versionDto.getReasonForReject());
         fillDirectionType(version, versionDto.getDirection());
 
         fillVersionStatus(version, versionDto.getStatus());
