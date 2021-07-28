@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 public abstract class FeeDto {
 
-    @JsonIgnore
+//    @JsonIgnore
     protected String code;
 
     @JsonIgnore
@@ -46,5 +46,7 @@ public abstract class FeeDto {
     protected Boolean unspecifiedClaimAmount;
 
     protected String keyword;
+
+    protected Integer feeNumber;
 
 }

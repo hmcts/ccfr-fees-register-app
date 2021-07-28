@@ -64,4 +64,5 @@ public class FeeDtoMapperTest extends BaseIntegrationTest {
         verify(jurisdiction2Repository, times(1)).findByNameOrThrow(anyString());
         verify(eventTypeRepository, times(1)).findByNameOrThrow(anyString());
     }
+
 }

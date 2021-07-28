@@ -17,9 +17,9 @@ public class FixedFeeDto extends FeeDto {
     public FixedFeeDto(final String code, final String newCode, final FeeVersionDto version, final String jurisdiction1,
                        final String jurisdiction2,
                        final String service, final String channel, final String event, final String applicantType,
-                       final boolean unspecifiedClaimAmount, final String keyword) {
+                       final boolean unspecifiedClaimAmount, final String keyword, final Integer feeNumber) {
         super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType,
-                unspecifiedClaimAmount, keyword);
+                unspecifiedClaimAmount, keyword, feeNumber);
     }
 
     public FixedFeeDto setCode(final String code) {
