@@ -62,11 +62,11 @@ public class FeeDtoMapper {
 
     private void fillFee(FeeDto request, Fee fee, String author) {
 
-        if (null != request.getCode())
+        if (null != request.getCode() && request.getCode().startsWith("FEE")) {
             fee.setCode(request.getCode());
-
-        if (null != request.getFeeNumber())
-            fee.setFeeNumber(request.getFeeNumber());
+            Integer feeNumber = Integer.parseInt(request.getCode().substring(3));
+            fee.setFeeNumber(feeNumber);
+        }
 
         updateFeeDetails(request, fee);
 
