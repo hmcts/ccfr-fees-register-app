@@ -21,9 +21,9 @@ public abstract class LoaderFeeDto extends FeeDto {
 
     public LoaderFeeDto(final String code, final String newCode, final LoaderFeeVersionDto version, final String jurisdiction1,
                         final String jurisdiction2, final String service, final String channel, final String event, final String applicantType,
-                        final Boolean unspecifiedClaimAmount, final String keyword, final Integer feeNumber) {
+                        final Boolean unspecifiedClaimAmount, final String keyword) {
         super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType,
-                unspecifiedClaimAmount, keyword, feeNumber);
+                unspecifiedClaimAmount, keyword);
         this.code = code;
         this.newCode = newCode;
         this.version = version;

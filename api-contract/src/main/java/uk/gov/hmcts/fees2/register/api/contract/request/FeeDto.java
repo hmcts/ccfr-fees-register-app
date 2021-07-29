@@ -47,6 +47,4 @@ public abstract class FeeDto {
 
     protected String keyword;
 
-    protected Integer feeNumber;
-
 }

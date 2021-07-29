@@ -26,9 +26,9 @@ public class RangedFeeDto extends FeeDto {
     @Builder(builderMethodName = "rangedFeeDtoWith")
     public RangedFeeDto(final String code, final String newCode, final FeeVersionDto version, final String jurisdiction1, final String jurisdiction2,
                         final String service, final String channel, final String event, final String applicantType, final BigDecimal maxRange,
-                        final BigDecimal minRange, final String keyword, final Integer feeNumber) {
+                        final BigDecimal minRange, final String keyword) {
         super(code, newCode, version, jurisdiction1, jurisdiction2, service, channel, event, applicantType, false,
-                keyword, feeNumber);
+                keyword);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }
