@@ -589,7 +589,9 @@ databaseChangeLog:
         logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 17019629
         author: Jennings
+        failOnError: true
         changes:
+          splitStatements:
           - sql: >
               ALTER TABLE fee_version RENAME fee_order_name TO last_amending_si;
               ALTER TABLE fee_version ADD COLUMN consolidated_fee_order_name VARCHAR(1000);
