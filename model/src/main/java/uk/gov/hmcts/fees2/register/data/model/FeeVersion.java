@@ -48,8 +48,11 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "memo_line")
     private String memoLine;
 
-    @Column(name="fee_order_name")
-    private String feeOrderName;
+    @Column(name="last_amending_si")
+    private String lastAmendingSi;
+
+    @Column(name="consolidated_fee_order_name")
+    private String consolidatedFeeOrderName;
 
     @Column(name = "natural_account_code")
     private String naturalAccountCode;
@@ -92,7 +95,7 @@ public class FeeVersion extends AbstractEntity{
             ", author='" + author + '\'' +
             ", approvedBy='" + approvedBy + '\'' +
             ", memoLine='" + memoLine + '\'' +
-            ", feeOrderName='" + feeOrderName + '\'' +
+            ", lastAmendingSi='" + lastAmendingSi + '\'' +
             ", naturalAccountCode='" + naturalAccountCode + '\'' +
             ", statutoryInstrument='" + statutoryInstrument + '\'' +
             ", siRefId='" + siRefId + '\'' +

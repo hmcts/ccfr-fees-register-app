@@ -194,7 +194,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
             version.setDescription(feeVersion.getDescription());
             version.setMemoLine(feeVersion.getMemoLine());
             version.setNaturalAccountCode(feeVersion.getNaturalAccountCode());
-            version.setFeeOrderName(feeVersion.getFeeOrderName());
+            version.setLastAmendingSi(feeVersion.getLastAmendingSi());
             version.setStatutoryInstrument(feeVersion.getStatutoryInstrument());
             version.setSiRefId(feeVersion.getSiRefId());
         }

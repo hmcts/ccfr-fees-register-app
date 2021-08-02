@@ -96,7 +96,7 @@ public final class ExcelGeneratorUtil {
                         row.createCell(4)
                                 .setCellValue(null != feeVersionDto.getSiRefId() ? feeVersionDto.getSiRefId() : "");
                         row.createCell(5).setCellValue(
-                                null != feeVersionDto.getFeeOrderName() ? feeVersionDto.getFeeOrderName() : "");
+                                null != feeVersionDto.getLastAmendingSi() ? feeVersionDto.getLastAmendingSi() : "");
                         row.createCell(6).setCellValue(fee2Dto.getServiceTypeDto().getName());
                         row.createCell(7).setCellValue(fee2Dto.getJurisdiction1Dto().getName());
                         row.createCell(8).setCellValue(fee2Dto.getJurisdiction2Dto().getName());

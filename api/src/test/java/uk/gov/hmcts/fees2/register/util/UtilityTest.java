@@ -21,7 +21,7 @@ public class UtilityTest {
         feeVersionDto.setAuthor("FFF");
         feeVersionDto.setDescription("GGG");
         feeVersionDto.setDirection("HHH");
-        feeVersionDto.setFeeOrderName("III");
+        feeVersionDto.setLastAmendingSi("III");
 
         final FlatAmountDto flatAmountDto = new FlatAmountDto();
         flatAmountDto.setAmount(new BigDecimal("111"));
@@ -63,7 +63,7 @@ public class UtilityTest {
         directionType.setLastUpdated(new SimpleDateFormat("dd MMMM yyyy").parse("06 June 2021"));
         feeVersion.setDirectionType(directionType);
 
-        feeVersion.setFeeOrderName("III");
+        feeVersion.setLastAmendingSi("III");
 
         final FlatAmountDto flatAmountDto = new FlatAmountDto();
         flatAmountDto.setAmount(new BigDecimal("111"));

@@ -35,7 +35,7 @@ public class MockUtils {
                 "     \"status\": \"draft\",\n" +
                 "   \"direction\": \"enhanced\",\n" +
                 "   \"memoLine\": \"Test memo line\",\n" +
-                "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+                "   \"lastAmendingSi\": \"CMC online fee order name\",\n" +
                 "   \"naturalAccountCode\": \"Natural code 001\",\n" +
                 "      \"flatAmount\": {\n" +
                 "      \"amount\": \"150\"\n" +
@@ -66,7 +66,7 @@ public class MockUtils {
                 "     \"status\": \"draft\",\n" +
                 "   \"direction\": \"enhanced\",\n" +
                 "   \"memoLine\": \"Test memo line\",\n" +
-                "   \"feeOrderName\": \"CMC online fee order name\",\n" +
+                "   \"lastAmendingSi\": \"CMC online fee order name\",\n" +
                 "   \"naturalAccountCode\": \"Natural code 001\",\n" +
                 "      \"flatAmount\": {\n" +
                 "      \"amount\": \"150\"\n" +
@@ -102,7 +102,7 @@ public class MockUtils {
         feeVersion.setStatus(FeeVersionStatus.approved);
         feeVersion.setVersion(1);
         feeVersion.setDirectionType(new DirectionType("enhanced", null, null));
-        feeVersion.setFeeOrderName("CMC online fee order name");
+        feeVersion.setLastAmendingSi("CMC online fee order name");
         feeVersion.setNaturalAccountCode("Natural code 001");
         feeVersions.add(feeVersion);
 

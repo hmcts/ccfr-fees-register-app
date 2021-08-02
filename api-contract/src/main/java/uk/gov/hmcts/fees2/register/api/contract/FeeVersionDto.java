@@ -70,8 +70,11 @@ public class FeeVersionDto {
     @JsonProperty("natural_account_code")
     private String naturalAccountCode;
 
-    @JsonProperty("fee_order_name")
-    private String feeOrderName;
+    @JsonProperty("last_amending_si")
+    private String lastAmendingSi;
+
+    @JsonProperty("consolidated_fee_order_name")
+    private String consolidatedFeeOrderName;
 
     @JsonProperty("direction")
     private String direction;

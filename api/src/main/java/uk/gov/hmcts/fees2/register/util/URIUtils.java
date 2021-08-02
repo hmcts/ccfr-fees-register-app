@@ -95,7 +95,8 @@ public class URIUtils {
         request.setStatutoryInstrument(null != request.getStatutoryInstrument() ? Encode.forHtml(request.getStatutoryInstrument()) : "");
         request.setSiRefId(null != request.getSiRefId() ? Encode.forHtml(request.getSiRefId()) : "");
         request.setNaturalAccountCode(null != request.getNaturalAccountCode() ? Encode.forHtml(request.getNaturalAccountCode()) : "");
-        request.setFeeOrderName(null != request.getFeeOrderName() ? Encode.forHtml(request.getFeeOrderName()) : "");
+        request.setLastAmendingSi(null != request.getLastAmendingSi() ? Encode.forHtml(request.getLastAmendingSi()) : "");
+        request.setConsolidatedFeeOrderName(null != request.getConsolidatedFeeOrderName() ? Encode.forHtml(request.getConsolidatedFeeOrderName()) : "");
         request.setReasonForUpdate(null != request.getReasonForUpdate() ? Encode.forHtml(request.getReasonForUpdate()) : "");
 
         return request;

@@ -318,7 +318,7 @@ public abstract class BaseTest {
         directionType.setLastUpdated(new SimpleDateFormat("dd MMMM yyyy").parse("06 June 2021"));
         feeVersion.setDirectionType(directionType);
 
-        feeVersion.setFeeOrderName("III");
+        feeVersion.setLastAmendingSi("III");
 
         final FlatAmountDto flatAmountDto = new FlatAmountDto();
         flatAmountDto.setAmount(new BigDecimal("111"));
@@ -447,12 +447,12 @@ public abstract class BaseTest {
     }
 
 
-    public FeeVersionDto getFeeVersionDto(FeeVersionStatus status, String memoLine, String feeOrderName, String naturalAccountCode, String statutoryInstrument, String siRefId, DirectionType direction) {
+    public FeeVersionDto getFeeVersionDto(FeeVersionStatus status, String memoLine, String lastAmendingSi, String naturalAccountCode, String statutoryInstrument, String siRefId, DirectionType direction) {
         MutableDateTime validTo = new MutableDateTime(new Date());
         validTo.addDays(90);
 
         return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", FeeVersionStatusDto.valueOf(status.name()), getFlatAmountDto(), null, null, AUTHOR, AUTHOR,
-            memoLine, statutoryInstrument, siRefId, naturalAccountCode, feeOrderName, direction.getName(),"test", "reason for reject");
+            memoLine, statutoryInstrument, siRefId, naturalAccountCode, lastAmendingSi, direction.getName(),"test", "reason for reject");
     }
 
     public FlatAmountDto getFlatAmountDto() {
