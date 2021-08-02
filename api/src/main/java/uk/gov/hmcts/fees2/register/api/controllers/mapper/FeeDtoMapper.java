@@ -273,6 +273,7 @@ public class FeeDtoMapper {
 
         feeVersionDto.setNaturalAccountCode(feeVersion.getNaturalAccountCode());
         feeVersionDto.setLastAmendingSi(feeVersion.getLastAmendingSi());
+        feeVersionDto.setConsolidatedFeeOrderName(feeVersion.getConsolidatedFeeOrderName());
         feeVersionDto.setStatutoryInstrument(feeVersion.getStatutoryInstrument());
         feeVersionDto.setSiRefId(feeVersion.getSiRefId());
 
