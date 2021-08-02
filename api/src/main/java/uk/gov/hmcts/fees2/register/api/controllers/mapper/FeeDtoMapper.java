@@ -233,6 +233,11 @@ public class FeeDtoMapper {
         if(version.getStatus() == FeeVersionStatus.approved){
             version.setApprovedBy(author);
         }
+
+        if (null != versionDto.getReasonForReject()) {
+            version.setReasonForReject(versionDto.getReasonForReject());
+            version.setApprovedBy(versionDto.getApprovedBy());
+        }
     }
 
     public Fee toFee(LoaderRangedFeeDto request, String author) {
