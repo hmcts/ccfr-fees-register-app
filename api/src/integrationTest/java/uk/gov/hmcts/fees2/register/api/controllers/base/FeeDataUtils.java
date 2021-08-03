@@ -37,6 +37,7 @@ public class FeeDataUtils {
                 .siRefId("8b")
                 .statutoryInstrument("2014 No 876(L19)")
                 .lastAmendingSi("Non-Contentious Probate Fees")
+                .consolidatedFeeOrderName("Non-Contentious Probate Fees")
                 .volumeAmount(new VolumeAmountDto(new BigDecimal("0.5")))
                 .build())
             .build();
@@ -62,6 +63,7 @@ public class FeeDataUtils {
                 .siRefId("8b")
                 .statutoryInstrument("2014 No 876(L19)")
                 .lastAmendingSi("Non-Contentious Probate Fees")
+                .consolidatedFeeOrderName("Non-Contentious Probate Fees")
                 .volumeAmount(new VolumeAmountDto(new BigDecimal("0.5")))
                 .build())
             .build();
@@ -84,6 +86,7 @@ public class FeeDataUtils {
                 .naturalAccountCode("4481102158")
                 .direction("enhanced")
                 .lastAmendingSi("Non-Contentious Probate Fees")
+                .consolidatedFeeOrderName("Non-Contentious Probate Fees")
                 .statutoryInstrument("2011 No. 588 (L. 4)")
                 .siRefId("2")
                 .flatAmount(new FlatAmountDto(new BigDecimal("215.00")))
@@ -178,6 +181,7 @@ public class FeeDataUtils {
                 .direction("enhanced")
                 .naturalAccountCode("4481102133")
                 .lastAmendingSi("Non-Contentious Probate Fees")
+                .consolidatedFeeOrderName("Non-Contentious Probate Fees")
                 .flatAmount(new FlatAmountDto(new BigDecimal("10000.00")))
                 .build())
             .build();
@@ -200,6 +204,7 @@ public class FeeDataUtils {
                 .direction("enhanced1")
                 .memoLine("Test memo line")
                 .lastAmendingSi("CMC online fee order name")
+                .consolidatedFeeOrderName("CMC consolidated fee order name")
                 .naturalAccountCode("Natural code 001")
                 .flatAmount(new FlatAmountDto(new BigDecimal("150.00")))
                 .build())
@@ -219,6 +224,7 @@ public class FeeDataUtils {
                 .direction("enhanced")
                 .memoLine("Test memo line")
                 .lastAmendingSi("CMC online fee order name")
+                .consolidatedFeeOrderName("CMC online fee order name")
                 .naturalAccountCode("Natural code 002")
                 .flatAmount(new FlatAmountDto(new BigDecimal("300.00")))
                 .build())

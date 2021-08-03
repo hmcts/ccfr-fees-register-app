@@ -31,6 +31,7 @@ public class FixedFeeFixture {
                         .memoLine("Test memo line")
                         .statutoryInstrument("2016 No. 402")
                         .lastAmendingSi("The Civil Proceedings")
+                        .consolidatedFeeOrderName("The Civil Proceedings")
                         .direction("enhanced")
                         .reasonForUpdate("reason")
                         .build())

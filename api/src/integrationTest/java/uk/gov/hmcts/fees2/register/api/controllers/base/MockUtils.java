@@ -36,6 +36,7 @@ public class MockUtils {
                 "   \"direction\": \"enhanced\",\n" +
                 "   \"memoLine\": \"Test memo line\",\n" +
                 "   \"lastAmendingSi\": \"CMC online fee order name\",\n" +
+                "   \"consolidateFeeOrderName\": \"CMC online fee order name\",\n" +
                 "   \"naturalAccountCode\": \"Natural code 001\",\n" +
                 "      \"flatAmount\": {\n" +
                 "      \"amount\": \"150\"\n" +
@@ -67,6 +68,7 @@ public class MockUtils {
                 "   \"direction\": \"enhanced\",\n" +
                 "   \"memoLine\": \"Test memo line\",\n" +
                 "   \"lastAmendingSi\": \"CMC online fee order name\",\n" +
+                "   \"consolidatedFeeOrderName\": \"CMC online fee order name\",\n" +
                 "   \"naturalAccountCode\": \"Natural code 001\",\n" +
                 "      \"flatAmount\": {\n" +
                 "      \"amount\": \"150\"\n" +
@@ -103,6 +105,7 @@ public class MockUtils {
         feeVersion.setVersion(1);
         feeVersion.setDirectionType(new DirectionType("enhanced", null, null));
         feeVersion.setLastAmendingSi("CMC online fee order name");
+        feeVersion.setConsolidatedFeeOrderName("CMC online fee order name");
         feeVersion.setNaturalAccountCode("Natural code 001");
         feeVersions.add(feeVersion);
 
@@ -119,7 +122,7 @@ public class MockUtils {
         final FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
                 null,
                 null, "Testing1", FeeVersionStatusDto.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
-                "Test memo line", null, null, "Natural code 001", "CMC online fee order name",
+                "Test memo line", null, null, "Natural code 001", "CMC online fee order name", "CMC online fee order name",
                 "enhanced", "test", "reason for reject");
         final FixedFeeDto fixedFeeDto = new FixedFeeDto("X0MOCK1", null, feeVersionDto, "family",
                 "court of protection", "civil money claims", "default", "issue", "all", false, null);

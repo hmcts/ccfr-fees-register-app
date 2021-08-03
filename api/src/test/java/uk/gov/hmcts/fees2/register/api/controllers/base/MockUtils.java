@@ -36,6 +36,7 @@ public class MockUtils {
                 "   \"direction\": \"enhanced\",\n" +
                 "   \"memoLine\": \"Test memo line\",\n" +
                 "   \"lastAmendingSi\": \"CMC online fee order name\",\n" +
+                "   \"consolidateFeeOrderName\": \"CMC online fee order name\",\n" +
                 "   \"naturalAccountCode\": \"Natural code 001\",\n" +
                 "      \"flatAmount\": {\n" +
                 "      \"amount\": \"150\"\n" +
@@ -67,6 +68,7 @@ public class MockUtils {
                 "   \"direction\": \"enhanced\",\n" +
                 "   \"memoLine\": \"Test memo line\",\n" +
                 "   \"lastAmendingSi\": \"CMC online fee order name\",\n" +
+                "   \"consolidateFeeOrderName\": \"CMC online fee order name\",\n" +
                 "   \"naturalAccountCode\": \"Natural code 001\",\n" +
                 "      \"flatAmount\": {\n" +
                 "      \"amount\": \"150\"\n" +
@@ -103,6 +105,7 @@ public class MockUtils {
         feeVersion.setVersion(1);
         feeVersion.setDirectionType(new DirectionType("enhanced", null, null));
         feeVersion.setLastAmendingSi("CMC online fee order name");
+        feeVersion.setConsolidatedFeeOrderName("CMC online fee order name");
         feeVersion.setNaturalAccountCode("Natural code 001");
         feeVersions.add(feeVersion);
 

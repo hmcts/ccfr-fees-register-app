@@ -96,6 +96,7 @@ public class FeeVersion extends AbstractEntity{
             ", approvedBy='" + approvedBy + '\'' +
             ", memoLine='" + memoLine + '\'' +
             ", lastAmendingSi='" + lastAmendingSi + '\'' +
+            ", consolidateFeeOrderName='" + consolidatedFeeOrderName + '\'' +
             ", naturalAccountCode='" + naturalAccountCode + '\'' +
             ", statutoryInstrument='" + statutoryInstrument + '\'' +
             ", siRefId='" + siRefId + '\'' +

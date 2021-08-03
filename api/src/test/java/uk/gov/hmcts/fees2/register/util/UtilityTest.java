@@ -22,7 +22,7 @@ public class UtilityTest {
         feeVersionDto.setDescription("GGG");
         feeVersionDto.setDirection("HHH");
         feeVersionDto.setLastAmendingSi("III");
-
+        feeVersionDto.setConsolidatedFeeOrderName("KKK");
         final FlatAmountDto flatAmountDto = new FlatAmountDto();
         flatAmountDto.setAmount(new BigDecimal("111"));
         feeVersionDto.setFlatAmount(flatAmountDto);
@@ -64,6 +64,7 @@ public class UtilityTest {
         feeVersion.setDirectionType(directionType);
 
         feeVersion.setLastAmendingSi("III");
+        feeVersion.setConsolidatedFeeOrderName("KKK");
 
         final FlatAmountDto flatAmountDto = new FlatAmountDto();
         flatAmountDto.setAmount(new BigDecimal("111"));

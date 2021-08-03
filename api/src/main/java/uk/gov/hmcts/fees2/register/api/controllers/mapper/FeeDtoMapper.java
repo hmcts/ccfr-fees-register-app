@@ -414,6 +414,7 @@ public class FeeDtoMapper {
         feeVersion.setValidFrom(request.getValidFrom());
         feeVersion.setValidTo(request.getValidTo());
         feeVersion.setLastAmendingSi(request.getLastAmendingSi());
+        feeVersion.setConsolidatedFeeOrderName(request.getConsolidatedFeeOrderName());
         feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
         feeVersion.setSiRefId(request.getSiRefId());
         feeVersion.setDirectionType(DirectionType.directionWith().name(request.getDirection()).build());

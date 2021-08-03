@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-//@NoArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 public abstract class LoaderFeeDto extends FeeDto {
 

@@ -157,6 +157,7 @@ public class Fee2CrudComponentTest extends BaseTest {
             .memoLine("new memo line")
             .naturalAccountCode("xxx")
             .lastAmendingSi("test fee")
+            .consolidatedFeeOrderName("test name")
             .statutoryInstrument("xxx")
             .siRefId("2.1ci")
             .build();
@@ -193,6 +194,7 @@ public class Fee2CrudComponentTest extends BaseTest {
             .memoLine("new memo line")
             .naturalAccountCode("new nac")
             .lastAmendingSi("new fee order name")
+            .consolidatedFeeOrderName("new consolidated fee order name")
             .statutoryInstrument("new si")
             .siRefId("new sirefid")
             .build();
@@ -206,6 +208,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertThat(updateVersion.getMemoLine()).isEqualTo("new memo line");
         assertThat(updateVersion.getNaturalAccountCode()).isEqualTo("new nac");
         assertThat(updateVersion.getLastAmendingSi()).isEqualTo("new fee order name");
+        assertThat(updateVersion.getConsolidatedFeeOrderName()).isEqualTo("new consolidated fee order name");
         assertThat(updateVersion.getStatutoryInstrument()).isEqualTo("new si");
         assertThat(updateVersion.getSiRefId()).isEqualTo("new sirefid");
 

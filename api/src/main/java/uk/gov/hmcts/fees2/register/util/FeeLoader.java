@@ -226,6 +226,7 @@ public class FeeLoader implements ApplicationRunner {
                 .memoLine(feeVersionDto.getMemoLine())
                 .naturalAccountCode(feeVersionDto.getNaturalAccountCode())
                 .lastAmendingSi(feeVersionDto.getLastAmendingSi())
+                .consolidatedFeeOrderName(feeVersionDto.getConsolidatedFeeOrderName())
                 .statutoryInstrument(feeVersionDto.getStatutoryInstrument())
                 .siRefId(feeVersionDto.getSiRefId())
                 .build();
