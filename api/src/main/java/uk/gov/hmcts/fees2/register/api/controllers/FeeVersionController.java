@@ -65,7 +65,7 @@ public class FeeVersionController {
         final Integer newVersion = feeVersionService.getMaxFeeVersion(feeCode);
         request.setVersion(newVersion + 1);
 
-        feeVersionService.save(mapper.toFeeVersion(URIUtils.encodeVersionDetails(request), principal != null ? principal.getName() : null), feeCode);
+        feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
     }
 
     @ApiOperation(value = "Edit a fee version for the given fee code")
@@ -80,7 +80,7 @@ public class FeeVersionController {
             @PathVariable("version") final Integer version,
             @RequestBody @Validated final FeeVersionDto request) {
         final var feeVersion = feeVersionService.getFeeVersion(code, version);
-        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(URIUtils.encodeVersionDetails(request), feeVersion));
+        feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request, feeVersion));
     }
 
     @ApiOperation(value = "Approve a fee version")
