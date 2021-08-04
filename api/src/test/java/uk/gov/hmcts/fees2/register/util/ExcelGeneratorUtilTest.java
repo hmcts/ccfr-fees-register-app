@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.util;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.controllers.exceptions.FeesException;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -114,6 +115,13 @@ public class ExcelGeneratorUtilTest {
         assertEquals("JJJ", actual.getSheetAt(0).getRow(1).getCell(23).getStringCellValue());
         assertEquals("Discontinued fees", actual.getSheetAt(0).getRow(1).getCell(24).getStringCellValue());
         assertEquals("KKK", actual.getSheetAt(0).getRow(1).getCell(25).getStringCellValue());
+    }
+    @Test(expected = FeesException.class)
+    public void testExportToExcelRecordsThrowsFeesException()  {
+        final List<Fee2Dto> reportDataList = new ArrayList<>();
+        reportDataList.add(Fee2Dto.fee2DtoWith().build());
+        ExcelGeneratorUtil.exportToExcel(reportDataList);
+
     }
 
 }
