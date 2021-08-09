@@ -91,9 +91,8 @@ public class FeeVersionController {
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approve(@PathVariable("feeCode") final String feeCode, @PathVariable("version") final Integer version,
-                        final Principal principal) {
-        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.approved, getUserName(principal));
+    public void approve(@PathVariable("feeCode") final String feeCode, @PathVariable("version") final Integer version) {
+        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.approved, mapper.getUserName());
     }
 
     @ApiOperation(value = "Reject a fee version")
@@ -105,13 +104,13 @@ public class FeeVersionController {
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void reject(@PathVariable("feeCode") final String feeCode, @PathVariable("version") final Integer version,
-                       @RequestBody(required = false) final ReasonDto reasonDto, final Principal principal) {
+                       @RequestBody(required = false) final ReasonDto reasonDto) {
         if (null != reasonDto) {
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, getUserName(principal),
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, mapper.getUserName(),
                     (null != reasonDto.getReasonForReject()) ? Encode
                             .forHtml(reasonDto.getReasonForReject()) : "");
         } else {
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, getUserName(principal), null);
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, mapper.getUserName(), null);
         }
     }
 
@@ -128,9 +127,4 @@ public class FeeVersionController {
         feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.pending_approval, null);
     }
 
-    private String getUserName(final Principal principal) {
-        return ofNullable(principal)
-                .map(p -> p.getName())
-                .orElse(null);
-    }
 }

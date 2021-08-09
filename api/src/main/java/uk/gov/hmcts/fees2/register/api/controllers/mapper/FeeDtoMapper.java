@@ -1,7 +1,11 @@
 package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
@@ -228,7 +232,7 @@ public class FeeDtoMapper {
             version.setAmount(toVolumeAmount(versionDto.getVolumeAmount()));
         }
 
-        version.setAuthor(author);
+        version.setAuthor(getUserName());
 
         if(version.getStatus() == FeeVersionStatus.approved){
             version.setApprovedBy(author);
@@ -422,5 +426,24 @@ public class FeeDtoMapper {
         feeVersion.setDirectionType(DirectionType.directionWith().name(request.getDirection()).build());
         feeVersion.setReasonForUpdate(request.getReasonForUpdate());
         return feeVersion;
+    }
+
+    public String getUserName() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("authorization", SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
+        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:5000/o/userinfo");
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<uk.gov.hmcts.fees2.register.data.model.UserDetails> response = restTemplate.exchange(
+                builder.toUriString(),
+                HttpMethod.GET,
+                entity,
+                uk.gov.hmcts.fees2.register.data.model.UserDetails.class);
+        return response.getBody().getGiven_name() + response.getBody().getFamily_name();
     }
 }
