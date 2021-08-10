@@ -73,12 +73,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         try {
 
-            feeVersionController.approve(arr[3], 1, new Principal() {
-                @Override
-                public String getName() {
-                    return "AUTHOR";
-                }
-            });
+            feeVersionController.approve(arr[3], 1);
 
             feeVersionController.deleteFeeVersion(arr[3], 1);
 
@@ -101,12 +96,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
         try {
 
-            feeVersionController.approve(arr[3], 1, new Principal() {
-                @Override
-                public String getName() {
-                    return "AUTHOR";
-                }
-            });
+            feeVersionController.approve(arr[3], 1);
 
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
@@ -162,12 +152,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
         try {
-            feeVersionController.approve(arr[3], 1, new Principal() {
-                @Override
-                public String getName() {
-                    return "AUTHOR";
-                }
-            });
+            feeVersionController.approve(arr[3], 1);
 
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
@@ -200,12 +185,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
         try {
-            feeVersionController.approve(arr[3], 1, new Principal() {
-                @Override
-                public String getName() {
-                    return "AUTHOR";
-                }
-            });
+            feeVersionController.approve(arr[3], 1);
 
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
@@ -238,12 +218,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         String loc = saveFeeAndCheckStatusIsCreated(dto);
         String[] arr = loc.split("/");
         try {
-            feeVersionController.approve(arr[3], 1, new Principal() {
-                @Override
-                public String getName() {
-                    return "AUTHOR";
-                }
-            });
+            feeVersionController.approve(arr[3], 1);
 
             FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());

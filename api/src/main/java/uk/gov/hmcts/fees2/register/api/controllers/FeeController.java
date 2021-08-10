@@ -16,13 +16,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
-import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeVersionDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.*;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.model.FixedFee;
@@ -35,8 +34,12 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Api(value = "FeesRegister")
 @RestController
@@ -414,5 +417,36 @@ public class FeeController {
     private String getResourceLocation(Fee fee) {
         return URIUtils.getUrlForGetMethod(this.getClass(), "getFee").replace("{code}", fee.getCode());
     }
+
+    @ExceptionHandler(UnauthorizedRequestException.class)
+    public ResponseEntity<Map<String,String>> unauthorizedRequest(UnauthorizedRequestException e){
+        LOG.error("Unauthorized request: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Map<String,String>> forbiddenRequest(ForbiddenException e){
+        LOG.error("Forbidden request: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String,String>> notFoundException(NotFoundException e){
+        LOG.error("Not Found Exception: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String,String>> badRequest(BadRequestException e){
+        LOG.error("Bad request: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity internalServerException(InternalServerException e) {
+        LOG.debug("Internal Server Error: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.service;
 
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -156,12 +157,20 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         final RangedFeeDto dto =
             transactionTemplate.execute(
-                transactionStatus -> createDetailedFee()
+                transactionStatus -> {
+                    try {
+                        return createDetailedFee();
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                    return null;
+                }
             );
 
         Thread.sleep(250);
 
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+            @SneakyThrows
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
 
@@ -190,7 +199,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
     }
 
 
-    private RangedFeeDto createDetailedFee() {
+    private RangedFeeDto createDetailedFee() throws Exception {
 
         RangedFeeDto dto = new RangedFeeDto();
 

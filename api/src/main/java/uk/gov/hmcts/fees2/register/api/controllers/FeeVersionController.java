@@ -9,18 +9,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.ReasonDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
+import uk.gov.hmcts.fees2.register.data.exceptions.*;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
-import uk.gov.hmcts.fees2.register.util.URIUtils;
+import uk.gov.hmcts.fees2.register.util.IdamUtil;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Map;
 
-import static java.util.Optional.ofNullable;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Api(value = "FeesRegister", description = "Operations pertaining to fees")
 @RestController
@@ -33,10 +37,14 @@ public class FeeVersionController {
 
     private final FeeDtoMapper mapper;
 
+    private final IdamUtil idamUtil;
+
     @Autowired
-    public FeeVersionController(final FeeVersionService feeVersionService, final FeeDtoMapper mapper) {
+    public FeeVersionController(final FeeVersionService feeVersionService, final FeeDtoMapper mapper,
+                                IdamUtil idamUtil) {
         this.feeVersionService = feeVersionService;
         this.mapper = mapper;
+        this.idamUtil = idamUtil;
     }
 
     @ApiOperation(value = "Deletes a fee version for the given fee code if its on draft state")
@@ -92,7 +100,7 @@ public class FeeVersionController {
     @PatchMapping("/fees/{feeCode}/versions/{version}/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approve(@PathVariable("feeCode") final String feeCode, @PathVariable("version") final Integer version) {
-        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.approved, mapper.getUserName());
+        feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.approved, idamUtil.getUserName());
     }
 
     @ApiOperation(value = "Reject a fee version")
@@ -106,11 +114,11 @@ public class FeeVersionController {
     public void reject(@PathVariable("feeCode") final String feeCode, @PathVariable("version") final Integer version,
                        @RequestBody(required = false) final ReasonDto reasonDto) {
         if (null != reasonDto) {
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, mapper.getUserName(),
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, idamUtil.getUserName(),
                     (null != reasonDto.getReasonForReject()) ? Encode
                             .forHtml(reasonDto.getReasonForReject()) : "");
         } else {
-            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, mapper.getUserName(), null);
+            feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.draft, idamUtil.getUserName(), null);
         }
     }
 
@@ -125,6 +133,36 @@ public class FeeVersionController {
     public void submitForReview(@PathVariable("feeCode") final String feeCode,
                                 @PathVariable("version") final Integer version) {
         feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.pending_approval, null);
+    }
+
+    @ExceptionHandler(UnauthorizedRequestException.class)
+    public ResponseEntity<Map<String,String>> unauthorizedRequest(UnauthorizedRequestException e){
+        LOG.error("Unauthorized request: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Map<String,String>> forbiddenRequest(ForbiddenException e){
+        LOG.error("Forbidden request: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String,String>> notFoundException(NotFoundException e){
+        LOG.error("Not Found Exception: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String,String>> badRequest(BadRequestException e){
+        LOG.error("Bad request: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity internalServerException(InternalServerException e) {
+        LOG.debug("Internal Server Error: " + e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

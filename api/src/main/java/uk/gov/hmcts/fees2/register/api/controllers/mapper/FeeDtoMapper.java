@@ -1,11 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
@@ -25,6 +21,7 @@ import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 import uk.gov.hmcts.fees2.register.util.FeeFactory;
+import uk.gov.hmcts.fees2.register.util.IdamUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +30,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class FeeDtoMapper {
+
+//    @Autowired
+//    IdamUtil idamUtil;
 
     private Jurisdiction1Repository jurisdiction1Repository;
     private Jurisdiction2Repository jurisdiction2Repository;
@@ -43,6 +43,8 @@ public class FeeDtoMapper {
     private ApplicantTypeRepository applicantTypeRepository;
     private ReferenceDataDtoMapper referenceDataDtoMapper;
 
+    private IdamUtil idamUtil;
+
     @Autowired
     public FeeDtoMapper(
         Jurisdiction1Repository jurisdiction1Repository,
@@ -52,7 +54,8 @@ public class FeeDtoMapper {
         ChannelTypeRepository channelTypeRepository,
         EventTypeRepository eventTypeRepository,
         ApplicantTypeRepository applicantTypeRepository,
-        ReferenceDataDtoMapper referenceDataDtoMapper) {
+        ReferenceDataDtoMapper referenceDataDtoMapper,
+        IdamUtil idamUtil) {
 
         this.jurisdiction1Repository = jurisdiction1Repository;
         this.jurisdiction2Repository = jurisdiction2Repository;
@@ -62,6 +65,7 @@ public class FeeDtoMapper {
         this.directionTypeRepository = directionTypeRepository;
         this.applicantTypeRepository = applicantTypeRepository;
         this.referenceDataDtoMapper = referenceDataDtoMapper;
+        this.idamUtil = idamUtil;
     }
 
     private void fillFee(FeeDto request, Fee fee, String author) {
@@ -232,7 +236,7 @@ public class FeeDtoMapper {
             version.setAmount(toVolumeAmount(versionDto.getVolumeAmount()));
         }
 
-        version.setAuthor(getUserName());
+        version.setAuthor(idamUtil.getUserName());
 
         if(version.getStatus() == FeeVersionStatus.approved){
             version.setApprovedBy(author);
@@ -428,22 +432,4 @@ public class FeeDtoMapper {
         return feeVersion;
     }
 
-    public String getUserName() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("authorization", SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
-        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:5000/o/userinfo");
-
-        HttpEntity<?> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<uk.gov.hmcts.fees2.register.data.model.UserDetails> response = restTemplate.exchange(
-                builder.toUriString(),
-                HttpMethod.GET,
-                entity,
-                uk.gov.hmcts.fees2.register.data.model.UserDetails.class);
-        return response.getBody().getGiven_name() + response.getBody().getFamily_name();
-    }
 }
