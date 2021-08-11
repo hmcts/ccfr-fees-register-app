@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.fees2.register.api.contract.ReasonDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.IdamUtil;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -27,6 +28,9 @@ public class FeeVersionControllerMvcTest {
 
     @Mock
     private FeeVersionService feeVersionService;
+
+    @Mock
+    private IdamUtil idamUtil;
 
     @Before
     public void setup() {

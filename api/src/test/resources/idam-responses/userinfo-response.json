@@ -1,0 +1,12 @@
+{
+  "sub": "editor@hmcts.net",
+  "uid": "7578f6e2-5282-40bf-8d17-e3d32a704392",
+  "roles": [
+    "freg",
+    "freg-editor",
+    "IDAM_SUPER_USER"
+  ],
+  "name": "Editor E",
+  "given_name": "Editor",
+  "family_name": "E"
+}

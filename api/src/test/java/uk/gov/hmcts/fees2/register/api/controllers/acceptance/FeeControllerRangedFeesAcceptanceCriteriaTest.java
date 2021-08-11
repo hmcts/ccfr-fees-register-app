@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
 import org.junit.Test;
+import org.springframework.test.context.ActiveProfiles;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
@@ -14,6 +15,7 @@ import java.util.Date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles({"idam-test"})
 public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrationTest {
 
     /* PAY-449 */
@@ -51,6 +53,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
+        mockIdamAPI();
         String loc = restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", dto)
@@ -104,6 +107,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
+        mockIdamAPI();
         String loc = restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", dto)
@@ -159,6 +163,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
+        mockIdamAPI();
         String loc = restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", dto)
@@ -207,6 +212,7 @@ public class FeeControllerRangedFeesAcceptanceCriteriaTest extends BaseIntegrati
 
         dto.setVersion(versionDto);
 
+        mockIdamAPI();
         String loc = restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", dto)

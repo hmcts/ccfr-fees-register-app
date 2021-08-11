@@ -2,12 +2,14 @@ package uk.gov.hmcts.fees2.register.api.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseTest;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.util.IdamUtil;
 
 import java.math.BigDecimal;
 
@@ -17,6 +19,9 @@ public class FeeMapperIntegrationTest extends BaseTest {
 
     @Autowired
     private FeeDtoMapper dtoMapper;
+
+    @MockBean
+    private IdamUtil idamUtil;
 
     @Test
     public void testThatAllFieldsAreCoveredInModelDtoLifecycle() {

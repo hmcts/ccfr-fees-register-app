@@ -147,8 +147,8 @@ public class FeeVersionController {
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Map<String,String>> notFoundException(NotFoundException e){
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String,String>> notFoundException(UserNotFoundException e){
         LOG.error("Not Found Exception: " + e.getMessage());
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), NOT_FOUND);
     }

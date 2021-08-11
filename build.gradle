@@ -99,6 +99,7 @@ subprojects {
         compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
             exclude(module: 'netty-tcnative-boringssl-static')
         }
+        compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
         compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
         testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'

@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees2.register.api.controllers.acceptance;
 
 import org.junit.Test;
+import org.springframework.test.context.ActiveProfiles;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles({"idam-test"})
 public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
     /* --- PAY-440 --- */
@@ -47,6 +49,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
 
         dto.setVersion(versionDto);
 
+        mockIdamAPI();
         String loc = restActions
             .withUser("admin")
             .post("/fees-register/fixed-fees", dto)
@@ -93,6 +96,7 @@ public class LookupFeeAcceptanceCriteriaTest extends BaseIntegrationTest {
         versionDto.setStatus(FeeVersionStatusDto.approved);
         dto.setVersion(versionDto);
 
+        mockIdamAPI();
         String loc = restActions
             .withUser("admin")
             .post("/fees-register/fixed-fees", dto)

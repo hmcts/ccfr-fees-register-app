@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees2.register.api.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
@@ -16,6 +17,7 @@ import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.repository.ChannelTypeRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.util.IdamUtil;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -35,6 +37,9 @@ public class FeeServiceTest extends BaseTest{
 
     @Autowired
     private FeeDtoMapper dtoMapper;
+
+    @MockBean
+    private IdamUtil idamUtil;
 
     @Test
     @Transactional

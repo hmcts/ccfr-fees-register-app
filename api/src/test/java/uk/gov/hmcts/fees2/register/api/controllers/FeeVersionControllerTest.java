@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
@@ -12,12 +14,17 @@ import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.util.IdamUtil;
+
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
+@ActiveProfiles({"idam-test"})
 public class FeeVersionControllerTest extends BaseIntegrationTest {
 
     private static final String CONTENT_TYPE = "application/vnd.uk.gov.hmcts.cc.fr.v2+json";
@@ -30,6 +37,9 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
 
     @Mock
     private HttpServletResponse response;
+
+    @MockBean
+    private IdamUtil idamUtil;
 
     @Before
     public void setup(){

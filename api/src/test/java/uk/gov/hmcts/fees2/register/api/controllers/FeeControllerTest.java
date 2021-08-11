@@ -4,6 +4,8 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
@@ -26,12 +28,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by tarun on 02/11/2017.
  */
+@ActiveProfiles({"idam-test"})
+@SpringBootTest(webEnvironment = MOCK)
 @Transactional
 public class FeeControllerTest extends BaseIntegrationTest {
 
@@ -211,6 +216,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         RangedFeeDto rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 99, null, FeeVersionStatus.approved);
         rangedFeeDto.getVersion().setValidTo(calendar.getTime());
         rangedFeeDto.getVersion().setValidFrom(date);
+
+        mockIdamAPI();
 
         restActions
             .withUser("admin")
@@ -478,6 +485,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         secondRangedFeeDto.setMinRange(new BigDecimal("0"));
         secondRangedFeeDto.setMaxRange(null);
 
+        mockIdamAPI();
+
         restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
@@ -503,6 +512,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         firstRangedFeeDto.setMaxRange(null);
         secondRangedFeeDto.setMinRange(new BigDecimal("0"));
         secondRangedFeeDto.setMaxRange(null);
+
+        mockIdamAPI();
 
         restActions
             .withUser("admin")
@@ -530,6 +541,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         secondRangedFeeDto.setMinRange(new BigDecimal("50"));
         secondRangedFeeDto.setMaxRange(null);
 
+        mockIdamAPI();
+
         restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
@@ -555,6 +568,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         firstRangedFeeDto.setMaxRange(new BigDecimal("100"));
         secondRangedFeeDto.setMinRange(new BigDecimal("0"));
         secondRangedFeeDto.setMaxRange(new BigDecimal("100"));
+
+        mockIdamAPI();
 
         restActions
             .withUser("admin")
@@ -582,6 +597,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         secondRangedFeeDto.setMinRange(new BigDecimal("50"));
         secondRangedFeeDto.setMaxRange(new BigDecimal("150"));
 
+        mockIdamAPI();
+
         restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
@@ -608,6 +625,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         secondRangedFeeDto.setMinRange(new BigDecimal("0"));
         secondRangedFeeDto.setMaxRange(new BigDecimal("50"));
 
+        mockIdamAPI();
+
         restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
@@ -633,6 +652,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         firstRangedFeeDto.setMaxRange(new BigDecimal("50"));
         secondRangedFeeDto.setMinRange(new BigDecimal("50"));
         secondRangedFeeDto.setMaxRange(new BigDecimal("100"));
+
+        mockIdamAPI();
 
         restActions
             .withUser("admin")
@@ -666,6 +687,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         RangedFeeDto rangedFeeDto = FeeDataUtils.getRangedCreateProbateCopiesFeeRequest();
         rangedFeeDto.setKeyword("xxx");
 
+        mockIdamAPI();
+
         restActions
             .withUser("admin")
             .post("/fees-register/fixed-fees", fixedFeeDto)
@@ -694,6 +717,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         secondRangedFeeDto.setMinRange(new BigDecimal("0"));
         secondRangedFeeDto.setMaxRange(new BigDecimal("100"));
 
+        mockIdamAPI();
+
         restActions
             .withUser("admin")
             .post("/fees-register/ranged-fees", firstRangedFeeDto)
@@ -713,6 +738,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         FixedFeeDto dto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
         dto.setKeyword("xxx");
+
+        mockIdamAPI();
 
         restActions
             .withUser("admin")
@@ -741,6 +768,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         FixedFeeDto dto = FeeDataUtils.getCreateProbateCopiesFeeRequest();
         dto.setKeyword("xxx");
+
+        mockIdamAPI();
 
         assertNotNull(
             restActions

@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.api.service;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.IdamUtil;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -43,6 +45,8 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
+    @MockBean
+    private IdamUtil idamUtil;
 
     @Test
     @Transactional

@@ -96,6 +96,7 @@ dependencies {
     testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
     testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
     testCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    testCompile group: 'com.github.tomakehurst', name: 'wiremock'
 
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'

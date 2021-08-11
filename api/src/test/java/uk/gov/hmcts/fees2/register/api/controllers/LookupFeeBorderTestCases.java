@@ -1,6 +1,8 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
@@ -8,10 +10,13 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
+
+@ActiveProfiles({"idam-test"})
+@SpringBootTest(webEnvironment = MOCK)
 public class LookupFeeBorderTestCases extends BaseIntegrationTest {
 
     /* We need to add test cases like 299.98 claim and 299.99, 300, 300.01,

@@ -2,6 +2,8 @@ package uk.gov.hmcts.fees2.register.api.repository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
@@ -20,6 +22,7 @@ import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.service.ChannelTypeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
+import uk.gov.hmcts.fees2.register.util.IdamUtil;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -33,7 +36,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by tarun on 02/11/2017.
  */
-
+@ActiveProfiles({"idam-test"})
 public class Fee2CrudComponentTest extends BaseTest {
 
     @Autowired
@@ -44,6 +47,9 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Autowired
     private FeeDtoMapper feeDtoMapper;
+
+    @MockBean
+    private IdamUtil idamUtil;
 
     private RangedFeeDto rangedFeeDto;
 
