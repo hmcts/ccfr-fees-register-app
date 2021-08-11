@@ -41,7 +41,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteFeeAndVersion() throws Exception {
 
         FixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "consolidated fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         String loc = saveFeeAndCheckStatusIsCreated(dto);
@@ -65,7 +65,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteApprovedVersionFails() throws Exception {
 
         FixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "consolidated fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         String loc = saveFeeAndCheckStatusIsCreated(dto);
@@ -92,7 +92,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testDeleteVersionDoesNotDeleteFee() throws Exception {
 
         FixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name","consolidated fee order name",  "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         String loc = saveFeeAndCheckStatusIsCreated(dto);
@@ -108,7 +108,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
                 }
             });
 
-            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "consolidated fee order name",  "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
             feeVersionDto2.setVersion(2);
 
@@ -134,10 +134,10 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void createFeeWithMultipleVersions() throws Exception {
         FixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1",
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "memoLine1", "fee order name1", "consolidated fee order name",
             "natural account code1", "SI_1", "siRefId1", DirectionType.directionWith().name("enhanced").build()));
 
-        FeeVersionDto version2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine2", "fee order name2",
+        FeeVersionDto version2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine2", "fee order name2", "consolidated fee order name",
             "natural account code2", "SI_2", "siRefId2", DirectionType.directionWith().name("enhanced").build());
         version2.setVersion(2);
 
@@ -156,7 +156,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testFlatAmountEditFeeVersion() throws Exception {
 
         FixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "consolidated fee order name",  "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         String loc = saveFeeAndCheckStatusIsCreated(dto);
@@ -169,7 +169,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
                 }
             });
 
-            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "consolidated fee order name",  "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
             feeVersionDto2.setVersion(2);
 
@@ -194,7 +194,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testPercentageAmountEditFeeVersion() throws Exception {
 
         FixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "consolidated fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         String loc = saveFeeAndCheckStatusIsCreated(dto);
@@ -207,7 +207,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
                 }
             });
 
-            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "consolidated fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
             feeVersionDto2.setVersion(2);
             feeVersionDto2.setFlatAmount(null);
@@ -232,7 +232,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     public synchronized void testVolumeAmountEditFeeVersion() throws Exception {
 
         FixedFeeDto dto = getFee();
-        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "natural account code",
+        dto.setVersion(getFeeVersionDto(FeeVersionStatus.pending_approval, "memoLine", "fee order name", "consolidated fee order name", "natural account code",
             "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
 
         String loc = saveFeeAndCheckStatusIsCreated(dto);
@@ -245,7 +245,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
                 }
             });
 
-            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "natural account code",
+            FeeVersionDto feeVersionDto2 = getFeeVersionDto(FeeVersionStatus.draft, "memoLine", "fee order name", "consolidated fee order name", "natural account code",
                 "SI", "siRefId", DirectionType.directionWith().name("enhanced").build());
             feeVersionDto2.setVersion(2);
             feeVersionDto2.setFlatAmount(null);

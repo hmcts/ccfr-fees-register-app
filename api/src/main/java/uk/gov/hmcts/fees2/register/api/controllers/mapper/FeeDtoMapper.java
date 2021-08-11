@@ -208,7 +208,8 @@ public class FeeDtoMapper {
         if (null != versionDto.getValidTo())
             version.setValidTo(FeesDateUtil.addEODTimeToDate(versionDto.getValidTo()));
         version.setMemoLine(versionDto.getMemoLine());
-        version.setFeeOrderName(versionDto.getFeeOrderName());
+        version.setLastAmendingSi(versionDto.getLastAmendingSi());
+        version.setConsolidatedFeeOrderName(versionDto.getConsolidatedFeeOrderName());
         version.setNaturalAccountCode(versionDto.getNaturalAccountCode());
         version.setStatutoryInstrument(versionDto.getStatutoryInstrument());
         version.setSiRefId(versionDto.getSiRefId());
@@ -276,7 +277,8 @@ public class FeeDtoMapper {
         }
 
         feeVersionDto.setNaturalAccountCode(feeVersion.getNaturalAccountCode());
-        feeVersionDto.setFeeOrderName(feeVersion.getFeeOrderName());
+        feeVersionDto.setLastAmendingSi(feeVersion.getLastAmendingSi());
+        feeVersionDto.setConsolidatedFeeOrderName(feeVersion.getConsolidatedFeeOrderName());
         feeVersionDto.setStatutoryInstrument(feeVersion.getStatutoryInstrument());
         feeVersionDto.setSiRefId(feeVersion.getSiRefId());
 
@@ -416,7 +418,8 @@ public class FeeDtoMapper {
         feeVersion.setDescription(request.getDescription());
         feeVersion.setValidFrom(request.getValidFrom());
         feeVersion.setValidTo(request.getValidTo());
-        feeVersion.setFeeOrderName(request.getFeeOrderName());
+        feeVersion.setLastAmendingSi(request.getLastAmendingSi());
+        feeVersion.setConsolidatedFeeOrderName(request.getConsolidatedFeeOrderName());
         feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
         feeVersion.setSiRefId(request.getSiRefId());
         feeVersion.setDirectionType(DirectionType.directionWith().name(request.getDirection()).build());
