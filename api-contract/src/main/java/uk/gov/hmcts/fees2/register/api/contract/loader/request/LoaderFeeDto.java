@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
