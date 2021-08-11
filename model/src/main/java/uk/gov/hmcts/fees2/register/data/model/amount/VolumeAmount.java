@@ -22,7 +22,7 @@ public class VolumeAmount extends Amount {
 
     @Override
     public BigDecimal calculateFee(BigDecimal amountOrVolume) {
-        return null != amountOrVolume ? this.amount.multiply(amountOrVolume, MathContext.DECIMAL32).setScale(2, BigDecimal.ROUND_DOWN) : null;
+        return this.amount.multiply(amountOrVolume, MathContext.DECIMAL32).setScale(2, BigDecimal.ROUND_DOWN);
     }
 
     @Override
