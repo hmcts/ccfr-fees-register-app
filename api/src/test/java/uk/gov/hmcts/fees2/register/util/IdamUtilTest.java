@@ -48,23 +48,22 @@ public class IdamUtilTest {
         MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
         header.put("authorization", Collections.singletonList("Bearer 131313"));
 
-        IdamUserInfoResponse mockIdamUserIdResponse = IdamUserInfoResponse.idamUserNameResponseWith()
-                .familyName("AA")
-                .givenName("BB")
-                .name("AA BB")
-                .sub("CC@gmail.com")
-                .roles(Arrays.asList("DD"))
-                .uid("986-erfg-kjhg-123")
-                .build();
+        IdamUserInfoResponse mockIdamUserInfoResponse = new IdamUserInfoResponse();
+        mockIdamUserInfoResponse.setGivenName("AA");
+        mockIdamUserInfoResponse.setFamilyName("BB");
+        mockIdamUserInfoResponse.setName("AA BB");
+        mockIdamUserInfoResponse.setUid("986-erfg-kjhg-123");
+        mockIdamUserInfoResponse.setRoles(Arrays.asList("DD"));
+        mockIdamUserInfoResponse.setSub("CC@gmail.com");
 
-        ResponseEntity<IdamUserInfoResponse> responseEntity = new ResponseEntity<>(mockIdamUserIdResponse, HttpStatus.OK);
+        ResponseEntity<IdamUserInfoResponse> responseEntity = new ResponseEntity<>(mockIdamUserInfoResponse, HttpStatus.OK);
 
         when(restTemplateIdam.exchange(anyString(), any(HttpMethod.class), any(org.springframework.http.HttpEntity.class),
                 eq(IdamUserInfoResponse.class)
         )).thenReturn(responseEntity);
 
         String userName = idamUtil.getUserName();
-//        assertEquals(userName, mockIdamUserIdResponse.getName());
+        assertEquals(userName, mockIdamUserInfoResponse.getName());
     }
 
     @Test(expected = UserNotFoundException.class)
@@ -113,21 +112,22 @@ public class IdamUtilTest {
 
     @Test
     public void validateResponseDto() throws Exception{
-        IdamUserInfoResponse idamUserIdResponse = IdamUserInfoResponse.idamUserNameResponseWith()
-                .familyName("VP")
-                .givenName("VP")
-                .name("VP")
-                .sub("V_P@gmail.com")
-                .roles(Arrays.asList("vp"))
-                .uid("986-erfg-kjhg-123")
-                .build();
 
-        assertEquals(idamUserIdResponse.getFamilyName(),"VP");
-        assertEquals(idamUserIdResponse.getGivenName(),"VP");
-        assertEquals(idamUserIdResponse.getName(),"VP");
-        assertEquals(idamUserIdResponse.getRoles(),Arrays.asList("vp"));
+        IdamUserInfoResponse idamUserIdResponse = new IdamUserInfoResponse();
+
+        idamUserIdResponse.setGivenName("AA");
+        idamUserIdResponse.setFamilyName("BB");
+        idamUserIdResponse.setName("AA BB");
+        idamUserIdResponse.setUid("986-erfg-kjhg-123");
+        idamUserIdResponse.setRoles(Arrays.asList("DD"));
+        idamUserIdResponse.setSub("CC@gmail.com");
+
+        assertEquals(idamUserIdResponse.getFamilyName(),"BB");
+        assertEquals(idamUserIdResponse.getGivenName(),"AA");
+        assertEquals(idamUserIdResponse.getName(),"AA BB");
+        assertEquals(idamUserIdResponse.getRoles(),Arrays.asList("DD"));
         assertEquals(idamUserIdResponse.getUid(),"986-erfg-kjhg-123");
-        assertEquals(idamUserIdResponse.getSub(),"V_P@gmail.com");
+        assertEquals(idamUserIdResponse.getSub(),"CC@gmail.com");
     }
 
 }

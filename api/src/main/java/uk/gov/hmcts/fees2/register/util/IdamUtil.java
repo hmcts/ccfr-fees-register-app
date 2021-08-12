@@ -38,7 +38,7 @@ public class IdamUtil {
             if (responseEntity != null) {
                 IdamUserInfoResponse idamUserIdResponse = responseEntity.getBody();
                 if (idamUserIdResponse != null) {
-                    return idamUserIdResponse.getUid();
+                    return idamUserIdResponse.getName();
                 }
             }
             LOG.error("Parse error user not found");
