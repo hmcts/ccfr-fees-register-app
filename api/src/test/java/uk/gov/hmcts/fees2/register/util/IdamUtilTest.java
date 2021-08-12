@@ -1,16 +1,24 @@
 package uk.gov.hmcts.fees2.register.util;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithSecurityContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -24,6 +32,8 @@ import uk.gov.hmcts.fees2.register.data.exceptions.InternalServerException;
 import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.IdamUserInfoResponse;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -32,11 +42,14 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
-@ContextConfiguration(classes = {TestSecurityConfiguration.class})
+//@ContextConfiguration(classes = {TestSecurityConfiguration.class})
 @ActiveProfiles({"idam-test"})
 public class IdamUtilTest {
+
+    @Mock
+    private Authentication auth;
 
     @InjectMocks
     private IdamUtil idamUtil;
@@ -44,6 +57,18 @@ public class IdamUtilTest {
     @Mock
     @Qualifier("restTemplateIdam")
     private RestTemplate restTemplateIdam;
+
+    @Before
+    public void initSecurityContext() {
+        MockitoAnnotations.initMocks(this);
+        when(auth.getCredentials()).thenReturn("mockedPassword");
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
+    @After
+    public void clearSecurityContext() {
+        SecurityContextHolder.clearContext();
+    }
 
     @Test
     @WithMockUser("AA BB")
