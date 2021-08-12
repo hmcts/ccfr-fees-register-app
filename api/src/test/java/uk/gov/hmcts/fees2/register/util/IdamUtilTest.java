@@ -12,12 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+import uk.gov.hmcts.fees2.register.api.controllers.TestSecurityConfiguration;
 import uk.gov.hmcts.fees2.register.data.exceptions.InternalServerException;
 import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.IdamUserInfoResponse;
@@ -32,7 +34,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
-//@ContextConfiguration(classes = {TestSecurityConfiguration.class})
+@ContextConfiguration(classes = {TestSecurityConfiguration.class})
 @ActiveProfiles({"idam-test"})
 public class IdamUtilTest {
 
