@@ -42,9 +42,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 
-//@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
-//@ContextConfiguration(classes = {TestSecurityConfiguration.class})
 @ActiveProfiles({"idam-test"})
 public class IdamUtilTest {
 
