@@ -32,6 +32,8 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
+//@ContextConfiguration(classes = {TestSecurityConfiguration.class})
+@ActiveProfiles({"idam-test"})
 public class IdamUtilTest {
 
     @InjectMocks
