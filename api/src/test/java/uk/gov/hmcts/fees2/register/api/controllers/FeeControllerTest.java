@@ -37,7 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by tarun on 02/11/2017.
  */
-@RunWith(SpringRunner.class)
 @ActiveProfiles({"idam-test"})
 @SpringBootTest(webEnvironment = MOCK)
 @Transactional
