@@ -1,6 +1,8 @@
 package uk.gov.hmcts.fees2.register.api.controllers.base;
 
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import lombok.SneakyThrows;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -43,7 +45,7 @@ public abstract class BaseIntegrationTest extends BaseTest {
     private ConfigurableListableBeanFactory configurableListableBeanFactory;
 
     @ClassRule
-    public static WireMockClassRule wireMockRule = new WireMockClassRule(9190);
+    public static WireMockClassRule wireMockRule = new WireMockClassRule(9999);
 
     @Rule
     public WireMockClassRule instanceRule = wireMockRule;
