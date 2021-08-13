@@ -268,7 +268,7 @@ subprojects {
     }
 
     task fortifyScan(type: JavaExec)  {
-        main = "fortify-client-1.2.1-all.jar/uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+        main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
         classpath += sourceSets.test.runtimeClasspath
         jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
     }
