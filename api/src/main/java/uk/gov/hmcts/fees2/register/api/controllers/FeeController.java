@@ -437,13 +437,6 @@ public class FeeController {
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<Map<String, String>> badRequest(BadRequestException e) {
-        LOG.error("Bad request: {}", e.getMessage());
-        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(InternalServerException.class)
     public ResponseEntity<Map<String, String>> internalServerException(InternalServerException e) {
