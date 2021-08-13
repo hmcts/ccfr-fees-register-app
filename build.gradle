@@ -99,6 +99,9 @@ subprojects {
         compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
             exclude(module: 'netty-tcnative-boringssl-static')
         }
+
+        testCompile 'com.github.hmcts:fortify-client:1.2.1:all'
+
         compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
         testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
@@ -262,6 +265,12 @@ subprojects {
         doLast {
             print project.version
         }
+    }
+
+    task fortifyScan(type: JavaExec)  {
+        main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+        classpath += sourceSets.test.runtimeClasspath
+        jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
     }
 
     run {

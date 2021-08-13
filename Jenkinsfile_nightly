@@ -39,7 +39,12 @@ withNightlyPipeline("java", product, component) {
     loadVaultSecrets(secrets)
     enableSecurityScan()
     enableMutationTest()
+    enableFortifyScan()
     enableFullFunctionalTest()
+
+    after('fortify-scan') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+    }
 
     after('fullFunctionalTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
