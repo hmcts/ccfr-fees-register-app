@@ -416,35 +416,40 @@ public class FeeController {
         return URIUtils.getUrlForGetMethod(this.getClass(), "getFee").replace("{code}", fee.getCode());
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedRequestException.class)
-    public ResponseEntity<Map<String,String>> unauthorizedRequest(UnauthorizedRequestException e){
-        LOG.error("Unauthorized request: " + e.getMessage());
+    public ResponseEntity<Map<String, String>> unauthorizedRequest(UnauthorizedRequestException e) {
+        LOG.error("Unauthorized request: {}", e.getMessage());
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<Map<String,String>> forbiddenRequest(ForbiddenException e){
-        LOG.error("Forbidden request: " + e.getMessage());
+    public ResponseEntity<Map<String, String>> forbiddenRequest(ForbiddenException e) {
+        LOG.error("Forbidden request: {}", e.getMessage());
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.FORBIDDEN);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Map<String,String>> notFoundException(UserNotFoundException e){
-        LOG.error("Not Found Exception: " + e.getMessage());
+    public ResponseEntity<Map<String, String>> notFoundException(UserNotFoundException e) {
+        LOG.error("Not Found Exception: {}", e.getMessage());
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), NOT_FOUND);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<Map<String,String>> badRequest(BadRequestException e){
-        LOG.error("Bad request: " + e.getMessage());
+    public ResponseEntity<Map<String, String>> badRequest(BadRequestException e) {
+        LOG.error("Bad request: {}", e.getMessage());
         return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(InternalServerException.class)
-    public ResponseEntity internalServerException(InternalServerException e) {
-        LOG.debug("Internal Server Error: " + e.getMessage());
-        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Map<String, String>> internalServerException(InternalServerException e) {
+        LOG.debug("Internal Server Error: {}", e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 
 }

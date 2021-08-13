@@ -1,8 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers.base;
 
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import lombok.SneakyThrows;
 import org.junit.ClassRule;
 import org.junit.Rule;
