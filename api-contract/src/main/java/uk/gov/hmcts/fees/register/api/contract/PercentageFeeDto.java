@@ -18,9 +18,9 @@ import java.math.BigDecimal;
 @ToString(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PercentageFeeDto extends FeeDto {
-    @NotNull
-    @DecimalMin("0.01")
-    @DecimalMax("100.00")
+    @NotNull(message = "must not be null")
+    @DecimalMin(value = "0.01", message = "must be greater than or equal to 0.01")
+    @DecimalMax(value = "100.00", message = "must be less than or equal to 100.00")
     private final BigDecimal percentage;
 
     @JsonCreator
