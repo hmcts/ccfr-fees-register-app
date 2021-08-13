@@ -9,5 +9,12 @@
         <cve>CVE-2018-1258</cve>
     </suppress>
 
+    <!-- Below are the supressions added fpr False Positive CVEs  -->
+    <suppress  until="2021-09-07">
+        <notes>CVE-2021-28170
+        </notes>
+        <cve>CVE-2021-28170</cve>
+    </suppress>
+
     <!-- Supression group ends here  -->
 </suppressions>
