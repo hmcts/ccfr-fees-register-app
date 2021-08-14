@@ -109,6 +109,7 @@ subprojects {
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
+        testCompile 'com.github.hmcts:fortify-client:1.2.1:all'
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
@@ -119,6 +120,12 @@ subprojects {
     task javadocJar(type: Jar, dependsOn: javadoc) {
         classifier = 'javadoc'
         from javadoc.destinationDir
+    }
+
+    task fortifyScan(type: JavaExec)  {
+        main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+        classpath += sourceSets.test.runtimeClasspath
+        jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
     }
 
     artifacts {
