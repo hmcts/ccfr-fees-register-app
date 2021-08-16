@@ -8,6 +8,7 @@
         </notes>
         <cve>CVE-2018-1258</cve>
         <cve>CVE-2021-28170</cve>
+        <cve>CVE-2021-22119</cve>
     </suppress>
 
     <!-- Supression group ends here  -->
