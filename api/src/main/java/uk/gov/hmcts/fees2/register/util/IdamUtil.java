@@ -17,12 +17,11 @@ import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.IdamUserInfoResponse;
 
 @Service
-@SuppressWarnings("PMD.PreserveStackTrace")
 public class IdamUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(IdamUtil.class);
 
-    private static final String USERID_ENDPOINT = "/o/userinfo";
+    private static final String USERID_ENDPOINT = "/api/v1/users";
 
     @Value("${auth.idam.client.baseUrl}")
     private String idamBaseURL;
@@ -34,27 +33,31 @@ public class IdamUtil {
     public String getUserName() {
 
         try {
-            ResponseEntity<IdamUserInfoResponse> responseEntity = getResponseEntity();
+            final ResponseEntity<IdamUserInfoResponse> responseEntity = getResponseEntity();
             if (responseEntity != null) {
-                IdamUserInfoResponse idamUserIdResponse = responseEntity.getBody();
-                if (idamUserIdResponse != null) {
-                    return idamUserIdResponse.getName();
+                final IdamUserInfoResponse idamUserIdResponse = responseEntity.getBody();
+                if (null != idamUserIdResponse && null != idamUserIdResponse.getIdamUserInfoList().get(0)) {
+                    return idamUserIdResponse.getIdamUserInfoList().get(0).getForename()
+                            + idamUserIdResponse.getIdamUserInfoList().get(0).getSurname();
                 }
             }
             LOG.error("Parse error user not found");
             throw new UserNotFoundException("User not found");
-        } catch (HttpClientErrorException e) {
+        } catch (final HttpClientErrorException e) {
             LOG.error("client err ", e);
             throw new UserNotFoundException("User not found");
-        } catch (HttpServerErrorException e) {
+        } catch (final HttpServerErrorException e) {
             LOG.error("server err ", e);
             throw new InternalServerException("Unable to retrieve User information. Please try again later");
         }
     }
 
     private ResponseEntity<IdamUserInfoResponse> getResponseEntity() {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(idamBaseURL + USERID_ENDPOINT);
+
+        final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(idamBaseURL + USERID_ENDPOINT)
+                .queryParam("query", "id:" + SecurityContextHolder.getContext().getAuthentication().getName());
         LOG.debug("builder.toUriString() : {}", builder.toUriString());
+        System.out.println("builder.toUriString() :" + builder.toUriString());
         return restTemplateIdam
                 .exchange(
                         builder.toUriString(),
@@ -65,9 +68,10 @@ public class IdamUtil {
 
     private HttpEntity<?> getHeaders() {
 
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
 
-        headers.set(HttpHeaders.AUTHORIZATION, SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
+        headers.set(HttpHeaders.AUTHORIZATION,
+                SecurityContextHolder.getContext().getAuthentication().getCredentials().toString());
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 
         return new HttpEntity<>(headers);
