@@ -11,8 +11,7 @@ import uk.gov.hmcts.fees.register.functional.service.FeeService;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
 @ContextConfiguration(classes = TestContextConfiguration.class)
-@Ignore
-public class IntegrationTestBase {
+public abstract class IntegrationTestBase {
 
     @Autowired
     protected IdamService idamService;

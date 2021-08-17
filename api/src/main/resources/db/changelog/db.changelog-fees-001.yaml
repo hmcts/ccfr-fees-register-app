@@ -537,6 +537,22 @@ databaseChangeLog:
 
     - changeSet:
         logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
+        id: 24
+        author: priyatham
+        changes:
+          - sql: >
+              ALTER TABLE fee_version ADD COLUMN reason_for_update VARCHAR(255);
+
+    - changeSet:
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
+        id: 26
+        author: Sayali
+        changes:
+          - sql: >
+              ALTER TABLE fee_version ADD COLUMN reason_for_reject VARCHAR(1000);
+
+    - changeSet:
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1516108652088-1
         author: Eduardo (generated)
         changes:
@@ -569,10 +585,21 @@ databaseChangeLog:
               DELETE FROM ranged_fee f WHERE NOT EXISTS (SELECT 1 FROM fee_version WHERE fee_id = f.id);
               DELETE FROM fee f WHERE NOT EXISTS (SELECT 1 FROM fee_version WHERE fee_id = f.id);
 
+    - changeSet:
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
+        id: 17019629
+        author: Jennings
+        changes:
+          - renameColumn:
+              newColumnName: last_amending_si
+              oldColumnName: fee_order_name
+              tableName: fee_version
+          - sql: >
+              ALTER TABLE fee_version ADD COLUMN consolidated_fee_order_name VARCHAR(1000);
 
     - include:
         file: db/changelog/db.changelog-fees-managed-v5.yaml
 
     - include:
-        file: db/changelog/db.changelog-fees-managed-v6.yaml
+        file: db/changelog/db.changelog-fees-managed-v7.yaml
 

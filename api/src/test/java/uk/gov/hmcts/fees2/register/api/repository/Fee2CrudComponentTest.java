@@ -156,7 +156,8 @@ public class Fee2CrudComponentTest extends BaseTest {
             .description("new description")
             .memoLine("new memo line")
             .naturalAccountCode("xxx")
-            .feeOrderName("test fee")
+            .lastAmendingSi("test fee")
+            .consolidatedFeeOrderName("test name")
             .statutoryInstrument("xxx")
             .siRefId("2.1ci")
             .build();
@@ -192,7 +193,8 @@ public class Fee2CrudComponentTest extends BaseTest {
             .description("New version description")
             .memoLine("new memo line")
             .naturalAccountCode("new nac")
-            .feeOrderName("new fee order name")
+            .lastAmendingSi("new fee order name")
+            .consolidatedFeeOrderName("new consolidated fee order name")
             .statutoryInstrument("new si")
             .siRefId("new sirefid")
             .build();
@@ -205,7 +207,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertThat(updateVersion.getAmount()).isEqualTo(new FlatAmount(new BigDecimal("99.89")));
         assertThat(updateVersion.getMemoLine()).isEqualTo("new memo line");
         assertThat(updateVersion.getNaturalAccountCode()).isEqualTo("new nac");
-        assertThat(updateVersion.getFeeOrderName()).isEqualTo("new fee order name");
+        assertThat(updateVersion.getLastAmendingSi()).isEqualTo("new fee order name");
+        assertThat(updateVersion.getConsolidatedFeeOrderName()).isEqualTo("new consolidated fee order name");
         assertThat(updateVersion.getStatutoryInstrument()).isEqualTo("new si");
         assertThat(updateVersion.getSiRefId()).isEqualTo("new sirefid");
 

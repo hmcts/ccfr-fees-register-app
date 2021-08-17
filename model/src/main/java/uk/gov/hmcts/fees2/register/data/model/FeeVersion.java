@@ -48,8 +48,11 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "memo_line")
     private String memoLine;
 
-    @Column(name="fee_order_name")
-    private String feeOrderName;
+    @Column(name="last_amending_si")
+    private String lastAmendingSi;
+
+    @Column(name="consolidated_fee_order_name")
+    private String consolidatedFeeOrderName;
 
     @Column(name = "natural_account_code")
     private String naturalAccountCode;
@@ -59,6 +62,12 @@ public class FeeVersion extends AbstractEntity{
 
     @Column(name = "si_ref_id")
     private String siRefId;
+
+    @Column(name = "reason_for_update")
+    private String reasonForUpdate;
+
+    @Column(name = "reason_for_reject")
+    private String reasonForReject;
 
     @ManyToOne
     @JoinColumn(name = "direction_type")
@@ -76,19 +85,23 @@ public class FeeVersion extends AbstractEntity{
     @Override
     public String toString() {
         return "FeeVersion{" +
-            "fee=" + fee.getCode() +
+            "fee=" + fee +
             ", amount=" + amount +
             ", description='" + description + '\'' +
             ", version=" + version +
             ", status=" + status +
+            ", validFrom=" + validFrom +
+            ", validTo=" + validTo +
+            ", author='" + author + '\'' +
+            ", approvedBy='" + approvedBy + '\'' +
             ", memoLine='" + memoLine + '\'' +
-            ", directionType=" + directionType +
-            ", feeOrderName='" + feeOrderName + '\'' +
+            ", lastAmendingSi='" + lastAmendingSi + '\'' +
+            ", consolidateFeeOrderName='" + consolidatedFeeOrderName + '\'' +
             ", naturalAccountCode='" + naturalAccountCode + '\'' +
             ", statutoryInstrument='" + statutoryInstrument + '\'' +
             ", siRefId='" + siRefId + '\'' +
-            ", validFrom=" + validFrom +
-            ", validTo=" + validTo +
+            ", reasonForUpdate='" + reasonForUpdate + '\'' +
+            ", reasonForReject='" + reasonForReject + '\'' +
             '}';
     }
 }

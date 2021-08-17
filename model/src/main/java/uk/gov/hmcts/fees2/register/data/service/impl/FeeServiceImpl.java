@@ -71,9 +71,11 @@ public class FeeServiceImpl implements FeeService {
             throw new ConflictException("Fee with the given reference data/overlapping range already exists");
         }
 
-        Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
-        fee.setFeeNumber(nextFeeNumber);
-        fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
+        if (null == fee.getCode() && null == fee.getFeeNumber()) {
+            Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
+            fee.setFeeNumber(nextFeeNumber);
+            fee.setCode("FEE" + StringUtils.leftPad(nextFeeNumber.toString(), 4, "0"));
+        }
 
         return fee2Repository.save(fee);
     }
