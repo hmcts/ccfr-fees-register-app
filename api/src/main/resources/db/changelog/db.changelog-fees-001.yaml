@@ -597,6 +597,16 @@ databaseChangeLog:
           - sql: >
               ALTER TABLE fee_version ADD COLUMN consolidated_fee_order_name VARCHAR(1000);
 
+    - changeSet:
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
+        id: 17019630
+        author: Jennings
+        changes:
+          - renameColumn:
+              newColumnName: fee_order_name
+              oldColumnName: last_amending_si
+              tableName: fee_version
+
     - include:
         file: db/changelog/db.changelog-fees-managed-v5.yaml
 

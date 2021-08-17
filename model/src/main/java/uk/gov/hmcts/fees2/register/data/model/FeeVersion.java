@@ -48,7 +48,7 @@ public class FeeVersion extends AbstractEntity{
     @Column(name = "memo_line")
     private String memoLine;
 
-    @Column(name="last_amending_si")
+    @Column(name="fee_order_name")
     private String lastAmendingSi;
 
     @Column(name="consolidated_fee_order_name")
