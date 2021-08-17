@@ -601,5 +601,5 @@ databaseChangeLog:
         file: db/changelog/db.changelog-fees-managed-v5.yaml
 
     - include:
-        file: db/changelog/db.changelog-fees-managed-v7.yaml
+        file: db/changelog/db.changelog-fees-managed-v6.yaml
 
