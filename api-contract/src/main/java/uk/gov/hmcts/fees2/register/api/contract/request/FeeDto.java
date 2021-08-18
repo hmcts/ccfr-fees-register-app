@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 public abstract class FeeDto {
 
-    @JsonIgnore
+//    @JsonIgnore
     protected String code;
 
     @JsonIgnore

@@ -117,6 +117,14 @@ public abstract class Fee extends AbstractEntity {
         return opt.isPresent() ? opt.get() : null;
     }
 
+    public FeeVersion getVersion(Integer version) {
+        Optional<FeeVersion> opt = getFeeVersions()
+                .stream()
+                .filter(v -> (v.getVersion() == version && v.isInRange(new Date()))).findFirst();
+
+        return opt.isPresent() ? opt.get() : null;
+    }
+
     /* --- */
 
     @PreUpdate
@@ -139,6 +147,7 @@ public abstract class Fee extends AbstractEntity {
     public String toString() {
         return "Fee{" +
             "code='" + code + '\'' +
+            ", feeNumber=" + feeNumber +
             ", jurisdiction1=" + jurisdiction1 +
             ", jurisdiction2=" + jurisdiction2 +
             ", eventType=" + eventType +
@@ -149,8 +158,11 @@ public abstract class Fee extends AbstractEntity {
             ", unspecifiedClaimAmount=" + unspecifiedClaimAmount +
             ", creationTime=" + creationTime +
             ", lastUpdated=" + lastUpdated +
+            ", keyword='" + keyword + '\'' +
+            ", feeCodeHistories=" + feeCodeHistories +
             '}';
     }
+
 
     @OneToMany
     @Cascade(CascadeType.ALL)

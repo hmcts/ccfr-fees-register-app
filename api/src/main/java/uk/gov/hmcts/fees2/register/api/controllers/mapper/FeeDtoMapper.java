@@ -2,7 +2,9 @@ package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.fees2.register.api.contract.*;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
@@ -12,7 +14,6 @@ import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
@@ -23,6 +24,7 @@ import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -59,10 +61,18 @@ public class FeeDtoMapper {
     }
 
     private void fillFee(FeeDto request, Fee fee, String author) {
+
+        if (null != request.getCode() && request.getCode().startsWith("FEE")) {
+            fee.setCode(request.getCode());
+            Integer feeNumber = Integer.parseInt(request.getCode().substring(3));
+            fee.setFeeNumber(feeNumber);
+        }
+
         updateFeeDetails(request, fee);
 
         FeeVersion version = toFeeVersion(request.getVersion(), author);
         version.setFee(fee);
+        version.setReasonForUpdate(request.getVersion().getReasonForUpdate());
         fee.setFeeVersions(Arrays.asList(version));
         fee.setKeyword(request.getKeyword());
     }
@@ -92,15 +102,25 @@ public class FeeDtoMapper {
     public void updateRangedFee(RangedFeeDto request, RangedFee fee, String author) {
         updateFeeDetails(request, fee);
 
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
+        Optional<FeeVersion> opt = fee.getFeeVersions()
+                .stream()
+                .filter(v -> (FeeVersionStatus.approved != v.getStatus())).findFirst();
+
+        if (opt.isPresent()) {
+            fillFeeVersionDetails(request.getVersion(), opt.get(), author);
+        }
     }
 
     public void updateFixedFee(FixedFeeDto request, FixedFee fee, String author) {
         updateFeeDetails(request, fee);
 
-        FeeVersion currentVersion = fee.getCurrentVersion(true);
-        fillFeeVersionDetails(request.getVersion(), currentVersion, author);
+        Optional<FeeVersion> opt = fee.getFeeVersions()
+                .stream()
+                .filter(v -> (FeeVersionStatus.approved != v.getStatus())).findFirst();
+
+        if (opt.isPresent()) {
+            fillFeeVersionDetails(request.getVersion(), opt.get(), author);
+        }
     }
 
     public Fee toFee(RangedFeeDto request, String author) {
@@ -183,16 +203,18 @@ public class FeeDtoMapper {
     }
 
     private void fillFeeVersionDetails(FeeVersionDto versionDto, FeeVersion version, String author) {
-        version.setValidFrom(versionDto.getValidFrom());
-        version.setValidTo(FeesDateUtil.addEODTimeToDate(versionDto.getValidTo()));
-
+        if (null != versionDto.getValidFrom())
+            version.setValidFrom(versionDto.getValidFrom());
+        if (null != versionDto.getValidTo())
+            version.setValidTo(FeesDateUtil.addEODTimeToDate(versionDto.getValidTo()));
         version.setMemoLine(versionDto.getMemoLine());
-        version.setFeeOrderName(versionDto.getFeeOrderName());
+        version.setLastAmendingSi(versionDto.getLastAmendingSi());
+        version.setConsolidatedFeeOrderName(versionDto.getConsolidatedFeeOrderName());
         version.setNaturalAccountCode(versionDto.getNaturalAccountCode());
         version.setStatutoryInstrument(versionDto.getStatutoryInstrument());
         version.setSiRefId(versionDto.getSiRefId());
+        version.setReasonForUpdate(versionDto.getReasonForUpdate());
         fillDirectionType(version, versionDto.getDirection());
-
 
         fillVersionStatus(version, versionDto.getStatus());
         fillVersionVersion(version, versionDto.getVersion());
@@ -211,6 +233,11 @@ public class FeeDtoMapper {
 
         if(version.getStatus() == FeeVersionStatus.approved){
             version.setApprovedBy(author);
+        }
+
+        if (null != versionDto.getReasonForReject()) {
+            version.setReasonForReject(versionDto.getReasonForReject());
+            version.setApprovedBy(versionDto.getApprovedBy());
         }
     }
 
@@ -241,6 +268,8 @@ public class FeeDtoMapper {
         feeVersionDto.setVersion(feeVersion.getVersion());
         feeVersionDto.setStatus(FeeVersionStatusDto.valueOf(feeVersion.getStatus().name()));
         feeVersionDto.setDescription(feeVersion.getDescription());
+        feeVersionDto.setReasonForUpdate(feeVersion.getReasonForUpdate());
+        feeVersionDto.setReasonForReject(feeVersion.getReasonForReject());
 
         feeVersionDto.setMemoLine(feeVersion.getMemoLine());
         if (feeVersion.getDirectionType() != null) {
@@ -248,7 +277,8 @@ public class FeeDtoMapper {
         }
 
         feeVersionDto.setNaturalAccountCode(feeVersion.getNaturalAccountCode());
-        feeVersionDto.setFeeOrderName(feeVersion.getFeeOrderName());
+        feeVersionDto.setLastAmendingSi(feeVersion.getLastAmendingSi());
+        feeVersionDto.setConsolidatedFeeOrderName(feeVersion.getConsolidatedFeeOrderName());
         feeVersionDto.setStatutoryInstrument(feeVersion.getStatutoryInstrument());
         feeVersionDto.setSiRefId(feeVersion.getSiRefId());
 
@@ -373,4 +403,27 @@ public class FeeDtoMapper {
         fee.setApplicantType(applicantTypeRepository.findByNameOrThrow(application.toLowerCase()));
     }
 
+    public FeeVersion mapDtotoFeeVersion(FeeVersionDto request, FeeVersion feeVersion) {
+        if(request.getFlatAmount()!=null) {
+            feeVersion.setAmount(toFlatAmount(request.getFlatAmount()));
+        }
+         if(request.getPercentageAmount()!=null){
+            feeVersion.setAmount(toPercentageAmount(request.getPercentageAmount()));
+        }
+         if(request.getVolumeAmount()!=null){
+            feeVersion.setAmount(toVolumeAmount(request.getVolumeAmount()));
+        }
+        feeVersion.setMemoLine(request.getMemoLine());
+        feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
+        feeVersion.setDescription(request.getDescription());
+        feeVersion.setValidFrom(request.getValidFrom());
+        feeVersion.setValidTo(request.getValidTo());
+        feeVersion.setLastAmendingSi(request.getLastAmendingSi());
+        feeVersion.setConsolidatedFeeOrderName(request.getConsolidatedFeeOrderName());
+        feeVersion.setNaturalAccountCode(request.getNaturalAccountCode());
+        feeVersion.setSiRefId(request.getSiRefId());
+        feeVersion.setDirectionType(DirectionType.directionWith().name(request.getDirection()).build());
+        feeVersion.setReasonForUpdate(request.getReasonForUpdate());
+        return feeVersion;
+    }
 }

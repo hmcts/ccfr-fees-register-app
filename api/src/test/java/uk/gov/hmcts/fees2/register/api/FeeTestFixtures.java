@@ -42,7 +42,8 @@ public class FeeTestFixtures {
             "    \"statutory_instrument\": \"string\",\n" +
             "    \"si_ref_id\": \"string\",\n" +
             "    \"natural_account_code\": \"string\",\n" +
-            "    \"fee_order_name\": \"string\",\n" +
+            "    \"last_amending_si\": \"string\",\n" +
+            "    \"consolidated_fee_order_name\": \"string\",\n" +
             "    \"direction\": \"string\"\n" +
             "  }\n" +
             "}";
@@ -79,7 +80,8 @@ public class FeeTestFixtures {
             "    \"statutory_instrument\": \"string\",\n" +
             "    \"si_ref_id\": \"string\",\n" +
             "    \"natural_account_code\": \"string\",\n" +
-            "    \"fee_order_name\": \"string\",\n" +
+            "    \"last_amending_si\": \"string\",\n" +
+            "    \"consolidated_fee_order_name\": \"string\",\n" +
             "    \"direction\": \"string\"\n" +
             "  }\n" +
             "}";
@@ -107,8 +109,10 @@ public class FeeTestFixtures {
             "  \"statutory_instrument\": \"string\",\n" +
             "  \"si_ref_id\": \"string\",\n" +
             "  \"natural_account_code\": \"string\",\n" +
-            "  \"fee_order_name\": \"string\",\n" +
-            "  \"direction\": \"string\"\n" +
+            "  \"last_amending_si\": \"string\",\n" +
+            "  \"consolidated_fee_order_name\": \"string\",\n" +
+            "  \"direction\": \"string\",\n" +
+            "  \"reason_for_update\": \"string\"\n" +
             "}";
     }
 
@@ -144,7 +148,8 @@ public class FeeTestFixtures {
             "      \"statutory_instrument\": \"string\",\n" +
             "      \"si_ref_id\": \"string\",\n" +
             "      \"natural_account_code\": \"string\",\n" +
-            "      \"fee_order_name\": \"string\",\n" +
+            "      \"last_amending_si\": \"string\",\n" +
+            "      \"consolidated_fee_order_name\": \"string\",\n" +
             "      \"direction\": \"string\"\n" +
             "    }\n" +
             "  }\n" +

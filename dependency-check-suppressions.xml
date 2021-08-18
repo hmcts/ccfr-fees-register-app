@@ -7,9 +7,11 @@
             This is confirmed as false positive and hence it is suppressed (https://github.com/jeremylong/DependencyCheck/issues/2952)
         </notes>
         <cve>CVE-2018-1258</cve>
-        <cve>CVE-2021-28170</cve>
-        <cve>CVE-2021-22119</cve>
     </suppress>
 
+    <suppress  until="2021-09-07">
+        <notes>CVE-2021-33037: Upgrade of tomcat-embed-websocket and tomcat-embed-core causing HttpServletResponse not found error</notes>
+        <cve>CVE-2021-33037</cve>
+    </suppress>
     <!-- Supression group ends here  -->
 </suppressions>

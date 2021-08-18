@@ -3,16 +3,19 @@ package uk.gov.hmcts.fees2.register.api.contract;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Builder;
+
 
 @Data
 @Builder(builderMethodName = "feeVersionDtoWith")
@@ -72,10 +75,20 @@ public class FeeVersionDto {
     @JsonProperty("natural_account_code")
     private String naturalAccountCode;
 
-    @JsonProperty("fee_order_name")
-    private String feeOrderName;
+    @JsonProperty("last_amending_si")
+    private String lastAmendingSi;
+
+    @JsonProperty("consolidated_fee_order_name")
+    private String consolidatedFeeOrderName;
 
     @JsonProperty("direction")
     private String direction;
+
+    @NotNull
+    @JsonProperty("reason_for_update")
+    private String reasonForUpdate;
+
+    @JsonProperty("reason_for_reject")
+    private String reasonForReject;
 
 }
