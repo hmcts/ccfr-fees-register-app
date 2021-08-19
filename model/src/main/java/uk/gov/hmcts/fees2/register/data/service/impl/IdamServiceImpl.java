@@ -47,7 +47,7 @@ public class IdamServiceImpl implements IdamService {
 
             final ResponseEntity<IdamUserIdResponse[]> responseEntity = getResponseEntity(principal, userId);
 
-            if (responseEntity != null && responseEntity.getBody().length > 0) {
+            if (null != responseEntity.getBody() && responseEntity.getBody().length > 0) {
 
                 final IdamUserIdResponse[] idamUserIdResponse = responseEntity.getBody();
 
@@ -74,8 +74,6 @@ public class IdamServiceImpl implements IdamService {
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(idamBaseURL + USERID_ENDPOINT)
                 .queryParam("query", "id:" + userId);
-
-        LOG.debug("builder.toUriString() : {}", builder.toUriString());
 
         return restTemplateIdam
                 .exchange(

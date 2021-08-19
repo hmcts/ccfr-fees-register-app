@@ -157,13 +157,13 @@ public class IdamServiceImplTest {
         idamUserIdResponse.setStale(false);
 
         assertFalse(idamUserIdResponse.isActive());
-        assertEquals(idamUserIdResponse.getEmail(), "CC@gmail.com");
-        assertEquals(idamUserIdResponse.getCreateDate(), "");
-        assertEquals(idamUserIdResponse.getRoles(), Arrays.asList("DD"));
-        assertEquals(idamUserIdResponse.getForename(), "AA");
-        assertEquals(idamUserIdResponse.getSurname(), "BB");
-        assertEquals(idamUserIdResponse.getId(), "123");
-        assertEquals(idamUserIdResponse.getLastModified(), "");
+        assertEquals("CC@gmail.com", idamUserIdResponse.getEmail());
+        assertEquals("", idamUserIdResponse.getCreateDate());
+        assertEquals(Arrays.asList("DD"), idamUserIdResponse.getRoles());
+        assertEquals("AA", idamUserIdResponse.getForename());
+        assertEquals("BB", idamUserIdResponse.getSurname());
+        assertEquals("123", idamUserIdResponse.getId());
+        assertEquals("", idamUserIdResponse.getLastModified());
         assertFalse(idamUserIdResponse.isStale());
     }
 

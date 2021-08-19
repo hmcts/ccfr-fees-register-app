@@ -316,13 +316,13 @@ public class FeeServiceImpl implements FeeService {
 
         List<FeeVersion> feeVersions = fee.getFeeVersions();
 
-        Set<String> authors = new HashSet<String>();
+        Set<String> authors = new HashSet<>();
         for (FeeVersion f : feeVersions) {
             if (null != f.getAuthor())
                 authors.add(f.getAuthor());
         }
 
-        Set<String> approvers = new HashSet<String>();
+        Set<String> approvers = new HashSet<>();
         for (FeeVersion f : feeVersions) {
             if (null != f.getApprovedBy())
                 approvers.add(f.getApprovedBy());
