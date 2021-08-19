@@ -23,6 +23,8 @@ import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeVersionDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.GatewayTimeoutException;
+import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.model.FixedFee;
@@ -241,8 +243,8 @@ public class FeeController {
     @GetMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
     @Transactional
-    public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response) {
-        Fee fee = feeService.get(code);
+    public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response, Principal principal) {
+        Fee fee = feeService.get(code, principal);
         return feeDtoMapper.toFeeDto(fee);
     }
 
@@ -413,6 +415,18 @@ public class FeeController {
 
     private String getResourceLocation(Fee fee) {
         return URIUtils.getUrlForGetMethod(this.getClass(), "getFee").replace("{code}", fee.getCode());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(UserNotFoundException.class)
+    public String return500(UserNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.GATEWAY_TIMEOUT)
+    @ExceptionHandler(GatewayTimeoutException.class)
+    public String return504(GatewayTimeoutException ex) {
+        return ex.getMessage();
     }
 
 }

@@ -4,6 +4,7 @@ import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface FeeService {
@@ -23,6 +24,8 @@ public interface FeeService {
     List<Fee> search(LookupFeeDto dto);
 
     Fee get(String code);
+
+    Fee get(String code, Principal principal);
 
     Integer getMaxFeeNumber();
 

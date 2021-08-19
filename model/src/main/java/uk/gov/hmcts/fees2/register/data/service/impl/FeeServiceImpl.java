@@ -12,15 +12,14 @@ import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
+import uk.gov.hmcts.fees2.register.data.service.IdamService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.security.Principal;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -59,6 +58,9 @@ public class FeeServiceImpl implements FeeService {
 
     @Autowired
     private FeeValidator feeValidator;
+
+    @Autowired
+    private IdamService idamService;
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
@@ -305,5 +307,51 @@ public class FeeServiceImpl implements FeeService {
             throw new ConflictException("One or more fees exist already with the same metadata");
         }
 
+    }
+
+    @Override
+    public Fee get(String code, Principal principal) {
+
+        Fee fee = fee2Repository.findByCodeOrThrow(code);
+
+        List<FeeVersion> feeVersions = fee.getFeeVersions();
+
+        Set<String> authors = new HashSet<String>();
+        for (FeeVersion f : feeVersions) {
+            if (null != f.getAuthor())
+                authors.add(f.getAuthor());
+        }
+
+        Set<String> approvers = new HashSet<String>();
+        for (FeeVersion f : feeVersions) {
+            if (null != f.getApprovedBy())
+                approvers.add(f.getApprovedBy());
+        }
+
+        authors.addAll(approvers);
+
+        Map<String, String> usersMap = new HashMap<>();
+
+        if (!authors.isEmpty()) {
+
+            for (String author : authors) {
+                usersMap.put(author, getIdamUserName(principal, author));
+            }
+        }
+
+        for (FeeVersion f : feeVersions) {
+            if (usersMap.containsKey(f.getAuthor())) {
+                f.setAuthor(usersMap.get(f.getAuthor()));
+            }
+            if (usersMap.containsKey(f.getApprovedBy())) {
+                f.setApprovedBy(usersMap.get(f.getApprovedBy()));
+            }
+        }
+
+        return fee;
+    }
+
+    private String getIdamUserName(Principal principal, final String userId) {
+        return idamService.getUserName(principal, userId);
     }
 }
