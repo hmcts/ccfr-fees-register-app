@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
-import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
-import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
+import uk.gov.hmcts.fees2.register.data.exceptions.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
@@ -311,41 +309,45 @@ public class FeeServiceImpl implements FeeService {
 
     @Override
     public Fee get(String code, Principal principal) {
-
         Fee fee = fee2Repository.findByCodeOrThrow(code);
 
-        List<FeeVersion> feeVersions = fee.getFeeVersions();
+        try {
 
-        Set<String> authors = new HashSet<>();
-        for (FeeVersion f : feeVersions) {
-            if (null != f.getAuthor())
-                authors.add(f.getAuthor());
-        }
+            List<FeeVersion> feeVersions = fee.getFeeVersions();
 
-        Set<String> approvers = new HashSet<>();
-        for (FeeVersion f : feeVersions) {
-            if (null != f.getApprovedBy())
-                approvers.add(f.getApprovedBy());
-        }
-
-        authors.addAll(approvers);
-
-        Map<String, String> usersMap = new HashMap<>();
-
-        if (!authors.isEmpty()) {
-
-            for (String author : authors) {
-                usersMap.put(author, getIdamUserName(principal, author));
+            Set<String> authors = new HashSet<>();
+            for (FeeVersion f : feeVersions) {
+                if (null != f.getAuthor())
+                    authors.add(f.getAuthor());
             }
-        }
 
-        for (FeeVersion f : feeVersions) {
-            if (usersMap.containsKey(f.getAuthor())) {
-                f.setAuthor(usersMap.get(f.getAuthor()));
+            Set<String> approvers = new HashSet<>();
+            for (FeeVersion f : feeVersions) {
+                if (null != f.getApprovedBy())
+                    approvers.add(f.getApprovedBy());
             }
-            if (usersMap.containsKey(f.getApprovedBy())) {
-                f.setApprovedBy(usersMap.get(f.getApprovedBy()));
+
+            authors.addAll(approvers);
+
+            Map<String, String> usersMap = new HashMap<>();
+
+            if (!authors.isEmpty()) {
+
+                for (String author : authors) {
+                    usersMap.put(author, getIdamUserName(principal, author));
+                }
             }
+
+            for (FeeVersion f : feeVersions) {
+                if (usersMap.containsKey(f.getAuthor())) {
+                    f.setAuthor(usersMap.get(f.getAuthor()));
+                }
+                if (usersMap.containsKey(f.getApprovedBy())) {
+                    f.setApprovedBy(usersMap.get(f.getApprovedBy()));
+                }
+            }
+        } catch (UserNotFoundException | GatewayTimeoutException e) {
+            return fee;
         }
 
         return fee;
