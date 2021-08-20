@@ -315,29 +315,22 @@ public class FeeServiceImpl implements FeeService {
 
             List<FeeVersion> feeVersions = fee.getFeeVersions();
 
-            Set<String> authors = new HashSet<>();
-            for (FeeVersion f : feeVersions) {
-                if (null != f.getAuthor())
-                    authors.add(f.getAuthor());
-            }
+            // create a distinct set of editor and approver user IDs
+            Set<String> uIdList = feeVersions.stream().map(feeVersion -> feeVersion.getAuthor()).collect(Collectors.toSet());
 
-            Set<String> approvers = new HashSet<>();
-            for (FeeVersion f : feeVersions) {
-                if (null != f.getApprovedBy())
-                    approvers.add(f.getApprovedBy());
-            }
+            uIdList.addAll(feeVersions.stream().map(feeVersion -> feeVersion.getApprovedBy()).collect(Collectors.toSet()));
 
-            authors.addAll(approvers);
-
+            // store the distinct User Id : User Name mapping in a map by caling IDAM API
             Map<String, String> usersMap = new HashMap<>();
 
-            if (!authors.isEmpty()) {
+            if (!uIdList.isEmpty()) {
 
-                for (String author : authors) {
-                    usersMap.put(author, getIdamUserName(principal, author));
+                for (String uId : uIdList) {
+                    usersMap.put(uId, getIdamUserName(principal, uId));
                 }
             }
 
+            // Map the User Names in original Fee object
             for (FeeVersion f : feeVersions) {
                 if (usersMap.containsKey(f.getAuthor())) {
                     f.setAuthor(usersMap.get(f.getAuthor()));
@@ -347,6 +340,7 @@ public class FeeServiceImpl implements FeeService {
                 }
             }
         } catch (UserNotFoundException | GatewayTimeoutException e) {
+            // In case of IDAM API exceptions, return Fee with User IDs
             return fee;
         }
 
