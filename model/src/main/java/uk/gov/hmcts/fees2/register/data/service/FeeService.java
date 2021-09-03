@@ -1,10 +1,10 @@
 package uk.gov.hmcts.fees2.register.data.service;
 
+import org.springframework.util.MultiValueMap;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 
-import java.security.Principal;
 import java.util.List;
 
 public interface FeeService {
@@ -25,7 +25,7 @@ public interface FeeService {
 
     Fee getFee(String code);
 
-    Fee getFee(String code, Principal principal);
+    Fee getFee(String code, MultiValueMap<String, String> headers);
 
     Integer getMaxFeeNumber();
 

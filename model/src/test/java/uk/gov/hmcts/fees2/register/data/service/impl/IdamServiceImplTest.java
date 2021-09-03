@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -26,7 +24,6 @@ import uk.gov.hmcts.fees2.register.data.exceptions.GatewayTimeoutException;
 import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.IdamUserIdResponse;
 
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -43,9 +40,6 @@ public class IdamServiceImplTest {
     private Authentication auth;
 
     @Mock
-    private Principal principal;
-
-    @Mock
     @Qualifier("restTemplateIdam")
     private RestTemplate restTemplateIdam;
 
@@ -57,8 +51,6 @@ public class IdamServiceImplTest {
         MockitoAnnotations.initMocks(this);
         when(auth.getCredentials()).thenReturn("mockedPassword");
         SecurityContextHolder.getContext().setAuthentication(auth);
-        principal = new PreAuthenticatedAuthenticationToken("aUserName", "aPassword");
-        Mockito.when(auth.getPrincipal()).thenReturn(principal);
     }
 
     @After
@@ -90,7 +82,10 @@ public class IdamServiceImplTest {
                 eq(IdamUserIdResponse[].class)
         )).thenReturn(responseEntity);
 
-        final String userName = idamService.getUserName(principal, "AA");
+        MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+        header.put("authorization", Collections.singletonList("Bearer 131313"));
+
+        final String userName = idamService.getUserName(header, "AA");
 
         assertEquals(userName, Arrays.stream(responses).findFirst().get().getForename() + " "
                 + Arrays.stream(responses).findFirst().get().getSurname());
@@ -106,7 +101,7 @@ public class IdamServiceImplTest {
                 eq(IdamUserIdResponse.class)
         )).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND, "user not found"));
 
-        idamService.getUserName(principal, "AA");
+        idamService.getUserName(header, "AA");
     }
 
     @Test(expected = UserNotFoundException.class)
@@ -123,7 +118,7 @@ public class IdamServiceImplTest {
                 eq(IdamUserIdResponse[].class)
         )).thenReturn(responseEntity);
 
-        idamService.getUserName(principal, "AA");
+        idamService.getUserName(header, "AA");
     }
 
     @Test
@@ -136,7 +131,7 @@ public class IdamServiceImplTest {
                 eq(IdamUserIdResponse[].class)
         )).thenThrow(new HttpServerErrorException(HttpStatus.GATEWAY_TIMEOUT, "Gateway timeout"));
         assertThrows(GatewayTimeoutException.class, () -> {
-            idamService.getUserName(principal, "AA");
+            idamService.getUserName(header, "AA");
         });
     }
 

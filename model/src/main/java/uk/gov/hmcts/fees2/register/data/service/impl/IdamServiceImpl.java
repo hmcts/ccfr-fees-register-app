@@ -9,7 +9,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -23,8 +22,8 @@ import uk.gov.hmcts.fees2.register.data.model.IdamUserIdResponse;
 import uk.gov.hmcts.fees2.register.data.service.IdamService;
 
 import java.lang.reflect.Array;
-import java.security.Principal;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class IdamServiceImpl implements IdamService {
@@ -41,11 +40,11 @@ public class IdamServiceImpl implements IdamService {
     private RestTemplate restTemplateIdam;
 
     @Override
-    public String getUserName(final Principal principal, final String userId) {
+    public String getUserName(final MultiValueMap<String, String> headers, final String userId) {
 
         try {
 
-            final ResponseEntity<IdamUserIdResponse[]> responseEntity = getResponseEntity(principal, userId);
+            final ResponseEntity<IdamUserIdResponse[]> responseEntity = getResponseEntity(headers, userId);
 
             if (null != responseEntity && null != responseEntity.getBody()) {
 
@@ -70,7 +69,7 @@ public class IdamServiceImpl implements IdamService {
         }
     }
 
-    private ResponseEntity<IdamUserIdResponse[]> getResponseEntity(final Principal principal, final String userId) {
+    private ResponseEntity<IdamUserIdResponse[]> getResponseEntity(final MultiValueMap<String, String> headers, final String userId) {
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(idamBaseURL + USERID_ENDPOINT)
                 .queryParam("query", "id:" + userId);
@@ -79,21 +78,23 @@ public class IdamServiceImpl implements IdamService {
                 .exchange(
                         builder.toUriString(),
                         HttpMethod.GET,
-                        getEntity(principal), IdamUserIdResponse[].class
+                        getEntity(headers), IdamUserIdResponse[].class
                 );
     }
 
-    private HttpEntity<String> getEntity(final Principal principal) {
-
-        final MultiValueMap<String, String> headerMultiValueMap = new LinkedMultiValueMap<>();
-
-        final String userAuthorization = ((PreAuthenticatedAuthenticationToken) principal).getCredentials().toString();
-
-        headerMultiValueMap.put("Authorization", Collections.singletonList(userAuthorization.startsWith("Bearer ")
-                ? userAuthorization : "Bearer ".concat(userAuthorization)));
-
-        final HttpHeaders httpHeaders = new HttpHeaders(headerMultiValueMap);
-
+    private HttpEntity<String> getEntity(MultiValueMap<String, String> headers) {
+        MultiValueMap<String, String> headerMultiValueMap = new LinkedMultiValueMap<>();
+        headerMultiValueMap.put(
+                "Content-Type",
+                headers.get("content-type") == null ? List.of("application/json") : headers.get("content-type")
+        );
+        String userAuthorization = headers.get("authorization") == null ? headers.get("Authorization").get(0) : headers.get(
+                "authorization").get(0);
+        headerMultiValueMap.put(
+                "Authorization", Collections.singletonList(userAuthorization.startsWith("Bearer ")
+                        ? userAuthorization : "Bearer ".concat(userAuthorization))
+        );
+        HttpHeaders httpHeaders = new HttpHeaders(headerMultiValueMap);
         return new HttpEntity<>(httpHeaders);
     }
 }

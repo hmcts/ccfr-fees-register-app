@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
@@ -243,8 +244,9 @@ public class FeeController {
     @GetMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
     @Transactional
-    public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response, Principal principal) {
-        Fee fee = feeService.getFee(code, principal);
+    public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response,
+                          @RequestHeader(required = false) MultiValueMap<String, String> headers) {
+        Fee fee = feeService.getFee(code, headers);
         return feeDtoMapper.toFeeDto(fee);
     }
 

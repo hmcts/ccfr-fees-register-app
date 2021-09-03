@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.*;
@@ -16,7 +17,6 @@ import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.security.Principal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -309,7 +309,7 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
-    public Fee getFee(String code, Principal principal) {
+    public Fee getFee(String code, MultiValueMap<String, String> headers) {
         Fee fee = fee2Repository.findByCodeOrThrow(code);
 
         try {
@@ -327,7 +327,7 @@ public class FeeServiceImpl implements FeeService {
 
             userIdSet.forEach(userId -> usersMap.put(
                     userId,
-                    getIdamUserName(principal, userId)
+                    getIdamUserName(headers, userId)
             ));
 
             // Map the User Names in original Fee object
@@ -347,7 +347,7 @@ public class FeeServiceImpl implements FeeService {
         return fee;
     }
 
-    private String getIdamUserName(Principal principal, final String userId) {
-        return idamService.getUserName(principal, userId);
+    private String getIdamUserName(MultiValueMap<String, String> headers, final String userId) {
+        return idamService.getUserName(headers, userId);
     }
 }
