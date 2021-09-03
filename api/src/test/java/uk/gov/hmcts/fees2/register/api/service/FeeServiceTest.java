@@ -235,7 +235,7 @@ public class FeeServiceTest extends BaseTest{
 
         feeService.save(fee);
 
-        fee = feeService.get(fee.getCode());
+        fee = feeService.getFee(fee.getCode());
 
         assertEquals(ChannelType.DEFAULT, fee.getChannelType().getName());
 

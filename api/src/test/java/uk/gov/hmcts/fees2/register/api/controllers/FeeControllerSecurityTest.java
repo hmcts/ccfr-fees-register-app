@@ -106,7 +106,7 @@ public class FeeControllerSecurityTest {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
-        given(feeService.get(anyString())).willReturn(aRangedFee());
+        given(feeService.getFee(anyString())).willReturn(aRangedFee());
 
         // when & then
         this.mockMvc.perform(

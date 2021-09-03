@@ -49,7 +49,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         RangedFeeDto dto = createDetailedFee();
 
-        Fee fee = feeService.get(dto.getCode());
+        Fee fee = feeService.getFee(dto.getCode());
 
         Thread.sleep(250);
 
@@ -66,7 +66,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         RangedFeeDto dto = createDetailedFee();
 
-        Fee fee = feeService.get(dto.getCode());
+        Fee fee = feeService.getFee(dto.getCode());
 
         fee.getCurrentVersion(true).setValidTo(new Date());
 
@@ -98,7 +98,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "tarun");
 
-        assertTrue(sdf.format(date).equals(sdf.format(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())));
+        assertTrue(sdf.format(date).equals(sdf.format(feeService.getFee(dto.getCode()).getCurrentVersion(true).getValidTo())));
 
         forceDeleteFee(dto.getCode());
     }
@@ -121,7 +121,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
         FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "testUser"), dto.getCode());
         FeeVersion currentVersion = v.getFee().getCurrentVersion(true);
         feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "testUser");
-        assertTrue( expectedOldVersionToDate.compareTo(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())==0);
+        assertTrue( expectedOldVersionToDate.compareTo(feeService.getFee(dto.getCode()).getCurrentVersion(true).getValidTo())==0);
         forceDeleteFee(dto.getCode());
     }
 
@@ -143,7 +143,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
         FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "testUser"), dto.getCode());
         feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "testUser");
-        assertTrue(expectedOldVersionToDate.compareTo(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())==0);
+        assertTrue(expectedOldVersionToDate.compareTo(feeService.getFee(dto.getCode()).getCurrentVersion(true).getValidTo())==0);
         assertTrue(v.getValidTo().compareTo(setEODTime(Calendar.getInstance(),versionDto.getValidTo()))==0);
         forceDeleteFee(dto.getCode());
     }

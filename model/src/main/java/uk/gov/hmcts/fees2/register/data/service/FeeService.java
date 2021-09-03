@@ -23,9 +23,9 @@ public interface FeeService {
 
     List<Fee> search(LookupFeeDto dto);
 
-    Fee get(String code);
+    Fee getFee(String code);
 
-    Fee get(String code, Principal principal);
+    Fee getFee(String code, Principal principal);
 
     Integer getMaxFeeNumber();
 

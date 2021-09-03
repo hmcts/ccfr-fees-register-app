@@ -99,7 +99,7 @@ public class FeeController {
                                 HttpServletResponse response,
                                 Principal principal) {
         Encode.forHtml(request.getVersion().getReasonForUpdate());
-        RangedFee fee = (RangedFee) feeService.get(code);
+        RangedFee fee = (RangedFee) feeService.getFee(code);
         feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
     }
 
@@ -118,7 +118,7 @@ public class FeeController {
                                HttpServletResponse response,
                                Principal principal) {
         Encode.forHtml(request.getVersion().getReasonForUpdate());
-        FixedFee fee = (FixedFee) feeService.get(code);
+        FixedFee fee = (FixedFee) feeService.getFee(code);
         feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
     }
 
@@ -244,14 +244,14 @@ public class FeeController {
     @ResponseStatus(HttpStatus.OK)
     @Transactional
     public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response, Principal principal) {
-        Fee fee = feeService.get(code, principal);
+        Fee fee = feeService.getFee(code, principal);
         return feeDtoMapper.toFeeDto(fee);
     }
 
     @RequestMapping(method = RequestMethod.HEAD, path = "/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
     public void doesFeeExist(@PathVariable("code") String code) {
-        feeService.get(code);
+        feeService.getFee(code);
     }
 
     @ApiOperation(value = "Delete a fee for the given fee code")

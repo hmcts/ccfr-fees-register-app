@@ -89,7 +89,7 @@ public class FeeLoader implements ApplicationRunner {
         Fee fee = feeDtoMapper.toFee(r, null);
 
         try {
-            if (feeService.get(r.getCode()) == null) {
+            if (feeService.getFee(r.getCode()) == null) {
                 feeService.save(fee);
                 LOG.info("Ranged fee with code " + r.getNewCode() + " inserted into database.");
             } else {
@@ -133,7 +133,7 @@ public class FeeLoader implements ApplicationRunner {
         }
 
         try {
-            if (feeService.get(f.getCode()) == null) {
+            if (feeService.getFee(f.getCode()) == null) {
                 feeService.save(fee);
                 LOG.info("Fixed fee with code " + f.getNewCode() + " inserted into database.");
             } else {
@@ -178,7 +178,7 @@ public class FeeLoader implements ApplicationRunner {
         }
 
         try {
-            if (feeService.get(f.getCode()) == null) {
+            if (feeService.getFee(f.getCode()) == null) {
                 feeService.save(fee);
                 LOG.info("Relational fee with code " + f.getNewCode() + " inserted into database.");
             } else {

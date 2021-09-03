@@ -95,7 +95,7 @@ public class FeeServiceImpl implements FeeService {
     @Override
     @Transactional
     public void updateLoaderFee(Fee updateFee, String newCode) {
-        Fee fee = get(updateFee.getCode());
+        Fee fee = getFee(updateFee.getCode());
 
         if (newCode != null) {  // If the new feeCode is provided in the request.
             FeeCodeHistory feeCodeHistory = FeeCodeHistory.FeeCodeHistoryWith()
@@ -148,8 +148,9 @@ public class FeeServiceImpl implements FeeService {
         return false;
     }
 
+    // rename method name
     @Override
-    public Fee get(String code) {
+    public Fee getFee(String code) {
         return fee2Repository.findByCodeOrThrow(code);
     }
 
@@ -308,7 +309,7 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
-    public Fee get(String code, Principal principal) {
+    public Fee getFee(String code, Principal principal) {
         Fee fee = fee2Repository.findByCodeOrThrow(code);
 
         try {
@@ -316,27 +317,26 @@ public class FeeServiceImpl implements FeeService {
             List<FeeVersion> feeVersions = fee.getFeeVersions();
 
             // create a distinct set of editor and approver user IDs
-            Set<String> uIdList = feeVersions.stream().map(feeVersion -> feeVersion.getAuthor()).collect(Collectors.toSet());
+            Set<String> userIdSet = feeVersions.stream().map(feeVersion -> feeVersion.getAuthor()).collect(Collectors.toSet());
 
-            uIdList.addAll(feeVersions.stream().map(feeVersion -> feeVersion.getApprovedBy()).collect(Collectors.toSet()));
+            userIdSet.addAll(feeVersions.stream().map(feeVersion -> feeVersion.getApprovedBy()).collect(Collectors.toSet()));
 
+            userIdSet.remove(null);
             // store the distinct User Id : User Name mapping in a map by caling IDAM API
             Map<String, String> usersMap = new HashMap<>();
 
-            if (!uIdList.isEmpty()) {
-
-                for (String uId : uIdList) {
-                    usersMap.put(uId, getIdamUserName(principal, uId));
-                }
-            }
+            userIdSet.forEach(userId -> usersMap.put(
+                    userId,
+                    getIdamUserName(principal, userId)
+            ));
 
             // Map the User Names in original Fee object
-            for (FeeVersion f : feeVersions) {
-                if (usersMap.containsKey(f.getAuthor())) {
-                    f.setAuthor(usersMap.get(f.getAuthor()));
+            for (FeeVersion version : feeVersions) {
+                if (null != version.getAuthor() && usersMap.containsKey(version.getAuthor())) {
+                    version.setAuthor(usersMap.get(version.getAuthor()));
                 }
-                if (usersMap.containsKey(f.getApprovedBy())) {
-                    f.setApprovedBy(usersMap.get(f.getApprovedBy()));
+                if (null != version.getApprovedBy() && usersMap.containsKey(version.getApprovedBy())) {
+                    version.setApprovedBy(usersMap.get(version.getApprovedBy()));
                 }
             }
         } catch (UserNotFoundException | GatewayTimeoutException e) {
