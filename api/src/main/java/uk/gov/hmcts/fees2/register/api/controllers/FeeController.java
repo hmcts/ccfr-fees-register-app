@@ -247,6 +247,7 @@ public class FeeController {
     public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response,
                           @RequestHeader(required = false) MultiValueMap<String, String> headers,
                           @RequestHeader("Authorization") String authorization) {
+        LOG.info("Authorization: {}", authorization);
         Fee fee = feeService.getFee(code, headers);
         return feeDtoMapper.toFeeDto(fee);
     }
