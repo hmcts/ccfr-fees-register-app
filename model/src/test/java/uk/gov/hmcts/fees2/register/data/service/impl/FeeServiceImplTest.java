@@ -13,6 +13,7 @@ import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
 import uk.gov.hmcts.fees2.register.data.repository.FeeCodeHistoryRepository;
 import uk.gov.hmcts.fees2.register.data.service.IdamService;
+import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -37,6 +38,9 @@ public class FeeServiceImplTest {
 
     @Mock
     private FeeCodeHistoryRepository feeCodeHistoryRepository;
+
+    @Mock
+    private FeeValidator feeValidator;
 
     @InjectMocks
     private FeeServiceImpl feeService;
@@ -70,6 +74,39 @@ public class FeeServiceImplTest {
         assertEquals("FEE0001", resultFee.getCode());
         assertEquals(1, resultFee.getFeeVersions().size());
         assertEquals("Forename Surname", resultFee.getFeeVersions().get(0).getAuthor());
+    }
+
+    @Test
+    public void testGetFeeWhenNoAuthor() {
+
+        MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+        header.put("authorization", Collections.singletonList("Bearer 131313"));
+
+        Fee fee = getFixedFee("FEE0001");
+        fee.getFeeVersions().get(0).setAuthor(null);
+        when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(fee);
+
+        Fee resultFee = feeService.getFee("FEE0001", header);
+        assertEquals("FEE0001", resultFee.getCode());
+        assertEquals(1, resultFee.getFeeVersions().size());
+        assertEquals(null, resultFee.getFeeVersions().get(0).getAuthor());
+    }
+
+    @Test
+    public void testGetFeeWhenValidApproverName() {
+
+        MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+        header.put("authorization", Collections.singletonList("Bearer 131313"));
+
+        Fee fee = getFixedFee("FEE0001");
+        fee.getFeeVersions().get(0).setApprovedBy("ABC");
+        when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(fee);
+        when(idamService.getUserName(any(), anyString())).thenReturn("Forename Surname");
+
+        Fee resultFee = feeService.getFee("FEE0001", header);
+        assertEquals("FEE0001", resultFee.getCode());
+        assertEquals(1, resultFee.getFeeVersions().size());
+        assertEquals("Forename Surname", resultFee.getFeeVersions().get(0).getApprovedBy());
     }
 
     @Test
@@ -124,6 +161,32 @@ public class FeeServiceImplTest {
         feeService.saveLoaderFee(fee1);
 
         verify(fee2Repository, times(1)).findByCode("FEE0001");
+
+    }
+
+    @Test
+    public void testSave() {
+
+        List<Fee> fees = new ArrayList<>();
+        Fee fee = getFixedFee("FEE0001");
+        fees.add(fee);
+
+        feeService.save(fees);
+
+        verify(fee2Repository, times(1)).saveAll(fees);
+
+    }
+
+    @Test
+    public void testSaveNullFeeCode() {
+
+        Fee fee = getFixedFee("FEE0001");
+        fee.setCode(null);
+        fee.setFeeNumber(null);
+
+        feeService.save(fee);
+
+        verify(fee2Repository, times(1)).save(fee);
 
     }
 
