@@ -11,17 +11,19 @@ import org.springframework.util.MultiValueMap;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.repository.Fee2Repository;
+import uk.gov.hmcts.fees2.register.data.repository.FeeCodeHistoryRepository;
 import uk.gov.hmcts.fees2.register.data.service.IdamService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 
 @SpringBootTest(webEnvironment = MOCK)
@@ -32,6 +34,9 @@ public class FeeServiceImplTest {
 
     @Mock
     private IdamService idamService;
+
+    @Mock
+    private FeeCodeHistoryRepository feeCodeHistoryRepository;
 
     @InjectMocks
     private FeeServiceImpl feeService;
@@ -79,6 +84,47 @@ public class FeeServiceImplTest {
         assertEquals("FEE0001", resultFee.getCode());
         assertEquals(1, resultFee.getFeeVersions().size());
         assertEquals("UserId", resultFee.getFeeVersions().get(0).getAuthor());
+    }
+
+    @Test
+    public void testUpdateLoaderFee() {
+
+        when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(getFixedFee("FEE0001"));
+        when(fee2Repository.getMaxFeeNumber()).thenReturn(100);
+
+        Fee fee = getFixedFee("FEE0001");
+        feeService.updateLoaderFee(fee, "FEE0002");
+
+        verify(fee2Repository, times(1)).findByCodeOrThrow("FEE0001");
+    }
+
+    @Test
+    public void testUpdateLoaderFeeNewCodeNull() {
+
+        when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(getFixedFee("FEE0001"));
+        when(fee2Repository.getMaxFeeNumber()).thenReturn(100);
+
+        Fee fee = getFixedFee("FEE0001");
+
+        feeService.updateLoaderFee(fee, null);
+
+        verify(fee2Repository, times(1)).findByCodeOrThrow("FEE0001");
+
+    }
+
+    @Test
+    public void testSaveLoaderFee() {
+
+        Optional<Fee> fee = Optional.of(getFixedFee("FEE0001"));
+
+        when(fee2Repository.findByCode(anyString())).thenReturn(fee);
+        when(fee2Repository.getMaxFeeNumber()).thenReturn(100);
+
+        Fee fee1 = getFixedFee("FEE0001");
+        feeService.saveLoaderFee(fee1);
+
+        verify(fee2Repository, times(1)).findByCode("FEE0001");
+
     }
 
     private Fee getFixedFee(final String code) {
