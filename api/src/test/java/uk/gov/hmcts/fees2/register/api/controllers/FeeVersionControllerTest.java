@@ -61,7 +61,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             feeVersionController.deleteFeeVersion(arr[3], 1);
 
 
-            feeController.getFee(arr[3], response, null, null);
+            feeController.getFee(arr[3], response, null);
 
         } finally {
 
@@ -128,11 +128,11 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
                 }
             });
 
-            assertThat(feeController.getFee(arr[3], response, null, null).getFeeVersionDtos().size()).isEqualTo(2);
+            assertThat(feeController.getFee(arr[3], response, null).getFeeVersionDtos().size()).isEqualTo(2);
 
             feeVersionController.deleteFeeVersion(arr[3], 2);
 
-            assertThat(feeController.getFee(arr[3],response, null, null).getFeeVersionDtos().size()).isEqualTo(1);
+            assertThat(feeController.getFee(arr[3],response, null).getFeeVersionDtos().size()).isEqualTo(1);
 
         } finally {
             forceDeleteFee(arr[3]);
@@ -154,7 +154,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
         String[] arr = loc.split("/");
 
 
-        Fee2Dto feeDto = feeController.getFee(arr[3], response, null, null);
+        Fee2Dto feeDto = feeController.getFee(arr[3], response, null);
         assertNotNull(feeDto);
         assertEquals(feeDto.getFeeVersionDtos().size(), 1);
 
@@ -190,7 +190,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             });
 
             feeVersionController.editFeeVersion(arr[3], 2,feeVersionDto2);
-            assertThat(feeController.getFee(arr[3], response, null, null).getFeeVersionDtos().get(1).getFlatAmount().getAmount()).hasToString("2500.00");
+            assertThat(feeController.getFee(arr[3], response, null).getFeeVersionDtos().get(1).getFlatAmount().getAmount()).hasToString("2500.00");
             feeVersionController.deleteFeeVersion(arr[3], 2);
         } finally {
             forceDeleteFee(arr[3]);
@@ -230,7 +230,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             });
 
             feeVersionController.editFeeVersion(arr[3], 2,feeVersionDto2);
-            assertThat(feeController.getFee(arr[3], response, null, null).getFeeVersionDtos().get(1).getPercentageAmount().getPercentage()).hasToString("4.50");
+            assertThat(feeController.getFee(arr[3], response, null).getFeeVersionDtos().get(1).getPercentageAmount().getPercentage()).hasToString("4.50");
             feeVersionController.deleteFeeVersion(arr[3], 2);
         } finally {
             forceDeleteFee(arr[3]);
@@ -268,7 +268,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
             });
 
             feeVersionController.editFeeVersion(arr[3], 2,feeVersionDto2);
-            assertThat(feeController.getFee(arr[3], response, null, null).getFeeVersionDtos().get(1).getVolumeAmount().getAmount()).hasToString("250.00");
+            assertThat(feeController.getFee(arr[3], response, null).getFeeVersionDtos().get(1).getVolumeAmount().getAmount()).hasToString("250.00");
             feeVersionController.deleteFeeVersion(arr[3], 2);
         } finally {
             forceDeleteFee(arr[3]);

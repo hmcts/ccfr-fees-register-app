@@ -83,7 +83,6 @@ public class IdamServiceImpl implements IdamService {
     }
 
     private HttpEntity<String> getEntity(MultiValueMap<String, String> headers) {
-        LOG.info("Headers: {}", headers.toString());
         MultiValueMap<String, String> headerMultiValueMap = new LinkedMultiValueMap<>();
         headerMultiValueMap.put(
                 "Content-Type",
