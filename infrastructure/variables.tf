@@ -34,7 +34,6 @@ variable "postgresql_user" {
 variable "common_tags" {
   type = "map"
 }
-
 variable "core_product" {
   default = "ccpay"
 }
