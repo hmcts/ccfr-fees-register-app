@@ -31,9 +31,6 @@ variable "postgresql_user" {
   default = "fees_register"
 }
 
-variable "common_tags" {
-  type = map
-}
 variable "core_product" {
   default = "ccpay"
 }
