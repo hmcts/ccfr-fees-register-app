@@ -1,7 +1,10 @@
 package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
@@ -13,22 +16,24 @@ import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.GatewayTimeoutException;
+import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
 import uk.gov.hmcts.fees2.register.data.model.amount.FlatAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
+import uk.gov.hmcts.fees2.register.data.service.IdamService;
 import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 public class FeeDtoMapper {
+    private static final Logger LOG = LoggerFactory.getLogger(FeeDtoMapper.class);
 
     private Jurisdiction1Repository jurisdiction1Repository;
     private Jurisdiction2Repository jurisdiction2Repository;
@@ -38,6 +43,9 @@ public class FeeDtoMapper {
     private DirectionTypeRepository directionTypeRepository;
     private ApplicantTypeRepository applicantTypeRepository;
     private ReferenceDataDtoMapper referenceDataDtoMapper;
+
+    @Autowired
+    private IdamService idamService;
 
     @Autowired
     public FeeDtoMapper(
@@ -149,6 +157,21 @@ public class FeeDtoMapper {
     }
 
     public Fee2Dto toFeeDto(Fee fee) {
+        Fee2Dto fee2Dto = createFee2Dto(fee);
+
+        List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(this::toFeeVersionDto).collect(Collectors.toList());
+        fee2Dto.setFeeVersionDtos(feeVersionDtos);
+
+        FeeVersion currentVersion = fee.getCurrentVersion(false);
+
+        if(currentVersion != null) {
+            fee2Dto.setCurrentVersion(toFeeVersionDto(currentVersion));
+        }
+
+        return fee2Dto;
+    }
+
+    private Fee2Dto createFee2Dto(Fee fee) {
         Fee2Dto fee2Dto = new Fee2Dto();
 
         fee2Dto.setCode(fee.getCode());
@@ -177,14 +200,21 @@ public class FeeDtoMapper {
             }
 
         }
+        return fee2Dto;
+    }
+    public Fee2Dto toFeeDto(Fee fee, MultiValueMap<String, String> headers) {
 
-        List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(this::toFeeVersionDto).collect(Collectors.toList());
+        Fee2Dto fee2Dto = createFee2Dto(fee);
+
+        List<FeeVersionDto> feeVersionDtos =
+                fee.getFeeVersions().stream().map(version -> toFeeVersionDto(version, headers))
+                        .collect(Collectors.toList());
         fee2Dto.setFeeVersionDtos(feeVersionDtos);
 
         FeeVersion currentVersion = fee.getCurrentVersion(false);
 
         if(currentVersion != null) {
-            fee2Dto.setCurrentVersion(toFeeVersionDto(currentVersion));
+            fee2Dto.setCurrentVersion(toFeeVersionDto(currentVersion, headers));
         }
 
         return fee2Dto;
@@ -305,6 +335,55 @@ public class FeeDtoMapper {
 
         return feeVersionDto;
 
+    }
+
+    public FeeVersionDto toFeeVersionDto(FeeVersion feeVersion, MultiValueMap<String, String> headers) {
+
+        FeeVersionDto feeVersionDto = toFeeVersionDto(feeVersion);
+
+        return getUserNames(feeVersion, feeVersionDto, headers);
+
+    }
+
+    private FeeVersionDto getUserNames(FeeVersion feeVersion, FeeVersionDto feeVersionDto,
+                                       MultiValueMap<String, String> headers) {
+        if (null != headers && null != headers.get("authorization")) {
+
+            // create a distinct set of editor and approver user IDs
+            Set<String> userIdSet = new HashSet<>();
+            userIdSet.add(feeVersion.getAuthor());
+
+            userIdSet.add(feeVersion.getApprovedBy());
+
+            userIdSet.remove(null);
+            LOG.info("User ID set : {}", userIdSet);
+
+            // store the distinct User Id : User Name mapping in a map by calling IDAM API
+            Map<String, String> usersMap = new HashMap<>();
+
+            userIdSet.forEach(userId -> usersMap.put(
+                    userId,
+                    getIdamUserName(headers, userId)
+            ));
+
+            // Map the User Names in original Fee object
+            if (null != feeVersion.getAuthor() && usersMap.containsKey(feeVersion.getAuthor())) {
+                feeVersionDto.setAuthor(usersMap.get(feeVersion.getAuthor()));
+            }
+            if (null != feeVersion.getApprovedBy() && usersMap.containsKey(feeVersion.getApprovedBy())) {
+                feeVersionDto.setApprovedBy(usersMap.get(feeVersion.getApprovedBy()));
+            }
+        }
+        return feeVersionDto;
+    }
+
+    private String getIdamUserName(MultiValueMap<String, String> headers, final String userId) {
+        try {
+            return idamService.getUserName(headers, userId);
+        } catch (UserNotFoundException | GatewayTimeoutException e) {
+            // In case of IDAM API exceptions, return Fee with User IDs
+            return userId;
+        }
     }
 
     private Amount toPercentageAmount(PercentageAmountDto percentageAmount) {

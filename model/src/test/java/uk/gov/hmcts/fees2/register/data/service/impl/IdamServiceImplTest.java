@@ -98,7 +98,7 @@ public class IdamServiceImplTest {
         header.put("authorization", Collections.singletonList("Bearer 131313"));
 
         when(restTemplateIdam.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class),
-                eq(IdamUserIdResponse.class)
+                eq(IdamUserIdResponse[].class)
         )).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND, "user not found"));
 
         idamService.getUserName(header, "AA");

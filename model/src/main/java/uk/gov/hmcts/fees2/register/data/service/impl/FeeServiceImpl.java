@@ -1,23 +1,28 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.exceptions.*;
+import uk.gov.hmcts.fees2.register.data.exceptions.ConflictException;
+import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
+import uk.gov.hmcts.fees2.register.data.exceptions.TooManyResultsException;
 import uk.gov.hmcts.fees2.register.data.model.*;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
-import uk.gov.hmcts.fees2.register.data.service.IdamService;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -57,11 +62,7 @@ public class FeeServiceImpl implements FeeService {
     @Autowired
     private FeeValidator feeValidator;
 
-    @Autowired
-    private IdamService idamService;
-
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
-
 
     @Override
     public Fee save(Fee fee) {
@@ -308,50 +309,4 @@ public class FeeServiceImpl implements FeeService {
 
     }
 
-    @Override
-    public Fee getFee(String code, MultiValueMap<String, String> headers) {
-        Fee fee = fee2Repository.findByCodeOrThrow(code);
-
-        try {
-
-            if (null != headers && null != headers.get("authorization")) {
-                List<FeeVersion> feeVersions = fee.getFeeVersions();
-
-                // create a distinct set of editor and approver user IDs
-                Set<String> userIdSet =
-                        feeVersions.stream().map(feeVersion -> feeVersion.getAuthor()).collect(Collectors.toSet());
-
-                userIdSet.addAll(feeVersions.stream().map(feeVersion -> feeVersion.getApprovedBy())
-                        .collect(Collectors.toSet()));
-
-                userIdSet.remove(null);
-                // store the distinct User Id : User Name mapping in a map by caling IDAM API
-                Map<String, String> usersMap = new HashMap<>();
-
-                userIdSet.forEach(userId -> usersMap.put(
-                        userId,
-                        getIdamUserName(headers, userId)
-                ));
-
-                // Map the User Names in original Fee object
-                for (FeeVersion version : feeVersions) {
-                    if (null != version.getAuthor() && usersMap.containsKey(version.getAuthor())) {
-                        version.setAuthor(usersMap.get(version.getAuthor()));
-                    }
-                    if (null != version.getApprovedBy() && usersMap.containsKey(version.getApprovedBy())) {
-                        version.setApprovedBy(usersMap.get(version.getApprovedBy()));
-                    }
-                }
-            }
-        } catch (UserNotFoundException | GatewayTimeoutException e) {
-            // In case of IDAM API exceptions, return Fee with User IDs
-            return fee;
-        }
-
-        return fee;
-    }
-
-    private String getIdamUserName(MultiValueMap<String, String> headers, final String userId) {
-        return idamService.getUserName(headers, userId);
-    }
 }

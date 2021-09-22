@@ -55,25 +55,10 @@ public class FeeServiceImplTest {
 
         when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(getFixedFee("FEE0001"));
 
-        Fee resultFee = feeService.getFee("FEE0001", null);
+        Fee resultFee = feeService.getFee("FEE0001");
         assertEquals("FEE0001", resultFee.getCode());
         assertEquals(1, resultFee.getFeeVersions().size());
         assertEquals("UserId", resultFee.getFeeVersions().get(0).getAuthor());
-    }
-
-    @Test
-    public void testGetFeeWhenAuthorizationHeader() {
-
-        MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
-        header.put("authorization", Collections.singletonList("Bearer 131313"));
-
-        when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(getFixedFee("FEE0001"));
-        when(idamService.getUserName(any(), anyString())).thenReturn("Forename Surname");
-
-        Fee resultFee = feeService.getFee("FEE0001", header);
-        assertEquals("FEE0001", resultFee.getCode());
-        assertEquals(1, resultFee.getFeeVersions().size());
-        assertEquals("Forename Surname", resultFee.getFeeVersions().get(0).getAuthor());
     }
 
     @Test
@@ -86,27 +71,10 @@ public class FeeServiceImplTest {
         fee.getFeeVersions().get(0).setAuthor(null);
         when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(fee);
 
-        Fee resultFee = feeService.getFee("FEE0001", header);
+        Fee resultFee = feeService.getFee("FEE0001");
         assertEquals("FEE0001", resultFee.getCode());
         assertEquals(1, resultFee.getFeeVersions().size());
         assertEquals(null, resultFee.getFeeVersions().get(0).getAuthor());
-    }
-
-    @Test
-    public void testGetFeeWhenValidApproverName() {
-
-        MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
-        header.put("authorization", Collections.singletonList("Bearer 131313"));
-
-        Fee fee = getFixedFee("FEE0001");
-        fee.getFeeVersions().get(0).setApprovedBy("ABC");
-        when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(fee);
-        when(idamService.getUserName(any(), anyString())).thenReturn("Forename Surname");
-
-        Fee resultFee = feeService.getFee("FEE0001", header);
-        assertEquals("FEE0001", resultFee.getCode());
-        assertEquals(1, resultFee.getFeeVersions().size());
-        assertEquals("Forename Surname", resultFee.getFeeVersions().get(0).getApprovedBy());
     }
 
     @Test
@@ -117,7 +85,7 @@ public class FeeServiceImplTest {
 
         when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(getFixedFee("FEE0001"));
 
-        Fee resultFee = feeService.getFee("FEE0001", header);
+        Fee resultFee = feeService.getFee("FEE0001");
         assertEquals("FEE0001", resultFee.getCode());
         assertEquals(1, resultFee.getFeeVersions().size());
         assertEquals("UserId", resultFee.getFeeVersions().get(0).getAuthor());

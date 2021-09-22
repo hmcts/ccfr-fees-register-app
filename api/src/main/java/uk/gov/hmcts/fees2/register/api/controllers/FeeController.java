@@ -246,8 +246,8 @@ public class FeeController {
     @Transactional
     public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response,
                           @RequestHeader(required = false) MultiValueMap<String, String> headers) {
-        Fee fee = feeService.getFee(code, headers);
-        return feeDtoMapper.toFeeDto(fee);
+        Fee fee = feeService.getFee(code);
+        return feeDtoMapper.toFeeDto(fee, headers);
     }
 
     @RequestMapping(method = RequestMethod.HEAD, path = "/fees/{code}")

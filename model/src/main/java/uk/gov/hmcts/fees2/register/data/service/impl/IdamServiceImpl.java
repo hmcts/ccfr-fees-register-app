@@ -41,6 +41,7 @@ public class IdamServiceImpl implements IdamService {
 
     @Override
     public String getUserName(final MultiValueMap<String, String> headers, final String userId) {
+        LOG.info("userID : {}", userId);
 
         try {
 
@@ -49,6 +50,7 @@ public class IdamServiceImpl implements IdamService {
             if (null != responseEntity && null != responseEntity.getBody()) {
 
                 final IdamUserIdResponse[] idamUserIdResponse = responseEntity.getBody();
+                LOG.info("idamUserIdResponse: {}", idamUserIdResponse);
 
                 if (idamUserIdResponse != null && idamUserIdResponse.length >= 1) {
 
@@ -58,7 +60,7 @@ public class IdamServiceImpl implements IdamService {
                             response.getSurname();
                 }
             }
-            LOG.error("Parse error user not found");
+            LOG.error("Parse error user not found: {}", responseEntity.getBody());
             throw new UserNotFoundException("User not found");
         } catch (final HttpClientErrorException e) {
             LOG.error("client err ", e);
