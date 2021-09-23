@@ -18,9 +18,9 @@ import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
+import uk.gov.hmcts.fees2.register.api.contract.loader.request.LoaderRangedFeeDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
@@ -357,6 +357,16 @@ public abstract class BaseTest {
         rangedFeeDto.setChannel(channelTypeService.findByNameOrThrow("online").getName());
 
         return rangedFeeDto;
+    }
+
+    public LoaderRangedFeeDto getLoaderRangedFeeDto() {
+
+        LoaderRangedFeeDto loaderRangedFeeDto = new LoaderRangedFeeDto();
+        loaderRangedFeeDto.setMinRange(new BigDecimal(10));
+        loaderRangedFeeDto.setMaxRange(new BigDecimal(20));
+        loaderRangedFeeDto.setRangeUnit("range");
+
+        return loaderRangedFeeDto;
     }
 
     public FixedFeeDto getFixedFeeDto(String feeCode) {
