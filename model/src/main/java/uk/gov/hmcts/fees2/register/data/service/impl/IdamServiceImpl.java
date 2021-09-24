@@ -48,7 +48,6 @@ public class IdamServiceImpl implements IdamService {
             if (null != responseEntity && null != responseEntity.getBody()) {
 
                 final IdamUserIdResponse[] idamUserIdResponse = responseEntity.getBody();
-                LOG.info("idamUserIdResponse length: {}", idamUserIdResponse.length);
 
                 if (null != idamUserIdResponse && idamUserIdResponse.length >= 1) {
 
