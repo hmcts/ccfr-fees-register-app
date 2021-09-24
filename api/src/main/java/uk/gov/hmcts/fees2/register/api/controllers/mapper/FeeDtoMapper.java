@@ -1,7 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.controllers.mapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
@@ -33,7 +31,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class FeeDtoMapper {
-    private static final Logger LOG = LoggerFactory.getLogger(FeeDtoMapper.class);
 
     private Jurisdiction1Repository jurisdiction1Repository;
     private Jurisdiction2Repository jurisdiction2Repository;
@@ -356,7 +353,6 @@ public class FeeDtoMapper {
             userIdSet.add(feeVersion.getApprovedBy());
 
             userIdSet.remove(null);
-            LOG.info("User ID set : {}", userIdSet);
 
             // store the distinct User Id : User Name mapping in a map by calling IDAM API
             Map<String, String> usersMap = new HashMap<>();

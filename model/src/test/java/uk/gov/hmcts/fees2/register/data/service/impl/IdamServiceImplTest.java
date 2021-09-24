@@ -135,6 +135,21 @@ public class IdamServiceImplTest {
         });
     }
 
+    @Test
+    public void getExceptionOnEmptyIdamResponseBody() throws Exception {
+
+        final MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+        header.put("authorization", Collections.singletonList("Bearer 131313"));
+
+        final IdamUserIdResponse[] response = {};
+        final ResponseEntity<IdamUserIdResponse[]> responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
+        when(restTemplateIdam.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class),
+                eq(IdamUserIdResponse[].class)
+        )).thenReturn(responseEntity);
+        assertThrows(UserNotFoundException.class, () -> {
+            idamService.getUserName(header, "AA");
+        });
+    }
 
     @Test
     public void validateResponseDto() throws Exception {
