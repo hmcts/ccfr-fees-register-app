@@ -23,6 +23,7 @@ import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 import uk.gov.hmcts.fees2.register.util.FeeFactory;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -179,6 +180,7 @@ public class FeeDtoMapper {
         }
 
         List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(this::toFeeVersionDto).collect(Collectors.toList());
+        feeVersionDtos.sort(Comparator.comparing(FeeVersionDto::getVersion).reversed());
         fee2Dto.setFeeVersionDtos(feeVersionDtos);
 
         FeeVersion currentVersion = fee.getCurrentVersion(false);
