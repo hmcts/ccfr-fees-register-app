@@ -18,6 +18,17 @@ def versions = [
 ]
 
 
+dependencies{
+    testCompile 'com.github.hmcts:fortify-client:1.2.1:all'
+}
+
+task fortifyScan(type: JavaExec)  {
+    main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+    classpath += sourceSets.test.runtimeClasspath
+    jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
+}
+
+
 allprojects {
     apply plugin: 'maven'
     apply plugin: 'io.spring.dependency-management'
@@ -48,6 +59,7 @@ allprojects {
         }
     }
 }
+
 
 tasks.register("codeCoverageReport", JacocoReport) {
     // If a subproject applies the 'jacoco' plugin, add the result it to the report
