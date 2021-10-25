@@ -1163,7 +1163,8 @@
       "service": "divorce",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword":"DivorceCivPart"
     },
     {
       "code": "X0258",
