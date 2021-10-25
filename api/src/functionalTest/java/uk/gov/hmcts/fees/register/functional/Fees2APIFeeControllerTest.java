@@ -23,7 +23,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getlookupresponseMessageForDivorce() throws IOException {
 
         scenario.given()
-            .when().getLookUpResponse("divorce", "family", "family court", "default", "issue")
+            .when().getLookUpResponsewithkeyword("divorce", "family", "family court", "default", "issue", "DivorceCivPart")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0002");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
