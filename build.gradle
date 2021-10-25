@@ -243,6 +243,7 @@ subprojects {
                     tags = ['master']
                 }
                 project.version = pactVersion.toString();
+                //comment for push - to check own branch PR
             }
         }
         reports {
