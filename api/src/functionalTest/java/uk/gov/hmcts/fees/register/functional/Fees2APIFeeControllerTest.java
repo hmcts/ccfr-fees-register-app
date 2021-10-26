@@ -23,11 +23,11 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getlookupresponseMessageForDivorce() throws IOException {
 
         scenario.given()
-            .when().getLookUpResponse("divorce", "family", "family court", "default", "issue")
+            .when().getLookUpResponsewithkeyword("divorce", "family", "family court", "default", "issue", "DivorceCivPart")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0002");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("550.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("593.00");
         });
     }
 
@@ -259,185 +259,6 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         });
     }
 
-    @Test
-    public void getlookupresponseMessageForCMCOnline1() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 0.1)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0211");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("25.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline2() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 300)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0211");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("25.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline3() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 300.01)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0212");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("35.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline4() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 500)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0212");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("35.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline5() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 500.01)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0213");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("60.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline6() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 1000)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0213");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("60.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline7() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 1000.01)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0214");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("70.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline8() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 1500)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0214");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("70.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline9() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 1500.01)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0215");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("105.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline10() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 3000)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0215");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("105.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline11() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 3000.01)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0216");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("185.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline12() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 5000)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0216");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("185.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline13() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 5000.01)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0217");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("410.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline14() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 10000)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0217");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("410.00");
-        });
-    }
-
-    @Test
-    public void getlookupresponseMessageForCMCOnline15() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "online", "issue", 10000.01)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0218");
-            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("450.00");
-        });
-    }
 
     @Test
     public void getlookupresponseMessageForCMCHearing1() throws IOException {
@@ -447,7 +268,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0221");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("25.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("27.00");
         });
     }
 
@@ -459,7 +280,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0221");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("25.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("27.00");
         });
     }
 
@@ -471,7 +292,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0222");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("55.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("59.00");
         });
     }
 
@@ -483,7 +304,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0222");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("55.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("59.00");
         });
     }
 
@@ -495,7 +316,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0183");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("80.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("85.00");
         });
     }
 
@@ -507,7 +328,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0183");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("80.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("85.00");
         });
     }
 
@@ -519,7 +340,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0223");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("115.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("123.00");
         });
     }
 
@@ -531,7 +352,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0223");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("115.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("123.00");
         });
     }
 
@@ -543,7 +364,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0224");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("170.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("181.00");
         });
     }
 
@@ -555,7 +376,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0224");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("170.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("181.00");
         });
     }
 
@@ -567,7 +388,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0225");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("335.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("346.00");
         });
     }
 
@@ -579,7 +400,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0225");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("335.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("346.00");
         });
     }
 
@@ -699,7 +520,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0313");
             Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Application for proceedings under Section 31 of Act");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("2055.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("2215.00");
         });
     }
 }

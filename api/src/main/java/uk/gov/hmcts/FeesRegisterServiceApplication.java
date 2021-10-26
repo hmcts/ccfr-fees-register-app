@@ -13,6 +13,9 @@ import javax.servlet.ServletContextListener;
 
 @SpringBootApplication
 public class FeesRegisterServiceApplication {
+    static {
+        System.setProperty("java.awt.headless", "true");
+    }
     private static final Logger LOG = LoggerFactory.getLogger(FeesRegisterServiceApplication.class);
 
     public static void main(String[] args) {
