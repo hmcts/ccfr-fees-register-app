@@ -91,7 +91,7 @@ withPipeline(type, product, app) {
     onPR() {
         enablePactAs([
             AppPipelineDsl.PactRoles.PROVIDER,
-            AppPipelineDsl.PactRoles.CONSUMER
+            //AppPipelineDsl.PactRoles.CONSUMER
         ])
     }
 

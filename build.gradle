@@ -252,12 +252,12 @@ subprojects {
         }
     }
 
-    task runAndPublishConsumerPactTests(type: Test){
+    /*task runAndPublishConsumerPactTests(type: Test){
         logger.lifecycle("Running Pact consumer verification Tests")
         systemProperty 'pact.verifier.publishResults',System.getProperty("pact.verifier.publishResults")
     }
 
-    runAndPublishConsumerPactTests.finalizedBy pactVerify
+    runAndPublishConsumerPactTests.finalizedBy pactVerify */
 
     task runProviderPactVerification(type: Test){
         logger.lifecycle("Running Pact provider verification Tests")
