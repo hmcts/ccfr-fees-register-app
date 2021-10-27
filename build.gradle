@@ -243,7 +243,6 @@ subprojects {
                     tags = ['master']
                 }
                 project.version = pactVersion.toString();
-                stateChange = url('http://localhost:80')
             }
         }
         reports {
