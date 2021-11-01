@@ -60,9 +60,9 @@ allprojects {
     }
 }
 
-checkstyle {
-    toolVersion "7.8.1"
-}
+//checkstyle {
+//    toolVersion "7.8.1"
+//}
 
 tasks.register("codeCoverageReport", JacocoReport) {
     // If a subproject applies the 'jacoco' plugin, add the result it to the report
@@ -176,8 +176,8 @@ subprojects {
         compile project(':fees-register-api')
     }
 
-    checkstyleMain.enabled(false)
-    checkstyleTest.enabled(false)
+//    checkstyleMain.enabled(false)
+//    checkstyleTest.enabled(false)
 
     mainClassName = 'uk.gov.hmcts.FeesRegisterServiceApplication'
 
