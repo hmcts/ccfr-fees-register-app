@@ -157,7 +157,7 @@ public class FeeDtoMapper {
         Fee2Dto fee2Dto = createFee2Dto(fee);
 
         List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(this::toFeeVersionDto).collect(Collectors.toList());
-        feeVersionDtos.sort(Comparator.comparing(FeeVersionDto::getVersion));
+        feeVersionDtos.sort(Comparator.comparing(FeeVersionDto::getVersion).reversed());
         fee2Dto.setFeeVersionDtos(feeVersionDtos);
 
         FeeVersion currentVersion = fee.getCurrentVersion(false);
