@@ -25,8 +25,8 @@ public abstract class AbstractServiceImpl<T> implements AbstractService<T> {
     }
 
     /**
-     * @param name
-     * @return
+     * @param name name
+     * @return return
      */
     @Override
     public T findByNameOrThrow(String name) {
@@ -35,7 +35,7 @@ public abstract class AbstractServiceImpl<T> implements AbstractService<T> {
 
     /**
      *
-     * @return
+     * @return return
      */
     @Override
     public List<T> findAll() {

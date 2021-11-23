@@ -7,6 +7,7 @@ buildscript {
 
 plugins {
     id "info.solidsoft.pitest" version '1.5.1'
+    id "checkstyle"
 }
 description = 'api module'
 
@@ -126,6 +127,11 @@ dependencies {
 test {
     // Base test class for other tests - has no runnable test methods
     exclude '**/ComponentTestBase*'
+}
+
+checkstyle {
+    toolVersion "7.8.1"
+    sourceSets = [sourceSets.main, sourceSets.test]
 }
 
 task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verification') {
