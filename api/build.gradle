@@ -37,6 +37,9 @@ sourceSets {
             srcDir file('src/functionalTest/java')
         }
     }
+    checkstyle {
+        toolVersion "7.8.1"
+    }
 }
 
 apply plugin: 'idea'
@@ -129,11 +132,6 @@ test {
     exclude '**/ComponentTestBase*'
 }
 
-checkstyle {
-    toolVersion "7.8.1"
-    sourceSets = [sourceSets.main, sourceSets.test]
-}
-
 task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verification') {
     testClassesDirs = sourceSets.smokeTest.output.classesDirs
     classpath = sourceSets.smokeTest.runtimeClasspath
@@ -155,6 +153,9 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
 }
 
 functionalTest.finalizedBy(aggregate)
+
+//checkstyleMain.enabled(true)
+//checkstyleTest.enabled(true)
 
 serenity {
     reports = ["single-page-html"]

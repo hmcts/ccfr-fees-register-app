@@ -47,10 +47,12 @@ public class LegacyFeesRegisterController {
     }
 
     @ApiOperation(value = "Find appropriate fees amount for given claim.",
-        notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees). All input and output amounts are in pence.  ", response = Fee.class)
+        notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees)." +
+            " All input and output amounts are in pence.  ", response = Fee.class)
     @GetMapping("/categories/{id}/ranges/{amount}/fees")
     public ChargeableFeeWrapperDto getCategoryRange(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
+        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees",
+            required = true) @PathVariable(value = "id") String id,
         @ApiParam(value = "This is claim amount in pence", required = true) @PathVariable(value = "amount") int amount) {
 
         Fee fee = getCategory(id)
@@ -66,7 +68,8 @@ public class LegacyFeesRegisterController {
         notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees) and flat fee id. ", response = Fee.class)
     @GetMapping("/categories/{id}/flat/{feeId}")
     public Fee getFlatFeeInACategory(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
+        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees",
+            required = true) @PathVariable(value = "id") String id,
         @ApiParam(value = "This is flat fee in a category", required = true) @PathVariable(value = "feeId") String feeId) {
 
         return getCategory(id)
@@ -78,7 +81,8 @@ public class LegacyFeesRegisterController {
         notes = "This endpoint returns all flat fees for given category(e.g. onlinefees or hearingfees). ", response = Fee.class)
     @GetMapping("/categories/{id}/flat")
     public List<Fee> getAllFlatFeesInACategory(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id) {
+        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees",
+            required = true) @PathVariable(value = "id") String id) {
 
         List<Fee> flatFees = getCategory(id).getFlatFees();
 

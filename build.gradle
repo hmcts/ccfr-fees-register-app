@@ -16,7 +16,6 @@ plugins {
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
     id "au.com.dius.pact" version "4.0.0"
-    id "checkstyle"
     id "idea"
 }
 
@@ -277,9 +276,6 @@ subprojects {
         buildFile = './api/build.gradle'
         tasks = ['functionalTest']
     }
-
-    checkstyleMain.enabled(true)
-    checkstyleTest.enabled(true)
 
     task printVersion {
         description 'Prints the version of this project'

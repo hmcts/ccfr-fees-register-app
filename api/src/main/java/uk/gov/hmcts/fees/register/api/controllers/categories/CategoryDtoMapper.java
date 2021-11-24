@@ -21,7 +21,8 @@ public class CategoryDtoMapper {
     private final FeeRepository feeRepository;
 
     @Autowired
-    public CategoryDtoMapper(RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository, FeesDtoMapper feesDtoMapper, FeeRepository feeRepository) {
+    public CategoryDtoMapper(RangeGroupsDtoMapper rangeGroupsDtoMapper, RangeGroupRepository rangeGroupRepository,
+                             FeesDtoMapper feesDtoMapper, FeeRepository feeRepository) {
         this.rangeGroupsDtoMapper = rangeGroupsDtoMapper;
         this.rangeGroupRepository = rangeGroupRepository;
         this.feesDtoMapper = feesDtoMapper;
