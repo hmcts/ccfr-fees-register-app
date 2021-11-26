@@ -92,7 +92,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
         forceDeleteFee(arr[3]);
     }
 
-
     @Test
     public synchronized void createRateableFeeTest() throws Exception {
         RateableFeeDto rateableFeeDto = getRateableFeeDtoWithReferenceData(null, FeeVersionStatus.approved);
@@ -111,9 +110,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         forceDeleteFee(arr[3]);
     }
 
-
     /**
-     * @throws Exception
+     * @throws Exception Exception.
      */
     @Test
     public synchronized void feesLookupTest() throws Exception {
@@ -138,7 +136,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
             }));
 
         restActions
-            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&channel=online&amount_or_volume=311")
+            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=" +
+                "high court&event=copies&channel=online&amount_or_volume=311")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, (lookupDto) -> {
                 assertThat(lookupDto.getCode().equals(arr[3]));
@@ -148,20 +147,20 @@ public class FeeControllerTest extends BaseIntegrationTest {
         forceDeleteFee(arr[3]);
     }
 
-
     /**
-     * @throws Exception
+     * @throws Exception Exception.
      */
     @Test
     public synchronized void feesLookupNotFoundTest() throws Exception {
         restActions
             .withUser("admin")
-            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=high court&event=copies&amount_or_volume=10&channel=default&applicant_type=all")
+            .get("/fees-register/fees/lookup?service=divorce&jurisdiction1=family&jurisdiction2=" +
+                "high court&event=copies&amount_or_volume=10&channel=default&applicant_type=all")
             .andExpect(status().isNotFound());
     }
 
     /**
-     * @throws Exception
+     * @throws Exception Exception.
      */
     @Test
     @Transactional
@@ -181,16 +180,16 @@ public class FeeControllerTest extends BaseIntegrationTest {
             }));
     }
 
-
     /**
-     * @throws Exception
+     * @throws Exception Exception.
      */
     @Test
     public synchronized void searchFee_WithApprovedStatusTest() throws Exception {
 
         restActions
             .withUser("admin")
-            .get("/fees-register/fees?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&channel=default&event=issue&unspecifiedClaimAmounts=false&feeVersionStatus=approved")
+            .get("/fees-register/fees?service=civil money claims&jurisdiction1=civil&jurisdiction2=county" +
+                " court&channel=default&event=issue&unspecifiedClaimAmounts=false&feeVersionStatus=approved")
             .andExpect(status().isOk())
             .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
                 fee2Dtos.stream().forEach(f -> {
@@ -240,7 +239,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public void findFeeWithVolume_inFractions_shouldThrowBadRequestException() throws Exception {
         MvcResult result = restActions
             .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=1.5")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate" +
+                " registry&channel=default&event=copies&applicant_type=all&amount_or_volume=1.5")
             .andExpect(status().isBadRequest())
             .andReturn();
 
@@ -256,7 +256,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         MvcResult result = restActions
             .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate" +
+                " registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
             .andExpect(status().isOk())
             .andReturn();
 
@@ -403,7 +404,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         // when & then
         restActions
             .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=testKeyword")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate" +
+                " registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=testKeyword")
             .andExpect(status().isOk())
             .andReturn();
     }
@@ -417,7 +419,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         // when & then
         restActions
             .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=wrongKey")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate" +
+                " registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3&keyword=wrongKey")
             .andExpect(status().isNotFound())
             .andReturn();
     }
@@ -431,7 +434,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         // when & then
         restActions
             .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate" +
+                " registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
             .andExpect(status().isNotFound())
             .andReturn();
     }
@@ -446,7 +450,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         // when & then
         restActions
             .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate" +
+                " registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
             .andExpect(status().isOk())
             .andReturn();
     }
@@ -460,7 +465,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
         // when & then
         restActions
             .withUser("admin")
-            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
+            .get("/fees-register/fees/lookup?service=probate&jurisdiction1=family&jurisdiction2=probate" +
+                " registry&channel=default&event=copies&applicant_type=all&amount_or_volume=3")
             .andExpect(status().isOk())
             .andReturn();
     }

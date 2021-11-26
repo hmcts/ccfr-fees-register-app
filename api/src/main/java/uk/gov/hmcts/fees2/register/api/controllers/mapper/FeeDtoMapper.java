@@ -404,13 +404,13 @@ public class FeeDtoMapper {
     }
 
     public FeeVersion mapDtotoFeeVersion(FeeVersionDto request, FeeVersion feeVersion) {
-        if (request.getFlatAmount()!=null) {
+        if (request.getFlatAmount() != null) {
             feeVersion.setAmount(toFlatAmount(request.getFlatAmount()));
         }
-         if (request.getPercentageAmount()!=null) {
+         if (request.getPercentageAmount() != null) {
             feeVersion.setAmount(toPercentageAmount(request.getPercentageAmount()));
         }
-         if (request.getVolumeAmount()!=null) {
+         if (request.getVolumeAmount() != null) {
             feeVersion.setAmount(toVolumeAmount(request.getVolumeAmount()));
         }
         feeVersion.setMemoLine(request.getMemoLine());

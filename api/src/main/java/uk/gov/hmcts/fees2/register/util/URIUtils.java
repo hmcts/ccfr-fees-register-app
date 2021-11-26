@@ -1,11 +1,9 @@
 package uk.gov.hmcts.fees2.register.util;
 
-import org.owasp.encoder.Encode;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -20,7 +18,7 @@ public class URIUtils {
 
         String[] reqMap = clazz.getAnnotation(RequestMapping.class).value();
 
-        if (reqMap.length == 0){
+        if (reqMap.length == 0) {
             return "";
         }
 
@@ -85,20 +83,5 @@ public class URIUtils {
         }
 
         return url + str[0];
-
     }
-
-//    public static FeeVersionDto encodeVersionDetails(final FeeVersionDto request) {
-//
-//        request.setDescription(null != request.getDescription() ? Encode.forHtml(request.getDescription()) : "");
-//        request.setMemoLine(null != request.getMemoLine() ? Encode.forHtml(request.getMemoLine()) : "");
-//        request.setStatutoryInstrument(null != request.getStatutoryInstrument() ? Encode.forHtml(request.getStatutoryInstrument()) : "");
-//        request.setSiRefId(null != request.getSiRefId() ? Encode.forHtml(request.getSiRefId()) : "");
-//        request.setNaturalAccountCode(null != request.getNaturalAccountCode() ? Encode.forHtml(request.getNaturalAccountCode()) : "");
-//        request.setLastAmendingSi(null != request.getLastAmendingSi() ? Encode.forHtml(request.getLastAmendingSi()) : "");
-//        request.setConsolidatedFeeOrderName(null != request.getConsolidatedFeeOrderName() ? Encode.forHtml(request.getConsolidatedFeeOrderName()) : "");
-//        request.setReasonForUpdate(null != request.getReasonForUpdate() ? Encode.forHtml(request.getReasonForUpdate()) : "");
-//
-//        return request;
-//    }
 }

@@ -80,7 +80,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    public synchronized void testThatWhenANewVersionIsApprovedTheCurrentOneIsMarkedForExpiration() throws Exception{
+    public synchronized void testThatWhenANewVersionIsApprovedTheCurrentOneIsMarkedForExpiration() throws Exception {
 
         Date date = new Date(System.currentTimeMillis() + 60000);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -105,7 +105,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    public synchronized void testThatWhenANewVersionFutureDateIsApprovedTheCurrentOneIsMarkedToDatePreviousDayEndTime() throws Exception{
+    public synchronized void testThatWhenANewVersionFutureDateIsApprovedTheCurrentOneIsMarkedToDatePreviousDayEndTime() throws Exception {
         RangedFeeDto dto = createDetailedFee();
         Date newVersionFromDate = createFutureDate(Calendar.getInstance(),new Date());
         Date expectedOldVersionToDate = createPreviousDate(Calendar.getInstance(),newVersionFromDate);
@@ -121,13 +121,14 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
         FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "testUser"), dto.getCode());
         FeeVersion currentVersion = v.getFee().getCurrentVersion(true);
         feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "testUser");
-        assertTrue( expectedOldVersionToDate.compareTo(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())==0);
+        assertTrue(expectedOldVersionToDate.compareTo(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo()) == 0);
         forceDeleteFee(dto.getCode());
     }
 
     @Test
     @Transactional
-    public synchronized void testWhenNewVersionFutureFromDateAndToDateIsApprovedTheCurrentOneIsMarkedToDatePreviousDayEndTimeAndNewVersionToDateIsEOD() throws Exception{
+    public synchronized void
+    testWhenNewVersionFutureFromDateAndToDateIsApprovedTheCurrentOneIsMarkedToDatePreviousDayEndTimeAndNewVersionToDateIsEOD() throws Exception {
         RangedFeeDto dto = createDetailedFee();
         Date newVersionFromDate = createFutureDate(Calendar.getInstance(),new Date());
         Date expectedOldVersionToDate = createPreviousDate(Calendar.getInstance(),newVersionFromDate);
@@ -139,17 +140,18 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
         versionDto.setDirection("licence");
         versionDto.setMemoLine("Hello");
         versionDto.setValidFrom(newVersionFromDate);
-        versionDto.setValidTo (createFutureDate(Calendar.getInstance(),newVersionFromDate));
+        versionDto.setValidTo(createFutureDate(Calendar.getInstance(),newVersionFromDate));
 
         FeeVersion v = feeVersionService.save(dtoMapper.toFeeVersion(versionDto, "testUser"), dto.getCode());
         feeVersionService.changeStatus(dto.getCode(), v.getVersion(), FeeVersionStatus.approved, "testUser");
-        assertTrue(expectedOldVersionToDate.compareTo(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo())==0);
-        assertTrue(v.getValidTo().compareTo(setEODTime(Calendar.getInstance(),versionDto.getValidTo()))==0);
+        assertTrue(expectedOldVersionToDate.compareTo(feeService.get(dto.getCode()).getCurrentVersion(true).getValidTo()) == 0);
+        assertTrue(v.getValidTo().compareTo(setEODTime(Calendar.getInstance(),versionDto.getValidTo())) == 0);
         forceDeleteFee(dto.getCode());
     }
 
     @Test
-    public synchronized void testThatWhenANewVersionIsApprovedAndTheCurrentOneIsMarkedForExpirationWhenItsLookedUpNewVersionIsFound() throws Exception {
+    public synchronized void
+    testThatWhenANewVersionIsApprovedAndTheCurrentOneIsMarkedForExpirationWhenItsLookedUpNewVersionIsFound() throws Exception {
 
 
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
@@ -222,7 +224,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
     }
 
-    private Date createFutureDate(Calendar calendar, Date date){
+    private Date createFutureDate(Calendar calendar, Date date) {
         calendar.setTime(date);
         calendar.add(Calendar.DATE, 5);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -230,12 +232,12 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
         calendar.set(Calendar.SECOND, 0);
         return calendar.getTime();
     }
-    private Date createPreviousDate(Calendar calendar, Date date){
+    private Date createPreviousDate(Calendar calendar, Date date) {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_YEAR, -1);
         return setEODTime(calendar,calendar.getTime());
     }
-    private Date setEODTime(Calendar calendar, Date date){
+    private Date setEODTime(Calendar calendar, Date date) {
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -248,7 +250,7 @@ public class FeeVersionServiceTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    public synchronized void testThatWhenReasonProvidedFeeRejected() throws Exception{
+    public synchronized void testThatWhenReasonProvidedFeeRejected() throws Exception {
 
         Date date = new Date(System.currentTimeMillis() + 60000);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");

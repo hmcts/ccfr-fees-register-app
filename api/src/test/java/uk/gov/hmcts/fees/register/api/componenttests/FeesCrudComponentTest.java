@@ -74,7 +74,8 @@ public class FeesCrudComponentTest {
 
                     percentageFeeDtoWith()
                         .code("X0434")
-                        .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
+                        .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. " +
+                            "Fees are 4.5% of the claim value")
                         .percentage(BigDecimal.valueOf(4.5))
                         .build()
                 );
@@ -90,7 +91,8 @@ public class FeesCrudComponentTest {
                 assertThat(fee).isEqualTo(
                     percentageFeeDtoWith()
                         .code("X0434")
-                        .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
+                        .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. " +
+                            "Fees are 4.5% of the claim value")
                         .percentage(BigDecimal.valueOf(4.5))
                         .build()
                 );
@@ -159,14 +161,16 @@ public class FeesCrudComponentTest {
 
     @Test
     public void validateCode() throws Exception {
-        assertValidationMessage("/fees/" + join("", nCopies(51, "A")), validFixedFeeDto().build(), "code: length must be between 0 and 50");
+        assertValidationMessage("/fees/" + join("", nCopies(51, "A")), validFixedFeeDto().build(),
+            "code: length must be between 0 and 50");
     }
 
     @Test
     public void validateDescription() throws Exception {
         assertValidationMessage("/fees/X0433", validFixedFeeDto().description(null).build(), "description: may not be empty");
         assertValidationMessage("/fees/X0433", validFixedFeeDto().description("").build(), "description: may not be empty");
-        assertValidationMessage("/fees/X0433", validFixedFeeDto().description(join("", nCopies(2001, "A"))).build(), "description: length must be between 0 and 2000");
+        assertValidationMessage("/fees/X0433", validFixedFeeDto().description(join("", nCopies(2001, "A"))).build(),
+            "description: length must be between 0 and 2000");
     }
 
     @Test
@@ -178,9 +182,12 @@ public class FeesCrudComponentTest {
     @Test
     public void validatePercentage() throws Exception {
         assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(null).build(), "percentage: must not be null");
-        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(-1)).build(), "percentage: must be greater than or equal to 0.01");
-        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(0)).build(), "percentage: must be greater than or equal to 0.01");
-        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(100.01)).build(), "percentage: must be less than or equal to 100.00");
+        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(-1)).build(),
+            "percentage: must be greater than or equal to 0.01");
+        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(0)).build(),
+            "percentage: must be greater than or equal to 0.01");
+        assertValidationMessage("/fees/X0434", validPercentageFeeDto().percentage(BigDecimal.valueOf(100.01)).build(),
+            "percentage: must be less than or equal to 100.00");
     }
 
     private PercentageFeeDtoBuilder validPercentageFeeDto() {

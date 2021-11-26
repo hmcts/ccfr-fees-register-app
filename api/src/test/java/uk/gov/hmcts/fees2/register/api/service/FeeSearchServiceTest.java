@@ -333,7 +333,7 @@ public class FeeSearchServiceTest {
             .stream()
             .map(feeDtoMapper::toFeeDto)
             .filter(fee2Dto -> {
-                if(fee2Dto != null && fee2Dto.getCode() != null) {
+                if (fee2Dto != null && fee2Dto.getCode() != null) {
                     return fee2Dto.getCode().equals(savedFee.getCode());
                 }
                 return false;

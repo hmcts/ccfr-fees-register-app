@@ -38,7 +38,8 @@ sourceSets {
         }
     }
     checkstyle {
-        toolVersion "7.8.1"
+        toolVersion "8.2"
+        sourceSets = [sourceSets.main, sourceSets.test]
     }
 }
 
@@ -154,8 +155,8 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
 
 functionalTest.finalizedBy(aggregate)
 
-//checkstyleMain.enabled(true)
-//checkstyleTest.enabled(true)
+checkstyleMain.enabled(true)
+checkstyleTest.enabled(true)
 
 serenity {
     reports = ["single-page-html"]

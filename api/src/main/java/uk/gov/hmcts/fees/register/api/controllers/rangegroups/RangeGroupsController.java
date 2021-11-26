@@ -29,7 +29,7 @@ public class RangeGroupsController {
     private final RangeGroupsDtoMapper rangeGroupsDtoMapper;
     private final RangeGroupRepository rangeGroupRepository;
 
-    /** Constant for rangeGroupCode cmc-paper */
+    /** Constant for rangeGroupCode cmc-paper. */
     private static final String CMC_PAPER = "cmc-paper";
 
     @Autowired
@@ -64,7 +64,7 @@ public class RangeGroupsController {
     }
 
     @ApiOperation(value = "Find appropriate fees amount for given claim.",
-                    notes="The endpoint returns the fee for specified amount", response = CalculationDto.class)
+                    notes = "The endpoint returns the fee for specified amount", response = CalculationDto.class)
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code, @RequestParam(value = "value") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
@@ -74,7 +74,7 @@ public class RangeGroupsController {
     }
 
     @ApiOperation(value = "Find max fees amount for an unspecified value.",
-        notes="The endpoint returns the max fee for the unspecified amount", response = CalculationDto.class)
+        notes = "The endpoint returns the max fee for the unspecified amount", response = CalculationDto.class)
     @GetMapping("/range-groups/cmc-paper/calculations/unspecified")
     public CalculationDto getMaxFeeForUnspecifiedRange() {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(CMC_PAPER);

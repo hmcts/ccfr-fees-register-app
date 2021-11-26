@@ -16,8 +16,7 @@ import static uk.gov.hmcts.fees2.register.api.contract.Jurisdiction2Dto.jurisdic
 import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.serviceTypeDtoWith;
 
 /**
- * Reference data verification component test
- *
+ * Reference data verification component test.
  */
 
 public class ReferenceDataComponentTest extends BaseTest {
@@ -46,7 +45,7 @@ public class ReferenceDataComponentTest extends BaseTest {
 
 
     @Test
-    public void getAllChannelTypesTest() throws Exception{
+    public void getAllChannelTypesTest() throws Exception {
 
         restActions
             .get(URIUtils.getUrlForGetMethod(ReferenceDataController.class, "getAllChannelTypes"))

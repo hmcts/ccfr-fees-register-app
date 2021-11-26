@@ -20,7 +20,6 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
-import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.*;
 
@@ -44,7 +43,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ActiveProfiles({"embedded", "idam-backdoor"})
 public abstract class BaseTest {
 
-    protected final static String AUTHOR = "TEST";
+    protected static final String AUTHOR = "TEST";
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -108,20 +107,23 @@ public abstract class BaseTest {
 
 
     /**
-     * @return
+     * @return return.
      */
     public List<ChannelType> getChannelTypes() {
-        return new ArrayList<ChannelType>() {{
+        return new ArrayList<ChannelType>() {
+            {
             add(new ChannelType("online", new Date(), new Date()));
             add(new ChannelType("bulk", new Date(), new Date()));
-        }};
+        }
+        };
     }
 
     /**
-     * @return
+     * @return return.
      */
     public List<DirectionType> getDirectionTypes() {
-        return new ArrayList<DirectionType>() {{
+        return new ArrayList<DirectionType>() {
+            {
             add(new DirectionType("cost recovery", new Date(), new Date()));
             add(new DirectionType("enhanced", new Date(), new Date()));
             add(new DirectionType("licence", new Date(), new Date()));
@@ -129,16 +131,16 @@ public abstract class BaseTest {
             add(new DirectionType("pre cost recovery", new Date(), new Date()));
             add(new DirectionType("reduced chum", new Date(), new Date()));
             add(new DirectionType("simplified", new Date(), new Date()));
-        }};
+        }
+        };
     }
 
     /**
-     * /**
-     *
-     * @return
+     * @return return.
      */
     public List<ServiceType> getServiceTypes() {
-        return new ArrayList<ServiceType>() {{
+        return new ArrayList<ServiceType>() {
+            {
             add(new ServiceType("civil money claims", new Date(), new Date()));
             add(new ServiceType("possession claims", new Date(), new Date()));
             add(new ServiceType("insolvency", new Date(), new Date()));
@@ -157,11 +159,13 @@ public abstract class BaseTest {
             add(new ServiceType("probate", new Date(), new Date()));
             add(new ServiceType("general", new Date(), new Date()));
             add(new ServiceType("magistrates", new Date(), new Date()));
-        }};
+        }
+        };
     }
 
     public List<EventType> getEventTypes() {
-        return new ArrayList<EventType>() {{
+        return new ArrayList<EventType>() {
+            {
             add(new EventType("enforcement", new Date(), new Date()));
             add(new EventType("judicial review", new Date(), new Date()));
             add(new EventType("appeal", new Date(), new Date()));
@@ -172,24 +176,29 @@ public abstract class BaseTest {
             add(new EventType("hearing", new Date(), new Date()));
             add(new EventType("miscellaneous", new Date(), new Date()));
             add(new EventType("cost assessment", new Date(), new Date()));
-        }};
+        }
+        };
     }
 
     public List<Jurisdiction1> getJurisdictions1() {
-        return new ArrayList<Jurisdiction1>() {{
+        return new ArrayList<Jurisdiction1>() {
+            {
             add(new Jurisdiction1("civil", new Date(), new Date()));
             add(new Jurisdiction1("family", new Date(), new Date()));
             add(new Jurisdiction1("tribunal", new Date(), new Date()));
-        }};
+        }
+        };
     }
 
     public List<Jurisdiction2> getJurisdictions2() {
-        return new ArrayList<Jurisdiction2>() {{
+        return new ArrayList<Jurisdiction2>() {
+            {
             add(new Jurisdiction2("county court", new Date(), new Date()));
             add(new Jurisdiction2("high court", new Date(), new Date()));
             add(new Jurisdiction2("magistrates court", new Date(), new Date()));
             add(new Jurisdiction2("court of protection", new Date(), new Date()));
-        }};
+        }
+        };
     }
 
     public RangedFeeDto getRangedFeeDto(String feeCode) {
@@ -199,8 +208,10 @@ public abstract class BaseTest {
 
         rangedFeeDto.setMinRange(new BigDecimal(1));
         rangedFeeDto.setMaxRange(new BigDecimal(3000));
-        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line", "CMC online fee order name", "CMC online fee order name",
-            "Natural code 001", "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
+        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line",
+            "CMC online fee order name", "CMC online fee order name",
+            "Natural code 001", "SI", "siRefId",
+            DirectionType.directionWith().name("enhanced").build()));
         rangedFeeDto.setJurisdiction1(null);
         rangedFeeDto.setJurisdiction2(null);
         rangedFeeDto.setEvent(null);
@@ -217,8 +228,10 @@ public abstract class BaseTest {
 
         rangedFeeDto.setMinRange(new BigDecimal(1));
         rangedFeeDto.setMaxRange(new BigDecimal(3000));
-        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line", "CMC online fee order name", "CMC online fee order name",
-                "Natural code 001", "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
+        rangedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line",
+            "CMC online fee order name", "CMC online fee order name",
+                "Natural code 001", "SI", "siRefId",
+            DirectionType.directionWith().name("enhanced").build()));
         rangedFeeDto.setJurisdiction1("BBB");
         rangedFeeDto.setJurisdiction2("CCC");
         rangedFeeDto.setEvent("DDD");
@@ -349,7 +362,9 @@ public abstract class BaseTest {
         RangedFeeDto rangedFeeDto = new RangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
-        rangedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "CMC online fee order name","Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
+        rangedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name",
+            "CMC online fee order name","Natural code 001",
+            null, null, directionTypeService.findByNameOrThrow("enhanced")));
         rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
         rangedFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
@@ -367,8 +382,10 @@ public abstract class BaseTest {
         fixedFeeDto.setCode(feeCode);
         fixedFeeDto.setKeyword("Test Keyword");
         fixedFeeDto.setApplicantType("Test Applicant");
-        fixedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line", "CMC online fee order name", "CMC online fee order name",
-                "Natural code 001", "SI", "siRefId", DirectionType.directionWith().name("enhanced").build()));
+        fixedFeeDto.setVersion(getFeeVersionDto(FeeVersionStatus.approved, "Test memo line",
+            "CMC online fee order name", "CMC online fee order name",
+                "Natural code 001", "SI", "siRefId",
+            DirectionType.directionWith().name("enhanced").build()));
         fixedFeeDto.setJurisdiction1("BBB");
         fixedFeeDto.setJurisdiction2("CCC");
         fixedFeeDto.setEvent("CCC");
@@ -382,7 +399,9 @@ public abstract class BaseTest {
         RangedFeeDto rangedFeeDto = new RangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
-        rangedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "CMC online fee order name","Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
+        rangedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name",
+            "CMC online fee order name","Natural code 001",
+            null, null, directionTypeService.findByNameOrThrow("enhanced")));
         rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
         rangedFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
@@ -397,7 +416,9 @@ public abstract class BaseTest {
         RangedFeeDto rangedFeeDto = new RangedFeeDto();
         rangedFeeDto.setMinRange(new BigDecimal(minRange));
         rangedFeeDto.setMaxRange(new BigDecimal(maxRange));
-        rangedFeeDto.setVersion(getFeeVersionDto(status, "Test lookup fee", "Divorce online fee order name", "CMC online fee order name","Natural code for lookup", null, null, directionTypeService.findByNameOrThrow("licence")));
+        rangedFeeDto.setVersion(getFeeVersionDto(status, "Test lookup fee", "Divorce online fee order name",
+            "CMC online fee order name","Natural code for lookup", null,
+            null, directionTypeService.findByNameOrThrow("licence")));
         rangedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("family").getName());
         rangedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("high court").getName());
         rangedFeeDto.setEvent(eventTypeService.findByNameOrThrow("copies").getName());
@@ -410,7 +431,9 @@ public abstract class BaseTest {
     public BandedFeeDto getBandedFeeDtoWithReferenceData(String feeCode, FeeVersionStatus status) {
 
         BandedFeeDto bandedFeeDto = new BandedFeeDto();
-        bandedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "CMC online fee order name","Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
+        bandedFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name",
+            "CMC online fee order name","Natural code 001", null,
+            null, directionTypeService.findByNameOrThrow("enhanced")));
         bandedFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         bandedFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
         bandedFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
@@ -423,7 +446,9 @@ public abstract class BaseTest {
     public RelationalFeeDto getRelationalFeeDtoWithReferenceData(String feeCode, FeeVersionStatus status) {
 
         RelationalFeeDto relationalFeeDto = new RelationalFeeDto();
-        relationalFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "CMC online fee order name","Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
+        relationalFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name",
+            "CMC online fee order name","Natural code 001", null,
+            null, directionTypeService.findByNameOrThrow("enhanced")));
         relationalFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         relationalFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
         relationalFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
@@ -436,7 +461,9 @@ public abstract class BaseTest {
     public RateableFeeDto getRateableFeeDtoWithReferenceData(String feeCode, FeeVersionStatus status) {
 
         RateableFeeDto rateablelFeeDto = new RateableFeeDto();
-        rateablelFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name", "CMC online fee order name","Natural code 001", null, null, directionTypeService.findByNameOrThrow("enhanced")));
+        rateablelFeeDto.setVersion(getFeeVersionDto(status, "Test memo line", "CMC online fee order name",
+            "CMC online fee order name","Natural code 001", null,
+            null, directionTypeService.findByNameOrThrow("enhanced")));
         rateablelFeeDto.setJurisdiction1(jurisdiction1Service.findByNameOrThrow("civil").getName());
         rateablelFeeDto.setJurisdiction2(jurisdiction2Service.findByNameOrThrow("county court").getName());
         rateablelFeeDto.setEvent(eventTypeService.findByNameOrThrow("issue").getName());
@@ -447,12 +474,16 @@ public abstract class BaseTest {
     }
 
 
-    public FeeVersionDto getFeeVersionDto(FeeVersionStatus status, String memoLine, String lastAmendingSi, String consolidateFeeOrderName, String naturalAccountCode, String statutoryInstrument, String siRefId, DirectionType direction) {
+    public FeeVersionDto getFeeVersionDto(FeeVersionStatus status, String memoLine, String lastAmendingSi,
+                                          String consolidateFeeOrderName, String naturalAccountCode,
+                                          String statutoryInstrument, String siRefId, DirectionType direction) {
         MutableDateTime validTo = new MutableDateTime(new Date());
         validTo.addDays(90);
 
-        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", FeeVersionStatusDto.valueOf(status.name()), getFlatAmountDto(), null, null, AUTHOR, AUTHOR,
-            memoLine, statutoryInstrument, siRefId, naturalAccountCode, lastAmendingSi, consolidateFeeOrderName, direction.getName(),"test", "reason for reject");
+        return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description",
+            FeeVersionStatusDto.valueOf(status.name()), getFlatAmountDto(), null, null, AUTHOR, AUTHOR,
+            memoLine, statutoryInstrument, siRefId, naturalAccountCode, lastAmendingSi, consolidateFeeOrderName,
+            direction.getName(),"test", "reason for reject");
     }
 
     public FlatAmountDto getFlatAmountDto() {

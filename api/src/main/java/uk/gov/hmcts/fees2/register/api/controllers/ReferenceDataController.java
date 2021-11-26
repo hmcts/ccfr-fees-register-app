@@ -21,7 +21,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Reference data Rest controller for all the reference data types
+ * Reference data Rest controller for all the reference data types.
  *
  * @author Tarun Palisetty
  */
@@ -75,7 +75,7 @@ public class ReferenceDataController {
     })
     @GetMapping("/referenceData")
     @ResponseStatus(HttpStatus.OK)
-    public AllReferenceDataDto getAllReferenceData(){
+    public AllReferenceDataDto getAllReferenceData() {
 
         AllReferenceDataDto dto = new AllReferenceDataDto();
 

@@ -34,7 +34,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
 */
 
     @Test
-    public synchronized void testFixedFee() throws Exception{
+    public synchronized void testFixedFee() throws Exception {
 
         FixedFeeDto dto = new FixedFeeDto();
         dto.setService("divorce");
@@ -72,8 +72,7 @@ public class FeeControllerFixedFeesAcceptanceCriteriaTest extends BaseIntegratio
                     assertThat(v.getStatus()).isEqualTo(FeeVersionStatusDto.draft);
                 });
             }));
-//        getFeeAndExpectStatusIsOk(uri[3])
-//            .andExpect(versionIsOneAndStatusIsDraft());
+        //getFeeAndExpectStatusIsOk(uri[3]).andExpect(versionIsOneAndStatusIsDraft());
 
         forceDeleteFee(uri[3]);
 

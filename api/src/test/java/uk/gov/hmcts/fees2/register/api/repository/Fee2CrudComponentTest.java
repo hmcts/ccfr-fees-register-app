@@ -72,7 +72,8 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(savedFee);
 
-        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
+        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(
+            v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatusDto.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
@@ -91,7 +92,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         Fee fee = feeService.get(savedFee.getCode());
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(fee);
-        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
+        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(
+            v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatusDto.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");

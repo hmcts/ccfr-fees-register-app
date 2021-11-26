@@ -72,7 +72,8 @@ public class CategoryCrudComponentTest {
                     assertThat(category.getFees()).hasSize(2);
                     assertThat(category.getFees()).contains(fixedFeeDtoWith()
                         .code("X0251-4")
-                        .description("‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering.")
+                        .description("‘Sealed and certified copy’ – if assets are held abroad you may need one of these. " +
+                            "Please check with the appropriate organisations before ordering.")
                         .amount(50)
                         .build());
                 });
@@ -150,7 +151,8 @@ public class CategoryCrudComponentTest {
     public void validateDescription() throws Exception {
         assertValidationMessage("/categories/cmc-online", validCategoryDto().description(null).build(), "description: may not be empty");
         assertValidationMessage("/categories/cmc-online", validCategoryDto().description("").build(), "description: may not be empty");
-        assertValidationMessage("/categories/cmc-online", validCategoryDto().description(join("", nCopies(2001, "A"))).build(), "description: length must be between 0 and 2000");
+        assertValidationMessage("/categories/cmc-online", validCategoryDto().description(join("", nCopies(2001, "A"))).build(),
+            "description: length must be between 0 and 2000");
     }
 
     @Test

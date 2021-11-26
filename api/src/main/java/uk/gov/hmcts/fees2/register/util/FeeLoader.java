@@ -231,7 +231,8 @@ public class FeeLoader implements ApplicationRunner {
                 .siRefId(feeVersionDto.getSiRefId())
                 .build();
 
-            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getNewVersion(), feeVersionDto.getAmount(), updatedFeeVersionInfo);
+            feeVersionService.updateVersion(code, feeVersionDto.getVersion(), feeVersionDto.getNewVersion(),
+                feeVersionDto.getAmount(), updatedFeeVersionInfo);
         }
     }
 

@@ -47,7 +47,7 @@ public class FeeControllerMockTest {
     }
 
     @Test
-    public void csvImportFeesTest() throws Exception{
+    public void csvImportFeesTest() throws Exception {
         feeService = new FeeServiceImpl();
         FeeService fs = Mockito.spy(feeService);
 

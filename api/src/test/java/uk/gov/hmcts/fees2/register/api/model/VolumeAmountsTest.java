@@ -2,12 +2,10 @@ package uk.gov.hmcts.fees2.register.api.model;
 
 import org.junit.Test;
 import uk.gov.hmcts.fees2.register.data.model.amount.Amount;
-import uk.gov.hmcts.fees2.register.data.model.amount.PercentageAmount;
 import uk.gov.hmcts.fees2.register.data.model.amount.VolumeAmount;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class VolumeAmountsTest {

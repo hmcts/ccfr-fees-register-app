@@ -5,7 +5,7 @@ import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.data.model.*;
 
 /**
- * ReferenceData entity to DTO mapper
+ * ReferenceData entity to DTO mapper.
  *
  * @author Tarun Palisetty
  */
