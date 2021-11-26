@@ -14,7 +14,7 @@ import uk.gov.hmcts.fees2.register.data.model.*;
 public class ReferenceDataDtoMapper {
 
     /**
-     *
+     * channelType.
      * @param channelType
      * @return
      */
@@ -25,7 +25,7 @@ public class ReferenceDataDtoMapper {
     }
 
     /**
-     *
+     * directionType.
      * @param directionType
      * @return
      */
@@ -36,7 +36,7 @@ public class ReferenceDataDtoMapper {
     }
 
     /**
-     *
+     * eventType.
      * @param eventType
      * @return
      */
@@ -47,7 +47,7 @@ public class ReferenceDataDtoMapper {
     }
 
     /**
-     *
+     * jurisdiction1.
      * @param jurisdiction1
      * @return
      */
@@ -58,7 +58,7 @@ public class ReferenceDataDtoMapper {
     }
 
     /**
-     *
+     * jurisdiction2.
      * @param jurisdiction2
      * @return
      */
@@ -69,7 +69,7 @@ public class ReferenceDataDtoMapper {
     }
 
     /**
-     *
+     * serviceType.
      * @param serviceType
      * @return
      */
@@ -80,7 +80,7 @@ public class ReferenceDataDtoMapper {
     }
 
     /**
-     *
+     * applicantType.
      * @param applicantType
      * @return
      */

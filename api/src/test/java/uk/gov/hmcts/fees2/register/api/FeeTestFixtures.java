@@ -7,7 +7,7 @@ public class FeeTestFixtures {
 
     public static final String CODE = "testCode";
 
-    public static final String aRangeFeePayload() {
+    public static final String rangeFeePayload() {
         return "{\n" +
             "  \"applicant\": \"string\",\n" +
             "  \"applicant_type\": \"string\",\n" +
@@ -49,7 +49,7 @@ public class FeeTestFixtures {
             "}";
     }
 
-    public static final String aFixedFeePayload() {
+    public static final String fixedFeePayload() {
         return "{\n" +
             "  \"applicant_type\": \"string\",\n" +
             "  \"channel\": \"string\",\n" +
@@ -87,7 +87,7 @@ public class FeeTestFixtures {
             "}";
     }
 
-    public static final String aFeeVersionPayload() {
+    public static final String feeVersionPayload() {
         return "{\n" +
             "  \"version\": 0,\n" +
             "  \"valid_from\": \"2018-04-18T14:15:13.130Z\",\n" +
@@ -156,12 +156,12 @@ public class FeeTestFixtures {
             "]";
     }
 
-    public static final FixedFee aFixedFee() {
+    public static final FixedFee fixedFee() {
         FixedFee fixedFee = new FixedFee();
         fixedFee.setCode(CODE);
         return fixedFee;
     }
-    public static final RangedFee aRangedFee() {
+    public static final RangedFee rangedFee() {
         RangedFee rangedFee = new RangedFee();
         rangedFee.setCode(CODE);
         return rangedFee;

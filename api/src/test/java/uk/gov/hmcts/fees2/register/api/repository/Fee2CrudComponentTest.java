@@ -52,9 +52,6 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     private FeeDataUtils feeDataUtils;
 
-    /**
-     *
-     */
     @Test
     public void createRangedFeeTest() {
         rangedFeeDto = getRangedFeeDto(null);
@@ -63,7 +60,6 @@ public class Fee2CrudComponentTest extends BaseTest {
         assertNotNull(savedFee);
         feeService.delete(savedFee.getCode());
     }
-
 
     @Test
     public void createRangedFeeWithAllReferenceDataTest() {
@@ -84,7 +80,7 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Test
     @Transactional
-    public void ReadRangedFeeWithAllReferenceDataTest() {
+    public void readRangedFeeWithAllReferenceDataTest() {
         // Insert a new ranged fee
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, null, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));

@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static uk.gov.hmcts.fees.register.functional.fixture.FixedFeeFixture.aFixedFee;
+import static uk.gov.hmcts.fees.register.functional.fixture.FixedFeeFixture.fixedFee;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
 public class DeleteFeeTest extends IntegrationTestBase {
@@ -16,7 +16,7 @@ public class DeleteFeeTest extends IntegrationTestBase {
     @Test
     public void shouldDeleteAnApprovedFee() {
         // editor creates a fee
-        Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
+        Response response = feeService.createAFee(userBootstrap.getEditor(), fixedFee());
         String feeCode = response.then()
             .statusCode(HttpStatus.CREATED.value())
             .and()

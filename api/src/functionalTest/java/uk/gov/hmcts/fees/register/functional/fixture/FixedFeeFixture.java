@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class FixedFeeFixture {
 
-    public static FixedFeeDto aFixedFee() {
+    public static FixedFeeDto fixedFee() {
         final String keyword = RandomStringUtils.randomAlphanumeric(10);
         return FixedFeeDto.fixedFeeDtoWith()
                 .applicantType("all")

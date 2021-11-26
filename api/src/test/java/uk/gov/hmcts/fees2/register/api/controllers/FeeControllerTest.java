@@ -111,6 +111,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     /**
+     * Exception.
      * @throws Exception Exception.
      */
     @Test
@@ -148,6 +149,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     /**
+     * Exception.
      * @throws Exception Exception.
      */
     @Test
@@ -160,6 +162,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     /**
+     * Exception.
      * @throws Exception Exception.
      */
     @Test
@@ -181,6 +184,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     /**
+     * Exception.
      * @throws Exception Exception.
      */
     @Test

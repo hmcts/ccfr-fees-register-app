@@ -107,6 +107,7 @@ public abstract class BaseTest {
 
 
     /**
+     * getChannelTypes.
      * @return return.
      */
     public List<ChannelType> getChannelTypes() {
@@ -119,6 +120,7 @@ public abstract class BaseTest {
     }
 
     /**
+     * getDirectionTypes.
      * @return return.
      */
     public List<DirectionType> getDirectionTypes() {
@@ -136,6 +138,7 @@ public abstract class BaseTest {
     }
 
     /**
+     * getServiceTypes.
      * @return return.
      */
     public List<ServiceType> getServiceTypes() {
