@@ -129,6 +129,7 @@ public abstract class BaseTest {
             add(new DirectionType("pre cost recovery", new Date(), new Date()));
             add(new DirectionType("reduced chum", new Date(), new Date()));
             add(new DirectionType("simplified", new Date(), new Date()));
+            add(new DirectionType("inflationary", new Date(), new Date()));
         }};
     }
 
