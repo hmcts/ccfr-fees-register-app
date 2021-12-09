@@ -56,7 +56,8 @@ databaseChangeLog:
                   ('partial cost recovery'),
                   ('pre cost recovery'),
                   ('reduced churn'),
-                  ('simplified');
+                  ('simplified'),
+                  ('inflationary');
           - createTable:
               tableName: event_type
               columns:
