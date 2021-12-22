@@ -462,7 +462,7 @@ public abstract class BaseTest {
         validTo.addDays(90);
 
         return new FeeVersionDto(1, new Date(), validTo.toDate(), "First version description", FeeVersionStatusDto.valueOf(status.name()), getFlatAmountDto(), null, null, AUTHOR, AUTHOR,
-            memoLine, statutoryInstrument, siRefId, naturalAccountCode, lastAmendingSi, consolidateFeeOrderName, direction.getName(),"test", "reason for reject");
+            memoLine, statutoryInstrument, siRefId, naturalAccountCode, lastAmendingSi, consolidateFeeOrderName, direction.getName(),"test", "reason for reject", new Date());
     }
 
     public FlatAmountDto getFlatAmountDto() {

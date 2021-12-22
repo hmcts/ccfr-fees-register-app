@@ -91,4 +91,6 @@ public class FeeVersionDto {
     @JsonProperty("reason_for_reject")
     private String reasonForReject;
 
+    @JsonProperty("approved_date")
+    private Date approvedDate;
 }

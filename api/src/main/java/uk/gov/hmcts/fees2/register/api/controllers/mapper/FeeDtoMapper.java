@@ -330,6 +330,7 @@ public class FeeDtoMapper {
 
         feeVersionDto.setAuthor(feeVersion.getAuthor());
         feeVersionDto.setApprovedBy(feeVersion.getApprovedBy());
+        feeVersionDto.setApprovedDate(feeVersion.getApprovedDate());
 
         return feeVersionDto;
 
