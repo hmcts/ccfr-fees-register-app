@@ -133,9 +133,9 @@ public class ReferenceDataServiceTest extends BaseTest {
 
     @Test
     public void testFindAllJurisdictions2() throws Exception {
-        List<Jurisdiction2> jurisdictions2 =new ArrayList<>();
+        List<Jurisdiction2> jurisdictions2 = new ArrayList<>();
         jurisdictions2.add(new Jurisdiction2("county court", null, null));
-        jurisdictions2.add(new Jurisdiction2("high court" , null, null));
+        jurisdictions2.add(new Jurisdiction2("high court", null, null));
         jurisdictions2.add(new Jurisdiction2("family court", null, null));
 
         when(jurisdiction2Repository.findAll()).thenReturn(jurisdictions2);

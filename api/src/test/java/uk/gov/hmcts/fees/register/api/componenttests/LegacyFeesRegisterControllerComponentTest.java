@@ -106,7 +106,8 @@ public class LegacyFeesRegisterControllerComponentTest {
             .get("/fees-register/categories/hearingfees/ranges/300000/fees")
             .andExpect(status().isOk())
             .andExpect(content().json("" +
-                "{\"chargeableFee\":17000,\"id\":\"X0052\",\"description\":\"Civil Court fees - Hearing fees - Claim Amount - 1500.01 upto 3000 GBP\",\"amount\":17000,\"type\":\"fixed\"}"));
+                "{\"chargeableFee\":17000,\"id\":\"X0052\",\"description\":\"Civil Court fees - Hearing fees - " +
+                "Claim Amount - 1500.01 upto 3000 GBP\",\"amount\":17000,\"type\":\"fixed\"}"));
     }
 
     @Test

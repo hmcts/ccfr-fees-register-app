@@ -7,7 +7,7 @@ import uk.gov.hmcts.fees.register.api.model.exceptions.ResourceNotFoundException
  *
  */
 
-public class ReferenceDataNotFoundException extends ResourceNotFoundException{
+public class ReferenceDataNotFoundException extends ResourceNotFoundException {
 
     public ReferenceDataNotFoundException(String msg1, String msg2) {
         super("Reference data", msg1, msg2);
@@ -15,7 +15,7 @@ public class ReferenceDataNotFoundException extends ResourceNotFoundException{
 
     @Override
     public String toString() {
-        return "ReferenceDataNotFoundException{" +
+        return "ReferenceDataNotFoundException {" +
             "resourceName='" + resourceName + '\'' +
             ", idName='" + idName + '\'' +
             ", idValue=" + idValue +

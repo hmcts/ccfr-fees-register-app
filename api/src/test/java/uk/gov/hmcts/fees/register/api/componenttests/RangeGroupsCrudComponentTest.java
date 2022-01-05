@@ -71,7 +71,8 @@ public class RangeGroupsCrudComponentTest {
                 .to(1)
                 .fee(fixedFeeDtoWith()
                     .code("X0251-1")
-                    .description("First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.")
+                    .description("First copy (consisting of grant including a copy of the Will, if applicable)" +
+                        " ordered after the Grant of Representation has been issued.")
                     .amount(1000)
                     .build())
                 .build(),
@@ -80,7 +81,8 @@ public class RangeGroupsCrudComponentTest {
                 .from(2)
                 .fee(fixedFeeDtoWith()
                     .code("X0251-2")
-                    .description("Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.")
+                    .description("Additional copies (consisting of grant including a copy of the Will, if applicable)" +
+                        " ordered after the Grant of Representation has been issued.")
                     .amount(50)
                     .build())
                 .build()
@@ -134,7 +136,8 @@ public class RangeGroupsCrudComponentTest {
                 assertThat(rangeGroupDto.getRanges()).contains(rangeDtoWith()
                     .from(1001)
                     .to(null)
-                    .fee(fixedFeeDtoWith().code("X0047").amount(54500).description("Civil Court fees - Hearing fees - Fast track claim").build())
+                    .fee(fixedFeeDtoWith().code("X0047").amount(54500).description(
+                        "Civil Court fees - Hearing fees - Fast track claim").build())
                     .build()
                 );
             }));
@@ -162,31 +165,40 @@ public class RangeGroupsCrudComponentTest {
 
     @Test
     public void validateCode() throws Exception {
-        assertValidationMessage("/range-groups/" + join("", nCopies(51, "A")), validRangeGroupUpdateDto().build(), "code: length must be between 0 and 50");
+        assertValidationMessage("/range-groups/" + join("", nCopies(51, "A")),
+            validRangeGroupUpdateDto().build(), "code: length must be between 0 and 50");
     }
 
     @Test
     public void validateDescription() throws Exception {
-        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description(null).build(), "description: may not be empty");
-        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description("").build(), "description: may not be empty");
-        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description(join("", nCopies(2001, "A"))).build(), "description: length must be between 0 and 2000");
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description(null).build(),
+            "description: may not be empty");
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description("").build(),
+            "description: may not be empty");
+        assertValidationMessage("/range-groups/cmc-online", validRangeGroupUpdateDto().description(join("",
+            nCopies(2001, "A"))).build(), "description: length must be between 0 and 2000");
     }
 
     @Test
     public void validateFeeExists() throws Exception {
-        RangeGroupUpdateDto rangeGroupWithNonExistingFee = rangeGroupWithRange(rangeUpdateDtoWith().from(100).to(1000).feeCode("non-existing").build());
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithNonExistingFee, "ranges: one of the ranges contains unknown fee code");
+        RangeGroupUpdateDto rangeGroupWithNonExistingFee = rangeGroupWithRange(rangeUpdateDtoWith().from(100)
+            .to(1000).feeCode("non-existing").build());
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithNonExistingFee,
+            "ranges: one of the ranges contains unknown fee code");
     }
 
     @Test
     public void validateRangeFrom() throws Exception {
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(null).to(1000).feeCode("X0047").build()), "ranges[0].from: must not be null");
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(-1).to(1000).feeCode("X0047").build()), "ranges[0].from: must be greater than or equal to 0");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(null)
+            .to(1000).feeCode("X0047").build()), "ranges[0].from: must not be null");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(-1)
+            .to(1000).feeCode("X0047").build()), "ranges[0].from: must be greater than or equal to 0");
     }
 
     @Test
     public void validateEmptyRange() throws Exception {
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(0).to(0).feeCode("X0047").build()), "ranges: one of the ranges is empty");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(0)
+            .to(0).feeCode("X0047").build()), "ranges: one of the ranges is empty");
     }
 
     @Test
@@ -198,7 +210,8 @@ public class RangeGroupsCrudComponentTest {
             ))
             .build();
 
-        assertValidationMessage("/range-groups/cmc-online", nonContinuousRangeGroup, "ranges: provided set of ranges contains gaps or overlaps");
+        assertValidationMessage("/range-groups/cmc-online", nonContinuousRangeGroup,
+            "ranges: provided set of ranges contains gaps or overlaps");
     }
 
     private RangeGroupUpdateDto rangeGroupWithRange(RangeUpdateDto rangeDto) {

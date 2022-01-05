@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static uk.gov.hmcts.fees.register.functional.fixture.FixedFeeFixture.aFixedFee;
+import static uk.gov.hmcts.fees.register.functional.fixture.FixedFeeFixture.fixedFee;
 import static uk.gov.hmcts.fees.register.functional.service.FeeService.getLatestFeeVersion;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
@@ -24,7 +24,7 @@ public class UpdateFeeTest extends IntegrationTestBase {
     @Test
     public void should_update_a_created_fee_version_twice_before_submission() {
 
-        Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
+        Response response = feeService.createAFee(userBootstrap.getEditor(), fixedFee());
         String feeCode = response.then()
             .statusCode(HttpStatus.CREATED.value())
             .and()
@@ -79,7 +79,7 @@ public class UpdateFeeTest extends IntegrationTestBase {
     @Test
     public void should_not_update_a_fee_after_approval() {
 
-        Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
+        Response response = feeService.createAFee(userBootstrap.getEditor(), fixedFee());
         String feeCode = response.then()
             .statusCode(HttpStatus.CREATED.value())
             .and()
@@ -116,7 +116,7 @@ public class UpdateFeeTest extends IntegrationTestBase {
 
     @Test
     public void should_not_update_fee_after_submission() {
-        Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
+        Response response = feeService.createAFee(userBootstrap.getEditor(), fixedFee());
         String feeCode = response.then()
             .statusCode(HttpStatus.CREATED.value())
             .and()
@@ -150,7 +150,7 @@ public class UpdateFeeTest extends IntegrationTestBase {
     @Test
     public void should_update_an_approved_fee_after_rejection() {
 
-        Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
+        Response response = feeService.createAFee(userBootstrap.getEditor(), fixedFee());
         String feeCode = response.then()
             .statusCode(HttpStatus.CREATED.value())
             .and()

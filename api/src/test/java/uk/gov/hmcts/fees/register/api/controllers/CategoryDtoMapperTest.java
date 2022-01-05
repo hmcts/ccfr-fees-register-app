@@ -24,7 +24,8 @@ import static uk.gov.hmcts.fees.register.api.model.FixedFeeOld.fixedFeeWith;
 
 public class CategoryDtoMapperTest {
 
-    private static final RangeGroup SOME_RANGE_GROUP = RangeGroup.rangeGroupWith().code("any").description("any").ranges(Collections.emptyList()).build();
+    private static final RangeGroup SOME_RANGE_GROUP = RangeGroup.rangeGroupWith().code("any").description("any")
+        .ranges(Collections.emptyList()).build();
     private static final RangeGroupDto MAPPED_RANGE_GROUP_DTO = rangeGroupDtoWith().code("any").description("any").build();
     private static final FixedFeeOld SOME_FEE = fixedFeeWith().code("any").description("any").build();
     private static final FixedFeeDto MAPPED_FEE_DTO = fixedFeeDtoWith().code("any").description("any").build();

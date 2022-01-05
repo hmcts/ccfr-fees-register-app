@@ -46,14 +46,14 @@ public class FeeControllerSecurityTest {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
-        given(feeDtoMapper.toFee(any(RangedFeeDto.class), anyString())).willReturn(aRangedFee());
-        given(feeService.save(any(Fee.class))).willReturn(aRangedFee());
+        given(feeDtoMapper.toFee(any(RangedFeeDto.class), anyString())).willReturn(rangedFee());
+        given(feeService.save(any(Fee.class))).willReturn(rangedFee());
 
         // when & then
         this.mockMvc.perform(
             post("/fees-register/ranged-fees")
                 .contentType(APPLICATION_JSON)
-                .content(aRangeFeePayload())
+                .content(rangeFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isCreated());
     }
@@ -66,7 +66,7 @@ public class FeeControllerSecurityTest {
         this.mockMvc.perform(
             post("/fees-register/ranged-fees")
                 .contentType(APPLICATION_JSON)
-                .content(aRangeFeePayload())
+                .content(rangeFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isForbidden());
     }
@@ -76,14 +76,14 @@ public class FeeControllerSecurityTest {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
-        given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(aFixedFee());
-        given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
+        given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(fixedFee());
+        given(feeService.save(any(Fee.class))).willReturn(fixedFee());
 
         // when & then
         this.mockMvc.perform(
             post("/fees-register/fixed-fees")
                 .contentType(APPLICATION_JSON)
-                .content(aFixedFeePayload())
+                .content(fixedFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isCreated());
     }
@@ -96,7 +96,7 @@ public class FeeControllerSecurityTest {
         this.mockMvc.perform(
             post("/fees-register/fixed-fees")
                 .contentType(APPLICATION_JSON)
-                .content(aFixedFeePayload())
+                .content(fixedFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isForbidden());
     }
@@ -106,13 +106,13 @@ public class FeeControllerSecurityTest {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
-        given(feeService.get(anyString())).willReturn(aRangedFee());
+        given(feeService.get(anyString())).willReturn(rangedFee());
 
         // when & then
         this.mockMvc.perform(
             put("/fees-register/ranged-fees/testCode")
                 .contentType(APPLICATION_JSON)
-                .content(aRangeFeePayload())
+                .content(rangeFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isNoContent());
     }
@@ -125,7 +125,7 @@ public class FeeControllerSecurityTest {
         this.mockMvc.perform(
             put("/fees-register/ranged-fees/testCode")
                 .contentType(APPLICATION_JSON)
-                .content(aRangeFeePayload())
+                .content(rangeFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isForbidden());
     }
@@ -135,14 +135,14 @@ public class FeeControllerSecurityTest {
         // given
         Authentication authentication = testAuthenticationTokenWithAuthority("freg-editor");
 
-        given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(aFixedFee());
-        given(feeService.save(any(Fee.class))).willReturn(aFixedFee());
+        given(feeDtoMapper.toFee(any(FixedFeeDto.class), anyString())).willReturn(fixedFee());
+        given(feeService.save(any(Fee.class))).willReturn(fixedFee());
 
         // when & then
         this.mockMvc.perform(
             put("/fees-register/fixed-fees/testCode")
                 .contentType(APPLICATION_JSON)
-                .content(aRangeFeePayload())
+                .content(rangeFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isNoContent());
     }
@@ -155,7 +155,7 @@ public class FeeControllerSecurityTest {
         this.mockMvc.perform(
             put("/fees-register/fixed-fees/testCode")
                 .contentType(APPLICATION_JSON)
-                .content(aRangeFeePayload())
+                .content(rangeFeePayload())
                 .with(authentication(authentication)))
             .andExpect(status().isForbidden());
     }

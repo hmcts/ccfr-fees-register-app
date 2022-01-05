@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class FeeVersionTest {
 
     @Test
-    public void testRange() throws Exception{
+    public void testRange() throws Exception {
 
         FeeVersion v = new FeeVersion();
 

@@ -52,9 +52,6 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     private FeeDataUtils feeDataUtils;
 
-    /**
-     *
-     */
     @Test
     public void createRangedFeeTest() {
         rangedFeeDto = getRangedFeeDto(null);
@@ -64,7 +61,6 @@ public class Fee2CrudComponentTest extends BaseTest {
         feeService.delete(savedFee.getCode());
     }
 
-
     @Test
     public void createRangedFeeWithAllReferenceDataTest() {
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 3000, null, FeeVersionStatus.approved);
@@ -72,7 +68,8 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(savedFee);
 
-        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
+        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(
+            v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatusDto.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");
@@ -83,7 +80,7 @@ public class Fee2CrudComponentTest extends BaseTest {
 
     @Test
     @Transactional
-    public void ReadRangedFeeWithAllReferenceDataTest() {
+    public void readRangedFeeWithAllReferenceDataTest() {
         // Insert a new ranged fee
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, null, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
@@ -91,7 +88,8 @@ public class Fee2CrudComponentTest extends BaseTest {
         Fee fee = feeService.get(savedFee.getCode());
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(fee);
-        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
+        FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(
+            v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
         assertNotNull(feeVersionDtoResult);
         assertEquals(feeVersionDtoResult.getStatus(), FeeVersionStatusDto.approved);
         assertEquals(feeVersionDtoResult.getDescription(), "First version description");

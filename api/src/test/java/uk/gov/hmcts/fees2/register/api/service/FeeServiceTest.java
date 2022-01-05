@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-public class FeeServiceTest extends BaseTest{
+public class FeeServiceTest extends BaseTest {
 
     @Autowired
     private ChannelTypeRepository channelTypeRepository;
@@ -105,7 +105,7 @@ public class FeeServiceTest extends BaseTest{
 
         FeeLookupResponseDto fee = feeService.lookup(dto);
 
-        assertEquals( BigDecimal.TEN, fee.getFeeAmount());
+        assertEquals(BigDecimal.TEN, fee.getFeeAmount());
 
         feeService.delete(code);
 
@@ -141,7 +141,7 @@ public class FeeServiceTest extends BaseTest{
 
     @Test
     @Transactional
-    public void testCreateFeeWithoutVersionOrStatus(){
+    public void testCreateFeeWithoutVersionOrStatus() {
 
         Fee fee = new FixedFee();
 
@@ -161,7 +161,7 @@ public class FeeServiceTest extends BaseTest{
 
     @Test
     @Transactional
-    public void testCreateBandedFeeWithoutVersionOrStatus(){
+    public void testCreateBandedFeeWithoutVersionOrStatus() {
 
         Fee fee = new BandedFee();
 
@@ -181,7 +181,7 @@ public class FeeServiceTest extends BaseTest{
 
     @Test
     @Transactional
-    public void testCreateRelationalFeeWithoutVersionOrStatus(){
+    public void testCreateRelationalFeeWithoutVersionOrStatus() {
 
         Fee fee = new RelationalFee();
 
@@ -201,7 +201,7 @@ public class FeeServiceTest extends BaseTest{
 
     @Test
     @Transactional
-    public void testCreateRateableFeeWithoutVersionOrStatus(){
+    public void testCreateRateableFeeWithoutVersionOrStatus() {
 
         Fee fee = new RateableFee();
 
@@ -274,7 +274,7 @@ public class FeeServiceTest extends BaseTest{
 
         ChannelType def = channelTypeRepository.getOne(ChannelType.DEFAULT);
 
-        if(def == null) {
+        if (def == null) {
             def = new ChannelType();
             def.setName(ChannelType.DEFAULT);
             channelTypeRepository.save(def);

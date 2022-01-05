@@ -11,7 +11,6 @@ import uk.gov.hmcts.reform.auth.checker.core.user.UserRequestAuthorizer;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class RestActions {
     private final HttpHeaders httpHeaders = new HttpHeaders();

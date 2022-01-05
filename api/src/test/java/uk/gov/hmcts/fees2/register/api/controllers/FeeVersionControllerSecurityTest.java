@@ -22,7 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.aFeeVersionPayload;
+import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.feeVersionPayload;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(FeeVersionController.class)
@@ -112,7 +112,7 @@ public class FeeVersionControllerSecurityTest {
         this.mockMvc.perform(
             post("/fees/testCode/versions")
                 .contentType(APPLICATION_JSON)
-                .content(aFeeVersionPayload())
+                .content(feeVersionPayload())
                 .with(authentication(authentication)))
             .andExpect(status().isCreated());
     }
@@ -125,7 +125,7 @@ public class FeeVersionControllerSecurityTest {
         this.mockMvc.perform(
             post("/fees/testCode/versions")
                 .contentType(APPLICATION_JSON)
-                .content(aFeeVersionPayload())
+                .content(feeVersionPayload())
                 .with(authentication(authentication)))
             .andExpect(status().isForbidden());
     }

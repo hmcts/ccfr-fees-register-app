@@ -7,6 +7,7 @@ buildscript {
 
 plugins {
     id "info.solidsoft.pitest" version '1.5.1'
+    id "checkstyle"
 }
 description = 'api module'
 
@@ -35,6 +36,10 @@ sourceSets {
             runtimeClasspath += main.output
             srcDir file('src/functionalTest/java')
         }
+    }
+    checkstyle {
+        toolVersion "8.2"
+        sourceSets = [sourceSets.main, sourceSets.test]
     }
 }
 
@@ -149,6 +154,9 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
 }
 
 functionalTest.finalizedBy(aggregate)
+
+checkstyleMain.enabled(true)
+checkstyleTest.enabled(true)
 
 serenity {
     reports = ["single-page-html"]

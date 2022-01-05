@@ -36,7 +36,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     */
 
     @Test
-    public synchronized void testCreateUnspecifiedAmountFeeForOnlineChannel() throws Exception{
+    public synchronized void testCreateUnspecifiedAmountFeeForOnlineChannel() throws Exception {
 
         FixedFeeDto dto = new FixedFeeDto();
         dto.setService("gambling");
@@ -95,7 +95,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     And the fee version is 1
     */
     @Test
-    public synchronized void testCreateUnspecifiedAmountFeeForDefaultChannel() throws Exception{
+    public synchronized void testCreateUnspecifiedAmountFeeForDefaultChannel() throws Exception {
 
         FixedFeeDto dto = new FixedFeeDto();
         dto.setService("civil money claims");
@@ -141,7 +141,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     /* NOTE:****IT SHOULD NOT BE POSSIBLE TO HAVE THIS FEE IN % */
 
     @Test
-    public synchronized void testCreateUnspecifiedAmountFeeForPercentAmounts() throws Exception{
+    public synchronized void testCreateUnspecifiedAmountFeeForPercentAmounts() throws Exception {
 
         FixedFeeDto dto = new FixedFeeDto();
         dto.setService("civil money claims");
@@ -176,7 +176,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
     */
 
     @Test
-    public synchronized void testThatLookupOfUnspecifiedClaimAmountMatchesUnspecifiedTypeFee() throws Exception{
+    public synchronized void testThatLookupOfUnspecifiedClaimAmountMatchesUnspecifiedTypeFee() throws Exception {
 
         FixedFeeDto dto = new FixedFeeDto();
         dto.setService("general");
@@ -204,7 +204,8 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
         String[] arr = loc.split("/");
 
         restActions
-            .get("/fees-register/fees/lookup-unspecified?service=general&jurisdiction1=civil&jurisdiction2=county court&channel=online&event=issue&applicant_type=all")
+            .get("/fees-register/fees/lookup-unspecified?service=general&jurisdiction1=civil&jurisdiction2=" +
+                "county court&channel=online&event=issue&applicant_type=all")
             .andExpect(status().isOk())
             .andExpect(body().as(FeeLookupResponseDto.class, fee -> {
                 assertThat(fee.getCode()).isEqualTo(arr[3]);
