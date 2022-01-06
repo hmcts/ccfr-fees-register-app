@@ -65,7 +65,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "/fees/**/versions/**/submit-for-review").hasAuthority("freg-editor")
                 .antMatchers(HttpMethod.DELETE, "/fees-register/fees/**", "/fees/**/versions/**")
                 .hasAnyAuthority("freg-editor", "freg-admin")
-                .antMatchers(HttpMethod.GET, "/fees-register/fees/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/report/download").permitAll();
+                .antMatchers(HttpMethod.GET, "/fees-register/fees/**").permitAll();
     }
 }

@@ -73,6 +73,9 @@ public class FeeVersion extends AbstractEntity{
     @JoinColumn(name = "direction_type")
     private DirectionType directionType;
 
+    @Column(name = "approved_date")
+    private Date approvedDate;
+
     public boolean isInRange(Date date) {
         return (validFrom == null || date.compareTo(validFrom) >= 0)
             && (validTo == null || date.compareTo(validTo) < 0);
@@ -102,6 +105,7 @@ public class FeeVersion extends AbstractEntity{
             ", siRefId='" + siRefId + '\'' +
             ", reasonForUpdate='" + reasonForUpdate + '\'' +
             ", reasonForReject='" + reasonForReject + '\'' +
+            ", approvedDate='" + approvedDate + '\'' +
             '}';
     }
 }

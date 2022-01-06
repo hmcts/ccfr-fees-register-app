@@ -1,7 +1,7 @@
 plugins {
     id 'application'
     id "org.sonarqube" version "3.0"
-    id 'org.springframework.boot' version '2.3.11.RELEASE'
+    id 'org.springframework.boot' version '2.4.3'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "uk.gov.hmcts.java" version '0.12.0'
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
@@ -111,6 +111,7 @@ subprojects {
         compile (group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4') {
             exclude(module: 'netty-tcnative-boringssl-static')
         }
+        compile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
         compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
         testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'

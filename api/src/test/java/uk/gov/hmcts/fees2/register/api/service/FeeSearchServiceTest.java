@@ -65,7 +65,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
@@ -97,7 +97,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
@@ -130,7 +130,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(author, null,
@@ -163,7 +163,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, author,
@@ -195,7 +195,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
@@ -226,7 +226,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
@@ -257,7 +257,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
@@ -290,7 +290,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,
@@ -322,7 +322,7 @@ public class FeeSearchServiceTest {
 
         feeService.save(fee);
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
 
         SearchFeeDto searchFeeCriteria = new SearchFeeDto();
         SearchFeeVersionDto searchFeeVersionCriteria = new SearchFeeVersionDto(null, null,

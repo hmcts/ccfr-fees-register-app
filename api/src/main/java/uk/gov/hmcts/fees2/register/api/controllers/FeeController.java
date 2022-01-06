@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
@@ -23,6 +24,8 @@ import uk.gov.hmcts.fees2.register.data.dto.SearchFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.SearchFeeVersionDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
+import uk.gov.hmcts.fees2.register.data.exceptions.GatewayTimeoutException;
+import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.model.FixedFee;
@@ -97,7 +100,7 @@ public class FeeController {
                                 HttpServletResponse response,
                                 Principal principal) {
         Encode.forHtml(request.getVersion().getReasonForUpdate());
-        RangedFee fee = (RangedFee) feeService.get(code);
+        RangedFee fee = (RangedFee) feeService.getFee(code);
         feeDtoMapper.updateRangedFee(request, fee, principal != null ? principal.getName() : null);
     }
 
@@ -116,7 +119,7 @@ public class FeeController {
                                HttpServletResponse response,
                                Principal principal) {
         Encode.forHtml(request.getVersion().getReasonForUpdate());
-        FixedFee fee = (FixedFee) feeService.get(code);
+        FixedFee fee = (FixedFee) feeService.getFee(code);
         feeDtoMapper.updateFixedFee(request, fee, principal != null ? principal.getName() : null);
     }
 
@@ -241,15 +244,16 @@ public class FeeController {
     @GetMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
     @Transactional
-    public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response) {
-        Fee fee = feeService.get(code);
-        return feeDtoMapper.toFeeDto(fee);
+    public Fee2Dto getFee(@PathVariable("code") String code, HttpServletResponse response,
+                          @RequestHeader(required = false) MultiValueMap<String, String> headers) {
+        Fee fee = feeService.getFee(code);
+        return feeDtoMapper.toFeeDto(fee, headers);
     }
 
     @RequestMapping(method = RequestMethod.HEAD, path = "/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
     public void doesFeeExist(@PathVariable("code") String code) {
-        feeService.get(code);
+        feeService.getFee(code);
     }
 
     @ApiOperation(value = "Delete a fee for the given fee code")
@@ -413,6 +417,18 @@ public class FeeController {
 
     private String getResourceLocation(Fee fee) {
         return URIUtils.getUrlForGetMethod(this.getClass(), "getFee").replace("{code}", fee.getCode());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(UserNotFoundException.class)
+    public String return500(UserNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.GATEWAY_TIMEOUT)
+    @ExceptionHandler(GatewayTimeoutException.class)
+    public String return504(GatewayTimeoutException ex) {
+        return ex.getMessage();
     }
 
 }

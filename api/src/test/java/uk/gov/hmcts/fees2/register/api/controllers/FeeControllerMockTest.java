@@ -3,7 +3,10 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -14,13 +17,15 @@ import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.impl.FeeServiceImpl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 public class FeeControllerMockTest {
 
@@ -63,5 +68,20 @@ public class FeeControllerMockTest {
             .andExpect(status().isCreated());
     }
 
+    @Test
+    public void testLookupWhenNegativeAmount() throws Exception {
+
+        this.mockMvc.perform(get("/fees/lookup", null, null, null, null, null, null, BigDecimal.valueOf(-100), null)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testLookupWhenCopiesEvent() throws Exception {
+
+        this.mockMvc.perform(get("/fees/lookup", null, null, null, null, "copies", null, BigDecimal.valueOf(-100), null)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 
 }

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "7578f6e2-5282-40bf-8d17-e3d32a704392",
+    "forename": "Editor",
+    "surname": "E",
+    "email": "editor@hmcts.net",
+    "active": true,
+    "roles": [
+      "IDAM_SUPER_USER",
+      "freg-editor",
+      "freg"
+    ],
+    "lastModified": "2021-07-02T11:41:08.432Z"
+  }
+]

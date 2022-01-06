@@ -49,8 +49,4 @@ public class FeesDateUtil {
         ) : LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 
-    public static String getDateTimeForReportName(final Date date) {
-        final DateTimeFormatter reportNameDateFormat = DateTimeFormatter.ofPattern("ddMMyy_HHmmss");
-        return dateToLocalDateTime(date).format(reportNameDateFormat);
-    }
 }

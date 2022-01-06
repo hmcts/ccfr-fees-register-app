@@ -553,6 +553,14 @@ databaseChangeLog:
 
     - changeSet:
         logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
+        id: 27
+        author: Sayali
+        changes:
+          - sql: >
+              ALTER TABLE fee_version ADD COLUMN approved_date timestamp;
+
+    - changeSet:
+        logicalFilePath: "classpath:/db/changelog/db.changelog-master.yaml"
         id: 1516108652088-1
         author: Eduardo (generated)
         changes:

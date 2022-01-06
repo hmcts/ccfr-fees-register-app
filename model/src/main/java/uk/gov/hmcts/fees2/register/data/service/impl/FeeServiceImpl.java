@@ -62,7 +62,6 @@ public class FeeServiceImpl implements FeeService {
 
     private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
-
     @Override
     public Fee save(Fee fee) {
         feeValidator.validateAndDefaultNewFee(fee);
@@ -95,7 +94,7 @@ public class FeeServiceImpl implements FeeService {
     @Override
     @Transactional
     public void updateLoaderFee(Fee updateFee, String newCode) {
-        Fee fee = get(updateFee.getCode());
+        Fee fee = getFee(updateFee.getCode());
 
         if (newCode != null) {  // If the new feeCode is provided in the request.
             FeeCodeHistory feeCodeHistory = FeeCodeHistory.FeeCodeHistoryWith()
@@ -148,8 +147,9 @@ public class FeeServiceImpl implements FeeService {
         return false;
     }
 
+    // rename method name
     @Override
-    public Fee get(String code) {
+    public Fee getFee(String code) {
         return fee2Repository.findByCodeOrThrow(code);
     }
 
@@ -306,4 +306,5 @@ public class FeeServiceImpl implements FeeService {
         }
 
     }
+
 }

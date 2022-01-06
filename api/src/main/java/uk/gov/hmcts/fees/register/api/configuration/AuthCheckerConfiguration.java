@@ -3,6 +3,8 @@ package uk.gov.hmcts.fees.register.api.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -23,4 +25,9 @@ public class AuthCheckerConfiguration {
         return (request) -> Optional.empty();
     }
 
+    @Bean("restTemplateIdam")
+    public RestTemplate restTemplateIdam() {
+        return new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+
+    }
 }

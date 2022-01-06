@@ -22,7 +22,7 @@ public interface FeeService {
 
     List<Fee> search(LookupFeeDto dto);
 
-    Fee get(String code);
+    Fee getFee(String code);
 
     Integer getMaxFeeNumber();
 

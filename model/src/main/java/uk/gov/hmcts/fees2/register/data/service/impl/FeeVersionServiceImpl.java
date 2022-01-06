@@ -18,6 +18,7 @@ import uk.gov.hmcts.fees2.register.data.util.FeesDateUtil;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -146,6 +147,7 @@ public class FeeVersionServiceImpl implements FeeVersionService {
             }
 
             feeVersion.setApprovedBy(user);
+            feeVersion.setApprovedDate(new Date());
 
             setValidToOnPreviousFeeVersion(feeVersion);
         }

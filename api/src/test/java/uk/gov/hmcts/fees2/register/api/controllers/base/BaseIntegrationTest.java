@@ -1,20 +1,21 @@
 package uk.gov.hmcts.fees2.register.api.controllers.base;
 
+import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
+import lombok.SneakyThrows;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.BandedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.FeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.FixedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RangedFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RateableFeeDto;
-import uk.gov.hmcts.fees2.register.api.contract.request.RelationalFeeDto;
+import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
 import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
@@ -24,8 +25,11 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import uk.gov.hmcts.reform.auth.checker.core.user.UserRequestAuthorizer;
 
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static junit.framework.TestCase.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,6 +38,15 @@ public abstract class BaseIntegrationTest extends BaseTest {
 
     @Autowired
     FeeService feeService;
+
+    @Autowired
+    private ConfigurableListableBeanFactory configurableListableBeanFactory;
+
+    @ClassRule
+    public static WireMockClassRule wireMockRule = new WireMockClassRule(9190);
+
+    @Rule
+    public WireMockClassRule instanceRule = wireMockRule;
 
     /* --- API CALLS --- */
 
@@ -264,6 +277,24 @@ public abstract class BaseIntegrationTest extends BaseTest {
             .setJurisdiction1("family")
             .setJurisdiction2("family court")
             .setApplicantType("all");
+    }
+
+    protected void mockIdamAPI() {
+        stubFor(get(urlPathMatching("/api/v1/users"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(contentsOf("idam-responses/userinfo-response.json"))));
+    }
+
+    @SneakyThrows
+    protected String contentsOf(String fileName) {
+        String content = new String(Files.readAllBytes(Paths.get(ResourceUtils.getURL("classpath:" + fileName).toURI())));
+        return resolvePlaceholders(content);
+    }
+
+    protected String resolvePlaceholders(String content) {
+        return configurableListableBeanFactory.resolveEmbeddedValue(content);
     }
 
 }

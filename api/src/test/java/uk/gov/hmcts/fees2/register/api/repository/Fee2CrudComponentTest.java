@@ -88,7 +88,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2000, null, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
-        Fee fee = feeService.get(savedFee.getCode());
+        Fee fee = feeService.getFee(savedFee.getCode());
 
         Fee2Dto feeDto = feeDtoMapper.toFeeDto(fee);
         FeeVersionDto feeVersionDtoResult = feeDto.getFeeVersionDtos().stream().filter(v -> v.getStatus().equals(FeeVersionStatusDto.approved)).findAny().orElse(null);
@@ -105,7 +105,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, null, FeeVersionStatus.draft);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
-        Fee fee = feeService.get(savedFee.getCode());
+        Fee fee = feeService.getFee(savedFee.getCode());
 
         boolean result = feeVersionService.approve(fee.getCode(), 1, AUTHOR);
         assertTrue(result);
@@ -120,7 +120,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         rangedFeeDto = getRangedFeeDtoWithReferenceData(1, 2999, null, FeeVersionStatus.approved);
         Fee savedFee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
-        Fee fee = feeService.get(savedFee.getCode());
+        Fee fee = feeService.getFee(savedFee.getCode());
         assertNotNull(fee);
         assertEquals(fee.getCode(), fee.getCode());
         FeeVersion feeVersion = fee.getCurrentVersion(true);
@@ -143,7 +143,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         versionDto.setFlatAmount(flatAmountDto);
         Fee fee = feeService.save(feeDtoMapper.toFee(rangedFeeDto, AUTHOR));
 
-        Fee savedFee = feeService.get(fee.getCode());
+        Fee savedFee = feeService.getFee(fee.getCode());
         assertThat(savedFee.getCode()).isEqualTo(fee.getCode());
         savedFee.getFeeVersions().stream().forEach(v -> {
             FlatAmount flatAmount = (FlatAmount) v.getAmount();
@@ -164,7 +164,7 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         feeVersionService.updateVersion(savedFee.getCode(), savedFee.getFeeVersions().get(0).getVersion(),
             savedFee.getFeeVersions().get(0).getVersion() + 1,new BigDecimal("199.99"), updatedFeeVersionInfo);
-        Fee updatedFee = feeService.get(fee.getCode());
+        Fee updatedFee = feeService.getFee(fee.getCode());
         assertThat(updatedFee.getCode()).isEqualTo(fee.getCode());
         updatedFee.getFeeVersions().stream().forEach(v -> {
             FlatAmount flatAmount = (FlatAmount) v.getAmount();
@@ -180,7 +180,7 @@ public class Fee2CrudComponentTest extends BaseTest {
         FixedFeeDto cmcUnspecifiedFee = new FeeDataUtils().getCmcUnspecifiedFee();
         Fee savedFee = feeService.save(feeDtoMapper.toFee(cmcUnspecifiedFee, AUTHOR));
 
-        Fee fee = feeService.get(savedFee.getCode());
+        Fee fee = feeService.getFee(savedFee.getCode());
         FeeVersion version = fee.getCurrentVersion(true);
         assertThat(version.getDirectionType().getName()).isEqualTo("enhanced");
         assertThat(version.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - Unspecified");
@@ -201,7 +201,7 @@ public class Fee2CrudComponentTest extends BaseTest {
 
         feeVersionService.updateVersion(fee.getCode(), version.getVersion(), newVersion, new BigDecimal("99.89"), updatedFeeVersionInfo);
 
-        FeeVersion updateVersion = feeService.get(savedFee.getCode()).getCurrentVersion(true);
+        FeeVersion updateVersion = feeService.getFee(savedFee.getCode()).getCurrentVersion(true);
         assertThat(updateVersion.getVersion()).isEqualTo(2);
         assertThat(updateVersion.getDirectionType().getName()).isEqualTo("cost recovery");
         assertThat(updateVersion.getAmount()).isEqualTo(new FlatAmount(new BigDecimal("99.89")));

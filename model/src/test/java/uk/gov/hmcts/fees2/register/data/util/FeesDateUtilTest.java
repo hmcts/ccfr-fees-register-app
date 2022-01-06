@@ -60,16 +60,4 @@ public class FeesDateUtilTest {
         assertThat(localDateTime).hasToString("1970-01-01T00:00");
     }
 
-    @Test
-    public void testGetDateTimeForReportName() {
-        final String reportName = FeesDateUtil.getDateTimeForReportName(date);
-        assertThat(reportName).isEqualTo("100121_000000");
-    }
-
-    @Test
-    public void testGetDateTimeForReportNameNull() {
-        final String reportName = FeesDateUtil.getDateTimeForReportName(null);
-        assertThat(reportName).isEqualTo("010170_000000");
-    }
-
 }
