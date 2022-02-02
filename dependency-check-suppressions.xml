@@ -14,7 +14,6 @@
         <cve>CVE-2021-33037</cve>
     </suppress>
 
-
     <!-- Below are the supressions that are made for the CVEs which occur in the latest version -->
     <suppress until="2022-03-30">
         <notes>
