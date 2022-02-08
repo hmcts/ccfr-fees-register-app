@@ -131,7 +131,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getlookupresponseMessageForCMCDefault9() throws IOException {
 
         scenario.given()
-            .when().getLookUpForCMCResponse("civil money claims", "civil", "county court", "default", "issue", 1500.01)
+            .when().getLookUpForCMCResponseWithKeyword("civil money claims", "civil", "county court", "default", "issue", 1500.01,"MoneyClaim")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0206");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
