@@ -57,7 +57,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimUpTo300"
     },
 
     {
@@ -86,7 +86,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimUpTo500"
 
     },
     {
@@ -115,7 +115,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimUpTo1000"
     },
     {
       "min_range": 1000.01,
@@ -143,7 +143,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimUpTo1500"
     },
     {
       "min_range": 1500.01,
@@ -171,7 +171,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimUpTo3k"
     },
     {
       "min_range": 3000.01,
@@ -199,7 +199,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimUpTo5k"
     },
     {
       "min_range": 5000.01,
@@ -225,7 +225,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimUpTo10k"
     },
     {
       "min_range": 10000.01,
@@ -251,7 +251,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimUpTo200k"
     },
     {
       "min_range": 200000.01,
@@ -276,7 +276,7 @@
       "channel": "default",
       "event": "issue",
       "applicant_type": "all",
-      "keyword": "MoneyClaim"
+      "keyword": "PaperClaimAbove200k"
     },
     {
       "min_range": 0.01,
@@ -566,7 +566,7 @@
       "channel": "default",
       "event": "hearing",
       "applicant_type": "all",
-      "keyword": "HearingSmallClaims"
+      "keyword": "HearingFeeUpTo300"
     },
     {
       "min_range": 300.01,
@@ -594,7 +594,7 @@
       "channel": "default",
       "event": "hearing",
       "applicant_type": "all",
-      "keyword": "HearingSmallClaims"
+      "keyword": "HearingFeeUpTo500"
     },
     {
       "min_range": 500.01,
@@ -622,7 +622,7 @@
       "channel": "default",
       "event": "hearing",
       "applicant_type": "all",
-      "keyword": "HearingSmallClaims"
+      "keyword": "HearingFeeUpTo1000"
     },
     {
       "min_range": 1000.01,
@@ -650,8 +650,8 @@
       "channel": "default",
       "event": "hearing",
       "applicant_type": "all",
-      "keyword": "HearingSmallClaims"
-   },
+      "keyword": "HearingFeeUpTo1500"
+    },
     {
       "min_range": 1500.01,
       "max_range": 3000.00,
@@ -678,7 +678,7 @@
       "channel": "default",
       "event": "hearing",
       "applicant_type": "all",
-      "keyword": "HearingSmallClaims"
+      "keyword": "HearingFeeUpTo3k"
     },
     {
       "min_range": 3000.01,
@@ -706,7 +706,7 @@
       "channel": "default",
       "event": "hearing",
       "applicant_type": "all",
-      "keyword": "HearingSmallClaims"
+      "keyword": "HearingFeeAbove3k"
     },
     {
       "min_range": 0,
@@ -983,34 +983,34 @@
       "keyword": "Deposit"
     },
     {
-    "code": "",
-    "new_code": "FEE0287",
-    "version": {
-      "version": 2,
-      "valid_from": "2020-08-03T00:00:00.000+00:00",
-      "description": "Application for a standing search",
-      "status": "approved",
-      "author": "bac06e97-1af0-446b-aa2f-43d022709677",
-      "approvedBy": "39907",
-      "memo_line": "RECEIPT OF FEES - Family search probate",
-      "natural_account_code": "4481102163",
-      "direction": "cost recovery",
-      "last_amending_si": "The Court Fees (Miscellaneous Amendments) Order 2020",
-      "consolidated_fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2020",
-      "statutory_instrument": "2020 No 720",
-      "si_ref_id": "5",
-      "flat_amount": {
-        "amount": 3
-      }
-    },
-    "range_unit": "GBP",
-    "jurisdiction1": "family",
-    "jurisdiction2": "probate registry",
-    "service": "probate",
-    "channel": "default",
-    "event": "search",
-    "applicant_type": "all",
-    "keyword": "StdSearch"
+      "code": "",
+      "new_code": "FEE0287",
+      "version": {
+        "version": 2,
+        "valid_from": "2020-08-03T00:00:00.000+00:00",
+        "description": "Application for a standing search",
+        "status": "approved",
+        "author": "bac06e97-1af0-446b-aa2f-43d022709677",
+        "approvedBy": "39907",
+        "memo_line": "RECEIPT OF FEES - Family search probate",
+        "natural_account_code": "4481102163",
+        "direction": "cost recovery",
+        "last_amending_si": "The Court Fees (Miscellaneous Amendments) Order 2020",
+        "consolidated_fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2020",
+        "statutory_instrument": "2020 No 720",
+        "si_ref_id": "5",
+        "flat_amount": {
+          "amount": 3
+        }
+      },
+      "range_unit": "GBP",
+      "jurisdiction1": "family",
+      "jurisdiction2": "probate registry",
+      "service": "probate",
+      "channel": "default",
+      "event": "search",
+      "applicant_type": "all",
+      "keyword": "StdSearch"
     },
     {
       "code": "",
@@ -1154,7 +1154,7 @@
       "event": "issue",
       "unspecified_claim_amount": "true",
       "applicant_type": "all",
-      "keyword":"MoneyClaim"
+      "keyword":"UnspecifiedClaim"
     },
     {
       "code": "X0165",
@@ -1462,7 +1462,7 @@
       "event":"issue",
       "unspecified_claim_amount":false,
       "applicant_type": "all",
-      "keyword": "counter-claim"
+      "keyword": "CMCCounterAbove200k"
     },
 
     {
@@ -1492,7 +1492,7 @@
       "event":"issue",
       "unspecified_claim_amount":false,
       "applicant_type": "all",
-      "keyword": "counter-claim"
+      "keyword": "CMCCounterUpTo200k"
     },
 
     {
@@ -1522,7 +1522,7 @@
       "event":"issue",
       "unspecified_claim_amount":false,
       "applicant_type": "all",
-      "keyword": "counter-claim"
+      "keyword": "CMCCounterUpTo10k"
     },
 
     {
@@ -1552,7 +1552,7 @@
       "event":"issue",
       "unspecified_claim_amount":false,
       "applicant_type": "all",
-      "keyword": "counter-claim"
+      "keyword": "CMCCounterUnspecified"
     },
     {
       "code":"X0055",
