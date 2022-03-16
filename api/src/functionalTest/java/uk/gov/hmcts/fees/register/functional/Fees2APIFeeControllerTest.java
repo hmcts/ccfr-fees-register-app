@@ -502,12 +502,13 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-            "civil", "county court", "default", "hearing",
-            "HearingFeeAbove3k")
+            "civil", "county court", "default", "issue",
+            "CMCCounterUnspecified")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0225");
+            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - Unspecified");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("346.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000");
         });
     }
 
