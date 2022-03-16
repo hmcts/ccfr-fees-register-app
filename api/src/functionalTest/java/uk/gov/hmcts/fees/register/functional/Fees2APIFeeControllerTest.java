@@ -41,6 +41,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0183");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Hearing fee: Small claims case (exceeds £500 but not £1,000)");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("85.00");
         });
