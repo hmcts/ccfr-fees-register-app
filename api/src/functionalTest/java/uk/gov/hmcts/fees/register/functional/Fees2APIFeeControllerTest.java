@@ -498,6 +498,21 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
+    public void get_lookup_for_cmc_no_range_FEE0001() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                "UnspecifiedClaim")
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0001");
+                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - Unspecified");
+                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
+                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
+            });
+    }
+
+    @Test
     public void get_lookup_for_cmc_counter_claim_no_range_FEE0515() throws IOException {
 
         scenario.given()
