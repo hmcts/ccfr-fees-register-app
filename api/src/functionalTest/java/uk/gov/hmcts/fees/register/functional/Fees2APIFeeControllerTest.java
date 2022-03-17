@@ -497,28 +497,12 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         });
     }
 
-    @Test
-    public void get_lookup_for_cmc_hearing_FEE0506() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "CMCCounterAbove200k")
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0506");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 200000.01 GBP or more");
-                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000");
-            });
-    }
-
-    //TODO: Remove below after confirming with Pettedson about no min existing.
 //    @Test
-//    public void get_lookup_for_cmc_hearing_above_min_range_FEE0506() throws IOException {
+//    public void get_lookup_for_cmc_hearing_FEE0506() throws IOException {
 //
 //        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
-//                "civil", "county court", "default", "issue",
-//                300000.1, "CMCCounterAbove200k")
+//            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+//                "civil", "county court", "default", "issue", "CMCCounterAbove200k")
 //            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
 //                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0506");
 //                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 200000.01 GBP or more");
@@ -526,64 +510,32 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 //                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000");
 //            });
 //    }
-
-    public void get_lookup_for_cmc_counter_claim_FEE0507() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "CMCCounterUpTo200k")
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0507");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
-                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("500.00");
-//              TODO: No Fee found in feeloader. Check with Pettedson tomorrow
-            });
-    }
-
-//    @Test
-//    public void get_lookup_for_cmc_counter_claim_max_range_FEE0507() throws IOException {
+//
+//    public void get_lookup_for_cmc_counter_claim_FEE0507() throws IOException {
 //
 //        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
-//                "civil", "county court", "default", "issue",
-//                200000, "CMCCounterUpTo200k")
+//            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+//                "civil", "county court", "default", "issue", "CMCCounterUpTo200k")
 //            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
 //                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0507");
 //                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
 //                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-////                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount().isEqualTo("500.00");
-////               TODO: No fee amount found in the fee loader? Check with Pettedson tomorrow
+////                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("500.00");
+////              TODO: No Fee found in feeloader. Check with Pettedson tomorrow
 //            });
 //    }
-
-    public void get_lookup_for_cmc_counter_claim_FEE0508() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "CMCCounterUpTo10k")
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0508");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 5000.01 up to 10000 GBP");
-                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("455");
-
-            });
-    }
-
-    //TODO: Remove because there is no minimum/max value
-//    @Test
-//    public void get_lookup_for_cmc_counter_claim_max_range_FEE0508() throws IOException {
+//
+//    public void get_lookup_for_cmc_counter_claim_FEE0508() throws IOException {
 //
 //        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
-//                "civil", "county court", "default", "issue",
-//                10000, "CMCCounterUpTo10k")
+//            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+//                "civil", "county court", "default", "issue", "CMCCounterUpTo10k")
 //            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
 //                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0508");
 //                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 5000.01 up to 10000 GBP");
 //                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
 //                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("455");
+//
 //            });
 //    }
 
