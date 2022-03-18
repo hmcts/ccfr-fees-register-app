@@ -24,5 +24,14 @@
         </notes>
         <cve>CVE-2021-42550</cve>
     </suppress>
+
+    <suppress until="2022-03-30">
+        <notes>
+            Supressing CVE for liquibase version. Temporary supression
+        </notes>
+        <cve>CVE-2022-0839</cve>
+    </suppress>
+
+
     <!-- Supression group ends here  -->
 </suppressions>
