@@ -24,14 +24,5 @@
         </notes>
         <cve>CVE-2021-42550</cve>
     </suppress>
-
-
-
-    <suppress until="2022-03-18">
-        <notes>
-            REMOVE REMOVE REMOVE REMOVE JUST TESTING!!!
-        </notes>
-        <cve>CVE-2022-0839</cve>
-    </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
