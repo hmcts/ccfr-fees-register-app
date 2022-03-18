@@ -32,6 +32,5 @@
         <cve>CVE-2022-0839</cve>
     </suppress>
 
-
     <!-- Supression group ends here  -->
 </suppressions>
