@@ -325,7 +325,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             200000.01, "PaperClaimAbove200k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0210");
-            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 200000.01 GBP or more");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
         });
@@ -497,50 +497,50 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         });
     }
 
+    //TODO: (remove comment): No max/min range found for FEE0506/0507/0508 in fee loader.
 
-//    @Test
-//    public void get_lookup_for_cmc_hearing_FEE0506() throws IOException {
-//
-//        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-//                "civil", "county court", "default", "issue", "CMCCounterAbove200k")
-//            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-//                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0506");
-//                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 200000.01 GBP or more");
-//                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000");
-//            });
-//    }
-//
-//    public void get_lookup_for_cmc_counter_claim_FEE0507() throws IOException {
-//
-//        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-//                "civil", "county court", "default", "issue", "CMCCounterUpTo200k")
-//            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-//                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0507");
-//                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
-//                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-////                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("500.00");
-////              TODO: No Fee found in feeloader. Check with Pettedson tomorrow
-//            });
-//    }
-//
-//    public void get_lookup_for_cmc_counter_claim_FEE0508() throws IOException {
-//
-//        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-//                "civil", "county court", "default", "issue", "CMCCounterUpTo10k")
-//            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-//                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0508");
-//                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 5000.01 up to 10000 GBP");
-//                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("455");
-//
-//            });
-//    }
+    @Test
+    public void get_lookup_for_cmc_hearing_FEE0506() throws IOException {
 
-    //TODO: Find out why the 2 tests below are failing. Discuss with Pettedson if needed tomorrow.
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue", "CMCCounterAbove200k")
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0506");
+                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 200000.01 GBP or more");
+                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
+                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000.00");
+            });
+    }
+
+    public void get_lookup_for_cmc_counter_claim_FEE0507() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue", "CMCCounterUpTo200k")
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0507");
+                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
+                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
+//                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("500.00");
+//              TODO: No Fee amount found in feeloader. Check with Pettedson about checking percentage?
+            });
+    }
+
+    public void get_lookup_for_cmc_counter_claim_FEE0508() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue", "CMCCounterUpTo10k")
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0508");
+                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 5000.01 up to 10000 GBP");
+                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
+                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("455.00");
+            });
+    }
+
+    //TODO: Find out why the 2 tests below are failing.
 
 //    @Test
 //    public void get_lookup_for_cmc_no_range_FEE0001() throws IOException {
@@ -562,16 +562,166 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 //
 //        scenario.given()
 //            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-//            "civil", "county court", "default", "issue",
+//            "civil", "county court", "DEFAULT", "issue",
 //            "CMCCounterUnspecified")
 //            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
 //            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
 //            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - Unspecified");
 //            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000");
+//            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000.00");
 //        });
 //    }
 
+    //Negative tests
+    @Test
+    public void get_lookup_for_cmc_hearing_FEE0183_fee_too_low() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "hearing",
+                0.01, "HearingFeeUpTo1000")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_FEE0202_fee_too_high() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                300.01, "PaperClaimUpTo300")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_FEE0203_fee_too_low() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                300, "PaperClaimUpTo500")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_min_range_FEE0204_fee_too_high() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                10000.01, "PaperClaimUpTo1000")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_FEE0205_fee_too_low() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                1000, "PaperClaimUpTo1500")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_FEE0206_fee_too_high() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                3000.01,"PaperClaimUpTo3k")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_FEE0207_fee_too_low() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                3000, "PaperClaimUpTo5k")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_FEE0208_fee_too_high() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                10000.01,"PaperClaimUpTo10k")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_FEE0209_fee_too_low() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                10000, "PaperClaimUpTo200k")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_FEE0210_fee_too_low() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                0.01, "PaperClaimAbove200k")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_hearing_FEE0221_fee_too_high() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "hearing",
+                300.01, "HearingFeeUpTo300")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_hearing_FEE0222_fee_too_high() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "hearing",
+                500.01, "HearingFeeUpTo500")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_hearing_FEE0223_fee_too_low() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "hearing",
+                1000, "HearingFeeUpTo1500")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_hearing_FEE0224_fee_too_high() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "hearing",
+                3000.01, "HearingFeeUpTo3k")
+            .then().notFound();
+    }
+
+    @Test
+    public void get_lookup_for_cmc_hearing_FEE0225_fee_too_low() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "hearing",
+                3000, "HearingFeeAbove3k")
+            .then().notFound();
+    }
 
     @Test
     public void getlookupresponseMessageForProbate() throws IOException {
