@@ -547,7 +547,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void get_lookup_for_cmc_no_range_FEE0001() throws IOException {
 
             scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeywordUnspecifiedClaims("civil money claims",
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeywordUnspecifiedClaims("civil money claims",
                     "civil", "county court", "default", "issue", "UnspecifiedClaim")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0001");
@@ -558,19 +558,21 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     //TODO: find endpoint that find FEE0515
-//    @Test
-//    public void get_lookup_for_cmc_no_range_FEE0515() throws IOException {
-//
-//        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeywordUnspecifiedClaims("civil money claims",
-//                "civil", "county court", "default", "issue", "CMCCounterUnspecified")
-//            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-//                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
-//                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - Unspecified");
-//                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000.00");
-//            });
-//    }
+    //NOTE: FEE0515 is incorrectly not marked as an 'unspecified claim' in the databasse, and therefore
+    //      must be searched for with the incorrect test method (for specified claims).
+    @Test
+    public void get_lookup_for_cmc_no_range_FEE0515() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue", "CMCCounterUnspecified")
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
+                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - Unspecified");
+                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
+                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000.00");
+            });
+    }
 
     //Negative tests
     @Test
