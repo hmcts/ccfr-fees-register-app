@@ -523,7 +523,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
                 Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
                 Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
 //                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("500.00");
-//              TODO: No Fee amount found in feeloader. Check with Pettedson about checking percentage?
+//              TODO: No Fee amount found in feeloader. Find percentage in DTO, potentially change?
             });
     }
 
@@ -541,35 +541,35 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     //TODO: Find out why the 2 tests below are failing.
+    //Reason: was using wrong lookup for fee: they are unspecified
 
+    @Test
+    public void get_lookup_for_cmc_no_range_FEE0001() throws IOException {
+
+            scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeywordUnspecifiedClaims("civil money claims",
+                    "civil", "county court", "default", "issue", "UnspecifiedClaim")
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0001");
+                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - Unspecified");
+                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
+                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
+            });
+    }
+
+    //TODO: find endpoint that find FEE0515
 //    @Test
-//    public void get_lookup_for_cmc_no_range_FEE0001() throws IOException {
+//    public void get_lookup_for_cmc_no_range_FEE0515() throws IOException {
 //
 //        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-//                "civil", "county court", "default", "issue",
-//                "UnspecifiedClaim")
+//            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeywordUnspecifiedClaims("civil money claims",
+//                "civil", "county court", "default", "issue", "CMCCounterUnspecified")
 //            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-//                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0001");
-//                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - Unspecified");
+//                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
+//                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - Unspecified");
 //                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
+//                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000.00");
 //            });
-//    }
-//
-//    @Test
-//    public void get_lookup_for_cmc_counter_claim_no_range_FEE0515() throws IOException {
-//
-//        scenario.given()
-//            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-//            "civil", "county court", "DEFAULT", "issue",
-//            "CMCCounterUnspecified")
-//            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-//            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
-//            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - Unspecified");
-//            Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000.00");
-//        });
 //    }
 
     //Negative tests
