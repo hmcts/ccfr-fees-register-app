@@ -1152,7 +1152,7 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "unspecified_claim_amount": "true",
+      "unspecified_claim_amount": true,
       "applicant_type": "all",
       "keyword":"UnspecifiedClaim"
     },
@@ -1550,7 +1550,7 @@
       "service":"Civil Money Claims",
       "channel":"DEFAULT",
       "event":"issue",
-      "unspecified_claim_amount":false,
+      "unspecified_claim_amount": true,
       "applicant_type": "all",
       "keyword": "CMCCounterUnspecified"
     },

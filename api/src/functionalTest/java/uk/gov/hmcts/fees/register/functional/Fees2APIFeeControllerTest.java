@@ -497,8 +497,6 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         });
     }
 
-    //TODO: (remove comment): No max/min range found for FEE0506/0507/0508 in fee loader.
-
     @Test
     public void get_lookup_for_cmc_hearing_FEE0506() throws IOException {
 
@@ -522,8 +520,6 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0507");
                 Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
                 Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-//                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("500.00");
-//              TODO: No Fee amount found in feeloader. Find percentage in DTO, potentially change?
             });
     }
 
@@ -540,9 +536,6 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             });
     }
 
-    //TODO: Find out why the 2 tests below are failing.
-    //Reason: was using wrong lookup for fee: they are unspecified
-
     @Test
     public void get_lookup_for_cmc_no_range_FEE0001() throws IOException {
 
@@ -557,14 +550,15 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             });
     }
 
-    //TODO: find endpoint that find FEE0515
-    //NOTE: FEE0515 is incorrectly not marked as an 'unspecified claim' in the databasse, and therefore
-    //      must be searched for with the incorrect test method (for specified claims).
+    //TODO: Track down data issue for FEE0515
+    // Data error in the database - unspecified_claim_amount is false.
+    // Potentially caused by feeLoader
+
     @Test
     public void get_lookup_for_cmc_no_range_FEE0515() throws IOException {
 
         scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeywordUnspecifiedClaims("civil money claims",
                 "civil", "county court", "default", "issue", "CMCCounterUnspecified")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
@@ -576,7 +570,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
     //Negative tests
     @Test
-    public void get_lookup_for_cmc_hearing_FEE0183_fee_too_low() throws IOException {
+    public void negative_get_lookup_for_cmc_hearing_FEE0183_fee_too_low() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -586,7 +580,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_FEE0202_fee_too_high() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0202_fee_too_high() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -596,7 +590,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_FEE0203_fee_too_low() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0203_fee_too_low() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -606,7 +600,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_min_range_FEE0204_fee_too_high() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0204_fee_too_high() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -616,7 +610,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_FEE0205_fee_too_low() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0205_fee_too_low() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -626,7 +620,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_FEE0206_fee_too_high() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0206_fee_too_high() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -636,7 +630,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_FEE0207_fee_too_low() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0207_fee_too_low() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -646,7 +640,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_FEE0208_fee_too_high() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0208_fee_too_high() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -656,7 +650,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_FEE0209_fee_too_low() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0209_fee_too_low() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -666,7 +660,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_FEE0210_fee_too_low() throws IOException {
+    public void negative_get_lookup_for_cmc_FEE0210_fee_too_low() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -676,7 +670,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_hearing_FEE0221_fee_too_high() throws IOException {
+    public void negative_get_lookup_for_cmc_hearing_FEE0221_fee_too_high() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -686,7 +680,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_hearing_FEE0222_fee_too_high() throws IOException {
+    public void negative_get_lookup_for_cmc_hearing_FEE0222_fee_too_high() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -696,7 +690,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_hearing_FEE0223_fee_too_low() throws IOException {
+    public void negative_get_lookup_for_cmc_hearing_FEE0223_fee_too_low() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -706,7 +700,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_hearing_FEE0224_fee_too_high() throws IOException {
+    public void negative_get_lookup_for_cmc_hearing_FEE0224_fee_too_high() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -716,7 +710,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_hearing_FEE0225_fee_too_low() throws IOException {
+    public void negative_get_lookup_for_cmc_hearing_FEE0225_fee_too_low() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
