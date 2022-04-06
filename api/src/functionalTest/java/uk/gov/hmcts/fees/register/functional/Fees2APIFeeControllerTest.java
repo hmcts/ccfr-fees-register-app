@@ -550,15 +550,10 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             });
     }
 
-    //TODO: Track down data issue for FEE0515
-    // Data error in the database - unspecified_claim_amount is false.
-    // Potentially caused by feeLoader
-
-    @Test
     public void get_lookup_for_cmc_no_range_FEE0515() throws IOException {
 
         scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeywordUnspecifiedClaims("civil money claims",
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue", "CMCCounterUnspecified")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");

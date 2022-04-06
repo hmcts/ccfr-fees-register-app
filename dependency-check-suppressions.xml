@@ -39,7 +39,12 @@
         <cve>CVE-2020-36518</cve>
     </suppress>
 
-
+    <suppress until="2022-06-30">
+        <notes>
+            Spring MVC or Spring WebFlux currently under analysis by NIST.
+        </notes>
+        <cve>CVE-2022-22965</cve>
+    </suppress>
 
 
     <!-- Supression group ends here  -->
