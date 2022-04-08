@@ -39,5 +39,9 @@
         <cve>CVE-2020-36518</cve>
     </suppress>
 
+    <suppress until="2022-06-30">
+        <notes>spring boot issue, upgrading to new version broke functional tests.</notes>
+        <cve>CVE-2022-22965</cve>
+    </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
