@@ -302,7 +302,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void getlookupresponseMessageForCMCDefault16_1() throws IOException {
+    public void get_lookup_for_cmc_within_range_FEE0209() throws IOException {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
@@ -405,6 +405,16 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("59.00");
         });
+    }
+
+    @Test
+    public void get_lookup_for_cmc_hearing_boundary_FEE0222() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+            "civil", "county court", "default", "hearing",
+            555, "HearingFeeUpTo1500")
+            .then().notFound();
     }
 
     @Test
