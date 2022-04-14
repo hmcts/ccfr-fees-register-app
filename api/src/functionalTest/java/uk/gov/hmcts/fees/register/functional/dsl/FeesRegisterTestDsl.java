@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 import uk.gov.hmcts.fees.register.api.contract.*;
 import uk.gov.hmcts.fees.register.functional.dto.ChargeableFeeWrapperDto;
 import uk.gov.hmcts.fees.register.functional.tokens.UserTokenFactory;
