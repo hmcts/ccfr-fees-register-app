@@ -23,7 +23,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getlookupresponseMessageForDivorce() throws IOException {
 
         scenario.given()
-            .when().getLookUpResponsewithkeyword("divorce", "family", "family court", "default", "issue", "DivorceCivPart")
+            .when().getLookUpResponseWithKeyword("divorce", "family", "family court", "default", "issue", "DivorceCivPart")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0002");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
@@ -444,7 +444,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getLookupResponseForProbateFeeWithMaxRangeAs5000() {
 
         scenario.given()
-            .when().getLookUpResponsewithkeywordAmount("probate", "family", "probate registry", "default", "issue", "SAL5K", 5000)
+            .when().getLookUpResponseWithKeywordAmount("probate", "family", "probate registry", "default", "issue", "SAL5K", 5000)
             .then().ok().got(FeeLookupResponseDto.class, feeLookupResponseDto -> {
                 Assertions.assertThat(feeLookupResponseDto.getDescription()).isEqualTo("Application for a grant of probate (Estate under 5000 GBP)");
                 Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();
@@ -479,7 +479,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getLookupResponseForProbateFeeWithKeywordSAL5K() {
 
         scenario.given()
-            .when().getLookUpResponsewithkeywordAmount("probate", "family", "probate registry", "default", "issue", "SAL5K", 5000)
+            .when().getLookUpResponseWithKeywordAmount("probate", "family", "probate registry", "default", "issue", "SAL5K", 5000)
             .then().ok().got(FeeLookupResponseDto.class, feeLookupResponseDto -> {
             Assertions.assertThat(feeLookupResponseDto.getDescription()).isEqualTo("Application for a grant of probate (Estate under 5000 GBP)");
             Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();
@@ -491,7 +491,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getLookupResponseForProbateFeeWithKeywordSA() {
 
         scenario.given()
-            .when().getLookUpResponsewithkeywordAmount("probate", "family", "probate registry", "default", "issue", "SA", 5000.01)
+            .when().getLookUpResponseWithKeywordAmount("probate", "family", "probate registry", "default", "issue", "SA", 5000.01)
             .then().ok().got(FeeLookupResponseDto.class, feeLookupResponseDto -> {
             Assertions.assertThat(feeLookupResponseDto.getDescription()).isEqualTo("Application for a grant of probate (Estate over 5000 GBP)");
             Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();
@@ -503,7 +503,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void getlookupresponseMessageForFPL() throws IOException {
 
         scenario.given()
-            .when().getLookUpResponsewithkeyword("public law", "family", "family court", "default", "issue", "CareOrder")
+            .when().getLookUpResponseWithKeyword("public law", "family", "family court", "default", "issue", "CareOrder")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0313");
             Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Application for proceedings under Section 31 of Act");
