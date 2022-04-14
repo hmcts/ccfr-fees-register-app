@@ -27,25 +27,28 @@
 
     <suppress until="2022-06-30">
         <notes>
-            Supressing CVE for liquibase version. Temporary supression
+            Improper Restriction of XML External Entity Reference in GitHub repository liquibase/liquibase prior to 4.8.0.
         </notes>
         <cve>CVE-2022-0839</cve>
     </suppress>
-
     <suppress until="2022-06-30">
         <notes>
-            Supressing CVE for jackson-databind issues. Major release so will need updates.
+            jackson-databind before 2.13.0 allows a Java StackOverflow exception and denial of service via a large depth
+            of nested objects.
         </notes>
         <cve>CVE-2020-36518</cve>
     </suppress>
 
     <suppress until="2022-06-30">
-        <notes>
-            Spring MVC or Spring WebFlux currently under analysis by NIST.
-        </notes>
+        <notes>spring boot issue, upgrading to new version broke functional tests.</notes>
         <cve>CVE-2022-22965</cve>
     </suppress>
 
+    <suppress until="2022-06-30">
+        <notes>Spring Framework older unsupported versions, it is possible for a user to provide a specially
+            crafted SpEL expression that may cause a denial of service condition</notes>
+        <cve>CVE-2022-22950</cve>
+    </suppress>
 
     <!-- Supression group ends here  -->
 </suppressions>
