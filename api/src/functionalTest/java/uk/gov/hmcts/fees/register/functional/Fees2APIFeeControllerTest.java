@@ -521,6 +521,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             });
     }
 
+    @Test
     public void get_lookup_for_cmc_counter_claim_FEE0507() throws IOException {
 
         scenario.given()
@@ -528,11 +529,12 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
                 "civil", "county court", "default", "issue", "CMCCounterUpTo200k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0507");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 0.05% of claim value");
+                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
                 Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             });
     }
 
+    @Test
     public void get_lookup_for_cmc_counter_claim_FEE0508() throws IOException {
 
         scenario.given()
@@ -560,6 +562,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             });
     }
 
+    @Test
     public void get_lookup_for_cmc_no_range_FEE0515() throws IOException {
 
         scenario.given()
