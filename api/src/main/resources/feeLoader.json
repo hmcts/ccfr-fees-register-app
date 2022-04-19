@@ -56,7 +56,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimUpTo300"
     },
     {
       "min_range": 300.01,
@@ -83,7 +84,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimUpTo500"
 
     },
     {
@@ -111,7 +113,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimUpTo1000"
     },
     {
       "min_range": 1000.01,
@@ -138,7 +141,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimUpTo1500"
     },
     {
       "min_range": 1500.01,
@@ -165,7 +169,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimUpTo3k"
     },
     {
       "min_range": 3000.01,
@@ -192,7 +197,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimUpTo5k"
     },
     {
       "min_range": 5000.01,
@@ -217,7 +223,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimUpTo10k"
     },
     {
       "min_range": 10000.01,
@@ -242,7 +249,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimUpTo200k"
     },
     {
       "min_range": 200000.01,
@@ -266,7 +274,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "PaperClaimAbove200k"
     },
     {
       "min_range": 0.01,
@@ -555,7 +564,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingFeeUpTo300"
     },
     {
       "min_range": 300.01,
@@ -582,7 +592,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingFeeUpTo500"
     },
     {
       "min_range": 500.01,
@@ -609,7 +620,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingFeeUpTo1000"
     },
     {
       "min_range": 1000.01,
@@ -636,7 +648,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingFeeUpTo1500"
     },
     {
       "min_range": 1500.01,
@@ -663,7 +676,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingFeeUpTo3k"
     },
     {
       "min_range": 3000.01,
@@ -690,7 +704,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingFeeAbove3k"
     },
     {
       "code":"K0054",
@@ -1253,7 +1268,8 @@
       "channel": "default",
       "event": "issue",
       "unspecified_claim_amount": "true",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "UnspecifiedClaim"
     },
     {
       "code": "X0165",
