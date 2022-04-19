@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees.register.functional;
 
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.assertj.core.api.Assertions;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -525,8 +526,8 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     public void get_lookup_for_cmc_counter_claim_FEE0507() throws IOException {
 
         scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "CMCCounterUpTo200k")
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeywordAndAmountorVolume("civil money claims",
+                "civil", "county court", "default", "issue", "CMCCounterUpTo200k", 100)
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0507");
                 Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
@@ -577,6 +578,17 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     //Negative tests
+
+    @Test
+    @Ignore
+    public void negative_get_lookup_for_cmc_counter_claim_FEE0507_no_amount_or_volume() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue", "CMCCounterUpTo200k")
+            .then().badRequest();
+    }
+
     @Test
     public void negative_get_lookup_for_cmc_hearing_FEE0183_fee_too_low() throws IOException {
 
