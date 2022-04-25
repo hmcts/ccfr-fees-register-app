@@ -61,7 +61,9 @@
           @{
           var response = context.Response.Body.As<JObject>();
           foreach (var key in new [] {"code"}) {
-          response.Property (key).Remove ();
+          response.Property (key).Remove();
+          }
+          return response.ToString();
           }
         </set-body>
       </when>
