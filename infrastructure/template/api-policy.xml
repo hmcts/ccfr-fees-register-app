@@ -59,9 +59,13 @@
       <when condition="@(context.Response.StatusCode == 200)">
         <set-body>
           @{
-          var response = context.Response.Body.As<JArray>();
-          response[0].Property("code").Remove();
-          return response.ToString();
+          JToken body = context.Request.Body.As<JToken>();
+          if (body.Type == JTokenType.Array)
+          {
+          JObject newBody = new JObject();
+          newBody["OriginalArray"] = body;
+          return newBody.ToString();
+          }
           }
         </set-body>
       </when>
