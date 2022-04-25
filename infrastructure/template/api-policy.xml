@@ -66,6 +66,7 @@
           newBody["OriginalArray"] = body;
           return newBody.ToString();
           }
+          return context.Request.Body.ToString();
           }
         </set-body>
       </when>
