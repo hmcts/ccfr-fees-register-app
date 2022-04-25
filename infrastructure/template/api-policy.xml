@@ -60,9 +60,7 @@
         <set-body>
           @{
           var response = context.Response.Body.As<JArray>();
-          foreach (var key in new [] {"code"}) {
-          response.Property(key).Remove();
-          }
+          response.get(0).Property("code").Remove();
           return response.ToString();
           }
         </set-body>
