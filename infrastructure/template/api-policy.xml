@@ -59,7 +59,7 @@
       <when condition="@(context.Response.StatusCode == 200)">
         <set-body>
           @{
-          var response = context.Response.Body.As<JObject>();
+          var response = context.Response.Body.As<JArray>();
           foreach (var key in new [] {"code"}) {
           response.Property(key).Remove();
           }
