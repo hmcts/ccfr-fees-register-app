@@ -436,8 +436,7 @@ public class FeeController {
     @GetMapping("/approvedFees")
     @ResponseStatus(HttpStatus.OK)
     public List<Fee2Dto> approvedFees() {
-        List<Fee2Dto> result;
-        result =  search(null, null, null, null, null,
+        List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null, FeeVersionStatus.approved, null,
             null, null, null, null, null, null, null, null);
         for(Fee2Dto fee2Dto : result){

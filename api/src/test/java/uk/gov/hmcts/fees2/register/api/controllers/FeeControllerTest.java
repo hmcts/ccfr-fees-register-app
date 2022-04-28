@@ -1,10 +1,15 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import liquibase.pro.packaged.A;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +20,12 @@ import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
+import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
+import uk.gov.hmcts.fees2.register.data.model.FixedFee;
+import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
+import uk.gov.hmcts.fees2.register.data.service.impl.FeeSearchServiceImpl;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
@@ -23,11 +33,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,6 +55,9 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @Mock
+    FeeSearchServiceImpl feeSearchService;
 
     @Test
     public synchronized void readFeeTest() throws Exception {
@@ -814,6 +830,18 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     @Transactional
     public void findApprovedFee() throws Exception {
+
+        FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
+        saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+
+        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
+        fixedFeeDto2.setKeyword("testFixedDtoFee");
+        // discontinued fee
+        fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
+        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
+        saveFeeAndCheckStatusIsCreated(fixedFeeDto2);
+
+
         restActions
             .withUser("admin")
             .get("/fees-register/approvedFees")
