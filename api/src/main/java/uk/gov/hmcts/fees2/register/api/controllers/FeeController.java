@@ -16,6 +16,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -429,6 +430,25 @@ public class FeeController {
     @ExceptionHandler(GatewayTimeoutException.class)
     public String return504(GatewayTimeoutException ex) {
         return ex.getMessage();
+    }
+
+
+    @GetMapping("/approvedFees")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Fee2Dto> approvedFees() {
+        List<Fee2Dto> result;
+        result =  search(null, null,
+           null, null, null, null, null, FeeVersionStatus.approved, null, null,
+            null, null, null, null, null, null, null, null);
+        for(Fee2Dto fee2Dto : result){
+            for( FeeVersionDto feeVersionDto: fee2Dto.getFeeVersionDtos()){
+                feeVersionDto.setApprovedBy(null);
+                feeVersionDto.setAuthor(null);
+            }
+            fee2Dto.getCurrentVersion().setAuthor(null);
+            fee2Dto.getCurrentVersion().setApprovedBy(null);
+        }
+        return result;
     }
 
 }
