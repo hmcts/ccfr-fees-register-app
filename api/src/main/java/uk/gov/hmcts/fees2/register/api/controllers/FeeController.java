@@ -437,8 +437,8 @@ public class FeeController {
     @ResponseStatus(HttpStatus.OK)
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result;
-        result =  search(null, null,
-           null, null, null, null, null, FeeVersionStatus.approved, null, null,
+        result =  search(null, null, null, null, null,
+            null, null, null, FeeVersionStatus.approved, null,
             null, null, null, null, null, null, null, null);
         for(Fee2Dto fee2Dto : result){
             for( FeeVersionDto feeVersionDto: fee2Dto.getFeeVersionDtos()){
