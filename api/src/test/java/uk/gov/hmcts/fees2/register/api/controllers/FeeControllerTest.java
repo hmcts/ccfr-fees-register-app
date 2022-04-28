@@ -811,4 +811,14 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     }
 
+    @Test
+    @Transactional
+    public void findApprovedFee() throws Exception {
+        restActions
+            .withUser("admin")
+            .get("/fees-register/approvedFees")
+            .andExpect(status().isOk())
+            .andReturn();
+    }
+
 }
