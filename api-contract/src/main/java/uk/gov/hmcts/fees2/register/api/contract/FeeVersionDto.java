@@ -58,9 +58,9 @@ public class FeeVersionDto {
 
         return null;
     }
-
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     private String author;
-
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     private String approvedBy;
 
     @JsonProperty("memo_line")
