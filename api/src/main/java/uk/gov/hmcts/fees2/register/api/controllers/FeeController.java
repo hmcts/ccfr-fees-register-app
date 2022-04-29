@@ -432,7 +432,11 @@ public class FeeController {
         return ex.getMessage();
     }
 
-
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @GetMapping("/approvedFees")
     @ResponseStatus(HttpStatus.OK)
     public List<Fee2Dto> approvedFees() {
