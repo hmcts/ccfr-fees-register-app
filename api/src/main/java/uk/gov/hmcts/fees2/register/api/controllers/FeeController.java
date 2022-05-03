@@ -447,9 +447,17 @@ public class FeeController {
             for( FeeVersionDto feeVersionDto: fee2Dto.getFeeVersionDtos()){
                 feeVersionDto.setApprovedBy(null);
                 feeVersionDto.setAuthor(null);
+                feeVersionDto.setLastAmendingSi(null);
+                feeVersionDto.setStatutoryInstrument(null);
+                feeVersionDto.setSiRefId(null);
+                feeVersionDto.setDirection(null);
             }
             fee2Dto.getCurrentVersion().setAuthor(null);
             fee2Dto.getCurrentVersion().setApprovedBy(null);
+            fee2Dto.getCurrentVersion().setLastAmendingSi(null);
+            fee2Dto.getCurrentVersion().setStatutoryInstrument(null);
+            fee2Dto.getCurrentVersion().setSiRefId(null);
+            fee2Dto.getCurrentVersion().setDirection(null);
         }
         return result;
     }
