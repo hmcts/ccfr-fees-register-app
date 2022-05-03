@@ -2,7 +2,7 @@
 echo ${TEST_URL}
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
-zap-api-scan.py -t ${TEST_URL}/v2/api-docs -f openapi -S -d -u ${SecurityRules} -P 1001 -l FAIL
+zap-api-scan.py -t ${TEST_URL}/v2/api-docs -f openapi -S -d -u ${SecurityRules} -P 1001 -l FAIL -J report.json -r api-report.html
 cat zap.out
 echo "ZAP has successfully started"
 export LC_ALL=C.UTF-8
