@@ -133,4 +133,4 @@ resource "azurerm_api_management_subscription" "feeReg_subscription_Liberata" {
     provider = azurerm.cftappsdemo
   }
 
-}
+
