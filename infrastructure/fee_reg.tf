@@ -107,3 +107,30 @@ resource "azurerm_api_management_subscription" "feeReg_subscription_Liberata" {
 
   provider = azurerm.cftappsdemo
 }
+
+
+
+  resource "azurerm_api_management_user" "FREG_John" {
+    api_management_name = local.api_mgmt_name_cft
+    resource_group_name = local.api_mgmt_rg_cft
+    user_id             = "5831a75ae4bbd512288c681c"
+    first_name          = "Pettedson"
+    last_name           = "John"
+    email               = "Pettedson.John@HMCTS.NET"
+    state               = "active"
+
+    provider = azurerm.cftappsdemo
+  }
+
+  resource "azurerm_api_management_subscription" "FREG_john" {
+    api_management_name = local.api_mgmt_name_cft
+    resource_group_name = local.api_mgmt_rg_cft
+    user_id             = azurerm_api_management_user.FREG_John.id
+    product_id          = data.azurerm_api_management_product.feeregister.id
+    display_name        = "FREG Subscription John"
+    state               = "active"
+
+    provider = azurerm.cftappsdemo
+  }
+
+}
