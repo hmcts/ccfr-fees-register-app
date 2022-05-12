@@ -460,6 +460,11 @@ public class FeeController {
             fee2Dto.getCurrentVersion().setSiRefId(null);
             fee2Dto.getCurrentVersion().setDirection(null);
             fee2Dto.setApplicantTypeDto(null);
+            if(fee2Dto.getCurrentVersion().getFlatAmount()!=null){
+                fee2Dto.setAmountType("FLAT");
+            }else{
+                fee2Dto.setAmountType("VOLUME");
+            }
 
             /*if(null == fee2Dto.getCurrentVersion().getFlatAmount()){
                 FlatAmountDto flatAmountDto = new FlatAmountDto ();
