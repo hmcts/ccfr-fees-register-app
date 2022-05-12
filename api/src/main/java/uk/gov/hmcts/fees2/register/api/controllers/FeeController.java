@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -461,7 +462,9 @@ public class FeeController {
             fee2Dto.setApplicantTypeDto(null);
 
             if(null == fee2Dto.getCurrentVersion().getFlatAmount()){
-                fee2Dto.getCurrentVersion().getFlatAmount().setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
+                FlatAmountDto flatAmountDto = new FlatAmountDto ();
+                flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
+                fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
             }
         }
         return result;
