@@ -443,9 +443,14 @@ public class FeeController {
     @ResponseStatus(HttpStatus.OK)
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
-            null, null, null, FeeVersionStatus.approved, null,
-            null, null, true, null, null, null, null, false);
-        for(Fee2Dto fee2Dto : result){
+            null, null, null,null, null,
+            null, null, null, null, null, null, null, null);
+        List<Fee2Dto> resultData = result
+            .stream()
+            .filter(c -> c.getCurrentVersion().getStatus().equals("approved"))
+            .collect(Collectors.toList());
+
+        for(Fee2Dto fee2Dto : resultData){
             for( FeeVersionDto feeVersionDto: fee2Dto.getFeeVersionDtos()){
                 feeVersionDto.setApprovedBy(null);
                 feeVersionDto.setAuthor(null);
@@ -476,7 +481,7 @@ public class FeeController {
                 fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
             }*/
         }
-        return result;
+        return resultData;
     }
 
 }
