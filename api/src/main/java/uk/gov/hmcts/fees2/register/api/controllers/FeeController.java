@@ -447,7 +447,7 @@ public class FeeController {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
             null, null, null, null, null, null, null, null);
-        /*result = result
+       /* result = result
             .stream()
             .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
             .collect(Collectors.toList());*/
@@ -468,7 +468,7 @@ public class FeeController {
             fee2Dto.getCurrentVersion().setSiRefId(null);
             fee2Dto.getCurrentVersion().setDirection(null);
             fee2Dto.setApplicantTypeDto(null);
-            if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
+            /*if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
                 fee2Dto.setAmountType("FLAT");
             } else {
                 FlatAmountDto flatAmountDto = new FlatAmountDto();
@@ -481,8 +481,9 @@ public class FeeController {
                 FlatAmountDto flatAmountDto = new FlatAmountDto ();
                 flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
                 fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
-            }*/
-        }
+            }*
+        }*/
+
         return result;
     }
 
