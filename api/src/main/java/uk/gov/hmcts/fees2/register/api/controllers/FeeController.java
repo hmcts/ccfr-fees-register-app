@@ -452,7 +452,7 @@ public class FeeController {
             .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
             .collect(Collectors.toList());*/
 
-        for(Fee2Dto fee2Dto : result) {
+        /*for(Fee2Dto fee2Dto : result) {
             for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
                 feeVersionDto.setApprovedBy(null);
                 feeVersionDto.setAuthor(null);
@@ -475,7 +475,7 @@ public class FeeController {
                 //flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
                 //fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
                 fee2Dto.setAmountType("VOLUME");
-            }
+            }*/
 
             /*if(null == fee2Dto.getCurrentVersion().getFlatAmount()){
                 FlatAmountDto flatAmountDto = new FlatAmountDto ();
