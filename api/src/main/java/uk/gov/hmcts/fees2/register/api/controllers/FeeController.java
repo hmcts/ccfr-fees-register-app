@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
@@ -444,13 +445,13 @@ public class FeeController {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
             null, null, null, null, null, null, null, null);
-        List<Fee2Dto> resultData = result
+        result = result
             .stream()
-            .filter(c -> c.getCurrentVersion().getStatus().equals("approved"))
+            .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
             .collect(Collectors.toList());
 
-        for(Fee2Dto fee2Dto : resultData){
-            for( FeeVersionDto feeVersionDto: fee2Dto.getFeeVersionDtos()){
+        for(Fee2Dto fee2Dto : result) {
+            for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
                 feeVersionDto.setApprovedBy(null);
                 feeVersionDto.setAuthor(null);
                 feeVersionDto.setLastAmendingSi(null);
@@ -465,10 +466,10 @@ public class FeeController {
             fee2Dto.getCurrentVersion().setSiRefId(null);
             fee2Dto.getCurrentVersion().setDirection(null);
             fee2Dto.setApplicantTypeDto(null);
-            if(fee2Dto.getCurrentVersion().getFlatAmount()!=null){
+            if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
                 fee2Dto.setAmountType("FLAT");
-            }else{
-                FlatAmountDto flatAmountDto = new FlatAmountDto ();
+            } else {
+                FlatAmountDto flatAmountDto = new FlatAmountDto();
                 flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
                 fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
                 fee2Dto.setAmountType("VOLUME");
@@ -480,7 +481,8 @@ public class FeeController {
                 fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
             }*/
         }
-        return resultData;
+
+        return result;
     }
 
 }

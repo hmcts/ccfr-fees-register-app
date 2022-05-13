@@ -81,6 +81,20 @@ public abstract class BaseIntegrationTest extends BaseTest {
             .andReturn().getResponse().getHeader("Location");
     }
 
+    protected String saveFeeAndCheckStatusIsCreated1(Fee2Dto dto) throws Exception {
+
+        String methodName = getMethodName1(dto);
+
+        return restActions
+            .withUser("admin")
+            .post(
+                URIUtils.getUrlForPostMethod(FeeController.class, methodName),
+                dto
+            )
+            .andExpect(status().isCreated())
+            .andReturn().getResponse().getHeader("Location");
+    }
+
     protected String createFee(FeeDto dto) throws Exception {
         String methodName = getMethodName(dto);
         return restActions
@@ -121,6 +135,26 @@ public abstract class BaseIntegrationTest extends BaseTest {
             methodName = "createRelationalFee";
         }
         if (dto instanceof BandedFeeDto) {
+            methodName = "createBandedFee";
+        }
+        return methodName;
+    }
+
+    private String getMethodName1(Fee2Dto dto) {
+        String methodName = null;
+        if (dto instanceof Fee2Dto) {
+            methodName = "createFixedFee";
+        }
+        if (dto instanceof Fee2Dto) {
+            methodName = "createRangedFee";
+        }
+        if (dto instanceof Fee2Dto) {
+            methodName = "createRateableFee";
+        }
+        if (dto instanceof Fee2Dto) {
+            methodName = "createRelationalFee";
+        }
+        if (dto instanceof Fee2Dto) {
             methodName = "createBandedFee";
         }
         return methodName;
