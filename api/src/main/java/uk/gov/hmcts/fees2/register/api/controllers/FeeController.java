@@ -41,6 +41,8 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -481,6 +483,7 @@ public class FeeController {
                 fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
             }*/
         }
+        Collections.sort(result, Comparator.comparing(s -> s.getCode()));
 
         return result;
     }
