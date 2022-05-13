@@ -447,10 +447,10 @@ public class FeeController {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
             null, null, null, null, null, null, null, null);
-        result = result
+        /*result = result
             .stream()
             .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
-            .collect(Collectors.toList());
+            .collect(Collectors.toList());*/
 
         for(Fee2Dto fee2Dto : result) {
             for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
