@@ -444,7 +444,7 @@ public class FeeController {
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null, FeeVersionStatus.approved, null,
-            null, null, null, null, null, null, null, null);
+            null, null, true, null, null, null, null, false);
         for(Fee2Dto fee2Dto : result){
             for( FeeVersionDto feeVersionDto: fee2Dto.getFeeVersionDtos()){
                 feeVersionDto.setApprovedBy(null);
