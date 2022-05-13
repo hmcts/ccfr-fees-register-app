@@ -483,8 +483,6 @@ public class FeeController {
                 fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
             }*/
         }
-        Collections.sort(result, Comparator.comparing(s -> s.getCode()));
-
         return result;
     }
 
