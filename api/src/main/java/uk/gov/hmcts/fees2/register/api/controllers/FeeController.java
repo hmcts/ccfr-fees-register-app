@@ -447,6 +447,7 @@ public class FeeController {
             null, null, null, null, null, null, null, null);
         result = result
             .stream()
+            .filter(c -> c.getCurrentVersion()!=null)
             .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
             .collect(Collectors.toList());
 
