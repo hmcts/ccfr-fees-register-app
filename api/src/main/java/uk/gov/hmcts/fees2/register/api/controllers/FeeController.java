@@ -472,10 +472,10 @@ public class FeeController {
                 fee2Dto.setAmountType("FLAT");
             } else {
                 FlatAmountDto flatAmountDto = new FlatAmountDto();
-                if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
+                /*if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
                     flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
                     fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
-                }
+                }*/
                 fee2Dto.setAmountType("VOLUME");
             }
 
