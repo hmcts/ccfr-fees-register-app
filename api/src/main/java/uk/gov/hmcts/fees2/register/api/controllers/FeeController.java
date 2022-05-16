@@ -447,10 +447,10 @@ public class FeeController {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
             null, null, null, null, null, null, null, null);
-       /* result = result
+        result = result
             .stream()
             .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
-            .collect(Collectors.toList());*/
+            .collect(Collectors.toList());
 
         for(Fee2Dto fee2Dto : result) {
             for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
@@ -472,17 +472,14 @@ public class FeeController {
                 fee2Dto.setAmountType("FLAT");
             } else {
                 FlatAmountDto flatAmountDto = new FlatAmountDto();
-                //flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
-                //fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
+                if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
+                    flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
+                    fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
+                }
                 fee2Dto.setAmountType("VOLUME");
             }
 
-            /*if(null == fee2Dto.getCurrentVersion().getFlatAmount()){
-                FlatAmountDto flatAmountDto = new FlatAmountDto ();
-                flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
-                fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
-            }*/
-        }
+            }
 
         return result;
     }
