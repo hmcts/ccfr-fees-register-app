@@ -829,16 +829,15 @@ public class FeeControllerTest extends BaseIntegrationTest {
         FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
         fixedFeeDto2.setKeyword("testFixedDtoFee");
 
-        // discontinued fee
         fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
         fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
 
         Fee fee = dtoMapper.toFee(fixedFeeDto2, AUTHOR);
 
         Fee2Dto fee2Dto = dtoMapper.toFeeDto(fee);
-        fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test").build());
-       //saveFeeAndCheckStatusIsCreated1(fee2Dto);
-
+        fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test")
+            .flatAmount(null)
+            .volumeAmount(getVolumeAmountDto()).build());
        restActions
             .withUser("admin")
             .get("/fees-register/approvedFees")
