@@ -447,39 +447,41 @@ public class FeeController {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
             null, null, null, null, null, null, null, null);
-        result = result
-            .stream()
-            .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
-            .collect(Collectors.toList());
+            result = result
+                .stream()
+                .filter(c -> c.getCurrentVersion()!=null)
+                .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
+                .collect(Collectors.toList());
 
-        for(Fee2Dto fee2Dto : result) {
-            for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
-                feeVersionDto.setApprovedBy(null);
-                feeVersionDto.setAuthor(null);
-                feeVersionDto.setLastAmendingSi(null);
-                feeVersionDto.setStatutoryInstrument(null);
-                feeVersionDto.setSiRefId(null);
-                feeVersionDto.setDirection(null);
-            }
-            fee2Dto.getCurrentVersion().setAuthor(null);
-            fee2Dto.getCurrentVersion().setApprovedBy(null);
-            fee2Dto.getCurrentVersion().setLastAmendingSi(null);
-            fee2Dto.getCurrentVersion().setStatutoryInstrument(null);
-            fee2Dto.getCurrentVersion().setSiRefId(null);
-            fee2Dto.getCurrentVersion().setDirection(null);
-            fee2Dto.setApplicantTypeDto(null);
-            if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
-                fee2Dto.setAmountType("FLAT");
-            } else {
-                FlatAmountDto flatAmountDto = new FlatAmountDto();
+            for (Fee2Dto fee2Dto : result) {
+                for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
+                    feeVersionDto.setApprovedBy(null);
+                    feeVersionDto.setAuthor(null);
+                    feeVersionDto.setLastAmendingSi(null);
+                    feeVersionDto.setStatutoryInstrument(null);
+                    feeVersionDto.setSiRefId(null);
+                    feeVersionDto.setDirection(null);
+                }
+                fee2Dto.getCurrentVersion().setAuthor(null);
+                fee2Dto.getCurrentVersion().setApprovedBy(null);
+                fee2Dto.getCurrentVersion().setLastAmendingSi(null);
+                fee2Dto.getCurrentVersion().setStatutoryInstrument(null);
+                fee2Dto.getCurrentVersion().setSiRefId(null);
+                fee2Dto.getCurrentVersion().setDirection(null);
+                fee2Dto.setApplicantTypeDto(null);
+                if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
+                    fee2Dto.setAmountType("FLAT");
+                } else {
+                    FlatAmountDto flatAmountDto = new FlatAmountDto();
                 /*if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
                     flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
                     fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
                 }*/
-                fee2Dto.setAmountType("VOLUME");
-            }
+                    fee2Dto.setAmountType("VOLUME");
+                }
 
             }
+
 
         return result;
     }
