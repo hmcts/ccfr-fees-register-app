@@ -819,31 +819,31 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     }
 
-   @Test
-    @Transactional
-    public void findApprovedFee() throws Exception {
 
-        FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
-        saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+    @Test
+     @Transactional
+     public void findApprovedFee() throws Exception {
 
-        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
-        fixedFeeDto2.setKeyword("testFixedDtoFee");
+         FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
+         saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
 
-        // discontinued fee
-        fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
-        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
+         FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
+         fixedFeeDto2.setKeyword("testFixedDtoFee");
 
-        Fee fee = dtoMapper.toFee(fixedFeeDto2, AUTHOR);
+         fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
+         fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
 
-        Fee2Dto fee2Dto = dtoMapper.toFeeDto(fee);
-        fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test").build());
-       //saveFeeAndCheckStatusIsCreated1(fee2Dto);
+         Fee fee = dtoMapper.toFee(fixedFeeDto2, AUTHOR);
 
-       restActions
-            .withUser("admin")
-            .get("/fees-register/approvedFees")
-            //.andExpect(status().isOk())
-            .andReturn();
-    }
+         Fee2Dto fee2Dto = dtoMapper.toFeeDto(fee);
+         fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test")
+             .flatAmount(null)
+             .volumeAmount(getVolumeAmountDto()).build());
+        restActions
+             .withUser("admin")
+             .get("/fees-register/approvedFees")
+             //.andExpect(status().isOk())
+             .andReturn();
+     }
 
 }
