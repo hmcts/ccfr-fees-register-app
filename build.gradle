@@ -255,8 +255,7 @@ subprojects {
 
     task runProviderPactVerification(type: Test){
         logger.lifecycle("Running Pact provider verification Tests")
-        // systemProperty 'pact.verifier.publishResults',System.getProperty("pact.verifier.publishResults")
-        systemProperty 'pact.verifier.publishResults','true'
+        systemProperty 'pact.verifier.publishResults',System.getProperty("pact.verifier.publishResults")
     }
 
     runProviderPactVerification.finalizedBy pactVerify
