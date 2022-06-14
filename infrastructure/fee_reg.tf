@@ -19,7 +19,7 @@ module "ccpay-feeregister-api" {
   service_url   = local.feeregister_api_url
   product_id    = module.ccpay-feeregister-product.product_id
   name          = join("-", [var.product_name, "apiList"])
-  protocols             = ["http"]
+  protocols             = ["http", "https"]
 
   display_name  = "Fee Register API"
   path          = "feeRegister-api"
