@@ -46,6 +46,8 @@ variable "feeregister_api_gateway_certificate_thumbprints" {
   default = [] # TODO: remove default and provide environment-specific values
 }
 
+variable "aks_subscription_id" { }
+
 variable "core_product" {
   default = "ccpay"
 }
