@@ -49,7 +49,7 @@ withNightlyPipeline("java", product, component) {
             keepAll              : true,
             reportDir            : "api/target/site/serenity",
             reportFiles          : "index.html",
-            reportName           : "AAT Functional Report"
+            reportName           : "AAT Serenity Functional Report"
         ]
 
     }
