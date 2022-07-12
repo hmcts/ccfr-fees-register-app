@@ -134,7 +134,7 @@ public class UnspecifiedFeesAcceptanceTest extends BaseIntegrationTest {
             .andExpect(status().isOk())
             .andExpect(body().as(Fee2Dto.class, fee2Dto -> {
                 assertThat(fee2Dto.getCode()).isEqualTo(arr[3]);
-                assertThat(fee2Dto.isUnspecifiedClaimAmount()).isEqualTo(true);
+                assertThat(fee2Dto.getUnspecifiedClaimAmount()).isEqualTo(true);
                 fee2Dto.getFeeVersionDtos().stream().forEach(v -> {
                     assertThat(v.getStatus()).isEqualTo(FeeVersionStatusDto.draft);
                     assertThat(v.getFlatAmount().getAmount()).isEqualTo(new BigDecimal("10000.00"));
