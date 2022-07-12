@@ -461,6 +461,8 @@ public class FeeController {
                 feeVersionDto.setStatutoryInstrument(null);
                 feeVersionDto.setSiRefId(null);
                 feeVersionDto.setDirection(null);
+                feeVersionDto.setReasonForUpdate(null);
+                feeVersionDto.setReasonForReject(null);
             }
             fee2Dto.getCurrentVersion().setAuthor(null);
             fee2Dto.getCurrentVersion().setApprovedBy(null);
@@ -471,6 +473,8 @@ public class FeeController {
             fee2Dto.setApplicantTypeDto(null);
             fee2Dto.setUnspecifiedClaimAmount(null);
             fee2Dto.getCurrentVersion().setReasonForUpdate(null);
+            fee2Dto.getCurrentVersion().setReasonForReject(null);
+
             if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
                 fee2Dto.setAmountType("FLAT");
             } else {
