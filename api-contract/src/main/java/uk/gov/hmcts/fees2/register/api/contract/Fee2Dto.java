@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(builderMethodName = "fee2DtoWith")
+@JsonFilter("filterApprovedFee")
 public class Fee2Dto {
 
     private String code;
