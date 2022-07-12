@@ -444,7 +444,7 @@ public class FeeController {
     })
     @GetMapping("/approvedFees")
     @ResponseStatus(HttpStatus.OK)
-    @JsonIgnoreProperties({ "unspecified_claim_amount" })
+    @JsonIgnoreProperties({ "unspecifiedClaimAmount" })
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
