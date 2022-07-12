@@ -1,6 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.contract;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(builderMethodName = "fee2DtoWith")
-@JsonFilter("filterApprovedFee")
 public class Fee2Dto {
 
     private String code;
@@ -64,7 +62,7 @@ public class Fee2Dto {
     private String rangeUnit;
 
     @JsonProperty("unspecified_claim_amount")
-    private boolean unspecifiedClaimAmount;
+    private Boolean unspecifiedClaimAmount;
 
     @JsonProperty("matching_version")
     private FeeVersionDto matchingVersion;
