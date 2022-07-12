@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -443,6 +444,7 @@ public class FeeController {
     })
     @GetMapping("/approvedFees")
     @ResponseStatus(HttpStatus.OK)
+    @JsonIgnoreProperties({ "unspecified_claim_amount" })
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
@@ -468,15 +470,17 @@ public class FeeController {
                 fee2Dto.getCurrentVersion().setStatutoryInstrument(null);
                 fee2Dto.getCurrentVersion().setSiRefId(null);
                 fee2Dto.getCurrentVersion().setDirection(null);
+                fee2Dto.getCurrentVersion().setReasonForUpdate(null);
                 fee2Dto.setApplicantTypeDto(null);
+
                 if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
                     fee2Dto.setAmountType("FLAT");
                 } else {
                     FlatAmountDto flatAmountDto = new FlatAmountDto();
-                /*if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
+                if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
                     flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
                     fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
-                }*/
+                }
                     fee2Dto.setAmountType("VOLUME");
                 }
 
