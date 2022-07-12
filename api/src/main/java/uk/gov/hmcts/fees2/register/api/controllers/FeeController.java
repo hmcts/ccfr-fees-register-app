@@ -1,9 +1,5 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -45,7 +41,8 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -439,62 +436,56 @@ public class FeeController {
         return ex.getMessage();
     }
 
-   @ApiResponses(value = {
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
     @GetMapping("/approvedFees")
     @ResponseStatus(HttpStatus.OK)
-    public List<Fee2Dto> approvedFees() throws JsonProcessingException {
+    public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
             null, null, null, null, null, null, null, null);
-            result = result
-                .stream()
-                .filter(c -> c.getCurrentVersion()!=null)
-                .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
-                .collect(Collectors.toList());
-        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-        filterProvider.addFilter("filterApprovedFee",
-            SimpleBeanPropertyFilter.serializeAllExcept("unspecified_claim_amount"));
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setFilterProvider(filterProvider);
-        for (Fee2Dto fee2Dto : result) {
-                for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
-                    feeVersionDto.setApprovedBy(null);
-                    feeVersionDto.setAuthor(null);
-                    feeVersionDto.setLastAmendingSi(null);
-                    feeVersionDto.setStatutoryInstrument(null);
-                    feeVersionDto.setSiRefId(null);
-                    feeVersionDto.setDirection(null);
-                }
-                fee2Dto.getCurrentVersion().setAuthor(null);
-                fee2Dto.getCurrentVersion().setApprovedBy(null);
-                fee2Dto.getCurrentVersion().setLastAmendingSi(null);
-                fee2Dto.getCurrentVersion().setStatutoryInstrument(null);
-                fee2Dto.getCurrentVersion().setSiRefId(null);
-                fee2Dto.getCurrentVersion().setDirection(null);
-                fee2Dto.getCurrentVersion().setReasonForUpdate(null);
-                fee2Dto.setApplicantTypeDto(null);
+        result = result
+            .stream()
+            .filter(c -> c.getCurrentVersion()!=null)
+            .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
+            .collect(Collectors.toList());
 
-                if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
-                    fee2Dto.setAmountType("FLAT");
-                } else {
-                    FlatAmountDto flatAmountDto = new FlatAmountDto();
-               /* if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
+        for (Fee2Dto fee2Dto : result) {
+            for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
+                feeVersionDto.setApprovedBy(null);
+                feeVersionDto.setAuthor(null);
+                feeVersionDto.setLastAmendingSi(null);
+                feeVersionDto.setStatutoryInstrument(null);
+                feeVersionDto.setSiRefId(null);
+                feeVersionDto.setDirection(null);
+            }
+            fee2Dto.getCurrentVersion().setAuthor(null);
+            fee2Dto.getCurrentVersion().setApprovedBy(null);
+            fee2Dto.getCurrentVersion().setLastAmendingSi(null);
+            fee2Dto.getCurrentVersion().setStatutoryInstrument(null);
+            fee2Dto.getCurrentVersion().setSiRefId(null);
+            fee2Dto.getCurrentVersion().setDirection(null);
+            fee2Dto.setApplicantTypeDto(null);
+            fee2Dto.setUnspecifiedClaimAmount(null);
+            fee2Dto.getCurrentVersion().setReasonForUpdate(null);
+            if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
+                fee2Dto.setAmountType("FLAT");
+            } else {
+                FlatAmountDto flatAmountDto = new FlatAmountDto();
+                /*if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
                     flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
                     fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
                 }*/
-                    fee2Dto.setAmountType("VOLUME");
-                }
-
+                fee2Dto.setAmountType("VOLUME");
             }
-        String jsonData = mapper.writerWithDefaultPrettyPrinter()
-            .writeValueAsString(result);
-        List<Fee2Dto> myObjects = Arrays.asList(mapper.readValue(jsonData, Fee2Dto[].class));
 
-        return myObjects;
+        }
+
+
+        return result;
     }
 
 }
