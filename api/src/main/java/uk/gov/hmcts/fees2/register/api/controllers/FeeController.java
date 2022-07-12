@@ -1,6 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
@@ -42,8 +44,7 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -437,15 +438,14 @@ public class FeeController {
         return ex.getMessage();
     }
 
-    @ApiResponses(value = {
+   @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Found"),
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 404, message = "Not found")
     })
     @GetMapping("/approvedFees")
     @ResponseStatus(HttpStatus.OK)
-    @JsonIgnoreProperties(value = { "unspecified_claim_amount" })
-    public List<Fee2Dto> approvedFees() {
+    public List<Fee2Dto> approvedFees() throws JsonProcessingException {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null,null, null,
             null, null, null, null, null, null, null, null);
@@ -454,8 +454,12 @@ public class FeeController {
                 .filter(c -> c.getCurrentVersion()!=null)
                 .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
                 .collect(Collectors.toList());
-
-            for (Fee2Dto fee2Dto : result) {
+        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+        filterProvider.addFilter("filterApprovedFee",
+            SimpleBeanPropertyFilter.serializeAllExcept("unspecified_claim_amount"));
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setFilterProvider(filterProvider);
+        for (Fee2Dto fee2Dto : result) {
                 for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
                     feeVersionDto.setApprovedBy(null);
                     feeVersionDto.setAuthor(null);
@@ -485,9 +489,11 @@ public class FeeController {
                 }
 
             }
+        String jsonData = mapper.writerWithDefaultPrettyPrinter()
+            .writeValueAsString(result);
+        List<Fee2Dto> myObjects = Arrays.asList(mapper.readValue(jsonData, Fee2Dto[].class));
 
-
-        return result;
+        return myObjects;
     }
 
 }
