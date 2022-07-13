@@ -62,7 +62,7 @@ public class Fee2Dto {
     private String rangeUnit;
 
     @JsonProperty("unspecified_claim_amount")
-    private Boolean unspecifiedClaimAmount;
+    private boolean unspecifiedClaimAmount;
 
     @JsonProperty("matching_version")
     private FeeVersionDto matchingVersion;
