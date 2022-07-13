@@ -257,7 +257,7 @@ public abstract class BaseIntegrationTest extends BaseTest {
 
     protected ResultMatcher isUnspecifiedAmountFee() {
         return body().as(Fee2Dto.class, (res) -> {
-            assertTrue(res.getUnspecifiedClaimAmount());
+            assertTrue(res.isUnspecifiedClaimAmount());
         });
     }
 
