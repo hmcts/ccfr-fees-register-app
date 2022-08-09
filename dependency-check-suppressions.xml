@@ -80,7 +80,7 @@
         </notes>
         <cve>CVE-2022-33915</cve>
     </suppress>
-    
+
     <suppress until="2022-09-30">
       <notes>
         The RipudamanKaushikDal/projects repository through 2022-04-03 on GitHub allows absolute path traversal
@@ -96,7 +96,7 @@
       </notes>
       <cve>CVE-2022-31548</cve>
     </suppress>
-    
+
     <suppress until="2022-09-30">
         <notes>
             In Eclipse Jetty versions 9.4.0 thru 9.4.46, and 10.0.0 thru 10.0.9, and 11.0.0 thru 11.0.9 versions, the
