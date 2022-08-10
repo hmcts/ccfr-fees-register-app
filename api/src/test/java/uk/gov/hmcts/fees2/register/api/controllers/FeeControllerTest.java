@@ -823,10 +823,12 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Transactional
     public void findApprovedFee() throws Exception {
 
-        FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
-        saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+       RangedFeeDto rangedFeeDto = getRangedFeeDtoForLookup(300, 399, null, FeeVersionStatus.approved);
 
-        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
+        saveFeeAndCheckStatusIsCreated(rangedFeeDto);
+
+
+        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest1();
         fixedFeeDto2.setKeyword("testFixedDtoFee");
 
         fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
@@ -835,9 +837,9 @@ public class FeeControllerTest extends BaseIntegrationTest {
         Fee fee = dtoMapper.toFee(fixedFeeDto2, AUTHOR);
 
         Fee2Dto fee2Dto = dtoMapper.toFeeDto(fee);
-        fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test")
-            .flatAmount(null)
-            .volumeAmount(getVolumeAmountDto()).build());
+       fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test")
+           .flatAmount(null)
+           .volumeAmount(getVolumeAmountDto()).build());
        restActions
             .withUser("admin")
             .get("/fees-register/approvedFees")

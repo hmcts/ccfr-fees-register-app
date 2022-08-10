@@ -82,6 +82,7 @@ public abstract class BaseIntegrationTest extends BaseTest {
     }
 
 
+
     protected String createFee(FeeDto dto) throws Exception {
         String methodName = getMethodName(dto);
         return restActions
