@@ -119,6 +119,28 @@ public class FeeDataUtils {
             .build();
     }
 
+
+    public static FixedFeeDto getCreateFixedFeeRequest1() {
+        return fixedFeeDtoWith()
+            .channel("default")
+            .event("issue")
+            .jurisdiction1("civil")
+            .jurisdiction2("county court")
+            .service("civil money claims")
+            .unspecifiedClaimAmount(true)
+            .applicantType("all")
+            .version(feeVersionDtoWith()
+                .validFrom(DateTime.parse("2014-04-22T00:00:00.000Z").toDate())
+                .description("Civil Court fees - Money Claims - Claim Amount - Unspecified")
+                .status(FeeVersionStatusDto.approved)
+                .memoLine("GOV - Paper fees - Money claim >£200,000")
+                .direction("enhanced")
+                .naturalAccountCode("4481102133")
+                .flatAmount(new FlatAmountDto(new BigDecimal("10000.00")))
+                .build())
+            .build();
+    }
+
     public static List<FixedFeeDto> getCreateFixedFeesWithKeywordRequest() {
         List<FixedFeeDto> fixedFeeDtos = new ArrayList<>();
 

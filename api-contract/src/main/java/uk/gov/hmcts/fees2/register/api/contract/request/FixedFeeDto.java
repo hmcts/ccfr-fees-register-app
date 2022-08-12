@@ -63,6 +63,11 @@ public class FixedFeeDto extends FeeDto {
         return this;
     }
 
+    public FixedFeeDto setCurrentVersion(final String applicantType) {
+        this.applicantType = applicantType;
+        return this;
+    }
+
 
     @Override
     public Boolean getUnspecifiedClaimAmount() {
