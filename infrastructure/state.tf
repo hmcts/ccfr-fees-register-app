@@ -12,3 +12,9 @@ terraform {
     }
   }
 }
+
+provider "azurerm" {
+  alias = "cftappsdemo"
+  features {}
+  subscription_id = var.aks_subscription_id
+}
