@@ -60,28 +60,30 @@ withPipeline(type, product, app) {
 
 
     after('functionalTest:aat') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
         publishHTML target: [
-            reportDir            : "api/target/site/serenity/",
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "api/target/site/serenity",
             reportFiles          : "index.html",
-            reportName           : "AAT Functional Report",
-            alwaysLinkToLastBuild: true
+            reportName           : "AAT Serenity Functional Report"
         ]
 
     }
 
     after('functionalTest:preview') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
         publishHTML target: [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
             reportDir            : "api/target/site/serenity/",
             reportFiles          : "index.html",
-            reportName           : "Preview Functional Report",
-            alwaysLinkToLastBuild: true
+            reportName           : "Preview Serenity Functional Report"
         ]
 
     }
     disableLegacyDeployment()
-    
+
     onMaster() {
         enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
     }
