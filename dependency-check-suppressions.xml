@@ -125,5 +125,11 @@
         </notes>
         <cve>CVE-2022-31197</cve>
     </suppress>
+    <suppress until="2022-09-30">
+        <notes>cve suppressions</notes>
+        <cve>CVE-2022-22971</cve>
+        <cve>CVE-2022-22970</cve>
+        <cve>CVE-2022-29885</cve>
+    </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
