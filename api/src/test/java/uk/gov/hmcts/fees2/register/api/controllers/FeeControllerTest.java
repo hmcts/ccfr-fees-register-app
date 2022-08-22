@@ -9,6 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
@@ -194,6 +195,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void searchFee_WithApprovedStatusTest() throws Exception {
 
+
         restActions
             .withUser("admin")
             .get("/fees-register/fees?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&channel=default&event=issue&unspecifiedClaimAmounts=false&feeVersionStatus=approved")
@@ -202,7 +204,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 fee2Dtos.stream().forEach(f -> {
                     assertEquals(f.getServiceTypeDto().getName(), "civil money claims");
                     f.getFeeVersionDtos().stream().forEach(v -> {
-                        assertEquals(v.getStatus(), FeeVersionStatus.approved);
+                        assertEquals(v.getStatus().name(), FeeVersionStatus.approved.name());
                     });
                 });
             }));

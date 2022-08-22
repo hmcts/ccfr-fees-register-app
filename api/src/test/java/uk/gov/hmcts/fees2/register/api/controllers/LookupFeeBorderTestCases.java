@@ -1,7 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.transaction.annotation.Transactional;
+import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.PercentageAmountDto;
@@ -11,6 +13,11 @@ import uk.gov.hmcts.fees2.register.data.dto.LookupFeeDto;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.verify;
+
 
 public class LookupFeeBorderTestCases extends BaseIntegrationTest {
 
@@ -35,6 +42,11 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
         // 299.98 * 5% = 14.999 -> 14.99
 
         lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99"));
+        //assertThat(lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99")), equalTo());
+        //ResultMatcher res = lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99"));
+        //verify(lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99")));
+        //unable to use mockito as CustomResultMatcher is not a mock!
+        //CustomResultMatcher@16150
 
         deleteFees();
     }

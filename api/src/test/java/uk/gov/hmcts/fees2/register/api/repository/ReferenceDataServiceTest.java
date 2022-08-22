@@ -87,7 +87,7 @@ public class ReferenceDataServiceTest extends BaseTest {
 
         assertNotNull(result);
         assertEquals(result.size(), 3);
-        assertNotNull(result.stream().filter(d -> d.getName().equals("licence")).findAny().isPresent());
+        assertNotNull(result.stream().filter(d -> d.getName().equals("licence")).findAny());
 
         verify(directionTypeRepository, times(1)).findAll();
     }
@@ -108,7 +108,7 @@ public class ReferenceDataServiceTest extends BaseTest {
         assertEquals(result.size(), 4);
         assertSame(result.contains("copies"), events.contains("copies"));
         assertEquals(result.stream().filter(e -> e.getName().equals("hearing")).findAny().get().getName(), "hearing");
-        assertNotNull(result.stream().filter(e -> e.getName().equals("appeal")).findAny().isPresent());
+        assertNotNull(result.stream().filter(e -> e.getName().equals("appeal")).findAny());
 
         verify(eventTypeRepository, times(1)).findAll();
     }
@@ -126,7 +126,7 @@ public class ReferenceDataServiceTest extends BaseTest {
         assertNotNull(result);
         assertEquals(result.size(), 3);
         assertEquals(result.stream().filter(j -> j.getName().equals("civil")).findAny().get().getName(), "civil");
-        assertNotNull(result.stream().filter(j -> j.equals("family")).findAny().isPresent());
+        assertNotNull(result.stream().filter(j -> j.equals("family")).findAny());
 
         verify(jurisdiction1Repository, times(1)).findAll();
     }
@@ -141,7 +141,7 @@ public class ReferenceDataServiceTest extends BaseTest {
         when(jurisdiction2Repository.findAll()).thenReturn(jurisdictions2);
 
         List<Jurisdiction2> result = jurisdiction2Service.findAll();
-        assertNotNull(result.stream().filter(j -> j.getName().equals("county court")).findAny().isPresent());
+        assertNotNull(result.stream().filter(j -> j.getName().equals("county court")).findAny());
         assertEquals(result.stream().filter(j -> j.getName().equals("family court")).findAny().get().getName(), "family court");
 
 
@@ -160,7 +160,7 @@ public class ReferenceDataServiceTest extends BaseTest {
 
         List<ServiceType> result = serviceTypeService.findAll();
         assertNotNull(result);
-        assertNotNull(result.stream().filter(s -> s.getName().equals("probate")).findAny().isPresent());
+        assertNotNull(result.stream().filter(s -> s.getName().equals("probate")).findAny());
         assertEquals(result.stream().filter(s -> s.getName().equals("divorce")).findAny().get().getName(), "divorce");
 
         verify(serviceTypeRepository, times(1)).findAll();
