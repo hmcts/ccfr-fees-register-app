@@ -840,6 +840,8 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .flatAmount(null)
             .volumeAmount(getVolumeAmountDto()).build());
 
+        assertEquals(getFeeVersion().getStatus().name(), FeeVersionStatusDto.approved.name());
+
         restActions
             .withUser("admin")
             .get("/fees-register/approvedFees")
