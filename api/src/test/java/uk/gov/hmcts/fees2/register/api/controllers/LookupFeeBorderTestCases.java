@@ -42,11 +42,6 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
         // 299.98 * 5% = 14.999 -> 14.99
 
         lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99"));
-        //assertThat(lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99")), equalTo());
-        //ResultMatcher res = lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99"));
-        //verify(lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99")));
-        //unable to use mockito as CustomResultMatcher is not a mock!
-        //CustomResultMatcher@16150
 
         deleteFees();
     }
