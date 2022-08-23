@@ -81,6 +81,8 @@ public abstract class BaseIntegrationTest extends BaseTest {
             .andReturn().getResponse().getHeader("Location");
     }
 
+
+
     protected String createFee(FeeDto dto) throws Exception {
         String methodName = getMethodName(dto);
         return restActions
@@ -125,6 +127,7 @@ public abstract class BaseIntegrationTest extends BaseTest {
         }
         return methodName;
     }
+
 
     protected ResultActions lookup(LookupFeeDto lookupFeeDto) throws Exception {
 

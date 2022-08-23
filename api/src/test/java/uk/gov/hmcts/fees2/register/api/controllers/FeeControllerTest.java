@@ -4,18 +4,22 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
+import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
+import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
@@ -43,6 +47,9 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @Autowired
+    private FeeDtoMapper dtoMapper;
 
     @Test
     public synchronized void readFeeTest() throws Exception {
@@ -809,6 +816,34 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .get("/fees-register/fees?discontinued=false")
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.length()", is(1)))
+            .andReturn();
+
+    }
+
+    @Test
+    @Transactional
+    public void findApprovedFee() throws Exception {
+
+        FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
+        saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+
+        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
+        fixedFeeDto2.setKeyword("testFixedDtoFee");
+
+        fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
+        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
+
+        Fee fee = dtoMapper.toFee(fixedFeeDto2, AUTHOR);
+
+        Fee2Dto fee2Dto = dtoMapper.toFeeDto(fee);
+        fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test")
+            .flatAmount(null)
+            .volumeAmount(getVolumeAmountDto()).build());
+
+        restActions
+            .withUser("admin")
+            .get("/fees-register/approvedFees")
+            //.andExpect(status().isOk())
             .andReturn();
 
     }

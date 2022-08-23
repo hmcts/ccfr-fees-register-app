@@ -66,4 +66,7 @@ public class Fee2Dto {
 
     @JsonProperty("matching_version")
     private FeeVersionDto matchingVersion;
+
+    @JsonProperty("amount_type")
+    private String amountType;
 }
