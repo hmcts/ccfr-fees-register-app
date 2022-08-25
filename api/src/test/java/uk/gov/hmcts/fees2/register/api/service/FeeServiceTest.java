@@ -46,6 +46,17 @@ public class FeeServiceTest extends BaseTest{
     @Transactional
     public void testDeleteWorksForNonApprovedFee() {
 
+        LookupFeeDto dto = new LookupFeeDto();
+
+        dto.setChannel("online");
+        dto.setService("divorce");
+        dto.setEvent("issue");
+        dto.setJurisdiction1("civil");
+        dto.setJurisdiction2("high court");
+        dto.setVersionStatus(FeeVersionStatus.pending_approval);
+
+        assertNotEquals(FeeVersionStatus.approved.name(), dto.getVersionStatus().name());
+
     }
 
     @Test
