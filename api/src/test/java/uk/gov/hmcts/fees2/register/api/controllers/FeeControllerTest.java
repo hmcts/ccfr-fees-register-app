@@ -202,6 +202,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
     @Test
     public synchronized void searchFee_WithApprovedStatusTest() throws Exception {
 
+
         restActions
             .withUser("admin")
             .get("/fees-register/fees?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&channel=default&event=issue&unspecifiedClaimAmounts=false&feeVersionStatus=approved")
@@ -210,7 +211,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
                 fee2Dtos.stream().forEach(f -> {
                     assertEquals(f.getServiceTypeDto().getName(), "civil money claims");
                     f.getFeeVersionDtos().stream().forEach(v -> {
-                        assertEquals(v.getStatus(), FeeVersionStatus.approved);
+                        assertEquals(v.getStatus().name(), FeeVersionStatus.approved.name());
                     });
                 });
             }));
@@ -838,11 +839,15 @@ public class FeeControllerTest extends BaseIntegrationTest {
         fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test")
             .flatAmount(null)
             .volumeAmount(getVolumeAmountDto()).build());
+
+        assertEquals(FeeVersionStatusDto.approved.name(), getFeeVersion().getStatus().name());
+
         restActions
             .withUser("admin")
             .get("/fees-register/approvedFees")
             //.andExpect(status().isOk())
             .andReturn();
+
     }
 
 }
