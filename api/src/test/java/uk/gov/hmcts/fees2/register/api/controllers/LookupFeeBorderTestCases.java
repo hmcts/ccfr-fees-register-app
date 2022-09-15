@@ -1,6 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
 import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
+
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
@@ -23,145 +26,68 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
     @Transactional
     public void testBorderCase299_98() throws Exception{
 
-        initFees();
+        assertNotNull(testBorderCase(new BigDecimal("299.98"), new BigDecimal("14.99")));
 
-        LookupFeeDto dto = new LookupFeeDto();
-        dto.setService("divorce");
-        dto.setEvent("issue");
-        dto.setJurisdiction1("family");
-        dto.setJurisdiction2("high court");
-        dto.setAmountOrVolume(new BigDecimal("299.98"));
-
-        // 299.98 * 5% = 14.999 -> 14.99
-
-        lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99"));
-
-        deleteFees();
     }
 
     @Test
     @Transactional
     public void testBorderCase299_99() throws Exception{
 
-        initFees();
+        assertNotNull(testBorderCase(new BigDecimal("299.99"), new BigDecimal("14.99")));
 
-        LookupFeeDto dto = new LookupFeeDto();
-        dto.setService("divorce");
-        dto.setEvent("issue");
-        dto.setJurisdiction1("family");
-        dto.setJurisdiction2("high court");
-        dto.setAmountOrVolume(new BigDecimal("299.99"));
-
-        // 299.99 * 5% = 14.9995 -> 14.99
-
-        lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99"));
-
-        deleteFees();
     }
 
     @Test
     @Transactional
     public void testBorderCase300_00() throws Exception{
 
-        initFees();
+        assertNotNull(testBorderCase(new BigDecimal("300"), new BigDecimal("15")));
 
-        LookupFeeDto dto = new LookupFeeDto();
-        dto.setService("divorce");
-        dto.setEvent("issue");
-        dto.setJurisdiction1("family");
-        dto.setJurisdiction2("high court");
-        dto.setAmountOrVolume(new BigDecimal("300"));
-        // 300 * 5% = 15
-
-        lookupResultMatchesExpectedFeeAmount(new BigDecimal("15"));
-
-        deleteFees();
     }
 
     @Test
     @Transactional
     public void testBorderCase299_951() throws Exception{
 
-        initFees();
+        assertNotNull(testBorderCase(new BigDecimal("299.951"), new BigDecimal("14.99")));
 
-        LookupFeeDto dto = new LookupFeeDto();
-        dto.setService("divorce");
-        dto.setEvent("issue");
-        dto.setJurisdiction1("family");
-        dto.setJurisdiction2("high court");
-        dto.setAmountOrVolume(new BigDecimal("299.951"));
-
-        // 299.951 * 5% = 14.99755 -> 14.99
-
-        lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99"));
-
-        deleteFees();
     }
 
     @Test
     @Transactional
     public void testBorderCase299_98971() throws Exception{
 
-        initFees();
+        assertNotNull(testBorderCase(new BigDecimal("299.98971"), new BigDecimal("14.99")));
 
-        LookupFeeDto dto = new LookupFeeDto();
-        dto.setService("divorce");
-        dto.setEvent("issue");
-        dto.setJurisdiction1("family");
-        dto.setJurisdiction2("high court");
-        dto.setAmountOrVolume(new BigDecimal("299.98971"));
-
-        // 299.98971 * 5% = 14.9994855 -> 14.99
-
-        lookupResultMatchesExpectedFeeAmount(new BigDecimal("14.99"));
-
-        deleteFees();
     }
 
     @Test
     @Transactional
     public void testBorderCase500() throws Exception{
 
-        initFees();
+        assertNotNull(testBorderCase(new BigDecimal("500"), new BigDecimal("50")));
 
-        LookupFeeDto dto = new LookupFeeDto();
-        dto.setService("divorce");
-        dto.setEvent("issue");
-        dto.setJurisdiction1("family");
-        dto.setJurisdiction2("high court");
-        dto.setAmountOrVolume(new BigDecimal("500"));
-
-        // 500 * 10% = 50
-
-        lookupResultMatchesExpectedFeeAmount(new BigDecimal("50"));
-
-        deleteFees();
     }
 
     @Test
     @Transactional
     public void testBorderCase20000() throws Exception{
 
-        initFees();
+        assertNotNull(testBorderCase(new BigDecimal("20000"), new BigDecimal("4000")));
 
-        LookupFeeDto dto = new LookupFeeDto();
-        dto.setService("divorce");
-        dto.setEvent("issue");
-        dto.setJurisdiction1("family");
-        dto.setJurisdiction2("high court");
-        dto.setAmountOrVolume(new BigDecimal("20000"));
-
-        // 20000 * 20% = 4000
-
-        lookupResultMatchesExpectedFeeAmount(new BigDecimal("4000"));
-
-        deleteFees();
     }
 
     @Test
     @Transactional
     public void testBorderCase300_01() throws Exception{
 
+        assertNotNull(testBorderCase(new BigDecimal("300.01"), new BigDecimal("30")));
+
+    }
+
+    public ResultMatcher testBorderCase(BigDecimal amountOrVolume, BigDecimal feeAmount) throws Exception{
+
         initFees();
 
         LookupFeeDto dto = new LookupFeeDto();
@@ -169,14 +95,17 @@ public class LookupFeeBorderTestCases extends BaseIntegrationTest {
         dto.setEvent("issue");
         dto.setJurisdiction1("family");
         dto.setJurisdiction2("high court");
-        dto.setAmountOrVolume(new BigDecimal("300.01"));
+        dto.setAmountOrVolume(amountOrVolume);
 
         // 300.01 * 10% = 30.001 -> 30
 
-        lookupResultMatchesExpectedFeeAmount(new BigDecimal("30"));
+        ResultMatcher resultMatcher = lookupResultMatchesExpectedFeeAmount(feeAmount);
 
         deleteFees();
+        return resultMatcher;
     }
+
+
 
     private void deleteFees() throws Exception{
         forceDeleteFee("T1");
