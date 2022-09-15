@@ -191,4 +191,9 @@ public class FeeServiceImplTest {
     private FlatAmount getFlatAmount() {
         return new FlatAmount(new BigDecimal("150.00"));
     }
+
+    @Test
+    public void testGetMaxFeeNumber() {
+        assertEquals(feeService.getMaxFeeNumber(), Integer.valueOf(100));
+    }
 }
