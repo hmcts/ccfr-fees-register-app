@@ -43,8 +43,8 @@ public interface IdamApi {
     @Builder(builderMethodName = "userRequestWith")
     class CreateUserRequest {
         private final String email;
-        private final String forename = "John";
-        private final String surname = "Smith";
+        private final String forename = "FregApiFunctional";
+        private final String surname = "Tests";
         private final UserGroup userGroup;
         private final List<Role> roles;
         private final String password;
