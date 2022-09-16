@@ -3,11 +3,11 @@ package uk.gov.hmcts.fees.register.functional.dsl;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.SneakyThrows;
+import net.serenitybdd.rest.SerenityRest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -60,7 +60,7 @@ public class FeesRegisterTestDsl {
 
     public class FeesRegisterWhenDsl {
         private RequestSpecification newRequest() {
-            return RestAssured.given().relaxedHTTPSValidation().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
+            return SerenityRest.given().relaxedHTTPSValidation().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
         }
 
         public FeesRegisterWhenDsl createCategory(CategoryUpdateDto.CategoryUpdateDtoBuilder requestDto) {
@@ -276,7 +276,7 @@ public class FeesRegisterTestDsl {
     public class FeesRegisterThenDsl {
 
         private RequestSpecification newRequest() {
-            return RestAssured.given().relaxedHTTPSValidation().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
+            return SerenityRest.given().relaxedHTTPSValidation().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
         }
 
         public FeesRegisterThenDsl notFound() {

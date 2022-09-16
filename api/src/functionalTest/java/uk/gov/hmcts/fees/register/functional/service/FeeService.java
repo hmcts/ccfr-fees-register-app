@@ -1,7 +1,7 @@
 package uk.gov.hmcts.fees.register.functional.service;
 
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import net.serenitybdd.rest.SerenityRest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,34 +19,34 @@ import java.util.List;
 public class FeeService {
 
     public static Response submitAFee(User editor, String feeCode, int version) {
-        return RestAssured.given()
+        return SerenityRest.given()
             .header(HttpHeaders.AUTHORIZATION, editor.getAuthorisationToken())
             .when()
             .patch("/fees/{feeCode}/versions/{version}/submit-for-review", feeCode, version);
     }
 
     public static Response approveAFee(User approver, String feeCode, int version) {
-        return RestAssured.given()
+        return SerenityRest.given()
             .header(HttpHeaders.AUTHORIZATION, approver.getAuthorisationToken())
             .when()
             .patch("/fees/{feeCode}/versions/{version}/approve", feeCode, version);
     }
 
     public static Response deleteAFee(User user, String feeCode) {
-        return RestAssured.given()
+        return SerenityRest.given()
             .header(HttpHeaders.AUTHORIZATION, user.getAuthorisationToken())
             .when()
             .delete("/fees-register/fees/{feeCode}", feeCode);
     }
 
     public static Response getAFee(String feeCode) {
-        return RestAssured.given()
+        return SerenityRest.given()
             .when()
             .get("/fees-register/fees/{feeCode}", feeCode);
     }
 
     public static Response createAFee(User editor, FeeDto feeDto) {
-        return RestAssured
+        return SerenityRest
             .given()
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, editor.getAuthorisationToken())
@@ -56,7 +56,7 @@ public class FeeService {
     }
 
     public static Response amendAFeeVersion(User editor, String feeCode, FeeVersionDto feeVersionDto) {
-        return RestAssured
+        return SerenityRest
             .given()
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, editor.getAuthorisationToken())
@@ -66,7 +66,7 @@ public class FeeService {
     }
 
     public static Response rejectAFee(User approver, FeeDto feeDto) {
-        return RestAssured
+        return SerenityRest
             .given()
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, approver.getAuthorisationToken())
@@ -77,7 +77,7 @@ public class FeeService {
 
     public static Response rejectAFeeVersion(User approver, Fee2Dto fee2Dto) {
 
-        return RestAssured
+        return SerenityRest
             .given()
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, approver.getAuthorisationToken())

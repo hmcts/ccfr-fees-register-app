@@ -16,6 +16,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
+import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -38,6 +41,8 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -429,6 +434,59 @@ public class FeeController {
     @ExceptionHandler(GatewayTimeoutException.class)
     public String return504(GatewayTimeoutException ex) {
         return ex.getMessage();
+    }
+
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Found"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 404, message = "Not found")
+    })
+    @GetMapping("/approvedFees")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Fee2Dto> approvedFees() {
+        List<Fee2Dto> result =  search(null, null, null, null, null,
+            null, null, null,null, null,
+            null, null, null, null, null, null, null, null);
+        result = result
+            .stream()
+            .filter(c -> c.getCurrentVersion()!=null)
+            .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
+            .collect(Collectors.toList());
+
+        for (Fee2Dto fee2Dto : result) {
+            for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
+                feeVersionDto.setApprovedBy(null);
+                feeVersionDto.setAuthor(null);
+                feeVersionDto.setLastAmendingSi(null);
+                feeVersionDto.setStatutoryInstrument(null);
+                feeVersionDto.setSiRefId(null);
+                feeVersionDto.setDirection(null);
+
+            }
+            fee2Dto.getCurrentVersion().setAuthor(null);
+            fee2Dto.getCurrentVersion().setApprovedBy(null);
+            fee2Dto.getCurrentVersion().setLastAmendingSi(null);
+            fee2Dto.getCurrentVersion().setStatutoryInstrument(null);
+            fee2Dto.getCurrentVersion().setSiRefId(null);
+            fee2Dto.getCurrentVersion().setDirection(null);
+            fee2Dto.setApplicantTypeDto(null);
+
+
+            if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
+                fee2Dto.setAmountType("FLAT");
+            } else {
+                FlatAmountDto flatAmountDto = new FlatAmountDto();
+                /*if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
+                    flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
+                    fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
+                }*/
+                fee2Dto.setAmountType("VOLUME");
+            }
+
+        }
+
+
+        return result;
     }
 
 }
