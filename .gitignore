@@ -28,3 +28,4 @@ buildNumber.properties
 .gradle
 .gradle/*
 .env
+classes/
