@@ -21,6 +21,9 @@ public interface IdamApi {
     @Headers("Content-Type: application/json")
     void createUser(CreateUserRequest createUserRequest);
 
+    @RequestLine("DELETE /testing-support/accounts/{email}")
+    void deleteUser(@Param("email") String email);
+
     @RequestLine("POST /oauth2/authorize")
     @Headers({"Authorization: {authorization}", "Content-Type: application/x-www-form-urlencoded"})
     @Body("response_type={response_type}&redirect_uri={redirect_uri}&client_id={client_id}")
