@@ -251,7 +251,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             5000.01,"PaperClaimUpTo10k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0208");
-            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - 5000.01 up to 10000 GBP");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 5000.01 up to 10000 GBP");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("455.00");
         });
@@ -266,7 +266,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             10000, "PaperClaimUpTo10k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0208");
-            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - 5000.01 up to 10000 GBP");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 5000.01 up to 10000 GBP");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("455.00");
         });
@@ -281,7 +281,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             10000.01, "PaperClaimUpTo200k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0209");
-            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP.");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 10000.01 up to 200000 GBP. FEE AMOUNT = 5% of claim value");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("500.00");
         });
@@ -296,7 +296,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             200000, "PaperClaimUpTo200k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0209");
-            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP.");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 10000.01 up to 200000 GBP. FEE AMOUNT = 5% of claim value");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
         });
@@ -311,7 +311,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             100999, "PaperClaimUpTo200k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0209");
-            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP.");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 10000.01 up to 200000 GBP. FEE AMOUNT = 5% of claim value");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("5049.95");
         });
@@ -326,7 +326,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             200000.01, "PaperClaimAbove200k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0210");
-            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 200000.01 GBP or more");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
         });
@@ -341,7 +341,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             300000.01, "PaperClaimAbove200k")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0210");
-            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more");
+            Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 200000.01 GBP or more");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
         });
@@ -518,7 +518,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0506");
                 Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 200000.01 GBP or more");
                 Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000.00");
+                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
             });
     }
 
@@ -557,7 +557,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
                     "civil", "county court", "default", "issue", "UnspecifiedClaim")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0001");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Civil Court fees - Money Claims - Claim Amount - Unspecified");
+                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - Unspecified");
                 Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
                 Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
             });
@@ -573,7 +573,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
                 Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
                 Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - Unspecified");
                 Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("1000.00");
+                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
             });
     }
 
