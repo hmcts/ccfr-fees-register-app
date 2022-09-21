@@ -86,6 +86,11 @@ public class IdamService {
             .build();
     }
 
+    public void deleteUser(String emailAddress)
+    {
+        idamApi.deleteUser(emailAddress);
+    }
+
     private String nextUserEmail() {
         return String.format(testConfig.getGeneratedUserEmailPattern(), RandomStringUtils.randomAlphanumeric(10));
     }
