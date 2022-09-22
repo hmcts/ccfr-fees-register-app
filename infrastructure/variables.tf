@@ -27,6 +27,10 @@ variable "database_name" {
   default = "fees_register"
 }
 
+variable "additional_databases" {
+  default = []
+}
+
 variable "postgresql_user" {
   default = "fees_register"
 }
