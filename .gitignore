@@ -28,4 +28,5 @@ buildNumber.properties
 .gradle
 .gradle/*
 .env
+api/src/main/resources/application-local.properties
 classes/
