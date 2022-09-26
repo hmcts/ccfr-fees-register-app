@@ -2,17 +2,12 @@ package uk.gov.hmcts.fees.register.functional;
 
 import io.restassured.response.Response;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
-import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static uk.gov.hmcts.fees.register.functional.fixture.FixedFeeFixture.aFixedFee;
@@ -102,10 +97,10 @@ public class UpdateFeeTest extends IntegrationTestBase {
             .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
 
-        //Ammending Should not take place post Approval - TODO - Review this Stage once again....
-        /*Response amendResponse1 = feeService.amendAFeeVersion(userBootstrap.getEditor(), feeCode, feeVersionDto);
+        //Ammending should take place post Approval
+        Response amendResponse1 = feeService.amendAFeeVersion(userBootstrap.getEditor(), feeCode, feeVersionDto);
         amendResponse1.then()
-            .statusCode(HttpStatus.BAD_REQUEST.value());*/
+            .statusCode(HttpStatus.NO_CONTENT.value());
 
         // admin deletes an approved fee - success
         feeService.deleteAFee(userBootstrap.getAdmin(), feeCode)
@@ -115,7 +110,7 @@ public class UpdateFeeTest extends IntegrationTestBase {
     }
 
     @Test
-    public void should_not_update_fee_after_submission() {
+    public void should_update_a_fee_after_submission() {
         Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
         String feeCode = response.then()
             .statusCode(HttpStatus.CREATED.value())
@@ -134,10 +129,10 @@ public class UpdateFeeTest extends IntegrationTestBase {
             .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
 
-        //Ammending Should not take place post Submission
-       /* Response amendResponse1 = feeService.amendAFeeVersion(userBootstrap.getEditor(), feeCode, feeVersionDto);
+        //Ammending Should take place post Submission via APi but disabled from UI.
+       Response amendResponse1 = feeService.amendAFeeVersion(userBootstrap.getEditor(), feeCode, feeVersionDto);
         amendResponse1.then()
-            .statusCode(HttpStatus.BAD_REQUEST.value());*/
+            .statusCode(HttpStatus.NO_CONTENT.value());
 
         // admin deletes an approved fee - success
         feeService.deleteAFee(userBootstrap.getAdmin(), feeCode)
@@ -148,7 +143,7 @@ public class UpdateFeeTest extends IntegrationTestBase {
 
 
     @Test
-    public void should_update_an_approved_fee_after_rejection() {
+    public void should_update_a_fee_after_rejection() {
 
         Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
         String feeCode = response.then()
@@ -169,12 +164,12 @@ public class UpdateFeeTest extends IntegrationTestBase {
             .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
 
-        // approver rejects the Submitted fee - TODO Rejection mechanism not working properly to Review With Krishna...
+        // approver rejects the Submitted fee
         feeService.rejectAFeeVersion(userBootstrap.getApprover(), fee2Dto)
             .then()
             .statusCode(HttpStatus.NO_CONTENT.value());
 
-        //Ammending only the Amount,automatically increments the version - TODO this amend should only be post the rejection....
+        //Ammending only the Amount,automatically increments the version
         Response amendResponse1 = feeService.amendAFeeVersion(userBootstrap.getEditor(), feeCode, feeVersionDto);
         amendResponse1.then()
             .statusCode(HttpStatus.NO_CONTENT.value());

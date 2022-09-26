@@ -13,6 +13,7 @@ import uk.gov.hmcts.fees.register.functional.idam.IdamService;
 import uk.gov.hmcts.fees.register.functional.idam.models.User;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 @Component
 public class UserBootstrap {
@@ -58,5 +59,12 @@ public class UserBootstrap {
 
     public User getAdmin() {
         return admin;
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        idamService.deleteUser(editor.getEmail());
+        idamService.deleteUser(approver.getEmail());
+        idamService.deleteUser(admin.getEmail());
     }
 }
