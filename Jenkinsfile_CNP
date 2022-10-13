@@ -71,7 +71,13 @@ withPipeline(type, product, app) {
 
     }
 
+    before('functionalTest:preview') {
+        env.E2E_TESTS_FOR_ACCESSIBILITY = true
+    }
+
     after('functionalTest:preview') {
+        env.E2E_TESTS_FOR_ACCESSIBILITY = false
+
         publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
