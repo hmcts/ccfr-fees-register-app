@@ -71,13 +71,7 @@ withPipeline(type, product, app) {
 
     }
 
-    before('functionalTest:preview') {
-        env.E2E_TESTS_FOR_ACCESSIBILITY = true
-    }
-
     after('functionalTest:preview') {
-        env.E2E_TESTS_FOR_ACCESSIBILITY = false
-
         publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -86,7 +80,8 @@ withPipeline(type, product, app) {
             reportFiles          : "index.html",
             reportName           : "Preview Serenity Functional Report"
         ]
-
+        sh 'yarn test:a11y'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
     }
     disableLegacyDeployment()
 
