@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.owasp.encoder.Encode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -16,18 +14,15 @@ import uk.gov.hmcts.fees2.register.api.contract.ReasonDto;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
-import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.security.Principal;
 
 import static java.util.Optional.ofNullable;
 
-@Api(value = "FeesRegister", description = "Operations pertaining to fees")
+@Api(value = "FeesRegister")
 @RestController
 @Validated
 public class FeeVersionController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(FeeVersionController.class);
 
     private final FeeVersionService feeVersionService;
 
@@ -130,7 +125,7 @@ public class FeeVersionController {
 
     private String getUserName(final Principal principal) {
         return ofNullable(principal)
-                .map(p -> p.getName())
+                .map(Principal::getName)
                 .orElse(null);
     }
 }

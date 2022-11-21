@@ -60,7 +60,7 @@ public class FeeServiceImpl implements FeeService {
     @Autowired
     private FeeValidator feeValidator;
 
-    private Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
+    private final Pattern pattern = Pattern.compile("^(.*)[^\\d](\\d+)(.*?)$");
 
     @Override
     public Fee save(Fee fee) {
@@ -82,11 +82,11 @@ public class FeeServiceImpl implements FeeService {
     @Override
     public void saveLoaderFee(Fee fee) {
 
-        if (fee.getCode() != null && !fee2Repository.findByCode(fee.getCode()).isPresent()) {
+        if (fee.getCode() != null && fee2Repository.findByCode(fee.getCode()).isEmpty()) {
             feeValidator.validateAndDefaultNewFee(fee);
 
             Matcher matcher = pattern.matcher(fee.getCode());
-            fee.setFeeNumber(matcher.find() ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee.setFeeNumber(matcher.find() ? Integer.parseInt(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
             fee2Repository.save(fee);
         }
     }
@@ -108,7 +108,7 @@ public class FeeServiceImpl implements FeeService {
             fee.setCode(newCode);
 
             Matcher matcher = pattern.matcher(newCode);
-            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee.setFeeNumber(matcher.find() ? Integer.parseInt(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
         } else { // If the new feeCode is not present in the request, then auto generate the code.
             Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
             fee.setFeeNumber(nextFeeNumber);
@@ -123,9 +123,7 @@ public class FeeServiceImpl implements FeeService {
     @Transactional
     public void save(List<Fee> fees) {
 
-        fees.stream().forEach(fee -> {
-            feeValidator.validateAndDefaultNewFee(fee);
-        });
+        fees.forEach(fee -> feeValidator.validateAndDefaultNewFee(fee));
 
         fee2Repository.saveAll(fees);
     }
@@ -152,12 +150,6 @@ public class FeeServiceImpl implements FeeService {
     public Fee getFee(String code) {
         return fee2Repository.findByCodeOrThrow(code);
     }
-
-    @Override
-    public Integer getMaxFeeNumber() {
-        return getMaxFeeNumber();
-    }
-
 
     public FeeLookupResponseDto lookup(LookupFeeDto dto) {
 
@@ -189,7 +181,7 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
-    /** Magic method that "googles" fees */
+    /* Magic method that "googles" fees */
     public List<Fee> search(LookupFeeDto dto) {
 
         return fee2Repository
@@ -298,7 +290,7 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
-    /** Validation for pre-save fees */
+    /* Validation for pre-save fees */
     public void prevalidate(Fee fee) {
 
         if (feeValidator.isExistingFee(fee)) {
