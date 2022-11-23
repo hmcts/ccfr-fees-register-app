@@ -121,7 +121,7 @@ public class FeeDataUtils {
 
     public static FixedFeeDto getCreateFixedFeeRequest1() {
         return fixedFeeDtoWith()
-            .channel("default")
+            .channel("dummy")
             .event("issue")
             .jurisdiction1("civil")
             .jurisdiction2("county court")

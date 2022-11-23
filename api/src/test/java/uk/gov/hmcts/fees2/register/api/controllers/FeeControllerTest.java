@@ -334,6 +334,15 @@ public class FeeControllerTest extends BaseIntegrationTest {
         forceDeleteFee(arr[3]);
     }
 
+    @Test
+    public void whenInvalidChannelTypeThenThrowReferenceDataNotFoundException() throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest1();
+        restActions
+                .withUser("admin")
+                .post("/fees-register/fixed-fees", fixedFeeDto)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.cause", is("\"dummy\" is not a valid value for ChannelType")));
+    }
 
     @Test
     @Transactional
