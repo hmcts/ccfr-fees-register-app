@@ -22,22 +22,24 @@ public class FeesControllerAdvice {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeesControllerAdvice.class);
 
+    private static final String CAUSE = "cause";
+
     @ExceptionHandler({BadRequestException.class})
     public ResponseEntity<Map<String,String>> badRequest(BadRequestException e){
-        LOG.error("Bad request: " + e.getMessage());
-        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.BAD_REQUEST);
+        LOG.error("Bad request: {}", e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap(CAUSE, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({ConflictException.class})
     public ResponseEntity<Map<String,String>> conflict(ConflictException e){
-        LOG.error("Conflict: " + e.getMessage());
-        return new ResponseEntity<>(Collections.singletonMap("cause", e.getMessage()), HttpStatus.CONFLICT);
+        LOG.error("Conflict: {}", e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap(CAUSE, e.getMessage()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler({ReferenceDataNotFoundException.class})
     public ResponseEntity<Map<String,String>> referenceDataNotFound(ReferenceDataNotFoundException e){
-        LOG.error(e.toString());
-        return new ResponseEntity<>(Collections.singletonMap("cause", "\"" + e.getIdValue() + "\" is not a valid value for " + e.getIdName()), HttpStatus.BAD_REQUEST);
+        LOG.error("Reference Data Not Found: {}", e.getMessage());
+        return new ResponseEntity<>(Collections.singletonMap(CAUSE, "\"" + e.getIdValue() + "\" is not a valid value for " + e.getIdName()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({TooManyResultsException.class})

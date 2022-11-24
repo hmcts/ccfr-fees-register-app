@@ -186,13 +186,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .get("/fees-register/fees")
             .andExpect(status().isOk())
-            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
-                assertThat(fee2Dtos).anySatisfy(fee2Dto -> {
-                    assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> {
-                        assertThat(feeVersionDto.getStatus().equals(FeeVersionStatus.approved));
-                    });
-                });
-            }));
+                .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> assertThat(fee2Dtos).anySatisfy(
+                        fee2Dto -> assertThat(fee2Dto.getFeeVersionDtos()).anySatisfy(feeVersionDto -> assertThat(
+                                feeVersionDto.getStatus().toString()
+                                        .equals(FeeVersionStatus.approved.toString()))))));
     }
 
 
@@ -206,14 +203,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .withUser("admin")
             .get("/fees-register/fees?service=civil money claims&jurisdiction1=civil&jurisdiction2=county court&channel=default&event=issue&unspecifiedClaimAmounts=false&feeVersionStatus=approved")
             .andExpect(status().isOk())
-            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
-                fee2Dtos.stream().forEach(f -> {
-                    assertEquals(f.getServiceTypeDto().getName(), "civil money claims");
-                    f.getFeeVersionDtos().stream().forEach(v -> {
-                        assertEquals(v.getStatus(), FeeVersionStatus.approved);
-                    });
-                });
-            }));
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> fee2Dtos.forEach(f -> {
+                assertEquals("civil money claims", f.getServiceTypeDto().getName());
+                f.getFeeVersionDtos().forEach(v -> assertEquals(v.getStatus().toString(), FeeVersionStatus.approved.toString()));
+            })));
 
     }
 
@@ -258,7 +251,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .andExpect(status().isBadRequest())
             .andReturn();
 
-        assertEquals(result.getResponse().getContentAsString(), "{\"cause\":\"Volume cannot be in fractions.\"}");
+        assertEquals("{\"cause\":\"Volume cannot be in fractions.\"}", result.getResponse().getContentAsString());
     }
 
     @Test
@@ -276,7 +269,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
         FeeLookupResponseDto fee = objectMapper.readValue(result.getResponse().getContentAsByteArray(), FeeLookupResponseDto.class);
         assertEquals(fee.getCode(), arr[3]);
-        assertEquals(fee.getDescription(), "Additional copies of the grant representation");
+        assertEquals("Additional copies of the grant representation", fee.getDescription());
         assertEquals(fee.getVersion(), new Integer(1));
         assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
 
@@ -341,6 +334,15 @@ public class FeeControllerTest extends BaseIntegrationTest {
         forceDeleteFee(arr[3]);
     }
 
+    @Test
+    public void whenInvalidChannelTypeThenThrowReferenceDataNotFoundException() throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest1();
+        restActions
+                .withUser("admin")
+                .post("/fees-register/fixed-fees", fixedFeeDto)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.cause", is("\"dummy\" is not a valid value for ChannelType")));
+    }
 
     @Test
     @Transactional
@@ -384,11 +386,11 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    public void createNewFixedFeeWithKeywordTest() throws Exception {
+    public void createNewFixedFeeWithKeywordTest() {
         List<FixedFeeDto> fixedFeeDtos = FeeDataUtils.getCreateFixedFeesWithKeywordRequest();
 
         List<String> feeCodes = new ArrayList<>();
-        fixedFeeDtos.stream()
+        fixedFeeDtos
             .forEach(f -> {
                 try {
                     String header = saveFeeAndCheckStatusIsCreated(f);
@@ -401,11 +403,9 @@ public class FeeControllerTest extends BaseIntegrationTest {
             });
 
         assertNotNull(feeCodes);
-        assertEquals(feeCodes.size(),2);
+        assertEquals(2, feeCodes.size());
 
-        feeCodes.stream().forEach(f -> {
-            forceDeleteFee(f);
-        });
+        feeCodes.forEach(this::forceDeleteFee);
     }
 
     @Test
@@ -841,7 +841,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         restActions
             .withUser("admin")
             .get("/fees-register/approvedFees")
-            //.andExpect(status().isOk())
+            .andExpect(status().isOk())
             .andReturn();
     }
 

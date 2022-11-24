@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
-import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.exceptions.ForbiddenException;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -41,8 +40,6 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -475,11 +472,6 @@ public class FeeController {
             if (fee2Dto.getCurrentVersion().getFlatAmount() != null) {
                 fee2Dto.setAmountType("FLAT");
             } else {
-                FlatAmountDto flatAmountDto = new FlatAmountDto();
-                /*if(fee2Dto.getCurrentVersion().getVolumeAmount()!=null) {
-                    flatAmountDto.setAmount(fee2Dto.getCurrentVersion().getVolumeAmount().getAmount());
-                    fee2Dto.getCurrentVersion().setFlatAmount(flatAmountDto);
-                }*/
                 fee2Dto.setAmountType("VOLUME");
             }
 

@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toList;
  * @author Tarun Palisetty
  */
 
-@Api(value = "ReferenceData", description = "Operations pertaining to fees reference data")
+@Api(value = "ReferenceData")
 @RestController
 @Validated
 public class ReferenceDataController {
