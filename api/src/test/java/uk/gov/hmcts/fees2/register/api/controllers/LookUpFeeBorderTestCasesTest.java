@@ -124,14 +124,14 @@ public class LookUpFeeBorderTestCasesTest extends BaseIntegrationTest {
         version.setStatus(FeeVersionStatusDto.approved);
 
         saveFeeAndCheckStatusIsCreated(new RangedFeeDto()
-            .setService("divorce")
-            .setEvent("issue")
-            .setJurisdiction1("family")
-            .setJurisdiction2("high court")
-            .setCode(code)
-            .setMinRange(minRange)
-            .setMaxRange(maxRange)
-            .setVersion(version));
+                .setService("divorce")
+                .setEvent("issue")
+                .setJurisdiction1("family")
+                .setJurisdiction2("high court")
+                .setCode(code)
+                .setMinRange(minRange)
+                .setMaxRange(maxRange)
+                .setVersion(version));
 
     }
 
