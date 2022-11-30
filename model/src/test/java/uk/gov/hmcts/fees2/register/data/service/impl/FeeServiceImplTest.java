@@ -144,22 +144,6 @@ public class FeeServiceImplTest {
     }
 
     @Test
-    public void testSaveLoaderFeeNullFeeNumber() {
-
-        Optional<Fee> fee = Optional.of(getFixedFee("FEE0001"));
-
-        when(fee2Repository.findByCode(anyString())).thenReturn(fee);
-        when(fee2Repository.getMaxFeeNumber()).thenReturn(100);
-
-        Fee fee1 = getFixedFee("FEE0001");
-        fee1.setFeeNumber(null);
-        feeService.saveLoaderFee(fee1);
-
-        verify(fee2Repository, times(1)).findByCode("FEE0001");
-
-    }
-
-    @Test
     public void testSaveLoaderFeeWithNullFeeCode() {
 
         Optional<Fee> fee = Optional.of(getFixedFee("FEE0001"));
@@ -209,6 +193,17 @@ public class FeeServiceImplTest {
 
         verify(fee2Repository, times(1)).save(fee);
 
+    }
+
+    @Test
+    public void testSaveNullFeeNumber() {
+
+        Fee fee = getFixedFee("FEE0001");
+        fee.setFeeNumber(null);
+
+        feeService.save(fee);
+
+        verify(fee2Repository, times(1)).save(fee);
     }
 
     private Fee getFixedFee(final String code) {
