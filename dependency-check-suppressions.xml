@@ -144,8 +144,8 @@
     </suppress>
     <suppress until="2022-12-31">
         <notes>
-          In FasterXML jackson-databind before 2.14.0-rc1, resource exhaustion can occur because of a lack of a check in 
-          primitive value deserializers to avoid deep wrapper array nesting, 
+          In FasterXML jackson-databind before 2.14.0-rc1, resource exhaustion can occur because of a lack of a check in
+          primitive value deserializers to avoid deep wrapper array nesting,
           when the UNWRAP_SINGLE_VALUE_ARRAYS feature is enabled
         </notes>
         <cve>CVE-2022-42003</cve>
@@ -156,6 +156,12 @@
           This apache commons text cve issue is in re-analysis and hence suppressing.
         </notes>
         <cve>CVE-2022-42889</cve>
+    </suppress>
+    <suppress until="2022-12-31">
+        <notes>
+            Postgres jdbc vulnerability is not resolved by the most recent patch 42.4.3 and is being supressed until a newer version is available.
+        </notes>
+        <cve>CVE-2022-41946</cve>
     </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
