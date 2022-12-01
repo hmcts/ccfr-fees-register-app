@@ -509,47 +509,6 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    public void get_lookup_for_cmc_hearing_FEE0506() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "counter-claim")
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0506");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 200000.01 GBP or more");
-                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
-            });
-    }
-
-    @Test
-    public void get_lookup_for_cmc_counter_claim_FEE0507() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeywordAndAmountorVolume("civil money claims",
-                "civil", "county court", "default", "issue", "counter-claim", 100)
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0507");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value");
-                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            });
-    }
-
-    @Test
-    public void get_lookup_for_cmc_counter_claim_FEE0508() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "counter-claim")
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0508");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - 5000.01 up to 10000 GBP");
-                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("455.00");
-            });
-    }
-
-    @Test
     public void get_lookup_for_cmc_no_range_FEE0001() throws IOException {
 
             scenario.given()
@@ -563,31 +522,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             });
     }
 
-    @Test
-    public void get_lookup_for_cmc_no_range_FEE0515() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "counter-claim")
-            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
-                Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0515");
-                Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Counter Claim - Unspecified");
-                Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-                Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("10000.00");
-            });
-    }
-
     //Negative tests
-
-    @Test
-    @Ignore
-    public void negative_get_lookup_for_cmc_counter_claim_FEE0507_no_amount_or_volume() throws IOException {
-
-        scenario.given()
-            .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "counter-claim")
-            .then().badRequest();
-    }
 
     @Test
     public void negative_get_lookup_for_cmc_hearing_FEE0183_fee_too_low() throws IOException {
