@@ -734,7 +734,7 @@
       "event":"issue",
       "unspecified_claim_amount":false,
       "applicant_type": "all",
-      "keyword": "CMCCounterAbove200k"
+      "keyword": "counter-claim"
     },
     {
       "code":"K0055",
@@ -763,7 +763,7 @@
       "event":"issue",
       "unspecified_claim_amount":false,
       "applicant_type": "all",
-      "keyword": "CMCCounterUpTo200k"
+      "keyword": "counter-claim"
     },
     {
       "code":"K0056",
@@ -792,7 +792,7 @@
       "event":"issue",
       "unspecified_claim_amount":false,
       "applicant_type": "all",
-      "keyword": "CMCCounterUpTo10k"
+      "keyword": "counter-claim"
     },
     {
       "code":"K0057",
@@ -821,7 +821,7 @@
       "event":"issue",
       "unspecified_claim_amount": false,
       "applicant_type": "all",
-      "keyword": "CMCCounterUnspecified"
+      "keyword": "counter-claim"
     },
     {
       "min_range": 0,
