@@ -595,6 +595,16 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     }
 
     @Test
+    public void negative_get_lookup_for_cmc_FEE0207_fee_too_high() throws IOException {
+
+        scenario.given()
+            .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
+                "civil", "county court", "default", "issue",
+                5000.01, "MoneyClaim")
+            .then().notFound();
+    }
+
+    @Test
     public void negative_get_lookup_for_cmc_FEE0208_fee_too_high() throws IOException {
 
         scenario.given()
