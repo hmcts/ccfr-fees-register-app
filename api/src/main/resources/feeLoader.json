@@ -56,7 +56,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "min_range": 300.01,
@@ -83,7 +84,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
 
     },
     {
@@ -111,7 +113,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "min_range": 1000.01,
@@ -138,7 +141,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "min_range": 1500.01,
@@ -165,7 +169,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "min_range": 3000.01,
@@ -192,7 +197,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "min_range": 5000.01,
@@ -202,7 +208,7 @@
       "version": {
         "version": 3,
         "valid_from" : "2015-03-09T00:00:00.000Z",
-        "description": "Civil Court fees - Money Claims - Claim Amount - 5000.01 up to 10000 GBP",
+        "description": "Money Claims - Claim Amount - 5000.01 up to 10000 GBP",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim £5,000.01-10,000",
         "natural_account_code":"4481102133",
@@ -217,7 +223,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "min_range": 10000.01,
@@ -227,7 +234,7 @@
       "version": {
         "version": 1,
         "valid_from" : "2015-03-09T00:00:00.000Z",
-        "description": "Civil Court fees - Money Claims - Claim Amount - 10000.01 up to 200000 GBP.",
+        "description": "Money Claims - Claim Amount - 10000.01 up to 200000 GBP. FEE AMOUNT = 5% of claim value",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim £10,000.01-200,000",
         "natural_account_code":"4481102133",
@@ -242,7 +249,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "min_range": 200000.01,
@@ -251,7 +259,7 @@
       "version": {
         "version": 3,
         "valid_from" : "2015-03-09T00:00:00.000Z",
-        "description": "Civil Court fees - Money Claims - Claim Amount - 200000.01 GBP or more",
+        "description": "Money Claims - Claim Amount - 200000.01 GBP or more",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim >£200,000",
         "natural_account_code":"4481102133",
@@ -266,7 +274,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "issue",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "min_range": 0.01,
@@ -539,7 +548,7 @@
         "version": 1,
         "new_version": 4,
         "valid_from": "2017-03-06T00:00:00.511Z",
-        "description": "Hearing fee: Small claims case (does not exceed £300)",
+        "description": "Hearing fee: Small claims case (does not exceed 300 GBP)",
         "status": "approved",
         "direction": "enhanced",
         "statutory_instrument": "2016 No 1191",
@@ -555,7 +564,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingSmallClaims"
     },
     {
       "min_range": 300.01,
@@ -566,7 +576,7 @@
         "version": 1,
         "new_version": 4,
         "valid_from": "2017-03-06T00:00:00.511Z",
-        "description": "Hearing fee: Small claims case (exceeds £300 but not £500)",
+        "description": "Hearing fee: Small claims case (exceeds 300 but not 500 GBP)",
         "status": "approved",
         "direction": "enhanced",
         "statutory_instrument": "2016 No 1191",
@@ -582,7 +592,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingSmallClaims"
     },
     {
       "min_range": 500.01,
@@ -609,7 +620,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingSmallClaims"
     },
     {
       "min_range": 1000.01,
@@ -620,7 +632,7 @@
         "version": 1,
         "new_version": 4,
         "valid_from": "2017-03-06T00:00:00.511Z",
-        "description": "Hearing fee: Small claims case (exceeds £1,000 but not £1,500)",
+        "description": "Hearing fee: Small claims case (exceeds 1000 but not 1500 GBP)",
         "status": "approved",
         "direction": "enhanced",
         "statutory_instrument": "2016 No 1191",
@@ -636,7 +648,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingSmallClaims"
     },
     {
       "min_range": 1500.01,
@@ -663,7 +676,8 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingSmallClaims"
     },
     {
       "min_range": 3000.01,
@@ -674,7 +688,7 @@
         "version": 1,
         "new_version": 4,
         "valid_from": "2017-03-06T00:00:00.511Z",
-        "description": "Hearing fee: Small claims case (exceeds £3,000)",
+        "description": "Hearing fee: Small claims case (exceeds 3000 GBP)",
         "status": "approved",
         "direction": "enhanced",
         "statutory_instrument": "2016 No 1191",
@@ -690,7 +704,124 @@
       "service": "civil money claims",
       "channel": "default",
       "event": "hearing",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "HearingSmallClaims"
+    },
+    {
+      "code":"K0054",
+      "new_code": "FEE0506",
+      "version":{
+        "version":2,
+        "valid_from":"2014-04-22T00:00:00.000+00:00",
+        "valid_to":null,
+        "description":"Counter Claim - 200000.01 GBP or more",
+        "status":"approved",
+        "direction":"enhanced",
+        "memo_line":"RECEIPT OF FEES - Civil issue money",
+        "last_amending_si":"The Civil Proceedings and Family Proceedings Fees (Amendment) Order 2015",
+        "consolidated_fee_order_name": "Civil Proceedings Fees Order 2008",
+        "natural_account_code":"4481102133",
+        "statutory_instrument":"2015 No 576",
+        "si_ref_id":"1.7",
+        "flat_amount":{
+          "amount":10000
+        }
+      },
+      "jurisdiction1":"Civil",
+      "jurisdiction2":"county court",
+      "service":"Civil Money Claims",
+      "channel":"DEFAULT",
+      "event":"issue",
+      "unspecified_claim_amount":false,
+      "applicant_type": "all",
+      "keyword": "CMCCounterAbove200k"
+    },
+    {
+      "code":"K0055",
+      "new_code": "FEE0507",
+      "version":{
+        "version":4,
+        "valid_from":"2014-04-22T00:00:00.000+00:00",
+        "valid_to":null,
+        "description":"Counter Claim - 10000.01 up to 200000 GBP - 5% of claim value",
+        "status":"approved",
+        "direction":"enhanced",
+        "memo_line":"RECEIPT OF FEES - Civil issue money",
+        "last_amending_si":"The Civil Proceedings and Family Proceedings Fees (Amendment) Order 2015",
+        "consolidated_fee_order_name": "Civil Proceedings Fees Order 2008",
+        "natural_account_code":"4481102133",
+        "statutory_instrument":"2015 No 576",
+        "si_ref_id":"1.7",
+        "percentage_amount": {
+          "percentage": 0.05
+        }
+      },
+      "jurisdiction1":"Civil",
+      "jurisdiction2":"county court",
+      "service":"Civil Money Claims",
+      "channel":"DEFAULT",
+      "event":"issue",
+      "unspecified_claim_amount":false,
+      "applicant_type": "all",
+      "keyword": "CMCCounterUpTo200k"
+    },
+    {
+      "code":"K0056",
+      "new_code": "FEE0508",
+      "version":{
+        "version":2,
+        "valid_from":"2014-04-22T00:00:00.000+00:00",
+        "valid_to":null,
+        "description":"Counter Claim - 5000.01 up to 10000 GBP",
+        "status":"approved",
+        "direction":"enhanced",
+        "memo_line":"RECEIPT OF FEES - Civil issue money",
+        "last_amending_si":"The Civil Proceedings and Family Proceedings Fees (Amendment) Order 2015",
+        "consolidated_fee_order_name": "Civil Proceedings Fees Order 2008",
+        "natural_account_code":"4481102133",
+        "statutory_instrument":"2015 No 576",
+        "si_ref_id":"1.7",
+        "flat_amount":{
+          "amount":455
+        }
+      },
+      "jurisdiction1":"Civil",
+      "jurisdiction2":"county court",
+      "service":"Civil Money Claims",
+      "channel":"DEFAULT",
+      "event":"issue",
+      "unspecified_claim_amount":false,
+      "applicant_type": "all",
+      "keyword": "CMCCounterUpTo10k"
+    },
+    {
+      "code":"K0057",
+      "new_code": "FEE0515",
+      "version":{
+        "version":2,
+        "valid_from":"2014-04-22T00:00:00.000+00:00",
+        "valid_to":null,
+        "description":"Counter Claim - Unspecified",
+        "status":"approved",
+        "direction":"enhanced",
+        "memo_line":"RECEIPT OF FEES - Civil issue money",
+        "last_amending_si":"The Civil Proceedings and Family Proceedings Fees (Amendment) Order 2015",
+        "consolidated_fee_order_name": "Civil Proceedings Fees Order 2008",
+        "natural_account_code":"4481102133",
+        "statutory_instrument":"2015 No 576",
+        "si_ref_id":"1.7",
+        "flat_amount":{
+          "amount":10000
+        }
+      },
+      "jurisdiction1":"Civil",
+      "jurisdiction2":"county court",
+      "service":"Civil Money Claims",
+      "channel":"DEFAULT",
+      "event":"issue",
+      "unspecified_claim_amount": false,
+      "applicant_type": "all",
+      "keyword": "CMCCounterUnspecified"
     },
     {
       "min_range": 0,
@@ -1122,7 +1253,7 @@
       "version": {
         "version": 1,
         "valid_from" : "2014-04-22T00:00:00.000Z",
-        "description": "Civil Court fees - Money Claims - Claim Amount - Unspecified",
+        "description": "Money Claims - Claim Amount - Unspecified",
         "status": "approved",
         "memo_line":"GOV - Paper fees - Money claim >£200,000",
         "natural_account_code":"4481102133",
@@ -1137,7 +1268,8 @@
       "channel": "default",
       "event": "issue",
       "unspecified_claim_amount": "true",
-      "applicant_type": "all"
+      "applicant_type": "all",
+      "keyword": "MoneyClaim"
     },
     {
       "code": "X0165",
