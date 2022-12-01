@@ -531,7 +531,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
                 0.01, "HearingSmallClaims")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0183");
+            });
     }
 
     @Test
@@ -541,7 +543,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 300.01, "MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0202");
+            });
     }
 
     @Test
@@ -551,7 +555,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 300, "MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0203");
+            });
     }
 
     @Test
@@ -561,7 +567,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 10000.01, "MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0204");
+            });
     }
 
     @Test
@@ -571,7 +579,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 1000, "MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0205");
+            });
     }
 
     @Test
@@ -581,7 +591,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 3000.01,"MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0206");
+            });
     }
 
     @Test
@@ -591,7 +603,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 3000, "MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0207");
+            });
     }
 
     @Test
@@ -601,7 +615,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 5000.01, "MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0207");
+            });
     }
 
     @Test
@@ -611,7 +627,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 10000.01,"MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0208");
+            });
     }
 
     @Test
@@ -621,7 +639,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 10000, "MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0209");
+            });
     }
 
     @Test
@@ -631,7 +651,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
                 0.01, "MoneyClaim")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0210");
+            });
     }
 
     @Test
@@ -641,7 +663,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
                 300.01, "HearingSmallClaims")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0221");
+            });
     }
 
     @Test
@@ -651,7 +675,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
                 500.01, "HearingSmallClaims")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0222");
+            });
     }
 
     @Test
@@ -661,7 +687,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
                 1000, "HearingSmallClaims")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0223");
+            });
     }
 
     @Test
@@ -671,7 +699,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
                 3000.01, "HearingSmallClaims")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0224");
+            });
     }
 
     @Test
@@ -681,7 +711,9 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
                 3000, "HearingSmallClaims")
-            .then().notFound();
+            .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+                Assertions.assertThat(FeeLookupResponseDto.getCode()).isNotEqualTo("FEE0225");
+            });
     }
 
     @Test
