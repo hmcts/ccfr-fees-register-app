@@ -585,7 +585,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAndKeyword("civil money claims",
-                "civil", "county court", "default", "issue", "CMCCounterUpTo200k")
+                "civil", "county court", "default", "issue", "counter-claim")
             .then().badRequest();
     }
 
@@ -595,7 +595,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
-                0.01, "HearingFeeUpTo1000")
+                0.01, "HearingSmallClaims")
             .then().notFound();
     }
 
@@ -605,7 +605,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                300.01, "PaperClaimUpTo300")
+                300.01, "MoneyClaim")
             .then().notFound();
     }
 
@@ -615,7 +615,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                300, "PaperClaimUpTo500")
+                300, "MoneyClaim")
             .then().notFound();
     }
 
@@ -625,7 +625,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                10000.01, "PaperClaimUpTo1000")
+                10000.01, "MoneyClaim")
             .then().notFound();
     }
 
@@ -635,7 +635,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                1000, "PaperClaimUpTo1500")
+                1000, "MoneyClaim")
             .then().notFound();
     }
 
@@ -645,7 +645,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                3000.01,"PaperClaimUpTo3k")
+                3000.01,"MoneyClaim")
             .then().notFound();
     }
 
@@ -655,7 +655,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                3000, "PaperClaimUpTo5k")
+                3000, "MoneyClaim")
             .then().notFound();
     }
 
@@ -665,7 +665,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                10000.01,"PaperClaimUpTo10k")
+                10000.01,"MoneyClaim")
             .then().notFound();
     }
 
@@ -675,7 +675,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                10000, "PaperClaimUpTo200k")
+                10000, "MoneyClaim")
             .then().notFound();
     }
 
@@ -685,7 +685,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "issue",
-                0.01, "PaperClaimAbove200k")
+                0.01, "MoneyClaim")
             .then().notFound();
     }
 
@@ -695,7 +695,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
-                300.01, "HearingFeeUpTo300")
+                300.01, "HearingSmallClaims")
             .then().notFound();
     }
 
@@ -705,7 +705,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
-                500.01, "HearingFeeUpTo500")
+                500.01, "HearingSmallClaims")
             .then().notFound();
     }
 
@@ -715,7 +715,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
-                1000, "HearingFeeUpTo1500")
+                1000, "HearingSmallClaims")
             .then().notFound();
     }
 
@@ -725,7 +725,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
-                3000.01, "HearingFeeUpTo3k")
+                3000.01, "HearingSmallClaims")
             .then().notFound();
     }
 
@@ -735,7 +735,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
                 "civil", "county court", "default", "hearing",
-                3000, "HearingFeeAbove3k")
+                3000, "HearingSmallClaims")
             .then().notFound();
     }
 
