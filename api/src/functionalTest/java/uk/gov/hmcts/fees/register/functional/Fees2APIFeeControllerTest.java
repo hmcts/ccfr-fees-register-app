@@ -308,7 +308,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForCMCResponseWithMandatoryFieldsAmountAndKeyword("civil money claims",
             "civil", "county court", "default", "issue",
-            100999, "PaperClaimUpTo200k")
+            100999, "MoneyClaim")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0209");
             Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Money Claims - Claim Amount - 10000.01 up to 200000 GBP. FEE AMOUNT = 5% of claim value");
