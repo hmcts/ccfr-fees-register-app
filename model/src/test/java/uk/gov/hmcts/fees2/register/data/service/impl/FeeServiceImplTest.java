@@ -133,7 +133,8 @@ public class FeeServiceImplTest {
 
         Optional<Fee> fee = Optional.of(getFixedFee("FEE0001"));
 
-        when(fee2Repository.findByCode(anyString())).thenReturn(fee);
+        Optional<Fee> foundFee = Optional.empty();
+        when(fee2Repository.findByCode(anyString())).thenReturn(foundFee);
         when(fee2Repository.getMaxFeeNumber()).thenReturn(100);
 
         Fee fee1 = getFixedFee("FEE0001");
