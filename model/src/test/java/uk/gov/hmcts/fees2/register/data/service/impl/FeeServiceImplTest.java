@@ -115,6 +115,17 @@ public class FeeServiceImplTest {
     }
 
     @Test
+    public void testUpdateLoaderFeeMatcherFalse() {
+
+        when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(getFixedFee("FEEFEEE"));
+
+        Fee fee = getFixedFee("FEEFEEE");
+        feeService.updateLoaderFee(fee, "FEEFEEE");
+
+        verify(fee2Repository, times(1)).findByCodeOrThrow("FEEFEEE");
+    }
+
+    @Test
     public void testUpdateLoaderFeeNewCodeNull() {
 
         when(fee2Repository.findByCodeOrThrow(anyString())).thenReturn(getFixedFee("FEE0001"));
