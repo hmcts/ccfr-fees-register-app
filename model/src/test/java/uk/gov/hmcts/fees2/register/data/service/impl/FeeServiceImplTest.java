@@ -171,6 +171,21 @@ public class FeeServiceImplTest {
     }
 
     @Test
+    public void testSaveLoaderFeeMatcherFalse() {
+
+        Optional<Fee> fee = Optional.of(getFixedFee("FEEFEEE"));
+
+        Optional<Fee> foundFee = Optional.empty();
+        when(fee2Repository.findByCode(anyString())).thenReturn(foundFee);
+        when(fee2Repository.getMaxFeeNumber()).thenReturn(100);
+
+        Fee fee1 = getFixedFee("FEEFEEE");
+        feeService.saveLoaderFee(fee1);
+
+        verify(fee2Repository, times(1)).findByCode("FEEFEEE");
+    }
+
+    @Test
     public void testSave() {
 
         List<Fee> fees = new ArrayList<>();
