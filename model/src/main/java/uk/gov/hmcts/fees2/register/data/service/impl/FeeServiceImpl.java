@@ -86,7 +86,7 @@ public class FeeServiceImpl implements FeeService {
             feeValidator.validateAndDefaultNewFee(fee);
 
             Matcher matcher = pattern.matcher(fee.getCode());
-            fee.setFeeNumber(matcher.find() ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee.setFeeNumber(matcher.find() ? Integer.parseInt(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
             fee2Repository.save(fee);
         }
     }
@@ -108,7 +108,7 @@ public class FeeServiceImpl implements FeeService {
             fee.setCode(newCode);
 
             Matcher matcher = pattern.matcher(newCode);
-            fee.setFeeNumber(matcher.find() == true ? new Integer(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
+            fee.setFeeNumber(matcher.find() ? Integer.parseInt(matcher.group(2)) : fee2Repository.getMaxFeeNumber() + 1);
         } else { // If the new feeCode is not present in the request, then auto generate the code.
             Integer nextFeeNumber = fee2Repository.getMaxFeeNumber() + 1;
             fee.setFeeNumber(nextFeeNumber);
