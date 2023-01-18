@@ -32,56 +32,7 @@ data "azurerm_key_vault" "freg_key_vault" {
   resource_group_name = local.freg_key_vault
 }
 
-resource "azurerm_key_vault_secret" "freg-idam-client-secret" {
-  name  = "freg-idam-client-secret"
-  value = data.azurerm_key_vault_secret.freg-idam-client-secret.value
-  key_vault_id = data.azurerm_key_vault.fees_key_vault.id
-}
-data "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
-  name = "AppInsightsInstrumentationKey"
-  key_vault_id = data.azurerm_key_vault.payment_key_vault.id
-}
 
-data "azurerm_key_vault" "payment_key_vault" {
-  name = local.core_product_vaultName
-  resource_group_name = join("-", ["ccpay", var.env])
-}
-
-//copy below secrets from payment app
-resource "azurerm_key_vault_secret" "appinsights_instrumentation_key" {
-  name  = "AppInsightsInstrumentationKey"
-  value = data.azurerm_key_vault_secret.appinsights_instrumentation_key.value
-  key_vault_id = data.azurerm_key_vault.fees_key_vault.id
-}
-
-
-//copy below secrets from payment app for functional tests
-data "azurerm_key_vault_secret" "freg-idam-test-user-password" {
-  name = "freg-idam-test-user-password"
-  key_vault_id = data.azurerm_key_vault.payment_key_vault.id
-}
-
-resource "azurerm_key_vault_secret" "freg-idam-test-user-password" {
-  name  = "freg-idam-test-user-password"
-  value = data.azurerm_key_vault_secret.freg-idam-test-user-password.value
-  key_vault_id = data.azurerm_key_vault.fees_key_vault.id
-}
-
-data "azurerm_key_vault_secret" "freg-idam-generated-user-email-pattern" {
-  name = "freg-idam-generated-user-email-pattern"
-  key_vault_id = data.azurerm_key_vault.payment_key_vault.id
-}
-
-resource "azurerm_key_vault_secret" "freg-idam-generated-user-email-pattern" {
-  name  = "freg-idam-generated-user-email-pattern"
-  value = data.azurerm_key_vault_secret.freg-idam-generated-user-email-pattern.value
-  key_vault_id = data.azurerm_key_vault.fees_key_vault.id
-}
-
-data "azurerm_key_vault_secret" "freg-idam-client-secret" {
-  name = "freg-idam-client-secret"
-  key_vault_id = data.azurerm_key_vault.payment_key_vault.id
-}
 module "fees-register-database-v11" {
   source             = "git@github.com:hmcts/cnp-module-postgres?ref=master"
   product            = var.product
