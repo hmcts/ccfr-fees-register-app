@@ -59,7 +59,7 @@ resource "azurerm_api_management_subscription" "feeregistersubscription" {
   api_management_name = local.api_mgmt_name
   resource_group_name = local.api_mgmt_rg
   user_id             = azurerm_api_management_user.user_payment.id
-  product_id          = module.api_mgmt_product.product_id
+  product_id          = module.ccpay-feeregister-product-core.product_id
   display_name        = "FeeRegistersubscription"
   state               = "active"
 
