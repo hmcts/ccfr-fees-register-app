@@ -42,7 +42,7 @@ withNightlyPipeline("java", product, component) {
     enableFortifyScan()
     enableFullFunctionalTest()
 
-    after('fullFunctionalTest') {
+    afterAlways('fullFunctionalTest') {
         publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -54,7 +54,7 @@ withNightlyPipeline("java", product, component) {
 
     }
 
-    after('fortify-scan') {
+    afterAlways('fortify-scan') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }
 
