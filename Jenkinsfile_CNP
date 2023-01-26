@@ -59,7 +59,7 @@ withPipeline(type, product, app) {
 
 
 
-    after('functionalTest:aat') {
+    afterAlways('functionalTest:aat') {
         publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -71,7 +71,7 @@ withPipeline(type, product, app) {
 
     }
 
-    after('functionalTest:preview') {
+    afterAlways('functionalTest:preview') {
         publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
