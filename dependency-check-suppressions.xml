@@ -47,5 +47,11 @@
         <cve>CVE-2022-22978</cve>
         <cve>CVE-2022-22976</cve>
     </suppress>
+    <suppress until="2023-06-30">
+        <notes>
+            logback-classic and core needs major version latest 1.2.11. not resolving current CVE issue.
+        </notes>
+        <cve>CVE-2021-42550</cve>
+    </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
