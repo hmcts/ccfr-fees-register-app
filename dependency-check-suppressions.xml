@@ -28,5 +28,24 @@
         <cve>CVE-2022-31197</cve>
         <cve>CVE-2022-41946</cve>
     </suppress>
+    <suppress until="2023-06-30">
+        <notes>
+            Handlebars core needs major version latest 4.2.1 not resolving current CVE issue.
+        </notes>
+        <cve>CVE-2022-42889</cve>
+    </suppress>
+    <suppress until="2023-06-30">
+        <notes>
+            liquibase-core core needs major version latest 4.2.2. not resolving current CVE issue.
+        </notes>
+        <cve>CVE-2022-0839</cve>
+    </suppress>
+    <suppress until="2023-06-30">
+        <notes>
+            spring-security-config, crypto and web needs major version latest 5.4.11. not resolving current CVE issue.
+        </notes>
+        <cve>CVE-2022-22978</cve>
+        <cve>CVE-2022-22976</cve>
+    </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
