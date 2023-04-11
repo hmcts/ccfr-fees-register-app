@@ -6,14 +6,14 @@
         </notes>
         <cve>CVE-2022-1471</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             Jackson core needs major version latest 2.12.7  not resolving current CVE issue. Same applies to json-path version 2.4.0.
             Same applies to json-smart version 2.4.10
         </notes>
         <cve>CVE-2022-45688</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             Jackson-databind version 2.12.7.1 in combination with postgres has interface changes in DBUtils that cause unit tests to fail.
         </notes>
@@ -21,26 +21,27 @@
         <cve>CVE-2022-42003</cve>
         <cve>CVE-2022-42004</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             Postgres version 42.4.3 in combination with jackson-databind has interface changes in DBUtils that cause unit tests to fail.
         </notes>
         <cve>CVE-2022-31197</cve>
         <cve>CVE-2022-41946</cve>
     </suppress>
-    <suppress until="2023-06-30">
+
+    <suppress until="2023-07-30">
         <notes>
             Handlebars core needs major version latest 4.2.1 not resolving current CVE issue.
         </notes>
         <cve>CVE-2022-42889</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             liquibase-core core needs major version latest 4.2.2. not resolving current CVE issue.
         </notes>
         <cve>CVE-2022-0839</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             spring-security-config, crypto and web needs major version latest 5.4.11. not resolving current CVE issue.
         </notes>
@@ -48,17 +49,27 @@
         <cve>CVE-2022-22976</cve>
         <cve>CVE-2023-20861</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             logback-classic and core needs major version latest 1.2.11. not resolving current CVE issue.
         </notes>
         <cve>CVE-2021-42550</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             Upgrading tomcat causes unhealthy pipeline error.
         </notes>
         <cve>CVE-2023-28708</cve>
+    </suppress>
+    <suppress until="2023-03-31">
+        <notes>
+            Spring 5.2.15 cves
+        </notes>
+        <cve>CVE-2021-22060</cve>
+        <cve>CVE-2021-22096</cve>
+        <cve>CVE-2022-22978</cve>
+        <cve>CVE-2021-22119</cve>
+        <cve>CVE-2022-22976</cve>
     </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
