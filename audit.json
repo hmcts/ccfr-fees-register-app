@@ -8,5 +8,7 @@
   "10096_Timestamp Disclosure - Unix_http://fees-register-api-aat.service.core-compute-aat.internal/robots.txt_GET":"ignore",
   "10096_Timestamp Disclosure - Unix_http://fees-register-api-aat.service.core-compute-aat.internal/sitemap.xml_GET":"ignore",
   "10096_Timestamp Disclosure - Unix_http://fees-register-api-aat.service.core-compute-aat.internal/_GET":"ignore",
-  "10096_Timestamp Disclosure - Unix_http://fees-register-api-aat.service.core-compute-aat.internal_GET":"ignore"
+  "10096_Timestamp Disclosure - Unix_http://fees-register-api-aat.service.core-compute-aat.internal_GET":"ignore",
+  "90022_Application Error Disclosure_http://fees-register-api-aat.service.core-compute-aat.internal/v2/api-docs_GET":"ignore",
+  "90022_Application Error Disclosure_http://fees-register-api-aat.service.core-compute-aat.internal_GET":"ignore"
 }
