@@ -21,7 +21,7 @@ public class FeesDateUtilTest {
     @Before
     public void setUp() throws ParseException {
         final String startString = "January 10, 2021";
-        DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+        final DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
         date = format.parse(startString);
     }
 
