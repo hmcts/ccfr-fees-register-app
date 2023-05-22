@@ -13,6 +13,16 @@
         </notes>
         <cve>CVE-2022-45688</cve>
     </suppress>
+    <suppress until="2023-08-30">
+        <notes>
+            jackson-databind before 2.13.0 allows a Java StackOverflow exception and denial of service via a large depth of nested objects.
+        </notes>
+        <cve></cve>
+        <cve>CVE-2022-45688</cve>
+        <cve>CVE-2021-46877</cve>
+        <cve>CVE-2022-42003</cve>
+        <cve>CVE-2022-42004</cve>
+    </suppress>
     <suppress until="2023-07-30">
         <notes>
             Handlebars core needs major version latest 4.2.1 not resolving current CVE issue.

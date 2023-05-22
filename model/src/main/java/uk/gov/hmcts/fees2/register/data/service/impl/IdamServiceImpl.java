@@ -23,7 +23,6 @@ import uk.gov.hmcts.fees2.register.data.service.IdamService;
 
 import java.lang.reflect.Array;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class IdamServiceImpl implements IdamService {
