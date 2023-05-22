@@ -87,7 +87,7 @@ public class IdamServiceImpl implements IdamService {
         MultiValueMap<String, String> headerMultiValueMap = new LinkedMultiValueMap<>();
         headerMultiValueMap.put(
                 "Content-Type",
-                headers.get("content-type") == null ? List.of("application/json") : headers.get("content-type")
+                headers.get("content-type") == null ? Collections.singletonList("application/json") : headers.get("content-type")
         );
         String userAuthorization = headers.get("authorization") == null ? headers.get("Authorization").get(0) : headers.get(
                 "authorization").get(0);

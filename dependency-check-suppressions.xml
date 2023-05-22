@@ -15,22 +15,6 @@
     </suppress>
     <suppress until="2023-07-30">
         <notes>
-            Jackson-databind version 2.12.7.1 in combination with postgres has interface changes in DBUtils that cause unit tests to fail.
-        </notes>
-        <cve>CVE-2020-36518</cve>
-        <cve>CVE-2022-42003</cve>
-        <cve>CVE-2022-42004</cve>
-    </suppress>
-    <suppress until="2023-07-30">
-        <notes>
-            Postgres version 42.4.3 in combination with jackson-databind has interface changes in DBUtils that cause unit tests to fail.
-        </notes>
-        <cve>CVE-2022-31197</cve>
-        <cve>CVE-2022-41946</cve>
-    </suppress>
-
-    <suppress until="2023-07-30">
-        <notes>
             Handlebars core needs major version latest 4.2.1 not resolving current CVE issue.
         </notes>
         <cve>CVE-2022-42889</cve>
@@ -76,5 +60,13 @@
         </notes>
         <cve>CVE-2023-20863</cve>
     </suppress>
+    <suppress until="2030-01-01">
+        <notes>The PGJDBC implementation of the `java.sql.ResultRow.refreshRow()` method is not performing escaping of column names so a malicious column name that contains a statement terminator, e.g. `;`, could lead to SQL injection.
+            Note this is fixed in the version of postgresql 42.6.0 but still showing up as an error, so suppressing.
+        </notes>
+        <cve>CVE-2022-41946</cve>
+        <cve>CVE-2022-31197</cve>
+    </suppress>
+
     <!-- Supression group ends here  -->
 </suppressions>
