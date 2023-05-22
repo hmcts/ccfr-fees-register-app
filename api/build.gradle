@@ -69,33 +69,33 @@ sonarqube {
 
 def javaLoggingVersion = '5.1.1'
 dependencies {
-    compile project(':fees-register-model')
-    compile project(':fees-register-api-contract')
-    compile (group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: '2.1.2') {
+    implementation project(':fees-register-model')
+    implementation project(':fees-register-api-contract')
+    implementation (group: 'uk.gov.hmcts.reform.auth', name: 'auth-checker-lib', version: '2.1.2') {
         exclude(module: 'java-logging-spring')
     }
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
-    compile (group: 'org.postgresql', name: 'postgresql', version: '42.6.0') {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'joda-time', name: 'joda-time', version: '2.9.9'
+    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.6.0') {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
-    compile group: 'org.liquibase', name: 'liquibase-core', version: '4.2.1'
-    compile group: 'uk.gov.hmcts.reform', name: 'logging', version: javaLoggingVersion
-    compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: javaLoggingVersion
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.0'
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.0'
-    runtime group: 'org.springframework.boot', name: 'spring-boot-devtools'
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.2.1'
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: javaLoggingVersion
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: javaLoggingVersion
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.0'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.0'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
+    testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
     }
-    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
-    testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
-    testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
-    testCompile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
+    testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
+    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
+    testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
 
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'

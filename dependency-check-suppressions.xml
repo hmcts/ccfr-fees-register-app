@@ -60,5 +60,13 @@
         </notes>
         <cve>CVE-2023-20863</cve>
     </suppress>
+    <suppress until="2030-01-01">
+        <notes>The PGJDBC implementation of the `java.sql.ResultRow.refreshRow()` method is not performing escaping of column names so a malicious column name that contains a statement terminator, e.g. `;`, could lead to SQL injection.
+            Note this is fixed in the version of postgresql 42.6.0 but still showing up as an error, so suppressing.
+        </notes>
+        <cve>CVE-2022-41946</cve>
+        <cve>CVE-2022-31197</cve>
+    </suppress>
+
     <!-- Supression group ends here  -->
 </suppressions>
