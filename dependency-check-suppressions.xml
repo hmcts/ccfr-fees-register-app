@@ -17,7 +17,6 @@
         <notes>
             jackson-databind before 2.13.0 allows a Java StackOverflow exception and denial of service via a large depth of nested objects.
         </notes>
-        <cve></cve>
         <cve>CVE-2022-45688</cve>
         <cve>CVE-2021-46877</cve>
         <cve>CVE-2022-42003</cve>
