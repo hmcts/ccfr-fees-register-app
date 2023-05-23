@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.val;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,7 +75,7 @@ public class FeeVersionController {
             @PathVariable("code") final String code,
             @PathVariable("version") final Integer version,
             @RequestBody @Validated final FeeVersionDto request) {
-        final var feeVersion = feeVersionService.getFeeVersion(code, version);
+        final val feeVersion = feeVersionService.getFeeVersion(code, version);
         feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request, feeVersion));
     }
 
