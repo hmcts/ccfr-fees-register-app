@@ -22,7 +22,8 @@ import uk.gov.hmcts.fees2.register.data.model.IdamUserIdResponse;
 import uk.gov.hmcts.fees2.register.data.service.IdamService;
 
 import java.lang.reflect.Array;
-import java.util.Collections;
+
+import java.util.*;
 
 @Service
 public class IdamServiceImpl implements IdamService {
@@ -86,7 +87,7 @@ public class IdamServiceImpl implements IdamService {
         MultiValueMap<String, String> headerMultiValueMap = new LinkedMultiValueMap<>();
         headerMultiValueMap.put(
                 "Content-Type",
-                headers.get("content-type") == null ? Collections.singletonList("application/json") : headers.get("content-type")
+                headers.get("content-type") == null ? List.of("application/json") : headers.get("content-type")
         );
         String userAuthorization = headers.get("authorization") == null ? headers.get("Authorization").get(0) : headers.get(
                 "authorization").get(0);
