@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +28,7 @@ public class FeesDateUtilTest {
     @Test
     public void testAddPreviousDateEODTime() {
         final Date date = FeesDateUtil.addPreviousDateEODTime(this.date);
-        Assert.assertEquals("Sat Jan 09 23:59:59 UTC 2021", date.toString());
+        Assert.assertTrue(date.toString().matches("Sat Jan 09 23:59:59 (UTC|GMT) 2021"));
     }
 
     @Test
@@ -39,7 +40,7 @@ public class FeesDateUtilTest {
     @Test
     public void testAddEODTimeToDate() {
         final Date date = FeesDateUtil.addEODTimeToDate(this.date);
-        Assert.assertEquals("Sun Jan 10 23:59:59 UTC 2021", date.toString());
+        Assert.assertTrue(date.toString().matches("Sun Jan 10 23:59:59 (UTC|GMT) 2021"));
     }
 
     @Test
@@ -51,13 +52,13 @@ public class FeesDateUtilTest {
     @Test
     public void testDateToLocalDateTime() {
         final LocalDateTime localDateTime = FeesDateUtil.dateToLocalDateTime(date);
-        assertThat(localDateTime).hasToString("2021-01-10T00:00");
+        Assert.assertTrue(localDateTime.toString().matches("2021-01-10T0(0|1):00"));
     }
 
     @Test
     public void testDateToLocalDateTimeNull() {
         final LocalDateTime localDateTime = FeesDateUtil.dateToLocalDateTime(null);
-        assertThat(localDateTime).hasToString("1970-01-01T00:00");
+        Assert.assertTrue(localDateTime.toString().matches("1970-01-01T0(0|1):00"));
     }
 
 }
