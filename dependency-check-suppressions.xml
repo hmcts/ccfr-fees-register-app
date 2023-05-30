@@ -70,13 +70,20 @@
         </notes>
         <cve>CVE-2023-20863</cve>
     </suppress>
-    <suppress until="2030-01-01">
+  
+   <suppress until="2030-01-01">
         <notes>The PGJDBC implementation of the `java.sql.ResultRow.refreshRow()` method is not performing escaping of column names so a malicious column name that contains a statement terminator, e.g. `;`, could lead to SQL injection.
             Note this is fixed in the version of postgresql 42.6.0 but still showing up as an error, so suppressing.
         </notes>
         <cve>CVE-2022-41946</cve>
         <cve>CVE-2022-31197</cve>
     </suppress>
-
+  
+    <suppress>
+        <notes>
+            jackson-databind 2.10.x through 2.12.x before 2.12.6 and 2.13.x before 2.13.1 allows attackers to cause a denial of service (2 GB transient heap usage per read) in uncommon situations involving JsonNode JDK serialization.
+        </notes>
+        <cve>CVE-2021-46877</cve>
+    </suppress>
     <!-- Supression group ends here  -->
 </suppressions>
