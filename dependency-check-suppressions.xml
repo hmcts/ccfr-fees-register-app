@@ -6,52 +6,83 @@
         </notes>
         <cve>CVE-2022-1471</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             Jackson core needs major version latest 2.12.7  not resolving current CVE issue. Same applies to json-path version 2.4.0.
             Same applies to json-smart version 2.4.10
         </notes>
         <cve>CVE-2022-45688</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-08-30">
         <notes>
-            Jackson-databind version 2.12.7.1 in combination with postgres has interface changes in DBUtils that cause unit tests to fail.
+            jackson-databind before 2.13.0 allows a Java StackOverflow exception and denial of service via a large depth of nested objects.
         </notes>
-        <cve>CVE-2020-36518</cve>
+        <cve>CVE-2022-45688</cve>
+        <cve>CVE-2021-46877</cve>
         <cve>CVE-2022-42003</cve>
         <cve>CVE-2022-42004</cve>
+        <cve>CVE-2020-36518</cve>
     </suppress>
-    <suppress until="2023-06-30">
-        <notes>
-            Postgres version 42.4.3 in combination with jackson-databind has interface changes in DBUtils that cause unit tests to fail.
-        </notes>
-        <cve>CVE-2022-31197</cve>
-        <cve>CVE-2022-41946</cve>
-    </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             Handlebars core needs major version latest 4.2.1 not resolving current CVE issue.
         </notes>
         <cve>CVE-2022-42889</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             liquibase-core core needs major version latest 4.2.2. not resolving current CVE issue.
         </notes>
         <cve>CVE-2022-0839</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             spring-security-config, crypto and web needs major version latest 5.4.11. not resolving current CVE issue.
         </notes>
         <cve>CVE-2022-22978</cve>
         <cve>CVE-2022-22976</cve>
+        <cve>CVE-2023-20861</cve>
     </suppress>
-    <suppress until="2023-06-30">
+    <suppress until="2023-07-30">
         <notes>
             logback-classic and core needs major version latest 1.2.11. not resolving current CVE issue.
         </notes>
         <cve>CVE-2021-42550</cve>
     </suppress>
-    <!-- Supression group ends here   -->
+    <suppress until="2023-07-30">
+        <notes>
+            Upgrading tomcat causes unhealthy pipeline error.
+        </notes>
+        <cve>CVE-2023-28708</cve>
+    </suppress>
+    <suppress until="2023-07-31">
+        <notes>
+            Spring 5.2.15 cves
+        </notes>
+        <cve>CVE-2021-22060</cve>
+        <cve>CVE-2021-22096</cve>
+        <cve>CVE-2022-22978</cve>
+        <cve>CVE-2021-22119</cve>
+        <cve>CVE-2022-22976</cve>
+    </suppress>
+    <suppress until="2023-07-31">
+        <notes>In spring framework versions prior to 5.2.24 release+ ,5.3.27+ and 6.0.8+ , it is possible for a user to provide a specially crafted SpEL expression that may cause a denial-of-service (DoS) condition.
+        </notes>
+        <cve>CVE-2023-20863</cve>
+    </suppress>
+  
+   <suppress until="2030-01-01">
+        <notes>The PGJDBC implementation of the `java.sql.ResultRow.refreshRow()` method is not performing escaping of column names so a malicious column name that contains a statement terminator, e.g. `;`, could lead to SQL injection.
+            Note this is fixed in the version of postgresql 42.6.0 but still showing up as an error, so suppressing.
+        </notes>
+        <cve>CVE-2022-41946</cve>
+        <cve>CVE-2022-31197</cve>
+    </suppress>
+  
+    <suppress>
+        <notes>
+            jackson-databind 2.10.x through 2.12.x before 2.12.6 and 2.13.x before 2.13.1 allows attackers to cause a denial of service (2 GB transient heap usage per read) in uncommon situations involving JsonNode JDK serialization.
+        </notes>
+        <cve>CVE-2021-46877</cve>
+    </suppress>
 </suppressions>
