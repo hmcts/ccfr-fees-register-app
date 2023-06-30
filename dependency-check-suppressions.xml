@@ -97,4 +97,14 @@
         <notes>CVE-2023-35116 An issue was discovered jackson-databind thru 2.15.2 allows attackers to cause a denial of service or other unspecified impacts via crafted object that uses cyclic dependencies. </notes>
         <cve>CVE-2023-35116</cve>
     </suppress>
+
+    <suppress>
+        <notes>CVE-2023-2976 Use of Java's default temporary directory for file creation in `FileBackedOutputStream` in Google Guava versions 1.0 to 31.1 on Unix systems </notes>
+        <cve>CVE-2023-2976</cve>
+    </suppress>
+    <suppress>
+        <notes>CVE-2023-35116 SnakeYaml's Constructor() class does not restrict types which can be instantiated during deserialization. </notes>
+        <cve>CVE-2022-1471</cve>
+    </suppress>
+
 </suppressions>
