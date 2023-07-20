@@ -58,5 +58,5 @@ withNightlyPipeline("java", product, component) {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }
 
-    enableSlackNotifications('#cc-payments-tech')
+    enableSlackNotifications('#fee-pay-nightly-pipeline')
 }
