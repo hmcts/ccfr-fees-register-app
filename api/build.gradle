@@ -95,13 +95,13 @@ dependencies {
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
     testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
-    testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 
 
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    smokeTestImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    smokeTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    smokeTestImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    smokeTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 
     integrationTestImplementation project(':fees-register-model')
     integrationTestImplementation project(':fees-register-api-contract')
