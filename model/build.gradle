@@ -1,15 +1,15 @@
 description = ''
 
 dependencies {
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.9'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
-    compile group: 'com.google.guava', name: 'guava', version: '27.0-jre'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
-    compile group: 'org.springframework', name: 'spring-test'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    testCompile group: 'org.springframework.security', name: 'spring-security-test'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '1.10.19'
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.9'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    implementation group: 'com.google.guava', name: 'guava', version: '27.0-jre'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+    implementation group: 'org.springframework', name: 'spring-test'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '1.10.19'
+    testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
     }
 }
