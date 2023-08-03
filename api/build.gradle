@@ -67,7 +67,7 @@ sonarqube {
     }
 }
 
-def javaLoggingVersion = '5.1.1'
+def javaLoggingVersion = '6.0.1'
 dependencies {
     implementation project(':fees-register-model')
     implementation project(':fees-register-api-contract')
@@ -84,8 +84,8 @@ dependencies {
         exclude(module: 'slf4j-simple')
     }
     implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.2.1'
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: javaLoggingVersion
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: javaLoggingVersion
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: javaLoggingVersion
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version:'5.0'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.0'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
