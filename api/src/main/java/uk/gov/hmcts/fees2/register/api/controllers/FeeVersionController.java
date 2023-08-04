@@ -1,9 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.security.Principal;
 
 import static java.util.Optional.ofNullable;
 
-@Api(value = "FeesRegister")
+@Tag(name= "FeesRegister")
 @RestController
 @Validated
 public class FeeVersionController {
@@ -34,9 +34,9 @@ public class FeeVersionController {
         this.mapper = mapper;
     }
 
-    @ApiOperation(value = "Deletes a fee version for the given fee code if its on draft state")
+    @Operation(summary = "Deletes a fee version for the given fee code if its on draft state")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Successfully deleted the fee version for the given fee code."),
+            @ApiResponse(responseCode = "204", description = "Successfully deleted the fee version for the given fee code."),
     })
     @DeleteMapping("/fees/{code}/versions/{version}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -46,11 +46,11 @@ public class FeeVersionController {
         feeVersionService.deleteDraftVersion(code, version);
     }
 
-    @ApiOperation(value = "Create fee version")
+    @Operation(summary = "Create fee version")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Created"),
-            @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-            @ApiResponse(code = 403, message = "Forbidden")
+            @ApiResponse(responseCode = "201", description = "Created"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PostMapping("/fees/{feeCode}/versions")
     @ResponseStatus(HttpStatus.CREATED)
@@ -63,9 +63,9 @@ public class FeeVersionController {
         feeVersionService.save(mapper.toFeeVersion(request, principal != null ? principal.getName() : null), feeCode);
     }
 
-    @ApiOperation(value = "Edit a fee version for the given fee code")
+    @Operation(summary = "Edit a fee version for the given fee code")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Successfully edited the fee version for the given fee code."),
+            @ApiResponse(responseCode = "204", description = "Successfully edited the fee version for the given fee code."),
     })
 
     @PutMapping("/fees/{code}/versions/{version}")
@@ -78,11 +78,11 @@ public class FeeVersionController {
         feeVersionService.saveFeeVersion(mapper.mapDtotoFeeVersion(request, feeVersion));
     }
 
-    @ApiOperation(value = "Approve a fee version")
+    @Operation(summary = "Approve a fee version")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Fee version is Approved"),
-            @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-            @ApiResponse(code = 403, message = "Forbidden")
+            @ApiResponse(responseCode = "204", description = "Fee version is Approved"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -91,11 +91,11 @@ public class FeeVersionController {
         feeVersionService.changeStatus(feeCode, version, FeeVersionStatus.approved, getUserName(principal));
     }
 
-    @ApiOperation(value = "Reject a fee version")
+    @Operation(summary = "Reject a fee version")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Fee version is Rejected"),
-            @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-            @ApiResponse(code = 403, message = "Forbidden")
+            @ApiResponse(responseCode = "204", description = "Fee version is Rejected"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/reject")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -110,11 +110,11 @@ public class FeeVersionController {
         }
     }
 
-    @ApiOperation(value = "Submit a fee version to approval")
+    @Operation(summary = "Submit a fee version to approval")
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Fee version is submitted to approval"),
-            @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-            @ApiResponse(code = 403, message = "Forbidden")
+            @ApiResponse(responseCode = "204", description = "Fee version is submitted to approval"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PatchMapping("/fees/{feeCode}/versions/{version}/submit-for-review")
     @ResponseStatus(HttpStatus.NO_CONTENT)
