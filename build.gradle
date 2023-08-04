@@ -122,7 +122,12 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.28'
         compileOnly group: 'com.google.code.findbugs', name: 'annotations', version: '3.0.1'
         compileOnly group: 'joda-time', name: 'joda-time', version: '2.9.9'
-        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+        implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+        implementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: '1.7.0'
+
+
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
