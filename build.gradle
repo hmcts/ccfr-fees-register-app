@@ -28,10 +28,6 @@ dependencies{
     testImplementation 'com.github.hmcts:fortify-client:1.2.1:all'
 }
 
-dependencyCheck {
-    suppressionFile = 'config/owasp/suppressions.xml'
-}
-
 task fortifyScan(type: JavaExec)  {
     main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
     classpath += sourceSets.test.runtimeClasspath
