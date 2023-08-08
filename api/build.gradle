@@ -92,7 +92,7 @@ dependencies {
     }
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
     testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
-    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '3.0.7'
+    testImplementation group: 'io.rest-assured', name: 'rest-assured'
     testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 
 
