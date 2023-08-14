@@ -81,7 +81,7 @@ dependencies {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
-    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.2.1'
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.23.1'
     implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: javaLoggingVersion
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version:'5.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
