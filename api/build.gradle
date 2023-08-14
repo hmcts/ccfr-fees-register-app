@@ -109,11 +109,11 @@ dependencies {
     smokeTestImplementation sourceSets.test.runtimeClasspath
     // functional
     functionalTestImplementation sourceSets.test.runtimeClasspath
-    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
-    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenity
-    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
-    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
-    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
+    testImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
+    testImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenity
+    testImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
+    testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
+    testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     implementation group: 'org.pitest', name: 'pitest', version: versions.pitest
     implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6'
     implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
