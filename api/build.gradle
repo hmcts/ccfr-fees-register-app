@@ -1,7 +1,7 @@
 buildscript {
     dependencies {
-        classpath "net.serenity-bdd:serenity-gradle-plugin:2.5.10"
-        classpath "net.serenity-bdd:serenity-single-page-report:2.1.13"
+        classpath "net.serenity-bdd:serenity-gradle-plugin:3.2.3"
+        classpath "net.serenity-bdd:serenity-single-page-report:3.2.3"
     }
 }
 
@@ -54,9 +54,7 @@ def versions = [
         pitest: '1.5.1',
         gradlePitest: '1.3.0',
         sonarPitest: '0.5',
-        serenity                : '2.2.12',
-        serenityreporter        : '2.1.4',
-        serenityCucumber        : '1.9.51'
+        serenity: '3.2.3',
 ]
 
 sonarqube {
@@ -92,7 +90,7 @@ dependencies {
     }
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
     testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
-    testImplementation group: 'io.rest-assured', name: 'rest-assured'
+    //testImplementation group: 'io.rest-assured', name: 'rest-assured'
     testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 
 
@@ -112,7 +110,7 @@ dependencies {
     // functional
     functionalTestImplementation sourceSets.test.runtimeClasspath
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
-    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenityCucumber
+    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenity
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
