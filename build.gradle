@@ -245,7 +245,7 @@ subprojects {
                 protocol = 'http'
                 host = 'fees-register-api-aat.service.core-compute-aat.internal'
                 port = 80
-                if (pactBrokerUrl) hasPactsFromPactBrokerWithTag(pactBrokerUrl, 'master')
+                if (pactBrokerUrl) hasPactsFromPactBrokerWithTag(pactBrokerUrl, value: 'master')
                 publish {
                     if (pactBrokerUrl) pactBrokerUrl = pactBrokerUrl
                     pactBrokerUrl = System.getProperty("PACT_BROKER_URL") ?: 'http://localhost:80'
