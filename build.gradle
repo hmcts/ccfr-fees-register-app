@@ -252,9 +252,9 @@ subprojects {
                         branch('master')
                     }
                 }
-//                publish {
-//                    tags = ['master']
-//                }
+                publish {
+                    tags = ['master']
+                }
                 project.version = pactVersion.toString();
             }
         }
