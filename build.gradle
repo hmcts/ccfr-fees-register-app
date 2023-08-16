@@ -9,7 +9,7 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
-    id "au.com.dius.pact" version "4.5.7"
+    id "au.com.dius.pact" version "4.6.1"
 }
 
 def versions = [
@@ -237,20 +237,24 @@ subprojects {
         'git rev-parse --verify --short HEAD'.execute().text.trim()
     }
 
-    def pactBrokerUrl = System.getenv("PACT_BROKER_URL")
-
     pact {
+        broker {
+            pactBrokerUrl = System.getenv("PACT_BROKER_URL") ?: 'http://localhost:80'
+        }
         serviceProviders {
             'feeRegister_lookUp' {
                 protocol = 'http'
                 host = 'fees-register-api-aat.service.core-compute-aat.internal'
                 port = 80
-                if (pactBrokerUrl) hasPactsFromPactBrokerWithTag(pactBrokerUrl, value: 'master')
-                publish {
-                    if (pactBrokerUrl) pactBrokerUrl = pactBrokerUrl
-                    pactBrokerUrl = System.getProperty("PACT_BROKER_URL") ?: 'http://localhost:80'
-                    tags = ['master']
+
+                fromPactBroker {
+                    withSelectors{
+                        branch('master')
+                    }
                 }
+//                publish {
+//                    tags = ['master']
+//                }
                 project.version = pactVersion.toString();
             }
         }
