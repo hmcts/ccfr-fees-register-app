@@ -252,6 +252,10 @@ subprojects {
                         branch('master')
                     }
                 }
+                hasPactsWith('feeRegister_lookUp_consumers') {
+                    pactFileLocation = file('./api-contract/pacts')
+
+                }
                 publish {
                     tags = ['master']
                 }
@@ -261,7 +265,6 @@ subprojects {
         reports {
             defaultReports()
             markdown
-
         }
     }
 
