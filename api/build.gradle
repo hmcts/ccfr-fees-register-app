@@ -6,7 +6,7 @@ buildscript {
 }
 
 plugins {
-    id "info.solidsoft.pitest" version '1.5.1'
+    id "info.solidsoft.pitest" version '1.9.0'
 }
 description = 'api module'
 
@@ -51,10 +51,12 @@ idea {
 }
 
 def versions = [
-        pitest: '1.5.1',
+        pitest: '1.9.0',
         gradlePitest: '1.3.0',
         sonarPitest: '0.5',
         serenity: '3.2.3',
+        serenityreporter: '3.2.3',
+        serenityCucumber: '1.9.51',
 ]
 
 sonarqube {
@@ -90,7 +92,7 @@ dependencies {
     }
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
     testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
-    //testImplementation group: 'io.rest-assured', name: 'rest-assured'
+    testImplementation group: 'io.rest-assured', name: 'rest-assured'
     testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 
 
@@ -109,11 +111,11 @@ dependencies {
     smokeTestImplementation sourceSets.test.runtimeClasspath
     // functional
     functionalTestImplementation sourceSets.test.runtimeClasspath
-    testImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
-    testImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenity
-    testImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
-    testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
-    testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
+    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
+    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenityCucumber
+    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
+    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
+    functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     implementation group: 'org.pitest', name: 'pitest', version: versions.pitest
     implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6'
     implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
