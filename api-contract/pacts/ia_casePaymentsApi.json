@@ -1,0 +1,264 @@
+{
+  "provider": {
+    "name": "feeRegister_lookUp"
+  },
+  "consumer": {
+    "name": "ia_casePaymentsApi"
+  },
+  "interactions": [
+    {
+      "_id": "2f69ebe9957960be998bca9f4502e1c85abd1c79",
+      "description": "A request for IA Fees",
+      "request": {
+        "method": "GET",
+        "path": "/fees-register/fees/lookup",
+        "query": {
+          "service": [
+            "other"
+          ],
+          "channel": [
+            "default"
+          ],
+          "jurisdiction2": [
+            "immigration and asylum chamber"
+          ],
+          "event": [
+            "issue"
+          ],
+          "keyword": [
+            "HearingOral"
+          ],
+          "jurisdiction1": [
+            "tribunal"
+          ]
+        },
+        "matchingRules": {
+          "query": {
+            "service": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "other"
+                }
+              ],
+              "combine": "AND"
+            },
+            "jurisdiction1": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "tribunal"
+                }
+              ],
+              "combine": "AND"
+            },
+            "jurisdiction2": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "immigration and asylum chamber"
+                }
+              ],
+              "combine": "AND"
+            },
+            "channel": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "default"
+                }
+              ],
+              "combine": "AND"
+            },
+            "event": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "issue"
+                }
+              ],
+              "combine": "AND"
+            },
+            "keyword": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "HearingOral"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fee_amount": 140,
+          "code": "FEE0238",
+          "description": "Appeal determined with a hearing",
+          "version": 2
+        },
+        "matchingRules": {
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "body": {
+            "$.code": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.version": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.fee_amount": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "Fees exist for IA"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.7"
+    }
+  },
+  "createdAt": "2023-08-16T16:08:11+00:00",
+  "_links": {
+    "self": {
+      "title": "Pact",
+      "name": "Pact between ia_casePaymentsApi (94f8e16) and feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/version/94f8e16"
+    },
+    "pb:consumer": {
+      "title": "Consumer",
+      "name": "ia_casePaymentsApi",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/ia_casePaymentsApi"
+    },
+    "pb:consumer-version": {
+      "title": "Consumer version",
+      "name": "94f8e16",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/ia_casePaymentsApi/versions/94f8e16"
+    },
+    "pb:provider": {
+      "title": "Provider",
+      "name": "feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/feeRegister_lookUp"
+    },
+    "pb:pact-version": {
+      "title": "Pact content version permalink",
+      "name": "7c04120293d6e138dd7c928bc8a7fcc474d084c3",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/pact-version/7c04120293d6e138dd7c928bc8a7fcc474d084c3"
+    },
+    "pb:latest-pact-version": {
+      "title": "Latest version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/latest"
+    },
+    "pb:all-pact-versions": {
+      "title": "All versions of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/versions"
+    },
+    "pb:latest-untagged-pact-version": {
+      "title": "Latest untagged version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/latest-untagged"
+    },
+    "pb:latest-tagged-pact-version": {
+      "title": "Latest tagged version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/latest/{tag}",
+      "templated": true
+    },
+    "pb:previous-distinct": {
+      "title": "Previous distinct version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/version/94f8e16/previous-distinct"
+    },
+    "pb:diff-previous-distinct": {
+      "title": "Diff with previous distinct version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/version/94f8e16/diff/previous-distinct"
+    },
+    "pb:diff": {
+      "title": "Diff with another specified version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/pact-version/7c04120293d6e138dd7c928bc8a7fcc474d084c3/diff/pact-version/{pactVersion}",
+      "templated": true
+    },
+    "pb:pact-webhooks": {
+      "title": "Webhooks for the pact between ia_casePaymentsApi and feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/webhooks/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi"
+    },
+    "pb:consumer-webhooks": {
+      "title": "Webhooks for all pacts with provider feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/webhooks/consumer/feeRegister_lookUp"
+    },
+    "pb:tag-prod-version": {
+      "title": "PUT to this resource to tag this consumer version as 'production'",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/ia_casePaymentsApi/versions/94f8e16/tags/prod"
+    },
+    "pb:tag-version": {
+      "title": "PUT to this resource to tag this consumer version",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/ia_casePaymentsApi/versions/94f8e16/tags/{tag}"
+    },
+    "pb:publish-verification-results": {
+      "title": "Publish verification results",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/pact-version/7c04120293d6e138dd7c928bc8a7fcc474d084c3/verification-results"
+    },
+    "pb:latest-verification-results": {
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/pact-version/7c04120293d6e138dd7c928bc8a7fcc474d084c3/verification-results/latest"
+    },
+    "pb:triggered-webhooks": {
+      "title": "Webhooks triggered by the publication of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/ia_casePaymentsApi/version/94f8e16/triggered-webhooks"
+    },
+    "pb:matrix-for-consumer-version": {
+      "title": "View matrix rows for the consumer version to which this pact belongs",
+      "href": "https://pact-broker.platform.hmcts.net/matrix?q[][pacticipant]=ia_casePaymentsApi&q[][version]=94f8e16&latestby=cvpv"
+    },
+    "curies": [
+      {
+        "name": "pb",
+        "href": "https://pact-broker.platform.hmcts.net/doc/{rel}?context=pact",
+        "templated": true
+      }
+    ]
+  }
+}
