@@ -1,0 +1,264 @@
+{
+  "provider": {
+    "name": "feeRegister_lookUp"
+  },
+  "consumer": {
+    "name": "prl_cos"
+  },
+  "interactions": [
+    {
+      "_id": "6486011c6b4d70ccac264271dda66e8fa512d975",
+      "description": "A request for PRL Fees",
+      "request": {
+        "method": "GET",
+        "path": "/fees-register/fees/lookup",
+        "query": {
+          "service": [
+            "private law"
+          ],
+          "channel": [
+            "default"
+          ],
+          "event": [
+            "miscellaneous"
+          ],
+          "jurisdiction2": [
+            "family court"
+          ],
+          "keyword": [
+            "ChildArrangement"
+          ],
+          "jurisdiction1": [
+            "family"
+          ]
+        },
+        "matchingRules": {
+          "query": {
+            "channel": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "default"
+                }
+              ],
+              "combine": "AND"
+            },
+            "event": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "miscellaneous"
+                }
+              ],
+              "combine": "AND"
+            },
+            "jurisdiction1": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "family"
+                }
+              ],
+              "combine": "AND"
+            },
+            "jurisdiction2": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "family court"
+                }
+              ],
+              "combine": "AND"
+            },
+            "keyword": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "ChildArrangement"
+                }
+              ],
+              "combine": "AND"
+            },
+            "service": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "private law"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fee_amount": 232,
+          "code": "FEE0336",
+          "description": "Section 8 orders (section 10(1) or (2))",
+          "version": 2
+        },
+        "matchingRules": {
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "body": {
+            "$.code": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.description": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.version": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.fee_amount": {
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "Fees exist for PRL"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.11"
+    }
+  },
+  "createdAt": "2023-08-22T10:38:06+00:00",
+  "_links": {
+    "self": {
+      "title": "Pact",
+      "name": "Pact between prl_cos (1b3518a2d) and feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/version/1b3518a2d"
+    },
+    "pb:consumer": {
+      "title": "Consumer",
+      "name": "prl_cos",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/prl_cos"
+    },
+    "pb:consumer-version": {
+      "title": "Consumer version",
+      "name": "1b3518a2d",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/prl_cos/versions/1b3518a2d"
+    },
+    "pb:provider": {
+      "title": "Provider",
+      "name": "feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/feeRegister_lookUp"
+    },
+    "pb:pact-version": {
+      "title": "Pact content version permalink",
+      "name": "2cebff18fcf8cdd632df537e5903387faea107c5",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/pact-version/2cebff18fcf8cdd632df537e5903387faea107c5"
+    },
+    "pb:latest-pact-version": {
+      "title": "Latest version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/latest"
+    },
+    "pb:all-pact-versions": {
+      "title": "All versions of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/versions"
+    },
+    "pb:latest-untagged-pact-version": {
+      "title": "Latest untagged version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/latest-untagged"
+    },
+    "pb:latest-tagged-pact-version": {
+      "title": "Latest tagged version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/latest/{tag}",
+      "templated": true
+    },
+    "pb:previous-distinct": {
+      "title": "Previous distinct version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/version/1b3518a2d/previous-distinct"
+    },
+    "pb:diff-previous-distinct": {
+      "title": "Diff with previous distinct version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/version/1b3518a2d/diff/previous-distinct"
+    },
+    "pb:diff": {
+      "title": "Diff with another specified version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/pact-version/2cebff18fcf8cdd632df537e5903387faea107c5/diff/pact-version/{pactVersion}",
+      "templated": true
+    },
+    "pb:pact-webhooks": {
+      "title": "Webhooks for the pact between prl_cos and feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/webhooks/provider/feeRegister_lookUp/consumer/prl_cos"
+    },
+    "pb:consumer-webhooks": {
+      "title": "Webhooks for all pacts with provider feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/webhooks/consumer/feeRegister_lookUp"
+    },
+    "pb:tag-prod-version": {
+      "title": "PUT to this resource to tag this consumer version as 'production'",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/prl_cos/versions/1b3518a2d/tags/prod"
+    },
+    "pb:tag-version": {
+      "title": "PUT to this resource to tag this consumer version",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/prl_cos/versions/1b3518a2d/tags/{tag}"
+    },
+    "pb:publish-verification-results": {
+      "title": "Publish verification results",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/pact-version/2cebff18fcf8cdd632df537e5903387faea107c5/verification-results"
+    },
+    "pb:latest-verification-results": {
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/pact-version/2cebff18fcf8cdd632df537e5903387faea107c5/verification-results/latest"
+    },
+    "pb:triggered-webhooks": {
+      "title": "Webhooks triggered by the publication of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/prl_cos/version/1b3518a2d/triggered-webhooks"
+    },
+    "pb:matrix-for-consumer-version": {
+      "title": "View matrix rows for the consumer version to which this pact belongs",
+      "href": "https://pact-broker.platform.hmcts.net/matrix?q[][pacticipant]=prl_cos&q[][version]=1b3518a2d&latestby=cvpv"
+    },
+    "curies": [
+      {
+        "name": "pb",
+        "href": "https://pact-broker.platform.hmcts.net/doc/{rel}?context=pact",
+        "templated": true
+      }
+    ]
+  }
+}
