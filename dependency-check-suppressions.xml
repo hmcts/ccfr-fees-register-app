@@ -354,6 +354,19 @@
         </notes>
         <cve>CVE-2023-45648</cve>
     </suppress>
+    <suppress>
+        <notes>
+            The HTTP/2 protocol allows a denial of service (server resource consumption) because request
+            cancellation can reset many streams quickly, as exploited in the wild in August through October 2023
+        </notes>
+        <cve>CVE-2023-44487</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            Denial of Service in JSON-Java versions up to and including 20230618.
+        </notes>
+        <cve>CVE-2023-5072</cve>
+    </suppress>
 </suppressions>
 
 
