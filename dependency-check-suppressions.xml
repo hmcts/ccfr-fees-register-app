@@ -354,6 +354,12 @@
         </notes>
         <cve>CVE-2023-45648</cve>
     </suppress>
+    <suppress>
+        <notes>
+            Improper Input Validation vulnerability in Apache Tomcat
+        </notes>
+        <cve>CVE-2023-44487</cve>
+    </suppress>
 </suppressions>
 
 
