@@ -363,7 +363,7 @@
     </suppress>
     <suppress>
         <notes>
-            Denial of Service in JSON-Java versions up to and including 20230618.
+            Denial of Service in JSON-Java versions up to and including 20230618. Test
         </notes>
         <cve>CVE-2023-5072</cve>
     </suppress>
