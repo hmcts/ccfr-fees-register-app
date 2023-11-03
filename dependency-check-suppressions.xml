@@ -367,6 +367,14 @@
         </notes>
         <cve>CVE-2023-5072</cve>
     </suppress>
+
+
+    <suppress>
+        <notes>
+            ** DISPUTED ** An issue in dom4.j org.dom4.io.SAXReader v.2.1.4 and before allows a remote attacker to obtain sensitive information via the setFeature function.
+        </notes>
+        <cve>CVE-2023-45960</cve>
+    </suppress>
 </suppressions>
 
 
