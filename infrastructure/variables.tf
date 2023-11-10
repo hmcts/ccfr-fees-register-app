@@ -1,4 +1,7 @@
-variable "product" {}
+variable "product" {
+  type    = string
+  default = "fees-register"
+}
 
 variable "component" {}
 
