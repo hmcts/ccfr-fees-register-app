@@ -17,6 +17,9 @@ You will need jdk installed on your machine, and the fees_register database runn
 $ docker-compose -f ./docker-compose.yml up fees-database
 
 
+
+### Option 3 for hash
+
 ### Installing
 1. Clone the repo to your machine using git clone git@github.com:hmcts/ccfr-fees-register-app.git
 2. Run $ ./gradlew build
