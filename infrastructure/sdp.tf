@@ -52,7 +52,7 @@ module "sdp_db_user" {
   ]
 
   database_schemas = {
-    fees_register = ["fees_register"]
+    fees_register = ["public"]
   }
 
   common_tags = var.common_tags
