@@ -134,19 +134,19 @@ module "fees-register-database-v15" {
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name         = join("-", [var.component, "POSTGRES-PASS"])
-  value        = module.fees-register-database-v11.postgresql_password
+  value        = module.fees-register-database-v15.password
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
   name         = join("-", [var.component, "POSTGRES-USER"])
-  value        = module.fees-register-database-v11.user_name
+  value        = module.fees-register-database-v15.username
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
   name         = join("-", [var.component, "POSTGRES-HOST"])
-  value        = module.fees-register-database-v11.host_name
+  value        = module.fees-register-database-v15.fqdn
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
@@ -158,7 +158,7 @@ resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   name         = join("-", [var.component, "POSTGRES-DATABASE"])
-  value        = module.fees-register-database-v11.postgresql_database
+  value        = var.database_name
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
