@@ -60,4 +60,6 @@ module "sdp_db_user" {
   depends_on = [
     module.fees-register-database-v15
   ]
+
+  count = var.env == "perftest" || var.env == "ithc" ? 0 : 1
 }
