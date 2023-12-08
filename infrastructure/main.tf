@@ -152,7 +152,7 @@ resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
   name         = join("-", [var.component, "POSTGRES-PORT"])
-  value        = module.fees-register-database-v11.postgresql_listen_port
+  value        = var.postgresql_flexible_server_port
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 

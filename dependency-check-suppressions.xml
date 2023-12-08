@@ -375,6 +375,25 @@
         </notes>
         <cve>CVE-2023-45960</cve>
     </suppress>
+
+    <suppress>
+        <notes>
+            In Spring Boot versions 2.7.0 - 2.7.17, 3.0.0-3.0.12 and 3.1.0-3.1.5, it is possible for a user to provide specially crafted HTTP requests that may cause a denial-of-service (DoS) condition.
+        </notes>
+        <cve>CVE-2023-34055</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            Improper Input Validation vulnerability in Apache Tomcat.Tomcat from 11.0.0-M1 through 11.0.0-M10, from 10.1.0-M1 through 10.1.15, from 9.0.0-M1 through 9.0.82 and from 8.5.0 through 8.5.95 did not correctly parse HTTP trailer headers.
+        </notes>
+        <cve>CVE-2023-46589</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            A serialization vulnerability in logback receiver component part of logback version 1.4.11 allows an attacker to mount a Denial-Of-Service attack by sending poisoned data.
+        </notes>
+        <cve>CVE-2023-6378</cve>
+    </suppress>
 </suppressions>
 
 
