@@ -3,10 +3,7 @@ java:
   applicationPort: 8080
   ingressHost: fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   environment:
-   # POSTGRES_PORT: 5432
-   # POSTGRES_HOST: fees-register-postgres-db-v11-{{ .Values.global.environment }}.postgres.database.azure.com
     POSTGRES_NAME: fees_register
-   # POSTGRES_USERNAME: fees_register@fees-register-postgres-db-v11-{{ .Values.global.environment }}
     POSTGRES_CONNECTION_OPTIONS: ?sslmode=require
     SPRING_LIQUIBASE_ENABLED: false
     REFORM_SERVICE_NAME: fees-register-api
