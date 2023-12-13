@@ -57,20 +57,8 @@ variable "core_product" {
   default = "ccpay"
 }
 
-variable sku_name {
-  default = "GP_Gen5_2"
-}
-
 variable flexible_sku_name {
   default = "GP_Standard_D2s_v3"
-}
-
-variable "sku_capacity" {
-  default = "2"
-}
-
-variable "postgresql_version" {
-  default = "11"
 }
 
 variable "postgresql_flexible_sql_version" {
