@@ -2,12 +2,8 @@ java:
   image: 'hmctspublic.azurecr.io/fees-register/api:latest'
   applicationPort: 8080
   ingressHost: fees-register-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-  aadIdentityName: ccpay
   environment:
-    POSTGRES_PORT: 5432
-    POSTGRES_HOST: fees-register-postgres-db-v11-{{ .Values.global.environment }}.postgres.database.azure.com
     POSTGRES_NAME: fees_register
-    POSTGRES_USERNAME: fees_register@fees-register-postgres-db-v11-{{ .Values.global.environment }}
     POSTGRES_CONNECTION_OPTIONS: ?sslmode=require
     SPRING_LIQUIBASE_ENABLED: false
     REFORM_SERVICE_NAME: fees-register-api
@@ -23,5 +19,17 @@ java:
   keyVaults:
     fees-register:
       secrets:
-        - api-POSTGRES-PASS
-        - AppInsightsInstrumentationKey
+        - name: api-POSTGRES-PASS
+          alias: POSTGRES_PASSWORD
+        - name: api-POSTGRES-HOST
+          alias: POSTGRES_HOST
+        - name: api-POSTGRES-PORT
+          alias: POSTGRES_PORT
+        - name: api-POSTGRES-USER
+          alias: POSTGRES_USERNAME
+    ccpay:
+      secrets:
+        - name: app-insights-connection-string
+          alias: app-insights-connection-string
+        - name: AppInsightsInstrumentationKey
+          alias: azure.application-insights.instrumentation-key

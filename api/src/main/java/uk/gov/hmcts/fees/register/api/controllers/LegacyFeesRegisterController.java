@@ -1,7 +1,7 @@
 package uk.gov.hmcts.fees.register.api.controllers;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,12 +46,11 @@ public class LegacyFeesRegisterController {
             .orElseThrow(() -> new EntityNotFoundException("Category not found, id: " + categoryId));
     }
 
-    @ApiOperation(value = "Find appropriate fees amount for given claim.",
-        notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees). All input and output amounts are in pence.  ", response = Fee.class)
+    @Operation(summary = "Find appropriate fees amount for given claim. This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees). All input and output amounts are in pence.  ")
     @GetMapping("/categories/{id}/ranges/{amount}/fees")
     public ChargeableFeeWrapperDto getCategoryRange(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
-        @ApiParam(value = "This is claim amount in pence", required = true) @PathVariable(value = "amount") int amount) {
+        @Parameter(description = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
+        @Parameter(description = "This is claim amount in pence", required = true) @PathVariable(value = "amount") int amount) {
 
         Fee fee = getCategory(id)
             .findRange(amount)
@@ -62,23 +61,21 @@ public class LegacyFeesRegisterController {
     }
 
 
-    @ApiOperation(value = "Find appropriate flat fees for given fee id.",
-        notes = "This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees) and flat fee id. ", response = Fee.class)
+    @Operation(summary = "Find appropriate flat fees for given fee id. This endpoint returns appropriate fee for given category(e.g. onlinefees or hearingfees) and flat fee id. ")
     @GetMapping("/categories/{id}/flat/{feeId}")
     public Fee getFlatFeeInACategory(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
-        @ApiParam(value = "This is flat fee in a category", required = true) @PathVariable(value = "feeId") String feeId) {
+        @Parameter(description = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id,
+        @Parameter(description = "This is flat fee in a category", required = true) @PathVariable(value = "feeId") String feeId) {
 
         return getCategory(id)
             .findFlatFee(feeId)
             .orElseThrow(() -> new EntityNotFoundException("Flat fees not found, feeId: " + feeId));
     }
 
-    @ApiOperation(value = "Find all flat fees for given category.",
-        notes = "This endpoint returns all flat fees for given category(e.g. onlinefees or hearingfees). ", response = Fee.class)
+    @Operation(summary = "Find all flat fees for given category. This endpoint returns all flat fees for given category(e.g. onlinefees or hearingfees). ")
     @GetMapping("/categories/{id}/flat")
     public List<Fee> getAllFlatFeesInACategory(
-        @ApiParam(value = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id) {
+        @Parameter(description = "This is fee category. potential values can be onlinefees or hearingfees", required = true) @PathVariable(value = "id") String id) {
 
         List<Fee> flatFees = getCategory(id).getFlatFees();
 

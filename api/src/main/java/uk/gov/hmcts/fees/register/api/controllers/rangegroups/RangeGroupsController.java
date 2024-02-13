@@ -1,6 +1,6 @@
 package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -63,8 +63,7 @@ public class RangeGroupsController {
         return rangeGroupsDtoMapper.toRangeGroupDto(existingRangeGroup);
     }
 
-    @ApiOperation(value = "Find appropriate fees amount for given claim.",
-                    notes="The endpoint returns the fee for specified amount", response = CalculationDto.class)
+    @Operation(summary = "Find appropriate fees amount for given claim. The endpoint returns the fee for specified amount")
     @GetMapping("/range-groups/{code}/calculations")
     public CalculationDto getCategoryRange(@PathVariable("code") String code, @RequestParam(value = "value") int value) {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(code);
@@ -73,8 +72,7 @@ public class RangeGroupsController {
         return new CalculationDto(fee.calculate(value), feesDtoMapper.toFeeDto(fee));
     }
 
-    @ApiOperation(value = "Find max fees amount for an unspecified value.",
-        notes="The endpoint returns the max fee for the unspecified amount", response = CalculationDto.class)
+    @Operation(summary = "Find max fees amount for an unspecified value. The endpoint returns the max fee for the unspecified amount")
     @GetMapping("/range-groups/cmc-paper/calculations/unspecified")
     public CalculationDto getMaxFeeForUnspecifiedRange() {
         RangeGroup rangeGroup = rangeGroupRepository.findByCodeOrThrow(CMC_PAPER);

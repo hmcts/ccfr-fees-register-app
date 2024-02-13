@@ -1,5 +1,9 @@
 provider "azurerm" {
-  features {}
+  features {
+      resource_group {
+         prevent_deletion_if_contains_resources = false
+      }
+  }
 }
 
 locals {
@@ -82,53 +86,70 @@ data "azurerm_key_vault_secret" "freg-idam-client-secret" {
   name = "freg-idam-client-secret"
   key_vault_id = data.azurerm_key_vault.payment_key_vault.id
 }
-module "fees-register-database-v11" {
-  source             = "git@github.com:hmcts/cnp-module-postgres?ref=master"
-  product            = var.product
-  component          = var.component
-  name               = join("-", [var.product, "postgres-db-v11"])
-  location           = var.location
-  env                = var.env
-  postgresql_user    = var.postgresql_user
-  database_name      = var.database_name
-  sku_name           = "GP_Gen5_2"
-  sku_tier           = "GeneralPurpose"
-  common_tags        = var.common_tags
-  subscription       = var.subscription
-  postgresql_version = var.postgresql_version
-  additional_databases = var.additional_databases
+
+
+module "fees-register-database-v15" {
+  providers = {
+    azurerm.postgres_network = azurerm.postgres_network
+  }
+  source = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
+  product = var.product
+  component = var.component
+  business_area = "cft"
+  name = join("-", [var.product, "postgres-db-v15"])
+  location = var.location
+  env = var.env
+  pgsql_admin_username = var.postgresql_user
+
+  # Setup Access Reader db user
+  force_user_permissions_trigger = "1"
+
+  pgsql_databases = [
+      {
+        name : var.database_name
+      }
+    ]
+    pgsql_server_configuration = [
+        {
+          name  = "azure.extensions"
+          value = "plpgsql,pg_stat_statements,pg_buffercache"
+        }
+      ]
+  pgsql_sku = var.flexible_sku_name
+  admin_user_object_id = var.jenkins_AAD_objectId
+  common_tags = var.common_tags
+  pgsql_version = var.postgresql_flexible_sql_version
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name         = join("-", [var.component, "POSTGRES-PASS"])
-  value        = module.fees-register-database-v11.postgresql_password
+  value        = module.fees-register-database-v15.password
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
   name         = join("-", [var.component, "POSTGRES-USER"])
-  value        = module.fees-register-database-v11.user_name
+  value        = module.fees-register-database-v15.username
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
   name         = join("-", [var.component, "POSTGRES-HOST"])
-  value        = module.fees-register-database-v11.host_name
+  value        = module.fees-register-database-v15.fqdn
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
   name         = join("-", [var.component, "POSTGRES-PORT"])
-  value        = module.fees-register-database-v11.postgresql_listen_port
+  value        = var.postgresql_flexible_server_port
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   name         = join("-", [var.component, "POSTGRES-DATABASE"])
-  value        = module.fees-register-database-v11.postgresql_database
+  value        = var.database_name
   key_vault_id = data.azurerm_key_vault.fees_key_vault.id
 }
-
 
 data "azurerm_key_vault" "s2s_key_vault" {
   name                = local.s2s_key_vault_name

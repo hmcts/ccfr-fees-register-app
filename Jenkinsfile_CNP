@@ -52,12 +52,7 @@ withPipeline(type, product, app) {
     overrideVaultEnvironments(vaultOverrides)
     loadVaultSecrets(secrets)
     enableDbMigration('fees-register')
-    //enableDockerBuild()
-    //installCharts()
-    enableSlackNotifications('#cc-payments-tech')
     enableAksStagingDeployment()
-
-
 
     afterAlways('functionalTest:aat') {
         publishHTML target: [

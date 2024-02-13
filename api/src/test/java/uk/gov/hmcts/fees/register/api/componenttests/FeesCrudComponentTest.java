@@ -75,7 +75,7 @@ public class FeesCrudComponentTest {
                     percentageFeeDtoWith()
                         .code("X0434")
                         .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
-                        .percentage(BigDecimal.valueOf(4.5))
+                        .percentage(new BigDecimal("4.50"))
                         .build()
                 );
             }));
@@ -91,7 +91,7 @@ public class FeesCrudComponentTest {
                     percentageFeeDtoWith()
                         .code("X0434")
                         .description("Civil Court fees - Money Claims Online - Claim Amount - 10000.01 upto 15000 GBP. Fees are 4.5% of the claim value")
-                        .percentage(BigDecimal.valueOf(4.5))
+                        .percentage(new BigDecimal("4.50"))
                         .build()
                 );
             }));

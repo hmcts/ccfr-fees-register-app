@@ -1,0 +1,148 @@
+{
+  "consumer": {
+    "name": "probate_caveatsFrontEnd"
+  },
+  "provider": {
+    "name": "feeRegister_lookUp"
+  },
+  "interactions": [
+    {
+      "_id": "c1f32f9a62118edd77a4d0deb86f93055822de79",
+      "description": "a request to GET a fee",
+      "providerState": "service is registered in Fee registry",
+      "request": {
+        "method": "GET",
+        "path": "/fees-register/fees/lookup",
+        "query": "applicant_type=all&channel=default&event=miscellaneous&jurisdiction1=family&jurisdiction2=probate+registry&keyword=Caveat&service=probate",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "authToken"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fee_amount": 3,
+          "code": "FEE0288",
+          "description": "Application for the entry or extension of a caveat",
+          "version": 2
+        },
+        "matchingRules": {
+          "$.body.fee_amount": {
+            "match": "type"
+          },
+          "$.body.code": {
+            "match": "type"
+          },
+          "$.body.version": {
+            "match": "type"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  },
+  "createdAt": "2023-06-02T08:48:20+00:00",
+  "_links": {
+    "self": {
+      "title": "Pact",
+      "name": "Pact between probate_caveatsFrontEnd (e1483c0) and feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/version/e1483c0"
+    },
+    "pb:consumer": {
+      "title": "Consumer",
+      "name": "probate_caveatsFrontEnd",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/probate_caveatsFrontEnd"
+    },
+    "pb:consumer-version": {
+      "title": "Consumer version",
+      "name": "e1483c0",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/probate_caveatsFrontEnd/versions/e1483c0"
+    },
+    "pb:provider": {
+      "title": "Provider",
+      "name": "feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/feeRegister_lookUp"
+    },
+    "pb:pact-version": {
+      "title": "Pact content version permalink",
+      "name": "25c3a4edadc83fd161d01d5b936cef78c9cb8daf",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/pact-version/25c3a4edadc83fd161d01d5b936cef78c9cb8daf"
+    },
+    "pb:latest-pact-version": {
+      "title": "Latest version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/latest"
+    },
+    "pb:all-pact-versions": {
+      "title": "All versions of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/versions"
+    },
+    "pb:latest-untagged-pact-version": {
+      "title": "Latest untagged version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/latest-untagged"
+    },
+    "pb:latest-tagged-pact-version": {
+      "title": "Latest tagged version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/latest/{tag}",
+      "templated": true
+    },
+    "pb:previous-distinct": {
+      "title": "Previous distinct version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/version/e1483c0/previous-distinct"
+    },
+    "pb:diff-previous-distinct": {
+      "title": "Diff with previous distinct version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/version/e1483c0/diff/previous-distinct"
+    },
+    "pb:diff": {
+      "title": "Diff with another specified version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/pact-version/25c3a4edadc83fd161d01d5b936cef78c9cb8daf/diff/pact-version/{pactVersion}",
+      "templated": true
+    },
+    "pb:pact-webhooks": {
+      "title": "Webhooks for the pact between probate_caveatsFrontEnd and feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/webhooks/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd"
+    },
+    "pb:consumer-webhooks": {
+      "title": "Webhooks for all pacts with provider feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/webhooks/consumer/feeRegister_lookUp"
+    },
+    "pb:tag-prod-version": {
+      "title": "PUT to this resource to tag this consumer version as 'production'",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/probate_caveatsFrontEnd/versions/e1483c0/tags/prod"
+    },
+    "pb:tag-version": {
+      "title": "PUT to this resource to tag this consumer version",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/probate_caveatsFrontEnd/versions/e1483c0/tags/{tag}"
+    },
+    "pb:publish-verification-results": {
+      "title": "Publish verification results",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/pact-version/25c3a4edadc83fd161d01d5b936cef78c9cb8daf/verification-results"
+    },
+    "pb:latest-verification-results": {
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/pact-version/25c3a4edadc83fd161d01d5b936cef78c9cb8daf/verification-results/latest"
+    },
+    "pb:triggered-webhooks": {
+      "title": "Webhooks triggered by the publication of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/probate_caveatsFrontEnd/version/e1483c0/triggered-webhooks"
+    },
+    "pb:matrix-for-consumer-version": {
+      "title": "View matrix rows for the consumer version to which this pact belongs",
+      "href": "https://pact-broker.platform.hmcts.net/matrix?q[][pacticipant]=probate_caveatsFrontEnd&q[][version]=e1483c0&latestby=cvpv"
+    },
+    "curies": [
+      {
+        "name": "pb",
+        "href": "https://pact-broker.platform.hmcts.net/doc/{rel}?context=pact",
+        "templated": true
+      }
+    ]
+  }
+}

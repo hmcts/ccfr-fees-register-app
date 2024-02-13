@@ -12,16 +12,33 @@ This is SpringBoot based java application. Please see the Jenkinsfile in root fo
 
 ### Prerequisites
 
-You will need jdk installed on your machine.
+You will need jdk installed on your machine, and the fees_register database running, for which you can run:
+
+$ docker-compose -f ./docker-compose.yml up fees-database
+
 
 ### Installing
 1. Clone the repo to your machine using git clone git@github.com:hmcts/ccfr-fees-register-app.git
 2. Run $ ./gradlew build
 
-## Running the tests
+## Running the tests and other gradle tasks
 
-You can run the tests using './gradlew test'
+To test locally all the tasks that run on the Jenkins master branch build, run:
 
+'./gradlew test' for unit tests
+'./gradlew smoke'
+'./gradlew functional' but you will need some environment variables (see next section)
+'./gradlew fortifyScan'
+'./gradlew pitest' for mutation testing
+'./gradlew runProviderPactVerification' to verify the provider contracts
+
+
+## Environment variables for functional tests
+
+export OAUTH2_CLIENT_SECRET=ask someone for this
+export TEST_URL=http://fees-register-api-aat.service.core-compute-aat.internal       
+export IDAM_API_URL=https://idam-api.aat.platform.hmcts.net
+export OAUTH2_REDIRECT_URI=https://fees-register-frontend-aat.service.core-compute-aat.internal/oauth2
 
 ## Deployment
 

@@ -1,9 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Api(value = "FeesRegister")
+@Tag(name = "FeesRegister")
 @RestController
 @RequestMapping(value = "/fees-register")
 @AllArgsConstructor
@@ -63,12 +63,12 @@ public class FeeController {
     @Autowired
     private final FeeSearchService feeSearchService;
 
-    @ApiOperation(value = "Create ranged fee")
+    @Operation(summary = "Create ranged fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 409, message = "Conflict")
+        @ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden"),
+        @ApiResponse(responseCode = "409", description = "Conflict")
     })
     @PostMapping("/ranged-fees")
     @ResponseStatus(HttpStatus.CREATED)
@@ -88,11 +88,11 @@ public class FeeController {
     }
 
 
-    @ApiOperation(value = "Update ranged fee")
+    @Operation(summary = "Update ranged fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Updated"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(responseCode = "200", description = "Updated"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PutMapping("/ranged-fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -107,11 +107,11 @@ public class FeeController {
     }
 
 
-    @ApiOperation(value = "Update fixed fee")
+    @Operation(summary = "Update fixed fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Updated"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(responseCode = "200", description = "Updated"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PutMapping("/fixed-fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -126,11 +126,11 @@ public class FeeController {
     }
 
 
-    @ApiOperation(value = "Create fixed fee")
+    @Operation(summary = "Create fixed fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PostMapping(value = "/fixed-fees")
     @ResponseStatus(HttpStatus.CREATED)
@@ -148,11 +148,11 @@ public class FeeController {
         }
     }
 
-    @ApiOperation(value = "Create rateable fee")
+    @Operation(summary = "Create rateable fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PostMapping(value = "/rateable-fees")
     @ResponseStatus(HttpStatus.CREATED)
@@ -171,11 +171,11 @@ public class FeeController {
     }
 
 
-    @ApiOperation(value = "Create relational fee")
+    @Operation(summary = "Create relational fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PostMapping(value = "/relational-fees")
     @ResponseStatus(HttpStatus.CREATED)
@@ -193,11 +193,11 @@ public class FeeController {
         }
     }
 
-    @ApiOperation(value = "Create banded fee")
+    @Operation(summary = "Create banded fee")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @PostMapping(value = "/banded-fees")
     @ResponseStatus(HttpStatus.CREATED)
@@ -216,11 +216,11 @@ public class FeeController {
     }
 
 
-    @ApiOperation(value = "Create bulk fees")
+    @Operation(summary = "Create bulk fees")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized, invalid user IDAM token"),
-        @ApiResponse(code = 403, message = "Forbidden")
+        @ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized, invalid user IDAM token"),
+        @ApiResponse(responseCode = "403", description = "Forbidden")
     })
     @Transactional
     @PostMapping(value = "/bulk-fixed-fees")
@@ -237,11 +237,11 @@ public class FeeController {
         feeService.save(fixedFees);
     }
 
-    @ApiOperation(value = "Get a fee for the given fee code", response = Fee2Dto.class)
+    @Operation(summary = "Get a fee for the given fee code")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 404, message = "Not Found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Not Found")
     })
     @GetMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.OK)
@@ -258,10 +258,10 @@ public class FeeController {
         feeService.getFee(code);
     }
 
-    @ApiOperation(value = "Delete a fee for the given fee code")
+    @Operation(summary = "Delete a fee for the given fee code")
     @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "Successfully deleted the fee for the given fee code."),
-        @ApiResponse(code = 403, message = "Unable to delete fee due to an existing approved version")
+        @ApiResponse(responseCode = "204", description = "Successfully deleted the fee for the given fee code."),
+        @ApiResponse(responseCode = "403", description = "Unable to delete fee due to an existing approved version")
     })
     @DeleteMapping("/fees/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -274,11 +274,11 @@ public class FeeController {
         }
     }
 
-    @ApiOperation(value = "Search for fees based on criteria")
+    @Operation(summary = "Search for fees based on criteria")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/fees")
     @ResponseStatus(HttpStatus.OK)
@@ -320,12 +320,12 @@ public class FeeController {
         return result;
     }
 
-    @ApiOperation(value = "Fee lookup based on reference data and amount", response = FeeLookupResponseDto.class)
+    @Operation(summary = "Fee lookup based on reference data and amount")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 204, message = "Found, but fee amount is zero"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "204", description = "Found, but fee amount is zero"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/fees/lookup")
     public ResponseEntity<FeeLookupResponseDto> lookup(@RequestParam String service,
@@ -363,11 +363,11 @@ public class FeeController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Lookup for unspecified fee based on reference data", response = FeeLookupResponseDto.class)
+    @Operation(summary = "Lookup for unspecified fee based on reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/fees/lookup-unspecified")
     @ResponseStatus(HttpStatus.OK)
@@ -392,11 +392,11 @@ public class FeeController {
         return feeService.lookup(lookupFeeDto);
     }
 
-    @ApiOperation(value = "Prevalidates a fee based on its reference data", response = FeeLookupResponseDto.class)
+    @Operation(summary = "Prevalidates a fee based on its reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 409, message = "Fee conflicts with one or more existing fees")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "409", description = "Fee conflicts with one or more existing fees")
     })
     @GetMapping("/fees/prevalidate")
     @ResponseStatus(HttpStatus.OK)
@@ -434,9 +434,9 @@ public class FeeController {
     }
 
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/approvedFees")
     @ResponseStatus(HttpStatus.OK)

@@ -1,9 +1,9 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toList;
  * @author Tarun Palisetty
  */
 
-@Api(value = "ReferenceData")
+@Tag(name = "ReferenceData")
 @RestController
 @Validated
 public class ReferenceDataController {
@@ -68,10 +68,10 @@ public class ReferenceDataController {
         this.applicantTypeService = applicantTypeService;
     }
 
-    @ApiOperation(value = "Get all reference data", response = AllReferenceDataDto.class)
+    @Operation(summary = "Get all reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/referenceData")
     @ResponseStatus(HttpStatus.OK)
@@ -91,10 +91,10 @@ public class ReferenceDataController {
 
     }
 
-    @ApiOperation(value = "Get application types reference data", response = ApplicantTypeDto.class, responseContainer = "List")
+    @Operation(summary = "Get application types reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/applicant-types")
     @ResponseStatus(HttpStatus.OK)
@@ -102,10 +102,10 @@ public class ReferenceDataController {
         return applicantTypeService.findAll().stream().map(referenceDataDtoMapper::toApplicantTypeDto).collect(toList());
     }
 
-    @ApiOperation(value = "Get channel types reference data", response = ChannelTypeDto.class, responseContainer = "List")
+    @Operation(summary = "Get channel types reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/channel-types")
     @ResponseStatus(HttpStatus.OK)
@@ -113,10 +113,10 @@ public class ReferenceDataController {
         return channelTypeService.findAll().stream().map(referenceDataDtoMapper::toChannelTypeDto).collect(toList());
     }
 
-    @ApiOperation(value = "Get direction types reference data", response = DirectionTypeDto.class, responseContainer = "List")
+    @Operation(summary = "Get direction types reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/direction-types")
     @ResponseStatus(HttpStatus.OK)
@@ -124,10 +124,10 @@ public class ReferenceDataController {
         return directionTypeService.findAll().stream().map(referenceDataDtoMapper::toDirectionTypeDto).collect(toList());
     }
 
-    @ApiOperation(value = "Get event types reference data", response = EventTypeDto.class, responseContainer = "List")
+    @Operation(summary = "Get event types reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/event-types")
     @ResponseStatus(HttpStatus.OK)
@@ -135,10 +135,10 @@ public class ReferenceDataController {
         return eventTypeService.findAll().stream().map(referenceDataDtoMapper::toEventTypeDto).collect(toList());
     }
 
-    @ApiOperation(value = "Get jurisdiction1 types reference data", response = Jurisdiction1Dto.class, responseContainer = "List")
+    @Operation(summary = "Get jurisdiction1 types reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/jurisdictions1")
     @ResponseStatus(HttpStatus.OK)
@@ -146,10 +146,10 @@ public class ReferenceDataController {
         return jurisdiction1Service.findAll().stream().map(referenceDataDtoMapper::toJuridiction1Dto).collect(toList());
     }
 
-    @ApiOperation(value = "Get jurisdiction2 types reference data", response = Jurisdiction2Dto.class, responseContainer = "List")
+    @Operation(summary = "Get jurisdiction2 types reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/jurisdictions2")
     @ResponseStatus(HttpStatus.OK)
@@ -157,10 +157,10 @@ public class ReferenceDataController {
         return jurisdiction2Service.findAll().stream().map(referenceDataDtoMapper::toJurisdiction2Dto).collect(toList());
     }
 
-    @ApiOperation(value = "Get service types reference data", response = ServiceTypeDto.class, responseContainer = "List")
+    @Operation(summary = "Get service types reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/service-types")
     @ResponseStatus(HttpStatus.OK)
@@ -168,10 +168,10 @@ public class ReferenceDataController {
         return serviceTypeService.findAll().stream().map(referenceDataDtoMapper::toServiceTypeDto).collect(toList());
     }
 
-    @ApiOperation(value = "Get range units reference data", response = RangeUnit.class, responseContainer = "List")
+    @Operation(summary = "Get range units reference data")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found")
+        @ApiResponse(responseCode = "200", description = "Found"),
+        @ApiResponse(responseCode = "404", description = "Not found")
     })
     @GetMapping("/range-units")
     @ResponseStatus(HttpStatus.OK)

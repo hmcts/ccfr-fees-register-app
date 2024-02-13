@@ -1,0 +1,414 @@
+{
+  "consumer": {
+    "name": "fr_caseOrchestratorService"
+  },
+  "interactions": [
+    {
+      "_id": "1c5830f2739126cf68d3c166515f57b709061a6f",
+      "description": "a request for Consented FR fees",
+      "providerStates": [
+        {
+          "name": "Consented Fees exist for Financial Remedy"
+        }
+      ],
+      "request": {
+        "matchingRules": {
+          "query": {
+            "channel": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "default"
+                }
+              ]
+            },
+            "event": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "general application"
+                }
+              ]
+            },
+            "jurisdiction1": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "family"
+                }
+              ]
+            },
+            "jurisdiction2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "family court"
+                }
+              ]
+            },
+            "keyword": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "GeneralAppWithoutNotice"
+                }
+              ]
+            },
+            "service": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "other"
+                }
+              ]
+            }
+          }
+        },
+        "method": "GET",
+        "path": "/fees-register/fees/lookup",
+        "query": {
+          "channel": [
+            "default"
+          ],
+          "event": [
+            "general application"
+          ],
+          "jurisdiction1": [
+            "family"
+          ],
+          "jurisdiction2": [
+            "family court"
+          ],
+          "keyword": [
+            "GeneralAppWithoutNotice"
+          ],
+          "service": [
+            "other"
+          ]
+        }
+      },
+      "response": {
+        "body": {
+          "code": "FEE0640",
+          "description": "Fee Description",
+          "fee_amount": 200,
+          "version": 1
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.code": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.description": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.fee_amount": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ]
+            },
+            "$.version": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ]
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "_id": "93e27fb4a9746a1d1d263f68f6f2a6aaddf5dc03",
+      "description": "a request for Contested FR fees",
+      "providerStates": [
+        {
+          "name": "Contested Fees exist for Financial Remedy"
+        }
+      ],
+      "request": {
+        "matchingRules": {
+          "query": {
+            "channel": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "default"
+                }
+              ]
+            },
+            "event": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "miscellaneous"
+                }
+              ]
+            },
+            "jurisdiction1": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "family"
+                }
+              ]
+            },
+            "jurisdiction2": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "family court"
+                }
+              ]
+            },
+            "keyword": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "FinancialOrderOnNotice"
+                }
+              ]
+            },
+            "service": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "other"
+                }
+              ]
+            }
+          }
+        },
+        "method": "GET",
+        "path": "/fees-register/fees/lookup",
+        "query": {
+          "channel": [
+            "default"
+          ],
+          "event": [
+            "miscellaneous"
+          ],
+          "jurisdiction1": [
+            "family"
+          ],
+          "jurisdiction2": [
+            "family court"
+          ],
+          "keyword": [
+            "FinancialOrderOnNotice"
+          ],
+          "service": [
+            "other"
+          ]
+        }
+      },
+      "response": {
+        "body": {
+          "code": "FEE0229",
+          "description": "Fee Description",
+          "fee_amount": 200,
+          "version": 1
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.code": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.description": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.fee_amount": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ]
+            },
+            "$.version": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ]
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-jvm": {
+      "version": "4.4.0-beta.2"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "feeRegister_lookUp"
+  },
+  "createdAt": "2023-08-22T10:28:42+00:00",
+  "_links": {
+    "self": {
+      "title": "Pact",
+      "name": "Pact between fr_caseOrchestratorService (6b795c27) and feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/version/6b795c27"
+    },
+    "pb:consumer": {
+      "title": "Consumer",
+      "name": "fr_caseOrchestratorService",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/fr_caseOrchestratorService"
+    },
+    "pb:consumer-version": {
+      "title": "Consumer version",
+      "name": "6b795c27",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/fr_caseOrchestratorService/versions/6b795c27"
+    },
+    "pb:provider": {
+      "title": "Provider",
+      "name": "feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/feeRegister_lookUp"
+    },
+    "pb:pact-version": {
+      "title": "Pact content version permalink",
+      "name": "756c908db28f392ee27e3ca5f7f08c22ef7e4a8a",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/pact-version/756c908db28f392ee27e3ca5f7f08c22ef7e4a8a"
+    },
+    "pb:latest-pact-version": {
+      "title": "Latest version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/latest"
+    },
+    "pb:all-pact-versions": {
+      "title": "All versions of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/versions"
+    },
+    "pb:latest-untagged-pact-version": {
+      "title": "Latest untagged version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/latest-untagged"
+    },
+    "pb:latest-tagged-pact-version": {
+      "title": "Latest tagged version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/latest/{tag}",
+      "templated": true
+    },
+    "pb:previous-distinct": {
+      "title": "Previous distinct version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/version/6b795c27/previous-distinct"
+    },
+    "pb:diff-previous-distinct": {
+      "title": "Diff with previous distinct version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/version/6b795c27/diff/previous-distinct"
+    },
+    "pb:diff": {
+      "title": "Diff with another specified version of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/pact-version/756c908db28f392ee27e3ca5f7f08c22ef7e4a8a/diff/pact-version/{pactVersion}",
+      "templated": true
+    },
+    "pb:pact-webhooks": {
+      "title": "Webhooks for the pact between fr_caseOrchestratorService and feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/webhooks/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService"
+    },
+    "pb:consumer-webhooks": {
+      "title": "Webhooks for all pacts with provider feeRegister_lookUp",
+      "href": "https://pact-broker.platform.hmcts.net/webhooks/consumer/feeRegister_lookUp"
+    },
+    "pb:tag-prod-version": {
+      "title": "PUT to this resource to tag this consumer version as 'production'",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/fr_caseOrchestratorService/versions/6b795c27/tags/prod"
+    },
+    "pb:tag-version": {
+      "title": "PUT to this resource to tag this consumer version",
+      "href": "https://pact-broker.platform.hmcts.net/pacticipants/fr_caseOrchestratorService/versions/6b795c27/tags/{tag}"
+    },
+    "pb:publish-verification-results": {
+      "title": "Publish verification results",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/pact-version/756c908db28f392ee27e3ca5f7f08c22ef7e4a8a/verification-results"
+    },
+    "pb:latest-verification-results": {
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/pact-version/756c908db28f392ee27e3ca5f7f08c22ef7e4a8a/verification-results/latest"
+    },
+    "pb:triggered-webhooks": {
+      "title": "Webhooks triggered by the publication of this pact",
+      "href": "https://pact-broker.platform.hmcts.net/pacts/provider/feeRegister_lookUp/consumer/fr_caseOrchestratorService/version/6b795c27/triggered-webhooks"
+    },
+    "pb:matrix-for-consumer-version": {
+      "title": "View matrix rows for the consumer version to which this pact belongs",
+      "href": "https://pact-broker.platform.hmcts.net/matrix?q[][pacticipant]=fr_caseOrchestratorService&q[][version]=6b795c27&latestby=cvpv"
+    },
+    "curies": [
+      {
+        "name": "pb",
+        "href": "https://pact-broker.platform.hmcts.net/doc/{rel}?context=pact",
+        "templated": true
+      }
+    ]
+  }
+}
