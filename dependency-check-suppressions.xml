@@ -401,7 +401,7 @@
             for Critical Resource” and could result in an exploit. Users should update to the latest version of Spring Security to mitigate any future
             exploits found around this issue.
         </notes>
-        <cve>2023-34042</cve>
+        <cve>CVE-2023-34042</cve>
     </suppress>
 </suppressions>
 
