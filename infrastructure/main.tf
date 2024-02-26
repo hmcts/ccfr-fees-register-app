@@ -102,7 +102,7 @@ module "fees-register-database-v15" {
   pgsql_admin_username = var.postgresql_user
 
   # Setup Access Reader db user
-  force_user_permissions_trigger = "1"
+  force_user_permissions_trigger = "0"
 
   pgsql_databases = [
       {
