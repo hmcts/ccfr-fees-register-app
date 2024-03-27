@@ -394,12 +394,6 @@
         </notes>
         <cve>CVE-2023-6378</cve>
     </suppress>
-    <suppress>
-        <notes>
-            postgresql. No Obvious upgrade candidate. We don't use the vulnerable connection property.
-        </notes>
-        <cve>CVE-2024-1597</cve>
-    </suppress>
 </suppressions>
 
 
