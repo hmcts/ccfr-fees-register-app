@@ -496,7 +496,7 @@
         "memo_line": "RECEIPT OF FEES - Family issue probate",
         "natural_account_code": "4481102158",
         "flat_amount": {
-          "amount": 273.00
+          "amount": 300.00
         }
       },
       "jurisdiction1": "family",
@@ -905,7 +905,7 @@
         "statutory_instrument": "2014 No 877",
         "si_ref_id": "2.2",
         "flat_amount": {
-          "amount": 2215
+          "amount": 2437
         }
       },
       "range_unit": "GBP",
