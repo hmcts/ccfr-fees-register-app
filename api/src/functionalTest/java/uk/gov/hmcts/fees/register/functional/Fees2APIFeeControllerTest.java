@@ -724,7 +724,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0219");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("273.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("300.00");
         });
     }
 
@@ -807,7 +807,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, feeLookupResponseDto -> {
             Assertions.assertThat(feeLookupResponseDto.getDescription()).isEqualTo("Application for a grant of probate (Estate over 5000 GBP)");
             Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo("273.00");
+            Assertions.assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo("300.00");
         });
     }
 
@@ -820,7 +820,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0313");
             Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Application for proceedings under Section 31 of Act");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("2215.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("2437.00");
         });
     }
 }
