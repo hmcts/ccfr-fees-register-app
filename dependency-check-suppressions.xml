@@ -138,26 +138,6 @@
 
     <suppress>
         <notes>
-            The package org.yaml:snakeyaml from 0 and before 1.31 are vulnerable to Denial of Service (DoS) due missing
-            to nested depth limitation for collections.
-        </notes>
-        <cve>CVE-2022-25857</cve>
-        <cve>CVE-2022-38749</cve>
-        <cve>CVE-2022-38750</cve>
-        <cve>CVE-2022-38751</cve>
-    </suppress>
-
-    <suppress>
-        <notes>
-            Using snakeYAML to parse untrusted YAML files may be vulnerable to Denial of Service attacks (DOS). If the
-            parser is running on user supplied input, an attacker may supply content that causes the parser to crash by
-            stack-overflow.
-        </notes>
-        <cve>CVE-2022-38752</cve>
-    </suppress>
-
-    <suppress>
-        <notes>
             In the thymeleaf-spring5:3.0.12 component, thymeleaf combined with specific scenarios in template injection
             may lead to remote code execution.
         </notes>
@@ -257,11 +237,6 @@
     <suppress>
         <notes>commons-fileupload</notes>
         <cve>CVE-2023-24998</cve>
-    </suppress>
-    <suppress>
-        <notes>SnakeYaml's Constructor() class does not restrict types which can be instantiated during deserialization.
-        </notes>
-        <cve>CVE-2022-1471</cve>
     </suppress>
     <suppress>
         <notes>Tomcat-embed-core and websocket suppressed to fix appinsights issue
