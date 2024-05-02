@@ -42,11 +42,6 @@
     </suppress>
 
     <suppress>
-        <notes>Major liquibase update to version 4.8.0+ needed, this will require code refactoring</notes>
-        <cve>CVE-2022-0839</cve>
-    </suppress>
-
-    <suppress>
         <notes>jackson-databind issue, upgrading to new version broke functional tests.</notes>
         <cve>CVE-2020-36518</cve>
     </suppress>
