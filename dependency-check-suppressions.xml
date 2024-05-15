@@ -42,11 +42,6 @@
     </suppress>
 
     <suppress>
-        <notes>jackson-databind issue, upgrading to new version broke functional tests.</notes>
-        <cve>CVE-2020-36518</cve>
-    </suppress>
-
-    <suppress>
         <notes>org.apache.poi issue, upgrading to new version and a large depth of nested objects</notes>
         <cve>CVE-2022-26336</cve>
     </suppress>
@@ -171,15 +166,6 @@
     </suppress>
     <suppress>
         <notes>
-            In FasterXML jackson-databind before 2.14.0-rc1, resource exhaustion can occur because of a lack of a check in
-            primitive value deserializers to avoid deep wrapper array nesting,
-            when the UNWRAP_SINGLE_VALUE_ARRAYS feature is enabled
-        </notes>
-        <cve>CVE-2022-42003</cve>
-        <cve>CVE-2022-42004</cve>
-    </suppress>
-    <suppress>
-        <notes>
             Postgres jdbc vulnerability is not resolved by the most recent patch 42.4.3 and is being supressed until a newer version is available.
         </notes>
         <cve>CVE-2022-41946</cve>
@@ -230,29 +216,9 @@
         <cve>CVE-2022-45688</cve>
     </suppress>
     <suppress>
-        <notes>commons-fileupload</notes>
-        <cve>CVE-2023-24998</cve>
-    </suppress>
-    <suppress>
-        <notes>Tomcat-embed-core and websocket suppressed to fix appinsights issue
-        </notes>
-        <cve>CVE-2023-28708</cve>
-    </suppress>
-    <suppress>
-        <notes>Upgrading jackson-databind-2.11.2 broke pipelines
-        </notes>
-        <cve>CVE-2023-35116</cve>
-    </suppress>
-    <suppress>
         <notes>In spring framework versions prior to 5.2.24 release+ ,5.3.27+ and 6.0.8+ , it is possible for a user to provide a specially crafted SpEL expression that may cause a denial-of-service (DoS) condition.
         </notes>
         <cve>CVE-2023-20863</cve>
-    </suppress>
-    <suppress>
-        <notes>
-            jackson-databind 2.10.x through 2.12.x before 2.12.6 and 2.13.x before 2.13.1 allows attackers to cause a denial of service (2 GB transient heap usage per read) in uncommon situations involving JsonNode JDK serialization.
-        </notes>
-        <cve>CVE-2021-46877</cve>
     </suppress>
     <!-- Supression Group ends here -->
 
@@ -261,14 +227,6 @@
             Spring context requires major update. Currently version 2.3.11 reuires major update to atleast 2.5
         </notes>
         <cve>CVE-2023-20883</cve>
-    </suppress>
-    <suppress>
-        <notes>
-            Use of Java's default temporary directory for file creation in `FileBackedOutputStream` in Google Guava
-            versions 1.0 to 31.1 on Unix systems
-        </notes>
-        <cve>CVE-2023-2976</cve>
-        <cve>CVE-2020-8908</cve>
     </suppress>
 
     <suppress>
@@ -283,14 +241,6 @@
             An issue was discovered in netplex json-smart-v1 through 2015-10-23 and json-smart-v2 through 2.4.
         </notes>
         <cve>CVE-2021-27568</cve>
-    </suppress>
-
-
-    <suppress>
-        <notes>
-            Thymeleaf through 3.1.1.RELEASE, as used in spring-boot-admin (aka Spring Boot Admin) through 3.1.1 and other products
-        </notes>
-        <cve>CVE-2023-38286</cve>
     </suppress>
 
     <suppress>
@@ -326,13 +276,6 @@
     </suppress>
     <suppress>
         <notes>
-            The HTTP/2 protocol allows a denial of service (server resource consumption) because request
-            cancellation can reset many streams quickly, as exploited in the wild in August through October 2023
-        </notes>
-        <cve>CVE-2023-44487</cve>
-    </suppress>
-    <suppress>
-        <notes>
             Denial of Service in JSON-Java versions up to and including 20230618.
         </notes>
         <cve>CVE-2023-5072</cve>
@@ -351,12 +294,6 @@
             In Spring Boot versions 2.7.0 - 2.7.17, 3.0.0-3.0.12 and 3.1.0-3.1.5, it is possible for a user to provide specially crafted HTTP requests that may cause a denial-of-service (DoS) condition.
         </notes>
         <cve>CVE-2023-34055</cve>
-    </suppress>
-    <suppress>
-        <notes>
-            Improper Input Validation vulnerability in Apache Tomcat.Tomcat from 11.0.0-M1 through 11.0.0-M10, from 10.1.0-M1 through 10.1.15, from 9.0.0-M1 through 9.0.82 and from 8.5.0 through 8.5.95 did not correctly parse HTTP trailer headers.
-        </notes>
-        <cve>CVE-2023-46589</cve>
     </suppress>
     <suppress>
         <notes>
