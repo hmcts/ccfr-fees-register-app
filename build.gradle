@@ -3,7 +3,7 @@ plugins {
     id "org.sonarqube" version "3.0"
     id 'org.springframework.boot' version '2.7.13'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id 'org.owasp.dependencycheck' version '9.0.4'
+    id 'org.owasp.dependencycheck' version '9.1.0'
     id "uk.gov.hmcts.java" version '0.12.0'
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
     id 'jacoco'
@@ -98,6 +98,9 @@ codeCoverageReport.dependsOn {
     subprojects*.test
 }
 
+ext['tomcat.version'] = '9.0.88' // CVE-2023-46589, CVE-2023-42794, CVE-2023-28709
+ext['jackson.version'] = '2.17.1' // CVE-2021-46877, CVE-2022-42003, CVE-2022-42004, CVE-2020-36518
+
 subprojects {
     apply plugin: 'java'
     apply plugin: "jacoco"
@@ -128,8 +131,8 @@ subprojects {
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
         implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
         implementation group: 'org.springdoc', name: 'springdoc-openapi-webmvc-core', version: '1.7.0'
-
-
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.17.1'
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.17.1'
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
