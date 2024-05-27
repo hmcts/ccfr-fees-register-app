@@ -3,7 +3,7 @@ appVersion: "2.0"
 description: Helm chart for the HMCTS fees-register api
 name: fees-register-api
 home: https://github.com/hmcts/ccfr-fees-register-app
-version: 0.4.7
+version: 0.4.8
 maintainers:
   - name: HMCTS Fees & Payments Dev Team
     email: ccpay@hmcts.net
