@@ -104,6 +104,8 @@ module "fees-register-database-v15" {
   # Setup Access Reader db user
   force_user_permissions_trigger = "0"
 
+  public_network_access_enabled = false
+
   pgsql_databases = [
       {
         name : var.database_name
