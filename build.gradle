@@ -8,8 +8,8 @@ plugins {
     id "com.gorylenko.gradle-git-properties" version "1.4.21"
     id 'jacoco'
     id 'maven-publish'
-    id 'com.jfrog.bintray' version '1.8.4'
-    id "au.com.dius.pact" version "4.6.1"
+    id 'com.jfrog.bintray' version '1.8.5'
+    id "au.com.dius.pact" version "4.6.10"
 }
 
 def versions = [
