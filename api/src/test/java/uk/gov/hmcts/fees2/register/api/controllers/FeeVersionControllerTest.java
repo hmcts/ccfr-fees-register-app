@@ -14,7 +14,7 @@ import uk.gov.hmcts.fees2.register.data.exceptions.BadRequestException;
 import uk.gov.hmcts.fees2.register.data.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
-import uk.gov.hmcts.fees2.register.data.service.impl.IdamServiceImpl;
+import uk.gov.hmcts.fees2.register.data.service.impl.IdamServiceFrImpl;
 
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
@@ -38,7 +38,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     private HttpServletResponse response;
 
     @MockBean
-    private IdamServiceImpl idamService;
+    private IdamServiceFrImpl idamService;
 
     @Before
     public void setup(){

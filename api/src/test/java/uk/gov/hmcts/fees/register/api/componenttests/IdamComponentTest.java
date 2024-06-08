@@ -21,7 +21,7 @@ import uk.gov.hmcts.fees2.register.data.exceptions.GatewayTimeoutException;
 import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
 import uk.gov.hmcts.fees2.register.data.model.IdamUserIdResponse;
 import uk.gov.hmcts.fees2.register.data.service.IdamService;
-import uk.gov.hmcts.fees2.register.data.service.impl.IdamServiceImpl;
+import uk.gov.hmcts.fees2.register.data.service.impl.IdamServiceFrImpl;
 
 import java.util.Collections;
 
@@ -38,7 +38,7 @@ public class IdamComponentTest {
     @Mock
     private RestTemplate restTemplateIdam;
 
-    @InjectMocks private IdamService idamService = new IdamServiceImpl();
+    @InjectMocks private IdamService idamService = new IdamServiceFrImpl();
 
     IdamUserIdResponse[] idamUserIdResponse = new IdamUserIdResponse[1];
 

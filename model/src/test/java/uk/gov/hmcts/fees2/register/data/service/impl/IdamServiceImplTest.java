@@ -45,7 +45,7 @@ public class IdamServiceImplTest {
     private RestTemplate restTemplateIdam;
 
     @InjectMocks
-    private IdamServiceImpl idamService;
+    private IdamServiceFrImpl idamService;
 
     @Before
     public void initSecurityContext() {

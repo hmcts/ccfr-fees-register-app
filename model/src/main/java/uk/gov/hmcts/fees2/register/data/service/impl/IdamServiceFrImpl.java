@@ -26,9 +26,9 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 @Service
-public class IdamServiceImpl implements IdamService {
+public class IdamServiceFrImpl implements IdamService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IdamServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IdamServiceFrImpl.class);
 
     private static final String USERID_ENDPOINT = "/api/v1/users";
 
