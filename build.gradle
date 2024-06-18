@@ -273,12 +273,12 @@ subprojects {
 
     task runProviderPactVerification(type: Test){
         logger.lifecycle("Running Pact provider verification Tests")
-        // systemProperty 'pact.verifier.publishResults',System.getProperty("pact.verifier.publishResults")
-        systemProperty 'pact.verifier.publishResults','true'
+        if (project.hasProperty('pact.verifier.publishResults')) {
+            systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
+        }
     }
 
-    // temp disable to get ft working
-    // runProviderPactVerification.finalizedBy pactVerify
+    runProviderPactVerification.finalizedBy pactVerify
 
     task smoke(type: GradleBuild, description: 'Runs smoke tests', group: 'Verification') {
         buildFile = './api/build.gradle'
