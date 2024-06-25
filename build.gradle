@@ -241,14 +241,27 @@ subprojects {
     }
 
     pact {
+        broker {
+            pactBrokerUrl = System.getenv("PACT_BROKER_URL") ?: 'http://localhost:80'
+        }
         serviceProviders {
             'feeRegister_lookUp' {
                 protocol = 'http'
                 host = 'fees-register-api-aat.service.core-compute-aat.internal'
                 port = 80
 
-                hasPactsFromPactBroker(System.getenv("PACT_BROKER_URL") ?: 'http://localhost:80');
+                fromPactBroker {
+                    withSelectors{
+                        branch('master')
+                    }
+                }
+                hasPactsWith('feeRegister_lookUp_consumers') {
+                    pactFileLocation = file('./api-contract/pacts')
 
+                }
+                publish {
+                    tags = ['master']
+                }
                 project.version = pactVersion.toString();
             }
         }
