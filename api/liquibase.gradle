@@ -3,7 +3,7 @@ configurations {
 }
 
 dependencies {
-    liquibase group: 'org.liquibase.ext', name: 'liquibase-hibernate5', version: 3.7
+    runtimeOnly group: 'org.liquibase.ext', name: 'liquibase-hibernate5', version: '4.27.0'
 }
 
 Properties liquibaseProps = new Properties()
