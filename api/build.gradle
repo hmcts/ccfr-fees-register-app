@@ -1,5 +1,9 @@
 buildscript {
+    ext {
+        springBootVersion = '2.7.18'
+    }
     dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath "net.serenity-bdd:serenity-gradle-plugin:3.2.3"
         classpath "net.serenity-bdd:serenity-single-page-report:3.2.3"
     }
