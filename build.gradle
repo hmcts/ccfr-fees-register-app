@@ -63,6 +63,21 @@ allprojects {
             mavenBom "org.springframework.boot:spring-boot-dependencies:2.7.18"
             mavenBom 'org.apache.logging.log4j:log4j-bom:2.17.1'
         }
+
+        dependencies {
+            dependencySet(
+                    group: 'org.codehaus.groovy.modules.http-builder',
+                    version: '0.7.1'
+            ) {
+                entry 'http-builder'
+            }
+            dependencySet(
+                    group: 'org.ajoberstar',
+                    version: '1.7.2'
+            ) {
+                entry 'grgit'
+            }
+        }
     }
 }
 

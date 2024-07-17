@@ -67,23 +67,6 @@ sonarqube {
     }
 }
 
-dependencyManagement {
-    dependencies {
-        dependencySet(
-                group: 'org.codehaus.groovy.modules.http-builder',
-                version: '0.7.1'
-        ) {
-            entry 'http-builder'
-        }
-        dependencySet(
-                group: 'org.ajoberstar',
-                version: '1.7.2'
-        ) {
-            entry 'grgit'
-        }
-    }
-}
-
 def javaLoggingVersion = '6.0.1'
 dependencies {
     implementation project(':fees-register-model')
