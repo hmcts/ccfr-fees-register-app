@@ -301,27 +301,6 @@
         </notes>
         <cve>CVE-2023-6378</cve>
     </suppress>
-
-    <suppress>
-        <notes>
-            What is going on here.
-        </notes>
-        <cve>CVE-2019-10086</cve>
-        <cve>CVE-2008-5730</cve>
-        <cve>CVE-2008-5742</cve>
-        <cve>CVE-2022-23437</cve>
-        <cve>CVE-2014-0114</cve>
-        <cve>CVE-2022-24839</cve>
-        <cve>CVE-2016-5725</cve>
-        <cve>CVE-2023-4759</cve>
-        <cve>CVE-2008-5727</cve>
-        <cve>CVE-2015-2214</cve>
-        <cve>CVE-2008-5728</cve>
-        <cve>CVE-2015-6420</cve>
-        <cve>CVE-2008-5729</cve>
-        <cve>CVE-2018-2799</cve>
-    </suppress>
-
 </suppressions>
 
 
