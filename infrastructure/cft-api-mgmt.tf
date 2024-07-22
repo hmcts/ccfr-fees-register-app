@@ -19,10 +19,10 @@ data "template_file" "cft_policy_template" {
 }
 
 module "cft_api_mgmt_product" {
-  source        = "git@github.com:hmcts/cnp-module-api-mgmt-product?ref=master"
-  name          = var.product_name
-  api_mgmt_name = local.cft_api_mgmt_name
-  api_mgmt_rg   = local.cft_api_mgmt_rg
+  source                        = "git@github.com:hmcts/cnp-module-api-mgmt-product?ref=master"
+  name                          = var.product_name
+  api_mgmt_name                 = local.cft_api_mgmt_name
+  api_mgmt_rg                   = local.cft_api_mgmt_rg
   product_access_control_groups = ["developers"]
   providers = {
     azurerm = azurerm.aks-cftapps
