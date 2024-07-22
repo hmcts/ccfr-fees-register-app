@@ -28,7 +28,7 @@ resource "azurerm_api_management_subscription" "liberata_supplier_fee_register_s
   provider            = azurerm.aks-cftapps
 }
 
-resource "azurerm_key_vault_secret" "fee_pay_team_fee_register_subscription_key" {
+resource "azurerm_key_vault_secret" "liberata_supplier_fee_register_subscription_key" {
   name         = "liberata-cft-apim-fee-register-subscription-key"
   value        = azurerm_api_management_subscription.liberata_supplier_fee_register_subscription.primary_key
   key_vault_id = data.azurerm_key_vault.payment_key_vault.id
