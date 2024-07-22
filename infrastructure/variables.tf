@@ -68,3 +68,7 @@ variable "postgresql_flexible_sql_version" {
 variable "postgresql_flexible_server_port" {
   default = "5432"
 }
+
+variable "apim_suffix" {
+  default = ""
+}
