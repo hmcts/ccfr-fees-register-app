@@ -19,13 +19,13 @@ locals {
       subscription = "867a878b-cb68-4de5-9741-361ac9e178b6"
     }
     test = {
-          subscription = "3eec5bde-7feb-4566-bfb6-805df6e10b90"
+      subscription = "3eec5bde-7feb-4566-bfb6-805df6e10b90"
     }
     ithc = {
-          subscription = "ba71a911-e0d6-4776-a1a6-079af1df7139"
+      subscription = "ba71a911-e0d6-4776-a1a6-079af1df7139"
     }
     prod = {
-          subscription = "5ca62022-6aa2-4cee-aaa7-e7536c8d566c"
+      subscription = "5ca62022-6aa2-4cee-aaa7-e7536c8d566c"
     }
   }
 }
