@@ -71,9 +71,8 @@ def javaLoggingVersion = '6.0.1'
 dependencies {
     implementation project(':fees-register-model')
     implementation project(':fees-register-api-contract')
-    implementation (group: 'com.github.hmcts', name: 'auth-checker-lib', version: '2.3.0') {
-        exclude(module: 'java-logging-spring')
-    }
+
+    implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: '2.2.0'
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
@@ -93,7 +92,7 @@ dependencies {
     }
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
     testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
-    testImplementation group: 'io.rest-assured', name: 'rest-assured'
+    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.5.0'
     testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
