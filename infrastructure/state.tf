@@ -4,17 +4,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.40"
+      version = "~> 3.107.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "1.6.0"
+      version = "2.51.0"
     }
   }
-}
-
-provider "azurerm" {
-  alias = "cftappsdemo"
-  features {}
-  subscription_id = var.aks_subscription_id
 }

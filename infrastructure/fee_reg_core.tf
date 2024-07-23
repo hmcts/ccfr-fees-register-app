@@ -16,11 +16,11 @@ module "ccpay-feeregister-api-core" {
   service_url   = local.feeregister_api_url
   product_id    = module.ccpay-feeregister-product-core.product_id
   name          = join("-", [var.product_name, "apiList"])
-  protocols             = ["http", "https"]
+  protocols     = ["http", "https"]
 
-  display_name  = "Fee Register API"
-  path          = "feeRegister-api"
-  swagger_url   = "https://raw.githubusercontent.com/hmcts/reform-api-docs/master/docs/specs/ccpay-payment-app.freg_api1.json"
+  display_name = "Fee Register API"
+  path         = "feeRegister-api"
+  swagger_url  = "https://raw.githubusercontent.com/hmcts/reform-api-docs/master/docs/specs/ccpay-payment-app.freg_api1.json"
 
 }
 
