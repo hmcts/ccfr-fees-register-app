@@ -12,8 +12,6 @@ locals {
   //ccpay key vault configuration
   core_product_vaultName   = join("-", [var.core_product, var.env])
   freg_key_vault           = join("-", ["ccpay", var.env])
-  api_mgmt_name            = join("-", ["core-api-mgmt", var.env])
-  api_mgmt_rg              = join("-", ["core-infra", var.env])
   api_mgmt_name_cft        = join("-", ["cft-api-mgmt", var.env])
   api_mgmt_rg_cft          = join("-", ["cft", var.env, "network-rg"])
   s2sUrl                   = "http://rpe-service-auth-provider-${var.env}.service.core-compute-${var.env}.internal"
