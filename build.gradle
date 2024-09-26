@@ -51,6 +51,7 @@ allprojects {
     group = 'uk.gov.hmcts.reform.fees-register'
     ext {
         buildNumber = System.getenv("BUILD_NUMBER") ?: '0'
+        pacticipantVersion = getCheckedOutGitCommitHash()
     }
     version = rootProject.file('version.txt').text.trim() + ".${buildNumber}"
 
@@ -254,6 +255,7 @@ subprojects {
         if (project.hasProperty('pact.verifier.publishResults')) {
             systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
         }
+        systemProperty 'pact.provider.version', project.pacticipantVersion
     }
 
     runProviderPactVerification.finalizedBy pactVerify
