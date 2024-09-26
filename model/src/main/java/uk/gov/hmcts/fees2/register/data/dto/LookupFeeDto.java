@@ -6,7 +6,6 @@ import lombok.*;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 
 import java.math.BigDecimal;
-
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
@@ -27,7 +26,7 @@ public class LookupFeeDto {
 
     private String keyword;
 
-    //private String direction;
+    private String direction;
 
     private String applicantType;
 

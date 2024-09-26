@@ -36,6 +36,14 @@ sourceSets {
             srcDir file('src/functionalTest/java')
         }
     }
+    contractTest {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/contractTest/java')
+        }
+        resources.srcDir file('src/contractTest/resources')
+    }
 }
 
 apply plugin: 'idea'
@@ -47,6 +55,8 @@ idea {
         testSourceDirs += project.sourceSets.integrationTest.resources.srcDirs
         testSourceDirs += project.sourceSets.functionalTest.java.srcDirs
         testSourceDirs += project.sourceSets.functionalTest.resources.srcDirs
+        testSourceDirs += project.sourceSets.contractTest.java.srcDirs
+        testSourceDirs += project.sourceSets.contractTest.resources.srcDirs
     }
 }
 
@@ -57,6 +67,7 @@ def versions = [
         serenity: '3.2.3',
         serenityreporter: '3.2.3',
         serenityCucumber: '1.9.51',
+        pact_version    : '4.1.7',
 ]
 
 sonarqube {
@@ -94,6 +105,9 @@ dependencies {
     testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
     testImplementation group: 'io.rest-assured', name: 'rest-assured'
     testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
     functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
@@ -115,6 +129,18 @@ dependencies {
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
+
+    contractTestImplementation sourceSets.test.runtimeClasspath
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
+    contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'java8', version: versions.pact_version
+    contractTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    contractTestImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.10.2')
+
     implementation group: 'org.pitest', name: 'pitest', version: versions.pitest
     implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6'
     implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
@@ -144,6 +170,31 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
     classpath = sourceSets.functionalTest.runtimeClasspath
     finalizedBy aggregate
 }
+
+task runProviderPactVerification(type: Test) {
+    logger.lifecycle("Runs pact provider Tests")
+    systemProperty 'pact.verifier.publishResults','true'
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+}
+
+task providerContractTest(type: Test) {
+    logger.lifecycle("Running contract provider Tests")
+    useJUnitPlatform()
+    include "uk/gov/hmcts/fees2/register/api/controllers/**"
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+    systemProperty 'pact.rootDir', "pacts"
+    if (project.hasProperty('pact.verifier.publishResults')) {
+        systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
+    }
+    systemProperty 'pact.provider.version', project.pactVersion
+
+}
+
+runProviderPactVerification.dependsOn providerContractTest
+
+runProviderPactVerification.finalizedBy pactVerify
 
 functionalTest.finalizedBy(aggregate)
 
