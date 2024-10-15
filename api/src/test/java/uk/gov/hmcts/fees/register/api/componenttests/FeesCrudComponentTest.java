@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,6 @@ import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.FixedFeeDtoBuilder;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto;
 import uk.gov.hmcts.fees.register.api.contract.PercentageFeeDto.PercentageFeeDtoBuilder;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 import static java.lang.String.join;

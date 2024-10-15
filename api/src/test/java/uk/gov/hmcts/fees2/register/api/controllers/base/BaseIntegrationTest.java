@@ -30,6 +30,9 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertSame;
 import static junit.framework.TestCase.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -95,7 +98,7 @@ public abstract class BaseIntegrationTest extends BaseTest {
             .andReturn().getResponse().getHeader("Location").split("/")[3];
     }
 
-    protected ResultActions saveFee(FeeDto dto) throws Exception {
+    protected ResultActions saveFee(FeeDto dto) {
 
         String methodName = getMethodName(dto);
 
@@ -232,27 +235,27 @@ public abstract class BaseIntegrationTest extends BaseTest {
     protected ResultMatcher versionIsOneAndStatusIsDraft() {
         return body().as(Fee2Dto.class, (feeDto) -> {
             FeeVersionDto v = feeDto.getFeeVersionDtos().get(0);
-            assertTrue(v.getVersion().equals(new Integer(1)));
-            assertTrue(v.getStatus() == FeeVersionStatusDto.draft);
+            assertEquals(v.getVersion(), Integer.valueOf(1));
+            assertSame(v.getStatus(), FeeVersionStatusDto.draft);
         });
     }
 
     protected ResultMatcher channelIsDefault() {
         return body().as(Fee2Dto.class, (feeDto) -> {
-            assertTrue(feeDto.getChannelTypeDto().getName().equals(ChannelType.DEFAULT));
+            assertEquals(ChannelType.DEFAULT, feeDto.getChannelTypeDto().getName());
         });
     }
 
     protected ResultMatcher lookupResultMatchesFee(FeeDto feeDto) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
             assertTrue(feeDto.getCode().equalsIgnoreCase(res.getCode()));
-            assertTrue(res.getVersion() != null);
+            assertNotNull(res.getVersion());
         });
     }
 
     protected ResultMatcher lookupResultMatchesExpectedFeeAmount(BigDecimal feeAmount) {
         return body().as(FeeLookupResponseDto.class, (res) -> {
-            assertTrue(feeAmount.compareTo(res.getFeeAmount()) == 0);
+            assertEquals(0, feeAmount.compareTo(res.getFeeAmount()));
         });
     }
 

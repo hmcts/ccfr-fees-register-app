@@ -6,14 +6,13 @@ import io.restassured.config.ObjectMapperConfig;
 import io.restassured.filter.log.ErrorLoggingFilter;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.fees.register.functional.config.TestConfigProperties;
 import uk.gov.hmcts.fees.register.functional.idam.IdamService;
 import uk.gov.hmcts.fees.register.functional.idam.models.User;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 @Component
 public class UserBootstrap {

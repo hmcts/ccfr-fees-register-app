@@ -1,17 +1,16 @@
 buildscript {
     dependencies {
-        classpath "net.serenity-bdd:serenity-gradle-plugin:3.2.3"
-        classpath "net.serenity-bdd:serenity-single-page-report:3.2.3"
+        classpath "net.serenity-bdd:serenity-single-page-report:4.2.3"
     }
 }
 
 plugins {
-    id "info.solidsoft.pitest" version '1.9.0'
+    id "info.solidsoft.pitest" version '1.15.0'
+    id "net.serenity-bdd.serenity-gradle-plugin" version "4.2.1"
 }
 description = 'api module'
 
 apply from: 'liquibase.gradle'
-apply plugin: 'net.serenity-bdd.aggregator'
 
 sourceSets {
 
@@ -51,12 +50,12 @@ idea {
 }
 
 def versions = [
-        pitest: '1.9.0',
         gradlePitest: '1.3.0',
+        lombok: '1.18.34',
+        pitest: '1.9.0',
         sonarPitest: '0.5',
-        serenity: '3.2.3',
-        serenityreporter: '3.2.3',
-        serenityCucumber: '1.9.51',
+        serenity: '4.2.3',
+        serenityCucumber: '4.2.3'
 ]
 
 sonarqube {
@@ -72,40 +71,38 @@ dependencies {
     implementation project(':fees-register-model')
     implementation project(':fees-register-api-contract')
 
-    implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: '2.2.0'
+    implementation group: 'com.github.hmcts', name: 'auth-checker-lib', version: '3.0.2'
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    implementation group: 'joda-time', name: 'joda-time', version: '2.9.9'
-    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.6.0') {
+    implementation group: 'joda-time', name: 'joda-time', version: '2.13.0'
+    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.7.4') {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
     implementation group: 'org.liquibase', name: 'liquibase-core'
-    implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: javaLoggingVersion
-    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version:'5.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
     testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
     }
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.2.1.RELEASE'
-    testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.3.5'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.3.3'
+    testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.7.3'
     testImplementation group: 'io.rest-assured', name: 'rest-assured'
-    testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    testImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
-    functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
-    smokeTestImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
-    smokeTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.28'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    functionalTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    smokeTestImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    smokeTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
     integrationTestImplementation project(':fees-register-model')
     integrationTestImplementation project(':fees-register-api-contract')
     integrationTestImplementation sourceSets.test.runtimeClasspath
 
 
-    testImplementation 'io.github.openfeign:feign-jackson:9.7.0'
+    testImplementation 'io.github.openfeign:feign-jackson:13.5'
     // smoke
     smokeTestImplementation sourceSets.test.runtimeClasspath
     // functional
@@ -116,13 +113,17 @@ dependencies {
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     implementation group: 'org.pitest', name: 'pitest', version: versions.pitest
-    implementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.6'
+
     implementation 'org.codehaus.sonar-plugins:sonar-pitest-plugin:0.5'
 }
 
 test {
     // Base test class for other tests - has no runnable test methods
     exclude '**/ComponentTestBase*'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << '-parameters'
 }
 
 task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verification') {

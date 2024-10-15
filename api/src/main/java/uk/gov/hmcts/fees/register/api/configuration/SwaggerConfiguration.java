@@ -1,16 +1,11 @@
 package uk.gov.hmcts.fees.register.api.configuration;
 
-import com.google.common.base.Predicate;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.springdoc.core.customizers.OperationCustomizer;
-import org.springdoc.core.GroupedOpenApi;
-import static java.util.Collections.singletonList;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 
 @Configuration

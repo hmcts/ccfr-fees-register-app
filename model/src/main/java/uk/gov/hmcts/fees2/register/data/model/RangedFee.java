@@ -1,11 +1,19 @@
 package uk.gov.hmcts.fees2.register.data.model;
 
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.GenericFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.IFeeValidator;
 import uk.gov.hmcts.fees2.register.data.service.validator.validators.RangedFeeValidator;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;

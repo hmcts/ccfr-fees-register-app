@@ -1,5 +1,8 @@
 package uk.gov.hmcts.fees2.register.data.service.impl;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +19,6 @@ import uk.gov.hmcts.fees2.register.data.repository.Jurisdiction2Repository;
 import uk.gov.hmcts.fees2.register.data.repository.ServiceTypeRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

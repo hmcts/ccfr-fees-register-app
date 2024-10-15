@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees.register.api.repositories;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import uk.gov.hmcts.fees.register.legacymodel.FeesRegister;
 import uk.gov.hmcts.fees.register.legacymodel.FeesRegisterNotLoadedException;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 

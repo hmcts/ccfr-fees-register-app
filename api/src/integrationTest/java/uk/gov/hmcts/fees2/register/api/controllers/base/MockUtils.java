@@ -119,7 +119,7 @@ public class MockUtils {
     public FixedFeeDto getFixedFeeDto() {
 
         final FlatAmountDto flatAmountDto = new FlatAmountDto(new BigDecimal("150.00"));
-        final FeeVersionDto feeVersionDto = new FeeVersionDto(new Integer("1"),
+        final FeeVersionDto feeVersionDto = new FeeVersionDto(Integer.valueOf("1"),
                 null,
                 null, "Testing1", FeeVersionStatusDto.draft, flatAmountDto, null, null, AUTHOR, AUTHOR,
                 "Test memo line", null, null, "Natural code 001", "CMC online fee order name", "CMC online fee order name",

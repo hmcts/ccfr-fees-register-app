@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.repository;
 
+import jakarta.transaction.Transactional;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
@@ -21,7 +22,6 @@ import uk.gov.hmcts.fees2.register.data.service.ChannelTypeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;

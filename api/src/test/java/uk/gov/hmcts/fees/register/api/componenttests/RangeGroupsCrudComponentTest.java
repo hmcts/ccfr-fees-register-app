@@ -1,6 +1,7 @@
 package uk.gov.hmcts.fees.register.api.componenttests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,27 +14,24 @@ import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.fees.register.api.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
+import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.RangeGroupUpdateDtoBuilder;
 import uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.RangeUpdateDto;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.nCopies;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
-import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.RangeDto.rangeDtoWith;
-import static uk.gov.hmcts.fees.register.api.contract.RangeGroupDto.rangeGroupDtoWith;
-import static uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.RangeUpdateDto.rangeUpdateDtoWith;
-import static uk.gov.hmcts.fees.register.api.contract.RangeGroupUpdateDto.rangeGroupUpdateDtoWith;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
@@ -62,23 +60,23 @@ public class RangeGroupsCrudComponentTest {
         return new CustomResultMatcher(objectMapper);
     }
 
-    private static final RangeGroupDto RANGE_GROUP_PROBATE_COPIES = rangeGroupDtoWith()
+    private static final RangeGroupDto RANGE_GROUP_PROBATE_COPIES = RangeGroupDto.rangeGroupDtoWith()
         .code("probate-copies")
         .description("Probate - Copies")
         .ranges(asList(
-            rangeDtoWith()
+            RangeGroupDto.RangeDto.rangeDtoWith()
                 .from(0)
                 .to(1)
-                .fee(fixedFeeDtoWith()
+                .fee(FixedFeeDto.fixedFeeDtoWith()
                     .code("X0251-1")
                     .description("First copy (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.")
                     .amount(1000)
                     .build())
                 .build(),
 
-            rangeDtoWith()
+            RangeGroupDto.RangeDto.rangeDtoWith()
                 .from(2)
-                .fee(fixedFeeDtoWith()
+                .fee(FixedFeeDto.fixedFeeDtoWith()
                     .code("X0251-2")
                     .description("Additional copies (consisting of grant including a copy of the Will, if applicable) ordered after the Grant of Representation has been issued.")
                     .amount(50)
@@ -116,7 +114,7 @@ public class RangeGroupsCrudComponentTest {
 
     @Test
     public void updateRangeGroup() throws Exception {
-        RangeGroupUpdateDtoBuilder proposeRangeGroup = rangeGroupUpdateDtoWith()
+        RangeGroupUpdateDtoBuilder proposeRangeGroup = RangeGroupUpdateDto.rangeGroupUpdateDtoWith()
             .description("New Description")
             .ranges(asList(
                 new RangeUpdateDto(0, 1000, "X0046"),
@@ -131,10 +129,10 @@ public class RangeGroupsCrudComponentTest {
                 assertThat(rangeGroupDto.getCode()).isEqualTo("cmc-online");
                 assertThat(rangeGroupDto.getDescription()).isEqualTo("New Description");
                 assertThat(rangeGroupDto.getRanges()).hasSize(2);
-                assertThat(rangeGroupDto.getRanges()).contains(rangeDtoWith()
+                assertThat(rangeGroupDto.getRanges()).contains(RangeGroupDto.RangeDto.rangeDtoWith()
                     .from(1001)
                     .to(null)
-                    .fee(fixedFeeDtoWith().code("X0047").amount(54500).description("Civil Court fees - Hearing fees - Fast track claim").build())
+                    .fee(FixedFeeDto.fixedFeeDtoWith().code("X0047").amount(54500).description("Civil Court fees - Hearing fees - Fast track claim").build())
                     .build()
                 );
             }));
@@ -142,7 +140,7 @@ public class RangeGroupsCrudComponentTest {
 
     @Test
     public void createRangeGroup() throws Exception {
-        RangeGroupUpdateDtoBuilder proposeRangeGroup = rangeGroupUpdateDtoWith()
+        RangeGroupUpdateDtoBuilder proposeRangeGroup = RangeGroupUpdateDto.rangeGroupUpdateDtoWith()
             .description("New Description")
             .ranges(asList(
                 new RangeUpdateDto(0, 1000, "X0046"),
@@ -174,27 +172,27 @@ public class RangeGroupsCrudComponentTest {
 
     @Test
     public void validateFeeExists() throws Exception {
-        RangeGroupUpdateDto rangeGroupWithNonExistingFee = rangeGroupWithRange(rangeUpdateDtoWith().from(100).to(1000).feeCode("non-existing").build());
+        RangeGroupUpdateDto rangeGroupWithNonExistingFee = rangeGroupWithRange(RangeUpdateDto.rangeUpdateDtoWith().from(100).to(1000).feeCode("non-existing").build());
         assertValidationMessage("/range-groups/cmc-online", rangeGroupWithNonExistingFee, "ranges: one of the ranges contains unknown fee code");
     }
 
     @Test
     public void validateRangeFrom() throws Exception {
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(null).to(1000).feeCode("X0047").build()), "ranges[0].from: must not be null");
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(-1).to(1000).feeCode("X0047").build()), "ranges[0].from: must be greater than or equal to 0");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(RangeUpdateDto.rangeUpdateDtoWith().from(null).to(1000).feeCode("X0047").build()), "ranges[0].from: must not be null");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(RangeUpdateDto.rangeUpdateDtoWith().from(-1).to(1000).feeCode("X0047").build()), "ranges[0].from: must be greater than or equal to 0");
     }
 
     @Test
     public void validateEmptyRange() throws Exception {
-        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(rangeUpdateDtoWith().from(0).to(0).feeCode("X0047").build()), "ranges: one of the ranges is empty");
+        assertValidationMessage("/range-groups/cmc-online", rangeGroupWithRange(RangeUpdateDto.rangeUpdateDtoWith().from(0).to(0).feeCode("X0047").build()), "ranges: one of the ranges is empty");
     }
 
     @Test
     public void validateContinuousRanges() throws Exception {
         RangeGroupUpdateDto nonContinuousRangeGroup = validRangeGroupUpdateDto()
             .ranges(Arrays.asList(
-                rangeUpdateDtoWith().from(0).to(1000).feeCode("X0047").build(),
-                rangeUpdateDtoWith().from(1002).to(null).feeCode("X0048").build()
+                RangeUpdateDto.rangeUpdateDtoWith().from(0).to(1000).feeCode("X0047").build(),
+                RangeUpdateDto.rangeUpdateDtoWith().from(1002).to(null).feeCode("X0048").build()
             ))
             .build();
 
@@ -206,7 +204,7 @@ public class RangeGroupsCrudComponentTest {
     }
 
     private RangeGroupUpdateDto.RangeGroupUpdateDtoBuilder validRangeGroupUpdateDto() {
-        return rangeGroupUpdateDtoWith().description("any").ranges(emptyList());
+        return RangeGroupUpdateDto.rangeGroupUpdateDtoWith().description("any").ranges(emptyList());
     }
 
     private void assertValidationMessage(String urlTemplate, RangeGroupUpdateDto dto, String message) throws Exception {

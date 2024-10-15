@@ -1,6 +1,7 @@
 package uk.gov.hmcts;
 
 
+import jakarta.servlet.ServletContextListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -8,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import uk.gov.hmcts.logging.Markers;
-
-import javax.servlet.ServletContextListener;
 
 @SpringBootApplication
 public class FeesRegisterServiceApplication {

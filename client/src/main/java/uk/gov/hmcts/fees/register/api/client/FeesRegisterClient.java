@@ -2,10 +2,10 @@ package uk.gov.hmcts.fees.register.api.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.List;
@@ -105,9 +105,9 @@ public class FeesRegisterClient implements FeesRegister {
     }
 
     private void checkStatusIs2xx(HttpResponse httpResponse) throws IOException {
-        if (!(httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK)) {
+        if (httpResponse.getCode() != HttpStatus.SC_OK) {
 
-            throw new FeesRegisterResponseException(httpResponse.getStatusLine().getStatusCode(), httpResponse.getStatusLine().getReasonPhrase());
+            throw new FeesRegisterResponseException(httpResponse.getCode(), httpResponse.getReasonPhrase());
         }
     }
 }

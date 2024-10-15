@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -16,7 +17,6 @@ import uk.gov.hmcts.fees2.register.data.model.DirectionType;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.impl.IdamServiceImpl;
 
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -14,7 +14,7 @@ This is SpringBoot based java application. Please see the Jenkinsfile in root fo
 
 You will need jdk installed on your machine, and the fees_register database running, for which you can run:
 
-$ docker-compose -f ./docker-compose.yml up fees-database
+```docker-compose -f ./docker-compose.yml up fees-database```
 
 
 ### Installing
@@ -25,20 +25,23 @@ $ docker-compose -f ./docker-compose.yml up fees-database
 
 To test locally all the tasks that run on the Jenkins master branch build, run:
 
-'./gradlew test' for unit tests
-'./gradlew smoke'
-'./gradlew functional' but you will need some environment variables (see next section)
-'./gradlew fortifyScan'
-'./gradlew pitest' for mutation testing
-'./gradlew runProviderPactVerification' to verify the provider contracts
-
+```
+./gradlew test # for unit tests
+./gradlew smoke
+./gradlew functional # but you will need some environment variables (see next section)
+./gradlew fortifyScan
+./gradlew pitest # for mutation testing
+./gradlew runProviderPactVerification # to verify the provider contracts
+```
 
 ## Environment variables for functional tests
 
+```
 export OAUTH2_CLIENT_SECRET=ask someone for this
 export TEST_URL=http://fees-register-api-aat.service.core-compute-aat.internal       
 export IDAM_API_URL=https://idam-api.aat.platform.hmcts.net
 export OAUTH2_REDIRECT_URI=https://fees-register-frontend-aat.service.core-compute-aat.internal/oauth2
+```
 
 ## Deployment
 
@@ -53,7 +56,7 @@ To run the DB migration task locally, run
 ## Run the application
 To run the application at local developer machine use following command
 
-$ ./gradlew bootRun
+`./gradlew bootRun`
 
 Once application server is started use swagger ui to find the endpoints and test these. 
 http://localhost:8080/swagger-ui.html
@@ -66,14 +69,18 @@ or https://test-proxy.fees-register.reform.hmcts.net/swagger-ui.html
 
 Please add the below environmental variables in .env in ccfr-fees-register-app/.env
 
+```
 FEE_REGISTER_PASS = fees_register
 OPENID_SPRING_DATASOURCE_PASSWORD = openidm
 IDAM_SPI_FORGEROCK_AM_PASSWORD = Pa55word11
 IDAM_SPI_FORGEROCK_IDM_PASSWORD = openidm-admin
 IDAM_SPI_FORGEROCK_IDM_PIN_DEFAULTPASSWORD = BlaBlaBlackSh33p
 SECURITY_OAUTH2_CLIENT_CLIENTSECRET = password
-
-``` docker-compose up ```
+```
+Then
+``` 
+docker-compose up 
+```
 
 ## Service Endpoints
 Some of the end points are as below. These might be out of date. Please look at the swagger-ui to be sure. 

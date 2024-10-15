@@ -1,9 +1,13 @@
 package uk.gov.hmcts.fees.register.api.model;
 
-import lombok.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.ToString;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
 import java.math.BigDecimal;
 
 @Data
