@@ -3,16 +3,19 @@ package uk.gov.hmcts.fees.register.api.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.List;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 public class FeesRegisterClientTest {
@@ -41,19 +44,19 @@ public class FeesRegisterClientTest {
 
     }
 
-    private FeesDto createFlatFees() throws Exception {
+    private FeesDto createFlatFees() {
         FeesDto fees = FeesDto.feesDtoWith().id("X0046").type("fixed").amount(109000).description("Civil Court fees - Hearing fees - Multi track claim").build();
         return fees;
     }
 
-    private FeesDto createOnlineFees() throws Exception {
+    private FeesDto createOnlineFees() {
         FeesDto onlineFees = FeesDto.feesDtoWith().id("X0024").type("fixed").amount(2500).description("Civil Court fees - Money Claims Online - Claim Amount - 0.01 upto 300 GBP").build();
         return onlineFees;
     }
 
 
     @Test
-    public void getFeesRegister() throws Exception {
+    public void getFeesRegister() {
 
         stubFor(get(urlEqualTo("/fees-register"))
             .willReturn(aResponse().
@@ -65,7 +68,7 @@ public class FeesRegisterClientTest {
     }
 
     @Test
-    public void getCategories() throws Exception {
+    public void getCategories() {
 
         stubFor(get(urlEqualTo("/fees-register/categories"))
             .willReturn(aResponse().
@@ -87,7 +90,7 @@ public class FeesRegisterClientTest {
                 .withBodyFile("category.json")));
 
         CategoryDto fetchedCategory = client.getCategory(categoryId);
-        assertThat(fetchedCategory.getId().equals(categoryId));
+        assertThat(fetchedCategory.getId()).isEqualTo(categoryId);
 
     }
 
@@ -131,7 +134,7 @@ public class FeesRegisterClientTest {
                 .withBodyFile("flatFees.json")));
 
         List<FeesDto> fetchedFlatFees = client.getFlatFeesByCategory(categoryId);
-        assertThat(fetchedFlatFees.size() == 2);
+        assertThat(fetchedFlatFees).hasSize(2);
 
     }
 

@@ -1,12 +1,11 @@
 package uk.gov.hmcts;
 
 
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.hmcts.logging.Markers;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
 public class FeesServletContextListener implements ServletContextListener {
     private static final Logger LOG = LoggerFactory.getLogger(FeesServletContextListener.class);
