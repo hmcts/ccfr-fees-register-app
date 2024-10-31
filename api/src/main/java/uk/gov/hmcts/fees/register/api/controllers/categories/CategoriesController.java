@@ -1,11 +1,17 @@
 package uk.gov.hmcts.fees.register.api.controllers.categories;
 
 
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
 import uk.gov.hmcts.fees.register.api.contract.CategoryUpdateDto;
 import uk.gov.hmcts.fees.register.api.contract.ErrorDto;
@@ -15,7 +21,6 @@ import uk.gov.hmcts.fees.register.api.model.exceptions.CategoryNotFoundException
 import uk.gov.hmcts.fees.register.api.model.exceptions.FeeNotFoundException;
 import uk.gov.hmcts.fees.register.api.model.exceptions.RangeGroupNotFoundException;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
