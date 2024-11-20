@@ -22,6 +22,7 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import java.math.BigDecimal;
+
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -56,15 +57,30 @@ public class FeeLookupProviderTest {
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
         testTarget.setPrintRequestResponse(true);
         FeeController feeController = new FeeController(feeService, feeDtoMapper, feeSearchService);
-        feeController.setApplicationContext(applicationContext);
+        //feeController.setApplicationContext(applicationContext);
         testTarget.setControllers(feeController);
         if (context != null) {
             context.setTarget(testTarget);
         }
-    }
 
-    @State({"Hearing Fees exist for Civil"})
-    public void lookupCivilMoneyClaimsFees() {
+        LookupFeeDto fastTrackLookupFeeDto = LookupFeeDto.lookupWith()
+            .service("civil money claims")
+            .jurisdiction1("civil")
+            .jurisdiction2("civil")
+            .channel("default")
+            .event("hearing")
+            .applicantType(null)
+            .amountOrVolume(new BigDecimal("1000"))
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .keyword("FastTrackHrg")
+            .build();
+
+        FeeLookupResponseDto fastTrackFeeLookupResponseDto =
+            new FeeLookupResponseDto("FEE0441", "Fee Description", 1, new BigDecimal("60.00"));
+
+        when(feeService.lookup(fastTrackLookupFeeDto))
+            .thenReturn(fastTrackFeeLookupResponseDto);
 
         LookupFeeDto hearingSmallClaimsLookupFeeDto = LookupFeeDto.lookupWith()
             .amountOrVolume(new BigDecimal("1000"))
@@ -78,30 +94,14 @@ public class FeeLookupProviderTest {
             .versionStatus(FeeVersionStatus.approved)
             .build();
 
-        FeeLookupResponseDto hearingSmallClaimsLookupResponseDto = new FeeLookupResponseDto("FEE0001",
+        FeeLookupResponseDto hearingSmallClaimsLookupResponseDto =
+            new FeeLookupResponseDto("FEE0443",
             "Fee Description",
             1,
-            new BigDecimal("50.00"));
+            new BigDecimal("80.00"));
 
         when(feeService.lookup(hearingSmallClaimsLookupFeeDto))
             .thenReturn(hearingSmallClaimsLookupResponseDto);
-
-        LookupFeeDto fastTrackLookupFeeDto = LookupFeeDto.lookupWith()
-            .amountOrVolume(new BigDecimal("1000"))
-            .channel("default")
-            .event("hearing")
-            .jurisdiction1("civil")
-            .jurisdiction2("civil")
-            .keyword("FastTrackHrg")
-            .service("civil money claims")
-            .unspecifiedClaimAmount(false)
-            .versionStatus(FeeVersionStatus.approved)
-            .build();
-
-        FeeLookupResponseDto fastTrackFeeLookupResponseDto = new FeeLookupResponseDto("FEE0002", "Fee Description", 1, new BigDecimal("70.00"));
-
-        when(feeService.lookup(fastTrackLookupFeeDto))
-            .thenReturn(fastTrackFeeLookupResponseDto);
 
         LookupFeeDto multiTrackLookupFeeDto = LookupFeeDto.lookupWith()
             .amountOrVolume(new BigDecimal("1000"))
@@ -115,14 +115,11 @@ public class FeeLookupProviderTest {
             .versionStatus(FeeVersionStatus.approved)
             .build();
 
-        FeeLookupResponseDto multiTrackFeeLookupResponseDto = new FeeLookupResponseDto("FEE0002", "Fee Description", 1, new BigDecimal("70.00"));
+        FeeLookupResponseDto multiTrackFeeLookupResponseDto =
+            new FeeLookupResponseDto("FEE02", "Fee Description", 1, new BigDecimal("70.00"));
 
         when(feeService.lookup(multiTrackLookupFeeDto))
             .thenReturn(multiTrackFeeLookupResponseDto);
-    }
-
-    @State({"General Application fees exist"})
-    public void requestToVaryOrSuspend() {
 
         LookupFeeDto appnToVaryOrSuspendlookupFeeDto = LookupFeeDto.lookupWith()
             .channel("default")
@@ -140,10 +137,10 @@ public class FeeLookupProviderTest {
             .build();
 
         FeeLookupResponseDto appnToVaryOrSuspendFeeLookupResponseDto = new FeeLookupResponseDto(
-            "FEE0013",
+            "FEE0447",
             "Fee Description",
             1,
-            new BigDecimal("80.12"));
+            new BigDecimal("120.00"));
 
         when(feeService.lookup(appnToVaryOrSuspendlookupFeeDto))
             .thenReturn(appnToVaryOrSuspendFeeLookupResponseDto);
@@ -180,24 +177,20 @@ public class FeeLookupProviderTest {
             .build();
 
         FeeLookupResponseDto gaOnNoticeFeeLookupResponseDto = new FeeLookupResponseDto(
-            "FEE0011",
+            "FEE0445",
             "Fee Description",
             1,
-            new BigDecimal("10.00"));
+            new BigDecimal("100.00"));
 
         when(feeService.lookup(gaOnNoticeLookupFeeDto))
             .thenReturn(gaOnNoticeFeeLookupResponseDto);
-    }
-
-    @State({"Money Claims Fees exists for Civil"})
-    public void requestForMoneyClaimsFees() {
 
         LookupFeeDto moneyClaimLookupFeeDto = LookupFeeDto.lookupWith()
-            .amountOrVolume(new BigDecimal("1000"))
+            .amountOrVolume(new BigDecimal("1000.00"))
             .channel("default")
             .event("issue")
             .jurisdiction1("civil")
-            .jurisdiction2("civil")
+            .jurisdiction2("county court")
             .keyword("MoneyClaim")
             .service("civil money claims")
             .unspecifiedClaimAmount(false)
@@ -205,7 +198,7 @@ public class FeeLookupProviderTest {
             .build();
 
         FeeLookupResponseDto moneyClaimFeeLookupResponseDto = new FeeLookupResponseDto(
-            "FEE0023",
+            "FEE0443",
             "Fee Description",
             1,
             new BigDecimal("80.00"));
@@ -214,7 +207,7 @@ public class FeeLookupProviderTest {
             .thenReturn(moneyClaimFeeLookupResponseDto);
 
         LookupFeeDto moneyClaimWithoutKeywordLookupFeeDto = LookupFeeDto.lookupWith()
-            .amountOrVolume(new BigDecimal("1000"))
+            .amountOrVolume(new BigDecimal("1000.00"))
             .channel("default")
             .event("issue")
             .jurisdiction1("civil")
@@ -228,21 +221,17 @@ public class FeeLookupProviderTest {
             "FEE0033",
             "Fee Description",
             1,
-            new BigDecimal("80.00"));
+            new BigDecimal("00.00"));
 
         when(feeService.lookup(moneyClaimWithoutKeywordLookupFeeDto))
             .thenReturn(moneyClaimWithoutKeywordFeeLookupResponseDto);
-    }
-
-    @State({"Hearing Fees exists for Civil"})
-    public void requestForMultiTrackClaimsFees() {
 
         LookupFeeDto multiTrackHrgLookupFeeDto = LookupFeeDto.lookupWith()
             .amountOrVolume(new BigDecimal("1000"))
             .channel("default")
             .event("hearing")
             .jurisdiction1("civil")
-            .jurisdiction2("county court")
+            .jurisdiction2("civil")
             .keyword("MultiTrackHrg")
             .service("civil money claims")
             .unspecifiedClaimAmount(false)
@@ -250,12 +239,61 @@ public class FeeLookupProviderTest {
             .build();
 
         FeeLookupResponseDto multiTrackHrgFeeLookupResponseDto = new FeeLookupResponseDto(
-            "FEE0003",
+            "FEE0442",
             "Fee Description",
             1,
-            new BigDecimal("80.00"));
+            new BigDecimal("70.00"));
 
         when(feeService.lookup(multiTrackHrgLookupFeeDto))
             .thenReturn(multiTrackHrgFeeLookupResponseDto);
+    }
+
+    @State("Fees exist for PRL")
+    public void requestForPRLFees() {
+
+        LookupFeeDto lookupFeeDto = LookupFeeDto.lookupWith()
+            .service("private law")
+            .channel("default")
+            .event("miscellaneous")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .keyword("ChildArrangement")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto multiTrackHrgFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0336",
+            "Section 8 orders (section 10(1) or (2))",
+            2,
+            new BigDecimal("232.00"));
+
+        when(feeService.lookup(lookupFeeDto))
+            .thenReturn(multiTrackHrgFeeLookupResponseDto);
+    }
+
+    @State("service is registered in Fee registry")
+    public void requestForProbateFees() {
+
+        LookupFeeDto probateFeeDto = LookupFeeDto.lookupWith()
+            .service("probate")
+            .channel("default")
+            .event("miscellaneous")
+            .jurisdiction1("family")
+            .jurisdiction2("probate registry")
+            .keyword("Caveat")
+            .applicantType("all")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto probateFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0336",
+            "Section 8 orders (section 10(1) or (2))",
+            2,
+            new BigDecimal("232.00"));
+
+        when(feeService.lookup(probateFeeDto))
+            .thenReturn(probateFeeLookupResponseDto);
     }
 }
