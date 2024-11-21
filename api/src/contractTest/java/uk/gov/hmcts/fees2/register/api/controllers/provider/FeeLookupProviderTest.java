@@ -296,4 +296,88 @@ public class FeeLookupProviderTest {
         when(feeService.lookup(probateFeeDto))
             .thenReturn(probateFeeLookupResponseDto);
     }
+
+    @State("General Application fees exist")
+    public void requestForCivilGAVaryOrSuspend() {
+
+        LookupFeeDto appnToVaryOrSuspendLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("miscellaneous")
+            .jurisdiction1("civil")
+            .jurisdiction2("civil")
+            .keyword("AppnToVaryOrSuspend")
+            .service("other")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto appnToVaryOrSuspendFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0013",
+            "Fee Description",
+            1,
+            new BigDecimal("30.00"));
+
+        when(feeService.lookup(appnToVaryOrSuspendLookupFeeDto))
+            .thenReturn(appnToVaryOrSuspendFeeLookupResponseDto);
+
+        LookupFeeDto consentLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("general application")
+            .jurisdiction1("civil")
+            .jurisdiction2("civil")
+            .keyword("GeneralAppWithoutNotice")
+            .service("general")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto consentFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0012",
+            "Fee Description",
+            1,
+            new BigDecimal("20.00"));
+
+        when(feeService.lookup(consentLookupFeeDto))
+            .thenReturn(consentFeeLookupResponseDto);
+
+        LookupFeeDto hacfoLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("general application")
+            .jurisdiction1("civil")
+            .jurisdiction2("civil")
+            .keyword("HACFOOnNotice")
+            .service("general")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto hacfoLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0011",
+            "Fee Description",
+            1,
+            new BigDecimal("10.00"));
+
+        when(feeService.lookup(hacfoLookupFeeDto))
+            .thenReturn(hacfoLookupResponseDto);
+
+        LookupFeeDto gaLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("general application")
+            .jurisdiction1("civil")
+            .jurisdiction2("civil")
+            .keyword("GAOnNotice")
+            .service("general")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto gaLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0012",
+            "Fee Description",
+            1,
+            new BigDecimal("20.00"));
+
+        when(feeService.lookup(gaLookupFeeDto))
+            .thenReturn(gaLookupResponseDto);
+    }
 }
