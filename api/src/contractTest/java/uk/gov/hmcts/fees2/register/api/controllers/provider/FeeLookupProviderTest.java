@@ -407,4 +407,17 @@ public class FeeLookupProviderTest {
         when(feeService.lookup(ArgumentMatchers.any(LookupFeeDto.class)))
             .thenReturn(financialOrderOnNoticeFeeLookupResponseDto);
     }
+
+    @State("Fees exist for IA")
+    public void requestForHearingPaper(){
+
+        FeeLookupResponseDto hearingPaperFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0372",
+            "Appeal determined without a hearing",
+            2,
+            new BigDecimal("80.00"));
+
+        when(feeService.lookup(ArgumentMatchers.any(LookupFeeDto.class)))
+            .thenReturn(hearingPaperFeeLookupResponseDto);
+    }
 }
