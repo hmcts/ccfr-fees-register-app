@@ -9,6 +9,7 @@ import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
@@ -379,5 +380,31 @@ public class FeeLookupProviderTest {
 
         when(feeService.lookup(gaLookupFeeDto))
             .thenReturn(gaLookupResponseDto);
+    }
+
+    @State("Consented Fees exist for Financial Remedy")
+    public void requestForGeneralAppWithoutNotice() {
+
+        FeeLookupResponseDto generalAppWithoutNoticeFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0640",
+            "Fee Description",
+            1,
+            new BigDecimal("200.00"));
+
+        when(feeService.lookup(ArgumentMatchers.any(LookupFeeDto.class)))
+            .thenReturn(generalAppWithoutNoticeFeeLookupResponseDto);
+    }
+
+    @State("Contested Fees exist for Financial Remedy")
+    public void requestForFinancialOrderOnNotice() {
+
+        FeeLookupResponseDto financialOrderOnNoticeFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0229",
+            "Fee Description",
+            1,
+            new BigDecimal("200.00"));
+
+        when(feeService.lookup(ArgumentMatchers.any(LookupFeeDto.class)))
+            .thenReturn(financialOrderOnNoticeFeeLookupResponseDto);
     }
 }
