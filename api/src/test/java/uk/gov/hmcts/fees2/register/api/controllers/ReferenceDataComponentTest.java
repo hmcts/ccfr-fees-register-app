@@ -8,12 +8,6 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.fees2.register.api.contract.ApplicantTypeDto.applicantTypeDtoWith;
-import static uk.gov.hmcts.fees2.register.api.contract.ChannelTypeDto.channelTypeDtoWith;
-import static uk.gov.hmcts.fees2.register.api.contract.DirectionTypeDto.directionTypeDtoWith;
-import static uk.gov.hmcts.fees2.register.api.contract.EventTypeDto.eventTypeDtoWith;
-import static uk.gov.hmcts.fees2.register.api.contract.Jurisdiction2Dto.jurisdiction2TypeDtoWith;
-import static uk.gov.hmcts.fees2.register.api.contract.ServiceTypeDto.serviceTypeDtoWith;
 
 /**
  * Reference data verification component test
@@ -31,13 +25,13 @@ public class ReferenceDataComponentTest extends BaseTest {
             .andExpect(body().asListOf(ApplicantTypeDto.class, applicantTypeDtos -> {
                 assertThat(applicantTypeDtos.size()).isEqualTo(3);
                 assertThat(applicantTypeDtos).contains(
-                    applicantTypeDtoWith()
+                    ApplicantTypeDto.applicantTypeDtoWith()
                         .name("personal")
                         .build(),
-                    applicantTypeDtoWith()
+                    ApplicantTypeDto.applicantTypeDtoWith()
                         .name("professional")
                         .build(),
-                    applicantTypeDtoWith()
+                    ApplicantTypeDto.applicantTypeDtoWith()
                         .name("all")
                         .build()
                 );
@@ -53,13 +47,13 @@ public class ReferenceDataComponentTest extends BaseTest {
             .andExpect(body().asListOf(ChannelTypeDto.class, channelTypeDtos -> {
                 assertThat(channelTypeDtos.size()).isEqualTo(3);
                 assertThat(channelTypeDtos).contains(
-                    channelTypeDtoWith()
+                    ChannelTypeDto.channelTypeDtoWith()
                         .name("default")
                         .build(),
-                    channelTypeDtoWith()
+                    ChannelTypeDto.channelTypeDtoWith()
                         .name("online")
                         .build(),
-                    channelTypeDtoWith()
+                    ChannelTypeDto.channelTypeDtoWith()
                         .name("bulk")
                         .build()
                 );
@@ -74,25 +68,25 @@ public class ReferenceDataComponentTest extends BaseTest {
             .andExpect(body().asListOf(DirectionTypeDto.class, directionTypeDtos -> {
                 assertThat(directionTypeDtos.size()).isEqualTo(7);
                 assertThat(directionTypeDtos).contains(
-                    directionTypeDtoWith()
+                    DirectionTypeDto.directionTypeDtoWith()
                         .name("cost recovery")
                         .build(),
-                    directionTypeDtoWith()
+                    DirectionTypeDto.directionTypeDtoWith()
                         .name("enhanced")
                         .build(),
-                    directionTypeDtoWith()
+                    DirectionTypeDto.directionTypeDtoWith()
                         .name("licence")
                         .build(),
-                    directionTypeDtoWith()
+                    DirectionTypeDto.directionTypeDtoWith()
                         .name("partial cost recovery")
                         .build(),
-                    directionTypeDtoWith()
+                    DirectionTypeDto.directionTypeDtoWith()
                         .name("pre cost recovery")
                         .build(),
-                    directionTypeDtoWith()
+                    DirectionTypeDto.directionTypeDtoWith()
                         .name("reduced churn")
                         .build(),
-                    directionTypeDtoWith()
+                    DirectionTypeDto.directionTypeDtoWith()
                         .name("simplified")
                         .build()
                 );
@@ -107,31 +101,31 @@ public class ReferenceDataComponentTest extends BaseTest {
             .andExpect(body().asListOf(EventTypeDto.class, eventTypeDtos -> {
                 assertThat(eventTypeDtos.size()).isEqualTo(9);
                 assertThat(eventTypeDtos).contains(
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("enforcement")
                         .build(),
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("appeal")
                         .build(),
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("search")
                         .build(),
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("issue")
                         .build(),
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("general application")
                         .build(),
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("copies")
                         .build(),
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("hearing")
                         .build(),
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("miscellaneous")
                         .build(),
-                    eventTypeDtoWith()
+                    EventTypeDto.eventTypeDtoWith()
                         .name("cost assessment")
                         .build()
                 );
@@ -156,40 +150,40 @@ public class ReferenceDataComponentTest extends BaseTest {
             .andExpect(body().asListOf(Jurisdiction2Dto.class, jurisdiction2Dtos -> {
                 assertThat(jurisdiction2Dtos.size()).isEqualTo(15);
                 assertThat(jurisdiction2Dtos).contains(
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("county court")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("high court")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("magistrates court")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("court of protection")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("family court")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("probate registry")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("gambling tribunal")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("gender recognition panel")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("immigration and asylum chamber")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("property chamber")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("upper tribunal immigration and asylum chamber")
                         .build(),
-                    jurisdiction2TypeDtoWith()
+                    Jurisdiction2Dto.jurisdiction2TypeDtoWith()
                         .name("upper tribunal lands chamber")
                         .build()
 
@@ -206,49 +200,49 @@ public class ReferenceDataComponentTest extends BaseTest {
             .andExpect(body().asListOf(ServiceTypeDto.class, serviceTypeDtos -> {
                 assertThat(serviceTypeDtos.size()).isEqualTo(18);
                 assertThat(serviceTypeDtos).contains(
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("civil money claims")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("possession claim")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("insolvency")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("private law")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("public law")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("divorce")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("adoption")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("gambling")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("gender recognition")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("immigration and asylum")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("property")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("probate")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("general")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("magistrates")
                         .build(),
-                    serviceTypeDtoWith()
+                    ServiceTypeDto.serviceTypeDtoWith()
                         .name("other")
                         .build()
                 );

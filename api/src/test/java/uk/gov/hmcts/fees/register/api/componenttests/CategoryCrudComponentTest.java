@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees.register.api.componenttests;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +17,8 @@ import uk.gov.hmcts.fees.register.api.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.fees.register.api.componenttests.sugar.RestActions;
 import uk.gov.hmcts.fees.register.api.contract.CategoryDto;
 import uk.gov.hmcts.fees.register.api.contract.CategoryUpdateDto;
+import uk.gov.hmcts.fees.register.api.contract.FixedFeeDto;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
 
 import static java.lang.String.join;
@@ -28,8 +29,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static uk.gov.hmcts.fees.register.api.contract.CategoryUpdateDto.categoryUpdateDtoWith;
-import static uk.gov.hmcts.fees.register.api.contract.FixedFeeDto.fixedFeeDtoWith;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = MOCK)
@@ -70,7 +69,7 @@ public class CategoryCrudComponentTest {
                     assertThat(category.getRangeGroup().getCode()).isEqualTo("probate-copies");
                     assertThat(category.getRangeGroup().getRanges()).hasSize(2);
                     assertThat(category.getFees()).hasSize(2);
-                    assertThat(category.getFees()).contains(fixedFeeDtoWith()
+                    assertThat(category.getFees()).contains(FixedFeeDto.fixedFeeDtoWith()
                         .code("X0251-4")
                         .description("‘Sealed and certified copy’ – if assets are held abroad you may need one of these. Please check with the appropriate organisations before ordering.")
                         .amount(50)
@@ -102,7 +101,7 @@ public class CategoryCrudComponentTest {
 
     @Test
     public void update() throws Exception {
-        CategoryUpdateDto.CategoryUpdateDtoBuilder proposeCategory = categoryUpdateDtoWith()
+        CategoryUpdateDto.CategoryUpdateDtoBuilder proposeCategory = CategoryUpdateDto.categoryUpdateDtoWith()
             .description("New Description")
             .rangeGroupCode("probate-copies")
             .feeCodes(asList("X0046", "X0047"));
@@ -117,14 +116,14 @@ public class CategoryCrudComponentTest {
                 assertThat(categoryDto.getRangeGroup().getCode()).isEqualTo("probate-copies");
                 assertThat(categoryDto.getFees()).hasSize(2);
                 assertThat(categoryDto.getFees()).contains(
-                    fixedFeeDtoWith().code("X0047").amount(54500).description("Civil Court fees - Hearing fees - Fast track claim").build()
+                    FixedFeeDto.fixedFeeDtoWith().code("X0047").amount(54500).description("Civil Court fees - Hearing fees - Fast track claim").build()
                 );
             }));
     }
 
     @Test
     public void create() throws Exception {
-        CategoryUpdateDto.CategoryUpdateDtoBuilder proposeCategory = categoryUpdateDtoWith()
+        CategoryUpdateDto.CategoryUpdateDtoBuilder proposeCategory = CategoryUpdateDto.categoryUpdateDtoWith()
             .description("New Description")
             .rangeGroupCode("probate-copies")
             .feeCodes(asList("X0046", "X0047"));
@@ -166,7 +165,7 @@ public class CategoryCrudComponentTest {
     }
 
     private CategoryUpdateDto.CategoryUpdateDtoBuilder validCategoryDto() {
-        return categoryUpdateDtoWith().description("any").rangeGroupCode(null).feeCodes(Collections.emptyList());
+        return CategoryUpdateDto.categoryUpdateDtoWith().description("any").rangeGroupCode(null).feeCodes(Collections.emptyList());
     }
 
     private void assertValidationMessage(String urlTemplate, CategoryUpdateDto dto, String message) throws Exception {
