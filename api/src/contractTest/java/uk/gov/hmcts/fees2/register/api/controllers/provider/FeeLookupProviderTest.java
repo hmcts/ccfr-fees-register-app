@@ -643,6 +643,31 @@ public class FeeLookupProviderTest {
 
         when(feeService.lookup(variationDischargeLookupFeeDto))
             .thenReturn(variationDisChargeFeeLookupResponseDto);
+    }
 
+    @State("Copies fee exist for Probate")
+    public void requestsForCopiesProbate() {
+
+        FeeLookupResponseDto feeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0544",
+            "Copy of a document (for each copy)",
+            7,
+            new BigDecimal("0.00"));
+
+        when(feeService.lookup(ArgumentMatchers.any(LookupFeeDto.class)))
+            .thenReturn(feeLookupResponseDto);
+    }
+
+    @State("Fees exist for Probate")
+    public void requestsForFeesProbate() {
+
+        FeeLookupResponseDto feeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0123",
+            "description",
+            1,
+            new BigDecimal("200.00"));
+
+        when(feeService.lookup(ArgumentMatchers.any(LookupFeeDto.class)))
+            .thenReturn(feeLookupResponseDto);
     }
 }
