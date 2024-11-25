@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @Provider("feeRegister_lookUp")
-@PactBroker(scheme = "http", host = "localhost", port = "${PACT_BROKER_PORT:80}")
+@PactBroker(scheme = "${PACT_BROKER_SCHEME:http}", host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:80}")
 @Import(FeeLookupProviderTestConfiguration.class)
 public class FeeLookupProviderTest {
 
@@ -97,9 +97,9 @@ public class FeeLookupProviderTest {
 
         FeeLookupResponseDto hearingSmallClaimsLookupResponseDto =
             new FeeLookupResponseDto("FEE0443",
-            "Fee Description",
-            1,
-            new BigDecimal("80.00"));
+                "Fee Description",
+                1,
+                new BigDecimal("80.00"));
 
         when(feeService.lookup(hearingSmallClaimsLookupFeeDto))
             .thenReturn(hearingSmallClaimsLookupResponseDto);
@@ -274,7 +274,7 @@ public class FeeLookupProviderTest {
     }
 
     @State("service is registered in Fee registry")
-    public void requestForProbateFees() {
+    public void requestForProbateAndDivorceFees() {
 
         LookupFeeDto probateFeeDto = LookupFeeDto.lookupWith()
             .service("probate")
@@ -296,6 +296,146 @@ public class FeeLookupProviderTest {
 
         when(feeService.lookup(probateFeeDto))
             .thenReturn(probateFeeLookupResponseDto);
+        LookupFeeDto divorceAmendPetitionLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("issue")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .service("other")
+            .keyword("DivorceAmendPetition")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto divorceAmendPetitionFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0233",
+            "Amendment of application for matrimonial/civil partnership orde",
+            1,
+            new BigDecimal("95.00"));
+
+        when(feeService.lookup(divorceAmendPetitionLookupFeeDto))
+            .thenReturn(divorceAmendPetitionFeeLookupResponseDto);
+
+        LookupFeeDto generalAppWithoutNoticeLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("general application")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .keyword("GeneralAppWithoutNotice")
+            .service("other")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto generalAppWithoutNoticeFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0228",
+            "Application (without notice)",
+            1,
+            new BigDecimal("50.00"));
+
+        when(feeService.lookup(generalAppWithoutNoticeLookupFeeDto))
+            .thenReturn(generalAppWithoutNoticeFeeLookupResponseDto);
+
+        LookupFeeDto appnPrivateOtherLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("issue")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .service("other")
+            .keyword("AppnPrivateOther")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto appnPrivateOtherFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0388",
+            "Originating proceedings where no other fee is specified",
+            1,
+            new BigDecimal("245.00"));
+
+        when(feeService.lookup(appnPrivateOtherLookupFeeDto))
+            .thenReturn(appnPrivateOtherFeeLookupResponseDto);
+
+        LookupFeeDto bailiffServeDocLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("enforcement")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .service("other")
+            .keyword("BailiffServeDoc")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto bailiffServeDocFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0392",
+            "Request for service by a bailiff of document (see order for exceptions)",
+            2,
+            new BigDecimal("45.00"));
+
+        when(feeService.lookup(bailiffServeDocLookupFeeDto))
+            .thenReturn(bailiffServeDocFeeLookupResponseDto);
+
+        LookupFeeDto financialOrderOnNoticeLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("miscellaneous")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .service("other")
+            .keyword("FinancialOrderOnNotice")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto financialOrderOnNoticeFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0229",
+            "Application for a financial orde",
+            1,
+            new BigDecimal("255.00"));
+
+        when(feeService.lookup(financialOrderOnNoticeLookupFeeDto))
+            .thenReturn(financialOrderOnNoticeFeeLookupResponseDto);
+
+        LookupFeeDto gaContestedOrderLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("general application")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .service("other")
+            .keyword("GAContestedOrder")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto gaContestedOrderFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0271",
+            "Application for decree nisi, conditional order, separation order (no fee if undefended",
+            1,
+            new BigDecimal("50.00"));
+
+        when(feeService.lookup(gaContestedOrderLookupFeeDto))
+            .thenReturn(gaContestedOrderFeeLookupResponseDto);
+
+        LookupFeeDto divorceCivPartLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("issue")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .service("divorce")
+            .keyword("DivorceCivPart")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto divorceCivPartFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0002",
+            "Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.",
+            4,
+            new BigDecimal("550.00"));
+
+        when(feeService.lookup(divorceCivPartLookupFeeDto))
+            .thenReturn(divorceCivPartFeeLookupResponseDto);
+
     }
 
     @State("General Application fees exist")
@@ -409,7 +549,7 @@ public class FeeLookupProviderTest {
     }
 
     @State("Fees exist for IA")
-    public void requestForHearingPaper(){
+    public void requestForHearingPaper() {
 
         FeeLookupResponseDto hearingPaperFeeLookupResponseDto = new FeeLookupResponseDto(
             "FEE0372",
@@ -422,7 +562,7 @@ public class FeeLookupProviderTest {
     }
 
     @State("Fees exist for CCD")
-    public void requestForCCD(){
+    public void requestForCCD() {
 
         LookupFeeDto careOrderLookupFeeDto = LookupFeeDto.lookupWith()
             .service("public law")
