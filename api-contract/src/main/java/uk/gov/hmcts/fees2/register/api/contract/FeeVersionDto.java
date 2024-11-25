@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.contract;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,9 +29,11 @@ public class FeeVersionDto {
     private Integer version;
 
     @JsonProperty("valid_from")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "GMT")
     private Date validFrom;
 
     @JsonProperty("valid_to")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "GMT")
     private Date validTo;
 
     private String description;
