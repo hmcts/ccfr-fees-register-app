@@ -420,4 +420,89 @@ public class FeeLookupProviderTest {
         when(feeService.lookup(ArgumentMatchers.any(LookupFeeDto.class)))
             .thenReturn(hearingPaperFeeLookupResponseDto);
     }
+
+    @State("Fees exist for CCD")
+    public void requestForCCD(){
+
+        LookupFeeDto careOrderLookupFeeDto = LookupFeeDto.lookupWith()
+            .service("public law")
+            .channel("default")
+            .jurisdiction2("family court")
+            .event("issue")
+            .keyword("CareOrder")
+            .jurisdiction1("family")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto careOrderFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0314",
+            "Application for proceedings under Section 31 of Act",
+            1,
+            new BigDecimal("2055.00"));
+
+        when(feeService.lookup(careOrderLookupFeeDto))
+            .thenReturn(careOrderFeeLookupResponseDto);
+
+        LookupFeeDto epoLookupFeeDto = LookupFeeDto.lookupWith()
+            .service("private law")
+            .channel("default")
+            .jurisdiction2("family court")
+            .event("miscellaneous")
+            .keyword("EPO")
+            .jurisdiction1("family")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto epoFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0326",
+            "Emergency protection orders (sections 44, 45 and 46)",
+            1,
+            new BigDecimal("215.00"));
+
+        when(feeService.lookup(epoLookupFeeDto))
+            .thenReturn(epoFeeLookupResponseDto);
+
+        LookupFeeDto placementLookupFeeDto = LookupFeeDto.lookupWith()
+            .service("adoption")
+            .channel("default")
+            .jurisdiction2("family court")
+            .event("miscellaneous")
+            .keyword("Placement")
+            .jurisdiction1("family")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto placementFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0310",
+            "Application for a placement order (under Section 22)",
+            1,
+            new BigDecimal("455.00"));
+
+        when(feeService.lookup(placementLookupFeeDto))
+            .thenReturn(placementFeeLookupResponseDto);
+
+        LookupFeeDto variationDischargeLookupFeeDto = LookupFeeDto.lookupWith()
+            .service("private law")
+            .channel("default")
+            .jurisdiction2("family court")
+            .event("miscellaneous")
+            .keyword("VariationDischarge")
+            .jurisdiction1("family")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto variationDisChargeFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0328",
+            "Variation or discharge etc of care and supervision orders (section 39)",
+            1,
+            new BigDecimal("215.00"));
+
+        when(feeService.lookup(variationDischargeLookupFeeDto))
+            .thenReturn(variationDisChargeFeeLookupResponseDto);
+
+    }
 }
