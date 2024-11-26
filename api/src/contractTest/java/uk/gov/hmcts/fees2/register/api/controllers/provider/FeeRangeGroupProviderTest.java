@@ -38,7 +38,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-@Provider("feeRegister_rangeGroupX")
+@Provider("feeRegister_rangeGroup")
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}", host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:80}")
 @Import(FeeRangeGroupProviderTestConfiguration.class)
 public class FeeRangeGroupProviderTest {
