@@ -65,7 +65,8 @@ def versions = [
         pitest: '1.9.0',
         sonarPitest: '0.5',
         serenity: '4.2.3',
-        serenityCucumber: '4.2.3'
+        serenityCucumber: '4.2.3',
+        pact_version    : '4.1.7'
 ]
 
 sonarqube {
