@@ -11,7 +11,6 @@ plugins {
 description = 'api module'
 
 apply from: 'liquibase.gradle'
-apply plugin: 'net.serenity-bdd.aggregator'
 
 sourceSets {
 
