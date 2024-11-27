@@ -23,8 +23,8 @@ public class FeeTestFixtures {
             "  \"unspecified_claim_amount\": true,\n" +
             "  \"version\": {\n" +
             "    \"version\": 0,\n" +
-            "    \"valid_from\": \"2018-04-18T14:15:13.102Z\",\n" +
-            "    \"valid_to\": \"2018-04-18T14:15:13.103Z\",\n" +
+            "    \"valid_from\": \"2018-04-18T14:15:13.102+00:00\",\n" +
+            "    \"valid_to\": \"2018-04-18T14:15:13.102+00:00\",\n" +
             "    \"description\": \"string\",\n" +
             "    \"status\": \"draft\",\n" +
             "    \"flat_amount\": {\n" +
@@ -61,8 +61,8 @@ public class FeeTestFixtures {
             "  \"unspecified_claim_amount\": true,\n" +
             "  \"version\": {\n" +
             "    \"version\": 0,\n" +
-            "    \"valid_from\": \"2018-04-18T14:15:13.086Z\",\n" +
-            "    \"valid_to\": \"2018-04-18T14:15:13.086Z\",\n" +
+            "    \"valid_from\": \"2018-04-18T14:15:13.102+00:00\",\n" +
+            "    \"valid_to\": \"2018-04-18T14:15:13.102+00:00\",\n" +
             "    \"description\": \"string\",\n" +
             "    \"status\": \"draft\",\n" +
             "    \"flat_amount\": {\n" +
@@ -90,8 +90,8 @@ public class FeeTestFixtures {
     public static String aFeeVersionPayload() {
         return "{\n" +
             "  \"version\": 0,\n" +
-            "  \"valid_from\": \"2018-04-18T14:15:13.130Z\",\n" +
-            "  \"valid_to\": \"2018-04-18T14:15:13.130Z\",\n" +
+            "  \"valid_from\": \"2018-04-18T14:15:13.102+00:00\",\n" +
+            "  \"valid_to\": \"2018-04-18T14:15:13.102+00:00\",\n" +
             "  \"description\": \"string\",\n" +
             "  \"status\": \"draft\",\n" +
             "  \"flat_amount\": {\n" +
@@ -129,8 +129,8 @@ public class FeeTestFixtures {
             "    \"unspecified_claim_amount\": true,\n" +
             "    \"version\": {\n" +
             "      \"version\": 0,\n" +
-            "      \"valid_from\": \"2018-04-18T14:15:13.019Z\",\n" +
-            "      \"valid_to\": \"2018-04-18T14:15:13.019Z\",\n" +
+            "      \"valid_from\": \"2018-04-18T14:15:13.102+00:00\",\n" +
+            "      \"valid_to\": \"2018-04-18T14:15:13.102+00:00\",\n" +
             "      \"description\": \"string\",\n" +
             "      \"status\": \"draft\",\n" +
             "      \"flat_amount\": {\n" +
