@@ -115,23 +115,23 @@ public class FeeRangeGroupProviderTest {
         feeVersions.add(feeVersion);
 
         Fee2Dto fee2Dto = Fee2Dto.fee2DtoWith()
-            .applicantTypeDto(ApplicantTypeDto.applicantTypeDtoWith().name("name").build())
-            .channelTypeDto(ChannelTypeDto.channelTypeDtoWith().name("name").build())
-            .code("code")
+            .applicantTypeDto(ApplicantTypeDto.applicantTypeDtoWith().name("all").build())
+            .channelTypeDto(ChannelTypeDto.channelTypeDtoWith().name("default").build())
+            .code("FEE0209")
             .currentVersion(feeVersionDto)
-            .eventTypeDto(EventTypeDto.eventTypeDtoWith().name("name").build())
+            .eventTypeDto(EventTypeDto.eventTypeDtoWith().name("issue").build())
             .feeType("FEETYPE")
             .feeVersionDtos(feeVersionDtos)
-            .jurisdiction1Dto(Jurisdiction1Dto.jurisdiction1TypeDtoWith().name("name").build())
-            .jurisdiction2Dto(Jurisdiction2Dto.jurisdiction2TypeDtoWith().name("name").build())
+            .jurisdiction1Dto(Jurisdiction1Dto.jurisdiction1TypeDtoWith().name("civil").build())
+            .jurisdiction2Dto(Jurisdiction2Dto.jurisdiction2TypeDtoWith().name("county court").build())
             .matchingVersion(feeVersionDto)
             .maxRange(new BigDecimal(100))
             .minRange(new BigDecimal(100))
-            .rangeUnit("rangeUnit")
-            .serviceTypeDto(ServiceTypeDto.serviceTypeDtoWith().name("name").build())
+            .rangeUnit("GBP")
+            .serviceTypeDto(ServiceTypeDto.serviceTypeDtoWith().name("civil money claims").build())
             .unspecifiedClaimAmount(true)
             .feeVersionDtos(feeVersionDtos)
-            .keyword("keyword")
+            .keyword("MoneyClaim")
             .build();
 
         doReturn(feeVersions).when(feeSearchService).search(ArgumentMatchers.any(SearchFeeDto.class), ArgumentMatchers.any(SearchFeeVersionDto.class));
