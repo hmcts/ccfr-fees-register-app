@@ -1,7 +1,7 @@
 description = ''
 
 dependencies {
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.18.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.18.2'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     implementation group: 'com.google.guava', name: 'guava', version: '33.3.1-jre'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.17.0'
