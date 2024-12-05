@@ -6823,7 +6823,7 @@
         "author": "126172",
         "approvedBy": "126175",
         "version": 1,
-        "valid_from": "2014-04-21T00:00:00.000+0000",
+        "valid_from": "2014-04-21T00:00:00.000+00:00",
         "flat_amount": {
           "amount": 2055
         },
