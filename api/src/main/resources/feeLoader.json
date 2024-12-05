@@ -547,7 +547,7 @@
       "version": {
         "version": 1,
         "new_version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "valid_from": "2017-03-06T00:00:00.000+00:00",
         "description": "Hearing fee: Small claims case (does not exceed 300 GBP)",
         "status": "approved",
         "direction": "enhanced",
@@ -575,7 +575,7 @@
       "version": {
         "version": 1,
         "new_version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "valid_from": "2017-03-06T00:00:00.000+00:00",
         "description": "Hearing fee: Small claims case (exceeds 300 but not 500 GBP)",
         "status": "approved",
         "direction": "enhanced",
@@ -603,7 +603,7 @@
       "version": {
         "version": 1,
         "new_version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "valid_from": "2017-03-06T00:00:00.000+00:00",
         "description": "Hearing fee: Small claims case (exceeds £500 but not £1,000)",
         "status": "approved",
         "direction": "enhanced",
@@ -631,7 +631,7 @@
       "version": {
         "version": 1,
         "new_version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "valid_from": "2017-03-06T00:00:00.000+00:00",
         "description": "Hearing fee: Small claims case (exceeds 1000 but not 1500 GBP)",
         "status": "approved",
         "direction": "enhanced",
@@ -659,7 +659,7 @@
       "version": {
         "version": 1,
         "new_version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "valid_from": "2017-03-06T00:00:00.000+00:00",
         "description": "Hearing fee: Small claims case (exceeds £1,500 but not £3,000)",
         "status": "approved",
         "direction": "enhanced",
@@ -687,7 +687,7 @@
       "version": {
         "version": 1,
         "new_version": 4,
-        "valid_from": "2017-03-06T00:00:00.511Z",
+        "valid_from": "2017-03-06T00:00:00.000+00:00",
         "description": "Hearing fee: Small claims case (exceeds 3000 GBP)",
         "status": "approved",
         "direction": "enhanced",
@@ -1303,7 +1303,7 @@
       "new_code": "FEE0003",
       "version": {
         "version": 3,
-        "valid_from" : "2014-04-22T00:00:00.511Z",
+        "valid_from" : "2014-04-22T00:00:00.000+00:00",
         "description": "Additional copies of the grant representation",
         "status": "approved",
         "direction": "reduced churn",
