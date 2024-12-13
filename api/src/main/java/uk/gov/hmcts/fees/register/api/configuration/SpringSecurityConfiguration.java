@@ -70,7 +70,6 @@ public class SpringSecurityConfiguration {
 
         authCheckerUserOnlyFilter.setAuthenticationManager(authenticationManager);
 
-
         http
             .addFilter(authCheckerUserOnlyFilter)
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
