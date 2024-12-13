@@ -40,7 +40,6 @@ public class SpringSecurityConfiguration {
      * @throws Exception
      */
     @Bean
-    @Order(1)
     public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
         http
             .securityMatchers(match -> match
@@ -63,13 +62,14 @@ public class SpringSecurityConfiguration {
     }
 
 
+
     @Bean
-    @Order(2)
-    public SecurityFilterChain serviceFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AuthCheckerUserOnlyFilter<User> authCheckerUserOnlyFilter =
             new AuthCheckerUserOnlyFilter<>(userRequestAuthorizer);
 
         authCheckerUserOnlyFilter.setAuthenticationManager(authenticationManager);
+
 
         http
             .addFilter(authCheckerUserOnlyFilter)
@@ -77,35 +77,36 @@ public class SpringSecurityConfiguration {
             .csrf(AbstractHttpConfigurer::disable)
             .formLogin(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(authorize -> authorize
+            .authorizeRequests(authorize -> authorize
                 .requestMatchers(
-                    HttpMethod.POST,
-                    "/fees-register/banded-fees",
-                    "/fees-register/bulk-fixed-fees",
-                    "/fees-register/fixed-fees",
-                    "/fees-register/ranged-fees",
-                    "/fees-register/rateable-fees",
-                    "/fees-register/relational-fees",
+                    HttpMethod.POST,"/fees-register/ranged-fees", "/fees-register/fixed-fees",
+                    "/fees-register/banded-fees", "/fees-register/relational-fees", "/fees-register/rateable-fees",
                     "/fees/*/versions").hasAnyAuthority("freg-editor")
+            ).authorizeRequests(authorize -> authorize
                 .requestMatchers(
-                    HttpMethod.PUT,
-                    "/fees-register/banded-fees/**",
-                    "/fees-register/fixed-fees/**",
-                    "/fees-register/ranged-fees/**",
-                    "/fees-register/rateable-fees/**",
-                    "/fees-register/relational-fees/**",
-                    "/fees/*/versions").hasAnyAuthority("freg-editor")
+                    HttpMethod.POST,"/fees-register/bulk-fixed-fees", "/fees-register/fixed-fees")
+                        .hasAnyAuthority("freg-editor")
+            ).authorizeRequests(authorize -> authorize
                 .requestMatchers(
-                    HttpMethod.PATCH,
-                    "/fees/*/versions/*/approve",
-                    "/fees/*/versions/*/reject").hasAuthority("freg-approver")
+                    HttpMethod.PUT,"/fees-register/ranged-fees/*", "/fees-register/fixed-fees/*",
+                    "/fees-register/banded-fees/*","/fees-register/relational-fees/*",
+                    "/fees-register/rateable-fees/**").hasAuthority("freg-editor")
+            ).authorizeRequests(authorize -> authorize
                 .requestMatchers(
-                    HttpMethod.PATCH,
-                    "/fees/*/versions/*/submit-for-review").hasAuthority("freg-editor")
+                    HttpMethod.PATCH,"/fees/*/versions/*/approve").hasAuthority("freg-approver")
+            ).authorizeRequests(authorize -> authorize
                 .requestMatchers(
-                    HttpMethod.DELETE,
-                    "/fees-register/fees/**",
-                    "/fees/*/versions/**").hasAnyAuthority("freg-editor", "freg-admin")
+                    HttpMethod.PATCH,"/fees/*/versions/*/reject").hasAuthority("freg-approver")
+            ).authorizeRequests(authorize -> authorize
+                .requestMatchers(
+                    HttpMethod.PATCH,"/fees/*/versions/*/submit-for-review").hasAuthority("freg-editor")
+            ).authorizeRequests(authorize -> authorize
+                .requestMatchers(
+                    HttpMethod.DELETE,"/fees-register/fees/*", "/fees/*/versions/*")
+                .hasAnyAuthority("freg-editor", "freg-admin")
+            ).authorizeRequests(authorize -> authorize
+                .requestMatchers(
+                    HttpMethod.GET,"/fees-register/fees/*").permitAll()
             );
         return http.build();
     }
