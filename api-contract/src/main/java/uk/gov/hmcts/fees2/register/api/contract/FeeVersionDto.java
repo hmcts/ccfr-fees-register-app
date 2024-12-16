@@ -28,11 +28,9 @@ public class FeeVersionDto {
     private Integer version;
 
     @JsonProperty("valid_from")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'+00:00'")
     private Date validFrom;
 
     @JsonProperty("valid_to")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'+00:00'")
     private Date validTo;
 
     private String description;
