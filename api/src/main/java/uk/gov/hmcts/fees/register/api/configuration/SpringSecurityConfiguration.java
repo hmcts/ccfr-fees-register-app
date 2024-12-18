@@ -3,7 +3,6 @@ package uk.gov.hmcts.fees.register.api.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -76,34 +75,34 @@ public class SpringSecurityConfiguration {
             .csrf(AbstractHttpConfigurer::disable)
             .formLogin(AbstractHttpConfigurer::disable)
             .logout(AbstractHttpConfigurer::disable)
-            .authorizeRequests(authorize -> authorize
+            .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.POST,"/fees-register/ranged-fees", "/fees-register/fixed-fees",
                     "/fees-register/banded-fees", "/fees-register/relational-fees", "/fees-register/rateable-fees",
                     "/fees/*/versions").hasAnyAuthority("freg-editor")
-            ).authorizeRequests(authorize -> authorize
+            ).authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.POST,"/fees-register/bulk-fixed-fees", "/fees-register/fixed-fees")
                         .hasAnyAuthority("freg-editor")
-            ).authorizeRequests(authorize -> authorize
+            ).authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.PUT,"/fees-register/ranged-fees/*", "/fees-register/fixed-fees/*",
                     "/fees-register/banded-fees/*","/fees-register/relational-fees/*",
                     "/fees-register/rateable-fees/**").hasAuthority("freg-editor")
-            ).authorizeRequests(authorize -> authorize
+            ).authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.PATCH,"/fees/*/versions/*/approve").hasAuthority("freg-approver")
-            ).authorizeRequests(authorize -> authorize
+            ).authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.PATCH,"/fees/*/versions/*/reject").hasAuthority("freg-approver")
-            ).authorizeRequests(authorize -> authorize
+            ).authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.PATCH,"/fees/*/versions/*/submit-for-review").hasAuthority("freg-editor")
-            ).authorizeRequests(authorize -> authorize
+            ).authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.DELETE,"/fees-register/fees/*", "/fees/*/versions/*")
                 .hasAnyAuthority("freg-editor", "freg-admin")
-            ).authorizeRequests(authorize -> authorize
+            ).authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.GET,"/fees-register/fees/*").permitAll()
             );
