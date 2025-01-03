@@ -3,6 +3,6 @@ description = ''
 
 dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.18.0'
-    implementation group: 'org.hibernate', name: 'hibernate-validator', version:'8.0.1.Final'
+    implementation group: 'org.hibernate', name: 'hibernate-validator', version:'8.0.2.Final'
 
 }
