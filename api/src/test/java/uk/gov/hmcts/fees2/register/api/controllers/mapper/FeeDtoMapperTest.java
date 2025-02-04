@@ -10,6 +10,7 @@ import org.springframework.util.MultiValueMap;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.data.exceptions.UserNotFoundException;
+import uk.gov.hmcts.fees2.register.data.model.IdamUser;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.IdamService;
 
@@ -95,8 +96,8 @@ public class FeeDtoMapperTest extends BaseIntegrationTest {
 
         FeeVersionDto feeVersionDto = feeDtoMapper.toFeeVersionDto(getFeeVersion(), header);
 
-        assertEquals("EEE", feeVersionDto.getApprovedBy());
-        assertEquals("FFF", feeVersionDto.getAuthor());
+        assertEquals(IdamUser.USER_NOT_FOUND.getMessage(), feeVersionDto.getApprovedBy());
+        assertEquals(IdamUser.USER_NOT_FOUND.getMessage(), feeVersionDto.getAuthor());
     }
 
 }
