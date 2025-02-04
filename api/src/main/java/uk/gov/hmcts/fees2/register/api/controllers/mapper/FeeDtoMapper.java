@@ -379,8 +379,7 @@ public class FeeDtoMapper {
         try {
             return idamService.getUserName(headers, userId);
         } catch (UserNotFoundException | GatewayTimeoutException e) {
-            // In case of IDAM API exceptions, return Fee with User IDs
-            return userId;
+            return IdamUser.USER_NOT_FOUND.getMessage();
         }
     }
 
