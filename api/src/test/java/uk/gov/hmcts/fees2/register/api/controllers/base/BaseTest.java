@@ -344,6 +344,14 @@ public abstract class BaseTest {
         return feeVersion;
     }
 
+    public static FeeVersion buildAFeeVersion() {
+        try {
+            return getFeeVersion();
+        } catch (ParseException e) {
+            throw new RuntimeException("There was a problem building a FeeVersion",e);
+        }
+    }
+
     public RangedFeeDto getRangedFeeDtoWithReferenceData(int minRange, int maxRange, String feeCode, FeeVersionStatus status) {
 
         RangedFeeDto rangedFeeDto = new RangedFeeDto();

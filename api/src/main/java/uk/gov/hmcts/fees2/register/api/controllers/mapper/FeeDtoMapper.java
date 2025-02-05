@@ -371,6 +371,9 @@ public class FeeDtoMapper {
             if (null != feeVersion.getApprovedBy() && usersMap.containsKey(feeVersion.getApprovedBy())) {
                 feeVersionDto.setApprovedBy(usersMap.get(feeVersion.getApprovedBy()));
             }
+        } else {
+            feeVersionDto.setApprovedBy(IdamUser.USER_NOT_FOUND.getMessage());
+            feeVersionDto.setAuthor(IdamUser.USER_NOT_FOUND.getMessage());
         }
         return feeVersionDto;
     }
