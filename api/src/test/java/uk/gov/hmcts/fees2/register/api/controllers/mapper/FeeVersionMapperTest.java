@@ -21,6 +21,8 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersion;
 import uk.gov.hmcts.fees2.register.data.model.IdamUser;
 import uk.gov.hmcts.fees2.register.data.service.IdamService;
 
+import java.util.Collections;
+
 
 public class FeeVersionMapperTest extends BaseIntegrationTest {
 
@@ -115,6 +117,29 @@ public class FeeVersionMapperTest extends BaseIntegrationTest {
     @Test
     public void shouldReturnDtoWhenAuthorizationHeaderIsMissing() {
         MultiValueMap<String, String> emptyHeaders = new LinkedMultiValueMap<>();
+
+        FeeVersionDto result = feeVersionMapper.toFeeVersionDto(feeVersion, emptyHeaders);
+
+        assertNotNull(result);
+        assertEquals(IdamUser.USER_NOT_FOUND.getMessage(), result.getApprovedBy());
+        assertEquals(IdamUser.USER_NOT_FOUND.getMessage(), result.getAuthor());
+    }
+
+    @Test
+    public void shouldReturnDtoWhenNullAuthorizationHeaderIsMissing() {
+        MultiValueMap<String, String> emptyHeaders = null;
+
+        FeeVersionDto result = feeVersionMapper.toFeeVersionDto(feeVersion, emptyHeaders);
+
+        assertNotNull(result);
+        assertEquals(IdamUser.USER_NOT_FOUND.getMessage(), result.getApprovedBy());
+        assertEquals(IdamUser.USER_NOT_FOUND.getMessage(), result.getAuthor());
+    }
+
+    @Test
+    public void shouldReturnDtoWhenIncorrectAuthorizationHeaderIsMissing() {
+        MultiValueMap<String, String> emptyHeaders = new LinkedMultiValueMap<>();
+        emptyHeaders.put("pepeGrillo", Collections.singletonList("Bearer saraSAA"));
 
         FeeVersionDto result = feeVersionMapper.toFeeVersionDto(feeVersion, emptyHeaders);
 
