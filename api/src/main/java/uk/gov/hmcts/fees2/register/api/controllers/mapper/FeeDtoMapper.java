@@ -371,6 +371,9 @@ public class FeeDtoMapper {
             if (null != feeVersion.getApprovedBy() && usersMap.containsKey(feeVersion.getApprovedBy())) {
                 feeVersionDto.setApprovedBy(usersMap.get(feeVersion.getApprovedBy()));
             }
+        } else {
+            feeVersionDto.setApprovedBy(IdamUser.USER_NOT_FOUND.getMessage());
+            feeVersionDto.setAuthor(IdamUser.USER_NOT_FOUND.getMessage());
         }
         return feeVersionDto;
     }
@@ -379,8 +382,7 @@ public class FeeDtoMapper {
         try {
             return idamService.getUserName(headers, userId);
         } catch (UserNotFoundException | GatewayTimeoutException e) {
-            // In case of IDAM API exceptions, return Fee with User IDs
-            return userId;
+            return IdamUser.USER_NOT_FOUND.getMessage();
         }
     }
 
