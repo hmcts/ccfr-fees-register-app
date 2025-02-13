@@ -202,7 +202,6 @@ def sonarExclusions = [
         '**/fees2/register/data/dto/**',
         '**/fees2/register/api/contract/loader/**',
         '**/fees2/register/data/repository/FeeVersionRepository.java',
-        '**/fees2/register/api/controllers/mapper/FeeDtoMapper.java',
         '**/fees2/register/util/*Loader.java'
 ]
 
