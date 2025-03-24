@@ -99,7 +99,7 @@ dependencies {
         exclude(module: 'commons-logging')
     }
     testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.3.3'
-    testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.7.3'
+    testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.7.4'
     testImplementation group: 'io.rest-assured', name: 'rest-assured'
     testImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
