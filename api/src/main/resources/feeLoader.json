@@ -891,7 +891,7 @@
       "code": "",
       "new_code": "FEE0313",
       "version": {
-        "version": 1,
+        "version": 5,
         "valid_from": "2014-04-21T00:00:00.000+00:00",
         "description": "Application for proceedings under Section 31 of Act",
         "status": "approved",
@@ -905,7 +905,7 @@
         "statutory_instrument": "2014 No 877",
         "si_ref_id": "2.2",
         "flat_amount": {
-          "amount": 2437
+          "amount": 2515
         }
       },
       "range_unit": "GBP",
