@@ -28,7 +28,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0002");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("593.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("612.00");
         });
     }
 
@@ -820,7 +820,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0313");
             Assertions.assertThat(FeeLookupResponseDto.getDescription()).isEqualTo("Application for proceedings under Section 31 of Act");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
-            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("2437.00");
+            Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("2515.00");
         });
     }
 }

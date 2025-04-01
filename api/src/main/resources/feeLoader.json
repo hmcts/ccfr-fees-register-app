@@ -891,7 +891,7 @@
       "code": "",
       "new_code": "FEE0313",
       "version": {
-        "version": 1,
+        "version": 5,
         "valid_from": "2014-04-21T00:00:00.000+00:00",
         "description": "Application for proceedings under Section 31 of Act",
         "status": "approved",
@@ -905,7 +905,7 @@
         "statutory_instrument": "2014 No 877",
         "si_ref_id": "2.2",
         "flat_amount": {
-          "amount": 2437
+          "amount": 2515
         }
       },
       "range_unit": "GBP",
@@ -1275,7 +1275,7 @@
       "code": "X0165",
       "new_code": "FEE0002",
       "version": {
-        "version": 4,
+        "version": 8,
         "valid_from": "2016-03-21T00:00:00.000+00:00",
         "description": "Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.",
         "status": "approved",
@@ -1287,7 +1287,7 @@
         "consolidated_fee_order_name": "The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016",
         "natural_account_code":"4481102159",
         "flat_amount": {
-          "amount": 593.00
+          "amount": 612.00
         }
       },
       "jurisdiction1": "family",
