@@ -72,3 +72,15 @@ variable "postgresql_flexible_server_port" {
 variable "apim_suffix" {
   default = ""
 }
+
+variable "db_monitor_action_group_name" {
+  description = "The name of the Action Group to create."
+  type        = string
+  default     = "db_monitor_ag"
+}
+
+variable "db_alert_email_address_key" {
+  description = "Email address key in azure Key Vault."
+  type        = string
+  default     = "db-alert-monitoring-email-address"
+}
