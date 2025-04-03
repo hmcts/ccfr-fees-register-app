@@ -45,7 +45,7 @@ export OAUTH2_REDIRECT_URI=https://fees-register-frontend-aat.service.core-compu
 
 ## Deployment
 
-See Jenkinsfile for the deployment details
+See Jenkinsfile for the deployment details.
 
 ## DB migration task
 
