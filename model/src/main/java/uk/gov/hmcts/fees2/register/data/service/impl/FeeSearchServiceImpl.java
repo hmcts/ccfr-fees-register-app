@@ -70,10 +70,12 @@ public class FeeSearchServiceImpl implements FeeSearchService {
         return fee2Repository.findAll((rootFee, criteriaQuery, criteriaBuilder) -> getFeePredicate(rootFee, criteriaBuilder, criteria))
             .stream()
             .filter(fee -> criteria.getIsDraft() == null
-                || fee.isDraft() == criteria.getIsDraft()
+                ||
+                fee.isDraft() == criteria.getIsDraft()
             )
             .filter(fee -> criteria.getAmountOrVolume() == null
-                || fee.isInRange(criteria.getAmountOrVolume())
+                ||
+                fee.isInRange(criteria.getAmountOrVolume())
             )
             .peek(fee -> {
                 if (fee.getFeeVersions() != null) {
