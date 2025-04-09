@@ -20,6 +20,7 @@ import uk.gov.hmcts.fees2.register.data.repository.ServiceTypeRepository;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,13 +70,18 @@ public class FeeSearchServiceImpl implements FeeSearchService {
         return fee2Repository.findAll((rootFee, criteriaQuery, criteriaBuilder) -> getFeePredicate(rootFee, criteriaBuilder, criteria))
             .stream()
             .filter(fee -> criteria.getIsDraft() == null
-                ||
-                fee.isDraft() == criteria.getIsDraft()
+                || fee.isDraft() == criteria.getIsDraft()
             )
             .filter(fee -> criteria.getAmountOrVolume() == null
-                ||
-                fee.isInRange(criteria.getAmountOrVolume())
+                || fee.isInRange(criteria.getAmountOrVolume())
             )
+            .peek(fee -> {
+                if (fee.getFeeVersions() != null) {
+                    fee.getFeeVersions().sort(
+                        Comparator.comparing(FeeVersion::getVersion).reversed()
+                    );
+                }
+            })
             .collect(Collectors.toList());
     }
 
