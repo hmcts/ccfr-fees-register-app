@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 
@@ -384,11 +385,13 @@ public class FeeSearchServiceTest {
 
         // Verify that FeeVersions are sorted by version in descending order
         List<FeeVersion> feeVersions = result.get(0).getFeeVersions();
-        feeVersions.sort((v1, v2) -> Integer.compare(v2.getVersion(), v1.getVersion())); // Sort in descending order
 
-        for (int i = 0; i < feeVersions.size() - 1; i++) {
-            assertTrue("FeeVersions should be sorted in descending order",
-                feeVersions.get(i).getVersion() >= feeVersions.get(i + 1).getVersion());
-        }
+        assertTrue(feeVersions.size() == 3);
+        assertEquals("FeeVersions should be sorted in descending order",
+            feeVersions.get(0).getVersion(), Integer.valueOf(3));
+        assertEquals("FeeVersions should be sorted in descending order",
+            feeVersions.get(1).getVersion(), Integer.valueOf(2));
+        assertEquals("FeeVersions should be sorted in descending order",
+            feeVersions.get(2).getVersion(), Integer.valueOf(1));
     }
 }
