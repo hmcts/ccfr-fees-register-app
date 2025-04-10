@@ -23,11 +23,14 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.FeeVersionService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 
@@ -61,7 +64,7 @@ public class FeeSearchServiceTest {
         feeVersion.setValidTo(toTime.toDate());
         feeVersion.setStatus(FeeVersionStatus.approved);
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
 
         feeService.save(fee);
 
@@ -93,8 +96,7 @@ public class FeeSearchServiceTest {
         feeVersion.setStatus(FeeVersionStatus.approved);
 
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
-
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
         feeService.save(fee);
 
         Fee savedFee = feeService.getFee(fee.getCode());
@@ -126,7 +128,7 @@ public class FeeSearchServiceTest {
         feeVersion.setAuthor(author);
 
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
 
         feeService.save(fee);
 
@@ -159,7 +161,7 @@ public class FeeSearchServiceTest {
         feeVersion.setApprovedBy(author);
 
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
 
         feeService.save(fee);
 
@@ -191,7 +193,7 @@ public class FeeSearchServiceTest {
         feeVersion.setStatus(FeeVersionStatus.pending_approval);
 
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
 
         feeService.save(fee);
 
@@ -222,7 +224,7 @@ public class FeeSearchServiceTest {
         feeVersion.setDescription("This is a fee version object");
 
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
 
         feeService.save(fee);
 
@@ -253,7 +255,7 @@ public class FeeSearchServiceTest {
         feeVersion.setSiRefId("4.a");
 
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
 
         feeService.save(fee);
 
@@ -286,7 +288,7 @@ public class FeeSearchServiceTest {
         feeVersion.setAmount(amount);
 
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
 
         feeService.save(fee);
 
@@ -318,7 +320,7 @@ public class FeeSearchServiceTest {
         feeVersion.setMemoLine(memoLine);
 
         feeVersion.setFee(fee);
-        fee.setFeeVersions(Collections.singletonList(feeVersion));
+        fee.setFeeVersions(new ArrayList<>(Collections.singletonList(feeVersion)));
 
         feeService.save(fee);
 
@@ -342,5 +344,61 @@ public class FeeSearchServiceTest {
 
         assertTrue("The retrieved fee should be the saved one.", result.get(0).getCode().equals(savedFee.getCode()));
         assertTrue("The matching fee version should be the saved one.", result.get(0).getMatchingVersion().getMemoLine().equals(memoLine));
+    }
+
+    @Test
+    @Transactional
+    public void searchFees_ShouldSortByFeeVersionInDescendingOrder() {
+
+        Fee fee = new FixedFee();
+        DateTime fromTime = new DateTime().minusDays(2);
+        DateTime toTime = new DateTime().minusDays(1);
+        FeeVersion feeVersion = new FeeVersion();
+        feeVersion.setValidFrom(fromTime.toDate());
+        feeVersion.setValidTo(toTime.toDate());
+        feeVersion.setStatus(FeeVersionStatus.approved);
+        feeVersion.setApprovedBy(author);
+        feeVersion.setVersion(Integer.valueOf(1));
+        feeVersion.setFee(fee);
+
+        DateTime fromTime2 = new DateTime().minusDays(200);
+        DateTime toTime2 = new DateTime().minusDays(100);
+        FeeVersion feeVersion2 = new FeeVersion();
+        feeVersion2.setValidFrom(fromTime2.toDate());
+        feeVersion2.setValidTo(toTime2.toDate());
+        feeVersion2.setStatus(FeeVersionStatus.approved);
+        feeVersion2.setApprovedBy(author);
+        feeVersion2.setVersion(Integer.valueOf(2));
+        feeVersion2.setFee(fee);
+
+        DateTime fromTime3 = new DateTime().minusDays(2000);
+        DateTime toTime3 = new DateTime().minusDays(1000);
+        FeeVersion feeVersion3 = new FeeVersion();
+        feeVersion3.setValidFrom(fromTime.toDate());
+        feeVersion3.setValidTo(toTime.toDate());
+        feeVersion3.setStatus(FeeVersionStatus.approved);
+        feeVersion3.setApprovedBy(author);
+        feeVersion3.setVersion(Integer.valueOf(3));
+        feeVersion3.setFee(fee);
+
+        fee.setFeeVersions(new ArrayList<>(Arrays.asList(feeVersion, feeVersion3, feeVersion2)));
+        feeService.save(fee);
+
+        // Create search criteria
+        SearchFeeDto searchFeeCriteria = new SearchFeeDto();
+
+        // Call searchFees
+        List<Fee> result = feeSearchService.search(searchFeeCriteria);
+
+        // Verify that FeeVersions are sorted by version in descending order
+        List<FeeVersion> feeVersions = result.get(0).getFeeVersions();
+
+        assertTrue(feeVersions.size() == 3);
+        assertEquals("FeeVersions should be sorted in descending order",
+            feeVersions.get(0).getVersion(), Integer.valueOf(3));
+        assertEquals("FeeVersions should be sorted in descending order",
+            feeVersions.get(1).getVersion(), Integer.valueOf(2));
+        assertEquals("FeeVersions should be sorted in descending order",
+            feeVersions.get(2).getVersion(), Integer.valueOf(1));
     }
 }

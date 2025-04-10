@@ -31,6 +31,7 @@ import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -202,8 +203,14 @@ public class FeeServiceImpl implements FeeService {
             )
             .stream()
             .filter(fee -> secondLevelFilter(fee, dto))
+            .peek(fee -> {
+                if (fee.getFeeVersions() != null) {
+                    fee.getFeeVersions().sort(
+                        Comparator.comparing(FeeVersion::getVersion).reversed()
+                    );
+                }
+            })
             .collect(Collectors.toList());
-
     }
 
     private void defaults(LookupFeeDto dto) {
