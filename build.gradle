@@ -26,7 +26,7 @@ java {
 
 
 dependencies{
-    testImplementation 'com.github.hmcts:fortify-client:1.4.4:all'
+    testImplementation 'com.github.hmcts:fortify-client:1.4.9:all'
 }
 
 task fortifyScan(type: JavaExec)  {
@@ -41,7 +41,7 @@ allprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'au.com.dius.pact'
 
-    group = 'uk.gov.hmcts.reform.fees-register'
+    group = 'com.github.hmcts.fees-register'
     ext {
         buildNumber = System.getenv("BUILD_NUMBER") ?: '0'
         pacticipantVersion = getCheckedOutGitCommitHash()
@@ -56,8 +56,8 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url 'https://repo.spring.io/libs-milestone' }
-        maven { url "https://jitpack.io" }
+        maven { url = 'https://repo.spring.io/libs-milestone' }
+        maven { url = 'https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1' }
     }
 
     apply from: "${rootDir}/cve-resolution-strategy.gradle"
@@ -162,9 +162,19 @@ subprojects {
                 from components.java
                 artifact sourcesJar
                 artifact javadocJar
-                groupId project.group
-                artifactId project.name
-                version project.version
+                groupId = project.group
+                artifactId = project.name
+                version = project.version
+            }
+        }
+        repositories {
+            maven {
+                name = "AzureArtifacts"
+                url = uri("https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1")
+                credentials {
+                    username = System.getenv("AZURE_DEVOPS_ARTIFACT_USERNAME")
+                    password = System.getenv("AZURE_DEVOPS_ARTIFACT_TOKEN")
+                }
             }
         }
     }

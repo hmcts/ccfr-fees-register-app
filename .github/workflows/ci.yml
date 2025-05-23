@@ -40,32 +40,15 @@ jobs:
         run: ./gradlew codeCoverageReport
       - name: Publish report to Codecov
         run: bash <(curl -s https://codecov.io/bash)
-      - name: Release Build in JitPack
+      - name: Publish to Azure DevOps Artifacts
         run: |
-         echo "Triggering JitPack build"
-
-         PACKAGES_URL="https://jitpack.io/com/github/${GITHUB_REPOSITORY}/${GITHUB_REF#refs/tags/}/"
-         PACKAGES_FILE="packages.txt"
-         touch ${PACKAGES_FILE}
-         # Try the URL 3 times before failing
-         count=1
-         until [[ $count -gt 3 ]] || [[ $(cat ${PACKAGES_FILE} | wc -l | xargs ) -gt 1 ]] ; do
-           echo "Attempt ${count}/3"
-           STATUS=$(curl -s -o packages.txt -w "%{http_code}" --max-time 900 ${PACKAGES_URL})
-
-           let count+=1
-           sleep 30
-         done
-
-         echo "::group::Files Available"
-         echo $(cat ${PACKAGES_FILE})
-         echo "::endgroup::"
-
-         if [[ ${STATUS} -gt 399 ]] ; then
-           echo "FAILURE: ${STATUS} response from JitPack"
-           exit 1
-         fi
+          ./gradlew publish
         if: startsWith(github.ref, 'refs/tags')
+        env:
+          AZURE_DEVOPS_ARTIFACT_USERNAME: ${{ secrets.AZURE_DEVOPS_ARTIFACT_USERNAME }}
+          AZURE_DEVOPS_ARTIFACT_TOKEN: ${{ secrets.AZURE_DEVOPS_ARTIFACT_TOKEN }}
+          RELEASE_VERSION: ${{ github.ref_name }}
+        shell: bash
       - name: Cleanup Gradle Cache
         run: |
           rm -f ~/.gradle/caches/modules-2/modules-2.lock
