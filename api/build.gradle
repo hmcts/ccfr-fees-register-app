@@ -179,7 +179,7 @@ task runProviderPactVerification(type: Test) {
 task providerContractTest(type: Test) {
     logger.lifecycle("Running contract provider Tests")
     useJUnitPlatform()
-    include "uk/gov/hmcts/fees2/register/api/controllers/**"
+    include 'uk.gov.hmcts.fees2.register.api.controllers.**'
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
     systemProperty 'pact.rootDir', "pacts"
