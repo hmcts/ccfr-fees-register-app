@@ -43,10 +43,10 @@ allprojects {
 
     group = 'com.github.hmcts.fees-register'
     ext {
-        buildNumber = System.getenv("BUILD_NUMBER") ?: '0'
+        buildNumber = System.getenv("RELEASE_VERSION")?.replace("refs/tags/", "") ?: "DEV-SNAPSHOT"
         pacticipantVersion = getCheckedOutGitCommitHash()
     }
-    version = rootProject.file('version.txt').text.trim() + ".${buildNumber}"
+    version = buildNumber // set version to the latest tag or "DEV-SNAPSHOT" if not available
 
     java {
         sourceCompatibility = JavaVersion.VERSION_21
