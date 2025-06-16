@@ -22,6 +22,7 @@ locals {
 
   feeregister_thumbprints_in_quotes     = formatlist("&quot;%s&quot;", var.feeregister_api_gateway_certificate_thumbprints)
   feeregister_thumbprints_in_quotes_str = join(",", local.feeregister_thumbprints_in_quotes)
+  db_server_name                        = join("-", [var.product, "postgres-db-v15"])
 }
 
 data "azurerm_key_vault" "fees_key_vault" {
@@ -94,7 +95,7 @@ module "fees-register-database-v15" {
   product              = var.product
   component            = var.component
   business_area        = "cft"
-  name                 = join("-", [var.product, "postgres-db-v15"])
+  name                 = local.db_server_name
   location             = var.location
   env                  = var.env
   pgsql_admin_username = var.postgresql_user
@@ -117,6 +118,9 @@ module "fees-register-database-v15" {
   admin_user_object_id = var.jenkins_AAD_objectId
   common_tags          = var.common_tags
   pgsql_version        = var.postgresql_flexible_sql_version
+  action_group_name           = join("-", [var.db_monitor_action_group_name, local.db_server_name, var.env])
+  email_address_key           = var.db_alert_email_address_key
+  email_address_key_vault_id  = data.azurerm_key_vault.freg_key_vault.id
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
