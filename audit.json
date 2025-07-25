@@ -12,5 +12,6 @@
   "90022_Application Error Disclosure_http://fees-register-api-aat.service.core-compute-aat.internal/v2/api-docs_GET":"ignore",
   "90022_Application Error Disclosure_http://fees-register-api-aat.service.core-compute-aat.internal_GET":"ignore",
   "10049_Storable and Cacheable Content_http://fees-register-api-aat.service.core-compute-aat.internal/v2/api-docs_GET":"ignore",
-  "10049_Non-Storable Content_http://fees-register-api-aat.service.core-compute-aat.internal/v2/api-docs_GET":"ignore"
+  "10049_Non-Storable Content_http://fees-register-api-aat.service.core-compute-aat.internal/v2/api-docs_GET":"ignore",
+  "10116_ZAP is Out of Date_http://fees-register-api-aat.service.core-compute-aat.internal/v2/api-docs_GET":"ignore"
 }
