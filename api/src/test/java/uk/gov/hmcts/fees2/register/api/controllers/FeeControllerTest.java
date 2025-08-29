@@ -3,6 +3,7 @@ package uk.gov.hmcts.fees2.register.api.controllers;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,10 +25,7 @@ import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -843,6 +841,37 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .get("/fees-register/approvedFees")
             .andExpect(status().isOk())
             .andReturn();
+    }
+
+    @Test
+    public void shouldRetainOnlyApprovedFeeVersions() {
+        FeeVersionDto approved = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .build();
+        FeeVersionDto draft = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.draft)
+            .build();
+        FeeVersionDto discontinued = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.discontinued)
+            .build();
+        Fee2Dto fee2Dto = new Fee2Dto();
+        fee2Dto.setFeeType("fixed");
+        fee2Dto.setCode("FEE0441");
+        fee2Dto.setFeeVersionDtos(Arrays.asList(approved, draft, discontinued));
+        List<Fee2Dto> result = Arrays.asList(fee2Dto);
+
+        for (Fee2Dto dto : result) {
+            if (dto.getFeeVersionDtos() != null) {
+                List<FeeVersionDto> approvedVersions = dto.getFeeVersionDtos()
+                    .stream()
+                    .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
+                    .toList();
+                dto.setFeeVersionDtos(approvedVersions);
+            }
+        }
+
+        Assertions.assertEquals(1, fee2Dto.getFeeVersionDtos().size());
+        Assertions.assertEquals(FeeVersionStatusDto.approved, fee2Dto.getFeeVersionDtos().get(0).getStatus());
     }
 
 }

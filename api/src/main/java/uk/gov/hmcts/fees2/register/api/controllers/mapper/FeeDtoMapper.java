@@ -159,7 +159,8 @@ public class FeeDtoMapper {
         List<FeeVersionDto> feeVersionDtos = fee.getFeeVersions().stream().map(this::toFeeVersionDto).collect(Collectors.toList());
         fee2Dto.setFeeVersionDtos(feeVersionDtos);
 
-        FeeVersion currentVersion = fee.getCurrentVersion(false);
+        // current version should always be approved
+        FeeVersion currentVersion = fee.getCurrentVersion(true);
 
         if(currentVersion != null) {
             fee2Dto.setCurrentVersion(toFeeVersionDto(currentVersion));
