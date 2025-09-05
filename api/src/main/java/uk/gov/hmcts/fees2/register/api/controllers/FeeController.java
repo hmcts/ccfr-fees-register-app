@@ -458,14 +458,26 @@ public class FeeController {
     @ResponseStatus(HttpStatus.OK)
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
-            null, null, null,null, null,
-            null, null, null, null, null, null, null, null);
+            null, null, null, FeeVersionStatus.approved, null,
+            null, false, true, null, null, null, null, null);
         result = result
             .stream()
             .filter(c -> c.getCurrentVersion()!=null)
             .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
             .collect(Collectors.toList());
 
+        // return only approved versions of the approved fees
+        for (Fee2Dto fee2Dto : result) {
+            if (fee2Dto.getFeeVersionDtos() != null) {
+                List<FeeVersionDto> approvedVersions = fee2Dto.getFeeVersionDtos()
+                    .stream()
+                    .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
+                    .collect(Collectors.toList());
+                fee2Dto.setFeeVersionDtos(approvedVersions);
+            }
+        }
+
+        // remove sensitive info
         for (Fee2Dto fee2Dto : result) {
             for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
                 feeVersionDto.setApprovedBy(null);
@@ -492,7 +504,6 @@ public class FeeController {
             }
 
         }
-
 
         return result;
     }
