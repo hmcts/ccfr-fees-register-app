@@ -89,7 +89,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'joda-time', name: 'joda-time', version: '2.13.0'
-    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.7.4') {
+    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.7.8') {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
