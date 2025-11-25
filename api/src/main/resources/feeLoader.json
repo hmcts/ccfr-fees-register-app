@@ -1221,9 +1221,9 @@
       "code": "",
       "new_code": "FEE0546",
       "version": {
-        "version": 1,
-        "valid_from": "2019-07-22T00:00:00.000+00:00",
-        "description": "Copy of a document (for each copy)",
+        "version": 2,
+        "valid_from": "2025-11-17T00:00:00.000+00:00",
+        "description": "Copy of a document of a specific individual named in the request (for each copy)",
         "status": "approved",
         "author": "b0aa5dff-b1bb-49be-a598-7107b572316f",
         "approvedBy": "39907",
@@ -1232,10 +1232,10 @@
         "direction": "cost recovery",
         "last_amending_si": "The Court Fees (Miscellaneous Amendments) Order 2019",
         "consolidated_fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2019",
-        "statutory_instrument": "2019 No 1063",
+        "statutory_instrument": "2025 No 1126",
         "si_ref_id": "8a",
         "volume_amount": {
-          "amount": 1.5
+          "amount": 16.00
         }
       },
       "range_unit": "GBP",
