@@ -20,6 +20,7 @@ def branchesToSync = ['demo', 'ithc', 'perftest']
 env.PACT_BROKER_URL = 'pact-broker.platform.hmcts.net'
 env.PACT_BROKER_SCHEME = 'https'
 env.PACT_BROKER_PORT = '443'
+env.PACTBROKER_CONSUMERVERSIONSELECTORS_RAWJSON = '[{"consumer":"civil_service","latest":true}]'
 
 List<LinkedHashMap<String, Object>> secrets1 = [
         secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD'),
@@ -82,6 +83,10 @@ withPipeline(type, product, app) {
     disableLegacyDeployment()
 
     onMaster() {
+        enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
+
+    }
+    onPR() {
         enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
     }
 
