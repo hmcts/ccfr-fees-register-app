@@ -20,7 +20,24 @@ def branchesToSync = ['demo', 'ithc', 'perftest']
 env.PACT_BROKER_URL = 'pact-broker.platform.hmcts.net'
 env.PACT_BROKER_SCHEME = 'https'
 env.PACT_BROKER_PORT = '443'
-env.PACTBROKER_CONSUMERVERSIONSELECTORS_RAWJSON = '[{"consumer":"civil_service","latest":true}]'
+env.PACTBROKER_CONSUMERVERSIONSELECTORS_RAWJSON = '''
+  [
+    {"consumer": "civil_general_applications", "latest": true},
+    {"consumer": "civil_service", "latest": true},
+    {"consumer": "divorce_feeAndPaymentService_feeRegister", "latest": true},
+    {"consumer": "fpl_ccdConfiguration", "latest": true},
+    {"consumer": "fr_caseOrchestratorService", "latest": true},
+    {"consumer": "ia_caseApi", "latest": true},
+    {"consumer": "ia_caseDocumentsApi", "latest": true},
+    {"consumer": "ia_casePaymentsApi", "latest": true},
+    {"consumer": "pcs_api", "latest": true},
+    {"consumer": "feeRegister_lookUp", "latest": true},
+    {"consumer": "prl_cos", "latest": true},
+    {"consumer": "probate_backOffice", "latest": true},
+    {"consumer": "probate_caveatsFrontEnd", "latest": true}
+  ]
+  '''
+
 
 List<LinkedHashMap<String, Object>> secrets1 = [
         secret('freg-idam-test-user-password', 'TEST_USER_PASSWORD'),
