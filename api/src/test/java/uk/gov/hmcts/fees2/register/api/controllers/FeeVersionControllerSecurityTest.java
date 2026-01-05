@@ -6,11 +6,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -29,9 +29,9 @@ import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.aFeeVersionPayload
 @ContextConfiguration(classes = {TestSecurityConfiguration.class})
 public class FeeVersionControllerSecurityTest {
 
-    @MockBean private FeeVersionService feeVersionService;
-    @MockBean private FeeDtoMapper feeDtoMapper;
-    @MockBean private FeeService feeService;
+    @MockitoBean private FeeVersionService feeVersionService;
+    @MockitoBean private FeeDtoMapper feeDtoMapper;
+    @MockitoBean private FeeService feeService;
 
     @Autowired
     private MockMvc mockMvc;

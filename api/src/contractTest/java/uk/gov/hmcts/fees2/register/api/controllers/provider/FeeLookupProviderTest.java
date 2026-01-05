@@ -11,9 +11,9 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -39,10 +39,10 @@ public class FeeLookupProviderTest {
     @Autowired
     FeeService feeService;
 
-    @MockBean
+    @MockitoBean
     FeeDtoMapper feeDtoMapper;
 
-    @MockBean
+    @MockitoBean
     FeeSearchService feeSearchService;
 
     @TestTemplate
