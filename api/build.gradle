@@ -142,6 +142,7 @@ dependencies {
 test {
     // Base test class for other tests - has no runnable test methods
     exclude '**/ComponentTestBase*'
+    jvmArgs "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('mockito-core') }.absolutePath}"
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -157,6 +158,7 @@ task integrationTest(type: Test) {
     description = "Runs integration tests"
     group = "Verification"
     include "uk/gov/hmcts/fees2/register/api/controllers/**"
+    jvmArgs "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('mockito-core') }.absolutePath}"
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
     failFast = true
