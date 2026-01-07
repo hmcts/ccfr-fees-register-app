@@ -1,8 +1,8 @@
 package uk.gov.hmcts.fees2.register.api.controllers.provider;
 
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
@@ -24,27 +24,27 @@ public class FeeRangeGroupProviderTestConfiguration {
         return mock(FeeDtoMapper.class);
     }
 
-    @MockitoBean
+    @MockBean
     FeeVersionRepository feeVersionRepository;
 
-    @MockitoBean
+    @MockBean
     ChannelTypeRepository channelTypeRepository;
-    @MockitoBean
+    @MockBean
     Jurisdiction1Repository jurisdiction1Repository;
-    @MockitoBean
+    @MockBean
     Jurisdiction2Repository jurisdiction2Repository;
-    @MockitoBean
+    @MockBean
     EventTypeRepository eventTypeRepository;
-    @MockitoBean
+    @MockBean
     ServiceTypeRepository serviceTypeRepository;
-    @MockitoBean
+    @MockBean
     ApplicantTypeRepository applicantTypeRepository;
-    @MockitoBean
+    @MockBean
     Fee2Repository fee2Repository;
-    @MockitoBean
+    @MockBean
     FeeCodeHistoryRepository feeCodeHistoryRepository;
-    @MockitoBean
+    @MockBean
     FeeValidator feeValidator;
-    @MockitoBean
+    @MockBean
     IdamService idamService;
 }
