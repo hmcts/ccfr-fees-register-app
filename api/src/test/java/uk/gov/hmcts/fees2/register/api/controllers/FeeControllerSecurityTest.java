@@ -33,8 +33,7 @@ import static uk.gov.hmcts.fees2.register.api.FeeTestFixtures.*;
 @ContextConfiguration(classes = {TestSecurityConfiguration.class})
 public class FeeControllerSecurityTest {
 
-  @MockBean
-    private FeeSearchService feeSearchService;
+    @MockBean private FeeSearchService feeSearchService;
     @MockBean private FeeVersionService feeVersionService;
     @MockBean private FeeService feeService;
     @MockBean private FeeDtoMapper feeDtoMapper;
