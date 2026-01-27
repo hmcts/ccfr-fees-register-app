@@ -133,7 +133,7 @@ subprojects {
 
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
-        testImplementation group: 'org.wiremock', name: 'wiremock-standalone', version: '3.9.1'
+        testImplementation group: 'org.wiremock', name: 'wiremock-standalone', version: '3.13.2'
         testImplementation group: 'junit', name: 'junit', version: '4.12'
         testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
 
