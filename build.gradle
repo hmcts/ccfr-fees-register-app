@@ -13,7 +13,7 @@ plugins {
 }
 
 def versions = [
-        lombok: '1.18.34',
+        lombok: '1.18.42',
         jackson: '2.18.0',
         jacocoVersion: '0.8.5'
 ]
