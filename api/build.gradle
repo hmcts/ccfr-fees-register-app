@@ -6,7 +6,7 @@ buildscript {
 
 plugins {
     id "info.solidsoft.pitest" version '1.15.0'
-    id "net.serenity-bdd.serenity-gradle-plugin" version "4.2.1"
+    id "net.serenity-bdd.serenity-gradle-plugin" version "4.3.2"
 }
 description = 'api module'
 
