@@ -141,6 +141,36 @@ public class UpdateFeeTest extends IntegrationTestBase {
 
     }
 
+    @Test
+    public void should_not_update_a_fee_after_submission_by_non_freg_editor_role_user() {
+        Response response = feeService.createAFee(userBootstrap.getEditor(), aFixedFee());
+        String feeCode = response.then()
+            .statusCode(HttpStatus.CREATED.value())
+            .and()
+            .extract().header(HttpHeaders.LOCATION).split("/")[3];
+        assertThat(feeCode).isNotBlank();
+
+        //Retrieve the Created Fee...
+        Fee2Dto fee2Dto = feeService.getAFee(feeCode)
+            .then()
+            .statusCode(HttpStatus.OK.value()).extract().as(Fee2Dto.class);
+
+        // editor submits a fee for review
+        FeeVersionDto feeVersionDto = getLatestFeeVersion(fee2Dto);
+        feeService.submitAFee(userBootstrap.getEditor(), feeCode, feeVersionDto.getVersion())
+            .then()
+            .statusCode(HttpStatus.NO_CONTENT.value());
+
+        //Ammending Should not take place by non freg-editor role user
+        Response amendResponse1 = feeService.amendAFeeVersion(userBootstrap.getApprover(), feeCode, feeVersionDto);
+        amendResponse1.then()
+            .statusCode(HttpStatus.FORBIDDEN.value());
+
+        // admin deletes a fee - success
+        feeService.deleteAFee(userBootstrap.getAdmin(), feeCode)
+            .then()
+            .statusCode(HttpStatus.NO_CONTENT.value());
+    }
 
     @Test
     public void should_update_a_fee_after_rejection() {
