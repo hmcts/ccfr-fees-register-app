@@ -31,9 +31,7 @@ public class SpringSecurityConfiguration {
     }
 
     /**
-     * Public filter chain. Allow *ALL* GET requests and PUT requests to specific endpoints.
-     * PUT requests are allowed to match configuration that was before
-     * Spring Boot upgrade to V3.
+     * Public filter chain. Allow *ALL* GET requests.
      * @param http
      * @return
      * @throws Exception
@@ -43,13 +41,6 @@ public class SpringSecurityConfiguration {
         http
             .securityMatchers(match -> match
                 .requestMatchers(HttpMethod.GET)
-                .requestMatchers(
-                    HttpMethod.PUT,
-                    "/categories/**",
-                    "/fees/**",
-                    "/fees/*/versions/**",
-                    "/range-groups/**"
-                )
             )
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
             .csrf(AbstractHttpConfigurer::disable)
@@ -89,6 +80,14 @@ public class SpringSecurityConfiguration {
                     HttpMethod.PUT,"/fees-register/ranged-fees/*", "/fees-register/fixed-fees/*",
                     "/fees-register/banded-fees/*","/fees-register/relational-fees/*",
                     "/fees-register/rateable-fees/**").hasAuthority("freg-editor")
+            ).authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(
+                    HttpMethod.PUT,
+                    "/categories/**",
+                    "/fees/**",
+                    "/fees/*/versions/**",
+                    "/range-groups/**"
+                ).hasAuthority("freg-editor")
             ).authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
                     HttpMethod.PATCH,"/fees/*/versions/*/approve").hasAuthority("freg-approver")
