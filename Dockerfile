@@ -1,6 +1,6 @@
 # renovate: datasource=github-releases depName=microsoft/ApplicationInsights-Java
 ARG APP_INSIGHTS_AGENT_VERSION=3.7.8
-ARG BASE_REGISTRY=hmctssbox.azurecr.io
+ARG BASE_REGISTRY=hmctsprod.azurecr.io
 FROM ${BASE_REGISTRY}/base/java:21-distroless
 
 COPY lib/applicationinsights.json /opt/app/
