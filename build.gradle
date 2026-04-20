@@ -69,6 +69,12 @@ allprojects {
             mavenBom "org.apache.logging.log4j:log4j-bom:2.25.3"
             mavenBom "org.eclipse.angus:angus-activation:2.1.0-M1"
         }
+        dependencies {
+            dependency "org.springframework.security:spring-security-config:6.5.9"
+            dependency "org.springframework.security:spring-security-core:6.5.9"
+            dependency "org.springframework.security:spring-security-crypto:6.5.9"
+            dependency "org.springframework.security:spring-security-web:6.5.9"
+        }
     }
 }
 
