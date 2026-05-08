@@ -148,6 +148,25 @@ tasks.withType(JavaCompile).configureEach {
     options.compilerArgs << '-parameters'
 }
 
+def applyPactBrokerSystemProperties = { Test task ->
+    def brokerUrl = project.findProperty('pact.broker.url')
+        ?: project.findProperty('pactbroker.url')
+        ?: System.getProperty('pact.broker.url')
+        ?: System.getProperty('pactbroker.url')
+        ?: System.getenv('PACT_BROKER_URL')
+
+    if (brokerUrl) {
+        def uri = new URI(brokerUrl.toString())
+        def scheme = uri.scheme ?: 'https'
+        def host = uri.host ?: brokerUrl.toString()
+        def port = (uri.port > 0 ? uri.port : (scheme == 'https' ? 443 : 80)).toString()
+        task.systemProperty 'pactbroker.scheme', scheme
+        task.systemProperty 'pactbroker.host', host
+        task.systemProperty 'pactbroker.port', port
+        task.systemProperty 'pactbroker.url', "${scheme}://${host}:${port}"
+    }
+}
+
 task smokeTest(type: Test, description: 'Runs the smoke tests', group: 'Verification') {
     testClassesDirs = sourceSets.smokeTest.output.classesDirs
     classpath = sourceSets.smokeTest.runtimeClasspath
@@ -171,6 +190,7 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
 task runProviderPactVerification(type: Test) {
     logger.lifecycle("Runs pact provider Tests")
     useJUnitPlatform()
+    applyPactBrokerSystemProperties(delegate)
     systemProperty 'pact.verifier.publishResults','true'
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
@@ -179,6 +199,7 @@ task runProviderPactVerification(type: Test) {
 task providerContractTest(type: Test) {
     logger.lifecycle("Running contract provider Tests")
     useJUnitPlatform()
+    applyPactBrokerSystemProperties(delegate)
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
     systemProperty 'pact.rootDir', "pacts"

@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @Provider("feeRegister_lookUp")
-@PactBroker(scheme = "${pactbroker.scheme:http}", host = "${pactbroker.host:localhost}", port = "${pactbroker.port:80}")
+@PactBroker
 @Import(FeeLookupProviderTestConfiguration.class)
 public class FeeLookupProviderTest {
 
@@ -276,6 +276,34 @@ public class FeeLookupProviderTest {
 
     @State("service is registered in Fee registry")
     public void requestForProbateAndDivorceFees() {
+
+        LookupFeeDto applyAdoptionLookupFeeDto = LookupFeeDto.lookupWith()
+            .channel("default")
+            .event("issue")
+            .jurisdiction1("family")
+            .jurisdiction2("family court")
+            .service("adoption")
+            .keyword("ApplyAdoption")
+            .applicantType("all")
+            .unspecifiedClaimAmount(false)
+            .versionStatus(FeeVersionStatus.approved)
+            .build();
+
+        FeeLookupResponseDto applyAdoptionFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0310",
+            "Adoption application fee",
+            5,
+            new BigDecimal("207.00"));
+
+        when(feeService.lookup(ArgumentMatchers.argThat(lookupFee ->
+            lookupFee != null
+                && "adoption".equals(lookupFee.getService())
+                && "ApplyAdoption".equals(lookupFee.getKeyword())
+                && "issue".equals(lookupFee.getEvent())
+                && "family".equals(lookupFee.getJurisdiction1())
+                && "family court".equals(lookupFee.getJurisdiction2())
+        )))
+            .thenReturn(applyAdoptionFeeLookupResponseDto);
 
         LookupFeeDto probateFeeDto = LookupFeeDto.lookupWith()
             .service("probate")
