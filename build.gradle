@@ -4,8 +4,8 @@ plugins {
     id 'org.springframework.boot' version '3.5.14'
     id 'io.spring.dependency-management' version '1.1.6'
     id 'org.owasp.dependencycheck' version '10.0.4'
-    id "uk.gov.hmcts.java" version '0.12.63'
-    id "com.gorylenko.gradle-git-properties" version "2.4.2"
+    id "uk.gov.hmcts.java" version '0.12.68'
+    id "com.gorylenko.gradle-git-properties" version "2.5.7"
     id 'com.github.ben-manes.versions' version '0.51.0'
     id 'jacoco'
     id 'maven-publish'
@@ -254,12 +254,12 @@ static def getCheckedOutGitCommitHash() {
     runProviderPactVerification.finalizedBy pactVerify
 
 tasks.register('smoke', GradleBuild) {
-    buildFile = './api/build.gradle'
+    dir = file('api')
     tasks = ['smokeTest']
 }
 
 tasks.register('functional', GradleBuild) {
-    buildFile = './api/build.gradle'
+    dir = file('api')
     tasks = ['functionalTest']
 }
 

@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "info.solidsoft.pitest" version '1.15.0'
+    id "info.solidsoft.pitest" version '1.19.0'
     id "net.serenity-bdd.serenity-gradle-plugin" version "4.2.1"
 }
 description = 'api module'
@@ -48,14 +48,14 @@ sourceSets {
 apply plugin: 'idea'
 idea {
     module {
-        testSourceDirs += project.sourceSets.smokeTest.java.srcDirs
-        testSourceDirs += project.sourceSets.smokeTest.resources.srcDirs
-        testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
-        testSourceDirs += project.sourceSets.integrationTest.resources.srcDirs
-        testSourceDirs += project.sourceSets.functionalTest.java.srcDirs
-        testSourceDirs += project.sourceSets.functionalTest.resources.srcDirs
-        testSourceDirs += project.sourceSets.contractTest.java.srcDirs
-        testSourceDirs += project.sourceSets.contractTest.resources.srcDirs
+        testSources.from(project.sourceSets.smokeTest.java.srcDirs)
+        testResources.from(project.sourceSets.smokeTest.resources.srcDirs)
+        testSources.from(project.sourceSets.integrationTest.java.srcDirs)
+        testResources.from(project.sourceSets.integrationTest.resources.srcDirs)
+        testSources.from(project.sourceSets.functionalTest.java.srcDirs)
+        testResources.from(project.sourceSets.functionalTest.resources.srcDirs)
+        testSources.from(project.sourceSets.contractTest.java.srcDirs)
+        testResources.from(project.sourceSets.contractTest.resources.srcDirs)
     }
 }
 
@@ -89,7 +89,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'joda-time', name: 'joda-time', version: '2.13.0'
-    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.7.8') {
+    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.7.11') {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
