@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees2.register.api.controllers.provider;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
+import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
@@ -29,8 +30,9 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @Provider("feeRegister_lookUp")
-@PactBroker
+@PactBroker(scheme = "${PACT_BROKER_SCHEME:http}", host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:80}")
 @Import(FeeLookupProviderTestConfiguration.class)
+@IgnoreNoPactsToVerify
 public class FeeLookupProviderTest {
 
     @Autowired
@@ -276,18 +278,6 @@ public class FeeLookupProviderTest {
 
     @State("service is registered in Fee registry")
     public void requestForProbateAndDivorceFees() {
-
-        LookupFeeDto applyAdoptionLookupFeeDto = LookupFeeDto.lookupWith()
-            .channel("default")
-            .event("issue")
-            .jurisdiction1("family")
-            .jurisdiction2("family court")
-            .service("adoption")
-            .keyword("ApplyAdoption")
-            .applicantType("all")
-            .unspecifiedClaimAmount(false)
-            .versionStatus(FeeVersionStatus.approved)
-            .build();
 
         FeeLookupResponseDto applyAdoptionFeeLookupResponseDto = new FeeLookupResponseDto(
             "FEE0310",
