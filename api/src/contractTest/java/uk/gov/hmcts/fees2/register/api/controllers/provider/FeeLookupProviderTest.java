@@ -2,7 +2,6 @@ package uk.gov.hmcts.fees2.register.api.controllers.provider;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
-import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
@@ -32,7 +31,6 @@ import static org.mockito.Mockito.when;
 @Provider("feeRegister_lookUp")
 @PactBroker(scheme = "${PACT_BROKER_SCHEME:http}", host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:80}")
 @Import(FeeLookupProviderTestConfiguration.class)
-@IgnoreNoPactsToVerify
 public class FeeLookupProviderTest {
 
     @Autowired
