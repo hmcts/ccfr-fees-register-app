@@ -277,6 +277,22 @@ public class FeeLookupProviderTest {
     @State("service is registered in Fee registry")
     public void requestForProbateAndDivorceFees() {
 
+        FeeLookupResponseDto applyAdoptionFeeLookupResponseDto = new FeeLookupResponseDto(
+            "FEE0310",
+            "Adoption application fee",
+            5,
+            new BigDecimal("207.00"));
+
+        when(feeService.lookup(ArgumentMatchers.argThat(lookupFee ->
+            lookupFee != null
+                && "adoption".equals(lookupFee.getService())
+                && "ApplyAdoption".equals(lookupFee.getKeyword())
+                && "issue".equals(lookupFee.getEvent())
+                && "family".equals(lookupFee.getJurisdiction1())
+                && "family court".equals(lookupFee.getJurisdiction2())
+        )))
+            .thenReturn(applyAdoptionFeeLookupResponseDto);
+
         LookupFeeDto probateFeeDto = LookupFeeDto.lookupWith()
             .service("probate")
             .channel("default")

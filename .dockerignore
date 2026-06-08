@@ -1,0 +1,10 @@
+# Keep ACR context minimal and deterministic for this Dockerfile
+# (it only needs Dockerfile, lib/applicationinsights.json and build/libs jar)
+**
+!Dockerfile
+!lib/
+!lib/**
+!build/
+!build/libs/
+!build/libs/fees-register-app.jar
+

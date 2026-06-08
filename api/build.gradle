@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "info.solidsoft.pitest" version '1.15.0'
+    id "info.solidsoft.pitest" version '1.19.0'
     id "net.serenity-bdd.serenity-gradle-plugin" version "4.2.1"
 }
 description = 'api module'
@@ -48,14 +48,14 @@ sourceSets {
 apply plugin: 'idea'
 idea {
     module {
-        testSourceDirs += project.sourceSets.smokeTest.java.srcDirs
-        testSourceDirs += project.sourceSets.smokeTest.resources.srcDirs
-        testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
-        testSourceDirs += project.sourceSets.integrationTest.resources.srcDirs
-        testSourceDirs += project.sourceSets.functionalTest.java.srcDirs
-        testSourceDirs += project.sourceSets.functionalTest.resources.srcDirs
-        testSourceDirs += project.sourceSets.contractTest.java.srcDirs
-        testSourceDirs += project.sourceSets.contractTest.resources.srcDirs
+        testSources.from(project.sourceSets.smokeTest.java.srcDirs)
+        testResources.from(project.sourceSets.smokeTest.resources.srcDirs)
+        testSources.from(project.sourceSets.integrationTest.java.srcDirs)
+        testResources.from(project.sourceSets.integrationTest.resources.srcDirs)
+        testSources.from(project.sourceSets.functionalTest.java.srcDirs)
+        testResources.from(project.sourceSets.functionalTest.resources.srcDirs)
+        testSources.from(project.sourceSets.contractTest.java.srcDirs)
+        testResources.from(project.sourceSets.contractTest.resources.srcDirs)
     }
 }
 
@@ -89,7 +89,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'joda-time', name: 'joda-time', version: '2.13.0'
-    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.7.8') {
+    implementation (group: 'org.postgresql', name: 'postgresql', version: '42.7.11') {
         exclude(module: 'commons-logging')
         exclude(module: 'slf4j-simple')
     }
@@ -98,7 +98,7 @@ dependencies {
     testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
         exclude(module: 'commons-logging')
     }
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.3.3'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
     testImplementation group: 'org.hsqldb', name: 'hsqldb', version: '2.7.3'
     testImplementation group: 'io.rest-assured', name: 'rest-assured'
     testImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
@@ -130,9 +130,9 @@ dependencies {
     contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
     contractTestImplementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: versions.pact_version
     contractTestImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    contractTestImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
-    contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.10.2')
+    contractTestImplementation 'org.junit.jupiter:junit-jupiter-api'
+    contractTestRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    contractTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     implementation group: 'org.pitest', name: 'pitest', version: versions.pitest
 
@@ -170,6 +170,7 @@ task functionalTest(type: Test, description: 'Runs the smoke functional', group:
 
 task runProviderPactVerification(type: Test) {
     logger.lifecycle("Runs pact provider Tests")
+    useJUnitPlatform()
     systemProperty 'pact.verifier.publishResults','true'
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath

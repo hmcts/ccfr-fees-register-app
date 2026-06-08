@@ -30,6 +30,7 @@ env.PACTBROKER_CONSUMERVERSIONSELECTORS_RAWJSON = '''
     {"consumer": "ia_caseApi", "latest": true},
     {"consumer": "ia_caseDocumentsApi", "latest": true},
     {"consumer": "ia_casePaymentsApi", "latest": true},
+    {"consumer": "nfdiv_caseApi", "latest": true},
     {"consumer": "pcs_api", "latest": true},
     {"consumer": "feeRegister_lookUp", "latest": true},
     {"consumer": "prl_cos", "latest": true},
