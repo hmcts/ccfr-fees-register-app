@@ -78,7 +78,9 @@ sonarqube {
 }
 
 def javaLoggingVersion = '6.0.1'
-def pactProviderVersion = (project.findProperty('pacticipantVersion')
+def pactProviderVersion = (project.findProperty('pact.provider.version')
+    ?: System.getenv('PACT_PROVIDER_VERSION')
+    ?: project.findProperty('pacticipantVersion')
     ?: rootProject.findProperty('pacticipantVersion')
     ?: System.getenv('GIT_COMMIT')
     ?: 'DEV-SNAPSHOT').toString()
