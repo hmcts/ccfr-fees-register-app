@@ -34,6 +34,23 @@ To test locally all the tasks that run on the Jenkins master branch build, run:
 ./gradlew runProviderPactVerification # to verify the provider contracts
 ```
 
+### Verify a single consumer pact (targeted provider verification)
+
+If you want to verify a specific consumer pact from the Pact Broker (for example `nfdiv_caseApi`) without running unrelated provider pact test classes, you can set the optional `PACT_PROVIDER_TEST_CLASS` filter.
+
+```bash
+export PACT_BROKER_URL='pact-broker.platform.hmcts.net'
+export PACT_BROKER_SCHEME='https'
+export PACT_BROKER_PORT='443'
+export PACTBROKER_CONSUMERVERSIONSELECTORS_RAWJSON='[{"consumer":"nfdiv_caseApi","latest":true}]'
+export PACT_PROVIDER_TEST_CLASS='uk.gov.hmcts.fees2.register.api.controllers.provider.FeeLookupProviderTest'
+./gradlew runProviderPactVerification
+```
+
+Notes:
+- `PACT_PROVIDER_TEST_CLASS` is optional. If unset, all provider pact test classes run as normal.
+- The CI pipeline (`Jenkinsfile_CNP`) continues to use the full `PACTBROKER_CONSUMERVERSIONSELECTORS_RAWJSON` selector list.
+
 ## Environment variables for functional tests
 
 ```
