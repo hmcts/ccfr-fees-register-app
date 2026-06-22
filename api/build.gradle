@@ -78,6 +78,11 @@ sonarqube {
 }
 
 def javaLoggingVersion = '6.0.1'
+def pactProviderVersion = (project.findProperty('pacticipantVersion')
+    ?: rootProject.findProperty('pacticipantVersion')
+    ?: System.getenv('GIT_COMMIT')
+    ?: 'DEV-SNAPSHOT').toString()
+
 dependencies {
     implementation project(':fees-register-model')
     implementation project(':fees-register-api-contract')
@@ -172,6 +177,7 @@ task runProviderPactVerification(type: Test) {
     logger.lifecycle("Runs pact provider Tests")
     useJUnitPlatform()
     systemProperty 'pact.verifier.publishResults','true'
+    systemProperty 'pact.provider.version', pactProviderVersion
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
 
@@ -193,7 +199,7 @@ task providerContractTest(type: Test) {
     if (project.hasProperty('pact.verifier.publishResults')) {
         systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
     }
-    systemProperty 'pact.provider.version', project.pactVersion
+    systemProperty 'pact.provider.version', pactProviderVersion
 
     def pactProviderTestClass = System.getenv('PACT_PROVIDER_TEST_CLASS') ?: System.getProperty('pact.provider.testClass')
     if (pactProviderTestClass) {
