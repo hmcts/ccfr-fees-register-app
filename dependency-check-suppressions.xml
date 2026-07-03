@@ -7,6 +7,12 @@
         </notes>
         <cve>CVE-2025-15104</cve>
     </suppress>
+    <suppress>
+        <notes>
+            Suppress CVE-2026-54515 for jackson-databind 2.22.0.
+        </notes>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-databind@2\.22\.0$</packageUrl>
+        <cve>CVE-2026-54515</cve>
+    </suppress>
 </suppressions>
-
 
