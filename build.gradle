@@ -64,6 +64,7 @@ allprojects {
     dependencyManagement {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.14"
+            mavenBom "com.fasterxml.jackson:jackson-bom:2.22.0"
             mavenBom "org.apache.logging.log4j:log4j-bom:2.25.4"
             mavenBom "org.eclipse.angus:angus-activation:2.1.0-M1"
         }
@@ -123,7 +124,7 @@ subprojects {
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
         implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core'
         implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations'
-        implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+        implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.17'
 
         compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
         compileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '4.8.6'
