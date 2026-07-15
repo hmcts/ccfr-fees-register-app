@@ -18,9 +18,7 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import uk.gov.hmcts.fees2.register.api.contract.request.*;
 import uk.gov.hmcts.fees2.register.api.controllers.base.BaseIntegrationTest;
 import uk.gov.hmcts.fees2.register.api.controllers.base.FeeDataUtils;
-import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
-import uk.gov.hmcts.fees2.register.data.model.Fee;
 import uk.gov.hmcts.fees2.register.data.model.FeeVersionStatus;
 import uk.gov.hmcts.fees2.register.util.URIUtils;
 
@@ -49,9 +47,6 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-    @Autowired
-    private FeeDtoMapper dtoMapper;
 
     @Test
     public synchronized void readFeeTest() throws Exception {
@@ -823,28 +818,30 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
-    public void findApprovedFee() throws Exception {
+    public void findApprovedFeesIncludesDiscontinuedApprovedFee() throws Exception {
 
         FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
-        saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+        String activeFeeLocation = saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+        String activeFeeCode = activeFeeLocation.split("/")[3];
 
         FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
         fixedFeeDto2.setKeyword("testFixedDtoFee");
 
         fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
         fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
+        String discontinuedFeeLocation = saveFeeAndCheckStatusIsCreated(fixedFeeDto2);
+        String discontinuedFeeCode = discontinuedFeeLocation.split("/")[3];
 
-        Fee fee = dtoMapper.toFee(fixedFeeDto2, AUTHOR);
-
-        Fee2Dto fee2Dto = dtoMapper.toFeeDto(fee);
-        fee2Dto.setCurrentVersion(FeeVersionDto.feeVersionDtoWith().status(FeeVersionStatusDto.approved).description("test")
-            .flatAmount(null)
-            .volumeAmount(getVolumeAmountDto()).build());
         restActions
             .withUser("admin")
             .get("/fees-register/approvedFees")
             .andExpect(status().isOk())
-            .andReturn();
+            .andExpect(body().as(Fee2Dto[].class, feeDtos -> {
+                assertThat(feeDtos).extracting(Fee2Dto::getCode)
+                    .contains(activeFeeCode, discontinuedFeeCode);
+                assertThat(feeDtos).allSatisfy(feeDto ->
+                    assertThat(feeDto.getCurrentVersion().getStatus()).isEqualTo(FeeVersionStatusDto.approved));
+            }));
     }
 
     @Test
