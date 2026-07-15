@@ -770,6 +770,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpForProbateResponseCopiesGrantWill("probate", "family", "probate registry", "default", "copies", "all", new BigDecimal("2"),"GrantWillCopiesIndividualOther")
             .then().ok().got(FeeLookupResponseDto.class, FeeLookupResponseDto -> {
+            Assertions.assertThat(FeeLookupResponseDto.getCode()).isEqualTo("FEE0574");
             Assertions.assertThat(FeeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(FeeLookupResponseDto.getFeeAmount()).isEqualTo("32.00");
         });
@@ -781,6 +782,7 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
         scenario.given()
             .when().getLookUpResponsewithKeywordFixedFee("probate", "family", "probate registry", "default", "miscellaneous", "Caveat")
             .then().ok().got(FeeLookupResponseDto.class, feeLookupResponseDto -> {
+            Assertions.assertThat(feeLookupResponseDto.getCode()).isEqualTo("FEE0288");
             Assertions.assertThat(feeLookupResponseDto.getDescription()).isEqualTo("Application for the entry or extension of a caveat");
             Assertions.assertThat(feeLookupResponseDto.getVersion()).isNotNull();
             Assertions.assertThat(feeLookupResponseDto.getFeeAmount()).isEqualTo("4.00");
