@@ -7,10 +7,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.fees.register.functional.dsl.FeesRegisterTestDsl;
+import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
+import uk.gov.hmcts.fees2.register.api.contract.FeeVersionStatusDto;
 import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import static java.lang.Double.parseDouble;
 
@@ -19,6 +22,25 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
 
     @Autowired
     private FeesRegisterTestDsl scenario;
+
+    @Test
+    public void approvedFeesIncludesDiscontinuedFee0526() {
+
+        scenario.given()
+            .when().getApprovedFees()
+            .then().ok().got(Fee2Dto[].class, feeDtos -> {
+                Assertions.assertThat(feeDtos)
+                    .filteredOn(feeDto -> "FEE0526".equals(feeDto.getCode()))
+                    .singleElement()
+                    .satisfies(feeDto -> {
+                        Assertions.assertThat(feeDto.getCurrentVersion()).isNotNull();
+                        Assertions.assertThat(feeDto.getCurrentVersion().getStatus())
+                            .isEqualTo(FeeVersionStatusDto.approved);
+                        Assertions.assertThat(feeDto.getCurrentVersion().getValidTo())
+                            .isBefore(new Date());
+                    });
+            });
+    }
 
     @Test
     public void getlookupresponseMessageForDivorce() throws IOException {

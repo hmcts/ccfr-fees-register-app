@@ -6820,7 +6820,6 @@
         "status": "approved",
         "author": "126172",
         "approvedBy": "126175",
-        "version": 1,
         "valid_from": "2014-04-21T00:00:00.000+00:00",
         "flat_amount": {
           "amount": 2055
@@ -6841,6 +6840,37 @@
       "unspecified_claim_amount":false,
       "applicant_type":"all",
       "keyword":"DEF"
+    },
+    {
+      "code":"X0222",
+      "new_code": "FEE0526",
+      "version":{
+        "version":1,
+        "description": "Appointment of a judge of the Commercial Court (Discontinued)",
+        "status": "approved",
+        "author": "126172",
+        "approvedBy": "126175",
+        "valid_from": "2018-04-21T00:00:00.000+00:00",
+        "valid_to": "2025-04-21T00:00:00.000+00:00",
+        "flat_amount": {
+          "amount": 2055
+        },
+        "memo_line": "RECEIPT OF FEES - Civil issue other",
+        "statutory_instrument": "2018 No 812",
+        "si_ref_id": "10.4a",
+        "natural_account_code": "4481102137",
+        "last_amending_si": "The Court of Protection Civil Proceedings and Magistrates Courts Fees (Amendment) Order 2018",
+        "consolidated_fee_order_name":"The Court of Protection Civil Proceedings and Magistrates Courts Fees (Amendment) Order 2018",
+        "direction": "cost recovery"
+      },
+      "jurisdiction1":"civil",
+      "jurisdiction2":"high court",
+      "service":"general",
+      "channel":"default",
+      "event":"issue",
+      "unspecified_claim_amount":false,
+      "applicant_type":"all",
+      "keyword":"HIJ"
     }
   ],
   "relationalFees": [
