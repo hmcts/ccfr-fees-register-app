@@ -13,6 +13,7 @@ import uk.gov.hmcts.fees2.register.data.dto.response.FeeLookupResponseDto;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 
 import static java.lang.Double.parseDouble;
@@ -31,11 +32,12 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(Fee2Dto[].class, feeDtos -> {
                 Assertions.assertThat(feeDtos)
                     .filteredOn(feeDto -> "FEE0526".equals(feeDto.getCode()))
-                    .singleElement()
+                    .hasSize(1)
+                    .extracting(feeDto -> feeDto) // Converts the result to a list format
+                    .first()
                     .satisfies(feeDto -> {
-                        Assertions.assertThat(feeDto.getCurrentVersion()).isNotNull();
-                        Assertions.assertThat(feeDto.getCurrentVersion().getStatus())
-                            .isEqualTo(FeeVersionStatusDto.approved);
+                        Assertions.assertThat(feeDto).isNotNull();
+                        Assertions.assertThat(feeDto.getCurrentVersion().getStatus())                            .isEqualTo(FeeVersionStatusDto.approved);
                         Assertions.assertThat(feeDto.getCurrentVersion().getValidTo())
                             .isBefore(new Date());
                     });
