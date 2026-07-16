@@ -204,6 +204,12 @@ public class FeesRegisterTestDsl {
             response = newRequest().get("/fees");
             return this;
         }
+
+        public FeesRegisterWhenDsl getApprovedFees() {
+            response = newRequest().get("/fees-register/approvedFees");
+            return this;
+        }
+
         public FeesRegisterWhenDsl getRangeGroupsByCode(String code) {
             response = newRequest().get("/range-groups/{code}", code);
             return this;
@@ -374,4 +380,3 @@ public class FeesRegisterTestDsl {
         }
     }
 }
-

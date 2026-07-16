@@ -482,8 +482,8 @@
       "code": "X0249",
       "new_code": "FEE0219",
       "version": {
-        "version": 4,
-        "valid_from" : "2014-04-22T00:00:00.000+00:00",
+        "version": 8,
+        "valid_from" : "2026-07-01T00:00:00.000+00:00",
         "description": "Application for a grant of probate (Estate over 5000 GBP)",
         "status": "approved",
         "author": "124756",
@@ -496,7 +496,7 @@
         "memo_line": "RECEIPT OF FEES - Family issue probate",
         "natural_account_code": "4481102158",
         "flat_amount": {
-          "amount": 300.00
+          "amount": 526.00
         }
       },
       "jurisdiction1": "family",
@@ -514,8 +514,8 @@
       "code": "X0249_NO_FEE",
       "new_code": "FEE0220",
       "version": {
-        "version": 2,
-        "valid_from" : "2011-04-04T00:00:00.000+00:00",
+        "version": 3,
+        "valid_from" : "2022-01-26T00:00:00.000+00:00",
         "description": "Application for a grant of probate (Estate under 5000 GBP)",
         "status": "approved",
         "author": "124756",
@@ -891,8 +891,8 @@
       "code": "",
       "new_code": "FEE0313",
       "version": {
-        "version": 5,
-        "valid_from": "2014-04-21T00:00:00.000+00:00",
+        "version": 6,
+        "valid_from": "2026-07-01T00:00:00.000+00:00",
         "description": "Application for proceedings under Section 31 of Act",
         "status": "approved",
         "author": "124756",
@@ -905,7 +905,7 @@
         "statutory_instrument": "2014 No 877",
         "si_ref_id": "2.2",
         "flat_amount": {
-          "amount": 2515
+          "amount": 2580
         }
       },
       "range_unit": "GBP",
@@ -1131,8 +1131,8 @@
       "code": "",
       "new_code": "FEE0288",
       "version": {
-        "version": 2,
-        "valid_from": "2020-08-03T00:00:00.000+00:00",
+        "version": 3,
+        "valid_from": "2026-07-01T00:00:00.000+00:00",
         "description": "Application for the entry or extension of a caveat",
         "status": "approved",
         "author": "bac06e97-1af0-446b-aa2f-43d022709677",
@@ -1145,7 +1145,7 @@
         "statutory_instrument": "2020 No 720",
         "si_ref_id": "4",
         "flat_amount": {
-          "amount": 3
+          "amount": 4
         }
       },
       "range_unit": "GBP",
@@ -1219,21 +1219,19 @@
     },
     {
       "code": "",
-      "new_code": "FEE0546",
+      "new_code": "FEE0574",
       "version": {
-        "version": 2,
-        "valid_from": "2025-11-17T00:00:00.000+00:00",
-        "description": "Copy of a document of a specific individual named in the request (for each copy)",
+        "version": 1,
+        "valid_from": "2026-07-01T00:00:00.000+00:00",
+        "description": "Copy of document of specific individual requested in all other cases where FEE0573 does not apply (for each copy)",
         "status": "approved",
         "author": "b0aa5dff-b1bb-49be-a598-7107b572316f",
         "approvedBy": "39907",
         "memo_line": "RECEIPT OF FEES - Family copies probate",
         "natural_account_code": "4481102171",
         "direction": "cost recovery",
-        "last_amending_si": "The Court Fees (Miscellaneous Amendments) Order 2019",
-        "consolidated_fee_order_name": "The Court Fees (Miscellaneous Amendments) Order 2019",
-        "statutory_instrument": "2025 No 1126",
-        "si_ref_id": "8a",
+        "last_amending_si": "The Non-Contentious Probate Fees Order 2004",
+        "consolidated_fee_order_name": "The Non-Contentious Probate Fees Order 2004",
         "volume_amount": {
           "amount": 16.00
         }
@@ -1245,7 +1243,7 @@
       "channel": "default",
       "event": "copies",
       "applicant_type": "all",
-      "keyword": "GrantWill"
+      "keyword": "GrantWillCopiesIndividualOther"
     },
     {
       "code": "X0012",
@@ -1275,9 +1273,9 @@
       "code": "X0165",
       "new_code": "FEE0002",
       "version": {
-        "version": 8,
-        "valid_from": "2016-03-21T00:00:00.000+00:00",
-        "description": "Filing an application for a divorce, nullity or civil partnership dissolution – fees order 1.2.",
+        "version": 9,
+        "valid_from": "2026-07-01T00:00:00.000+00:00",
+        "description": "Filing an application for a divorce, nullity or civil partnership dissolution",
         "status": "approved",
         "direction": "enhanced",
         "memo_line": "GOV - App for divorce/nullity of marriage or CP",
@@ -1287,7 +1285,7 @@
         "consolidated_fee_order_name": "The Civil Proceedings, Family Proceedings and Upper Tribunal Fees (Amendment) Order 2016",
         "natural_account_code":"4481102159",
         "flat_amount": {
-          "amount": 612.00
+          "amount": 628.00
         }
       },
       "jurisdiction1": "family",
@@ -6822,7 +6820,6 @@
         "status": "approved",
         "author": "126172",
         "approvedBy": "126175",
-        "version": 1,
         "valid_from": "2014-04-21T00:00:00.000+00:00",
         "flat_amount": {
           "amount": 2055
@@ -6843,6 +6840,37 @@
       "unspecified_claim_amount":false,
       "applicant_type":"all",
       "keyword":"DEF"
+    },
+    {
+      "code":"X0222",
+      "new_code": "FEE0526",
+      "version":{
+        "version":1,
+        "description": "Appointment of a judge of the Commercial Court (Discontinued)",
+        "status": "approved",
+        "author": "126172",
+        "approvedBy": "126175",
+        "valid_from": "2018-04-21T00:00:00.000+00:00",
+        "valid_to": "2025-04-21T00:00:00.000+00:00",
+        "flat_amount": {
+          "amount": 2055
+        },
+        "memo_line": "RECEIPT OF FEES - Civil issue other",
+        "statutory_instrument": "2018 No 812",
+        "si_ref_id": "10.4a",
+        "natural_account_code": "4481102137",
+        "last_amending_si": "The Court of Protection Civil Proceedings and Magistrates Courts Fees (Amendment) Order 2018",
+        "consolidated_fee_order_name":"The Court of Protection Civil Proceedings and Magistrates Courts Fees (Amendment) Order 2018",
+        "direction": "cost recovery"
+      },
+      "jurisdiction1":"civil",
+      "jurisdiction2":"high court",
+      "service":"general",
+      "channel":"default",
+      "event":"issue",
+      "unspecified_claim_amount":false,
+      "applicant_type":"all",
+      "keyword":"HIJ"
     }
   ],
   "relationalFees": [
