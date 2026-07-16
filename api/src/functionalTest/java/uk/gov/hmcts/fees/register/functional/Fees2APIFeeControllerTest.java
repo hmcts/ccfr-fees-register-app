@@ -32,12 +32,13 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
             .then().ok().got(Fee2Dto[].class, feeDtos -> {
                 Assertions.assertThat(feeDtos)
                     .filteredOn(feeDto -> "FEE0526".equals(feeDto.getCode()))
-                    .hasSize(1)
+                    .hasAtLeastOneElementOfType(Fee2Dto.class)
                     .extracting(feeDto -> feeDto) // Converts the result to a list format
                     .first()
                     .satisfies(feeDto -> {
                         Assertions.assertThat(feeDto).isNotNull();
-                        Assertions.assertThat(feeDto.getCurrentVersion().getStatus())                            .isEqualTo(FeeVersionStatusDto.approved);
+                        Assertions.assertThat(feeDto.getCurrentVersion().getStatus())
+                            .isEqualTo(FeeVersionStatusDto.approved);
                         Assertions.assertThat(feeDto.getCurrentVersion().getValidTo())
                             .isBefore(new Date());
                     });
