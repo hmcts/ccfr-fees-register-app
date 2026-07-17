@@ -845,6 +845,27 @@ public class FeeControllerTest extends BaseIntegrationTest {
 //    }
 
     @Test
+    @Transactional
+    public void approvedFees_WithIsActiveTrue_ReturnsActiveApprovedFees() throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest();
+        String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
+        String[] arr = loc.split("/");
+
+        restActions
+            .withUser("admin")
+            .get("/fees-register/approvedFees")
+            .andExpect(status().isOk())
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+                assertThat(fee2Dtos).anySatisfy(feeDto -> {
+                    assertThat(feeDto.getCode()).isEqualTo(arr[3]);
+                    assertThat(feeDto.getCurrentVersion().getStatus()).isEqualTo(FeeVersionStatusDto.approved);
+                });
+            }));
+
+        forceDeleteFee(arr[3]);
+    }
+
+    @Test
     public void shouldRetainOnlyApprovedFeeVersions() {
         FeeVersionDto approved = FeeVersionDto.feeVersionDtoWith()
             .status(FeeVersionStatusDto.approved)
