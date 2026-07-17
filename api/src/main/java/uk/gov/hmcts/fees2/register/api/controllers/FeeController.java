@@ -459,7 +459,7 @@ public class FeeController {
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null, FeeVersionStatus.approved, null,
-            null, false, null, null, null, null, null, null);
+            null, false, true, null, null, null, null, null);
         result = result
             .stream()
             .filter(c -> c.getCurrentVersion()!=null)
