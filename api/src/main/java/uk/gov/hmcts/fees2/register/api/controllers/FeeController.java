@@ -459,12 +459,15 @@ public class FeeController {
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null, FeeVersionStatus.approved, null,
-            null, false, true, null, null, null, null, null);
+            null, false, null, null, null, null, null, null);
         result = result
             .stream()
             .filter(c -> c.getCurrentVersion()!=null)
             .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
-            .collect(Collectors.toList());
+            .toList();
+
+        // Deduplicate by fee code, keeping only the most recent version (highest version number)
+        result = deduplicateFeesByCode(result);
 
         // return only approved versions of the approved fees
         for (Fee2Dto fee2Dto : result) {
@@ -472,7 +475,7 @@ public class FeeController {
                 List<FeeVersionDto> approvedVersions = fee2Dto.getFeeVersionDtos()
                     .stream()
                     .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
-                    .collect(Collectors.toList());
+                    .toList();
                 fee2Dto.setFeeVersionDtos(approvedVersions);
             }
         }
@@ -506,6 +509,26 @@ public class FeeController {
         }
 
         return result;
+    }
+
+    List<Fee2Dto> deduplicateFeesByCode(List<Fee2Dto> fees) {
+        return fees.stream()
+            .collect(Collectors.toMap(
+                Fee2Dto::getCode,
+                fee -> fee,
+                (existing, replacement) -> {
+                    // Keep the fee with the higher version number
+                    Integer existingVersion = existing.getCurrentVersion() != null ? existing.getCurrentVersion().getVersion() : 0;
+                    Integer replacementVersion = replacement.getCurrentVersion() != null ? replacement.getCurrentVersion().getVersion() : 0;
+                    if (replacementVersion > existingVersion) {
+                        return replacement;
+                    }
+                    return existing;
+                }
+            ))
+            .values()
+            .stream()
+            .toList();
     }
 
 }
