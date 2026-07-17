@@ -24,26 +24,26 @@ public class Fees2APIFeeControllerTest extends IntegrationTestBase {
     @Autowired
     private FeesRegisterTestDsl scenario;
 
-//    @Test
-//    public void approvedFeesIncludesDiscontinuedFee0526() {
-//
-//        scenario.given()
-//            .when().getApprovedFees()
-//            .then().ok().got(Fee2Dto[].class, feeDtos -> {
-//                Assertions.assertThat(feeDtos)
-//                    .filteredOn(feeDto -> "FEE0526".equals(feeDto.getCode()))
-//                    .hasAtLeastOneElementOfType(Fee2Dto.class)
-//                    .extracting(feeDto -> feeDto) // Converts the result to a list format
-//                    .first()
-//                    .satisfies(feeDto -> {
-//                        Assertions.assertThat(feeDto).isNotNull();
-//                        Assertions.assertThat(feeDto.getCurrentVersion().getStatus())
-//                            .isEqualTo(FeeVersionStatusDto.approved);
-//                        Assertions.assertThat(feeDto.getCurrentVersion().getValidTo())
-//                            .isBefore(new Date());
-//                    });
-//            });
-//    }
+    @Test
+    public void approvedFeesIncludesDiscontinuedFee0526() {
+
+        scenario.given()
+            .when().getApprovedFees()
+            .then().ok().got(Fee2Dto[].class, feeDtos -> {
+                Assertions.assertThat(feeDtos)
+                    .filteredOn(feeDto -> "FEE0526".equals(feeDto.getCode()))
+                    .hasAtLeastOneElementOfType(Fee2Dto.class)
+                    .extracting(feeDto -> feeDto) // Converts the result to a list format
+                    .first()
+                    .satisfies(feeDto -> {
+                        Assertions.assertThat(feeDto).isNotNull();
+                        Assertions.assertThat(feeDto.getCurrentVersion().getStatus())
+                            .isEqualTo(FeeVersionStatusDto.approved);
+                        Assertions.assertThat(feeDto.getCurrentVersion().getValidTo())
+                            .isBefore(new Date());
+                    });
+            });
+    }
 
     @Test
     public void getlookupresponseMessageForDivorce() throws IOException {
