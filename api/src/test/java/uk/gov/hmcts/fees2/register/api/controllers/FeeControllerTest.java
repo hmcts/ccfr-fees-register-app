@@ -935,4 +935,152 @@ public class FeeControllerTest extends BaseIntegrationTest {
         Assertions.assertEquals(FeeVersionStatusDto.approved, fee2Dto.getFeeVersionDtos().get(0).getStatus());
     }
 
+    @Test
+    public void deduplicateFeesByCode_WhenReplacementHasFutureValidFrom_KeepsExistingVersion() {
+        // Version 1: valid from past (currently valid)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -100)) // 100 days ago
+            .build();
+
+        // Version 2: valid from future (not yet valid)
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), 30)) // 30 days in future
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // Verify it's version 1 (the currently valid one), not version 2 (future)
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(1);
+    }
+
+    @Test
+    public void deduplicateFeesByCode_WhenBothVersionsCurrentlyValid_KeepsHighestVersion() {
+        // Version 1: valid from past (currently valid)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -100))
+            .build();
+
+        // Version 2: also valid from past (currently valid)
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), -50))
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // Verify it's the higher version number
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(2);
+    }
+
+    @Test
+    public void deduplicateFeesByCode_WhenExistingHasFutureValidFrom_KeepsReplacement() {
+        // Version 1: valid from future (not yet valid)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), 30))
+            .build();
+
+        // Version 2: valid from past (currently valid)
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), -10))
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // Verify it's version 2 (the currently valid one)
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(2);
+    }
+
+    @Test
+    public void deduplicateFeesByCode_WhenValidFromIsNull_UsesVersionNumber() {
+        // Version 1: null valid_from
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(null)
+            .build();
+
+        // Version 2: null valid_from
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(null)
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // When valid_from is null, should fall back to version number comparison
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(2);
+    }
+
 }
