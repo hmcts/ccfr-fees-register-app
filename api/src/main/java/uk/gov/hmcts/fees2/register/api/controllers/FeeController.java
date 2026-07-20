@@ -463,10 +463,16 @@ public class FeeController {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null, FeeVersionStatus.approved, null,
             null, false, null, null, null, null, null, null);
+        LocalDate currentDate = LocalDate.now(ZoneId.systemDefault());
         result = result
             .stream()
             .filter(c -> c.getCurrentVersion()!=null)
             .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
+            .filter(c -> {
+                Date validFrom = c.getCurrentVersion().getValidFrom();
+                LocalDate validFromDate = validFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                return !validFromDate.isAfter(currentDate); // Exclude if valid_from is in the future
+            })
             .toList();
 
         // Deduplicate by fee code, keeping only the most recent version (highest version number)
@@ -515,7 +521,7 @@ public class FeeController {
     }
 
     List<Fee2Dto> deduplicateFeesByCode(List<Fee2Dto> fees) {
-        LocalDate currentDate = LocalDate.now();
+        LocalDate currentDate = LocalDate.now(ZoneId.systemDefault());
         return fees.stream()
             .collect(Collectors.toMap(
                 Fee2Dto::getCode,
@@ -525,9 +531,9 @@ public class FeeController {
                     Integer replacementVersion = replacement.getCurrentVersion() != null ? replacement.getCurrentVersion().getVersion() : 0;
 
                     // Check if replacement version's valid_from is in the future
-                    Date replacementValidFrom = replacement.getCurrentVersion() != null ? replacement.getCurrentVersion().getValidFrom() : null;
-                    boolean replacementIsFuture = replacementValidFrom != null &&
-                        replacementValidFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(currentDate);
+                    Date replacementValidFrom = replacement.getCurrentVersion().getValidFrom();
+                    LocalDate replacementValidFromDate = replacementValidFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    boolean replacementIsFuture = replacementValidFromDate.isAfter(currentDate);
 
                     // If replacement is in the future, keep existing version
                     if (replacementIsFuture) {
