@@ -56,6 +56,9 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -512,14 +515,26 @@ public class FeeController {
     }
 
     List<Fee2Dto> deduplicateFeesByCode(List<Fee2Dto> fees) {
+        LocalDate currentDate = LocalDate.now();
         return fees.stream()
             .collect(Collectors.toMap(
                 Fee2Dto::getCode,
                 fee -> fee,
                 (existing, replacement) -> {
-                    // Keep the fee with the higher version number
                     Integer existingVersion = existing.getCurrentVersion() != null ? existing.getCurrentVersion().getVersion() : 0;
                     Integer replacementVersion = replacement.getCurrentVersion() != null ? replacement.getCurrentVersion().getVersion() : 0;
+
+                    // Check if replacement version's valid_from is in the future
+                    Date replacementValidFrom = replacement.getCurrentVersion() != null ? replacement.getCurrentVersion().getValidFrom() : null;
+                    boolean replacementIsFuture = replacementValidFrom != null &&
+                        replacementValidFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(currentDate);
+
+                    // If replacement is in the future, keep existing version
+                    if (replacementIsFuture) {
+                        return existing;
+                    }
+
+                    // If both are currently valid, keep the higher version number
                     if (replacementVersion > existingVersion) {
                         return replacement;
                     }
