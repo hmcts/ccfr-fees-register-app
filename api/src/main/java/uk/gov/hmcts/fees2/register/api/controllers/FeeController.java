@@ -526,11 +526,11 @@ public class FeeController {
         LocalDate currentDate = LocalDate.now(ZoneId.systemDefault());
 
         return fees.stream()
-            // Step 1: Evaluate each fee against your rules and re-assign the correct current version
-            .map(fee -> processFeeVersionsByRules(fee, currentDate))
-            // Step 2: Rule 4 & 5 - If a fee has no valid past/active approved versions, discard it
+            // Evaluate each fee against your rules and re-assign the correct current version
+            .map(fee -> processCorrectFeeVersions(fee, currentDate))
+            // If a fee has no valid past/active approved versions, discard it
             .filter(Objects::nonNull)
-            // Step 3: Group by fee code and keep the one with the highest true version number
+            // Group by fee code and keep the one with the highest true version number
             .collect(Collectors.toMap(
                 Fee2Dto::getCode,
                 fee -> fee,
@@ -545,7 +545,7 @@ public class FeeController {
             .toList();
     }
 
-    private Fee2Dto processFeeVersionsByRules(Fee2Dto fee, LocalDate currentDate) {
+    private Fee2Dto processCorrectFeeVersions(Fee2Dto fee, LocalDate currentDate) {
         if (fee.getFeeVersionDtos() == null || fee.getFeeVersionDtos().isEmpty()) {
             return (fee.getCurrentVersion() != null) ? fee : null;
         }
@@ -580,10 +580,6 @@ public class FeeController {
 
         // Overwrite the current_version field with our rules-compliant version
         fee.setCurrentVersion(targetVersion);
-
-        // Rule 2 & 3: Whether valid_to is empty (active) or in the past (discontinued), it stays in the list.
-        // Rule 5: If a future version exists but we found an older past version, it is handled here
-        // as discontinued (and we set current_version to this historical past version).
         return fee;
     }
 }
