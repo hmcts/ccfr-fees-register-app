@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.ActiveProfiles;
 import uk.gov.hmcts.fees2.register.api.contract.Fee2Dto;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
@@ -37,7 +37,7 @@ public class FeeVersionControllerTest extends BaseIntegrationTest {
     @Mock
     private HttpServletResponse response;
 
-    @MockBean
+    @MockitoBean
     private IdamServiceImpl idamService;
 
     @Before

@@ -6,6 +6,7 @@ import lombok.*;
 import uk.gov.hmcts.fees2.register.api.contract.FeeVersionDto;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor

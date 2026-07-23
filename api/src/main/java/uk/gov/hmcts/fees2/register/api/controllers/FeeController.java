@@ -58,6 +58,7 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -461,17 +462,29 @@ public class FeeController {
     @ResponseStatus(HttpStatus.OK)
     public List<Fee2Dto> approvedFees() {
         List<Fee2Dto> result =  search(null, null, null, null, null,
-            null, null, null, FeeVersionStatus.approved, null,
+            null, null, null, null, null,
             null, false, null, null, null, null, null, null);
         LocalDate currentDate = LocalDate.now(ZoneId.systemDefault());
         result = result
             .stream()
-            .filter(c -> c.getCurrentVersion()!=null)
-            .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
+            .filter(c -> c.getFeeVersionDtos() != null)
+            .filter(c -> c.getFeeVersionDtos().stream()
+                .anyMatch(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus())))
             .filter(c -> {
-                Date validFrom = c.getCurrentVersion().getValidFrom();
+                // Find the latest approved version
+                FeeVersionDto latestApproved = c.getFeeVersionDtos().stream()
+                    .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
+                    .max(Comparator.comparing(FeeVersionDto::getVersion))
+                    .orElse(null);
+
+                if (latestApproved == null) {
+                    return false;
+                }
+
+                // Check if this latest approved version is scheduled (validFrom in future)
+                Date validFrom = latestApproved.getValidFrom();
                 LocalDate validFromDate = validFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                return !validFromDate.isAfter(currentDate); // Exclude if valid_from is in the future
+                return !validFromDate.isAfter(currentDate);
             })
             .toList();
 
@@ -486,6 +499,14 @@ public class FeeController {
                     .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
                     .toList();
                 fee2Dto.setFeeVersionDtos(approvedVersions);
+
+                // Update currentVersion to the latest approved version
+                if (!approvedVersions.isEmpty()) {
+                    FeeVersionDto latestApproved = approvedVersions.stream()
+                        .max(Comparator.comparing(FeeVersionDto::getVersion))
+                        .orElse(null);
+                    fee2Dto.setCurrentVersion(latestApproved);
+                }
             }
         }
 
@@ -551,5 +572,4 @@ public class FeeController {
             .stream()
             .toList();
     }
-
 }
