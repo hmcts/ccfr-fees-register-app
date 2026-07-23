@@ -1045,4 +1045,36 @@ public class FeeControllerTest extends BaseIntegrationTest {
         assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(2);
     }
 
+    @Test
+    public void deduplicateFeesByCode_WhenOneVersionIsExpiredAndOneIsFuture_KeepsExpiredAsDiscontinued() {
+        // Version 1: valid in the past, ended in the past (Discontinued)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -10))
+            .validTo(DateUtils.addDays(new Date(), -2)) // Expired 2 days ago
+            .build();
+
+        // Version 2: valid in the future (Should be ignored)
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), 5)) // Starts in 5 days
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0594");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1, version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify the fee is kept (discontinued fees stay in the list)
+        assertThat(result).hasSize(1);
+        // Verify it evaluates down to the historical past version 1
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(1);
+    }
 }

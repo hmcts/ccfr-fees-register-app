@@ -17,7 +17,6 @@ import uk.gov.hmcts.fees2.register.api.contract.amount.VolumeAmountDto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
 @Data
 @Builder(builderMethodName = "feeVersionDtoWith")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,6 +47,9 @@ public class FeeVersionDto {
 
     @JsonProperty("volume_amount")
     private VolumeAmountDto volumeAmount;
+
+    public FeeVersionDto(Integer version, Date date, Date date1, String firstVersionDescription, FeeVersionStatusDto feeVersionStatusDto, FlatAmountDto flatAmountDto, Object o, Object o1, String author, String author1, String memoLine, String statutoryInstrument, String siRefId, String naturalAccountCode, String lastAmendingSi, String consolidatedFeeOrderName, String name, String test, String reasonForReject) {
+    }
 
     @JsonIgnore
     public BigDecimal getAmount() {
