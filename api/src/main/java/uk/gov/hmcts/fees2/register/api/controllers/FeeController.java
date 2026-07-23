@@ -58,8 +58,10 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Tag(name = "FeesRegister")
@@ -522,29 +524,20 @@ public class FeeController {
 
     List<Fee2Dto> deduplicateFeesByCode(List<Fee2Dto> fees) {
         LocalDate currentDate = LocalDate.now(ZoneId.systemDefault());
+
         return fees.stream()
+            // Step 1: Evaluate each fee against your rules and re-assign the correct current version
+            .map(fee -> processFeeVersionsByRules(fee, currentDate))
+            // Step 2: Rule 4 & 5 - If a fee has no valid past/active approved versions, discard it
+            .filter(Objects::nonNull)
+            // Step 3: Group by fee code and keep the one with the highest true version number
             .collect(Collectors.toMap(
                 Fee2Dto::getCode,
                 fee -> fee,
                 (existing, replacement) -> {
-                    Integer existingVersion = existing.getCurrentVersion() != null ? existing.getCurrentVersion().getVersion() : 0;
-                    Integer replacementVersion = replacement.getCurrentVersion() != null ? replacement.getCurrentVersion().getVersion() : 0;
-
-                    // Check if replacement version's valid_from is in the future
-                    Date replacementValidFrom = replacement.getCurrentVersion().getValidFrom();
-                    LocalDate replacementValidFromDate = replacementValidFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    boolean replacementIsFuture = replacementValidFromDate.isAfter(currentDate);
-
-                    // If replacement is in the future, keep existing version
-                    if (replacementIsFuture) {
-                        return existing;
-                    }
-
-                    // If both are currently valid, keep the higher version number
-                    if (replacementVersion > existingVersion) {
-                        return replacement;
-                    }
-                    return existing;
+                    int existingVer = existing.getCurrentVersion().getVersion();
+                    int replacementVer = replacement.getCurrentVersion().getVersion();
+                    return replacementVer > existingVer ? replacement : existing;
                 }
             ))
             .values()
@@ -552,4 +545,49 @@ public class FeeController {
             .toList();
     }
 
+    private Fee2Dto processFeeVersionsByRules(Fee2Dto fee, LocalDate currentDate) {
+        if (fee.getFeeVersionDtos() == null || fee.getFeeVersionDtos().isEmpty()) {
+            return (fee.getCurrentVersion() != null) ? fee : null;
+        }
+
+        // Rule 1: Find all approved versions
+        List<FeeVersionDto> approvedVersions = fee.getFeeVersionDtos().stream()
+            .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
+            .toList();
+
+        if (approvedVersions.isEmpty()) {
+            return null; // Rule 4: No approved versions at all -> exclude
+        }
+
+        // Rule 5: Filter out versions where valid_from is in the future
+        List<FeeVersionDto> pastOrPresentVersions = approvedVersions.stream()
+            .filter(fv -> {
+                if (fv.getValidFrom() == null) return true; // Treat as past if null
+                LocalDate validFromDate = fv.getValidFrom().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                return !validFromDate.isAfter(currentDate);
+            })
+            .toList();
+
+        // Rule 5 (cont.): If there are NO approved versions in the past/present, ignore the entire Fee
+        if (pastOrPresentVersions.isEmpty()) {
+            return null;
+        }
+
+        // Find the latest approved version from the past/present list (highest version number)
+        FeeVersionDto targetVersion = pastOrPresentVersions.stream()
+            .max(Comparator.comparingInt(FeeVersionDto::getVersion))
+            .orElse(null);
+
+        if (targetVersion == null) {
+            return null;
+        }
+
+        // Overwrite the current_version field with our rules-compliant version
+        fee.setCurrentVersion(targetVersion);
+
+        // Rule 2 & 3: Whether valid_to is empty (active) or in the past (discontinued), it stays in the list.
+        // Rule 5: If a future version exists but we found an older past version, it is handled here
+        // as discontinued (and we set current_version to this historical past version).
+        return fee;
+    }
 }
