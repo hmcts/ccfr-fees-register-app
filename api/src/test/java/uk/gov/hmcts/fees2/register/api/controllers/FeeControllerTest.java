@@ -268,7 +268,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         FeeLookupResponseDto fee = objectMapper.readValue(result.getResponse().getContentAsByteArray(), FeeLookupResponseDto.class);
         assertEquals(fee.getCode(), arr[3]);
         assertEquals("Additional copies of the grant representation", fee.getDescription());
-        assertEquals(fee.getVersion(), new Integer(1));
+        assertEquals(Integer.valueOf(1), fee.getVersion());
         assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
 
         forceDeleteFee(arr[3]);
@@ -867,6 +867,47 @@ public class FeeControllerTest extends BaseIntegrationTest {
             }));
 
         forceDeleteFee(arr[3]);
+    }
+
+    @Test
+    @Transactional
+    public void feesCode_WithIsActiveTrue_ReturnsActiveApprovedFees() throws Exception {
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest();
+        String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
+        String[] arr = loc.split("/");
+
+        restActions
+            .withUser("admin")
+            .get("/fees-register/approvedFees")
+            .andExpect(status().isOk())
+            .andExpect(body().asListOf(Fee2Dto.class, fee2Dtos -> {
+                assertThat(fee2Dtos).anySatisfy(feeDto -> {
+                    assertThat(feeDto.getCode()).isEqualTo(arr[3]);
+                    assertThat(feeDto.getCurrentVersion().getStatus()).isEqualTo(FeeVersionStatusDto.approved);
+                });
+            }));
+
+        forceDeleteFee(arr[3]);
+    }
+
+    @Test
+    @Transactional
+    public void doesFeeExistReturnsOkWhenFeeExists() throws Exception {
+        // Arrange: Create and save a valid fee using your existing utility methods
+        FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest();
+        String feeLocation = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
+        String feeCode = feeLocation.split("/")[3];
+
+        System.out.println("feeCode: " + feeCode);
+
+        // Act & Assert: Execute the HEAD request using your restActions DSL
+        restActions
+            .withUser("admin") // Adjust user role if needed
+            .get("/fees-register/fees/" + feeCode) // Match the path structure from your RequestMapping
+            .andExpect(status().isOk());
+
+        // Clean up: Ensure test isolation
+        forceDeleteFee(feeCode);
     }
 
 }
