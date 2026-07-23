@@ -550,16 +550,12 @@ public class FeeController {
             return (fee.getCurrentVersion() != null) ? fee : null;
         }
 
-        // Rule 1: Find all approved versions
+        // Find all approved versions
         List<FeeVersionDto> approvedVersions = fee.getFeeVersionDtos().stream()
             .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
             .toList();
 
-        if (approvedVersions.isEmpty()) {
-            return null; // Rule 4: No approved versions at all -> exclude
-        }
-
-        // Rule 5: Filter out versions where valid_from is in the future
+        // Filter out approved  where valid_from is in the future
         List<FeeVersionDto> pastOrPresentVersions = approvedVersions.stream()
             .filter(fv -> {
                 if (fv.getValidFrom() == null) return true; // Treat as past if null
@@ -568,7 +564,7 @@ public class FeeController {
             })
             .toList();
 
-        // Rule 5 (cont.): If there are NO approved versions in the past/present, ignore the entire Fee
+        // If there are NO approved versions in the past/present, ignore the entire Fee
         if (pastOrPresentVersions.isEmpty()) {
             return null;
         }
