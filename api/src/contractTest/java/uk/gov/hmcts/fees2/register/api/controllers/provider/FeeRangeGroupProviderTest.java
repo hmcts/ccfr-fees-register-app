@@ -11,8 +11,8 @@ import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
@@ -49,7 +49,7 @@ public class FeeRangeGroupProviderTest {
     @Autowired
     FeeSearchService feeSearchService;
 
-    @MockBean
+    @MockitoBean
     FeeService feeService;
 
     @TestTemplate

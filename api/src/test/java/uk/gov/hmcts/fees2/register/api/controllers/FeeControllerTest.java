@@ -266,7 +266,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         FeeLookupResponseDto fee = objectMapper.readValue(result.getResponse().getContentAsByteArray(), FeeLookupResponseDto.class);
         assertEquals(fee.getCode(), arr[3]);
         assertEquals("Additional copies of the grant representation", fee.getDescription());
-        assertEquals(fee.getVersion(), new Integer(1));
+        assertEquals(fee.getVersion(), Integer.valueOf(1));
         assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
 
         forceDeleteFee(arr[3]);
