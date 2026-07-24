@@ -2,7 +2,6 @@ package uk.gov.hmcts.fees2.register.api.controllers.provider;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
@@ -30,27 +29,58 @@ public class FeeRangeGroupProviderTestConfiguration {
         return mock(FeeServiceImpl.class);
     }
 
-    @MockitoBean
-    FeeVersionRepository feeVersionRepository;
+    @Bean
+    public FeeVersionRepository feeVersionRepository(){
+        return mock(FeeVersionRepository.class);
+    }
 
-    @MockitoBean
-    ChannelTypeRepository channelTypeRepository;
-    @MockitoBean
-    Jurisdiction1Repository jurisdiction1Repository;
-    @MockitoBean
-    Jurisdiction2Repository jurisdiction2Repository;
-    @MockitoBean
-    EventTypeRepository eventTypeRepository;
-    @MockitoBean
-    ServiceTypeRepository serviceTypeRepository;
-    @MockitoBean
-    ApplicantTypeRepository applicantTypeRepository;
-    @MockitoBean
-    Fee2Repository fee2Repository;
-    @MockitoBean
-    FeeCodeHistoryRepository feeCodeHistoryRepository;
-    @MockitoBean
-    FeeValidator feeValidator;
-    @MockitoBean
-    IdamService idamService;
+    @Bean
+    public ChannelTypeRepository channelTypeRepository(){
+        return mock(ChannelTypeRepository.class);
+    }
+
+    @Bean
+    public Jurisdiction1Repository jurisdiction1Repository(){
+        return mock(Jurisdiction1Repository.class);
+    }
+
+    @Bean
+    public Jurisdiction2Repository jurisdiction2Repository(){
+        return mock(Jurisdiction2Repository.class);
+    }
+
+    @Bean
+    public EventTypeRepository eventTypeRepository(){
+        return mock(EventTypeRepository.class);
+    }
+
+    @Bean
+    public ServiceTypeRepository serviceTypeRepository(){
+        return mock(ServiceTypeRepository.class);
+    }
+
+    @Bean
+    public ApplicantTypeRepository applicantTypeRepository(){
+        return mock(ApplicantTypeRepository.class);
+    }
+
+    @Bean
+    public Fee2Repository fee2Repository(){
+        return mock(Fee2Repository.class);
+    }
+
+    @Bean
+    public FeeCodeHistoryRepository feeCodeHistoryRepository(){
+        return mock(FeeCodeHistoryRepository.class);
+    }
+
+    @Bean
+    public FeeValidator feeValidator(){
+        return mock(FeeValidator.class);
+    }
+
+    @Bean
+    public IdamService idamService(){
+        return mock(IdamService.class);
+    }
 }

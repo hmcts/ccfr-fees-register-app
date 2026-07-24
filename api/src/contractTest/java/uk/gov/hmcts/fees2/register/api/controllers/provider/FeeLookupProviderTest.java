@@ -10,10 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.mockito.Mock;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.fees2.register.api.controllers.FeeController;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
@@ -26,23 +24,20 @@ import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import java.math.BigDecimal;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 @ExtendWith(SpringExtension.class)
 @Provider("feeRegister_lookUp")
-@PactBroker(scheme = "${PACT_BROKER_SCHEME:http}", host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:80}")
-@Import(FeeLookupProviderTestConfiguration.class)
+@PactBroker(url = "${PACT_BROKER_URL:http://localhost:80}")
 public class FeeLookupProviderTest {
 
-    @Autowired
-    ApplicationContext applicationContext;
-
-    @Autowired
+    @Mock
     FeeService feeService;
 
-    @Autowired
+    @Mock
     FeeDtoMapper feeDtoMapper;
 
-    @Autowired
+    @Mock
     FeeSearchService feeSearchService;
 
     @TestTemplate
@@ -55,11 +50,11 @@ public class FeeLookupProviderTest {
 
     @BeforeEach
     void before(PactVerificationContext context) {
+        openMocks(this);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
         testTarget.setPrintRequestResponse(true);
         FeeController feeController = new FeeController(feeService, feeDtoMapper, feeSearchService);
-        //feeController.setApplicationContext(applicationContext);
         testTarget.setControllers(feeController);
         if (context != null) {
             context.setTarget(testTarget);

@@ -10,9 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.fees2.register.api.contract.*;
 import uk.gov.hmcts.fees2.register.api.contract.amount.FlatAmountDto;
@@ -36,20 +34,20 @@ import java.util.List;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 @ExtendWith(SpringExtension.class)
 @Provider("feeRegister_rangeGroup")
-@PactBroker(scheme = "${PACT_BROKER_SCHEME:http}", host = "${PACT_BROKER_URL:localhost}", port = "${PACT_BROKER_PORT:80}")
-@Import(FeeRangeGroupProviderTestConfiguration.class)
+@PactBroker(url = "${PACT_BROKER_URL:http://localhost:80}")
 public class FeeRangeGroupProviderTest {
 
-    @Autowired
+    @Mock
     FeeDtoMapper feeDtoMapper;
 
-    @Autowired
+    @Mock
     FeeSearchService feeSearchService;
 
-    @Autowired
+    @Mock
     FeeService feeService;
 
     @TestTemplate
@@ -62,6 +60,7 @@ public class FeeRangeGroupProviderTest {
 
     @BeforeEach
     void before(PactVerificationContext context) throws ParseException {
+        openMocks(this);
         System.getProperties().setProperty("pact.verifier.publishResults", "true");
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
         testTarget.setPrintRequestResponse(true);
