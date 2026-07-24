@@ -941,31 +941,31 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public void shouldRetainOnlyApprovedFeeVersions() {
         FeeVersionDto approved = FeeVersionDto.feeVersionDtoWith()
             .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -10))
             .build();
         FeeVersionDto draft = FeeVersionDto.feeVersionDtoWith()
             .status(FeeVersionStatusDto.draft)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), -5))
             .build();
         FeeVersionDto discontinued = FeeVersionDto.feeVersionDtoWith()
             .status(FeeVersionStatusDto.discontinued)
+            .version(3)
+            .validFrom(DateUtils.addDays(new Date(), -3))
             .build();
         Fee2Dto fee2Dto = new Fee2Dto();
         fee2Dto.setFeeType("fixed");
         fee2Dto.setCode("FEE0441");
         fee2Dto.setFeeVersionDtos(Arrays.asList(approved, draft, discontinued));
+        fee2Dto.setCurrentVersion(approved);
         List<Fee2Dto> result = Arrays.asList(fee2Dto);
 
-        for (Fee2Dto dto : result) {
-            if (dto.getFeeVersionDtos() != null) {
-                List<FeeVersionDto> approvedVersions = dto.getFeeVersionDtos()
-                    .stream()
-                    .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
-                    .toList();
-                dto.setFeeVersionDtos(approvedVersions);
-            }
-        }
+        FeeController controller = new FeeController(null, null, null);
+        result = controller.deduplicateFeesByCode(result);
 
-        Assertions.assertEquals(1, fee2Dto.getFeeVersionDtos().size());
-        Assertions.assertEquals(FeeVersionStatusDto.approved, fee2Dto.getFeeVersionDtos().get(0).getStatus());
+        Assertions.assertEquals(1, result.get(0).getFeeVersionDtos().size());
+        Assertions.assertEquals(FeeVersionStatusDto.approved, result.get(0).getFeeVersionDtos().get(0).getStatus());
     }
 
     @Test

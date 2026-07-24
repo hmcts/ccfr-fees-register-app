@@ -465,31 +465,10 @@ public class FeeController {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null, FeeVersionStatus.approved, null,
             null, false, null, null, null, null, null, null);
-        LocalDate currentDate = LocalDate.now(ZoneId.systemDefault());
-        result = result
-            .stream()
-            .filter(c -> c.getCurrentVersion()!=null)
-            .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
-            .filter(c -> {
-                Date validFrom = c.getCurrentVersion().getValidFrom();
-                LocalDate validFromDate = validFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                return !validFromDate.isAfter(currentDate); // Exclude if valid_from is in the future
-            })
-            .toList();
 
         // Deduplicate by fee code, keeping only the most recent version (highest version number)
+        // This also filters to approved past/present versions and updates feeVersionDtos
         result = deduplicateFeesByCode(result);
-
-        // return only approved versions of the approved fees
-        for (Fee2Dto fee2Dto : result) {
-            if (fee2Dto.getFeeVersionDtos() != null) {
-                List<FeeVersionDto> approvedVersions = fee2Dto.getFeeVersionDtos()
-                    .stream()
-                    .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
-                    .toList();
-                fee2Dto.setFeeVersionDtos(approvedVersions);
-            }
-        }
 
         // remove sensitive info
         for (Fee2Dto fee2Dto : result) {
