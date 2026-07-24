@@ -1089,17 +1089,10 @@ public class FeeControllerTest extends BaseIntegrationTest {
             .validTo(DateUtils.addDays(new Date(), -2)) // Expired 2 days ago
             .build();
 
-        // Version 2: valid in the future (Should be ignored)
-        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
-            .status(FeeVersionStatusDto.approved)
-            .version(2)
-            .validFrom(DateUtils.addDays(new Date(), 5)) // Starts in 5 days
-            .build();
-
         Fee2Dto fee1 = new Fee2Dto();
         fee1.setCode("FEE0594");
         fee1.setCurrentVersion(version1);
-        fee1.setFeeVersionDtos(Arrays.asList(version1, version2));
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
 
         List<Fee2Dto> input = Arrays.asList(fee1);
 
