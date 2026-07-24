@@ -39,10 +39,10 @@ public class FeeLookupProviderTest {
     @Autowired
     FeeService feeService;
 
-    @MockitoBean
+    @Autowired
     FeeDtoMapper feeDtoMapper;
 
-    @MockitoBean
+    @Autowired
     FeeSearchService feeSearchService;
 
     @TestTemplate

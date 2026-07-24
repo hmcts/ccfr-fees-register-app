@@ -49,7 +49,7 @@ public class FeeRangeGroupProviderTest {
     @Autowired
     FeeSearchService feeSearchService;
 
-    @MockitoBean
+    @Autowired
     FeeService feeService;
 
     @TestTemplate

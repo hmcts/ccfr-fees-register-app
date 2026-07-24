@@ -38,4 +38,10 @@ public class FeeLookupProviderTestConfiguration {
     FeeCodeHistoryRepository feeCodeHistoryRepository;
     @MockitoBean
     FeeValidator feeValidator;
+
+    @MockitoBean
+    uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper feeDtoMapper;
+
+    @MockitoBean
+    uk.gov.hmcts.fees2.register.data.service.FeeSearchService feeSearchService;
 }

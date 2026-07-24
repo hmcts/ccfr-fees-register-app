@@ -6,8 +6,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.gov.hmcts.fees2.register.api.controllers.mapper.FeeDtoMapper;
 import uk.gov.hmcts.fees2.register.data.repository.*;
 import uk.gov.hmcts.fees2.register.data.service.FeeSearchService;
+import uk.gov.hmcts.fees2.register.data.service.FeeService;
 import uk.gov.hmcts.fees2.register.data.service.IdamService;
 import uk.gov.hmcts.fees2.register.data.service.impl.FeeSearchServiceImpl;
+import uk.gov.hmcts.fees2.register.data.service.impl.FeeServiceImpl;
 import uk.gov.hmcts.fees2.register.data.service.validator.FeeValidator;
 
 import static org.mockito.Mockito.mock;
@@ -22,6 +24,10 @@ public class FeeRangeGroupProviderTestConfiguration {
     @Bean
     public FeeDtoMapper feeDtoMapper(){
         return mock(FeeDtoMapper.class);
+    }
+    @Bean
+    public FeeService feeService(){
+        return mock(FeeServiceImpl.class);
     }
 
     @MockitoBean
