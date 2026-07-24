@@ -38,7 +38,7 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 @ExtendWith(SpringExtension.class)
 @Provider("feeRegister_rangeGroup")
-@PactBroker(url = "${PACT_BROKER_URL:http://localhost:80}")
+@PactBroker(scheme = "${PACT_BROKER_SCHEME:http}", host = "${PACT_BROKER_HOST:localhost}", port = "${PACT_BROKER_PORT:80}")
 public class FeeRangeGroupProviderTest {
 
     @Mock
