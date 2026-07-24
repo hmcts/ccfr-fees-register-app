@@ -580,6 +580,10 @@ public class FeeController {
 
         // Overwrite the current_version field with our rules-compliant version
         fee.setCurrentVersion(targetVersion);
+
+        // Also update fee_versions to only include past/present approved versions
+        fee.setFeeVersionDtos(pastOrPresentVersions);
+
         return fee;
     }
 }

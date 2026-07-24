@@ -1080,6 +1080,45 @@ public class FeeControllerTest extends BaseIntegrationTest {
     }
 
     @Test
+    public void deduplicateFeesByCode_WhenExistingHasFutureValidFromWithGap_DiscardReplacement() {
+        // Version 1: valid from past (current version discontinued)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -30))
+            .validTo(DateUtils.addDays(new Date(), -10))
+            .build();
+
+        // Version 2: future approved version - to be discarded.
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), 20))
+            .validTo(null)
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // Verify it's version 1 (the currently valid one)
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(1);
+    }
+
+    @Test
     public void deduplicateFeesByCode_WhenOneVersionIsExpiredAndOneIsFuture_KeepsExpiredAsDiscontinued() {
         // Version 1: valid in the past, ended in the past (Discontinued)
         FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
