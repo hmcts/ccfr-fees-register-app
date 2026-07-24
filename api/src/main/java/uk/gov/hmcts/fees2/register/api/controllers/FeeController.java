@@ -555,20 +555,12 @@ public class FeeController {
             .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
             .toList();
 
-        // Filter out approved versions where valid_from is in the future OR valid_to is in the past (discontinued)
+        // Filter out approved versions where valid_from is in the future
         List<FeeVersionDto> pastOrPresentVersions = approvedVersions.stream()
             .filter(fv -> {
                 if (fv.getValidFrom() == null) return true; // Treat as past if null
                 LocalDate validFromDate = fv.getValidFrom().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                boolean validFromNotFuture = !validFromDate.isAfter(currentDate);
-
-                // Check if version is discontinued (valid_to is in the past)
-                if (fv.getValidTo() != null) {
-                    LocalDate validToDate = fv.getValidTo().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return validFromNotFuture && !validToDate.isBefore(currentDate);
-                }
-
-                return validFromNotFuture;
+                return !validFromDate.isAfter(currentDate);
             })
             .toList();
 

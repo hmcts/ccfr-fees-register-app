@@ -848,6 +848,40 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
+    public void findApprovedFeesButIgnoringFutureApprovedFee() throws Exception {
+
+        // Scheduled fee
+        FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
+        fixedFeeDto1.getVersion().setValidFrom(DateUtils.addDays(new Date(), 10));
+        fixedFeeDto1.getVersion().setValidTo(null);
+        String futureFeeLocation = saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+        String futureFeeCode = futureFeeLocation.split("/")[3];
+
+        // Discontinued fee
+        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
+        fixedFeeDto2.setKeyword("testFixedDtoFee");
+        fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
+        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
+        String discontinuedFeeLocation = saveFeeAndCheckStatusIsCreated(fixedFeeDto2);
+        String discontinuedFeeCode = discontinuedFeeLocation.split("/")[3];
+
+        restActions
+            .withUser("admin")
+            .get("/fees-register/approvedFees")
+            .andExpect(status().isOk())
+            .andExpect(body().asListOf(Fee2Dto.class, feeDtos -> {
+                assertThat(feeDtos).extracting(Fee2Dto::getCode)
+                    .contains(discontinuedFeeCode);
+                assertThat(feeDtos).allSatisfy(feeDto ->
+                    assertThat(feeDto.getCurrentVersion().getStatus()).isEqualTo(FeeVersionStatusDto.approved));
+            }));
+
+        forceDeleteFee(futureFeeCode);
+        forceDeleteFee(discontinuedFeeCode);
+    }
+
+    @Test
+    @Transactional
     public void approvedFees_WithIsActiveTrue_ReturnsActiveApprovedFees() throws Exception {
         FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest();
         String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
