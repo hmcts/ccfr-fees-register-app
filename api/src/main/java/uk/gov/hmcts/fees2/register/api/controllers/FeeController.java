@@ -472,6 +472,7 @@ public class FeeController {
 
         // remove sensitive info
         for (Fee2Dto fee2Dto : result) {
+            fee2Dto.setMatchingVersion(null);
             for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
                 feeVersionDto.setApprovedBy(null);
                 feeVersionDto.setAuthor(null);
