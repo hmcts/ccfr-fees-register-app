@@ -210,6 +210,7 @@ public class FeeDtoMapper {
         feeVersionDtos.sort(Comparator.comparing(FeeVersionDto::getVersion));
         fee2Dto.setFeeVersionDtos(feeVersionDtos);
 
+        // Current version could be draft - used in /fees/{code} endpoint.
         FeeVersion currentVersion = fee.getCurrentVersion(false);
 
         if(currentVersion != null) {

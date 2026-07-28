@@ -182,6 +182,11 @@ task runProviderPactVerification(type: Test) {
     systemProperty 'pact.provider.version', pactProviderVersion
     testClassesDirs = sourceSets.contractTest.output.classesDirs
     classpath = sourceSets.contractTest.runtimeClasspath
+    if (project.hasProperty('pact.broker.url')) {
+        systemProperty 'PACT_BROKER_HOST', project.property('pact.broker.url')
+    }
+    systemProperty 'PACT_BROKER_SCHEME', 'https'
+    systemProperty 'PACT_BROKER_PORT', '443'
 
     def pactProviderTestClass = System.getenv('PACT_PROVIDER_TEST_CLASS') ?: System.getProperty('pact.provider.testClass')
     if (pactProviderTestClass) {
@@ -201,6 +206,11 @@ task providerContractTest(type: Test) {
     if (project.hasProperty('pact.verifier.publishResults')) {
         systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
     }
+    if (project.hasProperty('pact.broker.url')) {
+        systemProperty 'PACT_BROKER_HOST', project.property('pact.broker.url')
+    }
+    systemProperty 'PACT_BROKER_SCHEME', 'https'
+    systemProperty 'PACT_BROKER_PORT', '443'
     systemProperty 'pact.provider.version', pactProviderVersion
 
     def pactProviderTestClass = System.getenv('PACT_PROVIDER_TEST_CLASS') ?: System.getProperty('pact.provider.testClass')

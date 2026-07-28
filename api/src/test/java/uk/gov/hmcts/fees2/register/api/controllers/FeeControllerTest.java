@@ -5,7 +5,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.rules.ExpectedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
@@ -28,7 +27,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -268,7 +266,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         FeeLookupResponseDto fee = objectMapper.readValue(result.getResponse().getContentAsByteArray(), FeeLookupResponseDto.class);
         assertEquals(fee.getCode(), arr[3]);
         assertEquals("Additional copies of the grant representation", fee.getDescription());
-        assertEquals(fee.getVersion(), new Integer(1));
+        assertEquals(fee.getVersion(), Integer.valueOf(1));
         assertEquals(fee.getFeeAmount(), new BigDecimal("1.50"));
 
         forceDeleteFee(arr[3]);
@@ -850,6 +848,40 @@ public class FeeControllerTest extends BaseIntegrationTest {
 
     @Test
     @Transactional
+    public void findApprovedFeesButIgnoringFutureApprovedFee() throws Exception {
+
+        // Scheduled fee
+        FixedFeeDto fixedFeeDto1 = FeeDataUtils.getCreateFixedFeeRequest();
+        fixedFeeDto1.getVersion().setValidFrom(DateUtils.addDays(new Date(), 10));
+        fixedFeeDto1.getVersion().setValidTo(null);
+        String futureFeeLocation = saveFeeAndCheckStatusIsCreated(fixedFeeDto1);
+        String futureFeeCode = futureFeeLocation.split("/")[3];
+
+        // Discontinued fee
+        FixedFeeDto fixedFeeDto2 = FeeDataUtils.getCreateFixedFeeRequest();
+        fixedFeeDto2.setKeyword("testFixedDtoFee");
+        fixedFeeDto2.getVersion().setValidFrom(DateUtils.addDays(new Date(), -100));
+        fixedFeeDto2.getVersion().setValidTo(DateUtils.addDays(new Date(), -10));
+        String discontinuedFeeLocation = saveFeeAndCheckStatusIsCreated(fixedFeeDto2);
+        String discontinuedFeeCode = discontinuedFeeLocation.split("/")[3];
+
+        restActions
+            .withUser("admin")
+            .get("/fees-register/approvedFees")
+            .andExpect(status().isOk())
+            .andExpect(body().asListOf(Fee2Dto.class, feeDtos -> {
+                assertThat(feeDtos).extracting(Fee2Dto::getCode)
+                    .contains(discontinuedFeeCode);
+                assertThat(feeDtos).allSatisfy(feeDto ->
+                    assertThat(feeDto.getCurrentVersion().getStatus()).isEqualTo(FeeVersionStatusDto.approved));
+            }));
+
+        forceDeleteFee(futureFeeCode);
+        forceDeleteFee(discontinuedFeeCode);
+    }
+
+    @Test
+    @Transactional
     public void approvedFees_WithIsActiveTrue_ReturnsActiveApprovedFees() throws Exception {
         FixedFeeDto fixedFeeDto = FeeDataUtils.getCreateFixedFeeRequest();
         String loc = saveFeeAndCheckStatusIsCreated(fixedFeeDto);
@@ -880,6 +912,7 @@ public class FeeControllerTest extends BaseIntegrationTest {
         FeeVersionDto version8 = FeeVersionDto.feeVersionDtoWith()
             .status(FeeVersionStatusDto.approved)
             .version(8)
+            .validFrom(DateUtils.addDays(new Date(), -50))
             .build();
 
         Fee2Dto fee1 = new Fee2Dto();
@@ -908,31 +941,206 @@ public class FeeControllerTest extends BaseIntegrationTest {
     public void shouldRetainOnlyApprovedFeeVersions() {
         FeeVersionDto approved = FeeVersionDto.feeVersionDtoWith()
             .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -10))
             .build();
         FeeVersionDto draft = FeeVersionDto.feeVersionDtoWith()
             .status(FeeVersionStatusDto.draft)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), -5))
             .build();
         FeeVersionDto discontinued = FeeVersionDto.feeVersionDtoWith()
             .status(FeeVersionStatusDto.discontinued)
+            .version(3)
+            .validFrom(DateUtils.addDays(new Date(), -3))
             .build();
         Fee2Dto fee2Dto = new Fee2Dto();
         fee2Dto.setFeeType("fixed");
         fee2Dto.setCode("FEE0441");
         fee2Dto.setFeeVersionDtos(Arrays.asList(approved, draft, discontinued));
+        fee2Dto.setCurrentVersion(approved);
         List<Fee2Dto> result = Arrays.asList(fee2Dto);
 
-        for (Fee2Dto dto : result) {
-            if (dto.getFeeVersionDtos() != null) {
-                List<FeeVersionDto> approvedVersions = dto.getFeeVersionDtos()
-                    .stream()
-                    .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
-                    .toList();
-                dto.setFeeVersionDtos(approvedVersions);
-            }
-        }
+        FeeController controller = new FeeController(null, null, null);
+        result = controller.deduplicateFeesByCode(result);
 
-        Assertions.assertEquals(1, fee2Dto.getFeeVersionDtos().size());
-        Assertions.assertEquals(FeeVersionStatusDto.approved, fee2Dto.getFeeVersionDtos().get(0).getStatus());
+        Assertions.assertEquals(1, result.get(0).getFeeVersionDtos().size());
+        Assertions.assertEquals(FeeVersionStatusDto.approved, result.get(0).getFeeVersionDtos().get(0).getStatus());
     }
 
+    @Test
+    public void deduplicateFeesByCode_WhenReplacementHasFutureValidFrom_KeepsExistingVersion() {
+        // Version 1: valid from past (currently valid)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -100)) // 100 days ago
+            .build();
+
+        // Version 2: valid from future (not yet valid)
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), 30)) // 30 days in future
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // Verify it's version 1 (the currently valid one), not version 2 (future)
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(1);
+    }
+
+    @Test
+    public void deduplicateFeesByCode_WhenBothVersionsCurrentlyValid_KeepsHighestVersion() {
+        // Version 1: valid from past (currently valid)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -100))
+            .build();
+
+        // Version 2: also valid from past (currently valid)
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), -50))
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // Verify it's the higher version number
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(2);
+    }
+
+    @Test
+    public void deduplicateFeesByCode_WhenExistingHasFutureValidFrom_KeepsReplacement() {
+        // Version 1: valid from future (not yet valid)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), 30))
+            .build();
+
+        // Version 2: valid from past (currently valid)
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), -10))
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // Verify it's version 2 (the currently valid one)
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(2);
+    }
+
+    @Test
+    public void deduplicateFeesByCode_WhenExistingHasFutureValidFromWithGap_DiscardReplacement() {
+        // Version 1: valid from past (current version discontinued)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -30))
+            .validTo(DateUtils.addDays(new Date(), -10))
+            .build();
+
+        // Version 2: future approved version - to be discarded.
+        FeeVersionDto version2 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(2)
+            .validFrom(DateUtils.addDays(new Date(), 20))
+            .validTo(null)
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0219");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        Fee2Dto fee2 = new Fee2Dto();
+        fee2.setCode("FEE0219");
+        fee2.setCurrentVersion(version2);
+        fee2.setFeeVersionDtos(Arrays.asList(version2));
+
+        List<Fee2Dto> input = Arrays.asList(fee1, fee2);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify only one fee is kept
+        assertThat(result).hasSize(1);
+        // Verify it's version 1 (the currently valid one)
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(1);
+    }
+
+    @Test
+    public void deduplicateFeesByCode_WhenOneVersionIsExpiredAndOneIsFuture_KeepsExpiredAsDiscontinued() {
+        // Version 1: valid in the past, ended in the past (Discontinued)
+        FeeVersionDto version1 = FeeVersionDto.feeVersionDtoWith()
+            .status(FeeVersionStatusDto.approved)
+            .version(1)
+            .validFrom(DateUtils.addDays(new Date(), -10))
+            .validTo(DateUtils.addDays(new Date(), -2)) // Expired 2 days ago
+            .build();
+
+        Fee2Dto fee1 = new Fee2Dto();
+        fee1.setCode("FEE0594");
+        fee1.setCurrentVersion(version1);
+        fee1.setFeeVersionDtos(Arrays.asList(version1));
+
+        List<Fee2Dto> input = Arrays.asList(fee1);
+
+        FeeController controller = new FeeController(null, null, null);
+        List<Fee2Dto> result = controller.deduplicateFeesByCode(input);
+
+        // Verify the fee is kept (discontinued fees stay in the list)
+        assertThat(result).hasSize(1);
+        // Verify it evaluates down to the historical past version 1
+        assertThat(result.get(0).getCurrentVersion().getVersion()).isEqualTo(1);
+    }
 }

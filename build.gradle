@@ -243,15 +243,11 @@ static def getCheckedOutGitCommitHash() {
     'git rev-parse --verify --short HEAD'.execute().text.trim()
 }
 
-    task runProviderPactVerification(type: Test){
-        logger.lifecycle("Running Pact provider verification Tests")
-        if (project.hasProperty('pact.verifier.publishResults')) {
-            systemProperty 'pact.verifier.publishResults', project.property('pact.verifier.publishResults')
-        }
-        systemProperty 'pact.provider.version', project.pacticipantVersion
-    }
+task runProviderPactVerification(dependsOn: ':fees-register-api:runProviderPactVerification') {
+    logger.lifecycle("Running Pact provider verification Tests")
+}
 
-    runProviderPactVerification.finalizedBy pactVerify
+runProviderPactVerification.finalizedBy pactVerify
 
 tasks.register('smoke', GradleBuild) {
     dir = file('api')

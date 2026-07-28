@@ -56,7 +56,12 @@ import uk.gov.hmcts.fees2.register.util.URIUtils;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Tag(name = "FeesRegister")
@@ -460,28 +465,14 @@ public class FeeController {
         List<Fee2Dto> result =  search(null, null, null, null, null,
             null, null, null, FeeVersionStatus.approved, null,
             null, false, null, null, null, null, null, null);
-        result = result
-            .stream()
-            .filter(c -> c.getCurrentVersion()!=null)
-            .filter(c -> c.getCurrentVersion().getStatus().equals(FeeVersionStatusDto.approved))
-            .toList();
 
         // Deduplicate by fee code, keeping only the most recent version (highest version number)
+        // This also filters to approved past/present versions and updates feeVersionDtos
         result = deduplicateFeesByCode(result);
-
-        // return only approved versions of the approved fees
-        for (Fee2Dto fee2Dto : result) {
-            if (fee2Dto.getFeeVersionDtos() != null) {
-                List<FeeVersionDto> approvedVersions = fee2Dto.getFeeVersionDtos()
-                    .stream()
-                    .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
-                    .toList();
-                fee2Dto.setFeeVersionDtos(approvedVersions);
-            }
-        }
 
         // remove sensitive info
         for (Fee2Dto fee2Dto : result) {
+            fee2Dto.setMatchingVersion(null);
             for (FeeVersionDto feeVersionDto : fee2Dto.getFeeVersionDtos()) {
                 feeVersionDto.setApprovedBy(null);
                 feeVersionDto.setAuthor(null);
@@ -512,18 +503,21 @@ public class FeeController {
     }
 
     List<Fee2Dto> deduplicateFeesByCode(List<Fee2Dto> fees) {
+        LocalDate currentDate = LocalDate.now(ZoneId.systemDefault());
+
         return fees.stream()
+            // Evaluate each fee against your rules and re-assign the correct current version
+            .map(fee -> processCorrectFeeVersions(fee, currentDate))
+            // If a fee has no valid past/active approved versions, discard it
+            .filter(Objects::nonNull)
+            // Group by fee code and keep the one with the highest true version number
             .collect(Collectors.toMap(
                 Fee2Dto::getCode,
                 fee -> fee,
                 (existing, replacement) -> {
-                    // Keep the fee with the higher version number
-                    Integer existingVersion = existing.getCurrentVersion() != null ? existing.getCurrentVersion().getVersion() : 0;
-                    Integer replacementVersion = replacement.getCurrentVersion() != null ? replacement.getCurrentVersion().getVersion() : 0;
-                    if (replacementVersion > existingVersion) {
-                        return replacement;
-                    }
-                    return existing;
+                    int existingVer = existing.getCurrentVersion().getVersion();
+                    int replacementVer = replacement.getCurrentVersion().getVersion();
+                    return replacementVer > existingVer ? replacement : existing;
                 }
             ))
             .values()
@@ -531,4 +525,45 @@ public class FeeController {
             .toList();
     }
 
+    private Fee2Dto processCorrectFeeVersions(Fee2Dto fee, LocalDate currentDate) {
+        if (fee.getFeeVersionDtos() == null || fee.getFeeVersionDtos().isEmpty()) {
+            return (fee.getCurrentVersion() != null) ? fee : null;
+        }
+
+        // Find all approved versions
+        List<FeeVersionDto> approvedVersions = fee.getFeeVersionDtos().stream()
+            .filter(fv -> FeeVersionStatusDto.approved.equals(fv.getStatus()))
+            .toList();
+
+        // Filter out approved versions where valid_from is in the future
+        List<FeeVersionDto> pastOrPresentVersions = approvedVersions.stream()
+            .filter(fv -> {
+                if (fv.getValidFrom() == null) return true; // Treat as past if null
+                LocalDate validFromDate = fv.getValidFrom().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                return !validFromDate.isAfter(currentDate);
+            })
+            .toList();
+
+        // If there are NO approved versions in the past/present, ignore the entire Fee
+        if (pastOrPresentVersions.isEmpty()) {
+            return null;
+        }
+
+        // Find the latest approved version from the past/present list (highest version number)
+        FeeVersionDto targetVersion = pastOrPresentVersions.stream()
+            .max(Comparator.comparingInt(FeeVersionDto::getVersion))
+            .orElse(null);
+
+        if (targetVersion == null) {
+            return null;
+        }
+
+        // Overwrite the current_version field with our rules-compliant version
+        fee.setCurrentVersion(targetVersion);
+
+        // Also update fee_versions to only include past/present approved versions
+        fee.setFeeVersionDtos(pastOrPresentVersions);
+
+        return fee;
+    }
 }
