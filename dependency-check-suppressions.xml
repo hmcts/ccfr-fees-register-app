@@ -13,7 +13,7 @@
             Tomcat's examples web application. Apache lists the fix in Tomcat 10.1.58, but that release is not yet available in Maven Central.
             Keep the existing Tomcat 10.1.57 override until 10.1.58 can be consumed.
         </notes>
-        <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat-embed-core@.*$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat-embed-(core|websocket)@.*$</packageUrl>
         <cve>CVE-2026-66299</cve>
     </suppress>
 </suppressions>
