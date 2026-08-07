@@ -7,14 +7,13 @@
         </notes>
         <cve>CVE-2025-15104</cve>
     </suppress>
-    <suppress>
+    <suppress until="2026-10-31Z">
         <notes>
-            jackson-databind contains the general-purpose data-binding functionality and tree-model for Jackson Data Processor. From 2.8.0 until 2.18.9, 2.21.5, and 3.1.4,
-            version 2.22.0 was published on Jun 02, 2026, but still contains the vulnerability. The issue is fixed in 2.22.1, 2.23.0, and 3.2.0.
-            version "tools.jackson.core:jackson-core:3.2.0" will implay code changes and may not be compatible with the current code base.
-            Therefore, we will suppress this CVE for now.
+            CVE-2026-66299 affects Apache Tomcat's WebSocket chat example. This Spring Boot application uses embedded Tomcat and does not deploy
+            Tomcat's examples web application. Apache lists the fix in Tomcat 10.1.58, but that release is not yet available in Maven Central.
+            Keep the existing Tomcat 10.1.57 override until 10.1.58 can be consumed.
         </notes>
-        <cve>CVE-2026-54515</cve>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat-embed-(core|websocket)@.*$</packageUrl>
+        <cve>CVE-2026-66299</cve>
     </suppress>
 </suppressions>
-
