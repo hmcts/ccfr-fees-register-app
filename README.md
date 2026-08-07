@@ -108,6 +108,17 @@ Some of the end points are as below. These might be out of date. Please look at 
 - GET /fees-register/cmc/flat
 - GET /fees-register/cmc/flat/{id}
 
+
+### Rate Limiting
+All API endpoints within this application have rate limiting applied.
+
+The limit is configured through three resiliance4j parameters, which may be configured from environment variables:
+```
+REFUNDS_API_RATE_LIMIT_FOR_PERIOD  (default = 10)
+REFUNDS_API_RATE_LIMIT_REFRESH_PERIOD  (default = 1 second)
+REFUNDS_API_RATE_LIMIT_TIMEOUT_DURATION (default = 0)
+```
+
 ## Service Versioning
 
 We use [SemVer](http://semver.org/) for versioning.
