@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees.register.api.controllers.rangegroups;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.Length;
@@ -33,6 +34,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
 @Validated
+@RateLimiter(name = "fees-register-api")
 public class RangeGroupsController {
 
     private final FeesDtoMapper feesDtoMapper;
