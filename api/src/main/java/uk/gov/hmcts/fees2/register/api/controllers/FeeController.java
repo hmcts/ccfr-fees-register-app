@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -69,6 +70,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/fees-register")
 @AllArgsConstructor
 @Validated
+@RateLimiter(name = "fees-register-api")
 public class FeeController {
     private static final Logger LOG = LoggerFactory.getLogger(FeeController.class);
 
