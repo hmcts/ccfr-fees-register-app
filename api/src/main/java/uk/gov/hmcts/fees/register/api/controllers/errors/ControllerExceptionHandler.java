@@ -2,6 +2,7 @@ package uk.gov.hmcts.fees.register.api.controllers.errors;
 
 
 import com.google.common.collect.Iterators;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import java.util.Locale;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
@@ -50,6 +52,12 @@ public class ControllerExceptionHandler {
         ConstraintViolation<?> violation = e.getConstraintViolations().iterator().next();
         String parameterName = Iterators.getLast(violation.getPropertyPath().iterator()).getName();
         return new ResponseEntity<>(new ErrorDto(parameterName + ": " + violation.getMessage()), BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RequestNotPermitted.class)
+    public ResponseEntity<ErrorDto> handleRateLimitExceeded(RequestNotPermitted e) {
+        LOG.debug("Rate limit exceeded: " + e.getMessage());
+        return new ResponseEntity<>(new ErrorDto("Rate limit exceeded"), TOO_MANY_REQUESTS);
     }
 
 }

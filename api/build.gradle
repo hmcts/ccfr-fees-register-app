@@ -95,6 +95,9 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-spring-boot3', version: '2.4.0'
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-ratelimiter', version: '2.4.0'
     implementation group: 'joda-time', name: 'joda-time', version: '2.13.0'
     implementation (group: 'org.postgresql', name: 'postgresql', version: '42.7.13') {
         exclude(module: 'commons-logging')

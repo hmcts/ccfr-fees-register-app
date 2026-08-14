@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,6 +23,7 @@ import static java.util.Optional.ofNullable;
 @Tag(name= "FeesRegister")
 @RestController
 @Validated
+@RateLimiter(name = "fees-register-api")
 public class FeeVersionController {
 
     private final FeeVersionService feeVersionService;

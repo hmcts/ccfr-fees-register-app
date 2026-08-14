@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees2.register.api.controllers;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -29,6 +30,7 @@ import static java.util.stream.Collectors.toList;
 @Tag(name = "ReferenceData")
 @RestController
 @Validated
+@RateLimiter(name = "fees-register-api")
 public class ReferenceDataController {
 
     private final ChannelTypeService channelTypeService;

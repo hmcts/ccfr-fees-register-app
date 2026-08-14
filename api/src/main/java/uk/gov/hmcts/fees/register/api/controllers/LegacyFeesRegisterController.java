@@ -1,5 +1,6 @@
 package uk.gov.hmcts.fees.register.api.controllers;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController()
 @RequestMapping("/fees-register")
+@RateLimiter(name = "fees-register-api")
 public class LegacyFeesRegisterController {
 
     private FeesRegisterRepository feesRegisterRepository;
