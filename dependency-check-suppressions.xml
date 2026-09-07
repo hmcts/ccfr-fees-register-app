@@ -23,6 +23,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-aop@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -31,6 +39,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-aspects@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -39,6 +55,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-beans@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -47,6 +71,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-context@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -63,6 +95,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-core@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -71,6 +111,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-expression@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -79,6 +127,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-jcl@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -87,6 +143,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-jdbc@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -95,6 +159,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-orm@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -103,6 +175,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-tx@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -111,6 +191,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-web@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
@@ -119,6 +207,14 @@
         <packageUrl regex="true">^pkg:maven/org\.springframework/spring-webmvc@6\.2\.19$</packageUrl>
         <cve>CVE-2026-59313</cve>
         <cve>CVE-2026-59314</cve>
+        <cve>CVE-2026-47890</cve>
+        <cve>CVE-2026-47891</cve>
+        <cve>CVE-2026-47892</cve>
+        <cve>CVE-2026-59283</cve>
+        <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
+        <cve>CVE-2026-59280</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
