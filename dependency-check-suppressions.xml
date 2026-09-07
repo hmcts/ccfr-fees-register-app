@@ -250,41 +250,56 @@
         <cve>CVE-2026-47892</cve>
         <cve>CVE-2026-59283</cve>
         <cve>CVE-2026-47893</cve>
+        <cve>CVE-2026-59282</cve>
+        <cve>CVE-2026-59281</cve>
         <cve>CVE-2026-59280</cve>
         <cve>CVE-2026-47890</cve>
         <cve>CVE-2026-47891</cve>
-        <cve>CVE-2026-59282</cve>
-        <cve>CVE-2026-59281</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
-            CVE-2026-59270 affects Spring framework security 6.5.11 which is the latest release.
+            CVE-2026-47834 affects Spring framework data 3.5.11 which is the latest release.
         </notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework.security/spring-security-crypto@6\.5\.11$</packageUrl>
-        <cve>CVE-2026-59270</cve>
-        <cve>CVE-2026-59276</cve>
+        <packageUrl regex="true">^pkg:maven/org\.springframework.data/spring-data-jpa@3\.5\.13$</packageUrl>
+        <cve>CVE-2026-47834</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
-            CVE-2026-59270 affects Spring framework security 6.5.11 which is the latest release.
+            CVE-2026-47834 affects Spring framework security 6.5.11 which is the latest release.
         </notes>
         <packageUrl regex="true">^pkg:maven/org\.springframework.security/spring-security-config@6\.5\.11$</packageUrl>
+        <cve>CVE-2026-47841</cve>
+        <cve>CVE-2026-47842</cve>
         <cve>CVE-2026-59270</cve>
         <cve>CVE-2026-59276</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
-            CVE-2026-59270 affects Spring framework security 6.5.11 which is the latest release.
+            CVE-2026-47834 affects Spring framework security 6.5.11 which is the latest release.
         </notes>
         <packageUrl regex="true">^pkg:maven/org\.springframework.security/spring-security-core@6\.5\.11$</packageUrl>
+        <cve>CVE-2026-47841</cve>
+        <cve>CVE-2026-47842</cve>
         <cve>CVE-2026-59270</cve>
         <cve>CVE-2026-59276</cve>
     </suppress>
     <suppress until="2026-10-31Z">
         <notes>
-            CVE-2026-59270 affects Spring framework security 6.5.11 which is the latest release.
+            CVE-2026-47834 affects Spring framework security 6.5.11 which is the latest release.
+        </notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework.security/spring-security-crypto@6\.5\.11$</packageUrl>
+        <cve>CVE-2026-47841</cve>
+        <cve>CVE-2026-47842</cve>
+        <cve>CVE-2026-59270</cve>
+        <cve>CVE-2026-59276</cve>
+    </suppress>
+    <suppress until="2026-10-31Z">
+        <notes>
+            CVE-2026-47834 affects Spring framework security 6.5.11 which is the latest release.
         </notes>
         <packageUrl regex="true">^pkg:maven/org\.springframework.security/spring-security-web@6\.5\.11$</packageUrl>
+        <cve>CVE-2026-47841</cve>
+        <cve>CVE-2026-47842</cve>
         <cve>CVE-2026-59270</cve>
         <cve>CVE-2026-59276</cve>
     </suppress>
