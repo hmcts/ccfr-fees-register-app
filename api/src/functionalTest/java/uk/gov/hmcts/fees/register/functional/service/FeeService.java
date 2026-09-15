@@ -55,6 +55,16 @@ public class FeeService {
             .post("/fees-register/fixed-fees");
     }
 
+    public static Response createANewFeeVersion(User editor, String feeCode, FeeVersionDto feeVersionDto) {
+        return SerenityRest
+            .given()
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .header(HttpHeaders.AUTHORIZATION, editor.getAuthorisationToken())
+            .body(feeVersionDto)
+            .when()
+            .post("/fees/{code}/versions", feeCode);
+    }
+
     public static Response amendAFeeVersion(User editor, String feeCode, FeeVersionDto feeVersionDto) {
         return SerenityRest
             .given()
