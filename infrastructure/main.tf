@@ -122,7 +122,7 @@ module "fees-register-database-v15" {
   email_address_key          = var.db_alert_email_address_key
   email_address_key_vault_id = data.azurerm_key_vault.freg_key_vault.id
   # Add service criticality param
-  service_criticality = var.service_criticality
+  service_criticality        = var.service_criticality
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
