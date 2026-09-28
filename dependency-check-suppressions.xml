@@ -394,4 +394,11 @@
         <cve>CVE-2026-59270</cve>
         <cve>CVE-2026-59276</cve>
     </suppress>
+    <suppress until="2026-10-31Z">
+        <notes>
+            CVE-2026-41707 affects Spring Security 6.5.11. The fixed 6.5.12 release is currently enterprise-only.
+        </notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring-security-oauth2-jose@6\.5\.11$</packageUrl>
+        <cve>CVE-2026-41707</cve>
+    </suppress>
 </suppressions>
