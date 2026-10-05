@@ -91,7 +91,7 @@ module "fees-register-database-v15" {
   providers = {
     azurerm.postgres_network = azurerm.postgres_network
   }
-  source               = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=DTSPO-30107-additional-postgres-admins"
+  source               = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
   product              = var.product
   component            = var.component
   business_area        = "cft"
@@ -121,6 +121,8 @@ module "fees-register-database-v15" {
   action_group_name          = join("-", [var.db_monitor_action_group_name, local.db_server_name, var.env])
   email_address_key          = var.db_alert_email_address_key
   email_address_key_vault_id = data.azurerm_key_vault.freg_key_vault.id
+  # Add service criticality param
+  service_criticality        = var.service_criticality
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {

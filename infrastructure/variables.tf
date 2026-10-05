@@ -84,3 +84,10 @@ variable "db_alert_email_address_key" {
   type        = string
   default     = "db-alert-monitoring-email-address"
 }
+
+### add service_criticality variable declaration
+variable "service_criticality" {
+  description = "Service criticality rating from 1-5."
+  type        = number
+  default     = 1
+}
