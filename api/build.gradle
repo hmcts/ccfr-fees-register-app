@@ -1,4 +1,18 @@
 buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = uri('https://repo.spring.io/libs-milestone') }
+        maven { url = uri('https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1') }
+    }
+    configurations.classpath {
+        resolutionStrategy.eachDependency { details ->
+            // Avoid ranged lookup [12.2.0,13.0.0) for io.cucumber:query, which triggers maven-metadata calls.
+            if (details.requested.group == 'io.cucumber' && details.requested.name == 'query') {
+                details.useVersion('12.2.0')
+                details.because('CI frequently receives 429 from Maven Central metadata endpoint')
+            }
+        }
+    }
     dependencies {
         classpath "net.serenity-bdd:serenity-single-page-report:4.2.3"
     }
