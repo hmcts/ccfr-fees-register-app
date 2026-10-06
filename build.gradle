@@ -162,14 +162,14 @@ subprojects {
             }
         }
         repositories {
+            mavenLocal()
             maven {
-                name = "AzureArtifacts"
-                url = uri("https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1")
-                credentials {
-                    username = System.getenv("AZURE_DEVOPS_ARTIFACT_USERNAME")
-                    password = System.getenv("AZURE_DEVOPS_ARTIFACT_TOKEN")
-                }
+                url = uri('https://artifactory.platform.hmcts.net/artifactory/maven-remotes')
             }
+            maven {
+                url = uri('https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1')
+            }
+            mavenCentral()
         }
     }
 }
@@ -243,14 +243,12 @@ task runProviderPactVerification(dependsOn: ':fees-register-api:runProviderPactV
 
 runProviderPactVerification.finalizedBy pactVerify
 
-tasks.register('smoke', GradleBuild) {
-    dir = file('api')
-    tasks = ['smokeTest']
+tasks.register('smoke') {
+    dependsOn ':fees-register-api:smokeTest'
 }
 
-tasks.register('functional', GradleBuild) {
-    dir = file('api')
-    tasks = ['functionalTest']
+tasks.register('functional') {
+    dependsOn ':fees-register-api:functionalTest'
 }
 
 tasks.register('printVersion') {
