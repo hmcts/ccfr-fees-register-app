@@ -75,7 +75,7 @@ withPipeline(type, product, app) {
     enableDbMigration('fees-register')
     enableAksStagingDeployment()
 
-    afterAlways('smokeTest:aat') {
+    afterAlways('smoketest:aat') {
         publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -87,7 +87,7 @@ withPipeline(type, product, app) {
 
     }
 
-    afterAlways('smokeTest:preview') {
+    afterAlways('smoketest:preview') {
         publishHTML target: [
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
