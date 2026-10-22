@@ -2,17 +2,17 @@ package uk.gove.hmcts.fees.register.smoke;
 
 import io.restassured.RestAssured;
 import lombok.extern.slf4j.Slf4j;
+import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import net.serenitybdd.rest.SerenityRest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.junit4.SpringRunner;
 import static org.hamcrest.Matchers.equalTo;
 
-import static io.restassured.RestAssured.given;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringIntegrationSerenityRunner.class)
 @Slf4j
 public class SmokeTest {
     @Value("${TEST_URL:http://localhost:8080}")
@@ -26,7 +26,7 @@ public class SmokeTest {
 
     @Test
     public void healthCheck() {
-        given()
+        SerenityRest.given()
             .relaxedHTTPSValidation()
             .header(CONTENT_TYPE, "application/json")
             .when()
@@ -34,5 +34,16 @@ public class SmokeTest {
             .then()
             .statusCode(200)
             .body("status", equalTo("UP"));
+    }
+
+    @Test
+    public void getApprovedFees() {
+        SerenityRest.given()
+            .relaxedHTTPSValidation()
+            .header(CONTENT_TYPE, "application/json")
+            .when()
+            .get("/fees-register/approvedFees")
+            .then()
+            .statusCode(200);
     }
 }
