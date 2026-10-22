@@ -140,6 +140,11 @@ dependencies {
     testImplementation 'io.github.openfeign:feign-jackson:13.5'
     // smoke
     smokeTestImplementation sourceSets.test.runtimeClasspath
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenityCucumber
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
+    smokeTestImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     // functional
     functionalTestImplementation sourceSets.test.runtimeClasspath
     functionalTestImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
@@ -244,6 +249,7 @@ runProviderPactVerification.dependsOn providerContractTest
 
 runProviderPactVerification.finalizedBy pactVerify
 
+smokeTest.finalizedBy(aggregate)
 functionalTest.finalizedBy(aggregate)
 
 serenity {
